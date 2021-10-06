@@ -30,11 +30,6 @@ public class MenuScrollManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
             contentCenters[i * 2 - 1] = (contentsWidth * i);
             contentCenters[i * 2] = -(contentsWidth * i);
         }
-
-        for (int i = 0; i < contentCenters.Length; i++)
-        {
-            print(contentCenters[i]);
-        }
     }
 
     public void SetTransfromScroll()
