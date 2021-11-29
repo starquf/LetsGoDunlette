@@ -16,19 +16,19 @@ public class TurnRullet : Rullet
         if (result != null)
         {
             result.Cast();
-            //result.AddSize(-3);
+            result.AddSize(-3);
 
             result = null;
         }
         else 
         {
-            //pieces[0].AddSize(3);
+            pieces[0].AddSize(3);
         }       
     }
 
     public void InitTurn()
     {
-        //pieces[0].ChangeSize(30);
+        pieces[0].ChangeSize(30);
         SetRullet();
         ResetRulletSize();
     }
