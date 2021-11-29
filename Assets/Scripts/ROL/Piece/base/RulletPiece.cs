@@ -24,10 +24,25 @@ public abstract class RulletPiece : MonoBehaviour
 
     private Image highlightImg;
 
+    public Image skillImg;
+
     private void Start()
     {
         highlightImg = GetComponentsInChildren<Image>()[1];
         transform.GetComponent<Image>().fillAmount = Size / 36f;
+
+        if (skillImg == null) return;
+
+        float angle = -360f * ((Size / 36f) / 2f);
+
+        // 반지름
+        float r = transform.GetComponent<RectTransform>().rect.width / 3f;
+        print(r);
+        // 각도의 한 점 (방향 벡터)
+        Vector3 pos = new Vector3(Mathf.Cos((angle + 90f) * Mathf.Deg2Rad), Mathf.Sin((angle + 90f) * Mathf.Deg2Rad), 0f);
+
+        skillImg.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        skillImg.transform.localPosition = pos * r;
     }
 
     public virtual void ChangeSize(int size)
