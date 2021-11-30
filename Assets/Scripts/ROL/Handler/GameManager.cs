@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,4 +42,16 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector]
     public BattleHandler battleHandler;
+    [HideInInspector]
+    public InventoryHandler inventoryHandler;
+
+    [HideInInspector]
+    public event Action<SkillPiece, Sprite> RewardEvent;
+
+    public List<GameObject> rewardObjs;
+
+    public void OnReward(SkillPiece reward, Sprite rewardSpr)
+    {
+        RewardEvent?.Invoke(reward, rewardSpr);
+    }
 }
