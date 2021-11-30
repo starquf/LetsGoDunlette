@@ -25,6 +25,8 @@ public class InventorySlot : MonoBehaviour
     {
         GetComponent<Button>().onClick.AddListener(() =>
         {
+            if (rulletPiece == null)
+                return;
             deleteEvent(slotIdx);
         });
     }
