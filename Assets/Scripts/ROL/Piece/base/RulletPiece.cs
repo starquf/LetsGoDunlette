@@ -25,6 +25,7 @@ public abstract class RulletPiece : MonoBehaviour
     private Image highlightImg;
 
     public Image skillImg;
+    public Image skillImgBackground;
 
     private void Start()
     {
@@ -43,6 +44,7 @@ public abstract class RulletPiece : MonoBehaviour
 
         skillImg.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         skillImg.transform.localPosition = pos * r;
+        skillImgBackground.transform.position = skillImg.transform.position;
     }
 
     public virtual void ChangeSize(int size)
