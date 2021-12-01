@@ -8,6 +8,7 @@ public class InventorySlot : MonoBehaviour
 {
     public SkillPiece rulletPiece = null;
     public Sprite sprite;
+    public Sprite iconSprite;
     [HideInInspector]
     public int slotIdx;
 
@@ -30,10 +31,11 @@ public class InventorySlot : MonoBehaviour
             deleteEvent(slotIdx);
         });
     }
-    public void AddItem(SkillPiece _rulletPiece, Sprite _sprite)
+    public void AddItem(SkillPiece _rulletPiece, Sprite _sprite, Sprite _iconSprite)
     {
         rulletPiece = _rulletPiece;
         sprite = _sprite;
+        iconSprite = _iconSprite;
         ShowItem();
     }
 
@@ -41,6 +43,7 @@ public class InventorySlot : MonoBehaviour
     {
         rulletPiece = null;
         sprite = null;
+        iconSprite = null;
         ShowItem();
     }
 

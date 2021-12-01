@@ -24,7 +24,7 @@ public class Inventory : MonoBehaviour
         Action<int> deleteSlot = null;
         deleteSlot = (slotIdx) =>
         {
-            EquipItem(slotIdx);
+            EquipRullet(slotIdx);
         };
         for (int i = 0; i < slots.Length; i++)
         {
@@ -37,45 +37,43 @@ public class Inventory : MonoBehaviour
 
     public void RewardSetting()
     {
-        Action<SkillPiece, Sprite> addItemInventory = null;
-        addItemInventory = (rulletPiece, sprite) =>
+        Action<SkillPiece, Sprite, Sprite> addItemInventory = null;
+        addItemInventory = (rulletPiece, sprite, _iconSprite) =>
         {
-            AddItem(rulletPiece, sprite);
+            AddItem(rulletPiece, sprite, _iconSprite);
         };
         GameManager.Instance.RewardEvent += addItemInventory;
     }
 
-    public void AddItem(SkillPiece _rulletPiece, Sprite _sprite)
+    public void AddItem(SkillPiece _rulletPiece, Sprite _sprite, Sprite _iconSprite)
     {
         for (int i = 0; i < slots.Length; i++)
         {
             if (slots[i].rulletPiece == null)
             {
-                slots[i].AddItem(_rulletPiece, _sprite);
+                slots[i].AddItem(_rulletPiece, _sprite, _iconSprite);
                 return;
             }
             if(i == slots.Length-1)
             {
                 DeleteItem(0);
-                slots[i].AddItem(_rulletPiece, _sprite);
+                slots[i].AddItem(_rulletPiece, _sprite, _iconSprite);
             }
         }
     }
-    public void EquipItem(int slotIdx)
+    public void EquipRullet(int slotIdx)
     {
-        GameObject item = null;
-        //foreach (GameObject gameObject in GameManager.Instance.rewardObjs)
-        //{
-            if(gameObject.GetComponent<SkillPiece>() == slots[slotIdx].rulletPiece)
-            {
-                item = Instantiate(gameObject, transform.position, Quaternion.identity, rulletTrans);
-            }
-        //}
-
+        GameObject item = Instantiate(skillPiecePrefab, transform.position, Quaternion.identity, rulletTrans);
 
         item.transform.localPosition = new Vector3(item.transform.localPosition.x, item.transform.localPosition.y, 0f);
         item.transform.localScale = new Vector3(1f, 1f, 1f);
         item.GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
+        item.GetComponent<Image>().sprite = slots[slotIdx].sprite;
+
+        SkillPiece skillPieceItem = item.GetComponent<SkillPiece>();
+        skillPieceItem.ChangeSize(slots[slotIdx].rulletPiece.Size);
+        skillPieceItem.skillImg.sprite = slots[slotIdx].iconSprite;
+        skillPieceItem.ChangePieceName(slots[slotIdx].rulletPiece.PieceName);
 
         GameManager.Instance.inventoryHandler.EquipRullet();
 

@@ -41,6 +41,8 @@ public class EnemyReward : MonoBehaviour
         //        GameManager.Instance.OnReward(result.GetComponent<SkillPiece>(), result.GetComponent<Image>().sprite);
         //        isReward = false;
         //    });
+        SkillPiece resultSkillPiece = result.GetComponent<SkillPiece>();
+        GameManager.Instance.OnReward(resultSkillPiece, result.GetComponent<Image>().sprite, resultSkillPiece.skillImg.sprite);
         isReward = false;
 
         //룰렛에 들어가는 부분 주석처리 인벤토리로 옮김

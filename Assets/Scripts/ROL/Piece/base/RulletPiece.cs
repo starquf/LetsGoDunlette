@@ -47,6 +47,11 @@ public abstract class RulletPiece : MonoBehaviour
         skillImgBackground.transform.position = skillImg.transform.position;
     }
 
+    public virtual void ChangePieceName(string pieceName)
+    {
+        this.pieceName = pieceName;
+    }
+
     public virtual void ChangeSize(int size)
     {
         this.size = Mathf.Clamp(size, 0, 36);
