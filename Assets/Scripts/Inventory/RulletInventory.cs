@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class RulletInventory : Inventory
 {
-    public new RulletInventorySlot[] slots = new RulletInventorySlot[8];
+    //public new RulletInventorySlot[] slots = new RulletInventorySlot[8];
     public Transform rulletTrans;
     public GameObject skillPiecePrefab;
 
@@ -18,13 +18,21 @@ public class RulletInventory : Inventory
         Init();
     }
 
+    private RulletInventorySlot[] ConvertRullet()
+    {
+        return (RulletInventorySlot[])slots;
+    }
+
     private void Init()
     {
+        RulletInventorySlot[] slots = ConvertRullet();
+
         Action<int> deleteSlot = null;
         deleteSlot = (slotIdx) =>
         {
             EquipRullet(slotIdx);
         };
+
         for (int i = 0; i < slots.Length; i++)
         {
             slots[i].slotIdx = i;
@@ -47,8 +55,11 @@ public class RulletInventory : Inventory
     public override void AddItem()
     {
     }
+
     public void AddItem(SkillPiece _rulletPiece, Sprite _sprite, Sprite _iconSprite)
     {
+        RulletInventorySlot[] slots = ConvertRullet();
+
         for (int i = 0; i < slots.Length; i++)
         {
             if (slots[i].rulletPiece == null)
@@ -65,6 +76,8 @@ public class RulletInventory : Inventory
     }
     public void EquipRullet(int slotIdx)
     {
+        RulletInventorySlot[] slots = ConvertRullet();
+
         GameObject item = Instantiate(skillPiecePrefab, transform.position, Quaternion.identity, rulletTrans);
 
         item.transform.localPosition = new Vector3(item.transform.localPosition.x, item.transform.localPosition.y, 0f);
@@ -97,6 +110,8 @@ public class RulletInventory : Inventory
 
     public override void DeleteItem(int slotIdx)
     {
+        RulletInventorySlot[] slots = ConvertRullet();
+
         slots[slotIdx].DeleteItem();
         for (int i = slotIdx + 1; i < slots.Length; i++)
         {
