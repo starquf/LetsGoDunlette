@@ -42,10 +42,4 @@ public class InventoryHandler : MonoBehaviour
         InventoryCvsGroup.interactable = isInventoryOpened;
         InventoryCvsGroup.blocksRaycasts = isInventoryOpened;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
