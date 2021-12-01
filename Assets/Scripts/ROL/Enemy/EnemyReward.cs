@@ -32,16 +32,16 @@ public class EnemyReward : MonoBehaviour
         reward.transform.localScale = new Vector3(0.3f, 0.3f, 1f);
         reward.GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
 
-        Sequence rewardSeq = DOTween.Sequence()
-            .Append(reward.GetComponent<Image>().DOFade(1f, 1f).SetEase(Ease.Linear))
-            .Append(reward.transform.DOMove((Vector2)GameManager.Instance.inventoryHandler.OpenBtn.transform.position, 1f))
-            .AppendCallback(() =>
-            {
-                Destroy(reward);
-                GameManager.Instance.OnReward(result.GetComponent<SkillPiece>(), result.GetComponent<Image>().sprite);
-                isReward = false;
-            });
-        
+        //Sequence rewardSeq = DOTween.Sequence()
+        //    .Append(reward.GetComponent<Image>().DOFade(1f, 1f).SetEase(Ease.Linear))
+        //    .Append(reward.transform.DOMove((Vector2)GameManager.Instance.inventoryHandler.OpenBtn.transform.position, 1f))
+        //    .AppendCallback(() =>
+        //    {
+        //        Destroy(reward);
+        //        GameManager.Instance.OnReward(result.GetComponent<SkillPiece>(), result.GetComponent<Image>().sprite);
+        //        isReward = false;
+        //    });
+        isReward = false;
 
         //룰렛에 들어가는 부분 주석처리 인벤토리로 옮김
         //GameObject reward = Instantiate(rewardObjs[rand], transform.position, Quaternion.identity, rulletTrans);
