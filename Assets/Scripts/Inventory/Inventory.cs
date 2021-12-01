@@ -64,13 +64,13 @@ public class Inventory : MonoBehaviour
     public void EquipItem(int slotIdx)
     {
         GameObject item = null;
-        foreach (GameObject gameObject in GameManager.Instance.rewardObjs)
-        {
+        //foreach (GameObject gameObject in GameManager.Instance.rewardObjs)
+        //{
             if(gameObject.GetComponent<SkillPiece>() == slots[slotIdx].rulletPiece)
             {
                 item = Instantiate(gameObject, transform.position, Quaternion.identity, rulletTrans);
             }
-        }
+        //}
 
 
         item.transform.localPosition = new Vector3(item.transform.localPosition.x, item.transform.localPosition.y, 0f);

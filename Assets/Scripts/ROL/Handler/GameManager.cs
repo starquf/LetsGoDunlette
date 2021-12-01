@@ -57,8 +57,6 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public event Action<SkillPiece, Sprite> RewardEvent;
 
-    public List<GameObject> rewardObjs;
-
     public void OnReward(SkillPiece reward, Sprite rewardSpr)
     {
         RewardEvent?.Invoke(reward, rewardSpr);

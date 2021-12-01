@@ -12,14 +12,15 @@ public class EnemyReward : MonoBehaviour
     private bool isReward = false;
     public bool IsReward => isReward;
 
+    public List<GameObject> rewardObjs;
 
 
     public void GiveReward() // 매개변수가 달라서 일단박아놈
     {
         isReward = true;
 
-        int rand = UnityEngine.Random.Range(0, GameManager.Instance.rewardObjs.Count);
-        GameObject result = GameManager.Instance.rewardObjs[rand];
+        int rand = UnityEngine.Random.Range(0, rewardObjs.Count);
+        GameObject result = rewardObjs[rand];
 
         print(result);
         print(result.GetComponent<SkillPiece>());
