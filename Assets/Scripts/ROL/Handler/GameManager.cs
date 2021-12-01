@@ -5,37 +5,46 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     #region Singleton
-    private static GameManager instance;
+    private static GameManager _instance;
     public static GameManager Instance
     {
         get
         {
-            if (instance == null)
+            if (_instance == null)
             {
-                instance = FindObjectOfType<GameManager>();
+                _instance = FindObjectOfType<GameManager>();
 
-                if (instance == null)
+                if (_instance == null)
                 {
                     print("게임매니져가 존재하지 않습니다!!");
                 }
             }
 
-            return instance;
+            return _instance;
         }
     }
 
     private void Awake()
     {
-        if (instance == null)
+        if (_instance == null)
         {
-            instance = this;
+            _instance = this;
         }
-        else if (instance != this)
+        else if (_instance != this)
         {
-            Destroy(this.gameObject);
+            Destroy(this);
+            return;
         }
 
         DontDestroyOnLoad(this.gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        if (_instance == this)
+        {
+            _instance = default;
+        }
     }
     #endregion
 
