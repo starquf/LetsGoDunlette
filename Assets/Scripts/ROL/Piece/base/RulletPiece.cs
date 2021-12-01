@@ -51,6 +51,10 @@ public abstract class RulletPiece : MonoBehaviour
     {
         this.pieceName = pieceName;
     }
+    public virtual void ChangeValue(int value)
+    {
+        this.value = value;
+    }
 
     public virtual void ChangeSize(int size)
     {

@@ -72,8 +72,9 @@ public class Inventory : MonoBehaviour
 
         SkillPiece skillPieceItem = item.GetComponent<SkillPiece>();
         skillPieceItem.ChangeSize(slots[slotIdx].rulletPiece.Size);
-        skillPieceItem.skillImg.sprite = slots[slotIdx].iconSprite;
         skillPieceItem.ChangePieceName(slots[slotIdx].rulletPiece.PieceName);
+        skillPieceItem.ChangeValue(slots[slotIdx].rulletPiece.Value);
+        skillPieceItem.skillImg.sprite = slots[slotIdx].iconSprite;
 
         GameManager.Instance.inventoryHandler.EquipRullet();
 

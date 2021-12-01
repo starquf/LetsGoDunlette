@@ -41,6 +41,7 @@ public class EnemyReward : MonoBehaviour
         //        GameManager.Instance.OnReward(result.GetComponent<SkillPiece>(), result.GetComponent<Image>().sprite);
         //        isReward = false;
         //    });
+        Destroy(reward);
         SkillPiece resultSkillPiece = result.GetComponent<SkillPiece>();
         GameManager.Instance.OnReward(resultSkillPiece, result.GetComponent<Image>().sprite, resultSkillPiece.skillImg.sprite);
         isReward = false;
