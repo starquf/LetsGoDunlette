@@ -21,14 +21,14 @@ public class TurnRullet : Rullet
     {
         base.RollRullet();
 
-        rectTransform.DOAnchorPosY(-165f, 1f);
-        transform.DOScale(new Vector3(3, 3, 3), 1f);
+        //rectTransform.DOAnchorPosY(-165f, 1f);
+        //transform.DOScale(new Vector3(3, 3, 3), 1f);
     }
     public override void ResetRulletSize()
     {
         base.ResetRulletSize();
-        rectTransform.DOAnchorPosY(0, 1f);
-        transform.DOScale(new Vector3(1, 1, 1), 1f);
+        //rectTransform.DOAnchorPosY(0, 1f);
+        //transform.DOScale(new Vector3(1, 1, 1), 1f);
     }
 
     protected override void RulletResult()
