@@ -55,18 +55,28 @@ public class BattleHandler : MonoBehaviour
             tapGroup.interactable = false;
             tapGroup.blocksRaycasts = false;
 
-            RollPlayerRullet();
+            StopPlayerRullet();
         });
     }
 
-    private void RollPlayerRullet()
+    private void StopPlayerRullet()
+    {
+        for (int i = 0; i < playerRullets.Count; i++)
+        {
+            playerRullets[i].StopRullet();
+        }
+
+        StartCoroutine(CheckTurn());
+    }
+
+    private void RollAllRullet()
     {
         for (int i = 0; i < playerRullets.Count; i++)
         {
             playerRullets[i].RollRullet();
         }
 
-        StartCoroutine(CheckTurn());
+        turnRullet.RollRullet();
     }
 
     private bool CheckRullet()
@@ -88,7 +98,7 @@ public class BattleHandler : MonoBehaviour
         yield return new WaitUntil(CheckRullet);
         //yield return new WaitForSeconds(0.5f);
 
-        turnRullet.RollRullet();
+        turnRullet.StopRullet();
 
         yield return new WaitUntil(() => !turnRullet.IsRoll);
         yield return new WaitForSeconds(1f);
@@ -105,6 +115,11 @@ public class BattleHandler : MonoBehaviour
 
             (turnRullet as TurnRullet).InitTurn();
         }
+
+        yield return new WaitForSeconds(0.5f);
+        RollAllRullet();
+
+        yield return new WaitForSeconds(0.1f);
 
         tapGroup.alpha = 1f;
         tapGroup.interactable = true;
