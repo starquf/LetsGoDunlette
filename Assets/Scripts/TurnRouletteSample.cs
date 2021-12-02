@@ -31,8 +31,27 @@ public class TurnRouletteSample : MonoBehaviour
     public void Start()
     {
         GenerateImage();
+    }
 
-        StartCoroutine(StartPinMove());
+    private IEnumerator SpinRoulette()
+    {
+        pinMoveSpeed = 5f;
+        float maxX = rectTransform.rect.width;
+        delta = 0;
+        moveDir = 1; // 1 ¿À¸¥ -1 ¿Þ
+
+        while (true)
+        {
+            delta += Time.deltaTime * moveDir * pinMoveSpeed;
+
+            if (delta >= 1)
+                moveDir = -1;
+            else if (delta <= 0)
+                moveDir = 1;
+
+            pinRectTrm.anchoredPosition = new Vector3(Mathf.Lerp(0, maxX, delta), -25, 0);
+            yield return null;
+        }
     }
 
     private IEnumerator StartPinMove()
@@ -57,7 +76,7 @@ public class TurnRouletteSample : MonoBehaviour
 
     public void OnClickBtn()
     {
-        StartCoroutine(StartGetResult());
+        StartCoroutine(SpinRoulette());
     }
 
     private IEnumerator StartGetResult()
@@ -84,7 +103,7 @@ public class TurnRouletteSample : MonoBehaviour
         bool breakPoint = false;
         while (!breakPoint)
         {
-            tempDelta += Time.deltaTime * 0.001f;
+            tempDelta += Time.deltaTime * 0.01f;
             pinMoveSpeed = Mathf.Lerp(pinMoveSpeed, 0, tempDelta);
 
             if (Mathf.Abs(delta - destination) <= 0.01f && moveDir == -1)
