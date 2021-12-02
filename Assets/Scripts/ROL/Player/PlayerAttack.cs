@@ -4,31 +4,29 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public LivingEntity enemy;
-
-    public void AttackSkill(List<RulletPiece> results)
+    public void AttackSkill(List<RulletPiece> results, IDamageable target)
     {
         for (int i = 0; i < results.Count; i++)
         {
             if (results[i] != null)
             {
-                GiveDamage(results[i].Cast());
+                GiveDamage(results[i].Cast(), target);
             }
             else
             {
-                NormalAttack();
+                NormalAttack(target);
             }
         }
     }
 
-    private void NormalAttack()
+    private void NormalAttack(IDamageable target)
     {
         print("기본 공격!");
-        enemy.GetDamage(5);
+        target.GetDamage(5);
     }
 
-    private void GiveDamage(int damage)
+    private void GiveDamage(int damage, IDamageable target)
     {
-        enemy.GetDamage(damage);
+        target.GetDamage(damage);
     }
 }
