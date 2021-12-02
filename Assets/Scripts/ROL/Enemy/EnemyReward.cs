@@ -15,7 +15,7 @@ public class EnemyReward : MonoBehaviour
     public List<GameObject> rewardObjs;
 
 
-    public void GiveReward() // ¸Å°³º¯¼ö°¡ ´Ş¶ó¼­ ÀÏ´Ü¹Ú¾Æ³ğ
+    public void GiveReward() // ë§¤ê°œë³€ìˆ˜ê°€ ë‹¬ë¼ì„œ ì¼ë‹¨ë°•ì•„ë†ˆ
     {
         isReward = true;
 
@@ -42,11 +42,13 @@ public class EnemyReward : MonoBehaviour
         //        isReward = false;
         //    });
         Destroy(reward);
+        
         SkillPiece resultSkillPiece = result.GetComponent<SkillPiece>();
         GameManager.Instance.OnReward(resultSkillPiece, result.GetComponent<Image>().sprite, resultSkillPiece.skillImg.sprite);
+
         isReward = false;
 
-        //·ê·¿¿¡ µé¾î°¡´Â ºÎºĞ ÁÖ¼®Ã³¸® ÀÎº¥Åä¸®·Î ¿Å±è
+        //ë£°ë ›ì— ë“¤ì–´ê°€ëŠ” ë¶€ë¶„ ì£¼ì„ì²˜ë¦¬ ì¸ë²¤í† ë¦¬ë¡œ ì˜®ê¹€
         //GameObject reward = Instantiate(rewardObjs[rand], transform.position, Quaternion.identity, rulletTrans);
 
         //reward.transform.localPosition = new Vector3(reward.transform.localPosition.x, reward.transform.localPosition.y, 0f);
