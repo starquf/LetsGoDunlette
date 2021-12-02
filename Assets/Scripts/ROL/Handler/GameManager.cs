@@ -55,10 +55,10 @@ public class GameManager : MonoBehaviour
     public InventoryHandler inventoryHandler;
 
     [HideInInspector]
-    public event Action<SkillPiece, Sprite> RewardEvent;
+    public event Action<SkillPiece, Sprite, Sprite> RewardEvent;
 
-    public void OnReward(SkillPiece reward, Sprite rewardSpr)
+    public void OnReward(SkillPiece reward, Sprite rewardSpr, Sprite rewardIconSpr)
     {
-        RewardEvent?.Invoke(reward, rewardSpr);
+        RewardEvent?.Invoke(reward, rewardSpr, rewardIconSpr);
     }
 }
