@@ -14,7 +14,6 @@ public class EnemyReward : MonoBehaviour
 
     public List<GameObject> rewardObjs;
 
-
     public void GiveReward() // 매개변수가 달라서 일단박아놈
     {
         isReward = true;

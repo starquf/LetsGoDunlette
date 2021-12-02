@@ -38,13 +38,20 @@ public class BattleHandler : MonoBehaviour
     [Space(10f)]
     public PlayerAttack player;
     public EnemyAttack enemy;
+
+    private PlayerHealth playerHealth;
     private EnemyHealth enemyHealth;
+
+    private EnemyReward enemyReward;
 
     private void Awake()
     {
         GameManager.Instance.battleHandler = this;
 
+        playerHealth = player.GetComponent<PlayerHealth>();
+
         enemyHealth = enemy.GetComponent<EnemyHealth>();
+        enemyReward = enemy.GetComponent<EnemyReward>();
     }
 
     private void Start()
@@ -107,7 +114,7 @@ public class BattleHandler : MonoBehaviour
 
         if (enemyHealth.IsDie)
         {
-            yield return new WaitUntil(() => !enemyHealth.enemyReward.IsReward);
+            yield return new WaitUntil(() => !enemyReward.IsReward);
 
             GoNextRoom();
 
@@ -166,13 +173,13 @@ public class BattleHandler : MonoBehaviour
 
     public void PlayerAttack()
     {
-        player.AttackSkill(results);
+        player.AttackSkill(results, enemyHealth);
         results.Clear();
     }
 
     public void EnemyAttack()
     {
-        enemy.Attack();
+        enemy.Attack(playerHealth);
         results.Clear();
     }
 }

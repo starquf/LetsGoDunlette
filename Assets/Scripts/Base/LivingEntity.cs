@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public abstract class LivingEntity : MonoBehaviour
+public abstract class LivingEntity : MonoBehaviour, IDamageable
 {
     public Transform hpBar;
 
