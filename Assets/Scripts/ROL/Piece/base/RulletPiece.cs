@@ -6,6 +6,7 @@ using DG.Tweening;
 
 public abstract class RulletPiece : MonoBehaviour
 {
+    public int index;
     [SerializeField] 
     protected int size;
     public int Size => size;
