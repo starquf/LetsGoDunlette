@@ -12,6 +12,7 @@ public class RulletInventorySlot : InventorySlot
     public Sprite iconSprite;
     [HideInInspector]
     public int slotIdx;
+    public Image cantEffectImg;
 
     public Action<int> deleteEvent;
 
