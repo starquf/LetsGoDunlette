@@ -9,14 +9,14 @@ public abstract class Rullet : MonoBehaviour
     protected List<RulletPiece> pieces = new List<RulletPiece>();
     protected RulletPiece result;
 
-    protected int maxSize = 36;
+    private int maxSize = 36;
 
     private bool isRoll = false;
     public bool IsRoll => isRoll;
 
     protected float multiply = 1f;
 
-    protected Tween fillTween;
+    private Tween fillTween;
 
     protected virtual void Start()
     {

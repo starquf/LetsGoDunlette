@@ -9,6 +9,7 @@ public class RulletInventory : Inventory
 {
     //public new RulletInventorySlot[] slots = new RulletInventorySlot[8];
     public Transform rulletTrans;
+    public GameObject skillPiecePrefab;
 
     protected override void Start()
     {
@@ -76,22 +77,35 @@ public class RulletInventory : Inventory
     public void EquipRullet(int slotIdx)
     {
         RulletInventorySlot[] slots = ConvertRullet();
-        if (rulletTrans.GetComponent<SkillRullet>().IsRoll)
-        {
-            StartCoroutine(GameManager.Instance.inventoryHandler.CheckEquipRullet(rulletTrans.GetComponent<SkillRullet>(), slots[slotIdx], DeleteItem));
-           
-        }
-        else
-        {
-            Image effect = slots[slotIdx].cantEffectImg;
-            Sequence cantEffect = DOTween.Sequence()
-                .Append(effect.DOFade(1f, 0.1f))
-                .Append(effect.DOFade(0f, 0.1f))
-                .Append(effect.DOFade(1f, 0.1f))
-                .Append(effect.DOFade(0f, 0.1f))
-                .Append(effect.DOFade(1f, 0.1f))
-                .Append(effect.DOFade(0f, 0.1f));
-        }
+
+        GameObject item = Instantiate(skillPiecePrefab, transform.position, Quaternion.identity, rulletTrans);
+
+        item.transform.localPosition = new Vector3(item.transform.localPosition.x, item.transform.localPosition.y, 0f);
+        item.transform.localScale = new Vector3(1f, 1f, 1f);
+        item.GetComponent<Image>().color = new Color(1f, 1f, 1f, 0f);
+        item.GetComponent<Image>().sprite = slots[slotIdx].sprite;
+
+        SkillPiece skillPieceItem = item.GetComponent<SkillPiece>();
+        skillPieceItem.ChangeSize(slots[slotIdx].rulletPiece.Size);
+        skillPieceItem.ChangePieceName(slots[slotIdx].rulletPiece.PieceName);
+        skillPieceItem.ChangeValue(slots[slotIdx].rulletPiece.Value);
+        skillPieceItem.skillImg.sprite = slots[slotIdx].iconSprite;
+
+        GameManager.Instance.inventoryHandler.EquipRullet();
+
+        DeleteItem(slotIdx);
+
+        Sequence itemSeq = DOTween.Sequence()
+            .Append(item.GetComponent<Image>().DOFade(1f, 1f).SetEase(Ease.Linear))
+            .AppendCallback(() =>
+            {
+                rulletTrans.GetComponent<Rullet>().AddPiece(item.GetComponent<RulletPiece>());
+            })
+            .Append(item.transform.DOLocalMove(Vector3.zero, 1f))
+            .AppendCallback(() =>
+            {
+                GameManager.Instance.inventoryHandler.EndEquipRullet();
+            });
     }
 
     public override void DeleteItem(int slotIdx)
