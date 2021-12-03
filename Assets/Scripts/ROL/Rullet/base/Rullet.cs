@@ -162,6 +162,8 @@ public abstract class Rullet : MonoBehaviour
             result.transform.SetAsLastSibling();
             result.transform.DOScale(new Vector3(1.1f, 1.1f, 1f), 0.55f);
             result.Highlight();
+
+            GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.1f);
         }
         else
         {
