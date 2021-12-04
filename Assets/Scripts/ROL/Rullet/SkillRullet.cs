@@ -84,7 +84,6 @@ public class SkillRullet : Rullet
             result = pieces[pieceIdx];
             borderImg.DOColor(result.Color, 0.55f);
             borderImg.GetComponent<RotateBorder>().SetSpeed(true);
-            ComboManager.Instance.AddComboQueue(result);
         }
         else
         {
@@ -105,6 +104,7 @@ public class SkillRullet : Rullet
                 borderImg.GetComponent<RotateBorder>().SetSpeed(true);
             }
 
+            ComboManager.Instance.AddComboQueue(result);
             GameManager.Instance.battleHandler.results.Add(result);
         }
         else
