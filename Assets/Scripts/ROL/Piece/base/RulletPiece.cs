@@ -4,9 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
+public enum EComboType
+{
+    None = 0,
+    Heart,
+    Diamonds,
+    Club,
+    Spade
+}
+
 public abstract class RulletPiece : MonoBehaviour
 {
-    public int index;
+    public EComboType comboType;
     [SerializeField] 
     protected int size;
     public int Size => size;

@@ -16,6 +16,7 @@ public class SkillRullet : Rullet
         {
             borderImg.DOColor(result.Color, 0.55f);
             borderImg.GetComponent<RotateBorder>().SetSpeed(true);
+            ComboManager.Instance.AddComboQueue(result);
         }
 
         GameManager.Instance.battleHandler.results.Add(result);
