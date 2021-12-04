@@ -38,13 +38,20 @@ public class BattleHandler : MonoBehaviour
     [Space(10f)]
     public PlayerAttack player;
     public EnemyAttack enemy;
+
+    private PlayerHealth playerHealth;
     private EnemyHealth enemyHealth;
+
+    private EnemyReward enemyReward;
 
     private void Awake()
     {
         GameManager.Instance.battleHandler = this;
 
+        playerHealth = player.GetComponent<PlayerHealth>();
+
         enemyHealth = enemy.GetComponent<EnemyHealth>();
+        enemyReward = enemy.GetComponent<EnemyReward>();
     }
 
     private void Start()
@@ -55,18 +62,28 @@ public class BattleHandler : MonoBehaviour
             tapGroup.interactable = false;
             tapGroup.blocksRaycasts = false;
 
-            RollPlayerRullet();
+            StopPlayerRullet();
         });
     }
 
-    private void RollPlayerRullet()
+    private void StopPlayerRullet()
+    {
+        for (int i = 0; i < playerRullets.Count; i++)
+        {
+            playerRullets[i].StopRullet();
+        }
+
+        StartCoroutine(CheckTurn());
+    }
+
+    private void RollAllRullet()
     {
         for (int i = 0; i < playerRullets.Count; i++)
         {
             playerRullets[i].RollRullet();
         }
 
-        StartCoroutine(CheckTurn());
+        turnRullet.RollRullet();
     }
 
     private bool CheckRullet()
@@ -88,7 +105,7 @@ public class BattleHandler : MonoBehaviour
         yield return new WaitUntil(CheckRullet);
         //yield return new WaitForSeconds(0.5f);
 
-        turnRullet.RollRullet();
+        turnRullet.StopRullet();
 
         yield return new WaitUntil(() => !turnRullet.IsRoll);
         yield return new WaitForSeconds(1f);
@@ -97,7 +114,7 @@ public class BattleHandler : MonoBehaviour
 
         if (enemyHealth.IsDie)
         {
-            yield return new WaitUntil(() => !enemyHealth.enemyReward.IsReward);
+            yield return new WaitUntil(() => !enemyReward.IsReward);
 
             GoNextRoom();
 
@@ -105,6 +122,11 @@ public class BattleHandler : MonoBehaviour
 
             (turnRullet as TurnRullet).InitTurn();
         }
+
+        yield return new WaitForSeconds(0.5f);
+        RollAllRullet();
+
+        yield return new WaitForSeconds(0.1f);
 
         tapGroup.alpha = 1f;
         tapGroup.interactable = true;
@@ -151,13 +173,13 @@ public class BattleHandler : MonoBehaviour
 
     public void PlayerAttack()
     {
-        player.AttackSkill(results);
+        player.AttackSkill(results, enemyHealth);
         results.Clear();
     }
 
     public void EnemyAttack()
     {
-        enemy.Attack();
+        enemy.Attack(playerHealth);
         results.Clear();
     }
 }

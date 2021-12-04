@@ -10,9 +10,9 @@ public class SubSkillRullet : Rullet
 
     protected override void Start()
     {
-        base.Start();
-
         multiply = -1f;
+
+        base.Start();
     }
 
     protected override void RulletResult()

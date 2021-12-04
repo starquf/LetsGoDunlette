@@ -52,20 +52,20 @@ public class SkillRullet : Rullet
 
     protected override void RulletResult()
     {
-        // ÃÑ °¢µµÀÇ ÇÕ
+        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
         float angleSum = 0f;
-        // Å©±â 1´ç °¢µµ
+        // Å©ï¿½ï¿½ 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         float sizeAngle = 360f / maxSize;
 
-        // -180 ~ 180 Ç¥Çö½ÄÀ» 0 ~ 360 Ç¥Çö½ÄÀ¸·Î º¯È¯ÇÏ´Â °úÁ¤
+        // -180 ~ 180 Ç¥ï¿½ï¿½ï¿½ï¿½ 0 ~ 360 Ç¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½
         float rulletAngle = Quaternion.FromToRotation(Vector3.right, transform.right).eulerAngles.z;
-        //print("·ê·¿ °¢µµ : " + rulletAngle);
+        //print("ï¿½ê·¿ ï¿½ï¿½ï¿½ï¿½ : " + rulletAngle);
 
         int pieceIdx = -1;
 
         for (int i = 0; i < pieces.Count; i++)
         {
-            // ¹üÀ§ ¾È¿¡ ÀÖ´Ù¸é
+            // ï¿½ï¿½ï¿½ ï¿½È¿ï¿½ ï¿½Ö´Ù¸ï¿½
             if (rulletAngle <= angleSum + pieces[i].Size * sizeAngle
                 && rulletAngle >= angleSum)
             {
@@ -73,19 +73,22 @@ public class SkillRullet : Rullet
                 break;
             }
 
-            // ½ÃÀÛ ¹üÀ§¸¦ ÇØ´ç Á¶°¢ÀÇ »çÀÌÁî¸¸Å­ Áõ°¡
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½î¸¸Å­ ï¿½ï¿½
             angleSum += pieces[i].Size * sizeAngle;
         }
 
 
         if (pieceIdx >= 0)
         {
-            print($"{pieceIdx + 1}¹øÂ° ´çÃ·!");
+            print($"{pieceIdx + 1}ï¿½ï¿½Â° ï¿½ï¿½Ã·!");
             result = pieces[pieceIdx];
+            borderImg.DOColor(result.Color, 0.55f);
+            borderImg.GetComponent<RotateBorder>().SetSpeed(true);
+            ComboManager.Instance.AddComboQueue(result);
         }
         else
         {
-            //print("±âº» ´çÃ·!");
+            //print("ï¿½âº» ï¿½ï¿½Ã·!");
             CastDefault();
         }
 

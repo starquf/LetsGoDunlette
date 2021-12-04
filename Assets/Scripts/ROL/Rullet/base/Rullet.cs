@@ -14,6 +14,8 @@ public abstract class Rullet : MonoBehaviour
     private bool isRoll = false;
     public bool IsRoll => isRoll;
 
+    private bool isStop = false;
+
     protected float multiply = 1f;
 
     protected Tween fillTween;
@@ -23,6 +25,7 @@ public abstract class Rullet : MonoBehaviour
         GetComponentsInChildren(pieces);
 
         SetRullet();
+        RollRullet();
     }
 
     public virtual void ResetRulletSize()
@@ -93,19 +96,31 @@ public abstract class Rullet : MonoBehaviour
         StartCoroutine(Roll());
     }
 
+    public void StopRullet()
+    {
+        isStop = true;
+    }
+
     protected virtual IEnumerator Roll()
     {
-        float randSpeed = Random.Range(1f, 3f);
-        float rollSpeed = (100f + Random.Range(0f, 100f)) * randSpeed * multiply;
+        //float randSpeed = Random.Range(1f, 3f);
+        //float rollSpeed = (100f + Random.Range(0f, 100f)) * randSpeed * multiply;
+        float rollSpeed = (10f + Random.Range(0f, 10f)) * multiply;
+        float stopSpeed = Random.Range(1.5f, 2.5f);
 
         while (Mathf.Abs(rollSpeed) > 0.01f)
         {
             yield return null;
 
             transform.Rotate(0f, 0f, rollSpeed);
-            rollSpeed = Mathf.Lerp(rollSpeed, 0f, Time.deltaTime * 1.3f);
+
+            if (isStop)
+            {
+                rollSpeed = Mathf.Lerp(rollSpeed, 0f, Time.deltaTime * stopSpeed);
+            }
         }
 
+        isStop = false;
         isRoll = false;
 
         RulletResult();
@@ -147,10 +162,12 @@ public abstract class Rullet : MonoBehaviour
             result.transform.SetAsLastSibling();
             result.transform.DOScale(new Vector3(1.1f, 1.1f, 1f), 0.55f);
             result.Highlight();
+
+            GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.1f);
         }
         else
         {
-            //print("±‚∫ª ¥Á√∑!");
+            print("±‚∫ª ¥Á√∑!");
             CastDefault();
         }
     }

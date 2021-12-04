@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
-    public LivingEntity player;
-
-    public void Attack()
+    public void Attack(IDamageable target)
     {
-        player.GetDamage(10);
+        target.GetDamage(10);
         print("Рћ АјАн!");
     }
 }

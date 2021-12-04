@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
         }
         else if (_instance != this)
         {
-            Destroy(this);
+            Destroy(this.gameObject);
             return;
         }
 
@@ -53,6 +53,8 @@ public class GameManager : MonoBehaviour
     public BattleHandler battleHandler;
     [HideInInspector]
     public InventoryHandler inventoryHandler;
+    [HideInInspector]
+    public CameraHandler cameraHandler;
 
     [HideInInspector]
     public event Action<SkillPiece, Sprite, Sprite> RewardEvent;

@@ -8,7 +8,6 @@ public class EnemyHealth : LivingEntity
     private SpriteRenderer sr;
     public EnemyReward enemyReward;
 
-
     protected override void Start()
     {
         base.Start();
