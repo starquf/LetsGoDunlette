@@ -15,7 +15,7 @@ public enum EComboType
 
 public abstract class RulletPiece : MonoBehaviour
 {
-    public EComboType comboType;
+    public EComboType comboType = EComboType.None;
     [SerializeField] 
     protected int size;
     public int Size => size;
