@@ -167,7 +167,7 @@ public abstract class Rullet : MonoBehaviour
         }
         else
         {
-            //print("±‚∫ª ¥Á√∑!");
+            print("±‚∫ª ¥Á√∑!");
             CastDefault();
         }
     }
