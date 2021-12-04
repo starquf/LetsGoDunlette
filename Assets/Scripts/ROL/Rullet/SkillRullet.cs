@@ -6,8 +6,11 @@ using DG.Tweening;
 
 public class SkillRullet : Rullet
 {
+    // 기본 룰렛 조각 프리팹
     public GameObject nomalRulletPrefab;
     public Image borderImg;
+
+    // 장착하고 있는 중인가?
     private bool isRollingReward = false;
 
     protected override void Start()
@@ -15,30 +18,37 @@ public class SkillRullet : Rullet
         GetComponentsInChildren(pieces);
 
         SetRullet();
+
         int sizeSum = 0;
         for (int i = 0; i < pieces.Count; i++)
         {
             sizeSum += pieces[i].Size;
         }
+
         int addNomalCnt = (maxSize - sizeSum) / 6;
+
         AddNormalAttackPiece(addNomalCnt);
         RollRullet();
     }
 
+    // 바꾸기 위해서 룰렛을 멈출 때 불리는 함수
     public void StopRulletToChangePiece()
     {
         isRollingReward = true;
         StopRullet();
     }
 
+    // 해당 인덱스의 룰렛을 바꾸는 함수
     public void ChangePiece(int changeIdx, RulletPiece changePiece)
     {
         Destroy(pieces[changeIdx].gameObject);
         pieces[changeIdx] = changePiece;
         SetRulletSmooth();
+
+        isRollingReward = false;
     }
 
-
+    // cnt만큼 기본 룰렛조각 추가해주는 함수
     public void AddNormalAttackPiece(int addCnt)
     {
         for (int i = 0; i < addCnt; i++)
@@ -47,6 +57,7 @@ public class SkillRullet : Rullet
             pieces.Add(nomalRullet.GetComponent<RulletPiece>());
             nomalRullet.transform.localPosition = Vector3.zero;
         }
+
         SetRullet();
     }
 
@@ -80,14 +91,13 @@ public class SkillRullet : Rullet
 
         if (pieceIdx >= 0)
         {
-            print($"{pieceIdx + 1}��° ��÷!");
+            print($"{pieceIdx + 1} selected!");
             result = pieces[pieceIdx];
             borderImg.DOColor(result.Color, 0.55f);
             borderImg.GetComponent<RotateBorder>().SetSpeed(true);
         }
         else
         {
-            //print("�⺻ ��÷!");
             CastDefault();
         }
 
@@ -109,6 +119,7 @@ public class SkillRullet : Rullet
         }
         else
         {
+            // 이것도 함수 하나로 빼자
             GameManager.Instance.inventoryHandler.result = result;
             GameManager.Instance.inventoryHandler.resultIdx = pieceIdx;
         }

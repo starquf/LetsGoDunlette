@@ -44,6 +44,9 @@ public class BattleHandler : MonoBehaviour
 
     private EnemyReward enemyReward;
 
+    private bool isTap = false;
+    public bool IsTap => isTap;
+
     private void Awake()
     {
         GameManager.Instance.battleHandler = this;
@@ -101,6 +104,8 @@ public class BattleHandler : MonoBehaviour
 
     private IEnumerator CheckTurn()
     {
+        isTap = true;
+
         // 전부 돌릴 때까지
         yield return new WaitUntil(CheckRullet);
         //yield return new WaitForSeconds(0.5f);
@@ -131,6 +136,8 @@ public class BattleHandler : MonoBehaviour
         tapGroup.alpha = 1f;
         tapGroup.interactable = true;
         tapGroup.blocksRaycasts = true;
+
+        isTap = false;
     }
 
     private void GoNextRoom()

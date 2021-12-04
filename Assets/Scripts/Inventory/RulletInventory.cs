@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class RulletInventory : Inventory
 {
-    //public new RulletInventorySlot[] slots = new RulletInventorySlot[8];
     public Transform rulletTrans;
 
     protected override void Start()
@@ -17,6 +16,7 @@ public class RulletInventory : Inventory
         Init();
     }
 
+    // 인벤토리 슬롯으로 되있는 변수를 RulletInventorySlot으로 형변환
     private RulletInventorySlot[] ConvertRullet()
     {
         return (RulletInventorySlot[])slots;
@@ -24,23 +24,29 @@ public class RulletInventory : Inventory
 
     private void Init()
     {
+        // 현재 인벤토리에 있는 슬롯을 전부 받은 후
         RulletInventorySlot[] slots = ConvertRullet();
 
-        Action<int> deleteSlot = null;
-        deleteSlot = (slotIdx) =>
+        Action<int> equipAction = null;
+        equipAction = (slotIdx) =>
         {
+            // 어떤 값을 주면 해당 값의 있는 슬롯에 있는 룰렛조각으로 교체하는 함수
             EquipRullet(slotIdx);
         };
 
+        // 슬롯마다 액션을 걸어주는거고
         for (int i = 0; i < slots.Length; i++)
         {
             slots[i].slotIdx = i;
-            slots[i].deleteEvent += deleteSlot;
+            slots[i].equipSlot += equipAction;
             slots[i].Init();
         }
+
+        // 
         RewardSetting();
     }
 
+    // 아이템 추가할 떄 불리는 함수
     public void RewardSetting()
     {
         Action<SkillPiece, Sprite, Sprite> addItemInventory = null;
@@ -48,38 +54,49 @@ public class RulletInventory : Inventory
         {
             AddItem(rulletPiece, sprite, _iconSprite);
         };
+
         GameManager.Instance.RewardEvent += addItemInventory;
     }
 
     public override void AddItem()
     {
+
     }
 
+    // 슬롯에 아이템을 추가할 때 불리는 함순데 좀 바꿀 필요 있음
     public void AddItem(SkillPiece _rulletPiece, Sprite _sprite, Sprite _iconSprite)
     {
+        // 현재 슬롯 가져온 다음
         RulletInventorySlot[] slots = ConvertRullet();
 
         for (int i = 0; i < slots.Length; i++)
         {
+            // 공간이 남으면
             if (slots[i].rulletPiece == null)
             {
+                // 해당 슬롯에 아이템을 추가해준다
                 slots[i].AddItem(_rulletPiece, _sprite, _iconSprite);
                 return;
             }
+            // 만약 꽉차면
             if (i == slots.Length - 1)
             {
+                // 처음에 들어온걸 없에서 당겨서
                 DeleteItem(0);
+                // 넣어준다
                 slots[i].AddItem(_rulletPiece, _sprite, _iconSprite);
             }
         }
     }
+
+    // 해당 인덱스에 있는 슬롯의 룰렛조각으로 장착하는 함수
     public void EquipRullet(int slotIdx)
     {
         RulletInventorySlot[] slots = ConvertRullet();
-        if (rulletTrans.GetComponent<SkillRullet>().IsRoll)
+        if (rulletTrans.GetComponent<SkillRullet>().IsRoll && !GameManager.Instance.battleHandler.IsTap)
         {
+            // 이것도 여기서 startcoroutine하지 말고 인벤토리 핸들러에 함수 만들어서 그 함수가 startcoroutine 하게끔
             StartCoroutine(GameManager.Instance.inventoryHandler.CheckEquipRullet(rulletTrans.GetComponent<SkillRullet>(), slots[slotIdx], DeleteItem));
-           
         }
         else
         {
@@ -94,6 +111,7 @@ public class RulletInventory : Inventory
         }
     }
 
+    // 해당 인덱스에 있는 아이템 삭제할때 불리는 함수
     public override void DeleteItem(int slotIdx)
     {
         RulletInventorySlot[] slots = ConvertRullet();
@@ -104,9 +122,11 @@ public class RulletInventory : Inventory
             slots[i - 1].rulletPiece = slots[i].rulletPiece;
             slots[i - 1].sprite = slots[i].sprite;
         }
+
         ShowItem();
     }
 
+    // 현재 인벤토리에 있는 모든 슬롯의 아이템 아이콘을 적용시켜주는 함수
     public override void ShowItem()
     {
         for (int i = 0; i < slots.Length; i++)
