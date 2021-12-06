@@ -95,8 +95,7 @@ public class RulletInventory : Inventory
         RulletInventorySlot[] slots = ConvertRullet();
         if (rulletTrans.GetComponent<SkillRullet>().IsRoll && !GameManager.Instance.battleHandler.IsTap)
         {
-            // 이것도 여기서 startcoroutine하지 말고 인벤토리 핸들러에 함수 만들어서 그 함수가 startcoroutine 하게끔
-            StartCoroutine(GameManager.Instance.inventoryHandler.CheckEquipRullet(rulletTrans.GetComponent<SkillRullet>(), slots[slotIdx], DeleteItem));
+            GameManager.Instance.inventoryHandler.CheckEquitRulletStart(rulletTrans.GetComponent<SkillRullet>(), slots[slotIdx], DeleteItem);
         }
         else
         {

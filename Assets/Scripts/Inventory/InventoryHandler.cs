@@ -38,6 +38,11 @@ public class InventoryHandler : MonoBehaviour
         });
     }
 
+    public void CheckEquitRulletStart(SkillRullet skillRullet, RulletInventorySlot equipSkillPieceSlot, Action<int> deleteItem)
+    {
+        StartCoroutine(CheckEquipRullet(skillRullet, equipSkillPieceSlot, deleteItem));
+    }
+
     // ·ê·¿ Âø¿ëÇÏ´Â ¸ÞÀÎ ·ÎÁ÷            Âø¿ëµÉ ·ê·¿               Âø¿ëÇÒ ·ê·¿Á¶°¢ÀÇ ½½·Ô                     ½½·ÔÀ» ¾ø¿¤ ¶§ ¹Þ´Â ¾×¼Ç
     public IEnumerator CheckEquipRullet(SkillRullet skillRullet, RulletInventorySlot equipSkillPieceSlot, Action<int> deleteItem)
     {
