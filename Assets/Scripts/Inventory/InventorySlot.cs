@@ -14,7 +14,7 @@ public abstract class InventorySlot : MonoBehaviour
     public int slotIdx;
 
     // 아이템을 가지고 있는가?
-    protected bool hasItem;
+    public bool hasItem;
     // 아이콘 이미지
     protected Image itemIcon;
 

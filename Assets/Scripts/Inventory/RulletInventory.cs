@@ -72,7 +72,7 @@ public class RulletInventory : Inventory
         for (int i = 0; i < slots.Length; i++)
         {
             // 공간이 남으면
-            if (slots[i].rulletPiece == null)
+            if (!slots[i].hasItem)
             {
                 // 해당 슬롯에 아이템을 추가해준다
                 slots[i].AddItem(_rulletPiece, _sprite, _iconSprite);
@@ -93,7 +93,7 @@ public class RulletInventory : Inventory
     public void EquipRullet(int slotIdx)
     {
         RulletInventorySlot[] slots = ConvertRullet();
-        if (rulletTrans.GetComponent<SkillRullet>().IsRoll && !GameManager.Instance.battleHandler.IsTap)
+        if (rulletTrans.GetComponent<SkillRullet>().IsRoll && !GameManager.Instance.battleHandler.IsTap && slots[slotIdx].hasItem)
         {
             GameManager.Instance.inventoryHandler.CheckEquitRulletStart(rulletTrans.GetComponent<SkillRullet>(), slots[slotIdx], DeleteItem);
         }
@@ -116,13 +116,25 @@ public class RulletInventory : Inventory
         RulletInventorySlot[] slots = ConvertRullet();
 
         slots[slotIdx].DeleteItem();
+
+        //
         for (int i = slotIdx + 1; i < slots.Length; i++)
         {
-            slots[i - 1].rulletPiece = slots[i].rulletPiece;
-            slots[i - 1].sprite = slots[i].sprite;
+            if(slots[i].hasItem)
+            {
+                slots[i].hasItem = false;
+                slots[i - 1].rulletPiece = slots[i].rulletPiece;
+                slots[i - 1].sprite = slots[i].sprite;
+                slots[i - 1].iconSprite = slots[i].iconSprite;
+                slots[i].rulletPiece = null;
+                slots[i].sprite = null;
+                slots[i].iconSprite = null;
+                slots[i - 1].hasItem = true;
+            }
         }
 
         ShowItem();
+        //
     }
 
     // 현재 인벤토리에 있는 모든 슬롯의 아이템 아이콘을 적용시켜주는 함수
