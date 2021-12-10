@@ -60,8 +60,6 @@ public class RulletInventorySlot : InventorySlot
             itemIcon.type = Image.Type.Filled;
             itemIcon.fillMethod = Image.FillMethod.Radial360;
             itemIcon.fillOrigin = (int)Image.Origin360.Top;
-            print(rulletPiece==null);
-            print(itemIcon == null);
             itemIcon.fillAmount = (float)rulletPiece.Size/36f;
 
             itemIcon.gameObject.SetActive(true);

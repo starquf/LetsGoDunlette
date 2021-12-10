@@ -63,20 +63,15 @@ public class SkillRullet : Rullet
 
     protected override void RulletResult()
     {
-        // �� ������ ��
         float angleSum = 0f;
-        // ũ�� 1�� ����
         float sizeAngle = 360f / maxSize;
 
-        // -180 ~ 180 ǥ���� 0 ~ 360 ǥ������ ��ȯ�ϴ� ���
         float rulletAngle = Quaternion.FromToRotation(Vector3.right, transform.right).eulerAngles.z;
-        //print("�귿 ���� : " + rulletAngle);
 
         int pieceIdx = -1;
 
         for (int i = 0; i < pieces.Count; i++)
         {
-            // ��� �ȿ� �ִٸ�
             if (rulletAngle <= angleSum + pieces[i].Size * sizeAngle
                 && rulletAngle >= angleSum)
             {
@@ -84,10 +79,8 @@ public class SkillRullet : Rullet
                 break;
             }
 
-            // ���� ����� �ش� ����� �����ŭ ��
             angleSum += pieces[i].Size * sizeAngle;
         }
-
 
         if (pieceIdx >= 0)
         {
@@ -95,6 +88,8 @@ public class SkillRullet : Rullet
             result = pieces[pieceIdx];
             borderImg.DOColor(result.Color, 0.55f);
             borderImg.GetComponent<RotateBorder>().SetSpeed(true);
+
+            transform.DOShakePosition(0.2f, 15f, 50);
         }
         else
         {

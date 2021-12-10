@@ -105,14 +105,14 @@ public abstract class Rullet : MonoBehaviour
     {
         //float randSpeed = Random.Range(1f, 3f);
         //float rollSpeed = (100f + Random.Range(0f, 100f)) * randSpeed * multiply;
-        float rollSpeed = (10f + Random.Range(0f, 10f)) * multiply;
+        float rollSpeed = (1500f + Random.Range(0f, 500f)) * multiply;
         float stopSpeed = Random.Range(1.5f, 2.5f);
 
-        while (Mathf.Abs(rollSpeed) > 0.01f)
+        while (Mathf.Abs(rollSpeed) > 1.5f)
         {
             yield return null;
 
-            transform.Rotate(0f, 0f, rollSpeed);
+            transform.Rotate(0f, 0f, rollSpeed * Time.deltaTime);
 
             if (isStop)
             {
@@ -163,7 +163,7 @@ public abstract class Rullet : MonoBehaviour
             result.transform.DOScale(new Vector3(1.1f, 1.1f, 1f), 0.55f);
             result.Highlight();
 
-            //GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.1f);
+            //transform.DOShakePosition(1f, 100f, 100);
         }
         else
         {

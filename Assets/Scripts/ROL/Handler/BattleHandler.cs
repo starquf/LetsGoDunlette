@@ -122,6 +122,8 @@ public class BattleHandler : MonoBehaviour
             yield return new WaitUntil(() => !enemyReward.IsReward);
 
             GoNextRoom();
+            yield return new WaitForSeconds(2f);
+            enemyHealth.Revive();
 
             yield return new WaitUntil(() => !enemyHealth.IsDie);
 
@@ -146,6 +148,7 @@ public class BattleHandler : MonoBehaviour
         float dur = 0.7f;
         float moveY = 0.25f;
 
+        /*
         Sequence moveEffect = DOTween.Sequence()
             .Append(stageBG.transform.DOMoveY(moveY, dur).SetRelative())
             .Join(stageBG.DOScale(size, dur).SetRelative())
@@ -160,6 +163,7 @@ public class BattleHandler : MonoBehaviour
             {
                 enemyHealth.Revive();
             });
+        */
     }
 
     private void ResetRullets()

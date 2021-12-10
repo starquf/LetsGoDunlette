@@ -25,6 +25,8 @@ public class SubSkillRullet : Rullet
             subBorderImg.GetComponent<RotateBorder>().SetSpeed(true);
 
             GameManager.Instance.battleHandler.results.Add(result);
+
+            transform.DOShakePosition(0.2f, 15f, 50);
         }
     }
 
