@@ -11,10 +11,12 @@ Shader "RulletWaterShader"
         Vector1_18fbdcd160d0493b8d24210610ca41b8("WaterSpeed", Float) = 0.2
         [NoScaleOffset]_MainTex("MainTex", 2D) = "white" {}
         [HDR]Color_d45af51239fd4f65944fe1d574db43f3("OriginColor", Color) = (0, 0.5529412, 1, 0)
+        [NoScaleOffset]Texture2D_5c228060e83847fbb73d543cb6c464d2("AlphaMap", 2D) = "white" {}
         [HideInInspector][NoScaleOffset]unity_Lightmaps("unity_Lightmaps", 2DArray) = "" {}
         [HideInInspector][NoScaleOffset]unity_LightmapsInd("unity_LightmapsInd", 2DArray) = "" {}
         [HideInInspector][NoScaleOffset]unity_ShadowMasks("unity_ShadowMasks", 2DArray) = "" {}
-          _Stencil("Stencil ID", Float) = 0
+
+         _Stencil("Stencil ID", Float) = 0
     _StencilComp("StencilComp", Float) = 8
     _StencilOp("StencilOp", Float) = 0
     _StencilReadMask("StencilReadMask", Float) = 255
@@ -41,7 +43,7 @@ Shader "RulletWaterShader"
         // Render State
         Cull Off
     Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
-       ZTest[unity_GUIZTestMode]
+    ZTest[unity_GUIZTestMode]
     ZWrite Off
 
 Stencil{
@@ -50,9 +52,13 @@ Stencil{
     Pass[_StencilOp]
     ReadMask[_StencilReadMask]
     WriteMask[_StencilWriteMask]
-        }
+}
+ColorMask[_ColorMask]
+        // Debug
+        // <None>
 
-        ColorMask[_ColorMask]
+        // --------------------------------------------------
+        // Pass
 
         HLSLPROGRAM
 
@@ -208,6 +214,7 @@ float4 Color_1d6caaa9227e48b7aa0b9cea86f1fed3;
 float Vector1_18fbdcd160d0493b8d24210610ca41b8;
 float4 _MainTex_TexelSize;
 float4 Color_d45af51239fd4f65944fe1d574db43f3;
+float4 Texture2D_5c228060e83847fbb73d543cb6c464d2_TexelSize;
 CBUFFER_END
 
 // Object and Global properties
@@ -216,6 +223,8 @@ TEXTURE2D(_NormalTex);
 SAMPLER(sampler_NormalTex);
 TEXTURE2D(_MainTex);
 SAMPLER(sampler_MainTex);
+TEXTURE2D(Texture2D_5c228060e83847fbb73d543cb6c464d2);
+SAMPLER(samplerTexture2D_5c228060e83847fbb73d543cb6c464d2);
 
 // Graph Functions
 
@@ -384,8 +393,14 @@ SurfaceDescription SurfaceDescriptionFunction(SurfaceDescriptionInputs IN)
     Unity_Multiply_float(_SampleTexture2D_ff7843513b7a466fabfbf203d1abef4d_RGBA_0, (_Property_0e6b3d8587f646d19de9b0f3eed0e51d_Out_0.xxxx), _Multiply_b317a1d3b38b475c97078fe74587f5ad_Out_2);
     float3 _Blend_24ec66752c8144c8968a36e02c5ad06a_Out_2;
     Unity_Blend_SoftLight_float3(_Blend_27cfb5e2fdb642d282d3a1ac1b5add6f_Out_2, (_Multiply_b317a1d3b38b475c97078fe74587f5ad_Out_2.xyz), _Blend_24ec66752c8144c8968a36e02c5ad06a_Out_2, 1);
+    UnityTexture2D _Property_bb131ef5ac27435890d14196dfc04a65_Out_0 = UnityBuildTexture2DStructNoScale(Texture2D_5c228060e83847fbb73d543cb6c464d2);
+    float4 _SampleTexture2D_e5adac87b0ba49f2a1fed807a5d15272_RGBA_0 = SAMPLE_TEXTURE2D(_Property_bb131ef5ac27435890d14196dfc04a65_Out_0.tex, _Property_bb131ef5ac27435890d14196dfc04a65_Out_0.samplerstate, IN.uv0.xy);
+    float _SampleTexture2D_e5adac87b0ba49f2a1fed807a5d15272_R_4 = _SampleTexture2D_e5adac87b0ba49f2a1fed807a5d15272_RGBA_0.r;
+    float _SampleTexture2D_e5adac87b0ba49f2a1fed807a5d15272_G_5 = _SampleTexture2D_e5adac87b0ba49f2a1fed807a5d15272_RGBA_0.g;
+    float _SampleTexture2D_e5adac87b0ba49f2a1fed807a5d15272_B_6 = _SampleTexture2D_e5adac87b0ba49f2a1fed807a5d15272_RGBA_0.b;
+    float _SampleTexture2D_e5adac87b0ba49f2a1fed807a5d15272_A_7 = _SampleTexture2D_e5adac87b0ba49f2a1fed807a5d15272_RGBA_0.a;
     surface.BaseColor = _Blend_24ec66752c8144c8968a36e02c5ad06a_Out_2;
-    surface.Alpha = _SampleTexture2D_0a9bcd7c4b5547e296f59c43c45b7d82_A_7;
+    surface.Alpha = _SampleTexture2D_e5adac87b0ba49f2a1fed807a5d15272_A_7;
     return surface;
 }
 
@@ -608,6 +623,7 @@ float4 Color_1d6caaa9227e48b7aa0b9cea86f1fed3;
 float Vector1_18fbdcd160d0493b8d24210610ca41b8;
 float4 _MainTex_TexelSize;
 float4 Color_d45af51239fd4f65944fe1d574db43f3;
+float4 Texture2D_5c228060e83847fbb73d543cb6c464d2_TexelSize;
 CBUFFER_END
 
 // Object and Global properties
@@ -616,6 +632,8 @@ TEXTURE2D(_NormalTex);
 SAMPLER(sampler_NormalTex);
 TEXTURE2D(_MainTex);
 SAMPLER(sampler_MainTex);
+TEXTURE2D(Texture2D_5c228060e83847fbb73d543cb6c464d2);
+SAMPLER(samplerTexture2D_5c228060e83847fbb73d543cb6c464d2);
 
 // Graph Functions
 
@@ -784,8 +802,14 @@ SurfaceDescription SurfaceDescriptionFunction(SurfaceDescriptionInputs IN)
     Unity_Multiply_float(_SampleTexture2D_ff7843513b7a466fabfbf203d1abef4d_RGBA_0, (_Property_0e6b3d8587f646d19de9b0f3eed0e51d_Out_0.xxxx), _Multiply_b317a1d3b38b475c97078fe74587f5ad_Out_2);
     float3 _Blend_24ec66752c8144c8968a36e02c5ad06a_Out_2;
     Unity_Blend_SoftLight_float3(_Blend_27cfb5e2fdb642d282d3a1ac1b5add6f_Out_2, (_Multiply_b317a1d3b38b475c97078fe74587f5ad_Out_2.xyz), _Blend_24ec66752c8144c8968a36e02c5ad06a_Out_2, 1);
+    UnityTexture2D _Property_bb131ef5ac27435890d14196dfc04a65_Out_0 = UnityBuildTexture2DStructNoScale(Texture2D_5c228060e83847fbb73d543cb6c464d2);
+    float4 _SampleTexture2D_e5adac87b0ba49f2a1fed807a5d15272_RGBA_0 = SAMPLE_TEXTURE2D(_Property_bb131ef5ac27435890d14196dfc04a65_Out_0.tex, _Property_bb131ef5ac27435890d14196dfc04a65_Out_0.samplerstate, IN.uv0.xy);
+    float _SampleTexture2D_e5adac87b0ba49f2a1fed807a5d15272_R_4 = _SampleTexture2D_e5adac87b0ba49f2a1fed807a5d15272_RGBA_0.r;
+    float _SampleTexture2D_e5adac87b0ba49f2a1fed807a5d15272_G_5 = _SampleTexture2D_e5adac87b0ba49f2a1fed807a5d15272_RGBA_0.g;
+    float _SampleTexture2D_e5adac87b0ba49f2a1fed807a5d15272_B_6 = _SampleTexture2D_e5adac87b0ba49f2a1fed807a5d15272_RGBA_0.b;
+    float _SampleTexture2D_e5adac87b0ba49f2a1fed807a5d15272_A_7 = _SampleTexture2D_e5adac87b0ba49f2a1fed807a5d15272_RGBA_0.a;
     surface.BaseColor = _Blend_24ec66752c8144c8968a36e02c5ad06a_Out_2;
-    surface.Alpha = _SampleTexture2D_0a9bcd7c4b5547e296f59c43c45b7d82_A_7;
+    surface.Alpha = _SampleTexture2D_e5adac87b0ba49f2a1fed807a5d15272_A_7;
     return surface;
 }
 
