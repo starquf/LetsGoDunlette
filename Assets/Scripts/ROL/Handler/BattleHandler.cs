@@ -26,6 +26,8 @@ public class BattleHandler : MonoBehaviour
     public Image subBorderImg;
     public Transform stageBG;
 
+    public Color tapColor;
+
     // ÅÏ ·ê·¿
     [Header("·ê·¿µé")]
     public Rullet turnRullet;
@@ -47,6 +49,11 @@ public class BattleHandler : MonoBehaviour
     private bool isTap = false;
     public bool IsTap => isTap;
 
+    private int rerollCnt = 3;
+    private bool canReroll = false;
+
+    private Tween blinkTween;
+
     private void Awake()
     {
         GameManager.Instance.battleHandler = this;
@@ -57,16 +64,44 @@ public class BattleHandler : MonoBehaviour
         enemyReward = enemy.GetComponent<EnemyReward>();
     }
 
+
     private void Start()
     {
         tapGroup.GetComponent<Button>().onClick.AddListener(() =>
         {
-            tapGroup.alpha = 0f;
-            tapGroup.interactable = false;
-            tapGroup.blocksRaycasts = false;
-
-            StopPlayerRullet();
+            if (!isTap)
+            {
+                StopPlayerRullet();
+            }
+            else if (canReroll)
+            {
+                ReRoll();
+            }
         });
+    }
+
+    private void ReRoll()
+    {
+        rerollCnt--;
+
+        blinkTween.Kill();
+        tapGroup.GetComponent<Image>().color = tapColor;
+        blinkTween = tapGroup.GetComponent<Image>().DOColor(Color.black, 1f)
+            .SetEase(Ease.Flash, 10 + 10 - rerollCnt * 3f, 0)
+            .SetLoops(-1);
+
+        if (rerollCnt <= 0)
+        {
+            blinkTween.Kill();
+            tapGroup.GetComponent<Image>().color = Color.black;
+
+            canReroll = false;
+        }
+
+        for (int i = 0; i < playerRullets.Count; i++)
+        {
+            playerRullets[i].ReRoll();
+        }
     }
 
     private void StopPlayerRullet()
@@ -105,9 +140,23 @@ public class BattleHandler : MonoBehaviour
     private IEnumerator CheckTurn()
     {
         isTap = true;
+        canReroll = true;
+
+        rerollCnt = 3;
+        tapGroup.transform.GetChild(0).transform.DOLocalMoveY(-180f, 0.2f);
+
+        blinkTween = tapGroup.GetComponent<Image>().DOColor(Color.black, 1f)
+            .SetEase(Ease.Flash, 10, 0)
+            .SetLoops(-1);
 
         // ÀüºÎ µ¹¸± ¶§±îÁö
+
         yield return new WaitUntil(CheckRullet);
+        canReroll = false;
+
+        blinkTween.Kill();
+        tapGroup.GetComponent<Image>().color = Color.black;
+
         //yield return new WaitForSeconds(0.5f);
 
         turnRullet.StopRullet();
@@ -135,9 +184,8 @@ public class BattleHandler : MonoBehaviour
 
         yield return new WaitForSeconds(0.1f);
 
-        tapGroup.alpha = 1f;
-        tapGroup.interactable = true;
-        tapGroup.blocksRaycasts = true;
+        tapGroup.GetComponent<Image>().DOColor(tapColor, 0.2f);
+        tapGroup.transform.GetChild(0).transform.DOLocalMoveY(0f, 0.2f);
 
         isTap = false;
     }

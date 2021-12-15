@@ -17,6 +17,8 @@ public abstract class Rullet : MonoBehaviour
     private bool isStop = false;
 
     protected float multiply = 1f;
+    protected float rollSpeed;
+    protected float stopSpeed;
 
     protected Tween fillTween;
 
@@ -101,12 +103,18 @@ public abstract class Rullet : MonoBehaviour
         isStop = true;
     }
 
+    public void ReRoll()
+    {
+        rollSpeed = (1500f + Random.Range(0f, 500f)) * Random.Range(1f, 2f) * multiply;
+        stopSpeed = Random.Range(2f, 2.5f);
+    }
+
     protected virtual IEnumerator Roll()
     {
         //float randSpeed = Random.Range(1f, 3f);
         //float rollSpeed = (100f + Random.Range(0f, 100f)) * randSpeed * multiply;
-        float rollSpeed = (1500f + Random.Range(0f, 500f)) * multiply;
-        float stopSpeed = Random.Range(1.5f, 2.5f);
+        rollSpeed = (1500f + Random.Range(0f, 500f)) * multiply;
+        stopSpeed = Random.Range(2f, 2.5f);
 
         while (Mathf.Abs(rollSpeed) > 1.5f)
         {
