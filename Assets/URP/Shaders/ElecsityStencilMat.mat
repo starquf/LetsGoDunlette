@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WaterRulletMat
-  m_Shader: {fileID: -6465566751694194690, guid: 01fed90419d8a1b47a1e61382ae6523c, type: 3}
+  m_Name: ElecsityStencilMat
+  m_Shader: {fileID: 4800000, guid: a1f7b03d598c4e44f95a274b63427a01, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,16 +19,16 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Texture2D_5c228060e83847fbb73d543cb6c464d2:
-        m_Texture: {fileID: 0}
+    - MainTex:
+        m_Texture: {fileID: 2800000, guid: 32a7bdf6ec48a4c4ca9b0b06db17b4c5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: b8f661e6c41662b4ab3b982a0103946e, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalTex:
-        m_Texture: {fileID: 2800000, guid: 1be4a147fc8e89b42b4824a26faa548c, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -44,10 +44,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_0f337659a5ec4acbbe1fecbd2d93bf97: 60
-    - Vector1_18fbdcd160d0493b8d24210610ca41b8: 0.1
+    - Vector1_0f337659a5ec4acbbe1fecbd2d93bf97: 22
+    - Vector1_18fbdcd160d0493b8d24210610ca41b8: 0.2
+    - Vector1_231f7f0d09ab4c978db149625dd91344: 8
+    - Vector1_8880486bfb3d4ee099d9d06963e398d6: 0.3
+    - Vector1_9f26ac84280b43b294bc8ed663ba58b5: 78.7
     - Vector1_ac125a03065d45ea825275174371e270: 1
-    - Vector1_e4917ee38d6847ec9dc4ffbc023e8bfb: 0.5
+    - Vector1_eae739f0158341a1a3cf39fc2bf2166f: 0.5
     - _ColorMask: 15
     - _Stencil: 0
     - _StencilComp: 8
@@ -55,9 +58,11 @@ Material:
     - _StencilReadMask: 255
     - _StencilWriteMask: 255
     m_Colors:
-    - Color_1d6caaa9227e48b7aa0b9cea86f1fed3: {r: 2.9528437, g: 5.86145, b: 3.628197, a: 1}
-    - Color_d45af51239fd4f65944fe1d574db43f3: {r: 0.008330355, g: 0.20943043, b: 0.3679245, a: 1}
+    - Color_1d6caaa9227e48b7aa0b9cea86f1fed3: {r: 0.5209134, g: 2.015213, b: 2.007389, a: 0}
+    - Color_5d3b4d0c608e4359a37a126d80078e68: {r: 10.039216, g: 59.231373, b: 124.486275, a: 0.6509804}
+    - Color_d45af51239fd4f65944fe1d574db43f3: {r: 0, g: 0.5529412, b: 1, a: 0}
     - Vector2_26891710b908471c9595ba6d4c024ace: {r: -0.5, g: 0.5, b: 0, a: 0}
-    - Vector2_47cdc3f1111d478b850a2faa8dfe283d: {r: 1, g: 1, b: 0, a: 0}
-    - Vector2_de119d2fb17a4aa98948b0f68f98e925: {r: 0.2, g: -0.2, b: 0, a: 0}
+    - Vector2_2c28b108e8b84af8b73226a3076ea704: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - Vector2_47cdc3f1111d478b850a2faa8dfe283d: {r: -0.1, g: 0.1, b: 0, a: 0}
+    - Vector2_de119d2fb17a4aa98948b0f68f98e925: {r: 0.05, g: -0.05, b: 0, a: 0}
   m_BuildTextureStacks: []
