@@ -64,7 +64,6 @@ public class BattleHandler : MonoBehaviour
         enemyReward = enemy.GetComponent<EnemyReward>();
     }
 
-
     private void Start()
     {
         tapGroup.GetComponent<Button>().onClick.AddListener(() =>
@@ -78,17 +77,14 @@ public class BattleHandler : MonoBehaviour
                 ReRoll();
             }
         });
+
+
+        RollAllRullet();
     }
 
     private void ReRoll()
     {
         rerollCnt--;
-
-        blinkTween.Kill();
-        tapGroup.GetComponent<Image>().color = tapColor;
-        blinkTween = tapGroup.GetComponent<Image>().DOColor(Color.black, 1f)
-            .SetEase(Ease.Flash, 10 + 10 - rerollCnt * 3f, 0)
-            .SetLoops(-1);
 
         if (rerollCnt <= 0)
         {
@@ -108,7 +104,15 @@ public class BattleHandler : MonoBehaviour
     {
         for (int i = 0; i < playerRullets.Count; i++)
         {
-            playerRullets[i].StopRullet();
+            int a = i;
+
+            playerRullets[i].StopRullet((result, pieceIdx) =>
+            {
+                playerRullets[a].HighlightResult();
+
+                ComboManager.Instance.AddComboQueue(result);
+                results.Add(result);
+            });
         }
 
         StartCoroutine(CheckTurn());
@@ -118,6 +122,8 @@ public class BattleHandler : MonoBehaviour
     {
         for (int i = 0; i < playerRullets.Count; i++)
         {
+            int a = i;
+
             playerRullets[i].RollRullet();
         }
 
@@ -146,7 +152,7 @@ public class BattleHandler : MonoBehaviour
         tapGroup.transform.GetChild(0).transform.DOLocalMoveY(-180f, 0.2f);
 
         blinkTween = tapGroup.GetComponent<Image>().DOColor(Color.black, 1f)
-            .SetEase(Ease.Flash, 10, 0)
+            .SetEase(Ease.Flash, 20, 0)
             .SetLoops(-1);
 
         // 전부 돌릴 때까지
@@ -159,7 +165,19 @@ public class BattleHandler : MonoBehaviour
 
         //yield return new WaitForSeconds(0.5f);
 
-        turnRullet.StopRullet();
+        turnRullet.StopRullet((result, pieceIdx) => {
+            if (result != null)
+            {
+                turnRullet.HighlightResult();
+
+                result.Cast();
+                result.AddSize(-3);
+            }
+            else
+            {
+                turnRullet.GetPieces()[0].AddSize(3);
+            }
+        });
 
         yield return new WaitUntil(() => !turnRullet.IsRoll);
         yield return new WaitForSeconds(1f);
@@ -170,7 +188,7 @@ public class BattleHandler : MonoBehaviour
         {
             yield return new WaitUntil(() => !enemyReward.IsReward);
 
-            GoNextRoom();
+            //GoNextRoom();
             yield return new WaitForSeconds(2f);
             enemyHealth.Revive();
 
@@ -196,22 +214,6 @@ public class BattleHandler : MonoBehaviour
         float dur = 0.7f;
         float moveY = 0.25f;
 
-        /*
-        Sequence moveEffect = DOTween.Sequence()
-            .Append(stageBG.transform.DOMoveY(moveY, dur).SetRelative())
-            .Join(stageBG.DOScale(size, dur).SetRelative())
-            .Append(stageBG.transform.DOMoveY(-moveY, dur).SetRelative())
-            .Join(stageBG.DOScale(-size, dur).SetRelative())
-            .Append(stageBG.transform.DOMoveY(moveY, dur).SetRelative())
-            .Join(stageBG.DOScale(size, dur).SetRelative())
-            .Append(stageBG.transform.DOMoveY(-moveY, dur).SetRelative())
-            .Join(stageBG.DOScale(-size, dur).SetRelative())
-            .AppendInterval(0.5f)
-            .AppendCallback(() => 
-            {
-                enemyHealth.Revive();
-            });
-        */
     }
 
     private void ResetRullets()
