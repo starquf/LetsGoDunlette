@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System;
 
 public abstract class Rullet : MonoBehaviour
 {
     protected List<RulletPiece> pieces = new List<RulletPiece>();
     protected RulletPiece result;
+
+    protected Action<RulletPiece, int> onResult;
 
     protected int maxSize = 36;
 
@@ -16,9 +19,9 @@ public abstract class Rullet : MonoBehaviour
 
     private bool isStop = false;
 
-    protected float multiply = 1f;
     protected float rollSpeed;
     protected float stopSpeed;
+    protected float multiply = 1f;
 
     protected Tween fillTween;
 
@@ -27,7 +30,6 @@ public abstract class Rullet : MonoBehaviour
         GetComponentsInChildren(pieces);
 
         SetRullet();
-        RollRullet();
     }
 
     public virtual void ResetRulletSize()
@@ -39,6 +41,11 @@ public abstract class Rullet : MonoBehaviour
             pieces[i].GetComponent<Image>().DOFillAmount(pieces[i].Size / (float)maxSize, 0.3f);
             pieces[i].transform.DOScale(Vector3.one, 0.3f);
         }
+    }
+
+    public virtual List<RulletPiece> GetPieces()
+    {
+        return pieces;
     }
 
     public virtual void AddPiece(RulletPiece piece)
@@ -75,46 +82,35 @@ public abstract class Rullet : MonoBehaviour
 
             sizeSum += pieces[i].Size;
         }
-
-        /*
-        // √—«’¿Ã 36∫∏¥Ÿ ¿€¥Ÿ∏È
-        if (sizeSum < maxSize)
-        {
-            Instantiate(baseRulletObj, transform);
-            baseRulletObj.GetComponent<RulletPiece>().ChangeSize(maxSize - sizeSum);
-            baseRulletObj.transform.rotation = Quaternion.AngleAxis(sizeSum * angle, Vector3.forward);
-        }
-        */
-
-        //print(skills[0].transform.eulerAngles.z + (skills[0].size / 2f) * angle);
-        //print($"sizeCnt : {sizeSum}");
     }
 
     public virtual void RollRullet()
     {
         if (isRoll) return;
+
+        result = null;
         isRoll = true;
 
         StartCoroutine(Roll());
     }
 
-    public void StopRullet()
+    public void StopRullet(Action<RulletPiece, int> onResult)
     {
         isStop = true;
+
+        this.onResult = onResult;
     }
 
     public void ReRoll()
     {
-        rollSpeed = (1500f + Random.Range(0f, 500f)) * Random.Range(1f, 2f) * multiply;
-        stopSpeed = Random.Range(2f, 2.5f);
+        rollSpeed = (1500f + UnityEngine.Random.Range(0f, 500f)) * UnityEngine.Random.Range(1f, 2f) * multiply;
+        stopSpeed = UnityEngine.Random.Range(2f, 2.5f);
     }
 
     protected virtual IEnumerator Roll()
     {
-        //float randSpeed = Random.Range(1f, 3f);
-        //float rollSpeed = (100f + Random.Range(0f, 100f)) * randSpeed * multiply;
-        rollSpeed = (1500f + Random.Range(0f, 500f)) * multiply;
-        stopSpeed = Random.Range(2f, 2.5f);
+        rollSpeed = (1500f + UnityEngine.Random.Range(0f, 500f)) * multiply;
+        stopSpeed = UnityEngine.Random.Range(2f, 2.5f);
 
         while (Mathf.Abs(rollSpeed) > 1.5f)
         {
@@ -131,10 +127,10 @@ public abstract class Rullet : MonoBehaviour
         isStop = false;
         isRoll = false;
 
-        RulletResult();
+        RulletResult(onResult);
     }
 
-    protected virtual void RulletResult()
+    protected virtual void RulletResult(Action<RulletPiece, int> onResult)
     {
         // √— ∞¢µµ¿« «’
         float angleSum = 0f;
@@ -165,19 +161,24 @@ public abstract class Rullet : MonoBehaviour
         {
             print($"{pieceIdx + 1}π¯¬∞ ¥Á√∑!");
             result = pieces[pieceIdx];
-
-            fillTween = result.GetComponent<Image>().DOFillAmount(1f, 0.6f);
-            result.transform.SetAsLastSibling();
-            result.transform.DOScale(new Vector3(1.1f, 1.1f, 1f), 0.55f);
-            result.Highlight();
-
-            //transform.DOShakePosition(1f, 100f, 100);
         }
         else
         {
             print("±‚∫ª ¥Á√∑!");
             CastDefault();
         }
+
+        onResult?.Invoke(result, pieceIdx);
+    }
+
+    public virtual void HighlightResult()
+    {
+        fillTween = result.GetComponent<Image>().DOFillAmount(1f, 0.6f);
+        result.transform.SetAsLastSibling();
+        result.transform.DOScale(new Vector3(1.1f, 1.1f, 1f), 0.55f);
+        result.Highlight();
+
+        transform.DOShakePosition(0.2f, 15f, 50);
     }
 
     protected abstract void CastDefault();

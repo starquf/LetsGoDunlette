@@ -15,21 +15,6 @@ public class SubSkillRullet : Rullet
         base.Start();
     }
 
-    protected override void RulletResult()
-    {
-        base.RulletResult();
-
-        if (result != null)
-        {
-            subBorderImg.DOColor(result.Color, 0.55f);
-            subBorderImg.GetComponent<RotateBorder>().SetSpeed(true);
-
-            GameManager.Instance.battleHandler.results.Add(result);
-
-            transform.DOShakePosition(0.2f, 15f, 50);
-        }
-    }
-
     protected override void CastDefault()
     {
         result = null;

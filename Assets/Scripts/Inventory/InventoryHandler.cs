@@ -25,6 +25,7 @@ public class InventoryHandler : MonoBehaviour
     // 돌려서 나온 결과
     [HideInInspector]
     public RulletPiece result;
+
     // 돌려서 나온 결과의 인덱스
     [HideInInspector]
     public int resultIdx;
@@ -48,11 +49,16 @@ public class InventoryHandler : MonoBehaviour
     {
         // 착용 시작
         EquipRullet();
+
         // 룰렛을 멈춘다
-        skillRullet.StopRulletToChangePiece();
+        skillRullet.StopRullet((result, pieceIdx) =>
+        {
+            this.result = result;
+            resultIdx = pieceIdx;
+        });
 
         // 전부 멈출 때까지 기다린다
-        yield return new WaitUntil(()=> !skillRullet.IsRoll);
+        yield return new WaitUntil(() => !skillRullet.IsRoll);
         yield return new WaitForSeconds(0.5f);
 
         // 착용할 룰렛의 트렌스폼
@@ -109,7 +115,7 @@ public class InventoryHandler : MonoBehaviour
         isEquip = true;
         InventoryCvsGroup.alpha = 0f;
     }
-    
+
     // 룰렛에 조각 착용이 끝날 때 불리는 함수
     public void EndEquipRullet()
     {
