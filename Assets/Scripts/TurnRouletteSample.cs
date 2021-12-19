@@ -45,19 +45,18 @@ public class TurnRouletteSample : MonoBehaviour
     private IEnumerator ShowRoulette(Action<bool> action)
     {
         float waitTime = 0.1f;
-        float maxWaitTime = 2f;
+        float maxWaitTime = 1f;
 
         rouletteImage.sprite = rouletteLight[startIndex];
 
         int rouletteIndex = startIndex;
+
         for (int i = 0; i < 30; i++)
         {
             rouletteIndex = (rouletteIndex + 1) % 12;
             rouletteImage.sprite = rouletteLight[rouletteIndex];
             yield return new WaitForSeconds(waitTime);
         }
-
-
 
         while (true)
         {
@@ -66,15 +65,27 @@ public class TurnRouletteSample : MonoBehaviour
 
             if (waitTime > maxWaitTime)
             {
-                if (result)
+                if (result) //true 면 플레이어 니깐 플레이어 짝수 index 여야함
                 {
-
+                    if (rouletteIndex % 2 != 0)  //짝수가 아니라면
+                    {
+                        yield return new WaitForSeconds(waitTime); //기다리고
+                        continue;
+                    }
                 }
                 else
                 {
-
+                    if (rouletteIndex % 2 == 0)  //짝수라면
+                    {
+                        yield return new WaitForSeconds(waitTime); //기다리고
+                        continue;
+                    }
                 }
-                print("끝");
+
+                action?.Invoke(result);
+
+                print(result);
+
                 break;
             }
 
