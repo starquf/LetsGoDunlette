@@ -6,3 +6,9 @@ public enum EComboType
     Heart,
     Spade
 }
+
+public enum BezierType
+{
+    Quadratic,
+    Cubic
+}

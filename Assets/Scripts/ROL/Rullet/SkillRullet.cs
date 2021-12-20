@@ -24,14 +24,23 @@ public class SkillRullet : Rullet
 
         int addNomalCnt = (maxSize - sizeSum) / 6;
 
-        AddNormalAttackPiece(addNomalCnt);
+        //AddNormalAttackPiece(addNomalCnt);
     }
 
     // 해당 인덱스의 룰렛을 바꾸는 함수
     public void ChangePiece(int changeIdx, RulletPiece changePiece)
     {
-        Destroy(pieces[changeIdx].gameObject);
+        //pieces[changeIdx].state = PieceState.USED;
+        InventorySystem inventory = GameManager.Instance.inventorySystem;
+
+        inventory.SetUseSkill((SkillPiece)pieces[changeIdx]);
+
+        changePiece.transform.SetParent(transform);
+        changePiece.transform.DOLocalMove(Vector3.zero, 0.35f);
+        changePiece.transform.DOScale(Vector3.one, 0.35f);
+
         pieces[changeIdx] = changePiece;
+
         SetRulletSmooth();
     }
 
@@ -40,7 +49,7 @@ public class SkillRullet : Rullet
     {
         for (int i = 0; i < addCnt; i++)
         {
-            GameObject nomalRullet = Instantiate(nomalRulletPrefab, Vector3.zero, Quaternion.identity, gameObject.transform);
+            GameObject nomalRullet = Instantiate(nomalRulletPrefab, transform);
             pieces.Add(nomalRullet.GetComponent<RulletPiece>());
             nomalRullet.transform.localPosition = Vector3.zero;
         }

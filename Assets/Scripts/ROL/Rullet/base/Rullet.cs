@@ -25,6 +25,8 @@ public abstract class Rullet : MonoBehaviour
 
     protected Tween fillTween;
 
+    public Transform pinTrans;
+
     protected virtual void Start()
     {
         GetComponentsInChildren(pieces);
@@ -50,7 +52,12 @@ public abstract class Rullet : MonoBehaviour
 
     public virtual void AddPiece(RulletPiece piece)
     {
+        piece.transform.SetParent(transform);
+        piece.transform.DOLocalMove(Vector3.zero, 0.35f);
+        piece.transform.DOScale(Vector3.one, 0.35f);
+
         pieces.Add(piece);
+
         SetRulletSmooth();
     }
 
@@ -63,7 +70,7 @@ public abstract class Rullet : MonoBehaviour
 
         for (int i = 0; i < pieces.Count; i++)
         {
-            pieces[i].transform.DORotateQuaternion(Quaternion.AngleAxis(transform.eulerAngles.z + sizeSum * angle, Vector3.forward), 0.5f);
+            pieces[i].transform.DORotateQuaternion(Quaternion.AngleAxis(transform.eulerAngles.z + sizeSum * angle, Vector3.forward), 0.35f);
 
             sizeSum += pieces[i].Size;
         }
@@ -117,6 +124,12 @@ public abstract class Rullet : MonoBehaviour
             yield return null;
 
             transform.Rotate(0f, 0f, rollSpeed * Time.deltaTime);
+
+            if (pinTrans != null)
+            {
+                // 이새낀 보류해주세요 나중에 선한쌤이 보면 됡것 같습니다
+                pinTrans.rotation = Quaternion.AngleAxis(Mathf.Clamp(Mathf.Cos(transform.eulerAngles.z * Mathf.Deg2Rad * 5.5f), -1f, 0f) * 30f, Vector3.forward);
+            }
 
             if (isStop)
             {
