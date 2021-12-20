@@ -36,10 +36,13 @@ public class BattleHandler : MonoBehaviour
     public List<Rullet> playerRullets = new List<Rullet>();
     // °á°ú·Î ³ª¿Â ·ê·¿Á¶°¢µé
     public List<RulletPiece> results = new List<RulletPiece>();
+    private int resultIdx;
 
     [Space(10f)]
     public PlayerAttack player;
     public EnemyAttack enemy;
+
+    private InventorySystem inventory;
 
     private PlayerHealth playerHealth;
     private EnemyHealth enemyHealth;
@@ -51,6 +54,7 @@ public class BattleHandler : MonoBehaviour
 
     private int rerollCnt = 3;
     private bool canReroll = false;
+
 
     private Tween blinkTween;
 
@@ -66,6 +70,8 @@ public class BattleHandler : MonoBehaviour
 
     private void Start()
     {
+        inventory = GameManager.Instance.inventorySystem;
+
         tapGroup.GetComponent<Button>().onClick.AddListener(() =>
         {
             if (!isTap)
@@ -77,9 +83,28 @@ public class BattleHandler : MonoBehaviour
                 ReRoll();
             }
         });
+        tapGroup.interactable = false;
 
+        StartCoroutine(SetRandomSkill());
+    }
+
+    private IEnumerator SetRandomSkill()
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            SkillPiece skill = inventory.GetRandomUnusedSkill();
+            //skill.state = PieceState.EQUIQED;
+            skill.transform.localScale = new Vector3(0.2f, 0.2f, 1f);
+
+            playerRullets[0].AddPiece(skill);
+
+            yield return new WaitForSeconds(0.15f);
+        }
+
+        yield return new WaitForSeconds(1f);
 
         RollAllRullet();
+        tapGroup.interactable = true;
     }
 
     private void ReRoll()
@@ -112,10 +137,21 @@ public class BattleHandler : MonoBehaviour
 
                 ComboManager.Instance.AddComboQueue(result);
                 results.Add(result);
+
+                resultIdx = pieceIdx;
             });
         }
 
         StartCoroutine(CheckTurn());
+    }
+
+    private void ChangeRulletPiece(int pieceIdx)
+    {
+        SkillPiece skill = inventory.GetRandomUnusedSkill();
+        //GameManager.Instance.inventorySystem.EquiqedSkills.Add(skill);
+        //skill.state = PieceState.EQUIQED;
+
+        playerRullets[0].GetComponent<SkillRullet>().ChangePiece(pieceIdx, skill);
     }
 
     private void RollAllRullet()
@@ -198,6 +234,11 @@ public class BattleHandler : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.5f);
+
+        ChangeRulletPiece(resultIdx);
+
+        yield return new WaitForSeconds(0.5f);
+
         RollAllRullet();
 
         yield return new WaitForSeconds(0.1f);
