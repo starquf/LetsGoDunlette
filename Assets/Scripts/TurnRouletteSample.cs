@@ -31,9 +31,14 @@ public class TurnRouletteSample : MonoBehaviour
         PlayRoulette();
     }
 
+    public void PlayRouletteBtn()
+    {
+        PlayRoulette();
+    }
+
     public void PlayRoulette(Action<bool> action = null) // true = 플레이어, false = 적
     {
-        startIndex = default;
+        StopAllCoroutines();  
 
         startIndex = Random.Range(0, rouletteSpriteLength); //불빛이 시작할 Index
 
@@ -44,24 +49,25 @@ public class TurnRouletteSample : MonoBehaviour
 
     private IEnumerator ShowRoulette(Action<bool> action)
     {
-        float waitTime = 0.1f;
+        float waitTime = 0.05f;
         float maxWaitTime = 1f;
 
         rouletteImage.sprite = rouletteLight[startIndex];
 
         int rouletteIndex = startIndex;
 
-        for (int i = 0; i < 30; i++)
+        int randNum = Random.Range(10, 50);
+        for (int i = 0; i < randNum; i++)
         {
             rouletteIndex = (rouletteIndex + 1) % 12;
-            rouletteImage.sprite = rouletteLight[rouletteIndex];
+            SetRouletteLight(rouletteIndex);
             yield return new WaitForSeconds(waitTime);
         }
 
         while (true)
         {
             rouletteIndex = (rouletteIndex + 1) % 12;
-            rouletteImage.sprite = rouletteLight[rouletteIndex];
+            SetRouletteLight(rouletteIndex);
 
             if (waitTime > maxWaitTime)
             {
@@ -93,6 +99,36 @@ public class TurnRouletteSample : MonoBehaviour
 
             yield return new WaitForSeconds(waitTime);
         }
+
+        StartCoroutine(BlinkLight(rouletteIndex));
+    }
+
+    private IEnumerator BlinkLight(int rouletteIndex)
+    {
+        yield return new WaitForSeconds(0.5f);
+        SetRouletteLightDefault();
+        yield return new WaitForSeconds(0.5f);
+        SetRouletteLight(rouletteIndex);
+        yield return new WaitForSeconds(0.5f);
+        SetRouletteLightDefault();
+        yield return new WaitForSeconds(0.5f);
+        SetRouletteLight(rouletteIndex);
+        yield return new WaitForSeconds(0.5f);
+        SetRouletteLightDefault();
+        yield return new WaitForSeconds(0.5f);
+        SetRouletteLight(rouletteIndex);
+        yield return new WaitForSeconds(0.5f);
+        SetRouletteLightDefault();
+    }
+
+    private void SetRouletteLightDefault()
+    {
+        rouletteImage.sprite = rouletteDefault;
+    }
+
+    private void SetRouletteLight(int index)
+    {
+        rouletteImage.sprite = rouletteLight[index];
     }
 
     private bool ChoosePlayerOrEnemy()
