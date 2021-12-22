@@ -22,6 +22,7 @@ public class EffectObj : MonoBehaviour
         GetComponent<SpriteRenderer>().sprite = sp;
     }
 
+    //                     끝점      끝났을 때 불리는 콜백 함수      배지어 타입 (기본 큐빅)        실행될 딜레이                    
     public void Play(Vector3 target, Action onEndEffect, BezierType type = BezierType.Cubic, float delay = 0f)
     {
         StartCoroutine(PlayEffect(target, onEndEffect, type, delay));
