@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 371756096964453562}
   - component: {fileID: 371756096964453564}
   - component: {fileID: 371756096964453563}
-  - component: {fileID: 371756096964453565}
+  - component: {fileID: -6287603719437932236}
   - component: {fileID: 3515603747515124205}
   - component: {fileID: -7380776721628184726}
   m_Layer: 5
@@ -82,7 +82,7 @@ MonoBehaviour:
   m_FillOrigin: 2
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &371756096964453565
+--- !u!114 &-6287603719437932236
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,16 +91,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 371756096964453561}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da79f3bfe6361f748be00f73cc4b1d21, type: 3}
+  m_Script: {fileID: 11500000, guid: c63dc11d82fe6bf4b994f66ec09d7667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   comboType: 0
   size: 6
-  pieceName: "\uAE30\uBCF8\uACF5\uACA9"
-  value: 5
-  color: {r: 0, g: 0, b: 0, a: 1}
+  pieceName: "\uC801 \uACF5\uACA9"
+  value: 10
+  color: {r: 0, g: 0, b: 0, a: 0}
   skillImg: {fileID: 5841350513200251905}
-  skillImgBackground: {fileID: 844575497937021517}
+  isPlayerSkill: 0
+  attackPrefab: {fileID: 5078036102988278357, guid: be25924936c62d74b9fca3281de3fce9, type: 3}
+  attackExpPrefab: {fileID: 754620639693957523, guid: d7236882201ad11418a896568e0c3054, type: 3}
 --- !u!114 &3515603747515124205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,13 +123,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 371756096964453561}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0.10412938, g: 0, b: 0.16037738, a: 1}
-  m_EffectDistance: {x: 12, y: 12}
+  m_EffectDistance: {x: 8, y: 8}
   m_UseGraphicAlpha: 1
 --- !u!1 &865071657174771420
 GameObject:
