@@ -256,16 +256,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 6804786383528516221}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da79f3bfe6361f748be00f73cc4b1d21, type: 3}
+  m_Script: {fileID: 11500000, guid: a4c549a38030e8545bcd27f66539dc82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   comboType: 3
   size: 6
-  pieceName: "\uD654\uC5FC\uBC29\uC0AC"
-  value: 20
-  color: {r: 0.97647065, g: 0.043137256, b: 0, a: 1}
+  pieceName: "\uBD88\uAF43"
+  value: 10
+  color: {r: 0, g: 0, b: 0, a: 0}
   skillImg: {fileID: 8792848875770614183}
-  skillImgBackground: {fileID: 2966682344130930182}
+  isPlayerSkill: 1
+  attackPrefab: {fileID: 5078036102988278357, guid: be25924936c62d74b9fca3281de3fce9, type: 3}
+  attackExpPrefab: {fileID: 754620639693957523, guid: d7236882201ad11418a896568e0c3054, type: 3}
 --- !u!114 &7750173659493103401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,13 +288,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6804786383528516221}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0.20754719, g: 0.02055892, b: 0.0626918, a: 1}
-  m_EffectDistance: {x: 12, y: 12}
+  m_EffectDistance: {x: 8, y: 8}
   m_UseGraphicAlpha: 1
 --- !u!1 &9077428092709371156
 GameObject:
