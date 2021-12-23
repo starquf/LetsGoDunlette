@@ -9,6 +9,7 @@ public class Skill_Static : SkillPiece
 
     public override void Cast()
     {
+        base.Cast();
         print($"스킬 발동!! 이름 : {PieceName}");
 
         StartCoroutine(EffectCast());
