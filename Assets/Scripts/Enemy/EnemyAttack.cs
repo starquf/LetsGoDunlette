@@ -19,7 +19,7 @@ public class EnemyAttack : MonoBehaviour
     {
         for (int i = 0; i < skillPrefabs.Count; i++)
         {
-            GameManager.Instance.inventorySystem.CreateSkill(skillPrefabs[i], transform.position);
+            GameManager.Instance.inventoryHandler.CreateSkill(skillPrefabs[i], transform.position);
             yield return new WaitForSeconds(waitTime + 0.5f);
         }
     }

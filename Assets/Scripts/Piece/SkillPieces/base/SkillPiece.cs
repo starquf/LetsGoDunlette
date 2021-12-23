@@ -7,6 +7,11 @@ public class SkillPiece : RulletPiece
 {
     public bool isPlayerSkill = true;
 
+    protected virtual void Awake()
+    {
+        PieceType = PieceType.SKILL;
+    }
+
     public override void Cast()
     {
         PlayerAttackAnimation();

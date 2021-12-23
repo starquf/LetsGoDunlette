@@ -52,11 +52,9 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public BattleHandler battleHandler;
     [HideInInspector]
-    public InventoryHandler inventoryHandler;
-    [HideInInspector]
     public CameraHandler cameraHandler;
     [HideInInspector]
-    public InventoryHandler inventorySystem;
+    public InventoryHandler inventoryHandler;
 
     [HideInInspector]
     public event Action<SkillPiece, Sprite, Sprite> RewardEvent;

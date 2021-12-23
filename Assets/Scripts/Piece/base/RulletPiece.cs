@@ -8,6 +8,8 @@ public abstract class RulletPiece : MonoBehaviour
 {
     public EComboType comboType = EComboType.None;
 
+    public PieceType PieceType { get; protected set; }
+
     [SerializeField]
     protected int size;
     public int Size => size;
@@ -19,10 +21,6 @@ public abstract class RulletPiece : MonoBehaviour
     [SerializeField]
     protected int value;
     public int Value => value;
-
-    [SerializeField]
-    protected Color color;
-    public Color Color => color;
 
     private Image highlightImg;
 
