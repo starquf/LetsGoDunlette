@@ -26,7 +26,8 @@ public class InventoryHandler : MonoBehaviour
 
     private void Awake()
     {
-        GameManager.Instance.inventorySystem = this;
+        GameManager.Instance.inventoryHandler = this;
+
         AddDefaultSkill();
 
         effectDic = new Dictionary<EComboType, Sprite>();

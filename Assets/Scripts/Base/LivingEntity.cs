@@ -14,14 +14,24 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     protected bool isDie = false;
     public bool IsDie => isDie;
 
+    private BattleHandler bh;
+
     protected virtual void Start()
     {
         hp = maxHp;
+
+        bh = GameManager.Instance.battleHandler;
     }
 
     public virtual void GetDamage(int damage)
     {
         if (isDie) return;
+
+        if (bh.IsContract)
+        {
+            damage = bh.ContractDmg;
+            bh.IsContract = false;
+        }
 
         hp -= damage;
 

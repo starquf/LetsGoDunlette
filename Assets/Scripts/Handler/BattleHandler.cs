@@ -20,25 +20,31 @@ public class BattleHandler : MonoBehaviour
 
     // 탭
     public CanvasGroup tapGroup;
-
     public Color tapColor;
 
-    // 턴 룰렛
+    private InventoryHandler inventory;
+
+    //==================================================
+
     [Header("룰렛들")]
+
     // 메인, 서브 or 나중에 추가될지도 모르는 룰렛
     public List<Rullet> rullets = new List<Rullet>();
+
     // 결과로 나온 룰렛조각들
     public List<RulletPiece> results = new List<RulletPiece>();
     private int resultIdx;
 
-    [Space(10f)]
-    private InventoryHandler inventory;
+    //==================================================
 
+    [Header("플레이어&적 Health")]
     public PlayerHealth player;
-
     public EnemyHealth enemy;
+
     private EnemyAttack enemyAtk;
     private EnemyReward enemyReward;
+
+    //==================================================
 
     private bool isTap = false;
     public bool IsTap => isTap;
@@ -48,7 +54,24 @@ public class BattleHandler : MonoBehaviour
 
     private int turnCnt = 0;
 
+    //==================================================
+
+    public event Action<RulletPiece> onNextAttack;
+    private event Action<RulletPiece> nextAttack;
+
+    public bool IsContract { get; set; }
+    public int ContractDmg { get; private set; }
+    public int ContractRemain { get; private set; }
+
+
+    //==================================================
+
     private Tween blinkTween;
+
+    #region WaitSeconds
+    private readonly WaitForSeconds oneSecWait = new WaitForSeconds(1f);
+    private readonly WaitForSeconds pFiveSecWait = new WaitForSeconds(0.5f);
+    #endregion
 
     private void Awake()
     {
@@ -60,8 +83,9 @@ public class BattleHandler : MonoBehaviour
 
     private void Start()
     {
-        inventory = GameManager.Instance.inventorySystem;
+        inventory = GameManager.Instance.inventoryHandler;
 
+        // 리롤 & 스탑 버튼 추가
         tapGroup.GetComponent<Button>().onClick.AddListener(() =>
         {
             if (!isTap)
@@ -75,13 +99,16 @@ public class BattleHandler : MonoBehaviour
         });
         tapGroup.interactable = false;
 
+        // 전투가 시작하기 전 인벤토리와 룰렛 정리
         StartCoroutine(SetRandomSkill());
     }
 
     private IEnumerator SetRandomSkill()
     {
+        // 적의 스킬을 추가해준다
         yield return new WaitForSeconds(enemyAtk.AddAllSkills() + 0.5f);
 
+        // 인벤토리에서 랜덤한 6개의 스킬을 뽑아 룰렛에 적용한다.
         for (int i = 0; i < 6; i++)
         {
             SkillPiece skill = inventory.GetRandomUnusedSkill();
@@ -93,8 +120,9 @@ public class BattleHandler : MonoBehaviour
             yield return new WaitForSeconds(0.15f);
         }
 
-        yield return new WaitForSeconds(1f);
+        yield return oneSecWait;
 
+        // 턴 시작
         InitTurn();
     }
 
@@ -103,35 +131,13 @@ public class BattleHandler : MonoBehaviour
     {
         turnCnt++;
 
+        CheckContract();
+
+        nextAttack = null;
+        nextAttack = onNextAttack;
+
+        // 턴 시작 로직
         StartCoroutine(CheckTurn());
-    }
-
-    private void StopPlayerRullet()
-    {
-        for (int i = 0; i < rullets.Count; i++)
-        {
-            int a = i;
-
-            rullets[i].StopRullet((result, pieceIdx) =>
-            {
-                rullets[a].HighlightResult();
-
-                //ComboManager.Instance.AddComboQueue(result);
-                results.Add(result);
-
-                resultIdx = pieceIdx;
-            });
-        }
-
-        isTap = true;
-        canReroll = true;
-
-        rerollCnt = 3;
-        tapGroup.transform.GetChild(0).transform.DOLocalMoveY(-180f, 0.2f);
-
-        blinkTween = tapGroup.GetComponent<Image>().DOColor(Color.black, 1f)
-            .SetEase(Ease.Flash, 20, 0)
-            .SetLoops(-1);
     }
 
     private IEnumerator CheckTurn()
@@ -152,13 +158,13 @@ public class BattleHandler : MonoBehaviour
         tapGroup.GetComponent<Image>().color = Color.black;
 
         // 결과 보여주고
-        yield return new WaitForSeconds(1f);
+        yield return oneSecWait;
 
         // 결과 실행
         CastResult();
 
         // 실행 보여주고
-        yield return new WaitForSeconds(1f);
+        yield return oneSecWait;
 
         // 룰렛 리셋
         ResetRullets();
@@ -168,18 +174,20 @@ public class BattleHandler : MonoBehaviour
             yield return new WaitUntil(() => !enemyReward.IsReward);
 
             //GoNextRoom();
-            yield return new WaitForSeconds(2f);
+            yield return oneSecWait;
+            yield return oneSecWait;
+
             enemy.Revive();
 
             yield return new WaitUntil(() => !enemy.IsDie);
         }
 
-        yield return new WaitForSeconds(0.5f);
+        yield return pFiveSecWait;
 
         // 룰렛 조각 변경 (덱순환)
         ChangeRulletPiece(resultIdx);
 
-        yield return new WaitForSeconds(0.5f);
+        yield return pFiveSecWait;
 
         tapGroup.GetComponent<Image>().DOColor(tapColor, 0.2f);
         tapGroup.transform.GetChild(0).transform.DOLocalMoveY(0f, 0.2f);
@@ -192,6 +200,41 @@ public class BattleHandler : MonoBehaviour
         InitTurn();
     }
 
+    // 모든 룰렛을 멈추게 하는 함수
+    private void StopPlayerRullet()
+    {
+        for (int i = 0; i < rullets.Count; i++)
+        {
+            int a = i;
+
+            rullets[i].StopRullet((result, pieceIdx) =>
+            {
+                rullets[a].HighlightResult();
+
+                //ComboManager.Instance.AddComboQueue(result);
+                results.Add(result);
+
+                resultIdx = pieceIdx;
+            });
+        }
+
+        SetReroll();
+    }
+
+    // 리롤 기능을 켜주게 하는 함수
+    private void SetReroll()
+    {
+        isTap = true;
+        canReroll = true;
+
+        rerollCnt = 3;
+        tapGroup.transform.GetChild(0).transform.DOLocalMoveY(-180f, 0.2f);
+
+        blinkTween = tapGroup.GetComponent<Image>().DOColor(Color.black, 1f)
+            .SetEase(Ease.Flash, 20, 0)
+            .SetLoops(-1);
+    }
+
     // 결과 보여주기
     private void CastResult()
     {
@@ -200,6 +243,7 @@ public class BattleHandler : MonoBehaviour
             if (results[i] != null)
             {
                 results[i].Cast();
+                nextAttack?.Invoke(results[i]);
             }
             else
             {
@@ -265,6 +309,26 @@ public class BattleHandler : MonoBehaviour
             int a = i;
 
             rullets[i].RollRullet();
+        }
+    }
+
+    public void SetContract(int contractDmg, int contractRemain = 3)
+    {
+        IsContract = true;
+        ContractDmg = contractDmg;
+        ContractRemain = contractRemain;
+    }
+
+    private void CheckContract()
+    {
+        if (IsContract)
+        {
+            ContractRemain--;
+
+            if (ContractRemain <= 0)
+            {
+                IsContract = false;
+            }
         }
     }
 }

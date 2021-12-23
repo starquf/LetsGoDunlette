@@ -31,7 +31,7 @@ public class SkillRullet : Rullet
     public void ChangePiece(int changeIdx, RulletPiece changePiece)
     {
         //pieces[changeIdx].state = PieceState.USED;
-        InventoryHandler inventory = GameManager.Instance.inventorySystem;
+        InventoryHandler inventory = GameManager.Instance.inventoryHandler;
 
         inventory.SetUseSkill((SkillPiece)pieces[changeIdx]);
 

@@ -12,3 +12,8 @@ public enum BezierType
     Quadratic,
     Cubic
 }
+
+public enum PieceType
+{
+    SKILL
+}
