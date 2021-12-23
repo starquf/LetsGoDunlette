@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 public class EffectObj : MonoBehaviour
 {
     public List<Sprite> randomSprites = new List<Sprite>();
+    public AnimationCurve moveCurve;
 
     public void Start()
     {
@@ -22,13 +23,13 @@ public class EffectObj : MonoBehaviour
         GetComponent<SpriteRenderer>().sprite = sp;
     }
 
-    //                     끝점      끝났을 때 불리는 콜백 함수      배지어 타입 (기본 큐빅)        실행될 딜레이                    
-    public void Play(Vector3 target, Action onEndEffect, BezierType type = BezierType.Cubic, float delay = 0f)
+    //                     끝점      끝났을 때 불리는 콜백 함수      배지어 타입 (기본 큐빅)        실행될 딜레이       실행될 ^^ㅣ발민수
+    public void Play(Vector3 target, Action onEndEffect, BezierType type = BezierType.Cubic, float delay = 0f, float playSpeed = 1.6f)
     {
-        StartCoroutine(PlayEffect(target, onEndEffect, type, delay));
+        StartCoroutine(PlayEffect(target, onEndEffect, type, delay, playSpeed));
     }
 
-    private IEnumerator PlayEffect(Vector3 target, Action onEndEffect, BezierType type = BezierType.Cubic, float delay = 0f)
+    private IEnumerator PlayEffect(Vector3 target, Action onEndEffect, BezierType type, float delay, float playSpeed)
     {
         if (delay > 0)
             yield return new WaitForSeconds(delay);
@@ -42,7 +43,6 @@ public class EffectObj : MonoBehaviour
         Vector3 p1 = target + new Vector3(Mathf.Cos(angle), Mathf.Sin(angle)) * 2f;
 
         float t = 0f;
-        float speedPlus = 0f;
 
         while (t < 1f)
         {
@@ -51,18 +51,17 @@ public class EffectObj : MonoBehaviour
             switch (type)
             {
                 case BezierType.Quadratic:
-                    transform.position = QuadraticBezierPoint(t, start, p0, target);
+                    transform.position = QuadraticBezierPoint(moveCurve.Evaluate(t), start, p0, target);
 
                     break;
 
                 case BezierType.Cubic:
-                    transform.position = CubicBezierPoint(t, start, p0, p1, target);
+                    transform.position = CubicBezierPoint(moveCurve.Evaluate(t), start, p0, p1, target);
 
                     break;
             }
 
-            t += Time.deltaTime * speedPlus;
-            speedPlus += 0.02f;
+            t += Time.deltaTime * playSpeed;
         }
 
         onEndEffect?.Invoke();
