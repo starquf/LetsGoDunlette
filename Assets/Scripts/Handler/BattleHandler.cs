@@ -100,22 +100,47 @@ public class BattleHandler : MonoBehaviour
         tapGroup.interactable = false;
 
         // 전투가 시작하기 전 인벤토리와 룰렛 정리
-        StartCoroutine(SetRandomSkill());
+        StartCoroutine(InitRullet());
     }
 
-    private IEnumerator SetRandomSkill()
+    private void SetRandomPlayerOrEnemySkill(bool isPlayer)
+    {
+        SkillPiece skill = inventory.GetRandomPlayerOrEnemySkill(isPlayer);
+        skill.transform.localScale = new Vector3(0.2f, 0.2f, 1f);
+
+        rullets[0].AddPiece(skill);
+    }
+
+    private void SetRandomSkill()
+    {
+        SkillPiece skill = inventory.GetRandomUnusedSkill();
+        skill.transform.localScale = new Vector3(0.2f, 0.2f, 1f);
+
+        rullets[0].AddPiece(skill);
+    }
+
+    private IEnumerator InitRullet()
     {
         // 적의 스킬을 추가해준다
         yield return new WaitForSeconds(enemyAtk.AddAllSkills() + 0.5f);
 
-        // 인벤토리에서 랜덤한 6개의 스킬을 뽑아 룰렛에 적용한다.
-        for (int i = 0; i < 6; i++)
-        {
-            SkillPiece skill = inventory.GetRandomUnusedSkill();
-            //skill.state = PieceState.EQUIQED;
-            skill.transform.localScale = new Vector3(0.2f, 0.2f, 1f);
+        // 인벤토리에서 랜덤한 6개의 스킬을 뽑아 룰렛에 적용한다. 단, 최소한 적의 스킬 1개와 내 스킬 2개가 보장된다.
 
-            rullets[0].AddPiece(skill);
+        // 플레이어 확정 2개
+        for (int i = 0; i < 2; i++)
+        {
+            SetRandomPlayerOrEnemySkill(true);
+            yield return new WaitForSeconds(0.15f);
+        }
+
+        // 적 확정 하나
+        SetRandomPlayerOrEnemySkill(false);
+        yield return new WaitForSeconds(0.15f);
+
+        // 나머지 랜덤 3개
+        for (int i = 0; i < 3; i++)
+        {
+            SetRandomSkill();
 
             yield return new WaitForSeconds(0.15f);
         }

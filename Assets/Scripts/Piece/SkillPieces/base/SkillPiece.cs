@@ -18,7 +18,7 @@ public class SkillPiece : RulletPiece
         PlayerAttackAnimation();
     }
 
-    private void PlayerAttackAnimation()
+    protected void PlayerAttackAnimation()
     {
         Transform playerTrm = GameManager.Instance.battleHandler.player.transform;
         Vector3 enermyPos = GameManager.Instance.battleHandler.enemy.transform.position;
