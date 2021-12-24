@@ -307,7 +307,6 @@ GameObject:
   m_Component:
   - component: {fileID: 34603181}
   - component: {fileID: 34603180}
-  - component: {fileID: 34603179}
   - component: {fileID: 34603178}
   m_Layer: 0
   m_Name: Player
@@ -331,18 +330,6 @@ MonoBehaviour:
   hpBar: {fileID: 99861921}
   maxHp: 100
   hp: 0
---- !u!114 &34603179
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 34603177}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75e0454a8bd4ca844aaed96517d04968, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &34603180
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1390,7 +1377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hpBar: {fileID: 476738926}
-  maxHp: 20
+  maxHp: 200
   hp: 0
   enemyReward: {fileID: 0}
 --- !u!114 &310182691
@@ -3104,17 +3091,16 @@ MonoBehaviour:
   defaultSkills:
   - {fileID: 371756096964453561, guid: 8823987b1198cf1469ff6b30f17b015d, type: 3}
   - {fileID: 371756096964453561, guid: 8823987b1198cf1469ff6b30f17b015d, type: 3}
-  - {fileID: 371756096964453561, guid: 8823987b1198cf1469ff6b30f17b015d, type: 3}
-  - {fileID: 371756096964453561, guid: 8823987b1198cf1469ff6b30f17b015d, type: 3}
-  - {fileID: 371756096964453561, guid: 8823987b1198cf1469ff6b30f17b015d, type: 3}
-  - {fileID: 6804786383528516221, guid: 44d5b7cfdcfb289498530676e0385c6f, type: 3}
-  - {fileID: 6804786383528516221, guid: 44d5b7cfdcfb289498530676e0385c6f, type: 3}
-  - {fileID: 2288853367069960182, guid: d406a4667486ced47b83e28805163119, type: 3}
-  - {fileID: 2288853367069960182, guid: d406a4667486ced47b83e28805163119, type: 3}
+  - {fileID: 371756096964453561, guid: bf9e9150d06c31e4c9b3bc949168fbf3, type: 3}
+  - {fileID: 371756096964453561, guid: bf9e9150d06c31e4c9b3bc949168fbf3, type: 3}
+  - {fileID: 5219999204231547788, guid: 0059602853cef8342963ab23ba58a6a1, type: 3}
+  - {fileID: 5219999204231547788, guid: 0059602853cef8342963ab23ba58a6a1, type: 3}
+  - {fileID: 5219999204231547788, guid: 0059602853cef8342963ab23ba58a6a1, type: 3}
+  - {fileID: 5219999204231547788, guid: 83d9fe2125c697546bd00e7b71e0b878, type: 3}
+  - {fileID: 5219999204231547788, guid: 83d9fe2125c697546bd00e7b71e0b878, type: 3}
   usedTrans: {fileID: 687811718}
   unusedCardCount: {fileID: 213596518}
   usedCardCount: {fileID: 1945381205}
-  effectObj: {fileID: 5078036102988278357, guid: be25924936c62d74b9fca3281de3fce9, type: 3}
   effectSprites:
   - {fileID: 3299809615113444195, guid: 5114826988ffdf7439b5655168afadb3, type: 3}
   - {fileID: 6960728830346886067, guid: db6531baeb620044c8662975aec692c9, type: 3}
@@ -5068,6 +5054,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1552685037}
   m_CullTransparentMesh: 1
+--- !u!1 &1552765905
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1552765907}
+  - component: {fileID: 1552765906}
+  m_Layer: 0
+  m_Name: PoolHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1552765906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552765905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 013fd0d52c6abcd47852fbb9eb062da4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectObj: {fileID: 5078036102988278357, guid: be25924936c62d74b9fca3281de3fce9, type: 3}
+--- !u!4 &1552765907
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552765905}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1553145537
 GameObject:
   m_ObjectHideFlags: 0
@@ -5568,7 +5598,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1602254011}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.9071872, y: 4.0353475, z: 180.04758}
+  m_LocalPosition: {x: -0.9071872, y: 4.0353475, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2119057249}
@@ -6908,7 +6938,7 @@ MonoBehaviour:
   tapColor: {r: 1, g: 0.28627452, b: 0.34509805, a: 1}
   rullets:
   - {fileID: 2128816861}
-  results: []
+  result: {fileID: 0}
   player: {fileID: 34603178}
   enemy: {fileID: 310182690}
 --- !u!1 &2073565004

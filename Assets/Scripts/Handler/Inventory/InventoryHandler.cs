@@ -19,8 +19,6 @@ public class InventoryHandler : MonoBehaviour
     public Text unusedCardCount;
     public Text usedCardCount;
 
-    public GameObject effectObj;
-
     public List<Sprite> effectSprites = new List<Sprite>();
     private Dictionary<EComboType, Sprite> effectDic;
 
@@ -71,8 +69,9 @@ public class InventoryHandler : MonoBehaviour
             .SetDelay(0.5f)
             .OnComplete(() => {
                 skill.gameObject.SetActive(false);
-                AddSkill(skill);
             });
+
+        AddSkill(skill);
     }
 
     public void AddSkill(SkillPiece skill)
@@ -92,8 +91,8 @@ public class InventoryHandler : MonoBehaviour
 
         for (int i = 0; i < 5; i++)
         {
-            EffectObj effect = Instantiate(effectObj, null).GetComponent<EffectObj>();
-            effect.GetComponent<SpriteRenderer>().sprite = effectDic[skill.comboType];
+            EffectObj effect = PoolManager.GetItem<EffectObj>();
+            effect.SetSprite(effectDic[skill.comboType]);
 
             effect.transform.position = skill.skillImg.transform.position;
 
@@ -102,7 +101,11 @@ public class InventoryHandler : MonoBehaviour
 
             effect.Play(usedTrans.position, () =>
             {
-                effect.GetComponent<SpriteRenderer>().DOFade(0f, 0.1f);
+                effect.Sr.DOFade(0f, 0.1f)
+                .OnComplete(() =>
+                {
+                    effect.EndEffect();
+                });
             }
             , BezierType.Quadratic, 0.5f);
         }
@@ -129,14 +132,19 @@ public class InventoryHandler : MonoBehaviour
 
                 for (int j = 0; j < 5; j++)
                 {
-                    EffectObj effect = Instantiate(effectObj, null).GetComponent<EffectObj>();
-                    effect.GetComponent<SpriteRenderer>().sprite = effectDic[usedSkills[i].comboType];
+                    EffectObj effect = PoolManager.GetItem<EffectObj>();
+                    effect.SetSprite(effectDic[usedSkills[i].comboType]);
 
                     effect.transform.position = usedTrans.position;
 
                     effect.Play(transform.position, () =>
                     {
-                        effect.GetComponent<SpriteRenderer>().DOFade(0f, 0.1f);
+                        effect.Sr.DOFade(0f, 0.1f)
+                        .OnComplete(() => 
+                        {
+                            effect.EndEffect();
+                        });
+
                     }, BezierType.Quadratic, i * 0.05f);
                 }
             }

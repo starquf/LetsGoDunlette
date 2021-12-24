@@ -6,7 +6,6 @@ using System;
 
 public class Skil_Normal : SkillPiece
 {
-    public GameObject attackPrefab;
     public GameObject attackExpPrefab;
 
     public override void Cast(Action onCastEnd = null)
@@ -19,14 +18,19 @@ public class Skil_Normal : SkillPiece
 
         for (int i = 0; i < 3; i++)
         {
-            EffectObj attackObj = Instantiate(attackPrefab, null).GetComponent<EffectObj>();
+            EffectObj attackObj = PoolManager.GetItem<EffectObj>();
             attackObj.transform.position = startPos;
 
             int a = i;
 
             attackObj.Play(target, () =>
             {
-                attackObj.GetComponent<SpriteRenderer>().DOFade(0f, 0.1f);
+                attackObj.Sr.DOFade(0f, 0.1f)
+                    .OnComplete(() =>
+                     {
+                         attackObj.EndEffect();
+                     });
+
                 Instantiate(attackExpPrefab, attackObj.transform.position, Quaternion.identity);
                 GameManager.Instance.cameraHandler.ShakeCamera(0.25f, 0.2f);
 
@@ -34,7 +38,6 @@ public class Skil_Normal : SkillPiece
                     onCastEnd?.Invoke();
             }
             , BezierType.Cubic, i * 0.1f);
-
         }
 
         GameManager.Instance.battleHandler.enemy.GetDamage(Value);

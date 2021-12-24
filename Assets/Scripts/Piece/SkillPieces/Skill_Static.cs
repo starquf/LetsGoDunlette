@@ -19,10 +19,10 @@ public class Skill_Static : SkillPiece
         Effect_Static staticEffect = Instantiate(staticEffectPrefab, target, Quaternion.identity).GetComponent<Effect_Static>();
 
         staticEffect.Play("StaticEffect", () => {
+            GameManager.Instance.battleHandler.enemy.GetDamage(Value);
+            GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
+
             onCastEnd?.Invoke();
         });
-
-        GameManager.Instance.battleHandler.enemy.GetDamage(Value);
-        GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
     }
 }
