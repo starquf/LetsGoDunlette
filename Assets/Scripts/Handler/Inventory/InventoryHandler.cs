@@ -56,6 +56,7 @@ public class InventoryHandler : MonoBehaviour
         }
     }
 
+    // 스킬 추가 할땐 이걸 호출
     public void CreateSkill(GameObject skillPrefab, Vector3 makePos)
     {
         SkillPiece skill = Instantiate(skillPrefab, transform).GetComponent<SkillPiece>();
@@ -84,6 +85,7 @@ public class InventoryHandler : MonoBehaviour
         SetCountUI();
     }
 
+    // 사용한 스킬은 이걸 호출
     public void SetUseSkill(SkillPiece skill)
     {
         usedSkills.Add(skill);
@@ -112,6 +114,7 @@ public class InventoryHandler : MonoBehaviour
         SetCountUI();
     }
 
+    // 랜덤한 안 쓴 스킬 하나 가져오기
     public SkillPiece GetRandomUnusedSkill()
     {
         // 비어있으면
@@ -147,6 +150,7 @@ public class InventoryHandler : MonoBehaviour
         result.gameObject.SetActive(true);
 
         unusedSkills.Remove(result);
+
         SetCountUI();
 
         return result;

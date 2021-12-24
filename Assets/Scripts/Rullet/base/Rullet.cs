@@ -40,6 +40,8 @@ public abstract class Rullet : MonoBehaviour
 
         for (int i = 0; i < pieces.Count; i++)
         {
+            if (pieces[i] == null) continue;
+
             pieces[i].GetComponent<Image>().DOFillAmount(pieces[i].Size / (float)maxSize, 0.3f);
             pieces[i].transform.DOScale(Vector3.one, 0.3f);
         }
@@ -70,9 +72,17 @@ public abstract class Rullet : MonoBehaviour
 
         for (int i = 0; i < pieces.Count; i++)
         {
-            pieces[i].transform.DORotateQuaternion(Quaternion.AngleAxis(transform.eulerAngles.z + sizeSum * angle, Vector3.forward), 0.35f);
+            if (pieces[i] != null)
+            {
+                pieces[i].transform
+                    .DORotateQuaternion(Quaternion.AngleAxis(transform.eulerAngles.z + sizeSum * angle, Vector3.forward), 0.35f);
 
-            sizeSum += pieces[i].Size;
+                sizeSum += pieces[i].Size;
+            }
+            else
+            {
+                sizeSum += 6;
+            }
         }
     }
 

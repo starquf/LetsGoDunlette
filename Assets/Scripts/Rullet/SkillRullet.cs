@@ -27,7 +27,7 @@ public class SkillRullet : Rullet
         //AddNormalAttackPiece(addNomalCnt);
     }
 
-    // 해당 인덱스의 룰렛을 바꾸는 함수
+    // 해당 인덱스의 조각을 인벤토리에 넣고 바꾸는 함수
     public void ChangePiece(int changeIdx, RulletPiece changePiece)
     {
         //pieces[changeIdx].state = PieceState.USED;
@@ -40,6 +40,33 @@ public class SkillRullet : Rullet
         changePiece.transform.DOScale(Vector3.one, 0.35f);
 
         pieces[changeIdx] = changePiece;
+
+        SetRulletSmooth();
+    }
+
+    // 해당 인덱스의 조각을 바꾸는 함수
+    public void SetPiece(int changeIdx, RulletPiece changePiece)
+    {
+        //pieces[changeIdx].state = PieceState.USED;
+        changePiece.transform.SetParent(transform);
+        changePiece.transform.DOLocalMove(Vector3.zero, 0.35f);
+        changePiece.transform.DOScale(Vector3.one, 0.35f);
+
+        pieces[changeIdx] = changePiece;
+
+        SetRulletSmooth();
+    }
+
+    public void SetUsePiece(int changeIdx)
+    {
+        //pieces[changeIdx].state = PieceState.USED;
+        if (pieces[changeIdx] == null) return;
+
+        InventoryHandler inventory = GameManager.Instance.inventoryHandler;
+
+        inventory.SetUseSkill((SkillPiece)pieces[changeIdx]);
+
+        pieces[changeIdx] = null;
 
         SetRulletSmooth();
     }

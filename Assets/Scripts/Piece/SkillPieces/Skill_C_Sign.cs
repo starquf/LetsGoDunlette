@@ -7,13 +7,15 @@ public class Skill_C_Sign : SkillPiece
 {
     public GameObject contractAnimObj;
 
-    public override void Cast()
+    public override void Cast(Action onCastEnd = null)
     {
         BattleHandler bh = GameManager.Instance.battleHandler;
 
         AnimObj a = Instantiate(contractAnimObj, bh.player.transform.position, Quaternion.identity).GetComponent<AnimObj>();
 
-        a.Play("Contract");
+        a.Play("Contract", () => {
+            onCastEnd?.Invoke();
+        });
 
         /* 
          

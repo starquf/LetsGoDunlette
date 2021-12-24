@@ -1,13 +1,15 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Skill_LightningRod : SkillPiece
 {
     public GameObject LightningRodEffectPrefab;
 
-    public override void Cast()
+    public override void Cast(Action onCastEnd = null)
     {
         base.Cast();
         print($"스킬 발동!! 이름 : {PieceName}");
@@ -18,8 +20,11 @@ public class Skill_LightningRod : SkillPiece
         List<RulletPiece> skillPieces = rullet.GetPieces();
         List<SkillPiece> lightningSkillPieces = new List<SkillPiece>();
         Dictionary<SkillPiece, int> lightningSkillIdxDic = new Dictionary<SkillPiece, int>();
+
         for (int i = 0; i < skillPieces.Count; i++)
         {
+            if (skillPieces[i] == null) continue;
+
             if(skillPieces[i].PieceType.Equals(PieceType.SKILL))
             {
                 if(skillPieces[i].comboType.Equals(EComboType.Diamonds) && skillPieces[i] != this)
@@ -38,11 +43,15 @@ public class Skill_LightningRod : SkillPiece
         Effect_LightningRod lightningRodEffect = Instantiate(LightningRodEffectPrefab, target, Quaternion.identity).GetComponent<Effect_LightningRod>();
 
         lightningRodEffect.Play("LightningRodEffect", () => {
-            if(lightningSkillPieces.Count > 0)
+            if (lightningSkillPieces.Count > 0)
             {
                 SkillPiece skillPiece = lightningSkillPieces[Random.Range(0, lightningSkillPieces.Count)];
-                skillPiece.Cast();
-                battleHandler.ChangeRulletPiece(lightningSkillIdxDic[skillPiece]);
+                skillPiece.Cast(onCastEnd);
+                battleHandler.SetUseRulletPiece(lightningSkillIdxDic[skillPiece]);
+            }
+            else
+            {
+                onCastEnd?.Invoke();
             }
         });
 

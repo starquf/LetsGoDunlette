@@ -59,6 +59,11 @@ public class EffectObj : MonoBehaviour
                     transform.position = CubicBezierPoint(moveCurve.Evaluate(t), start, p0, p1, target);
 
                     break;
+
+                case BezierType.Linear:
+                    transform.position = LinearBezierPoint(moveCurve.Evaluate(t), start, target);
+
+                    break;
             }
 
             t += Time.deltaTime * playSpeed;
@@ -96,5 +101,10 @@ public class EffectObj : MonoBehaviour
         p += tt * end;
 
         return p;
+    }
+
+    private Vector3 LinearBezierPoint(float t, Vector3 start, Vector3 end)
+    {
+        return start + t * (end - start);
     }
 }
