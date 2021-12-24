@@ -293,7 +293,7 @@ public class BattleHandler : MonoBehaviour
         }
     }
 
-    private void ChangeRulletPiece(int pieceIdx)
+    public void ChangeRulletPiece(int pieceIdx)
     {
         SkillPiece skill = inventory.GetRandomUnusedSkill();
         //GameManager.Instance.inventorySystem.EquiqedSkills.Add(skill);
