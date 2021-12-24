@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System;
 
 public class SkillPiece : RulletPiece
 {
@@ -12,7 +13,7 @@ public class SkillPiece : RulletPiece
         PieceType = PieceType.SKILL;
     }
 
-    public override void Cast()
+    public override void Cast(Action onCastEnd = null)
     {
         PlayerAttackAnimation();
     }

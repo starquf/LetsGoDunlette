@@ -10,7 +10,8 @@ public enum EComboType
 public enum BezierType
 {
     Quadratic,
-    Cubic
+    Cubic,
+    Linear
 }
 
 public enum PieceType

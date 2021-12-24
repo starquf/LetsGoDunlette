@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System;
 
 public abstract class RulletPiece : MonoBehaviour
 {
@@ -74,5 +75,5 @@ public abstract class RulletPiece : MonoBehaviour
             .SetEase(Ease.InQuad);
     }
 
-    public abstract void Cast();
+    public abstract void Cast(Action onCastEnd = null);
 }

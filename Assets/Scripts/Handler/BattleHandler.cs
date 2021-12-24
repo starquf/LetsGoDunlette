@@ -32,7 +32,7 @@ public class BattleHandler : MonoBehaviour
     public List<Rullet> rullets = new List<Rullet>();
 
     // 결과로 나온 룰렛조각들
-    public List<RulletPiece> results = new List<RulletPiece>();
+    public RulletPiece result;
     private int resultIdx;
 
     //==================================================
@@ -160,15 +160,25 @@ public class BattleHandler : MonoBehaviour
         // 결과 보여주고
         yield return oneSecWait;
 
-        // 결과 실행
-        CastResult();
-
-        // 실행 보여주고
-        yield return oneSecWait;
-
         // 룰렛 리셋
         ResetRullets();
 
+        yield return pFiveSecWait;
+
+        // 결과 실행
+        CastResult();
+
+        // 인벤토리에 넣는다
+        SetUseRulletPiece(resultIdx);
+    }
+
+    // 실행이 전부 끝나면 실행되는 코루틴
+    private IEnumerator EndTurn()
+    {
+        // 잠시 기다리고
+        yield return oneSecWait;
+
+        // 적이 죽었는가?
         if (enemy.IsDie)
         {
             yield return new WaitUntil(() => !enemyReward.IsReward);
@@ -185,7 +195,7 @@ public class BattleHandler : MonoBehaviour
         yield return pFiveSecWait;
 
         // 룰렛 조각 변경 (덱순환)
-        ChangeRulletPiece(resultIdx);
+        DrawRulletPieces();
 
         yield return pFiveSecWait;
 
@@ -212,7 +222,7 @@ public class BattleHandler : MonoBehaviour
                 rullets[a].HighlightResult();
 
                 //ComboManager.Instance.AddComboQueue(result);
-                results.Add(result);
+                this.result = result;
 
                 resultIdx = pieceIdx;
             });
@@ -238,20 +248,21 @@ public class BattleHandler : MonoBehaviour
     // 결과 보여주기
     private void CastResult()
     {
-        for (int i = 0; i < results.Count; i++)
+        if (result != null)
         {
-            if (results[i] != null)
+            result.Cast(() => 
             {
-                results[i].Cast();
-                nextAttack?.Invoke(results[i]);
-            }
-            else
-            {
+                StartCoroutine(EndTurn());
+            });
 
-            }
+            nextAttack?.Invoke(result);
+        }
+        else
+        {
+
         }
 
-        results.Clear();
+        result = null;
     }
 
     private void ReRoll()
@@ -300,6 +311,28 @@ public class BattleHandler : MonoBehaviour
         //skill.state = PieceState.EQUIQED;
 
         rullets[0].GetComponent<SkillRullet>().ChangePiece(pieceIdx, skill);
+    }
+
+    public void DrawRulletPieces()
+    {
+        SkillRullet rullet = rullets[0].GetComponent<SkillRullet>();
+
+        List<RulletPiece> pieces = rullet.GetPieces();
+
+        for (int i = 0; i < pieces.Count; i++)
+        {
+            // 비어있는곳이라면
+            if (pieces[i] == null)
+            {
+                SkillPiece skill = inventory.GetRandomUnusedSkill();
+                rullet.SetPiece(i, skill);
+            }
+        }
+    }
+
+    public void SetUseRulletPiece(int pieceIdx)
+    {
+        rullets[0].GetComponent<SkillRullet>().SetUsePiece(pieceIdx);
     }
 
     private void RollAllRullet()
