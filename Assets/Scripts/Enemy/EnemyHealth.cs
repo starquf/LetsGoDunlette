@@ -8,6 +8,13 @@ public class EnemyHealth : LivingEntity
     private SpriteRenderer sr;
     public EnemyReward enemyReward;
 
+    private CrowdControl cc;
+
+    private void Awake()
+    {
+        cc = GetComponent<CrowdControl>();
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -21,7 +28,7 @@ public class EnemyHealth : LivingEntity
         sr.DOFade(0f, 1f)
             .SetEase(Ease.Linear);
 
-        enemyReward.GiveReward();
+        //enemyReward.GiveReward();
     }
 
     public override void Revive()

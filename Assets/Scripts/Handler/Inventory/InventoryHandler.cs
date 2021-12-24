@@ -20,7 +20,7 @@ public class InventoryHandler : MonoBehaviour
     public Text usedCardCount;
 
     public List<Sprite> effectSprites = new List<Sprite>();
-    private Dictionary<EComboType, Sprite> effectDic;
+    private Dictionary<PatternType, Sprite> effectDic;
 
     private void Awake()
     {
@@ -28,13 +28,13 @@ public class InventoryHandler : MonoBehaviour
 
         AddDefaultSkill();
 
-        effectDic = new Dictionary<EComboType, Sprite>();
+        effectDic = new Dictionary<PatternType, Sprite>();
 
-        effectDic.Add(EComboType.None, effectSprites[0]);
-        effectDic.Add(EComboType.Clover, effectSprites[1]);
-        effectDic.Add(EComboType.Diamonds, effectSprites[2]);
-        effectDic.Add(EComboType.Heart, effectSprites[3]);
-        effectDic.Add(EComboType.Spade, effectSprites[4]);
+        effectDic.Add(PatternType.None, effectSprites[0]);
+        effectDic.Add(PatternType.Clover, effectSprites[1]);
+        effectDic.Add(PatternType.Diamonds, effectSprites[2]);
+        effectDic.Add(PatternType.Heart, effectSprites[3]);
+        effectDic.Add(PatternType.Spade, effectSprites[4]);
     }
 
     public void SetCountUI()

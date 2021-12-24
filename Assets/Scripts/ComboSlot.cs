@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ComboSlot : MonoBehaviour
 {
     // 현재 콤보 슬롯의 타입
-    public EComboType comboType;
+    public PatternType comboType;
     // 아이콘의 이미지
     public Image iconImage;
 

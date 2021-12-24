@@ -7,7 +7,7 @@ using System;
 
 public abstract class RulletPiece : MonoBehaviour
 {
-    public EComboType comboType = EComboType.None;
+    public PatternType comboType = PatternType.None;
 
     public PieceType PieceType { get; protected set; }
 
