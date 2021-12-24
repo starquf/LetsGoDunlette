@@ -6,24 +6,46 @@ using Random = UnityEngine.Random;
 
 public class EffectObj : MonoBehaviour
 {
-    public List<Sprite> randomSprites = new List<Sprite>();
     public AnimationCurve moveCurve;
 
-    public void Start()
-    {
-        if (randomSprites.Count > 0)
+    private SpriteRenderer sr;
+    public SpriteRenderer Sr { 
+        get 
         {
-            int randIdx = Random.Range(0, randomSprites.Count);
-            GetComponent<SpriteRenderer>().sprite = randomSprites[randIdx];
-        }
+            if (sr == null)
+                sr = GetComponent<SpriteRenderer>();
+
+            return sr;
+        } 
+    }
+
+    private void Awake()
+    {
+        sr = GetComponent<SpriteRenderer>();
     }
 
     public void SetSprite(Sprite sp)
     {
-        GetComponent<SpriteRenderer>().sprite = sp;
+        Sr.sprite = sp;
     }
 
-    //                     끝점      끝났을 때 불리는 콜백 함수      배지어 타입 (기본 큐빅)        실행될 딜레이       실행될 ^^ㅣ발민수
+    public void SetRandomSprite(List<Sprite> sprites)
+    {
+        if (sprites.Count > 0)
+        {
+            int randIdx = Random.Range(0, sprites.Count);
+            Sr.sprite = sprites[randIdx];
+        }
+    }
+
+    public void EndEffect()
+    {
+        Sr.color = Color.white;
+
+        gameObject.SetActive(false);
+    }
+
+    //                     끝점      끝났을 때 불리는 콜백 함수      배지어 타입 (기본 큐빅)        실행될 딜레이       실행될 스피드
     public void Play(Vector3 target, Action onEndEffect, BezierType type = BezierType.Cubic, float delay = 0f, float playSpeed = 1.6f)
     {
         StartCoroutine(PlayEffect(target, onEndEffect, type, delay, playSpeed));

@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class Skill_EnemyNormal : SkillPiece
 {
-    public GameObject attackPrefab;
     public GameObject attackExpPrefab;
 
     protected override void Awake()
@@ -25,14 +24,19 @@ public class Skill_EnemyNormal : SkillPiece
 
         for (int i = 0; i < 3; i++)
         {
-            EffectObj attackObj = Instantiate(attackPrefab, null).GetComponent<EffectObj>();
+            EffectObj attackObj = PoolManager.GetItem<EffectObj>();
             attackObj.transform.position = startPos;
 
             int a = i;
 
             attackObj.Play(target, () =>
             {
-                attackObj.GetComponent<SpriteRenderer>().DOFade(0f, 0.1f);
+                attackObj.Sr.DOFade(0f, 0.1f)
+                    .OnComplete(() =>
+                    {
+                        attackObj.EndEffect();
+                    });
+
                 Instantiate(attackExpPrefab, attackObj.transform.position, Quaternion.identity);
                 GameManager.Instance.cameraHandler.ShakeCamera(0.25f, 0.2f);
 
