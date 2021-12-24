@@ -6,13 +6,13 @@ public class EnemyAttack : MonoBehaviour
 {
     public List<GameObject> skillPrefabs = new List<GameObject>();
 
-    private float waitTime = 0.15f;
+    private float waitTime = 0.25f;
 
     public float AddAllSkills()
     {
         StartCoroutine(CreateSkills());
 
-        return skillPrefabs.Count * (waitTime + 0.5f);
+        return skillPrefabs.Count * waitTime + 0.5f;
     }
 
     private IEnumerator CreateSkills()
@@ -20,7 +20,7 @@ public class EnemyAttack : MonoBehaviour
         for (int i = 0; i < skillPrefabs.Count; i++)
         {
             GameManager.Instance.inventoryHandler.CreateSkill(skillPrefabs[i], transform.position);
-            yield return new WaitForSeconds(waitTime + 0.5f);
+            yield return new WaitForSeconds(waitTime);
         }
     }
 }

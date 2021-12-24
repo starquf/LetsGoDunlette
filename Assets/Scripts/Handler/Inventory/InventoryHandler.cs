@@ -123,33 +123,7 @@ public class InventoryHandler : MonoBehaviour
         // 비어있으면
         if (unusedSkills.Count <= 0)
         {
-            for (int i = 0; i < usedSkills.Count; i++)
-            {
-                // 사용한거를 옮겨
-                unusedSkills.Add(usedSkills[i]);
-                usedSkills[i].transform.SetParent(transform);
-                usedSkills[i].transform.localPosition = Vector3.zero;
-
-                for (int j = 0; j < 5; j++)
-                {
-                    EffectObj effect = PoolManager.GetItem<EffectObj>();
-                    effect.SetSprite(effectDic[usedSkills[i].comboType]);
-
-                    effect.transform.position = usedTrans.position;
-
-                    effect.Play(transform.position, () =>
-                    {
-                        effect.Sr.DOFade(0f, 0.1f)
-                        .OnComplete(() => 
-                        {
-                            effect.EndEffect();
-                        });
-
-                    }, BezierType.Quadratic, i * 0.05f);
-                }
-            }
-
-            usedSkills.Clear();
+            CycleSkills();
         }
 
         int randIdx = Random.Range(0, unusedSkills.Count);
@@ -162,5 +136,73 @@ public class InventoryHandler : MonoBehaviour
         SetCountUI();
 
         return result;
+    }
+
+    public SkillPiece GetRandomPlayerOrEnemySkill(bool isPlayer)
+    {
+        // 비어있으면
+        if (unusedSkills.Count <= 0)
+        {
+            CycleSkills();
+        }
+
+        List<SkillPiece> filterdSkill = new List<SkillPiece>();
+
+        for (int i = 0; i < unusedSkills.Count; i++)
+        {
+            if (unusedSkills[i].isPlayerSkill == isPlayer)
+            {
+                filterdSkill.Add(unusedSkills[i]);
+            }
+        }
+
+        // 적이나 플레이어 스킬이 없다면
+        if (filterdSkill.Count == 0)
+        {
+            // 그냥 전체에서 하나 랜덤으로 준다
+            return GetRandomUnusedSkill();
+        }
+
+        int randIdx = Random.Range(0, filterdSkill.Count);
+
+        SkillPiece result = filterdSkill[randIdx];
+        result.gameObject.SetActive(true);
+
+        unusedSkills.Remove(result);
+
+        SetCountUI();
+
+        return result;
+    }
+
+    private void CycleSkills()
+    {
+        for (int i = 0; i < usedSkills.Count; i++)
+        {
+            // 사용한거를 옮겨
+            unusedSkills.Add(usedSkills[i]);
+            usedSkills[i].transform.SetParent(transform);
+            usedSkills[i].transform.localPosition = Vector3.zero;
+
+            for (int j = 0; j < 5; j++)
+            {
+                EffectObj effect = PoolManager.GetItem<EffectObj>();
+                effect.SetSprite(effectDic[usedSkills[i].comboType]);
+
+                effect.transform.position = usedTrans.position;
+
+                effect.Play(transform.position, () =>
+                {
+                    effect.Sr.DOFade(0f, 0.1f)
+                    .OnComplete(() =>
+                    {
+                        effect.EndEffect();
+                    });
+
+                }, BezierType.Quadratic, i * 0.05f);
+            }
+        }
+
+        usedSkills.Clear();
     }
 }

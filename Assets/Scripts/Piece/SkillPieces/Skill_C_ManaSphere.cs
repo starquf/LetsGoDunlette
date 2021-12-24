@@ -10,6 +10,8 @@ public class Skill_C_ManaSphere : SkillPiece
 
     public override void Cast(Action onCastEnd = null)
     {
+        PlayerAttackAnimation();
+
         Vector3 startPos = GameManager.Instance.battleHandler.player.transform.position;
         Vector3 target = GameManager.Instance.battleHandler.enemy.transform.position;
 
