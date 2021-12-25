@@ -38,9 +38,7 @@ public class TurnRouletteSample : MonoBehaviour
 
     public void PlayRoulette(Action<bool> action = null) // true = 플레이어, false = 적
     {
-        StopAllCoroutines();  
-
-        startIndex = Random.Range(0, rouletteSpriteLength); //불빛이 시작할 Index
+        StopAllCoroutines();
 
         result = ChoosePlayerOrEnemy();
 
@@ -49,6 +47,8 @@ public class TurnRouletteSample : MonoBehaviour
 
     private IEnumerator ShowRoulette(Action<bool> action)
     {
+        startIndex = Random.Range(0, rouletteSpriteLength); //불빛이 시작할 Index
+        
         float waitTime = 0.05f;
         float maxWaitTime = 1f;
 
@@ -105,20 +105,13 @@ public class TurnRouletteSample : MonoBehaviour
 
     private IEnumerator BlinkLight(int rouletteIndex)
     {
-        yield return new WaitForSeconds(0.5f);
-        SetRouletteLightDefault();
-        yield return new WaitForSeconds(0.5f);
-        SetRouletteLight(rouletteIndex);
-        yield return new WaitForSeconds(0.5f);
-        SetRouletteLightDefault();
-        yield return new WaitForSeconds(0.5f);
-        SetRouletteLight(rouletteIndex);
-        yield return new WaitForSeconds(0.5f);
-        SetRouletteLightDefault();
-        yield return new WaitForSeconds(0.5f);
-        SetRouletteLight(rouletteIndex);
-        yield return new WaitForSeconds(0.5f);
-        SetRouletteLightDefault();
+        for (int i = 0; i < 3; i++)
+        {
+            yield return new WaitForSeconds(0.5f);
+            SetRouletteLightDefault();
+            yield return new WaitForSeconds(0.5f);
+            SetRouletteLight(rouletteIndex);
+        }
     }
 
     private void SetRouletteLightDefault()
