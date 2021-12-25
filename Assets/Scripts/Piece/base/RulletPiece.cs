@@ -41,7 +41,7 @@ public abstract class RulletPiece : MonoBehaviour
         //print(r);
         // 각도의 한 점 (방향 벡터)
         Vector3 pos = new Vector3(Mathf.Cos((angle + 90f) * Mathf.Deg2Rad), Mathf.Sin((angle + 90f) * Mathf.Deg2Rad), 0f);
-        print(angle);
+        //print(angle);
 
         skillImg.transform.localRotation = Quaternion.AngleAxis(angle, Vector3.forward);
         skillImg.transform.localPosition = pos * r;

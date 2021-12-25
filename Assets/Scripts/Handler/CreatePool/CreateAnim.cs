@@ -6,6 +6,7 @@ public class CreateAnim : MonoBehaviour
 {
     [Header("老馆 加己")]
     public GameObject contractAnim;
+    public GameObject c_sphereCastAnim;
 
     [Header("锅俺 加己")]
     public GameObject lightningRodAnim;
@@ -23,6 +24,7 @@ public class CreateAnim : MonoBehaviour
     {
         // ===========================================================================  老馆 加己
         PoolManager.CreatePool<Anim_Contract>(contractAnim, this.transform, 2);
+        PoolManager.CreatePool<Anim_C_SphereCast>(c_sphereCastAnim, this.transform, 2);
 
         // ===========================================================================  锅俺 加己
         PoolManager.CreatePool<Anim_LightningRod>(lightningRodAnim, this.transform, 2);

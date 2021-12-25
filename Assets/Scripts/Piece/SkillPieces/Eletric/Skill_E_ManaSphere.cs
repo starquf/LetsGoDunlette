@@ -27,7 +27,7 @@ public class Skill_E_ManaSphere : SkillPiece
             onCastEnd?.Invoke();
 
             staticEffect.EndEffect();
-        }, BezierType.Linear);
+        }, BezierType.Linear, isRotate: true);
 
         GameManager.Instance.battleHandler.enemy.GetDamage(Value);
         //StartCoroutine(EffectCast());
