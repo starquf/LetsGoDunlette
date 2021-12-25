@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerHealth : LivingEntity
 {
-    private CrowdControl cc;
+    public CrowdControl cc;
 
     private void Awake()
     {

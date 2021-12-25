@@ -8,7 +8,7 @@ public class EnemyHealth : LivingEntity
     private SpriteRenderer sr;
     public EnemyReward enemyReward;
 
-    private CrowdControl cc;
+    public CrowdControl cc;
 
     private void Awake()
     {

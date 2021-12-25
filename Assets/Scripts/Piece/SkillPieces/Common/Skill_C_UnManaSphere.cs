@@ -9,24 +9,43 @@ public class Skill_C_UnManaSphere : SkillPiece
 
     public override void Cast(Action onCastEnd = null)
     {
-        PlayerAttackAnimation();
-
         Vector3 startPos = GameManager.Instance.battleHandler.player.transform.position;
         Vector3 target = GameManager.Instance.battleHandler.enemy.transform.position;
 
-        EffectObj effect = PoolManager.GetItem<EffectObj>();
-        effect.transform.position = startPos;
-        effect.SetSprite(manaSphereSpr);
+        Anim_C_SphereCast castAnim = PoolManager.GetItem<Anim_C_SphereCast>();
+        castAnim.transform.position = startPos;
 
-        effect.Play(target, () =>
+        castAnim.Play(() =>
         {
-            GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-            GameManager.Instance.battleHandler.enemy.GetDamage(Value);
+            PlayerAttackAnimation();
 
-            onCastEnd?.Invoke();
+            int damage = Value / 2;
 
-            effect.EndEffect();
+            for (int i = 0; i < 2; i++)
+            {
+                int a = i;
 
-        }, BezierType.Quadratic);
+                EffectObj effect = PoolManager.GetItem<EffectObj>();
+                effect.transform.position = startPos;
+                effect.SetSprite(manaSphereSpr);
+
+                effect.Play(target, () =>
+                {
+                    GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
+
+                    print($"데미지 발동 : {damage}");
+                    GameManager.Instance.battleHandler.enemy.GetDamage(damage);
+
+                    if (a == 1)
+                    {
+                        GameManager.Instance.battleHandler.player.cc.SetCC(CCType.Silence, 4);
+                        onCastEnd?.Invoke();
+                    }
+
+                    effect.EndEffect();
+
+                }, BezierType.Quadratic, isRotate: true, delay: i * 0.05f);
+            }
+        });
     }
 }
