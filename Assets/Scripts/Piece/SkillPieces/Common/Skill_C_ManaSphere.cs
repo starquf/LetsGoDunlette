@@ -29,14 +29,5 @@ public class Skill_C_ManaSphere : SkillPiece
             effect.EndEffect();
 
         }, BezierType.Quadratic);
-
-        /*
-        AnimObj a = Instantiate(animObj, target, Quaternion.identity).GetComponent<AnimObj>();
-        a.Play("normalHitEffect01", () => {
-            GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-            onCastEnd?.Invoke();
-        });
-        */
-
     }
 }

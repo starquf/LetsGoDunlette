@@ -12,9 +12,8 @@ public class AnimObj : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
-    public void Play(string animName, Action onEndAnim = null)
+    public void Play(Action onEndAnim = null)
     {
-        anim.Play(animName);
         StartCoroutine(WaitAnim(onEndAnim));
     }
 
