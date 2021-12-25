@@ -44,6 +44,7 @@ public abstract class Rullet : MonoBehaviour
 
             pieces[i].GetComponent<Image>().DOFillAmount(pieces[i].Size / (float)maxSize, 0.3f);
             pieces[i].transform.DOScale(Vector3.one, 0.3f);
+            pieces[i].UnHighlight();
         }
     }
 
@@ -196,7 +197,7 @@ public abstract class Rullet : MonoBehaviour
 
     public virtual void HighlightResult()
     {
-        fillTween = result.GetComponent<Image>().DOFillAmount(1f, 0.6f);
+        //fillTween = result.GetComponent<Image>().DOFillAmount(1f, 0.6f);
         result.transform.SetAsLastSibling();
         result.transform.DOScale(new Vector3(1.1f, 1.1f, 1f), 0.55f);
         result.Highlight();

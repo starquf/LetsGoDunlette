@@ -7,9 +7,6 @@ using System;
 
 public class SkillRullet : Rullet
 {
-    // 기본 룰렛 조각 프리팹
-    public GameObject nomalRulletPrefab;
-
     protected override void Start()
     {
         GetComponentsInChildren(pieces);
@@ -57,6 +54,7 @@ public class SkillRullet : Rullet
         SetRulletSmooth();
     }
 
+    // 해당 인덱스의 조각을 인벤토리로 넣는 함수
     public void SetUsePiece(int changeIdx)
     {
         //pieces[changeIdx].state = PieceState.USED;
@@ -71,17 +69,10 @@ public class SkillRullet : Rullet
         SetRulletSmooth();
     }
 
-    // cnt만큼 기본 룰렛조각 추가해주는 함수
-    public void AddNormalAttackPiece(int addCnt)
+    // 해당 인덱스의 조각을 감지하지 못하게 함수
+    public void SetExeptPiece(int changeIdx)
     {
-        for (int i = 0; i < addCnt; i++)
-        {
-            GameObject nomalRullet = Instantiate(nomalRulletPrefab, transform);
-            pieces.Add(nomalRullet.GetComponent<RulletPiece>());
-            nomalRullet.transform.localPosition = Vector3.zero;
-        }
-
-        SetRullet();
+        pieces[changeIdx] = null;
     }
 
     protected override void CastDefault()
