@@ -5,15 +5,14 @@ using UnityEngine;
 
 public class Skill_C_Sign : SkillPiece
 {
-    public GameObject contractAnimObj;
-
     public override void Cast(Action onCastEnd = null)
     {
         BattleHandler bh = GameManager.Instance.battleHandler;
 
-        AnimObj a = Instantiate(contractAnimObj, bh.player.transform.position, Quaternion.identity).GetComponent<AnimObj>();
+        Anim_Contract contractAnim = PoolManager.GetItem<Anim_Contract>();
+        contractAnim.transform.position = bh.player.transform.position;
 
-        a.Play("Contract", () => {
+        contractAnim.Play(() => {
             onCastEnd?.Invoke();
         });
 

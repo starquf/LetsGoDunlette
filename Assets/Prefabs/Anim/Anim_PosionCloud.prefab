@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 7374170998860439672}
   - component: {fileID: 7374170998860439673}
-  - component: {fileID: 7374170998860439675}
   - component: {fileID: 7374170998860439678}
   - component: {fileID: 7374170998860439679}
+  - component: {fileID: 6571567510125027500}
   m_Layer: 0
-  m_Name: E_ManaSphere
+  m_Name: Anim_PosionCloud
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 809535765
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: -7792826922102873803, guid: 82edd1fa3f7843e49b575517a6c05a1a, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -82,47 +82,9 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7374170998860439675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7374170998860439676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6318b04c84bd2a94db28d9a96267de08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomSprites: []
-  moveCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  targetPos: {x: 0, y: 0, z: 0}
 --- !u!95 &7374170998860439678
 Animator:
   serializedVersion: 3
@@ -133,7 +95,7 @@ Animator:
   m_GameObject: {fileID: 7374170998860439676}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4341f7eee2639c545b9da796f4309094, type: 2}
+  m_Controller: {fileID: 9100000, guid: c5326d7bb39887d4dab4f18a1a357d7c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -249,3 +211,15 @@ TrailRenderer:
   m_MinVertexDistance: 0.01
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!114 &6571567510125027500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7374170998860439676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 085acc75bb33bfc4385309df8c1a6718, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

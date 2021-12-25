@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Effect_Static : AnimObj
+public class Anim_PosionCloud : AnimObj
 {
 
 }

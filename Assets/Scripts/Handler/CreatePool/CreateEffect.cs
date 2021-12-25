@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CreateEffect : MonoBehaviour
 {
-    [Header("ÇÁ¸®ÆÕ")]
+    [Header("ÀÌÆåÆ® ÇÁ¸®ÆÕ")]
     public GameObject effectObj;
 
     private void Awake()
@@ -15,7 +15,6 @@ public class CreateEffect : MonoBehaviour
 
     private void CreatePool()
     {
-        //print("¸¸µé¾î");
         PoolManager.CreatePool<EffectObj>(effectObj, this.transform, 10);
     }
 }

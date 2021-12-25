@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Skill_PosionCloud : SkillPiece
+public class Skill_N_PosionCloud : SkillPiece
 {
     public GameObject posionCloudEffectPrefab;
 
@@ -15,15 +15,15 @@ public class Skill_PosionCloud : SkillPiece
 
         Vector3 target = GameManager.Instance.battleHandler.enemy.transform.position;
 
-        Effect_PosionCloud posionCloudEffect = Instantiate(posionCloudEffectPrefab, target, Quaternion.identity).GetComponent<Effect_PosionCloud>();
+        Anim_PosionCloud posionCloudEffect = PoolManager.GetItem<Anim_PosionCloud>();
+        posionCloudEffect.transform.position = target;
 
-        posionCloudEffect.Play("PosionCloudEffect", () => {
+        posionCloudEffect.Play(() => {
             GameManager.Instance.battleHandler.enemy.GetComponent<SpriteRenderer>().color = Color.green;
             onCastEnd?.Invoke();
         });
 
         GameManager.Instance.battleHandler.enemy.GetDamage(Value);
         GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-
     }
 }

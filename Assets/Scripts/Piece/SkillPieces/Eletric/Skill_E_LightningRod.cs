@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Skill_LightningRod : SkillPiece
+public class Skill_E_LightningRod : SkillPiece
 {
     public GameObject LightningRodEffectPrefab;
 
@@ -40,9 +40,10 @@ public class Skill_LightningRod : SkillPiece
         target.y -= 0.7f;
         target.x += 0.5f;
 
-        Effect_LightningRod lightningRodEffect = Instantiate(LightningRodEffectPrefab, target, Quaternion.identity).GetComponent<Effect_LightningRod>();
+        Anim_LightningRod lightningRodEffect = PoolManager.GetItem<Anim_LightningRod>();
+        lightningRodEffect.transform.position = target;
 
-        lightningRodEffect.Play("LightningRodEffect", () => {
+        lightningRodEffect.Play(() => {
             if (lightningSkillPieces.Count > 0)
             {
                 SkillPiece skillPiece = lightningSkillPieces[Random.Range(0, lightningSkillPieces.Count)];
