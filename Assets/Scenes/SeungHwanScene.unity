@@ -308,6 +308,7 @@ GameObject:
   - component: {fileID: 34603181}
   - component: {fileID: 34603180}
   - component: {fileID: 34603178}
+  - component: {fileID: 34603179}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -330,6 +331,19 @@ MonoBehaviour:
   hpBar: {fileID: 99861921}
   maxHp: 100
   hp: 0
+  cc: {fileID: 0}
+--- !u!114 &34603179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 34603177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3524c2ef38e2a2e47b29e3a0bdd7542d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &34603180
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1357,6 +1371,7 @@ GameObject:
   - component: {fileID: 310182692}
   - component: {fileID: 310182690}
   - component: {fileID: 310182691}
+  - component: {fileID: 310182695}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -1380,6 +1395,7 @@ MonoBehaviour:
   maxHp: 200
   hp: 0
   enemyReward: {fileID: 0}
+  cc: {fileID: 0}
 --- !u!114 &310182691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1480,6 +1496,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &310182695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 310182689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3524c2ef38e2a2e47b29e3a0bdd7542d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &313534616
 GameObject:
   m_ObjectHideFlags: 0
