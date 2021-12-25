@@ -18,6 +18,7 @@ public class Skill_E_LightningRod : SkillPiece
 
         Rullet rullet = battleHandler.rullets[0];
         List<RulletPiece> skillPieces = rullet.GetPieces();
+
         List<SkillPiece> lightningSkillPieces = new List<SkillPiece>();
         Dictionary<SkillPiece, int> lightningSkillIdxDic = new Dictionary<SkillPiece, int>();
 
@@ -36,6 +37,15 @@ public class Skill_E_LightningRod : SkillPiece
             }
         }
 
+        SkillPiece result = null;
+
+        // 번개 속성이 존재한다면
+        if (lightningSkillPieces.Count > 0)
+        {
+            result = lightningSkillPieces[Random.Range(0, lightningSkillPieces.Count)];
+            result.HighlightColor(0.4f);
+        }
+
         Vector3 target = battleHandler.enemy.transform.position;
         target.y -= 0.7f;
         target.x += 0.5f;
@@ -44,11 +54,12 @@ public class Skill_E_LightningRod : SkillPiece
         lightningRodEffect.transform.position = target;
 
         lightningRodEffect.Play(() => {
-            if (lightningSkillPieces.Count > 0)
+
+            // 번개 속성이 존재한다면
+            if (result != null)
             {
-                SkillPiece skillPiece = lightningSkillPieces[Random.Range(0, lightningSkillPieces.Count)];
-                skillPiece.Cast(onCastEnd);
-                battleHandler.SetUseRulletPiece(lightningSkillIdxDic[skillPiece]);
+                result.Cast(onCastEnd);
+                battleHandler.SetUseRulletPiece(lightningSkillIdxDic[result]);
             }
             else
             {
@@ -58,6 +69,5 @@ public class Skill_E_LightningRod : SkillPiece
 
         GameManager.Instance.battleHandler.enemy.GetDamage(Value);
         GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-
     }
 }

@@ -154,6 +154,12 @@ public class BattleHandler : MonoBehaviour
     // 다음 턴으로 넘어가는 것
     private void InitTurn()
     {
+        // 버튼 초기화
+        isTap = false;
+        tapGroup.interactable = false;
+
+        result = null;
+
         turnCnt++;
 
         CheckContract();
@@ -185,21 +191,22 @@ public class BattleHandler : MonoBehaviour
         // 결과 보여주고
         yield return oneSecWait;
 
-        // 룰렛 리셋
-        ResetRullets();
-
-        yield return pFiveSecWait;
+        // 결과를 저장해놓고 그 칸을 null로 만들어준다
+        ExeptRulletResult(resultIdx);
 
         // 결과 실행
         CastResult();
-
-        // 인벤토리에 넣는다
-        SetUseRulletPiece(resultIdx);
     }
 
     // 실행이 전부 끝나면 실행되는 코루틴
     private IEnumerator EndTurn()
     {
+        // 룰렛 리셋은 인벤토리가 알아서 해줌
+        yield return pFiveSecWait;
+
+        // 저장한 결과를 인벤토리에 넣는다
+        SetUseRulletPiece(result as SkillPiece);
+
         // 잠시 기다리고
         yield return oneSecWait;
 
@@ -226,10 +233,6 @@ public class BattleHandler : MonoBehaviour
 
         tapGroup.GetComponent<Image>().DOColor(tapColor, 0.2f);
         tapGroup.transform.GetChild(0).transform.DOLocalMoveY(0f, 0.2f);
-
-        // 버튼 초기화
-        isTap = false;
-        tapGroup.interactable = false;
 
         // 다음턴으로
         InitTurn();
@@ -286,8 +289,6 @@ public class BattleHandler : MonoBehaviour
         {
 
         }
-
-        result = null;
     }
 
     private void ReRoll()
@@ -321,14 +322,6 @@ public class BattleHandler : MonoBehaviour
         return true;
     }
 
-    private void ResetRullets()
-    {
-        for (int i = 0; i < rullets.Count; i++)
-        {
-            rullets[i].ResetRulletSize();
-        }
-    }
-
     public void ChangeRulletPiece(int pieceIdx)
     {
         SkillPiece skill = inventory.GetRandomUnusedSkill();
@@ -358,6 +351,16 @@ public class BattleHandler : MonoBehaviour
     public void SetUseRulletPiece(int pieceIdx)
     {
         rullets[0].GetComponent<SkillRullet>().SetUsePiece(pieceIdx);
+    }
+
+    public void SetUseRulletPiece(SkillPiece piece)
+    {
+        GameManager.Instance.inventoryHandler.SetUseSkill(piece);
+    }
+
+    public void ExeptRulletResult(int pieceIdx)
+    {
+        rullets[0].GetComponent<SkillRullet>().SetExeptPiece(pieceIdx);
     }
 
     private void RollAllRullet()

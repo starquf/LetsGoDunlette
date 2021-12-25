@@ -27,6 +27,9 @@ public abstract class RulletPiece : MonoBehaviour
 
     public Image skillImg;
 
+    private float r;
+    private Vector3 pos;
+
     protected virtual void Start()
     {
         highlightImg = GetComponentsInChildren<Image>()[1];
@@ -37,11 +40,10 @@ public abstract class RulletPiece : MonoBehaviour
         float angle = -360f * ((Size / 36f) / 2f);
 
         // 반지름
-        float r = transform.GetComponent<RectTransform>().rect.width / 3f;
-        //print(r);
+        r = transform.GetComponent<RectTransform>().rect.width / 3f;
+
         // 각도의 한 점 (방향 벡터)
-        Vector3 pos = new Vector3(Mathf.Cos((angle + 90f) * Mathf.Deg2Rad), Mathf.Sin((angle + 90f) * Mathf.Deg2Rad), 0f);
-        //print(angle);
+        pos = new Vector3(Mathf.Cos((angle + 90f) * Mathf.Deg2Rad), Mathf.Sin((angle + 90f) * Mathf.Deg2Rad), 0f);
 
         skillImg.transform.localRotation = Quaternion.AngleAxis(angle, Vector3.forward);
         skillImg.transform.localPosition = pos * r;
@@ -68,11 +70,32 @@ public abstract class RulletPiece : MonoBehaviour
         this.size = Mathf.Clamp(result, 0, 36);
     }
 
+    public void ResetPiece()
+    {
+        transform.localScale = Vector3.one;
+        skillImg.transform.localScale = Vector3.one;
+        highlightImg.color = Color.clear;
+    }
+
     public virtual void Highlight()
     {
         highlightImg.color = Color.white;
         highlightImg.DOFade(0f, 0.5f)
             .SetEase(Ease.InQuad);
+
+        skillImg.transform.DOScale(new Vector3(1.3f, 1.3f, 1f), 0.5f);
+    }
+
+    public virtual void HighlightColor(float dur)
+    {
+        highlightImg.color = Color.white;
+        highlightImg.DOFade(0f, dur)
+            .SetEase(Ease.InQuad);
+    }
+
+    public void UnHighlight()
+    {
+        skillImg.transform.DOScale(Vector3.one, 0.5f);
     }
 
     public abstract void Cast(Action onCastEnd = null);

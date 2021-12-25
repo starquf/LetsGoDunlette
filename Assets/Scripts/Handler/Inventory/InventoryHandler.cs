@@ -89,6 +89,8 @@ public class InventoryHandler : MonoBehaviour
     {
         usedSkills.Add(skill);
 
+        skill.ResetPiece();
+
         for (int i = 0; i < 5; i++)
         {
             EffectObj effect = PoolManager.GetItem<EffectObj>();
