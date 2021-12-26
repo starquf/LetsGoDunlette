@@ -38,7 +38,11 @@ public class Skill_C_UnManaSphere : SkillPiece
 
                     if (a == 1)
                     {
-                        GameManager.Instance.battleHandler.player.cc.SetCC(CCType.Silence, 4);
+                        if (!CheckSilence())
+                        {
+                            GameManager.Instance.battleHandler.player.cc.SetCC(CCType.Silence, 4);
+                        }
+
                         onCastEnd?.Invoke();
                     }
 
