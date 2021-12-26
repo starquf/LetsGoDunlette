@@ -85,12 +85,12 @@ GameObject:
   m_Component:
   - component: {fileID: 5219999204231547791}
   - component: {fileID: 5219999204231547785}
-  - component: {fileID: 2854742867914588772}
+  - component: {fileID: 448441629149664027}
   - component: {fileID: 5219999204231547790}
   - component: {fileID: 9047865064128128728}
   - component: {fileID: 3518844564356163631}
   m_Layer: 5
-  m_Name: SP_LightningRod
+  m_Name: SP_E_Static
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -127,7 +127,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5219999204231547788}
   m_CullTransparentMesh: 1
---- !u!114 &2854742867914588772
+--- !u!114 &448441629149664027
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -136,16 +136,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 5219999204231547788}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4762167dd029a17418d3090c26dddb3f, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c5d521915acf3b41bebd74e36d5a5b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   comboType: 2
   size: 6
-  pieceName: "\uD53C\uB8B0\uCE68"
-  value: 20
+  pieceName: "\uC815\uC804\uAE30"
+  value: 40
   skillImg: {fileID: 6859097226337777731}
   isPlayerSkill: 1
-  LightningRodEffectPrefab: {fileID: 159448896140644022, guid: 3b516497d2796a64d9c7a477fc29dc97, type: 3}
+  staticEffectPrefab: {fileID: 159448896140644022, guid: 8b579132fe09b3142bc8bb9ff5d2c4a1, type: 3}
+  staticStunEffectPrefab: {fileID: 159448896140644022, guid: c1e15fe3e330287459d257cc4d642ff5, type: 3}
 --- !u!114 &5219999204231547790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -420,7 +421,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 5756093299107133506, guid: c5c9b8c9cfe36c6448c50e5b2babb764, type: 3}
+  m_Sprite: {fileID: 6308415511944270052, guid: 5019e7a4947893748bdd1f99282fce6b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

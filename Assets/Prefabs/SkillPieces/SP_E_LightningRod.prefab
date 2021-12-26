@@ -85,12 +85,12 @@ GameObject:
   m_Component:
   - component: {fileID: 5219999204231547791}
   - component: {fileID: 5219999204231547785}
-  - component: {fileID: 448441629149664027}
+  - component: {fileID: 2854742867914588772}
   - component: {fileID: 5219999204231547790}
   - component: {fileID: 9047865064128128728}
   - component: {fileID: 3518844564356163631}
   m_Layer: 5
-  m_Name: SP_Static
+  m_Name: SP_E_LightningRod
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -127,7 +127,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5219999204231547788}
   m_CullTransparentMesh: 1
---- !u!114 &448441629149664027
+--- !u!114 &2854742867914588772
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -136,17 +136,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 5219999204231547788}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c5d521915acf3b41bebd74e36d5a5b2, type: 3}
+  m_Script: {fileID: 11500000, guid: 4762167dd029a17418d3090c26dddb3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   comboType: 2
   size: 6
-  pieceName: "\uC815\uC804\uAE30"
-  value: 40
-  color: {r: 0, g: 0, b: 0, a: 0}
+  pieceName: "\uD53C\uB8B0\uCE68"
+  value: 20
   skillImg: {fileID: 6859097226337777731}
   isPlayerSkill: 1
-  staticEffectPrefab: {fileID: 159448896140644022, guid: 8b579132fe09b3142bc8bb9ff5d2c4a1, type: 3}
+  LightningRodEffectPrefab: {fileID: 159448896140644022, guid: 3b516497d2796a64d9c7a477fc29dc97, type: 3}
 --- !u!114 &5219999204231547790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -421,7 +420,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -7495860415847147270, guid: db6531baeb620044c8662975aec692c9, type: 3}
+  m_Sprite: {fileID: 7725301471590894907, guid: 5019e7a4947893748bdd1f99282fce6b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

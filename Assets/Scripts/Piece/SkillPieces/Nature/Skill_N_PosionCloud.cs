@@ -20,6 +20,7 @@ public class Skill_N_PosionCloud : SkillPiece
 
         posionCloudEffect.Play(() => {
             GameManager.Instance.battleHandler.enemy.GetComponent<SpriteRenderer>().color = Color.green;
+            GameManager.Instance.battleHandler.enemy.cc.SetCC(CCType.Wound, 1);
             onCastEnd?.Invoke();
         });
 

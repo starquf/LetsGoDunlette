@@ -11,6 +11,7 @@ public class CreateAnim : MonoBehaviour
     [Header("锅俺 加己")]
     public GameObject lightningRodAnim;
     public GameObject staticAnim;
+    public GameObject staticStunAnim;
 
     [Header("磊楷 加己")]
     public GameObject posionCloudAnim;
@@ -29,6 +30,7 @@ public class CreateAnim : MonoBehaviour
         // ===========================================================================  锅俺 加己
         PoolManager.CreatePool<Anim_LightningRod>(lightningRodAnim, this.transform, 2);
         PoolManager.CreatePool<Anim_Static>(staticAnim, this.transform, 2);
+        PoolManager.CreatePool<Anim_Static_Stun>(staticStunAnim, this.transform, 2);
 
         // ===========================================================================  磊楷 加己
         PoolManager.CreatePool<Anim_PosionCloud>(posionCloudAnim, this.transform, 2);
