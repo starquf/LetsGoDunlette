@@ -56,7 +56,7 @@ public class Skill_E_LightningRod : SkillPiece
         lightningRodEffect.Play(() => {
 
             // 번개 속성이 존재한다면
-            if (result != null)
+            if (result != null && CheckSilence())
             {
                 result.Cast(onCastEnd);
                 battleHandler.SetUseRulletPiece(lightningSkillIdxDic[result]);

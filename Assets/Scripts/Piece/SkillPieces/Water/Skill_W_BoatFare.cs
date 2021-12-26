@@ -6,7 +6,6 @@ using UnityEngine;
 public class Skill_W_BoatFare : SkillPiece
 {
     public GameObject skillEffectPrefab;
-    public GameObject getMoneyEffectPrefab;
 
     public override void Cast(Action onCastEnd = null)
     {
@@ -24,21 +23,25 @@ public class Skill_W_BoatFare : SkillPiece
         boatFaredEffect.Play(() => {
             battleHandler.enemy.GetDamage(Value);
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-            if(battleHandler.enemy.IsDie)
+            if(!CheckSilence())
             {
-                Anim_W_BoatFare_GetMoney boatFaredGetMoneyEffect = PoolManager.GetItem<Anim_W_BoatFare_GetMoney>();
-                boatFaredGetMoneyEffect.transform.position = target;
-                boatFaredGetMoneyEffect.Play(() =>
-                {
-                    print("Ãß°¡ °ñµå È¹µæ");
-                    onCastEnd?.Invoke();
-                });
+                GetMoney();
             }
-            else
-            {
-                onCastEnd?.Invoke();
-            }
+            onCastEnd?.Invoke();
         });
 
+    }
+
+    private void GetMoney()
+    {
+        BattleHandler battleHandler = GameManager.Instance.battleHandler;
+        if (battleHandler.enemy.IsDie)
+        {
+            print("Å« °ñµå È¹µæ");
+        }
+        else
+        {
+            print("°ñµå È¹µæ");
+        }
     }
 }

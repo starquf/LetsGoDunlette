@@ -41,6 +41,5 @@ public class CreateAnim : MonoBehaviour
 
         // ===========================================================================  ¹° ¼Ó¼º
         PoolManager.CreatePool<Anim_W_BoatFare>(boatFareAnim, this.transform, 2);
-        PoolManager.CreatePool<Anim_W_BoatFare_GetMoney>(boatFareGetMoneyAnim, this.transform, 2);
     }
 }
