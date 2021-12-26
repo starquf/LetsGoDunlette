@@ -10,7 +10,7 @@ public class Skill_C_Sign : SkillPiece
         BattleHandler bh = GameManager.Instance.battleHandler;
 
         // 침묵 상태면
-        if (CheckSilence())
+        if (!CheckSilence())
         {
             Anim_Contract contractAnim = PoolManager.GetItem<Anim_Contract>();
             contractAnim.transform.position = bh.player.transform.position;
