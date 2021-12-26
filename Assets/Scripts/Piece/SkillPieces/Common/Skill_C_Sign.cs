@@ -9,36 +9,21 @@ public class Skill_C_Sign : SkillPiece
     {
         BattleHandler bh = GameManager.Instance.battleHandler;
 
-        Anim_Contract contractAnim = PoolManager.GetItem<Anim_Contract>();
-        contractAnim.transform.position = bh.player.transform.position;
-
-        contractAnim.Play(() => {
-            onCastEnd?.Invoke();
-        });
-
-        /* 
-         
-        // 클로저 생성
-        Action<RulletPiece> onNextTest = result => { };
-
-        onNextTest = result =>
+        // 침묵 상태면
+        if (CheckSilence())
         {
-            if (result.PieceType.Equals(PieceType.SKILL))
-            {
-                print("안녕");
-                bh.enemy.GetDamage(10);
-                GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-            }
-            
-            // 바로 없엘거면 이렇게
-            bh.onNextAttack -= onNextTest;
-        };
+            Anim_Contract contractAnim = PoolManager.GetItem<Anim_Contract>();
+            contractAnim.transform.position = bh.player.transform.position;
 
-        // 이벤트에 추가해주면 됨
-        bh.onNextAttack += onNextTest;
+            contractAnim.Play(() => {
+                onCastEnd?.Invoke();
+            });
 
-        */
-
-        bh.SetContract(Value, 3);
+            bh.SetContract(Value, 3);
+        }
+        else
+        {
+            onCastEnd?.Invoke();
+        }
     }
 }

@@ -162,7 +162,11 @@ public class BattleHandler : MonoBehaviour
 
         turnCnt++;
 
+        // 계약 체크
         CheckContract();
+
+        // 현재 턴에 걸려있는 적의 cc기와 플레이어의 cc기를 하나 줄여준다.
+        DecreaseCC();
 
         nextAttack = null;
         nextAttack = onNextAttack;
@@ -206,6 +210,9 @@ public class BattleHandler : MonoBehaviour
 
         // 저장한 결과를 인벤토리에 넣는다
         SetUseRulletPiece(result as SkillPiece);
+
+        // 기절이라면 조각을 날려버린다
+        CheckStun();
 
         // 잠시 기다리고
         yield return oneSecWait;
@@ -389,6 +396,42 @@ public class BattleHandler : MonoBehaviour
             if (ContractRemain <= 0)
             {
                 IsContract = false;
+            }
+        }
+    }
+
+    private void DecreaseCC()
+    {
+        player.cc.DecreaseAllTurn();
+        enemy.cc.DecreaseAllTurn();
+    }
+
+    private void CheckStun()
+    {
+        // 기절되어있다면
+        if (player.cc.ccDic[CCType.Stun] > 0)
+        {
+            Stun(true);
+        }
+
+        if(enemy.cc.ccDic[CCType.Stun] > 0)
+        {
+            Stun(false);
+        }
+    }
+
+    private void Stun(bool isPlayer)
+    {
+        List<RulletPiece> pieces = rullets[0].GetPieces();
+
+        for (int i = 0; i < pieces.Count; i++)
+        {
+            if (pieces[i] == null) continue;
+
+            // 플레이어의 조각이라면
+            if ((pieces[i] as SkillPiece).isPlayerSkill.Equals(isPlayer))
+            {
+                (rullets[0] as SkillRullet).SetUsePiece(i);
             }
         }
     }

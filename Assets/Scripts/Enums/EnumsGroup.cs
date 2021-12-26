@@ -20,13 +20,10 @@ public enum PieceType
     SKILL
 }
 
-[System.Flags]
 public enum CCType
 {
-    None = 0,
-    Stun = 1 << 0,          // ±âÀý
-    Silence = 1 << 1,       // Ä§¹¬
-    Exhausted = 1 << 2,     // ÇÇ°ïÇÔ
-    Wound = 1 << 3,         // »óÃ³
-    All = int.MaxValue
+    Stun,          // ±âÀý
+    Silence,       // Ä§¹¬
+    Exhausted,     // ÇÇ°ïÇÔ
+    Wound          // »óÃ³
 }
