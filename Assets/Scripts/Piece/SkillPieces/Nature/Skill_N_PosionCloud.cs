@@ -15,7 +15,7 @@ public class Skill_N_PosionCloud : SkillPiece
 
         Vector3 target = GameManager.Instance.battleHandler.enemy.transform.position;
 
-        Anim_PosionCloud posionCloudEffect = PoolManager.GetItem<Anim_PosionCloud>();
+        Anim_N_PosionCloud posionCloudEffect = PoolManager.GetItem<Anim_N_PosionCloud>();
         posionCloudEffect.transform.position = target;
 
         posionCloudEffect.Play(() => {
