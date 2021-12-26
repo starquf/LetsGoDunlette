@@ -18,6 +18,15 @@ public class SkillPiece : RulletPiece
         PlayerAttackAnimation();
     }
 
+    public virtual bool CheckSilence()
+    {
+        BattleHandler bh = GameManager.Instance.battleHandler;
+        CrowdControl cc = isPlayerSkill ? bh.player.cc : bh.enemy.cc;
+
+        // 침묵 상태인가?
+        return cc.ccDic[CCType.Silence] > 0;
+    }
+
     protected void PlayerAttackAnimation()
     {
         Transform playerTrm = GameManager.Instance.battleHandler.player.transform;

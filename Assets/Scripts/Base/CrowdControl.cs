@@ -22,29 +22,11 @@ public class CrowdControl : MonoBehaviour
         ccDic.Add(CCType.Wound, 0);
     }
 
-    public CCType GetCurrentCC()
-    {
-        // 리턴할 현재 cc, 기본값 None
-        CCType currentCC = CCType.None;
-
-        foreach (var cc in ccDic.Keys)
-        {
-            // 턴 카운트 하나 줄이기
-            DecreaseTurn(cc);
-
-            // cc가 존재한다면
-            if (ccDic[cc] > 0)
-            {
-                // 현재 cc에 추가
-                currentCC |= cc;
-            }
-        }
-
-        return currentCC;
-    }
-
     public void SetCC(CCType cc, int turn)
     {
+        // 이미 cc가 존재한다면
+        if (ccDic[cc] > 0) return;
+
         ccDic[cc] = turn;
     }
 
@@ -61,6 +43,14 @@ public class CrowdControl : MonoBehaviour
         if (ccDic[cc] < 0)
         {
             ccDic[cc] = 0;
+        }
+    }
+
+    public void DecreaseAllTurn()
+    {
+        foreach (CCType cc in Enum.GetValues(typeof(CCType)))
+        {
+            DecreaseTurn(cc);
         }
     }
 }
