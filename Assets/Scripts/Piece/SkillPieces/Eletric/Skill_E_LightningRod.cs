@@ -40,7 +40,7 @@ public class Skill_E_LightningRod : SkillPiece
         SkillPiece result = null;
 
         // 번개 속성이 존재한다면
-        if (lightningSkillPieces.Count > 0)
+        if (!CheckSilence() && lightningSkillPieces.Count > 0)
         {
             result = lightningSkillPieces[Random.Range(0, lightningSkillPieces.Count)];
             result.HighlightColor(0.4f);
@@ -56,7 +56,7 @@ public class Skill_E_LightningRod : SkillPiece
         lightningRodEffect.Play(() => {
 
             // 번개 속성이 존재한다면
-            if (result != null && !CheckSilence())
+            if (result != null)
             {
                 result.Cast(onCastEnd);
                 battleHandler.SetUseRulletPiece(lightningSkillIdxDic[result]);
