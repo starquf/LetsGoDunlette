@@ -18,7 +18,7 @@ public class Skill_E_Static : SkillPiece
         Vector3 target = bh.enemy.transform.position;
         target.y -= 0.7f;
 
-        Anim_Static staticEffect = PoolManager.GetItem<Anim_Static>();
+        Anim_E_Static staticEffect = PoolManager.GetItem<Anim_E_Static>();
         staticEffect.transform.position = target;
 
         staticEffect.Play(() => {
@@ -34,7 +34,7 @@ public class Skill_E_Static : SkillPiece
         {
             if (result.PieceType.Equals(PieceType.SKILL) && result.GetComponent<SkillPiece>().comboType.Equals(PatternType.Diamonds))
             {
-                Anim_Static_Stun stunEffect = PoolManager.GetItem<Anim_Static_Stun>();
+                Anim_E_Static_Stun stunEffect = PoolManager.GetItem<Anim_E_Static_Stun>();
                 stunEffect.transform.position = target;
 
                 stunEffect.Play(()=>{

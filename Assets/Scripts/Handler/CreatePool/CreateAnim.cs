@@ -16,6 +16,10 @@ public class CreateAnim : MonoBehaviour
     [Header("磊楷 加己")]
     public GameObject posionCloudAnim;
 
+    [Header("拱 加己")]
+    public GameObject boatFareAnim;
+    public GameObject boatFareGetMoneyAnim;
+
     private void Awake()
     {
         CreatePool();
@@ -28,11 +32,15 @@ public class CreateAnim : MonoBehaviour
         PoolManager.CreatePool<Anim_C_SphereCast>(c_sphereCastAnim, this.transform, 2);
 
         // ===========================================================================  锅俺 加己
-        PoolManager.CreatePool<Anim_LightningRod>(lightningRodAnim, this.transform, 2);
-        PoolManager.CreatePool<Anim_Static>(staticAnim, this.transform, 2);
-        PoolManager.CreatePool<Anim_Static_Stun>(staticStunAnim, this.transform, 2);
+        PoolManager.CreatePool<Anim_E_LightningRod>(lightningRodAnim, this.transform, 2);
+        PoolManager.CreatePool<Anim_E_Static>(staticAnim, this.transform, 2);
+        PoolManager.CreatePool<Anim_E_Static_Stun>(staticStunAnim, this.transform, 2);
 
         // ===========================================================================  磊楷 加己
-        PoolManager.CreatePool<Anim_PosionCloud>(posionCloudAnim, this.transform, 2);
+        PoolManager.CreatePool<Anim_N_PosionCloud>(posionCloudAnim, this.transform, 2);
+
+        // ===========================================================================  拱 加己
+        PoolManager.CreatePool<Anim_W_BoatFare>(boatFareAnim, this.transform, 2);
+        PoolManager.CreatePool<Anim_W_BoatFare_GetMoney>(boatFareGetMoneyAnim, this.transform, 2);
     }
 }

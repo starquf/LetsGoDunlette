@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Anim_LightningRod : AnimObj
+public class Anim_W_BoatFare : AnimObj
 {
 
 }

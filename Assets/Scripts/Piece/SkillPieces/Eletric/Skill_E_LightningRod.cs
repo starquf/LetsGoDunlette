@@ -50,7 +50,7 @@ public class Skill_E_LightningRod : SkillPiece
         target.y -= 0.7f;
         target.x += 0.5f;
 
-        Anim_LightningRod lightningRodEffect = PoolManager.GetItem<Anim_LightningRod>();
+        Anim_E_LightningRod lightningRodEffect = PoolManager.GetItem<Anim_E_LightningRod>();
         lightningRodEffect.transform.position = target;
 
         lightningRodEffect.Play(() => {
