@@ -199,7 +199,7 @@ public abstract class Rullet : MonoBehaviour
     {
         //fillTween = result.GetComponent<Image>().DOFillAmount(1f, 0.6f);
         result.transform.SetAsLastSibling();
-        result.transform.DOScale(new Vector3(1.1f, 1.1f, 1f), 0.55f);
+        result.transform.DOScale(new Vector3(1.15f, 1.15f, 1f), 0.55f);
         result.Highlight();
 
         transform.DOShakePosition(0.2f, 15f, 50);

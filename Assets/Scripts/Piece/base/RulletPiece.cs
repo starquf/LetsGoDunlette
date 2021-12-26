@@ -83,7 +83,7 @@ public abstract class RulletPiece : MonoBehaviour
         highlightImg.DOFade(0f, 0.5f)
             .SetEase(Ease.InQuad);
 
-        skillImg.transform.DOScale(new Vector3(1.3f, 1.3f, 1f), 0.5f);
+        skillImg.transform.DOScale(new Vector3(1.1f, 1.1f, 1f), 0.5f);
     }
 
     public virtual void HighlightColor(float dur)

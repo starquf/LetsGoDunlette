@@ -265,7 +265,7 @@ public class BattleHandler : MonoBehaviour
         isTap = true;
         canReroll = true;
 
-        rerollCnt = 3;
+        rerollCnt = 2;
         tapGroup.transform.GetChild(0).transform.DOLocalMoveY(-180f, 0.2f);
 
         blinkTween = tapGroup.GetComponent<Image>().DOColor(Color.black, 1f)
