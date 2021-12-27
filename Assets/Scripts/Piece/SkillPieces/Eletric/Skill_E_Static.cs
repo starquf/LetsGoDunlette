@@ -38,8 +38,9 @@ public class Skill_E_Static : SkillPiece
                 stunEffect.transform.position = target;
 
                 stunEffect.Play(()=>{
-                    bh.enemy.cc.SetCC(CCType.Stun, 1);
                 });
+
+                bh.enemy.cc.SetCC(CCType.Stun, 1);
             }
 
             // 바로 없엘거면 이렇게

@@ -20,6 +20,7 @@ public class BattleHandler : MonoBehaviour
 
     // 탭
     public CanvasGroup tapGroup;
+    public Text rerollGoldText;
     public Color tapColor;
 
     private InventoryHandler inventory;
@@ -270,14 +271,28 @@ public class BattleHandler : MonoBehaviour
     private void SetReroll()
     {
         isTap = true;
-        canReroll = true;
 
         rerollGold = 5;
-        tapGroup.transform.GetChild(0).transform.DOLocalMoveY(-180f, 0.2f);
+        rerollGoldText.text = rerollGold.ToString();
 
-        blinkTween = tapGroup.GetComponent<Image>().DOColor(Color.black, 1f)
-            .SetEase(Ease.Flash, 20, 0)
-            .SetLoops(-1);
+        tapGroup.transform.GetChild(0).transform.DOLocalMoveY(-245f, 0.2f);
+
+        // 만약 현재 골드가 리롤 골드보다 작다면
+        if (GameManager.Instance.Gold < rerollGold)
+        {
+            blinkTween.Kill();
+            tapGroup.GetComponent<Image>().color = Color.black;
+
+            canReroll = false;
+        }
+        else
+        {
+            canReroll = true;
+
+            blinkTween = tapGroup.GetComponent<Image>().DOColor(Color.black, 1f)
+                .SetEase(Ease.Flash, 20, 0)
+                .SetLoops(-1);
+        }
     }
 
     // 결과 보여주기
@@ -301,8 +316,9 @@ public class BattleHandler : MonoBehaviour
         GameManager.Instance.Gold -= rerollGold;
 
         rerollGold += 5;
+        rerollGoldText.text = rerollGold.ToString();
 
-        if (GameManager.Instance.Gold <= rerollGold)
+        if (GameManager.Instance.Gold < rerollGold)
         {
             blinkTween.Kill();
             tapGroup.GetComponent<Image>().color = Color.black;

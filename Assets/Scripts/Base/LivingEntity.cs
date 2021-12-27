@@ -3,10 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System;
 
 public abstract class LivingEntity : MonoBehaviour, IDamageable
 {
+    // 이거 나중에 클래스로 뺴줘요
     public Transform hpBar;
+    public Text hpText;
+
+    public Transform damageTrans;
+
+    private Image damageImg;
+    private Color damageColor;
+    private Tween damageTween;
 
     public int maxHp;
     [SerializeField] protected int hp;
@@ -19,8 +28,13 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     protected virtual void Start()
     {
         hp = maxHp;
+        SetHpText();
 
         bh = GameManager.Instance.battleHandler;
+        damageImg = damageTrans.GetComponent<Image>();
+
+        damageColor = damageImg.color;
+        damageColor = new Color(damageColor.r, damageColor.g, damageColor.b, 1f);
     }
 
     public virtual void GetDamage(int damage)
@@ -35,6 +49,8 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
         hp -= damage;
 
+        SetHpText();
+
         if (hp <= 0)
         {
             hp = 0;
@@ -44,6 +60,17 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         }
 
         hpBar.DOScaleX(hp / (float)maxHp, 0.33f);
+        SetDamageEffect();
+    }
+
+    private void SetDamageEffect()
+    {
+        damageTrans.DOScaleX(hp / (float)maxHp, 0.33f);
+
+        damageImg.color = damageColor;
+
+        damageTween.Kill();
+        damageTween = damageImg.DOFade(0f, 0.3f);
     }
 
     public virtual void Revive()
@@ -52,6 +79,11 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         hp = maxHp;
 
         hpBar.DOScaleX(1f, 0.33f);
+    }
+
+    protected virtual void SetHpText()
+    {
+        hpText.text = $"{hp}/{maxHp}";
     }
 
     protected abstract void Die();
