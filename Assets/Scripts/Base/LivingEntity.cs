@@ -78,6 +78,8 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         isDie = false;
         hp = maxHp;
 
+        SetHpText();
+
         hpBar.DOScaleX(1f, 0.33f);
     }
 
