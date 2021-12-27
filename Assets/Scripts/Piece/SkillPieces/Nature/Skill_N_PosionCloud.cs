@@ -13,19 +13,48 @@ public class Skill_N_PosionCloud : SkillPiece
         base.Cast();
         print($"스킬 발동!! 이름 : {PieceName}");
 
-        Vector3 target = GameManager.Instance.battleHandler.enemy.transform.position;
+        BattleHandler bh = GameManager.Instance.battleHandler;
+        Vector3 target = bh.enemy.transform.position;
 
         Anim_N_PosionCloud posionCloudEffect = PoolManager.GetItem<Anim_N_PosionCloud>();
         posionCloudEffect.transform.position = target;
 
         posionCloudEffect.Play(() => {
-            GameManager.Instance.battleHandler.enemy.GetComponent<SpriteRenderer>().color = Color.green;
             if(!CheckSilence())
-                GameManager.Instance.battleHandler.enemy.cc.SetCC(CCType.Wound, 4);
+            {
+                bh.enemy.GetComponent<SpriteRenderer>().color = Color.green;
+                bh.enemy.cc.SetCC(CCType.Wound, 4);
+            }
             onCastEnd?.Invoke();
         });
 
-        GameManager.Instance.battleHandler.enemy.GetDamage(Value);
-        GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
+
+        Action<RulletPiece> onNextTest = result => { };
+        int cnt = 4;
+
+        onNextTest = result =>
+        {
+            if (!CheckSilence())
+            {
+                Anim_N_PosionCloud posionCloudEffect = PoolManager.GetItem<Anim_N_PosionCloud>();
+                posionCloudEffect.transform.position = target;
+
+                posionCloudEffect.Play(() => {
+                    bh.enemy.GetDamage(Value);
+                    GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
+                });
+            }
+            cnt--;
+
+            // 바로 없엘거면 이렇게
+            if(cnt == 0)
+            {
+                bh.enemy.GetComponent<SpriteRenderer>().color = Color.white;
+                bh.onNextAttack -= onNextTest;
+            }
+        };
+
+        // 이벤트에 추가해주면 됨
+        bh.onNextAttack += onNextTest;
     }
 }

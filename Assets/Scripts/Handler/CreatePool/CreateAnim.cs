@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CreateAnim : MonoBehaviour
 {
+    [Header("기본 이펙트")]
+    public GameObject TextUpAnim;
+
     [Header("일반 속성")]
     public GameObject contractAnim;
     public GameObject c_sphereCastAnim;
@@ -18,6 +21,7 @@ public class CreateAnim : MonoBehaviour
 
     [Header("물 속성")]
     public GameObject boatFareAnim;
+    public GameObject boatFareBonusMoneyAnim;
 
     [Header("불 속성")]
     public GameObject ChainExplosionAnim;
@@ -30,6 +34,9 @@ public class CreateAnim : MonoBehaviour
 
     private void CreatePool()
     {
+        // ===========================================================================  기본 이펙트
+        PoolManager.CreatePool<Anim_TextUp>(TextUpAnim, this.transform, 5);
+
         // ===========================================================================  일반 속성
         PoolManager.CreatePool<Anim_Contract>(contractAnim, this.transform, 2);
         PoolManager.CreatePool<Anim_C_SphereCast>(c_sphereCastAnim, this.transform, 2);
@@ -44,6 +51,7 @@ public class CreateAnim : MonoBehaviour
 
         // ===========================================================================  물 속성
         PoolManager.CreatePool<Anim_W_BoatFare>(boatFareAnim, this.transform, 2);
+        PoolManager.CreatePool<Anim_W_BoatFareBonusMoney>(boatFareBonusMoneyAnim, this.transform, 2);
 
         // ===========================================================================  불 속성
         PoolManager.CreatePool<Anim_F_ChainExplosion>(ChainExplosionAnim, this.transform, 2);
