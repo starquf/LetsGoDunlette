@@ -27,3 +27,9 @@ public enum CCType
     Exhausted = 2,     // ««∞Ô«‘
     Wound = 3          // ªÛ√≥
 }
+
+public enum TextUpAnimType
+{
+    Damage = 0,
+    GetMoney = 1,
+}

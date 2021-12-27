@@ -5,15 +5,14 @@ using UnityEngine;
 
 public class Skill_W_BoatFare : SkillPiece
 {
-    public GameObject skillEffectPrefab;
-
+    BattleHandler battleHandler;
+    Vector3 target;
     public override void Cast(Action onCastEnd = null)
     {
         base.Cast();
         print($"½ºÅ³ ¹ßµ¿!! ÀÌ¸§ : {PieceName}");
-
-        BattleHandler battleHandler = GameManager.Instance.battleHandler;
-        Vector3 target = battleHandler.enemy.transform.position;
+        battleHandler = GameManager.Instance.battleHandler;
+        target = battleHandler.enemy.transform.position;
         target.x -= 0.5f;
         target.y += 0.5f;
 
@@ -25,23 +24,28 @@ public class Skill_W_BoatFare : SkillPiece
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
             if(!CheckSilence())
             {
-                GetMoney();
+                GetMoney(onCastEnd);
             }
-            onCastEnd?.Invoke();
         });
 
     }
 
-    private void GetMoney()
+    private void GetMoney(Action onCastEnd)
     {
-        BattleHandler battleHandler = GameManager.Instance.battleHandler;
+        GameManager.Instance.Gold += 5;
         if (battleHandler.enemy.IsDie)
         {
-            print("Å« °ñµå È¹µæ");
+            Anim_W_BoatFareBonusMoney boatFaredBonusEffect = PoolManager.GetItem<Anim_W_BoatFareBonusMoney>();
+            boatFaredBonusEffect.transform.position = target;
+
+            boatFaredBonusEffect.Play(() => {
+                GameManager.Instance.Gold += 5;
+                onCastEnd?.Invoke();
+            });
         }
         else
         {
-            print("°ñµå È¹µæ");
+            onCastEnd?.Invoke();
         }
     }
 }

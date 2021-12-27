@@ -60,6 +60,12 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         }
 
         hpBar.DOScaleX(hp / (float)maxHp, 0.33f);
+
+        Anim_TextUp damageTextEffect = PoolManager.GetItem<Anim_TextUp>();
+        damageTextEffect.SetType(TextUpAnimType.Damage);
+        damageTextEffect.transform.position = transform.position;
+        damageTextEffect.Play(damage.ToString());
+
         SetDamageEffect();
     }
 
