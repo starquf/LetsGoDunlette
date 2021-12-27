@@ -28,6 +28,12 @@ public enum CCType
     Wound = 3          // ป๓รณ
 }
 
+public enum BuffType
+{
+    Shield = 0,
+    Contract = 1
+}
+
 public enum TextUpAnimType
 {
     Damage = 0,

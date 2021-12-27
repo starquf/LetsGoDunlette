@@ -25,6 +25,14 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     private BattleHandler bh;
 
+    [HideInInspector]
+    public CrowdControl cc;
+
+    private void Awake()
+    {
+        cc = GetComponent<CrowdControl>();
+    }
+
     protected virtual void Start()
     {
         hp = maxHp;
@@ -41,10 +49,11 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     {
         if (isDie) return;
 
-        if (bh.IsContract)
+        // 계약 상태라면
+        if (cc.buffDic[BuffType.Contract] > 0)
         {
-            damage = bh.ContractDmg;
-            bh.IsContract = false;
+            damage = cc.buffDic[BuffType.Contract];
+            cc.RemoveBuff(BuffType.Contract);
         }
 
         hp -= damage;

@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(this.gameObject);
+
+        Application.targetFrameRate = 60;
     }
 
     private void OnDestroy()

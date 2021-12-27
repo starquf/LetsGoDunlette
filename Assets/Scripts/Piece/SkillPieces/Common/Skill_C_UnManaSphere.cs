@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Skill_C_UnManaSphere : SkillPiece
 {
@@ -28,6 +29,8 @@ public class Skill_C_UnManaSphere : SkillPiece
 
             int damage = Value / 2;
 
+            int rand = Random.Range(0, 100);
+
             for (int i = 0; i < 2; i++)
             {
                 int a = i;
@@ -44,9 +47,16 @@ public class Skill_C_UnManaSphere : SkillPiece
                     print($"데미지 발동 : {damage}");
                     GameManager.Instance.battleHandler.enemy.GetDamage(damage);
 
+                    Anim_C_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_C_ManaSphereHit>();
+                    hitEffect.transform.position = target;
+
+                    hitEffect.Play(() =>
+                    {
+                    });
+
                     if (a == 1)
                     {
-                        if (!CheckSilence())
+                        if (!CheckSilence() && rand < 35)
                         {
                             GameManager.Instance.battleHandler.player.cc.SetCC(CCType.Silence, 4);
                         }

@@ -26,6 +26,9 @@ public class InventoryHandler : MonoBehaviour
     public Dictionary<PatternType, Sprite> effectSprDic;
     public Dictionary<PatternType, Gradient> effectGradDic;
 
+    private Tween unusedOpenTween;
+    private Tween usedOpenTween;
+
     private void Awake()
     {
         GameManager.Instance.inventoryHandler = this;
@@ -109,11 +112,13 @@ public class InventoryHandler : MonoBehaviour
 
             effect.Play(usedTrans.position, () =>
             {
-                effect.Sr.DOFade(0f, 0.1f)
-                .OnComplete(() =>
-                {
-                    effect.EndEffect();
+                usedOpenTween.Kill();
+                usedOpenTween = usedTrans.DOScale(new Vector3(1.1f, 1.1f, 1f), 0.15f)
+                .OnComplete(() => {
+                    usedTrans.DOScale(new Vector3(1f, 1f, 1f), 0.15f);
                 });
+
+                effect.EndEffect();
             }
             , BezierType.Quadratic, 0.5f);
         }
@@ -202,11 +207,13 @@ public class InventoryHandler : MonoBehaviour
 
                 effect.Play(transform.position, () =>
                 {
-                    effect.Sr.DOFade(0f, 0.1f)
-                    .OnComplete(() =>
-                    {
-                        effect.EndEffect();
+                    unusedOpenTween.Kill();
+                    unusedOpenTween = transform.DOScale(new Vector3(1.1f, 1.1f, 1f), 0.15f)
+                    .OnComplete(() => {
+                        transform.DOScale(new Vector3(1f, 1f, 1f), 0.15f);
                     });
+
+                    effect.EndEffect();
 
                 }, BezierType.Quadratic, i * 0.05f);
             }

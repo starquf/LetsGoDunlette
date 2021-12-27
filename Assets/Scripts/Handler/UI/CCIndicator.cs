@@ -14,12 +14,12 @@ public class CCIndicator : MonoBehaviour
         turnText = transform.GetChild(0).GetComponent<Text>();
     }
 
-    public void SetCCImg(Sprite img)
+    public void SetImg(Sprite img)
     {
         ccImg.sprite = img;
     }
 
-    public void SetTurn(int turn)
+    public void SetText(int turn)
     {
         turnText.text = turn.ToString();
     }

@@ -60,10 +60,6 @@ public class BattleHandler : MonoBehaviour
     public event Action<RulletPiece> onNextAttack;
     private event Action<RulletPiece> nextAttack;
 
-    public bool IsContract { get; set; }
-    public int ContractDmg { get; private set; }
-    public int ContractRemain { get; private set; }
-
     //==================================================
 
     private Tween blinkTween;
@@ -161,9 +157,6 @@ public class BattleHandler : MonoBehaviour
         result = null;
 
         turnCnt++;
-
-        // 계약 체크
-        CheckContract();
 
         // 현재 턴에 걸려있는 적의 cc기와 플레이어의 cc기를 하나 줄여준다.
         DecreaseCC();
@@ -393,26 +386,6 @@ public class BattleHandler : MonoBehaviour
             int a = i;
 
             rullets[i].RollRullet();
-        }
-    }
-
-    public void SetContract(int contractDmg, int contractRemain = 3)
-    {
-        IsContract = true;
-        ContractDmg = contractDmg;
-        ContractRemain = contractRemain;
-    }
-
-    private void CheckContract()
-    {
-        if (IsContract)
-        {
-            ContractRemain--;
-
-            if (ContractRemain <= 0)
-            {
-                IsContract = false;
-            }
         }
     }
 

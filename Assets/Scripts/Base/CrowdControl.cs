@@ -6,6 +6,7 @@ using UnityEngine;
 public class CrowdControl : MonoBehaviour
 {
     public Dictionary<CCType, int> ccDic;
+    public Dictionary<BuffType, int> buffDic;
 
     [Header("UI관련")]
     public Transform ccUITrm;
@@ -13,6 +14,9 @@ public class CrowdControl : MonoBehaviour
 
     public Dictionary<CCType, CCIndicator> ccUIDic;
     public List<Sprite> ccIcons = new List<Sprite>();
+
+    public Dictionary<BuffType, CCIndicator> buffUIDic;
+    public List<Sprite> buffIcons = new List<Sprite>();
 
     private void Awake()
     {
@@ -23,8 +27,14 @@ public class CrowdControl : MonoBehaviour
     {
         for (int i = 0; i < ccIcons.Count; i++)
         {
-            ccUIDic[(CCType)i].SetCCImg(ccIcons[i]);
-            ccUIDic[(CCType)i].SetTurn(0);
+            ccUIDic[(CCType)i].SetImg(ccIcons[i]);
+            ccUIDic[(CCType)i].SetText(0);
+        }
+
+        for (int i = 0; i < buffIcons.Count; i++)
+        {
+            buffUIDic[(BuffType)i].SetImg(buffIcons[i]);
+            buffUIDic[(BuffType)i].SetText(0);
         }
     }
 
@@ -33,13 +43,25 @@ public class CrowdControl : MonoBehaviour
         ccDic = new Dictionary<CCType, int>();
         ccUIDic = new Dictionary<CCType, CCIndicator>();
 
-        ccDic.Add(CCType.Stun, 0);
-        ccDic.Add(CCType.Silence, 0);
-        ccDic.Add(CCType.Exhausted, 0);
-        ccDic.Add(CCType.Wound, 0);
+        buffDic = new Dictionary<BuffType, int>();
+        buffUIDic = new Dictionary<BuffType, CCIndicator>();
 
+        // 버프 설정
+        foreach (BuffType buff in Enum.GetValues(typeof(BuffType)))
+        {
+            buffDic.Add(buff, 0);
+
+            CCIndicator ccIndi = Instantiate(uiObj, ccUITrm).GetComponent<CCIndicator>();
+            ccIndi.gameObject.SetActive(false);
+
+            buffUIDic.Add(buff, ccIndi);
+        }
+
+        // 군중제어 설정
         foreach (CCType cc in Enum.GetValues(typeof(CCType)))
         {
+            ccDic.Add(cc, 0);
+
             CCIndicator ccIndi = Instantiate(uiObj, ccUITrm).GetComponent<CCIndicator>();
             ccIndi.gameObject.SetActive(false);
 
@@ -47,24 +69,22 @@ public class CrowdControl : MonoBehaviour
         }
     }
 
+    // ================================================================ 군중제어
     public void SetCC(CCType cc, int turn)
     {
-        // 이미 cc가 존재한다면
-        if (ccDic[cc] > 0) return;
-
         ccDic[cc] = turn;
 
-        ccUIDic[cc].SetTurn(turn);
+        ccUIDic[cc].SetText(turn);
         ccUIDic[cc].gameObject.SetActive(true);
     }
 
-    public void IncreaseTurn(CCType cc, int turn)
+    public void IncreaseCCTurn(CCType cc, int turn)
     {
         ccDic[cc] += turn;
-        ccUIDic[cc].SetTurn(ccDic[cc]);
+        ccUIDic[cc].SetText(ccDic[cc]);
     }
 
-    public void DecreaseTurn(CCType cc)
+    public void DecreaseCCTurn(CCType cc)
     {
         ccDic[cc]--;
 
@@ -75,14 +95,51 @@ public class CrowdControl : MonoBehaviour
             ccUIDic[cc].gameObject.SetActive(false);
         }
 
-        ccUIDic[cc].SetTurn(ccDic[cc]);
+        ccUIDic[cc].SetText(ccDic[cc]);
+    }
+
+    // ================================================================ 버프
+    public void SetBuff(BuffType buff, int value)
+    {
+        buffDic[buff] = value;
+
+        buffUIDic[buff].SetText(value);
+        buffUIDic[buff].gameObject.SetActive(true);
+    }
+
+    public void IncreaseBuff(BuffType buff, int turn)
+    {
+        buffDic[buff] += turn;
+        buffUIDic[buff].SetText(buffDic[buff]);
+    }
+
+    public void DecreaseBuff(BuffType buff, int value)
+    {
+        buffDic[buff] -= value;
+
+        // 만약 0보다 작아졌다면
+        if (buffDic[buff] <= 0)
+        {
+            buffDic[buff] = 0;
+            buffUIDic[buff].gameObject.SetActive(false);
+        }
+
+        buffUIDic[buff].SetText(buffDic[buff]);
+    }
+
+    public void RemoveBuff(BuffType buff)
+    {
+        buffDic[buff] = 0;
+        buffUIDic[buff].gameObject.SetActive(false);
+
+        buffUIDic[buff].SetText(buffDic[buff]);
     }
 
     public void DecreaseAllTurn()
     {
         foreach (CCType cc in Enum.GetValues(typeof(CCType)))
         {
-            DecreaseTurn(cc);
+            DecreaseCCTurn(cc);
         }
     }
 }

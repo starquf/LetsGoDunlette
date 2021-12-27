@@ -31,13 +31,15 @@ public class Skill_E_ManaSphere : SkillPiece
             Anim_E_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_E_ManaSphereHit>();
             hitEffect.transform.position = target;
 
-            skillEffect.EndEffect();
+            GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
+            GameManager.Instance.battleHandler.enemy.GetDamage(Value);
+            onCastEnd?.Invoke();
+
             hitEffect.Play(() =>
             {
-                GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-                GameManager.Instance.battleHandler.enemy.GetDamage(Value);
-                onCastEnd?.Invoke();
             });
+
+            skillEffect.EndEffect();
         }, BezierType.Linear, isRotate: true);
     }
 }

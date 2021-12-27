@@ -22,9 +22,13 @@ public class Skill_W_BoatFare : SkillPiece
         boatFaredEffect.Play(() => {
             battleHandler.enemy.GetDamage(Value);
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-            if(!CheckSilence())
+            if (!CheckSilence())
             {
                 GetMoney(onCastEnd);
+            }
+            else 
+            {
+                onCastEnd?.Invoke();
             }
         });
 

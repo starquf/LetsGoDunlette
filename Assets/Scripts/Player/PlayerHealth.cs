@@ -6,15 +6,8 @@ using DG.Tweening;
 
 public class PlayerHealth : LivingEntity
 {
-    public CrowdControl cc;
-
-    public Color damageColor;
-    public Image damageEffect;
-
-    private void Awake()
-    {
-        cc = GetComponent<CrowdControl>();
-    }
+    public Color damageBGColor;
+    public Image damageBGEffect;
 
     protected override void Die()
     {
@@ -25,7 +18,7 @@ public class PlayerHealth : LivingEntity
     {
         base.GetDamage(damage);
 
-        damageEffect.color = damageColor;
-        damageEffect.DOFade(0f, 0.55f);
+        damageBGEffect.color = damageBGColor;
+        damageBGEffect.DOFade(0f, 0.55f);
     }
 }
