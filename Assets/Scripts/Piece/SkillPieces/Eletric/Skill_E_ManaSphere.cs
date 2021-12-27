@@ -22,22 +22,22 @@ public class Skill_E_ManaSphere : SkillPiece
         Vector3 target = GameManager.Instance.battleHandler.enemy.transform.position;
         Vector3 startPos = GameManager.Instance.battleHandler.player.transform.position;
 
-        EffectObj staticEffect = PoolManager.GetItem<EffectObj>();
-        staticEffect.transform.position = startPos;
-        staticEffect.SetSprite(effectSpr);
-        staticEffect.SetColorGradient(effectGradient);
-        //staticEffect.targetPos = target;
+        EffectObj skillEffect = PoolManager.GetItem<EffectObj>();
+        skillEffect.transform.position = startPos;
+        skillEffect.SetSprite(effectSpr);
+        skillEffect.SetColorGradient(effectGradient);
 
-        staticEffect.Play(target, ()=> {
-            GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-            GameManager.Instance.battleHandler.enemy.GetDamage(Value);
+        skillEffect.Play(target, () => {
+            Anim_E_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_E_ManaSphereHit>();
+            hitEffect.transform.position = target;
 
-            onCastEnd?.Invoke();
-
-            staticEffect.EndEffect();
+            skillEffect.EndEffect();
+            hitEffect.Play(() =>
+            {
+                GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
+                GameManager.Instance.battleHandler.enemy.GetDamage(Value);
+                onCastEnd?.Invoke();
+            });
         }, BezierType.Linear, isRotate: true);
-
-        GameManager.Instance.battleHandler.enemy.GetDamage(Value);
-        //StartCoroutine(EffectCast());
     }
 }
