@@ -1,23 +1,23 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Skill_N_ManaSphere : SkillPiece
+public class Skill_W_ManaSphere : SkillPiece
 {
-    public Sprite manaSphereSpr; 
+    public Sprite manaSphereSpr;
     private Gradient effectGradient;
 
     protected override void Start()
     {
         base.Start();
-        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[PatternType.Clover];
+        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[PatternType.Spade];
     }
 
     public override void Cast(Action onCastEnd = null)
     {
         base.Cast();
-        print($"½ºÅ³ ¹ßµ¿!! ÀÌ¸§ : {PieceName}");
+        print($"ìŠ¤í‚¬ ë°œë™!! ì´ë¦„ : {PieceName}");
 
         Vector3 target = GameManager.Instance.battleHandler.enemy.transform.position;
         Vector3 startPos = GameManager.Instance.battleHandler.player.transform.position;
@@ -28,7 +28,7 @@ public class Skill_N_ManaSphere : SkillPiece
         skillEffect.SetColorGradient(effectGradient);
 
         skillEffect.Play(target, () => {
-            Anim_N_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_N_ManaSphereHit>();
+            Anim_W_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_W_ManaSphereHit>();
             hitEffect.transform.position = target;
 
             skillEffect.EndEffect();
