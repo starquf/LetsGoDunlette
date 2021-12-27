@@ -5,7 +5,14 @@ using UnityEngine;
 
 public class Skill_E_ManaSphere : SkillPiece
 {
-    public Sprite effectSpr;
+    public Sprite effectSpr; 
+    private Gradient effectGradient;
+
+    protected override void Start()
+    {
+        base.Start();
+        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[PatternType.Diamonds];
+    }
 
     public override void Cast(Action onCastEnd = null)
     {
@@ -18,6 +25,7 @@ public class Skill_E_ManaSphere : SkillPiece
         EffectObj staticEffect = PoolManager.GetItem<EffectObj>();
         staticEffect.transform.position = startPos;
         staticEffect.SetSprite(effectSpr);
+        staticEffect.SetColorGradient(effectGradient);
         //staticEffect.targetPos = target;
 
         staticEffect.Play(target, ()=> {

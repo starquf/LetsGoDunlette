@@ -32,7 +32,7 @@ public class Skill_E_Static : SkillPiece
 
         onNextTest = result =>
         {
-            if (!CheckSilence() && result.PieceType.Equals(PieceType.SKILL) && result.GetComponent<SkillPiece>().comboType.Equals(PatternType.Diamonds))
+            if (!CheckSilence() && result.PieceType.Equals(PieceType.SKILL) && result.GetComponent<SkillPiece>().patternType.Equals(PatternType.Diamonds))
             {
                 Anim_E_Static_Stun stunEffect = PoolManager.GetItem<Anim_E_Static_Stun>();
                 stunEffect.transform.position = target;
