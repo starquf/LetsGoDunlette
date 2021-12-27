@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Skill_F_FlameBall : SkillPiece
+public class Skill_F_ManaSphere : SkillPiece
 {
     public Sprite effectSpr;
 

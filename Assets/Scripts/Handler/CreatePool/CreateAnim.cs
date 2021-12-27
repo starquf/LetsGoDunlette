@@ -18,7 +18,10 @@ public class CreateAnim : MonoBehaviour
 
     [Header("拱 加己")]
     public GameObject boatFareAnim;
-    public GameObject boatFareGetMoneyAnim;
+
+    [Header("阂 加己")]
+    public GameObject ChainExplosionAnim;
+    public GameObject ChainExplosionBonusAnim;
 
     private void Awake()
     {
@@ -41,5 +44,9 @@ public class CreateAnim : MonoBehaviour
 
         // ===========================================================================  拱 加己
         PoolManager.CreatePool<Anim_W_BoatFare>(boatFareAnim, this.transform, 2);
+
+        // ===========================================================================  阂 加己
+        PoolManager.CreatePool<Anim_F_ChainExplosion>(ChainExplosionAnim, this.transform, 2);
+        PoolManager.CreatePool<Anim_F_ChainExplosionBonus>(ChainExplosionBonusAnim, this.transform, 2);
     }
 }

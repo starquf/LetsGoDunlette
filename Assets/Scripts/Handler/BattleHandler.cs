@@ -205,6 +205,7 @@ public class BattleHandler : MonoBehaviour
     // 실행이 전부 끝나면 실행되는 코루틴
     private IEnumerator EndTurn()
     {
+        nextAttack?.Invoke(result);
         // 룰렛 리셋은 인벤토리가 알아서 해줌
         yield return pFiveSecWait;
 
@@ -289,8 +290,6 @@ public class BattleHandler : MonoBehaviour
             {
                 StartCoroutine(EndTurn());
             });
-
-            nextAttack?.Invoke(result);
         }
         else
         {
