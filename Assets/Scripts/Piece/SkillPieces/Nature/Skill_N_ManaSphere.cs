@@ -5,7 +5,14 @@ using UnityEngine;
 
 public class Skill_N_ManaSphere : SkillPiece
 {
-    public Sprite manaSphereSpr;
+    public Sprite manaSphereSpr; 
+    private Gradient effectGradient;
+
+    protected override void Start()
+    {
+        base.Start();
+        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[PatternType.Clover];
+    }
 
     public override void Cast(Action onCastEnd = null)
     {
@@ -22,6 +29,7 @@ public class Skill_N_ManaSphere : SkillPiece
             EffectObj effect = PoolManager.GetItem<EffectObj>();
             effect.transform.position = startPos;
             effect.SetSprite(manaSphereSpr);
+            effect.SetColorGradient(effectGradient);
 
             effect.Play(target, () =>
             {

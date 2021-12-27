@@ -13,7 +13,7 @@ public class ComboSlot : MonoBehaviour
     // 조각의 타입으로 슬롯을 바꿔주는 함수
     public void SetData(RulletPiece piece)
     {
-        this.comboType = piece.comboType;
+        this.comboType = piece.patternType;
         this.iconImage.sprite = piece.skillImg.sprite;
     }
 

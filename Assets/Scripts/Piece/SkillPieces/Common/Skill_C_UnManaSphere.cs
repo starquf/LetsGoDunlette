@@ -6,6 +6,13 @@ using UnityEngine;
 public class Skill_C_UnManaSphere : SkillPiece
 {
     public Sprite manaSphereSpr;
+    private Gradient effectGradient;
+
+    protected override void Start()
+    {
+        base.Start();
+        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[PatternType.None];
+    }
 
     public override void Cast(Action onCastEnd = null)
     {
@@ -28,6 +35,7 @@ public class Skill_C_UnManaSphere : SkillPiece
                 EffectObj effect = PoolManager.GetItem<EffectObj>();
                 effect.transform.position = startPos;
                 effect.SetSprite(manaSphereSpr);
+                effect.SetColorGradient(effectGradient);
 
                 effect.Play(target, () =>
                 {
