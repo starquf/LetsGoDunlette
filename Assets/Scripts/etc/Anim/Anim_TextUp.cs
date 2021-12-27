@@ -15,7 +15,7 @@ public class Anim_TextUp : AnimObj
                 textValue.GetComponent<RectTransform>().localScale = new Vector2(0.0025f, 0.0025f);
                 break;
             case TextUpAnimType.GetMoney:
-                textValue.GetComponent<RectTransform>().localScale = new Vector2(0.001f, 0.001f);
+                textValue.GetComponent<RectTransform>().localScale = new Vector2(0.002f, 0.002f);
                 break;
             default:
                 break;
