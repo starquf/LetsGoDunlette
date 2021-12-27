@@ -49,7 +49,7 @@ public class BattleHandler : MonoBehaviour
     private bool isTap = false;
     public bool IsTap => isTap;
 
-    private int rerollCnt = 3;
+    private int rerollGold = 5;
     private bool canReroll = false;
 
     private int turnCnt = 0;
@@ -62,7 +62,6 @@ public class BattleHandler : MonoBehaviour
     public bool IsContract { get; set; }
     public int ContractDmg { get; private set; }
     public int ContractRemain { get; private set; }
-
 
     //==================================================
 
@@ -273,7 +272,7 @@ public class BattleHandler : MonoBehaviour
         isTap = true;
         canReroll = true;
 
-        rerollCnt = 2;
+        rerollGold = 5;
         tapGroup.transform.GetChild(0).transform.DOLocalMoveY(-180f, 0.2f);
 
         blinkTween = tapGroup.GetComponent<Image>().DOColor(Color.black, 1f)
@@ -299,9 +298,11 @@ public class BattleHandler : MonoBehaviour
 
     private void ReRoll()
     {
-        rerollCnt--;
+        GameManager.Instance.Gold -= rerollGold;
 
-        if (rerollCnt <= 0)
+        rerollGold += 5;
+
+        if (GameManager.Instance.Gold <= rerollGold)
         {
             blinkTween.Kill();
             tapGroup.GetComponent<Image>().color = Color.black;
