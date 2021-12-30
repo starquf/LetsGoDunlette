@@ -7,6 +7,14 @@ public class Skill_C_ManaSphere : SkillPiece
 {
     public Sprite manaSphereSpr;
 
+    private Gradient effectGradient;
+
+    protected override void Start()
+    {
+        base.Start();
+        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[PatternType.None];
+    }
+
     public override void Cast(Action onCastEnd = null)
     {
         Vector3 startPos = GameManager.Instance.battleHandler.player.transform.position;
@@ -22,17 +30,23 @@ public class Skill_C_ManaSphere : SkillPiece
             EffectObj effect = PoolManager.GetItem<EffectObj>();
             effect.transform.position = startPos;
             effect.SetSprite(manaSphereSpr);
+            effect.SetColorGradient(effectGradient);
 
             effect.Play(target, () =>
             {
+                Anim_C_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_C_ManaSphereHit>();
+                hitEffect.transform.position = target;
+
                 GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
                 GameManager.Instance.battleHandler.enemy.GetDamage(Value);
-
                 onCastEnd?.Invoke();
 
-                effect.EndEffect();
+                hitEffect.Play(() =>
+                {
+                });
 
-            }, BezierType.Quadratic, isRotate:true);
+                effect.EndEffect();
+            }, BezierType.Linear, isRotate:true);
         });
     }
 }

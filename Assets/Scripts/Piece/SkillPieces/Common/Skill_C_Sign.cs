@@ -19,7 +19,7 @@ public class Skill_C_Sign : SkillPiece
                 onCastEnd?.Invoke();
             });
 
-            bh.SetContract(Value, 3);
+            bh.player.cc.SetBuff(BuffType.Contract, 20);
         }
         else
         {

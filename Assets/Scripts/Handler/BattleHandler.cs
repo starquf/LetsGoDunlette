@@ -20,6 +20,7 @@ public class BattleHandler : MonoBehaviour
 
     // 탭
     public CanvasGroup tapGroup;
+    public Text rerollGoldText;
     public Color tapColor;
 
     private InventoryHandler inventory;
@@ -49,7 +50,7 @@ public class BattleHandler : MonoBehaviour
     private bool isTap = false;
     public bool IsTap => isTap;
 
-    private int rerollCnt = 3;
+    private int rerollGold = 5;
     private bool canReroll = false;
 
     private int turnCnt = 0;
@@ -58,11 +59,6 @@ public class BattleHandler : MonoBehaviour
 
     public event Action<RulletPiece> onNextAttack;
     private event Action<RulletPiece> nextAttack;
-
-    public bool IsContract { get; set; }
-    public int ContractDmg { get; private set; }
-    public int ContractRemain { get; private set; }
-
 
     //==================================================
 
@@ -162,9 +158,6 @@ public class BattleHandler : MonoBehaviour
 
         turnCnt++;
 
-        // 계약 체크
-        CheckContract();
-
         // 현재 턴에 걸려있는 적의 cc기와 플레이어의 cc기를 하나 줄여준다.
         DecreaseCC();
 
@@ -205,6 +198,7 @@ public class BattleHandler : MonoBehaviour
     // 실행이 전부 끝나면 실행되는 코루틴
     private IEnumerator EndTurn()
     {
+        nextAttack?.Invoke(result);
         // 룰렛 리셋은 인벤토리가 알아서 해줌
         yield return pFiveSecWait;
 
@@ -270,14 +264,28 @@ public class BattleHandler : MonoBehaviour
     private void SetReroll()
     {
         isTap = true;
-        canReroll = true;
 
-        rerollCnt = 2;
-        tapGroup.transform.GetChild(0).transform.DOLocalMoveY(-180f, 0.2f);
+        rerollGold = 5;
+        rerollGoldText.text = rerollGold.ToString();
 
-        blinkTween = tapGroup.GetComponent<Image>().DOColor(Color.black, 1f)
-            .SetEase(Ease.Flash, 20, 0)
-            .SetLoops(-1);
+        tapGroup.transform.GetChild(0).transform.DOLocalMoveY(-245f, 0.2f);
+
+        // 만약 현재 골드가 리롤 골드보다 작다면
+        if (GameManager.Instance.Gold < rerollGold)
+        {
+            blinkTween.Kill();
+            tapGroup.GetComponent<Image>().color = Color.black;
+
+            canReroll = false;
+        }
+        else
+        {
+            canReroll = true;
+
+            blinkTween = tapGroup.GetComponent<Image>().DOColor(Color.black, 1f)
+                .SetEase(Ease.Flash, 20, 0)
+                .SetLoops(-1);
+        }
     }
 
     // 결과 보여주기
@@ -289,20 +297,21 @@ public class BattleHandler : MonoBehaviour
             {
                 StartCoroutine(EndTurn());
             });
-
-            nextAttack?.Invoke(result);
         }
         else
         {
-
+            
         }
     }
 
     private void ReRoll()
     {
-        rerollCnt--;
+        GameManager.Instance.Gold -= rerollGold;
 
-        if (rerollCnt <= 0)
+        rerollGold += 5;
+        rerollGoldText.text = rerollGold.ToString();
+
+        if (GameManager.Instance.Gold < rerollGold)
         {
             blinkTween.Kill();
             tapGroup.GetComponent<Image>().color = Color.black;
@@ -377,26 +386,6 @@ public class BattleHandler : MonoBehaviour
             int a = i;
 
             rullets[i].RollRullet();
-        }
-    }
-
-    public void SetContract(int contractDmg, int contractRemain = 3)
-    {
-        IsContract = true;
-        ContractDmg = contractDmg;
-        ContractRemain = contractRemain;
-    }
-
-    private void CheckContract()
-    {
-        if (IsContract)
-        {
-            ContractRemain--;
-
-            if (ContractRemain <= 0)
-            {
-                IsContract = false;
-            }
         }
     }
 

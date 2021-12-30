@@ -8,13 +8,6 @@ public class EnemyHealth : LivingEntity
     private SpriteRenderer sr;
     public EnemyReward enemyReward;
 
-    public CrowdControl cc;
-
-    private void Awake()
-    {
-        cc = GetComponent<CrowdControl>();
-    }
-
     protected override void Start()
     {
         base.Start();

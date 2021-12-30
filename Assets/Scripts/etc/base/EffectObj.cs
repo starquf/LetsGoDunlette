@@ -19,14 +19,26 @@ public class EffectObj : MonoBehaviour
         } 
     }
 
+    private TrailRenderer tr;
+    private WaitForSeconds trailWait;
+
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
+        tr = GetComponent<TrailRenderer>();
+
+        float trailWaitTime = tr.time;
+        trailWait = new WaitForSeconds(trailWaitTime);
     }
 
     public void SetSprite(Sprite sp)
     {
         Sr.sprite = sp;
+    }
+
+    public void SetColorGradient(Gradient gradient)
+    {
+        tr.colorGradient = gradient;
     }
 
     public void SetRandomSprite(List<Sprite> sprites)
@@ -40,6 +52,14 @@ public class EffectObj : MonoBehaviour
 
     public void EndEffect()
     {
+        Sr.color = Color.clear;
+
+        StartCoroutine(EndWait());
+    }
+
+    private IEnumerator EndWait()
+    {
+        yield return trailWait;
         Sr.color = Color.white;
 
         gameObject.SetActive(false);

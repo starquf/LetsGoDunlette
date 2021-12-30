@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(this.gameObject);
+
+        Application.targetFrameRate = 60;
     }
 
     private void OnDestroy()
@@ -58,6 +60,22 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector]
     public event Action<SkillPiece, Sprite, Sprite> RewardEvent;
+    [HideInInspector]
+    public event Action OnUpdateUI;
+
+    private int gold = 50;
+    public int Gold 
+    {
+        get 
+        {
+            return gold;
+        } 
+        set 
+        {
+            gold = value;
+            OnUpdateUI?.Invoke();
+        }
+    }
 
     public void OnReward(SkillPiece reward, Sprite rewardSpr, Sprite rewardIconSpr)
     {

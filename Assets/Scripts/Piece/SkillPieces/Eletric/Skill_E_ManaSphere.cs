@@ -5,7 +5,14 @@ using UnityEngine;
 
 public class Skill_E_ManaSphere : SkillPiece
 {
-    public Sprite effectSpr;
+    public Sprite effectSpr; 
+    private Gradient effectGradient;
+
+    protected override void Start()
+    {
+        base.Start();
+        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[PatternType.Diamonds];
+    }
 
     public override void Cast(Action onCastEnd = null)
     {
@@ -15,21 +22,24 @@ public class Skill_E_ManaSphere : SkillPiece
         Vector3 target = GameManager.Instance.battleHandler.enemy.transform.position;
         Vector3 startPos = GameManager.Instance.battleHandler.player.transform.position;
 
-        EffectObj staticEffect = PoolManager.GetItem<EffectObj>();
-        staticEffect.transform.position = startPos;
-        staticEffect.SetSprite(effectSpr);
-        //staticEffect.targetPos = target;
+        EffectObj skillEffect = PoolManager.GetItem<EffectObj>();
+        skillEffect.transform.position = startPos;
+        skillEffect.SetSprite(effectSpr);
+        skillEffect.SetColorGradient(effectGradient);
 
-        staticEffect.Play(target, ()=> {
+        skillEffect.Play(target, () => {
+            Anim_E_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_E_ManaSphereHit>();
+            hitEffect.transform.position = target;
+
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
             GameManager.Instance.battleHandler.enemy.GetDamage(Value);
-
             onCastEnd?.Invoke();
 
-            staticEffect.EndEffect();
-        }, BezierType.Linear, isRotate: true);
+            hitEffect.Play(() =>
+            {
+            });
 
-        GameManager.Instance.battleHandler.enemy.GetDamage(Value);
-        //StartCoroutine(EffectCast());
+            skillEffect.EndEffect();
+        }, BezierType.Linear, isRotate: true);
     }
 }

@@ -19,8 +19,15 @@ public class InventoryHandler : MonoBehaviour
     public Text unusedCardCount;
     public Text usedCardCount;
 
-    public List<Sprite> effectSprites = new List<Sprite>();
-    private Dictionary<PatternType, Sprite> effectDic;
+    [Header("문양 이펙트 관련")]
+    [SerializeField] private List<Sprite> effectSprites = new List<Sprite>();
+    [SerializeField] private List<Gradient> effectGradients = new List<Gradient>();
+
+    public Dictionary<PatternType, Sprite> effectSprDic;
+    public Dictionary<PatternType, Gradient> effectGradDic;
+
+    private Tween unusedOpenTween;
+    private Tween usedOpenTween;
 
     private void Awake()
     {
@@ -28,13 +35,14 @@ public class InventoryHandler : MonoBehaviour
 
         AddDefaultSkill();
 
-        effectDic = new Dictionary<PatternType, Sprite>();
+        effectSprDic = new Dictionary<PatternType, Sprite>();
+        effectGradDic = new Dictionary<PatternType, Gradient>();
 
-        effectDic.Add(PatternType.None, effectSprites[0]);
-        effectDic.Add(PatternType.Clover, effectSprites[1]);
-        effectDic.Add(PatternType.Diamonds, effectSprites[2]);
-        effectDic.Add(PatternType.Heart, effectSprites[3]);
-        effectDic.Add(PatternType.Spade, effectSprites[4]);
+        for (int i = 0; i < 5; i++)
+        {
+            effectSprDic.Add((PatternType)i, effectSprites[i]);
+            effectGradDic.Add((PatternType)i, effectGradients[i]);
+        }
     }
 
     public void SetCountUI()
@@ -94,7 +102,8 @@ public class InventoryHandler : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             EffectObj effect = PoolManager.GetItem<EffectObj>();
-            effect.SetSprite(effectDic[skill.comboType]);
+            effect.SetSprite(effectSprDic[skill.patternType]);
+            effect.SetColorGradient(effectGradDic[skill.patternType]);
 
             effect.transform.position = skill.skillImg.transform.position;
 
@@ -103,11 +112,13 @@ public class InventoryHandler : MonoBehaviour
 
             effect.Play(usedTrans.position, () =>
             {
-                effect.Sr.DOFade(0f, 0.1f)
-                .OnComplete(() =>
-                {
-                    effect.EndEffect();
+                usedOpenTween.Kill();
+                usedOpenTween = usedTrans.DOScale(new Vector3(1.1f, 1.1f, 1f), 0.15f)
+                .OnComplete(() => {
+                    usedTrans.DOScale(new Vector3(1f, 1f, 1f), 0.15f);
                 });
+
+                effect.EndEffect();
             }
             , BezierType.Quadratic, 0.5f);
         }
@@ -189,17 +200,20 @@ public class InventoryHandler : MonoBehaviour
             for (int j = 0; j < 5; j++)
             {
                 EffectObj effect = PoolManager.GetItem<EffectObj>();
-                effect.SetSprite(effectDic[usedSkills[i].comboType]);
+                effect.SetSprite(effectSprDic[usedSkills[i].patternType]);
+                effect.SetColorGradient(effectGradDic[usedSkills[i].patternType]);
 
                 effect.transform.position = usedTrans.position;
 
                 effect.Play(transform.position, () =>
                 {
-                    effect.Sr.DOFade(0f, 0.1f)
-                    .OnComplete(() =>
-                    {
-                        effect.EndEffect();
+                    unusedOpenTween.Kill();
+                    unusedOpenTween = transform.DOScale(new Vector3(1.1f, 1.1f, 1f), 0.15f)
+                    .OnComplete(() => {
+                        transform.DOScale(new Vector3(1f, 1f, 1f), 0.15f);
                     });
+
+                    effect.EndEffect();
 
                 }, BezierType.Quadratic, i * 0.05f);
             }

@@ -5,34 +5,41 @@ using UnityEngine;
 
 public class Skill_N_ManaSphere : SkillPiece
 {
-    public Sprite manaSphereSpr;
+    public Sprite manaSphereSpr; 
+    private Gradient effectGradient;
+
+    protected override void Start()
+    {
+        base.Start();
+        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[PatternType.Clover];
+    }
 
     public override void Cast(Action onCastEnd = null)
     {
-        Vector3 startPos = GameManager.Instance.battleHandler.player.transform.position;
+        base.Cast();
+        print($"스킬 발동!! 이름 : {PieceName}");
+
         Vector3 target = GameManager.Instance.battleHandler.enemy.transform.position;
+        Vector3 startPos = GameManager.Instance.battleHandler.player.transform.position;
 
-        Anim_C_SphereCast castAnim = PoolManager.GetItem<Anim_C_SphereCast>();
-        castAnim.transform.position = startPos;
+        EffectObj skillEffect = PoolManager.GetItem<EffectObj>();
+        skillEffect.transform.position = startPos;
+        skillEffect.SetSprite(manaSphereSpr);
+        skillEffect.SetColorGradient(effectGradient);
 
-        castAnim.Play(() =>
-        {
-            PlayerAttackAnimation();
+        skillEffect.Play(target, () => {
+            Anim_N_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_N_ManaSphereHit>();
+            hitEffect.transform.position = target;
 
-            EffectObj effect = PoolManager.GetItem<EffectObj>();
-            effect.transform.position = startPos;
-            effect.SetSprite(manaSphereSpr);
+            GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
+            GameManager.Instance.battleHandler.enemy.GetDamage(Value);
+            onCastEnd?.Invoke();
 
-            effect.Play(target, () =>
+            hitEffect.Play(() =>
             {
-                GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-                GameManager.Instance.battleHandler.enemy.GetDamage(Value);
+            });
 
-                onCastEnd?.Invoke();
-
-                effect.EndEffect();
-
-            }, BezierType.Quadratic, isRotate: true);
-        });
+            skillEffect.EndEffect();
+        }, BezierType.Linear, isRotate: true);
     }
 }
