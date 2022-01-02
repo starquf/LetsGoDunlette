@@ -29,8 +29,9 @@ public class CreateAnim : MonoBehaviour
 
     [Header("阂 加己")]
     public GameObject f_ManaSphereHitAnim;
-    public GameObject ChainExplosionAnim;
-    public GameObject ChainExplosionBonusAnim;
+    public GameObject arsonAnim;
+    public GameObject chainExplosionAnim;
+    public GameObject chainExplosionBonusAnim;
 
     private void Awake()
     {
@@ -64,7 +65,8 @@ public class CreateAnim : MonoBehaviour
 
         // ===========================================================================  阂 加己
         PoolManager.CreatePool<Anim_F_ManaSphereHit>(f_ManaSphereHitAnim, this.transform, 2);
-        PoolManager.CreatePool<Anim_F_ChainExplosion>(ChainExplosionAnim, this.transform, 2);
-        PoolManager.CreatePool<Anim_F_ChainExplosionBonus>(ChainExplosionBonusAnim, this.transform, 2);
+        PoolManager.CreatePool<Anim_F_Arson>(arsonAnim, this.transform, 2);
+        PoolManager.CreatePool<Anim_F_ChainExplosion>(chainExplosionAnim, this.transform, 2);
+        PoolManager.CreatePool<Anim_F_ChainExplosionBonus>(chainExplosionBonusAnim, this.transform, 2);
     }
 }
