@@ -81,4 +81,9 @@ public class GameManager : MonoBehaviour
     {
         RewardEvent?.Invoke(reward, rewardSpr, rewardIconSpr);
     }
+
+    public PlayerHealth GetPlayer() //플레이어를 가져옵니다.
+    {
+        return battleHandler.player;
+    }
 }
