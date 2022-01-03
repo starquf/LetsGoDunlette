@@ -55,7 +55,7 @@ public class SkillRullet : Rullet
     }
 
     // 해당 인덱스의 조각을 인벤토리로 넣는 함수
-    public void SetUsePiece(int changeIdx)
+    public void PutRulletPieceToGraveYard(int changeIdx) //현제 룰렛에 index 에 있는 조각을 무덤에 넣는다
     {
         //pieces[changeIdx].state = PieceState.USED;
         if (pieces[changeIdx] == null) return;
@@ -68,6 +68,29 @@ public class SkillRullet : Rullet
 
         SetRulletSmooth();
     }
+
+    public void PutRulletPieceToInventory(int changeIdx) //현제 룰렛에 index 에 있는 조각을 인벤에 넣는다
+    {
+        //pieces[changeIdx].state = PieceState.USED;
+        if (pieces[changeIdx] == null) return;
+
+        InventoryHandler inventory = GameManager.Instance.inventoryHandler;
+
+        inventory.SetUnUseSkill((SkillPiece)pieces[changeIdx]);
+
+        pieces[changeIdx] = null;
+
+        SetRulletSmooth();
+    }
+
+    public void PutAllRulletPieceToInventory()
+    {
+        for (int i = 0; i < pieces.Count; i++)
+        {
+            PutRulletPieceToInventory(i);
+        }
+    }
+
 
     // 해당 인덱스의 조각을 감지하지 못하게 함수
     public void SetExeptPiece(int changeIdx)

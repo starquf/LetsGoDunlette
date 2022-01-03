@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -75,7 +74,8 @@ public class InventoryHandler : MonoBehaviour
 
         skill.transform.DOMove(transform.position, 0.5f)
             .SetDelay(0.5f)
-            .OnComplete(() => {
+            .OnComplete(() =>
+            {
                 skill.gameObject.SetActive(false);
             });
 
@@ -114,7 +114,8 @@ public class InventoryHandler : MonoBehaviour
             {
                 usedOpenTween.Kill();
                 usedOpenTween = usedTrans.DOScale(new Vector3(1.1f, 1.1f, 1f), 0.15f)
-                .OnComplete(() => {
+                .OnComplete(() =>
+                {
                     usedTrans.DOScale(new Vector3(1f, 1f, 1f), 0.15f);
                 });
 
@@ -124,6 +125,44 @@ public class InventoryHandler : MonoBehaviour
         }
 
         skill.transform.SetParent(usedTrans);
+        skill.transform.localPosition = Vector3.zero;
+        skill.gameObject.SetActive(false);
+
+        SetCountUI();
+    }
+
+    public void SetUnUseSkill(SkillPiece skill)
+    {
+        unusedSkills.Add(skill);
+
+        skill.ResetPiece();
+
+        for (int i = 0; i < 5; i++)
+        {
+            EffectObj effect = PoolManager.GetItem<EffectObj>();
+            effect.SetSprite(effectSprDic[skill.patternType]);
+            effect.SetColorGradient(effectGradDic[skill.patternType]);
+
+            effect.transform.position = skill.skillImg.transform.position;
+
+            effect.transform.DOMove(Random.insideUnitCircle * 1.5f, 0.4f)
+                .SetRelative();
+
+            effect.Play(transform.position, () =>
+            {
+                usedOpenTween.Kill();
+                usedOpenTween = transform.DOScale(new Vector3(1.1f, 1.1f, 1f), 0.15f)
+                .OnComplete(() =>
+                {
+                    transform.DOScale(new Vector3(1f, 1f, 1f), 0.15f);
+                });
+
+                effect.EndEffect();
+            }
+            , BezierType.Quadratic, 0.5f);
+        }
+
+        skill.transform.SetParent(transform);
         skill.transform.localPosition = Vector3.zero;
         skill.gameObject.SetActive(false);
 
@@ -188,7 +227,7 @@ public class InventoryHandler : MonoBehaviour
         return result;
     }
 
-    private void CycleSkills()
+    public void CycleSkills()
     {
         for (int i = 0; i < usedSkills.Count; i++)
         {
@@ -209,7 +248,8 @@ public class InventoryHandler : MonoBehaviour
                 {
                     unusedOpenTween.Kill();
                     unusedOpenTween = transform.DOScale(new Vector3(1.1f, 1.1f, 1f), 0.15f)
-                    .OnComplete(() => {
+                    .OnComplete(() =>
+                    {
                         transform.DOScale(new Vector3(1f, 1f, 1f), 0.15f);
                     });
 
@@ -220,5 +260,26 @@ public class InventoryHandler : MonoBehaviour
         }
 
         usedSkills.Clear();
+    }
+
+    public void RemoveAllEnemyPiece() //모든 적스킬을 삭제
+    {
+        for (int i = skills.Count - 1; i >= 0; i--)
+        {
+            if (!skills[i].isPlayerSkill)
+            {
+                RemovePiece(skills[i]);
+            }
+        }
+    }
+
+    private void RemovePiece(SkillPiece piece)
+    {
+        skills.Remove(piece);
+        usedSkills.Remove(piece);
+        unusedSkills.Remove(piece);
+
+        Destroy(piece.gameObject);
+        SetCountUI();
     }
 }

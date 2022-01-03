@@ -1,9 +1,9 @@
+using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
-using System;
 
 public class BattleHandler : MonoBehaviour
 {
@@ -75,6 +75,35 @@ public class BattleHandler : MonoBehaviour
 
         enemyAtk = enemy.GetComponent<EnemyAttack>();
         enemyReward = enemy.GetComponent<EnemyReward>();
+    }
+
+    private IEnumerator RewardRoutine()
+    {
+        PutRulletPieceInInventory(); //룰렛 다 인벤토리에 넣고
+        yield return oneSecWait;
+        yield return oneSecWait;
+        inventory.RemoveAllEnemyPiece(); //적 룰렛 없애고
+
+        enemyReward.GiveReward(); //적 보상을 주고
+
+        MakeNewEnemy(); //새로운 적을 만든다
+
+        //적 스킬 넣고
+
+
+        //끝
+    }
+
+    private void MakeNewEnemy()
+    {
+
+    }
+
+    private void PutRulletPieceInInventory() //룰렛을 인벤토리에 다넣으세요.
+    {
+        inventory.CycleSkills(); //무덤 > 인벤
+        SkillRullet rullet = rullets[0] as SkillRullet;
+        rullet.PutAllRulletPieceToInventory(); //룰렛 > 인벤
     }
 
     private void Start()
@@ -214,15 +243,8 @@ public class BattleHandler : MonoBehaviour
         // 적이 죽었는가?
         if (enemy.IsDie)
         {
-            yield return new WaitUntil(() => !enemyReward.IsReward);
-
-            //GoNextRoom();
-            yield return oneSecWait;
-            yield return oneSecWait;
-
-            enemy.Revive();
-
-            yield return new WaitUntil(() => !enemy.IsDie);
+            StartCoroutine(RewardRoutine());
+            yield break;
         }
 
         yield return pFiveSecWait;
@@ -293,14 +315,14 @@ public class BattleHandler : MonoBehaviour
     {
         if (result != null)
         {
-            result.Cast(() => 
+            result.Cast(() =>
             {
                 StartCoroutine(EndTurn());
             });
         }
         else
         {
-            
+
         }
     }
 
@@ -366,7 +388,7 @@ public class BattleHandler : MonoBehaviour
 
     public void SetUseRulletPiece(int pieceIdx)
     {
-        rullets[0].GetComponent<SkillRullet>().SetUsePiece(pieceIdx);
+        rullets[0].GetComponent<SkillRullet>().PutRulletPieceToGraveYard(pieceIdx);
     }
 
     public void SetUseRulletPiece(SkillPiece piece)
@@ -403,7 +425,7 @@ public class BattleHandler : MonoBehaviour
             Stun(true);
         }
 
-        if(enemy.cc.ccDic[CCType.Stun] > 0)
+        if (enemy.cc.ccDic[CCType.Stun] > 0)
         {
             Stun(false);
         }
@@ -415,12 +437,15 @@ public class BattleHandler : MonoBehaviour
 
         for (int i = 0; i < pieces.Count; i++)
         {
-            if (pieces[i] == null) continue;
+            if (pieces[i] == null)
+            {
+                continue;
+            }
 
             // 플레이어의 조각이라면
             if ((pieces[i] as SkillPiece).isPlayerSkill.Equals(isPlayer))
             {
-                (rullets[0] as SkillRullet).SetUsePiece(i);
+                (rullets[0] as SkillRullet).PutRulletPieceToGraveYard(i);
             }
         }
     }
