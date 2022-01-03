@@ -57,6 +57,8 @@ public class GameManager : MonoBehaviour
     public CameraHandler cameraHandler;
     [HideInInspector]
     public InventoryHandler inventoryHandler;
+    [HideInInspector]
+    public MapHandler mapHandler;
 
     [HideInInspector]
     public event Action<SkillPiece, Sprite, Sprite> RewardEvent;
