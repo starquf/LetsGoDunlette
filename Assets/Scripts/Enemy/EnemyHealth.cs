@@ -10,10 +10,16 @@ public class EnemyHealth : LivingEntity
 
     protected override void Start()
     {
-        base.Start();
 
         sr = GetComponent<SpriteRenderer>();
         enemyReward = GetComponent<EnemyReward>();
+
+        BattleHandler battleHandler = GameManager.Instance.battleHandler;
+
+        hpBar = battleHandler.hpBar;
+        hpText = battleHandler.hpText;
+        damageTrans = battleHandler.damageTrans;
+        base.Start();
     }
 
     protected override void Die()

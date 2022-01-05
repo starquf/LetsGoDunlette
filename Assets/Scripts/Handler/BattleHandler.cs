@@ -25,6 +25,12 @@ public class BattleHandler : MonoBehaviour
 
     private InventoryHandler inventory;
 
+    [Header("적 공통")]
+    public Transform hpBar;
+    public Text hpText;
+    public Transform damageTrans;
+    public Transform ccUITrm;
+
     //==================================================
 
     [Header("룰렛들")]
@@ -32,11 +38,14 @@ public class BattleHandler : MonoBehaviour
     // 메인, 서브 or 나중에 추가될지도 모르는 룰렛
     public List<Rullet> rullets = new List<Rullet>();
 
+
     // 결과로 나온 룰렛조각들
     public RulletPiece result;
     private int resultIdx;
 
     //==================================================
+
+    public EnemyHealth[] enemys;
 
     [Header("플레이어&적 Health")]
     public PlayerHealth player;
@@ -72,9 +81,7 @@ public class BattleHandler : MonoBehaviour
     private void Awake()
     {
         GameManager.Instance.battleHandler = this;
-
-        enemyAtk = enemy.GetComponent<EnemyAttack>();
-        enemyReward = enemy.GetComponent<EnemyReward>();
+        MakeNewEnemy();
     }
 
     private IEnumerator RewardRoutine()
@@ -88,7 +95,7 @@ public class BattleHandler : MonoBehaviour
 
         MakeNewEnemy(); //새로운 적을 만든다
 
-        //적 스킬 넣고
+        StartCoroutine(InitRullet()); //적 스킬 넣고
 
 
         //끝
@@ -96,7 +103,10 @@ public class BattleHandler : MonoBehaviour
 
     private void MakeNewEnemy()
     {
-
+        int index = UnityEngine.Random.Range(0,enemys.Length);
+        enemy = Instantiate(enemys[index]);
+        enemyAtk = enemy.GetComponent<EnemyAttack>();
+        enemyReward = enemy.GetComponent<EnemyReward>();
     }
 
     private void PutRulletPieceInInventory() //룰렛을 인벤토리에 다넣으세요.

@@ -7,11 +7,6 @@ using System;
 
 public class EnemyReward : MonoBehaviour
 {
-    public Transform rulletTrans;
-
-    private bool isReward = false;
-    public bool IsReward => isReward;
-
     public List<GameObject> rewardObjs;
 
     public void GiveReward()
