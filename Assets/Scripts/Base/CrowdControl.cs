@@ -21,6 +21,10 @@ public class CrowdControl : MonoBehaviour
     private void Awake()
     {
         Init();
+        if(ccUITrm == null)
+        {
+            ccUITrm = GameManager.Instance.battleHandler.ccUITrm;
+        }
     }
 
     private void Start()
