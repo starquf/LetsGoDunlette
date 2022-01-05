@@ -59,7 +59,23 @@ public abstract class Rullet : MonoBehaviour
         piece.transform.DOLocalMove(Vector3.zero, 0.35f);
         piece.transform.DOScale(Vector3.one, 0.35f);
 
-        pieces.Add(piece);
+        if (pieces.Count >= 6)
+        {
+            for (int i = 0; i < pieces.Count; i++)
+            {
+                if (pieces[i] == null) // ºóÄ­ÀÌ¶ó¸é
+                {
+                    print("ºñ¾îÀÖ´Â Ä­ : " + i);
+                    pieces[i] = piece;
+
+                    break;
+                }
+            }
+        }
+        else
+        {
+            pieces.Add(piece);
+        }
 
         SetRulletSmooth();
     }

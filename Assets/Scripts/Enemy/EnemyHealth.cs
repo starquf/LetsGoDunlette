@@ -10,7 +10,6 @@ public class EnemyHealth : LivingEntity
 
     protected override void Start()
     {
-
         sr = GetComponent<SpriteRenderer>();
         enemyReward = GetComponent<EnemyReward>();
 
