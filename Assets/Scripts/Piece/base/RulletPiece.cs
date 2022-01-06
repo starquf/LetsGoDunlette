@@ -40,7 +40,7 @@ public abstract class RulletPiece : MonoBehaviour
         float angle = -360f * ((Size / 36f) / 2f);
 
         // 반지름
-        r = transform.GetComponent<RectTransform>().rect.width / 3f;
+        r = transform.GetComponent<RectTransform>().rect.width / 3.6f;
 
         // 각도의 한 점 (방향 벡터)
         pos = new Vector3(Mathf.Cos((angle + 90f) * Mathf.Deg2Rad), Mathf.Sin((angle + 90f) * Mathf.Deg2Rad), 0f);
