@@ -100,6 +100,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     protected virtual void SetHpText()
     {
+        hpBar.DOScaleX((float)(hp / maxHp), 0.33f);
         hpText.text = $"{hp}/{maxHp}";
     }
 
