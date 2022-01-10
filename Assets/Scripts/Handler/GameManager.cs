@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public event Action OnUpdateUI;
 
-    private int gold = 50;
+    private int gold = 1000;
     public int Gold 
     {
         get 

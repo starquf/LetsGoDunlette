@@ -97,6 +97,8 @@ public class BattleHandler : MonoBehaviour
 
         StartCoroutine(InitRullet()); //적 스킬 넣고
 
+        tapGroup.GetComponent<Image>().color = Color.white;
+        tapGroup.transform.GetChild(0).transform.DOLocalMoveY(0f, 0.2f);
 
         //끝
     }
@@ -213,6 +215,7 @@ public class BattleHandler : MonoBehaviour
         RollAllRullet();
 
         // 멈추게 하는 버튼 활성화
+        //버튼 활성화
         tapGroup.interactable = true;
 
         // 전부 돌릴 때까지
@@ -459,4 +462,12 @@ public class BattleHandler : MonoBehaviour
             }
         }
     }
+
+
+    //버튼 상태들
+
+    // stop 비활성
+    // stop 활성 // 기본
+    // 리롤 활성
+    // 리롤 비활성
 }

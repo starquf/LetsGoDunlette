@@ -15,13 +15,18 @@ public enum mapNode
 
 public class Node
 {
+    public int idx;
+    public int depth;
+
     public mapNode mapNode;
     public List<int> pointNodeIdx;
 
-    public Node()
+    public Node(int idx, int depth)
     {
         mapNode = mapNode.NONE;
         pointNodeIdx = new List<int>();
+        this.idx = idx;
+        this.depth = depth;
     }
 }
 
@@ -49,6 +54,7 @@ public class MapCreater : MonoBehaviour
         GameManager.Instance.mapHandler.isSetting = true;
     }
 
+    // 대충 초기화 해주는 거
     public void Init()
     {
         for (int c = 0; c < mapCols; c++)
@@ -56,21 +62,22 @@ public class MapCreater : MonoBehaviour
             map.Add(new List<Node>());
             for (int r = 0; r < mapRows; r++)
             {
-                map[c].Add(new Node());
+                map[c].Add(new Node(r, c));
             }
         }
     }
-
-    public void CreateMap(int curDeep = 0)
+    
+    // 맵 만드는 함수
+    public void CreateMap(int curDepth = 0)
     {
-        int beforeIdx = curDeep - 1;
-        if(curDeep == 0) // 맨 처음일 떄 스타트로 만듬
+        int beforeIdx = curDepth - 1;
+        if(curDepth == 0) // 맨 처음일 떄 스타트로 만듬
         {
             map[0][3].mapNode = mapNode.START;
         }
-        else if(curDeep == mapCols-1) // 맨끝일때 보스로만듬
+        else if(curDepth == mapCols-1) // 맨끝일때 보스로만듬
         {
-            map[curDeep][3].mapNode = mapNode.BOSS;
+            map[curDepth][3].mapNode = mapNode.BOSS;
             List<int> list = GetNotNoneIdx(beforeIdx);
             foreach (int idx in list)
             {
@@ -78,7 +85,7 @@ public class MapCreater : MonoBehaviour
             }
             return;
         }
-        else if (curDeep == 1)
+        else if (curDepth == 1)
         {
             List<int> list = GetNotNoneIdx(beforeIdx);
             foreach (int idx in list)
@@ -87,42 +94,65 @@ public class MapCreater : MonoBehaviour
                 for (int i = 0; i < plusIdx.Length; i++)
                 {
                     int randIdx = Mathf.Clamp(plusIdx[i] + idx, 0, mapRows - 1);
-                    map[curDeep][randIdx].mapNode = mapNode.MONSTER;
+                    map[curDepth][randIdx].mapNode = mapNode.MONSTER;
                     map[beforeIdx][idx].pointNodeIdx.Add(randIdx);
                 }
             }
         }
-        else if(curDeep == mapCols - 2)
+        else if(curDepth == mapCols - 2)
         {
-            List<int> list = GetNotNoneIdx(beforeIdx);
-            foreach (int idx in list)
-            {
-                int[] plusIdx = GetRandomIdx(Random.Range(1, 2));
-                for (int i = 0; i < plusIdx.Length; i++)
-                {
-                    int randIdx = Mathf.Clamp(plusIdx[i] + idx, 0, mapRows - 1);
-                    map[curDeep][randIdx].mapNode = mapNode.REST;
-                    map[beforeIdx][idx].pointNodeIdx.Add(randIdx);
-                }
-            }
+            SetNode(curDepth, mapNode.REST);
         }
         else
         {
-            List<int> list = GetNotNoneIdx(beforeIdx);
-            foreach (int idx in list)
-            {
-                int[] plusIdx = GetRandomIdx(Random.Range(1,3));
-                for (int i = 0; i < plusIdx.Length; i++)
-                {
-                    int randIdx = Mathf.Clamp(plusIdx[i] + idx, 0, mapRows-1);
-                    map[curDeep][randIdx].mapNode = GetRandomNode();
-                    map[beforeIdx][idx].pointNodeIdx.Add(randIdx);
-                }
-            }
+            SetNode(curDepth);
         }
-        CreateMap(++curDeep);
+        CreateMap(++curDepth);
     }
 
+    // 노드에 종류 추가 + 전노드에서 연결
+    public void SetNode(int curDepth, mapNode mapType = mapNode.NONE)
+    {
+        int maxLine = Random.Range(mapRows - 3, mapRows - 1);
+
+        List<int> list = GetNotNoneIdx(curDepth-1);
+
+        int nodeCount = list.Count;
+
+        print(curDepth+":"+maxLine + " " + nodeCount);
+        int lineCount = maxLine / nodeCount;
+        int exLine = maxLine - (lineCount * nodeCount);
+        print(exLine);
+
+        List<int> lineCountList = new List<int>();
+        for (int i = 0; i < nodeCount; i++)
+        {
+            lineCountList.Add(lineCount);
+        }
+        int j = 0;
+        while(exLine-j > 0)
+        {
+            lineCountList[j/ lineCountList.Count]++;
+            if(lineCountList[(j/ lineCountList.Count)]>3)
+            {
+                Debug.LogError("맵밸런스 ㅈ됨");
+            }
+            j++;
+        }
+
+        for (int k = 0; k < list.Count; k++)
+        {
+            int[] plusIdx = GetRandomIdx(lineCountList[k]);
+            for (int i = 0; i < plusIdx.Length; i++)
+            {
+                int randIdx = Mathf.Clamp(plusIdx[i] + list[k], 0, mapRows - 1);
+                map[curDepth][randIdx].mapNode = mapType != mapNode.NONE ? mapType : GetRandomNode();
+                map[curDepth - 1][list[k]].pointNodeIdx.Add(randIdx);
+            }
+        }
+    }
+
+    // 랜덤으로 노드 값 가져오기
     public mapNode GetRandomNode()
     {
         mapNode nodeType;
@@ -146,6 +176,7 @@ public class MapCreater : MonoBehaviour
         return nodeType;
     }
 
+    // 노드 값이 NONE이 아닌 맵 노드(존재하는 노드)의 Idx배열 가져오기
     public List<int> GetNotNoneIdx(int idx)
     {
         List<int> notNoneIdxList = new List<int>();
@@ -159,6 +190,7 @@ public class MapCreater : MonoBehaviour
         return notNoneIdxList;
     }
 
+    // 왼쪽 가운데 오른족 중 연결될 노드 가중치 랜덤으로 가져오기
     public int[] GetRandomIdx(int count)
     {
         int[] result = new int[count];

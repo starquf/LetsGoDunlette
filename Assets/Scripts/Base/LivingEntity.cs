@@ -78,6 +78,14 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         SetDamageEffect();
     }
 
+    public virtual void Heal(int value) //value 만큼 회복합니다.
+    {
+        hp += value;
+        hp = Mathf.Clamp(hp, 0, maxHp);
+
+        SetHpText();
+    }
+
     private void SetDamageEffect()
     {
         damageTrans.DOScaleX(hp / (float)maxHp, 0.33f);
@@ -100,7 +108,9 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     protected virtual void SetHpText()
     {
+        Debug.Log($"{(hp / maxHp)}, {hp}/{maxHp}");
         hpText.text = $"{hp}/{maxHp}";
+        hpBar.DOScaleX((float)hp / maxHp, 0.33f);
     }
 
     protected abstract void Die();

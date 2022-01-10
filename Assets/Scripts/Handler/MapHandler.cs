@@ -6,9 +6,15 @@ using UnityEngine.UI;
 public class MapHandler : MonoBehaviour
 {
     public bool isSetting = false;
+    [HideInInspector]
     public List<List<Node>> map;
 
+    public List<Sprite> mapIcons;
+
     public GameObject Content;
+
+    public Transform curPlayerPosIcon;
+    private GameObject curNode;
 
     private void Awake()
     {
@@ -20,7 +26,6 @@ public class MapHandler : MonoBehaviour
         StartCoroutine(SleepToSetting());
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -30,6 +35,40 @@ public class MapHandler : MonoBehaviour
     {
         yield return new WaitUntil(() => isSetting);
         ShowMap();
+        OnSelectNode(map[0][3]);
+    }
+
+    public void MovePlayer()
+    {
+        curPlayerPosIcon.SetParent(curNode.transform);
+        curPlayerPosIcon.localPosition = Vector2.zero;
+    }
+
+    public void OnSelectNode(Node node)
+    {
+        if(node.depth>0)
+        {
+            int depth = node.depth;
+            for (int i = 0; i < map[depth].Count; i++)
+            {
+                if(map[depth][i].mapNode != mapNode.NONE && i != node.idx)
+                {
+                    Image img = Content.transform.GetChild((depth * map[0].Count) + i).GetComponent<Image>();
+                    img.color = new Color(img.color.r, img.color.g, img.color.b, 0.5f);
+                }
+                Content.transform.GetChild((depth * map[0].Count) + i).GetComponent<Button>().interactable = false;
+            }
+        }
+        curNode = Content.transform.GetChild((node.depth * map[0].Count) + node.idx).gameObject;
+        for (int i = 0; i < node.pointNodeIdx.Count; i++)
+        {
+            int depth = node.depth + 1;
+            int row = node.pointNodeIdx[i];
+            Image nextNodeImg = Content.transform.GetChild((depth * map[0].Count) + row).GetComponent<Image>();
+            nextNodeImg.color = new Color(nextNodeImg.color.r, nextNodeImg.color.g, nextNodeImg.color.b, 1);
+            Content.transform.GetChild((depth * map[0].Count) + row).GetComponent<Button>().interactable = true;
+        }
+        MovePlayer();
     }
 
     public void ShowMap()
@@ -42,6 +81,7 @@ public class MapHandler : MonoBehaviour
         {
             for (int r = 0; r < rows; r++)
             {
+                Transform nodeTrm = trm.GetChild((rows * c) + r);
                 Color color = Color.clear;
                 switch (map[c][r].mapNode)
                 {
@@ -49,48 +89,58 @@ public class MapHandler : MonoBehaviour
                         color = Color.clear;
                         break;
                     case mapNode.START:
-                        color = Color.green;
+                        color = new Color(1, 0, 1, 1f);
                         break;
                     case mapNode.BOSS:
-                        color = Color.red;
+                        color = new Color(1, 0, 0, 0.5f);
                         break;
                     case mapNode.MONSTER:
-                        color = Color.red;
+                        color = new Color(1, 0, 0, 0.5f);
                         break;
                     case mapNode.SHOP:
-                        color = Color.yellow;
+                        color = new Color(1, 0.92f, 0.016f, 0.5f);
                         break;
                     case mapNode.REST:
-                        color = Color.blue;
+                        color = new Color(0, 0, 1, 0.5f);
                         break;
                     case mapNode.TREASURE:
-                        color = Color.grey;
+                        color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
                         break;
                     default:
                         break;
                 }
-                trm.GetChild((rows * c) + r).GetComponent<Image>().color = color;
+                nodeTrm.GetComponent<Image>().color = color;
                 if(map[c][r].mapNode != mapNode.NONE && c < cols-1)
                 {
+                    Camera mainCam = Camera.main;
                     for (int i = 0; i < map[c][r].pointNodeIdx.Count; i++)
                     {
-                        LineRenderer lr = trm.GetChild((rows * c) + r).gameObject.GetComponent<LineRenderer>();
+                        LineRenderer lr = nodeTrm.gameObject.GetComponent<LineRenderer>();
+
                         if (i<1)
                         {
                             lr.startWidth = 0.08f;
                             lr.endWidth = 0.08f;
-                            lr.SetPosition(0, trm.GetChild((rows * c) + r).position);
-                            lr.SetPosition(1, trm.GetChild((rows * (c + 1)) + map[c][r].pointNodeIdx[i]).position);
+                            Vector3 pos1 = mainCam.WorldToScreenPoint(Vector3.zero);
+                            Vector3 pos2 = nodeTrm.InverseTransformPoint(trm.GetChild((rows * (c + 1)) + map[c][r].pointNodeIdx[i]).position);
+                            lr.SetPosition(1, pos2);
+                            lr.SetPosition(0, new Vector2(pos1.x - mainCam.pixelWidth * 0.5f, pos1.y - mainCam.pixelHeight * 0.5f));
                         }
                         else
                         {
                             int curPosCount = lr.positionCount;
                             lr.positionCount = curPosCount+2;
-                            lr.SetPosition(curPosCount, trm.GetChild((rows * c) + r).position);
-                            lr.SetPosition(curPosCount+1, trm.GetChild((rows * (c + 1)) + map[c][r].pointNodeIdx[i]).position);
+                            Vector3 pos1 = mainCam.WorldToScreenPoint(Vector3.zero);
+                            Vector3 pos2 = nodeTrm.InverseTransformPoint(trm.GetChild((rows * (c + 1)) + map[c][r].pointNodeIdx[i]).position);
+                            lr.SetPosition(curPosCount+1, pos2);
+                            lr.SetPosition(curPosCount, new Vector2(pos1.x - mainCam.pixelWidth * 0.5f, pos1.y - mainCam.pixelHeight * 0.5f));
                         }
                     }
                 }
+                int col = c;
+                int row = r;
+                nodeTrm.GetComponent<Button>().interactable = false;
+                nodeTrm.GetComponent<Button>().onClick.AddListener(() => { print(col + ", "+row); OnSelectNode(map[col][row]);  });
             }
         }
     }
