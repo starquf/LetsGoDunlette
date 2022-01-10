@@ -17,6 +17,8 @@ public class InventoryInfoHandler : MonoBehaviour
     public Transform pieceHolderTrm;
     public GameObject pieceInfoObj;
 
+    public PieceDesUIHandler desPanel;
+
     private InventoryHandler invenHandler;
 
     private void Awake()
@@ -33,7 +35,11 @@ public class InventoryInfoHandler : MonoBehaviour
         invenBtn.onClick.AddListener(() => { ShowInventoryInfo(); });
         usedInvenBtn.onClick.AddListener(() => { ShowInfoPanel(true); });
 
-        closeBtn.onClick.AddListener(() => ShowInfoPanel(false));
+        closeBtn.onClick.AddListener(() => 
+        {
+            desPanel.ShowPanel(false);
+            ShowInfoPanel(false);
+        });
 
         ShowInfoPanel(false);
     }
@@ -46,8 +52,19 @@ public class InventoryInfoHandler : MonoBehaviour
 
         for (int i = 0; i < skills.Count; i++)
         {
+            Sprite icon = skills[i].skillImg.sprite;
+            string name = skills[i].PieceName;
+
             PieceInfoUI pieceInfoUI = PoolManager.GetItem<PieceInfoUI>();
-            pieceInfoUI.SetSkillIcon(skills[i].skillImg.sprite);
+            pieceInfoUI.SetSkillIcon(icon);
+
+            pieceInfoUI.button.onClick.RemoveAllListeners();
+            pieceInfoUI.button.onClick.AddListener(() =>
+            {
+                desPanel.ShowDescription(name, icon, "¼³¸í Àû±â ±ÍÂú´Ù");
+            });
+
+            pieceInfoUI.transform.SetAsFirstSibling();
         }
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(contentRect);
