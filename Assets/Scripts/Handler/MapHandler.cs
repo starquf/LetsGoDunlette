@@ -40,7 +40,8 @@ public class MapHandler : MonoBehaviour
 
     public void MovePlayer()
     {
-        curPlayerPosIcon.position = curNode.transform.position;
+        curPlayerPosIcon.SetParent(curNode.transform);
+        curPlayerPosIcon.localPosition = Vector2.zero;
     }
 
     public void OnSelectNode(Node node)
@@ -111,22 +112,28 @@ public class MapHandler : MonoBehaviour
                 nodeTrm.GetComponent<Image>().color = color;
                 if(map[c][r].mapNode != mapNode.NONE && c < cols-1)
                 {
+                    Camera mainCam = Camera.main;
                     for (int i = 0; i < map[c][r].pointNodeIdx.Count; i++)
                     {
                         LineRenderer lr = nodeTrm.gameObject.GetComponent<LineRenderer>();
+
                         if (i<1)
                         {
                             lr.startWidth = 0.08f;
                             lr.endWidth = 0.08f;
-                            lr.SetPosition(0, nodeTrm.position);
-                            lr.SetPosition(1, trm.GetChild((rows * (c + 1)) + map[c][r].pointNodeIdx[i]).position);
+                            Vector3 pos1 = mainCam.WorldToScreenPoint(Vector3.zero);
+                            Vector3 pos2 = nodeTrm.InverseTransformPoint(trm.GetChild((rows * (c + 1)) + map[c][r].pointNodeIdx[i]).position);
+                            lr.SetPosition(1, pos2);
+                            lr.SetPosition(0, new Vector2(pos1.x - mainCam.pixelWidth * 0.5f, pos1.y - mainCam.pixelHeight * 0.5f));
                         }
                         else
                         {
                             int curPosCount = lr.positionCount;
                             lr.positionCount = curPosCount+2;
-                            lr.SetPosition(curPosCount, nodeTrm.position);
-                            lr.SetPosition(curPosCount+1, trm.GetChild((rows * (c + 1)) + map[c][r].pointNodeIdx[i]).position);
+                            Vector3 pos1 = mainCam.WorldToScreenPoint(Vector3.zero);
+                            Vector3 pos2 = nodeTrm.InverseTransformPoint(trm.GetChild((rows * (c + 1)) + map[c][r].pointNodeIdx[i]).position);
+                            lr.SetPosition(curPosCount+1, pos2);
+                            lr.SetPosition(curPosCount, new Vector2(pos1.x - mainCam.pixelWidth * 0.5f, pos1.y - mainCam.pixelHeight * 0.5f));
                         }
                     }
                 }
