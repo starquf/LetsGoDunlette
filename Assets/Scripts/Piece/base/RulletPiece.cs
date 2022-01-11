@@ -20,6 +20,11 @@ public abstract class RulletPiece : MonoBehaviour
     public string PieceName => pieceName;
 
     [SerializeField]
+    [TextArea]
+    protected string pieceDes;
+    public string PieceDes => pieceDes;
+
+    [SerializeField]
     protected int value;
     public int Value => value;
 
