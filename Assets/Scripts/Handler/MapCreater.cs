@@ -19,12 +19,12 @@ public class Node
     public int depth;
 
     public mapNode mapNode;
-    public List<int> pointNodeIdx;
+    public List<Node> pointNodeList;
 
     public Node(int idx, int depth)
     {
         mapNode = mapNode.NONE;
-        pointNodeIdx = new List<int>();
+        pointNodeList = new List<Node>();
         this.idx = idx;
         this.depth = depth;
     }
@@ -81,7 +81,7 @@ public class MapCreater : MonoBehaviour
             List<int> list = GetNotNoneIdx(beforeIdx);
             foreach (int idx in list)
             {
-                map[beforeIdx][idx].pointNodeIdx.Add(3);
+                map[beforeIdx][idx].pointNodeList.Add(map[curDepth][3]);
             }
             return;
         }
@@ -95,7 +95,7 @@ public class MapCreater : MonoBehaviour
                 {
                     int randIdx = Mathf.Clamp(plusIdx[i] + idx, 0, mapRows - 1);
                     map[curDepth][randIdx].mapNode = mapNode.MONSTER;
-                    map[beforeIdx][idx].pointNodeIdx.Add(randIdx);
+                    map[beforeIdx][idx].pointNodeList.Add(map[curDepth][randIdx]);
                 }
             }
         }
@@ -113,11 +113,17 @@ public class MapCreater : MonoBehaviour
     // 노드에 종류 추가 + 전노드에서 연결
     public void SetNode(int curDepth, mapNode mapType = mapNode.NONE)
     {
-        int maxLine = Random.Range(mapRows - 3, mapRows - 1);
+        int maxLine = 0;
 
         List<int> list = GetNotNoneIdx(curDepth-1);
 
         int nodeCount = list.Count;
+
+        while(maxLine < nodeCount)
+        {
+            maxLine = Random.Range(mapRows - 3, mapRows - 1);
+            print("asdsadsad");
+        }
 
         print(curDepth+":"+maxLine + " " + nodeCount);
         int lineCount = maxLine / nodeCount;
@@ -147,7 +153,7 @@ public class MapCreater : MonoBehaviour
             {
                 int randIdx = Mathf.Clamp(plusIdx[i] + list[k], 0, mapRows - 1);
                 map[curDepth][randIdx].mapNode = mapType != mapNode.NONE ? mapType : GetRandomNode();
-                map[curDepth - 1][list[k]].pointNodeIdx.Add(randIdx);
+                map[curDepth - 1][list[k]].pointNodeList.Add(map[curDepth][randIdx]);
             }
         }
     }
