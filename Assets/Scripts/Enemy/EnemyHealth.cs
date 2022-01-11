@@ -18,6 +18,7 @@ public class EnemyHealth : LivingEntity
         hpBar = battleHandler.hpBar;
         hpText = battleHandler.hpText;
         damageTrans = battleHandler.damageTrans;
+
         base.Start();
     }
 
