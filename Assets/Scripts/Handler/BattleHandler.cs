@@ -19,9 +19,8 @@ public class BattleHandler : MonoBehaviour
     // 공격이 전부 끝났다면 다시 룰렛을 돌린다.
 
     // 탭
-    public CanvasGroup tapGroup;
-    public Text rerollGoldText;
-    public Color tapColor;
+    [Header("메인 룰렛 멈추는 핸들러")]
+    public StopSliderHandler stopHandler;
 
     private InventoryHandler inventory;
 
@@ -38,7 +37,6 @@ public class BattleHandler : MonoBehaviour
 
     // 메인, 서브 or 나중에 추가될지도 모르는 룰렛
     public List<Rullet> rullets = new List<Rullet>();
-
 
     // 결과로 나온 룰렛조각들
     public RulletPiece result;
@@ -59,10 +57,7 @@ public class BattleHandler : MonoBehaviour
 
     private bool isTap = false;
     public bool IsTap => isTap;
-
-    private int rerollGold = 5;
-    private bool canReroll = false;
-
+    
     private int turnCnt = 0;
 
     //==================================================
@@ -71,8 +66,6 @@ public class BattleHandler : MonoBehaviour
     private event Action<RulletPiece> nextAttack;
 
     //==================================================
-
-    private Tween blinkTween;
 
     #region WaitSeconds
     private readonly WaitForSeconds oneSecWait = new WaitForSeconds(1f);
@@ -98,9 +91,6 @@ public class BattleHandler : MonoBehaviour
 
         StartCoroutine(InitRullet()); //적 스킬 넣고
 
-        tapGroup.GetComponent<Image>().color = Color.white;
-        tapGroup.transform.GetChild(0).transform.DOLocalMoveY(0f, 0.2f);
-
         //끝
     }
 
@@ -124,21 +114,27 @@ public class BattleHandler : MonoBehaviour
         inventory = GameManager.Instance.inventoryHandler;
 
         // 리롤 & 스탑 버튼 추가
-        tapGroup.GetComponent<Button>().onClick.AddListener(() =>
-        {
-            if (!isTap)
-            {
-                StopPlayerRullet();
-            }
-            else if (canReroll)
-            {
-                ReRoll();
-            }
-        });
-        tapGroup.interactable = false;
+        SetStopHandler();
 
         // 전투가 시작하기 전 인벤토리와 룰렛 정리
         StartCoroutine(InitRullet());
+    }
+
+    private void SetStopHandler()
+    {
+        if (stopHandler == null)
+        {
+            Debug.LogError("인스펙터에서 BatteHandler에 스탑 핸들러를 추가해주세요!!");
+            return;
+        }
+
+        stopHandler.Init(rullets[0], (result, pieceIdx) =>
+        {
+            stopHandler.rullet.HighlightResult();
+
+            this.result = result;
+            resultIdx = pieceIdx;
+        });
     }
 
     private void SetRandomPlayerOrEnemySkill(bool isPlayer)
@@ -193,8 +189,7 @@ public class BattleHandler : MonoBehaviour
     private void InitTurn()
     {
         // 버튼 초기화
-        isTap = false;
-        tapGroup.interactable = false;
+        stopHandler.SetInteract(false);
 
         result = null;
 
@@ -217,16 +212,10 @@ public class BattleHandler : MonoBehaviour
 
         // 멈추게 하는 버튼 활성화
         //버튼 활성화
-        tapGroup.interactable = true;
+        stopHandler.SetInteract(true);
 
         // 전부 돌릴 때까지
         yield return new WaitUntil(CheckRullet);
-
-        // 리롤 더이상 못함
-        canReroll = false;
-
-        blinkTween.Kill();
-        tapGroup.GetComponent<Image>().color = Color.black;
 
         // 결과 보여주고
         yield return oneSecWait;
@@ -268,63 +257,8 @@ public class BattleHandler : MonoBehaviour
 
         yield return pFiveSecWait;
 
-        tapGroup.GetComponent<Image>().DOColor(tapColor, 0.2f);
-        tapGroup.transform.GetChild(0).transform.DOLocalMoveY(0f, 0.2f);
-
         // 다음턴으로
         InitTurn();
-    }
-
-    // 모든 룰렛을 멈추게 하는 함수
-    private void StopPlayerRullet()
-    {
-        for (int i = 0; i < rullets.Count; i++)
-        {
-            int a = i;
-
-            rullets[i].StopRullet((result, pieceIdx) =>
-            {
-                rullets[a].HighlightResult();
-
-                //ComboManager.Instance.AddComboQueue(result);
-                this.result = result;
-
-                resultIdx = pieceIdx;
-            });
-        }
-
-        SetReroll();
-    }
-
-    // 리롤 기능을 켜주게 하는 함수
-    private void SetReroll()
-    {
-        isTap = true;
-
-        rerollGold = 5;
-        rerollGoldText.text = rerollGold.ToString();
-
-        tapGroup.transform.GetChild(0).transform.DOLocalMoveY(-245f, 0.2f);
-
-        // 만약 현재 골드가 리롤 골드보다 작다면
-        if (GameManager.Instance.Gold < rerollGold)
-        {
-            blinkTween.Kill();
-            tapGroup.GetComponent<Image>().color = Color.black;
-
-            canReroll = false;
-        }
-        else
-        {
-            canReroll = true;
-
-          /*
-           * blinkTween = tapGroup.GetComponent<Image>().DOColor(Color.black, 1f)
-                .SetEase(Ease.Flash, 20, 0)
-                .SetLoops(-1);
-          야발놈
-          */
-        }
     }
 
     // 결과 보여주기
@@ -340,27 +274,6 @@ public class BattleHandler : MonoBehaviour
         else
         {
 
-        }
-    }
-
-    private void ReRoll()
-    {
-        GameManager.Instance.Gold -= rerollGold;
-
-        rerollGold += 5;
-        rerollGoldText.text = rerollGold.ToString();
-
-        if (GameManager.Instance.Gold < rerollGold)
-        {
-            blinkTween.Kill();
-         //   tapGroup.GetComponent<Image>().color = Color.black;  동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세 가을바람 저 공활한데 높고 구름없이 밝은달은 우리 가슴 일편단심일 세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세 이 기상과 이 맘으로 충성을 다하여 괴로우나 즐거우나 나라 사랑하세 무궁화 삼천리 화려강산 대한사람 대한으로 길이보전하세. 
-
-            canReroll = false;
-        }
-
-        for (int i = 0; i < rullets.Count; i++)
-        {
-            rullets[i].ReRoll();
         }
     }
 
