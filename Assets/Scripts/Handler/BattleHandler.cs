@@ -27,6 +27,7 @@ public class BattleHandler : MonoBehaviour
 
     [Header("Àû °øÅë")]
     public Transform hpBar;
+    public Transform hpShieldBar;
     public Text hpText;
     public Transform damageTrans;
     public Transform ccUITrm;
