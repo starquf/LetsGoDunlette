@@ -1,14 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
-using System;
 
 public abstract class LivingEntity : MonoBehaviour, IDamageable
 {
     // 이거 나중에 클래스로 뺴줘요
     public Transform hpBar;
+    public Transform hpShieldBar;
     public Text hpText;
 
     public Transform damageTrans;
@@ -18,7 +16,10 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     private Tween damageTween;
 
     public int maxHp;
+    private int curMaxHp => maxHp + shieldHp;
+
     [SerializeField] protected int hp;
+    [SerializeField] protected int shieldHp = 0;
 
     protected bool isDie = false;
     public bool IsDie => isDie;
@@ -36,6 +37,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     protected virtual void Start()
     {
         hp = maxHp;
+        shieldHp = 0;
         SetHpText();
 
         bh = GameManager.Instance.battleHandler;
@@ -47,7 +49,10 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     public virtual void GetDamage(int damage)
     {
-        if (isDie) return;
+        if (isDie)
+        {
+            return;
+        }
 
         // 계약 상태라면
         if (cc.buffDic[BuffType.Contract] > 0)
@@ -56,7 +61,23 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
             cc.RemoveBuff(BuffType.Contract);
         }
 
-        hp -= damage;
+        if (shieldHp > 0)
+        {
+            int left =  shieldHp - damage;
+            if (left < 0) // -1라면
+            {
+                hp += left;
+                shieldHp = 0;
+            }
+            else
+            {
+                shieldHp = left;
+            }
+        }
+        else
+        {
+            hp -= damage;
+        }
 
         SetHpText();
 
@@ -67,9 +88,6 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
             Die();
         }
-
-        hpBar.DOScaleX(hp / (float)maxHp, 0.33f);
-
         Anim_TextUp damageTextEffect = PoolManager.GetItem<Anim_TextUp>();
         damageTextEffect.SetType(TextUpAnimType.Damage);
         damageTextEffect.transform.position = transform.position;
@@ -96,6 +114,12 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         damageTween = damageImg.DOFade(0f, 0.3f);
     }
 
+    public virtual void AddShield(int value)
+    {
+        shieldHp += value;
+        SetHpText();
+    }
+
     public virtual void Revive()
     {
         isDie = false;
@@ -108,9 +132,17 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     protected virtual void SetHpText()
     {
-        Debug.Log($"{(hp / maxHp)}, {hp}/{maxHp}");
         hpText.text = $"{hp}/{maxHp}";
-        hpBar.DOScaleX((float)hp / maxHp, 0.33f);
+        if (hp == maxHp)
+        {
+            hpBar.DOScaleX((float)hp / curMaxHp, 0.33f);
+            hpShieldBar.DOScaleX((float)shieldHp / curMaxHp, 0.33f);
+        }
+        else
+        {
+            hpBar.DOScaleX((float)hp / maxHp, 0.33f);
+            hpShieldBar.DOScaleX((float)shieldHp / maxHp, 0.33f);
+        }
     }
 
     protected abstract void Die();

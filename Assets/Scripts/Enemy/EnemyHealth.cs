@@ -16,6 +16,7 @@ public class EnemyHealth : LivingEntity
         BattleHandler battleHandler = GameManager.Instance.battleHandler;
 
         hpBar = battleHandler.hpBar;
+        hpShieldBar = battleHandler.hpShieldBar;
         hpText = battleHandler.hpText;
         damageTrans = battleHandler.damageTrans;
 

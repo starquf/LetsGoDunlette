@@ -47,7 +47,6 @@ public class LSW_Old_Shield : SkillPiece
 
         }
 
-        //GameManager.Instance.battleHandler.enemy.Heal(value);
-        // 보호막 추가해야함
+        GameManager.Instance.battleHandler.enemy.AddShield(value);
     }
 }
