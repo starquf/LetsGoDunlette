@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class InventoryInfoHandler : MonoBehaviour
 {
     private CanvasGroup cg;
+    private RectTransform rect;
     private RectTransform contentRect;
+
+    private Vector3 startPos;
 
     [Header("¹öÆ°")]
     public Button invenBtn;
@@ -21,6 +25,8 @@ public class InventoryInfoHandler : MonoBehaviour
 
     private InventoryHandler invenHandler;
 
+    private bool isShow = false;
+
     private void Awake()
     {
         PoolManager.CreatePool<PieceInfoUI>(pieceInfoObj, pieceHolderTrm, 5);
@@ -29,11 +35,18 @@ public class InventoryInfoHandler : MonoBehaviour
     private void Start()
     {
         cg = GetComponent<CanvasGroup>();
+        rect = GetComponent<RectTransform>();
+        startPos = cg.transform.localPosition;
+
         contentRect = pieceHolderTrm.parent.GetComponent<RectTransform>();
         invenHandler = GameManager.Instance.inventoryHandler;
 
-        invenBtn.onClick.AddListener(() => { ShowInventoryInfo(); });
-        usedInvenBtn.onClick.AddListener(() => { ShowInfoPanel(true); });
+        invenBtn.onClick.AddListener(() => 
+        {
+            if(!isShow)
+                ShowInventoryInfo(); 
+        });
+        //usedInvenBtn.onClick.AddListener(() => { ShowInfoPanel(true); });
 
         closeBtn.onClick.AddListener(() => 
         {
@@ -54,6 +67,7 @@ public class InventoryInfoHandler : MonoBehaviour
         {
             Sprite icon = skills[i].skillImg.sprite;
             string name = skills[i].PieceName;
+            string des = skills[i].PieceDes;
 
             PieceInfoUI pieceInfoUI = PoolManager.GetItem<PieceInfoUI>();
             pieceInfoUI.SetSkillIcon(icon);
@@ -61,7 +75,7 @@ public class InventoryInfoHandler : MonoBehaviour
             pieceInfoUI.button.onClick.RemoveAllListeners();
             pieceInfoUI.button.onClick.AddListener(() =>
             {
-                desPanel.ShowDescription(name, icon, "¼³¸í Àû±â ±ÍÂú´Ù");
+                desPanel.ShowDescription(name, icon, des);
             });
 
             pieceInfoUI.transform.SetAsFirstSibling();
@@ -85,5 +99,16 @@ public class InventoryInfoHandler : MonoBehaviour
         cg.alpha = enable ? 1f : 0f;
         cg.blocksRaycasts = enable;
         cg.interactable = enable;
+
+        cg.transform.localPosition = startPos;
+
+        isShow = enable;
+
+        if (enable)
+        {
+            cg.transform.DOLocalMoveY(-rect.rect.height, 0.35f)
+                .From(true)
+                .SetEase(Ease.OutBack, 0.7f);
+        }
     }
 }
