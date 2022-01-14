@@ -8,6 +8,9 @@ public class SkillPiece : RulletPiece
 {
     public bool isPlayerSkill = true;
 
+    [HideInInspector]
+    public Inventory owner;
+
     protected virtual void Awake()
     {
         PieceType = PieceType.SKILL;

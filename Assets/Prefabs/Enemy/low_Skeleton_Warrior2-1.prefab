@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5510414319434966470}
   - component: {fileID: 5510414319434966471}
   - component: {fileID: 5510414319434966474}
-  - component: {fileID: 5510414319434966468}
   - component: {fileID: 5510414319434966469}
   m_Layer: 0
   m_Name: low_Skeleton_Warrior2-1
@@ -104,6 +103,7 @@ MonoBehaviour:
   - {fileID: 5975412640822149904, guid: ec345f3c967223c4e91a0b1f56bc66f8, type: 3}
   - {fileID: 5975412640822149904, guid: ec345f3c967223c4e91a0b1f56bc66f8, type: 3}
   - {fileID: 5975412640822149904, guid: ec345f3c967223c4e91a0b1f56bc66f8, type: 3}
+  skills: []
 --- !u!114 &5510414319434966474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,29 +117,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hpBar: {fileID: 0}
+  hpShieldBar: {fileID: 0}
   hpText: {fileID: 0}
   damageTrans: {fileID: 0}
   maxHp: 120
   hp: 0
+  shieldHp: 0
   cc: {fileID: 0}
   enemyReward: {fileID: 0}
---- !u!114 &5510414319434966468
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5510414319434966475}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9cfc3e53ee9d60459116d8a80bfafe2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rewardObjs:
-  - {fileID: 371756096964453561, guid: bf9e9150d06c31e4c9b3bc949168fbf3, type: 3}
-  - {fileID: 371756096964453561, guid: 3f4d736f510bf1844a6d9e65aa56ee62, type: 3}
-  - {fileID: 5219999204231547788, guid: 0059602853cef8342963ab23ba58a6a1, type: 3}
-  - {fileID: 5219999204231547788, guid: 83d9fe2125c697546bd00e7b71e0b878, type: 3}
 --- !u!114 &5510414319434966469
 MonoBehaviour:
   m_ObjectHideFlags: 0

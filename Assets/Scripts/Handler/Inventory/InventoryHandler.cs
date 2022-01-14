@@ -10,9 +10,6 @@ public class InventoryHandler : MonoBehaviour
     public List<SkillPiece> skills = new List<SkillPiece>();
     public List<SkillPiece> usedSkills = new List<SkillPiece>();
 
-    [Header("기본으로 주는 스킬 프리팹")]
-    public List<GameObject> defaultSkills = new List<GameObject>();
-
     public Transform usedTrans;
 
     public Text unusedCardCount;
@@ -32,7 +29,7 @@ public class InventoryHandler : MonoBehaviour
     {
         GameManager.Instance.inventoryHandler = this;
 
-        AddDefaultSkill();
+        //AddDefaultSkill();
 
         effectSprDic = new Dictionary<PatternType, Sprite>();
         effectGradDic = new Dictionary<PatternType, Gradient>();
@@ -50,22 +47,23 @@ public class InventoryHandler : MonoBehaviour
         usedCardCount.text = usedSkills.Count.ToString();
     }
 
-    private void AddDefaultSkill()
+    // 스킬 추가 할땐 이걸 호출
+    public SkillPiece CreateSkill(GameObject skillPrefab, Inventory owner)
     {
-        for (int i = 0; i < defaultSkills.Count; i++)
-        {
-            SkillPiece skill = Instantiate(defaultSkills[i], transform).GetComponent<SkillPiece>();
-            skill.gameObject.SetActive(false);
+        SkillPiece skill = Instantiate(skillPrefab, transform).GetComponent<SkillPiece>();
+        skill.gameObject.SetActive(false);
+        skill.owner = owner;
 
-            AddSkill(skill);
-        }
+        AddSkill(skill);
+
+        return skill;
     }
 
-    // 스킬 추가 할땐 이걸 호출
-    public void CreateSkill(GameObject skillPrefab, Vector3 makePos)
+    public SkillPiece CreateSkill(GameObject skillPrefab, Inventory owner, Vector3 makePos)
     {
         SkillPiece skill = Instantiate(skillPrefab, transform).GetComponent<SkillPiece>();
         skill.transform.position = makePos;
+        skill.owner = owner;
 
         skill.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
 
@@ -80,6 +78,8 @@ public class InventoryHandler : MonoBehaviour
             });
 
         AddSkill(skill);
+
+        return skill;
     }
 
     public void AddSkill(SkillPiece skill)

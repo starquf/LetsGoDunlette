@@ -18,16 +18,11 @@ public class SkillRullet : Rullet
         {
             sizeSum += pieces[i].Size;
         }
-
-        int addNomalCnt = (maxSize - sizeSum) / 6;
-
-        //AddNormalAttackPiece(addNomalCnt);
     }
 
     // 해당 인덱스의 조각을 인벤토리에 넣고 바꾸는 함수
     public void ChangePiece(int changeIdx, RulletPiece changePiece)
     {
-        //pieces[changeIdx].state = PieceState.USED;
         InventoryHandler inventory = GameManager.Instance.inventoryHandler;
 
         inventory.SetUseSkill((SkillPiece)pieces[changeIdx]);
@@ -44,7 +39,6 @@ public class SkillRullet : Rullet
     // 해당 인덱스의 조각을 바꾸는 함수
     public void SetPiece(int changeIdx, RulletPiece changePiece)
     {
-        //pieces[changeIdx].state = PieceState.USED;
         changePiece.transform.SetParent(transform);
         changePiece.transform.DOLocalMove(Vector3.zero, 0.35f);
         changePiece.transform.DOScale(Vector3.one, 0.35f);
@@ -57,7 +51,6 @@ public class SkillRullet : Rullet
     // 해당 인덱스의 조각을 인벤토리로 넣는 함수
     public void PutRulletPieceToGraveYard(int changeIdx) //현제 룰렛에 index 에 있는 조각을 무덤에 넣는다
     {
-        //pieces[changeIdx].state = PieceState.USED;
         if (pieces[changeIdx] == null) return;
 
         InventoryHandler inventory = GameManager.Instance.inventoryHandler;
@@ -93,7 +86,7 @@ public class SkillRullet : Rullet
 
 
     // 해당 인덱스의 조각을 감지하지 못하게 함수
-    public void SetExeptPiece(int changeIdx)
+    public void SetEmpty(int changeIdx)
     {
         pieces[changeIdx] = null;
     }

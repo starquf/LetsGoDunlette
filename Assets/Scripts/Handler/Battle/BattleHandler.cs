@@ -18,11 +18,20 @@ public class BattleHandler : MonoBehaviour
 
     // 공격이 전부 끝났다면 다시 룰렛을 돌린다.
 
-    // 탭
+    //==================================================
+
     [Header("메인 룰렛 멈추는 핸들러")]
     public StopSliderHandler stopHandler;
 
+    private BattleInfoHandler battleInfoHandler;
+    private CCHandler ccHandler;
+    private BattleRewardHandler battleRewardHandler;
+
     private InventoryHandler inventory;
+
+    //==================================================
+
+    private BattleInfo battleInfo;
 
     [Header("적 공통")]
     public Transform hpBar;
@@ -35,28 +44,23 @@ public class BattleHandler : MonoBehaviour
 
     [Header("룰렛들")]
 
-    // 메인, 서브 or 나중에 추가될지도 모르는 룰렛
-    public List<Rullet> rullets = new List<Rullet>();
+    // 메인 룰렛
+    public SkillRullet mainRullet;
 
-    // 결과로 나온 룰렛조각들
+    // 결과로 나온 룰렛조각
+    [HideInInspector]
     public RulletPiece result;
     private int resultIdx;
 
     //==================================================
 
-    public EnemyHealth[] enemys;
-
     [Header("플레이어&적 Health")]
     public PlayerHealth player;
     public EnemyHealth enemy;
 
-    private EnemyAttack enemyAtk;
-    private EnemyReward enemyReward;
+    private EnemyInventory enemyInventory;
 
     //==================================================
-
-    private bool isTap = false;
-    public bool IsTap => isTap;
     
     private int turnCnt = 0;
 
@@ -75,49 +79,60 @@ public class BattleHandler : MonoBehaviour
     private void Awake()
     {
         GameManager.Instance.battleHandler = this;
-        MakeNewEnemy();
-    }
-
-    private IEnumerator RewardRoutine()
-    {
-        PutRulletPieceInInventory(); //룰렛 다 인벤토리에 넣고
-        yield return oneSecWait;
-        yield return oneSecWait;
-        inventory.RemoveAllEnemyPiece(); //적 룰렛 없애고
-
-        enemyReward.GiveReward(); //적 보상을 주고
-
-        MakeNewEnemy(); //새로운 적을 만든다
-
-        StartCoroutine(InitRullet()); //적 스킬 넣고
-
-        //끝
-    }
-
-    private void MakeNewEnemy()
-    {
-        int index = UnityEngine.Random.Range(0,enemys.Length);
-        enemy = Instantiate(enemys[index]);
-        enemyAtk = enemy.GetComponent<EnemyAttack>();
-        enemyReward = enemy.GetComponent<EnemyReward>();
-    }
-
-    private void PutRulletPieceInInventory() //룰렛을 인벤토리에 다넣으세요.
-    {
-        inventory.CycleSkills(); //무덤 > 인벤
-        SkillRullet rullet = rullets[0] as SkillRullet;
-        rullet.PutAllRulletPieceToInventory(); //룰렛 > 인벤
     }
 
     private void Start()
     {
         inventory = GameManager.Instance.inventoryHandler;
 
-        // 리롤 & 스탑 버튼 추가
+        battleInfoHandler = GetComponent<BattleInfoHandler>();
+        ccHandler = GetComponent<CCHandler>();
+        battleRewardHandler = GetComponent<BattleRewardHandler>();
+
+        // 플레이어가 가지고 있는 기본 스킬 생성 일단 테스트로 만들어놈
+        player.GetComponent<Inventory>().CreateSkills();
+
+        StartBattle();
+    }
+
+    #region StartBattle
+
+    // 전투를 시작하는 함수
+    public void StartBattle()
+    {
+        onNextAttack = null;
+        nextAttack = null;
+
+        // 현재 전투 정보 가져오기
+        battleInfo = battleInfoHandler.GetRandomBattleInfo();
+
+        // 적 생성 일단 테스트로 하나만 만듬
+        CreateEnemy(battleInfo.enemyInfos);
+
+        // 핸들러들 초기화
+        InitHandler();
+
+        // 스탑 버튼에 기능 추가
         SetStopHandler();
 
         // 전투가 시작하기 전 인벤토리와 룰렛 정리
         StartCoroutine(InitRullet());
+    }
+
+    private void InitHandler()
+    {
+        List<CrowdControl> ccList = new List<CrowdControl>();
+        ccList.Add(player.cc);
+        ccList.Add(enemy.cc);
+
+        ccHandler.Init(ccList);
+        battleRewardHandler.Init(battleInfo.rewards);
+    }
+
+    private void CreateEnemy(List<EnemyHealth> enemyInfos)
+    {
+        enemy = Instantiate(enemyInfos[0]);
+        enemyInventory = enemy.GetComponent<EnemyInventory>();
     }
 
     private void SetStopHandler()
@@ -128,7 +143,7 @@ public class BattleHandler : MonoBehaviour
             return;
         }
 
-        stopHandler.Init(rullets[0], (result, pieceIdx) =>
+        stopHandler.Init(mainRullet, (result, pieceIdx) =>
         {
             stopHandler.rullet.HighlightResult();
 
@@ -137,26 +152,16 @@ public class BattleHandler : MonoBehaviour
         });
     }
 
-    private void SetRandomPlayerOrEnemySkill(bool isPlayer)
-    {
-        SkillPiece skill = inventory.GetRandomPlayerOrEnemySkill(isPlayer);
-        skill.transform.localScale = new Vector3(0.2f, 0.2f, 1f);
+    #endregion
 
-        rullets[0].AddPiece(skill);
-    }
-
-    private void SetRandomSkill()
-    {
-        SkillPiece skill = inventory.GetRandomUnusedSkill();
-        skill.transform.localScale = new Vector3(0.2f, 0.2f, 1f);
-
-        rullets[0].AddPiece(skill);
-    }
+    #region Init Rullet
 
     private IEnumerator InitRullet()
     {
+        yield return null;
+
         // 적의 스킬을 추가해준다
-        yield return new WaitForSeconds(enemyAtk.AddAllSkills() + 0.5f);
+        yield return new WaitForSeconds(enemyInventory.CreateSkillsSmooth() + 0.5f);
 
         // 인벤토리에서 랜덤한 6개의 스킬을 뽑아 룰렛에 적용한다. 단, 최소한 적의 스킬 1개와 내 스킬 2개가 보장된다.
 
@@ -185,6 +190,26 @@ public class BattleHandler : MonoBehaviour
         InitTurn();
     }
 
+    private void SetRandomPlayerOrEnemySkill(bool isPlayer)
+    {
+        SkillPiece skill = inventory.GetRandomPlayerOrEnemySkill(isPlayer);
+        skill.transform.localScale = new Vector3(0.2f, 0.2f, 1f);
+
+        mainRullet.AddPiece(skill);
+    }
+
+    private void SetRandomSkill()
+    {
+        SkillPiece skill = inventory.GetRandomUnusedSkill();
+        skill.transform.localScale = new Vector3(0.2f, 0.2f, 1f);
+
+        mainRullet.AddPiece(skill);
+    }
+
+    #endregion
+
+    #region Turns
+
     // 다음 턴으로 넘어가는 것
     private void InitTurn()
     {
@@ -196,7 +221,7 @@ public class BattleHandler : MonoBehaviour
         turnCnt++;
 
         // 현재 턴에 걸려있는 적의 cc기와 플레이어의 cc기를 하나 줄여준다.
-        DecreaseCC();
+        ccHandler.DecreaseCC();
 
         nextAttack = null;
         nextAttack = onNextAttack;
@@ -211,17 +236,16 @@ public class BattleHandler : MonoBehaviour
         RollAllRullet();
 
         // 멈추게 하는 버튼 활성화
-        //버튼 활성화
         stopHandler.SetInteract(true);
 
-        // 전부 돌릴 때까지
+        // 전부 돌릴 때까지 기다린다
         yield return new WaitUntil(CheckRullet);
 
         // 결과 보여주고
         yield return oneSecWait;
 
-        // 결과를 저장해놓고 그 칸을 null로 만들어준다
-        ExeptRulletResult(resultIdx);
+        // 결과를 저장해놓고 그 칸을 빈칸으로 만들어준다
+        SetRulletEmpty(resultIdx);
 
         // 결과 실행
         CastResult();
@@ -230,15 +254,16 @@ public class BattleHandler : MonoBehaviour
     // 실행이 전부 끝나면 실행되는 코루틴
     private IEnumerator EndTurn()
     {
+        // 다음 공격 체크하는 스킬들이 발동되는 타이밍
         nextAttack?.Invoke(result);
-        // 룰렛 리셋은 인벤토리가 알아서 해줌
+
         yield return pFiveSecWait;
 
         // 저장한 결과를 인벤토리에 넣는다
-        SetUseRulletPiece(result as SkillPiece);
+        SetPieceToGraveyard(result as SkillPiece);
 
-        // 기절이라면 조각을 날려버린다
-        CheckStun();
+        // 기절 체크
+        ccHandler.CheckCC(CCType.Stun);
 
         // 잠시 기다리고
         yield return oneSecWait;
@@ -246,7 +271,7 @@ public class BattleHandler : MonoBehaviour
         // 적이 죽었는가?
         if (enemy.IsDie)
         {
-            StartCoroutine(RewardRoutine());
+            BattleEnd();
             yield break;
         }
 
@@ -260,6 +285,16 @@ public class BattleHandler : MonoBehaviour
         // 다음턴으로
         InitTurn();
     }
+
+    // 전투가 끝날 때
+    private void BattleEnd()
+    {
+        battleRewardHandler.GiveReward();
+    }
+
+    #endregion
+
+    #region Rullet Func
 
     // 결과 보여주기
     private void CastResult()
@@ -279,12 +314,9 @@ public class BattleHandler : MonoBehaviour
 
     private bool CheckRullet()
     {
-        for (int i = 0; i < rullets.Count; i++)
+        if (mainRullet.IsRoll)
         {
-            if (rullets[i].IsRoll)
-            {
-                return false;
-            }
+            return false;
         }
 
         return true;
@@ -293,17 +325,13 @@ public class BattleHandler : MonoBehaviour
     public void ChangeRulletPiece(int pieceIdx)
     {
         SkillPiece skill = inventory.GetRandomUnusedSkill();
-        //GameManager.Instance.inventorySystem.EquiqedSkills.Add(skill);
-        //skill.state = PieceState.EQUIQED;
 
-        rullets[0].GetComponent<SkillRullet>().ChangePiece(pieceIdx, skill);
+        mainRullet.GetComponent<SkillRullet>().ChangePiece(pieceIdx, skill);
     }
 
     public void DrawRulletPieces()
     {
-        SkillRullet rullet = rullets[0].GetComponent<SkillRullet>();
-
-        List<RulletPiece> pieces = rullet.GetPieces();
+        List<RulletPiece> pieces = mainRullet.GetPieces();
 
         for (int i = 0; i < pieces.Count; i++)
         {
@@ -311,80 +339,30 @@ public class BattleHandler : MonoBehaviour
             if (pieces[i] == null)
             {
                 SkillPiece skill = inventory.GetRandomUnusedSkill();
-                rullet.SetPiece(i, skill);
+                mainRullet.SetPiece(i, skill);
             }
         }
     }
 
-    public void SetUseRulletPiece(int pieceIdx)
+    public void SetPieceToGraveyard(int pieceIdx)
     {
-        rullets[0].GetComponent<SkillRullet>().PutRulletPieceToGraveYard(pieceIdx);
+        mainRullet.PutRulletPieceToGraveYard(pieceIdx);
     }
 
-    public void SetUseRulletPiece(SkillPiece piece)
+    public void SetPieceToGraveyard(SkillPiece piece)
     {
         GameManager.Instance.inventoryHandler.SetUseSkill(piece);
     }
 
-    public void ExeptRulletResult(int pieceIdx)
+    public void SetRulletEmpty(int pieceIdx)
     {
-        rullets[0].GetComponent<SkillRullet>().SetExeptPiece(pieceIdx);
+        mainRullet.SetEmpty(pieceIdx);
     }
 
     private void RollAllRullet()
     {
-        for (int i = 0; i < rullets.Count; i++)
-        {
-            int a = i;
-
-            rullets[i].RollRullet();
-        }
+        mainRullet.RollRullet();
     }
 
-    private void DecreaseCC()
-    {
-        player.cc.DecreaseAllTurn();
-        enemy.cc.DecreaseAllTurn();
-    }
-
-    private void CheckStun()
-    {
-        // 기절되어있다면
-        if (player.cc.ccDic[CCType.Stun] > 0)
-        {
-            Stun(true);
-        }
-
-        if (enemy.cc.ccDic[CCType.Stun] > 0)
-        {
-            Stun(false);
-        }
-    }
-
-    private void Stun(bool isPlayer)
-    {
-        List<RulletPiece> pieces = rullets[0].GetPieces();
-
-        for (int i = 0; i < pieces.Count; i++)
-        {
-            if (pieces[i] == null)
-            {
-                continue;
-            }
-
-            // 플레이어의 조각이라면
-            if ((pieces[i] as SkillPiece).isPlayerSkill.Equals(isPlayer))
-            {
-                (rullets[0] as SkillRullet).PutRulletPieceToGraveYard(i);
-            }
-        }
-    }
-
-
-    //버튼 상태들
-
-    // stop 비활성
-    // stop 활성 // 기본
-    // 리롤 활성
-    // 리롤 비활성
+    #endregion
 }

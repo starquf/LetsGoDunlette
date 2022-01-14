@@ -16,7 +16,7 @@ public class Skill_E_LightningRod : SkillPiece
 
         BattleHandler battleHandler = GameManager.Instance.battleHandler;
 
-        Rullet rullet = battleHandler.rullets[0];
+        Rullet rullet = battleHandler.mainRullet;
         List<RulletPiece> skillPieces = rullet.GetPieces();
 
         List<SkillPiece> lightningSkillPieces = new List<SkillPiece>();
@@ -59,7 +59,7 @@ public class Skill_E_LightningRod : SkillPiece
             if (result != null)
             {
                 result.Cast(onCastEnd);
-                battleHandler.SetUseRulletPiece(lightningSkillIdxDic[result]);
+                battleHandler.SetPieceToGraveyard(lightningSkillIdxDic[result]);
             }
             else
             {

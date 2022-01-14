@@ -12,9 +12,11 @@ public class EnemyReward : MonoBehaviour
     public void GiveReward()
     {
         var inventory = GameManager.Instance.inventoryHandler;
+        Inventory owner = GameManager.Instance.battleHandler.player.GetComponent<Inventory>();
+
         for (int i = 0; i < rewardObjs.Count; i++)
         {
-            inventory.CreateSkill(rewardObjs[i],transform.position);
+            inventory.CreateSkill(rewardObjs[i], owner, transform.position);
         }
     }
 }
