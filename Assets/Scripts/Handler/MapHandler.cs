@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,34 +15,43 @@ public class MapHandler : MonoBehaviour
     public GameObject Content;
 
     public Transform curPlayerPosIcon;
-    private GameObject curNode;
+    private Node curNode;
+
+    private MapCreater mapCreater;
+    private Transform mapHider;
 
     private void Awake()
     {
         GameManager.Instance.mapHandler = this;
+        mapCreater = GetComponent<MapCreater>();
     }
 
     void Start()
     {
-        StartCoroutine(SleepToSetting());
     }
 
     void Update()
     {
-        
-    }
 
-    public IEnumerator SleepToSetting()
-    {
-        yield return new WaitUntil(() => isSetting);
-        ShowMap();
-        OnSelectNode(map[0][3]);
     }
 
     public void MovePlayer()
     {
-        curPlayerPosIcon.SetParent(curNode.transform);
+        curPlayerPosIcon.SetParent(GetCurNodeTrm(curNode.idx, curNode.depth));
         curPlayerPosIcon.localPosition = Vector2.zero;
+
+
+        //여기에 각 맵별 대충 구현
+        //아래 디버그용
+        if(curNode.depth == mapCreater.mapCols-1)
+        {
+            Invoke("ResetMap", 1);
+        }
+    }
+
+    public void ResetMap()
+    {
+        mapCreater.CreateMap();
     }
 
     public void OnSelectNode(Node node)
@@ -56,32 +66,32 @@ public class MapHandler : MonoBehaviour
                     Image img = Content.transform.GetChild((depth * map[0].Count) + i).GetComponent<Image>();
                     img.color = new Color(img.color.r, img.color.g, img.color.b, 0.5f);
                 }
-                Content.transform.GetChild((depth * map[0].Count) + i).GetComponent<Button>().interactable = false;
+                GetCurNodeTrm(i, depth).GetComponent<Button>().interactable = false;
             }
         }
-        curNode = Content.transform.GetChild((node.depth * map[0].Count) + node.idx).gameObject;
+        curNode = node;
         for (int i = 0; i < node.pointNodeList.Count; i++)
         {
             int depth = node.depth + 1;
             int row = node.pointNodeList[i].idx;
             Image nextNodeImg = Content.transform.GetChild((depth * map[0].Count) + row).GetComponent<Image>();
             nextNodeImg.color = new Color(nextNodeImg.color.r, nextNodeImg.color.g, nextNodeImg.color.b, 1);
-            Content.transform.GetChild((depth * map[0].Count) + row).GetComponent<Button>().interactable = true;
+            GetCurNodeTrm(row, depth).GetComponent<Button>().interactable = true;
         }
         MovePlayer();
     }
 
     public void ShowMap()
     {
-        Content.GetComponent<GridLayoutGroup>().constraintCount = map[0].Count;
         Transform trm = Content.transform;
         int cols = map.Count;
-        int rows = map[0].Count;
+        int rows = mapCreater.mapRows;
+        Content.GetComponent<GridLayoutGroup>().constraintCount = rows;
         for (int c = 0; c < cols; c++)
         {
             for (int r = 0; r < rows; r++)
             {
-                Transform nodeTrm = trm.GetChild((rows * c) + r);
+                Transform nodeTrm = GetCurNodeTrm(r, c);
                 Color color = Color.clear;
                 switch (map[c][r].mapNode)
                 {
@@ -110,38 +120,49 @@ public class MapHandler : MonoBehaviour
                         break;
                 }
                 nodeTrm.GetComponent<Image>().color = color;
-                if(map[c][r].mapNode != mapNode.NONE && c < cols-1)
+                if(map[c][r].mapNode != mapNode.NONE && c < cols-1 && false)
                 {
                     Camera mainCam = Camera.main;
                     for (int i = 0; i < map[c][r].pointNodeList.Count; i++)
                     {
                         LineRenderer lr = nodeTrm.gameObject.GetComponent<LineRenderer>();
+                        Node pointNode = map[c][r].pointNodeList[i];
 
                         if (i<1)
                         {
                             lr.startWidth = 0.08f;
                             lr.endWidth = 0.08f;
                             Vector3 pos1 = mainCam.WorldToScreenPoint(Vector3.zero);
-                            Vector3 pos2 = nodeTrm.InverseTransformPoint(trm.GetChild((rows * (c + 1)) + map[c][r].pointNodeList[i].idx).position);
+                            Vector3 pos2 = nodeTrm.InverseTransformPoint(GetCurNodeTrm(pointNode.idx, pointNode.depth).position);
                             lr.SetPosition(1, pos2);
-                            lr.SetPosition(0, new Vector2(pos1.x - mainCam.pixelWidth * 0.5f, pos1.y - mainCam.pixelHeight * 0.5f));
+                            lr.SetPosition(0, Vector2.zero);
+                            print(GetCurNodeTrm(pointNode.idx, pointNode.depth));
+                            print(GetCurNodeTrm(pointNode.idx, pointNode.depth).position);
                         }
                         else
                         {
                             int curPosCount = lr.positionCount;
                             lr.positionCount = curPosCount+2;
                             Vector3 pos1 = mainCam.WorldToScreenPoint(Vector3.zero);
-                            Vector3 pos2 = nodeTrm.InverseTransformPoint(trm.GetChild((rows * (c + 1)) + map[c][r].pointNodeList[i].idx).position);
+                            Vector3 pos2 = nodeTrm.InverseTransformPoint(GetCurNodeTrm(pointNode.idx, pointNode.depth).position);
                             lr.SetPosition(curPosCount+1, pos2);
-                            lr.SetPosition(curPosCount, new Vector2(pos1.x - mainCam.pixelWidth * 0.5f, pos1.y - mainCam.pixelHeight * 0.5f));
+                            lr.SetPosition(curPosCount, Vector2.zero);
+                            print(GetCurNodeTrm(pointNode.idx, pointNode.depth));
+                            print(GetCurNodeTrm(pointNode.idx, pointNode.depth).position);
                         }
                     }
                 }
                 int col = c;
                 int row = r;
                 nodeTrm.GetComponent<Button>().interactable = false;
-                nodeTrm.GetComponent<Button>().onClick.AddListener(() => { print(col + ", "+row); OnSelectNode(map[col][row]);  });
+                nodeTrm.GetComponent<Button>().onClick.AddListener(() => { OnSelectNode(map[col][row]);  });
             }
         }
+    }
+
+    private Transform GetCurNodeTrm(int row, int col)
+    {
+        Transform nodeTrm = Content.transform.GetChild((mapCreater.mapRows * col) + row);
+        return nodeTrm;
     }
 }

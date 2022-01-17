@@ -32,6 +32,8 @@ public class Node
 
 public class MapCreater : MonoBehaviour
 {
+    public GameObject MapNodePrefab;
+
     public int mapRows;
     public int mapCols;
     public List<List<Node>> map = new List<List<Node>>();
@@ -40,18 +42,28 @@ public class MapCreater : MonoBehaviour
     {
         Init();
         CreateMap();
-        for (int i = 0; i < mapCols; i++)
+    }
+
+    public void MapCreateComplete()
+    {
+        print("맵 다만듬");
+        MapHandler mapHandler = GameManager.Instance.mapHandler;
+
+        if(!(mapHandler.Content.transform.childCount > 0))
         {
-            for (int r = 0; r < mapRows; r++)
+            for (int c = 0; c < mapCols; c++)
             {
-                print($"cols : {i}, rows : {r}, {map[i][r].mapNode}");
+                for (int r = 0; r < mapRows; r++)
+                {
+                    GameObject newNode = GameObject.Instantiate(MapNodePrefab, mapHandler.Content.transform);
+                    newNode.name += $"{r},{c}";
+                }
             }
         }
-    }
-    void Start()
-    {
-        GameManager.Instance.mapHandler.map = this.map;
-        GameManager.Instance.mapHandler.isSetting = true;
+
+        mapHandler.map = this.map;
+        mapHandler.ShowMap();
+        mapHandler.OnSelectNode(map[0][3]);
     }
 
     // 대충 초기화 해주는 거
@@ -83,21 +95,12 @@ public class MapCreater : MonoBehaviour
             {
                 map[beforeIdx][idx].pointNodeList.Add(map[curDepth][3]);
             }
+            MapCreateComplete();
             return;
         }
         else if (curDepth == 1)
         {
-            List<int> list = GetNotNoneIdx(beforeIdx);
-            foreach (int idx in list)
-            {
-                int[] plusIdx = GetRandomIdx(2);
-                for (int i = 0; i < plusIdx.Length; i++)
-                {
-                    int randIdx = Mathf.Clamp(plusIdx[i] + idx, 0, mapRows - 1);
-                    map[curDepth][randIdx].mapNode = mapNode.MONSTER;
-                    map[beforeIdx][idx].pointNodeList.Add(map[curDepth][randIdx]);
-                }
-            }
+            SetNode(curDepth, mapNode.MONSTER);
         }
         else if(curDepth == mapCols - 2)
         {
@@ -107,6 +110,7 @@ public class MapCreater : MonoBehaviour
         {
             SetNode(curDepth);
         }
+
         CreateMap(++curDepth);
     }
 
@@ -122,13 +126,10 @@ public class MapCreater : MonoBehaviour
         while(maxLine < nodeCount)
         {
             maxLine = Random.Range(mapRows - 3, mapRows - 1);
-            print("asdsadsad");
         }
 
-        print(curDepth+":"+maxLine + " " + nodeCount);
         int lineCount = maxLine / nodeCount;
         int exLine = maxLine - (lineCount * nodeCount);
-        print(exLine);
 
         List<int> lineCountList = new List<int>();
         for (int i = 0; i < nodeCount; i++)
