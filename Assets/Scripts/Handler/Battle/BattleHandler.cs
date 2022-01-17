@@ -91,6 +91,8 @@ public class BattleHandler : MonoBehaviour
 
         // 플레이어가 가지고 있는 기본 스킬 생성 일단 테스트로 만들어놈
         player.GetComponent<Inventory>().CreateSkills();
+
+        //StartBattle();
     }
 
     #region StartBattle
@@ -262,6 +264,8 @@ public class BattleHandler : MonoBehaviour
 
         // 기절 체크
         ccHandler.CheckCC(CCType.Stun);
+        // 상처 체크
+        ccHandler.CheckCC(CCType.Wound);
 
         // 잠시 기다리고
         yield return oneSecWait;

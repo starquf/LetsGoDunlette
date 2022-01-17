@@ -33,14 +33,15 @@ public class CCHandler : MonoBehaviour
         switch (ccType)
         {
             case CCType.Stun:
-                CheckType(ccType,Stun);
+                CheckType(ccType, Stun);
                 break;
             case CCType.Wound:
                 CheckType(ccType, Wound);
                 break;
         }
     }
-    private void CheckType(CCType ccType,Action<CrowdControl> action)
+
+    private void CheckType(CCType ccType, Action<CrowdControl> action)
     {
         for (int i = 0; i < crowdControls.Count; i++)
         {
