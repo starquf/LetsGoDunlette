@@ -31,7 +31,8 @@ public class EncounterHandler : MonoBehaviour
             case mapNode.BOSS:
                 break;
             case mapNode.MONSTER:
-                //GameManager.Instance.battleHandler.StartBattle();
+                GameManager.Instance.mapHandler.mapUIs.SetActive(false);
+                GameManager.Instance.battleHandler.StartBattle();
                 break;
             case mapNode.SHOP:
                 break;

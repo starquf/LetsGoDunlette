@@ -13,6 +13,7 @@ public class MapHandler : MonoBehaviour
 
     public List<Sprite> mapIcons;
 
+    public GameObject mapUIs;
     public GameObject Content;
 
     public Transform curPlayerPosIcon;
