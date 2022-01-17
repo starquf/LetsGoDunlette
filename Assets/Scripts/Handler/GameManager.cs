@@ -61,8 +61,6 @@ public class GameManager : MonoBehaviour
     public MapHandler mapHandler;
 
     [HideInInspector]
-    public event Action<SkillPiece, Sprite, Sprite> RewardEvent;
-    [HideInInspector]
     public event Action OnUpdateUI;
     [HideInInspector]
     public event Action OnEndEncounter;
@@ -79,11 +77,6 @@ public class GameManager : MonoBehaviour
             gold = value;
             OnUpdateUI?.Invoke();
         }
-    }
-
-    public void OnReward(SkillPiece reward, Sprite rewardSpr, Sprite rewardIconSpr)
-    {
-        RewardEvent?.Invoke(reward, rewardSpr, rewardIconSpr);
     }
 
     public PlayerHealth GetPlayer() //플레이어를 가져옵니다.

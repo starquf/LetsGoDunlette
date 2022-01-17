@@ -79,20 +79,18 @@ public class BattleHandler : MonoBehaviour
     private void Awake()
     {
         GameManager.Instance.battleHandler = this;
+
+        battleInfoHandler = GetComponent<BattleInfoHandler>();
+        ccHandler = GetComponent<CCHandler>();
+        battleRewardHandler = GetComponent<BattleRewardHandler>();
     }
 
     private void Start()
     {
         inventory = GameManager.Instance.inventoryHandler;
 
-        battleInfoHandler = GetComponent<BattleInfoHandler>();
-        ccHandler = GetComponent<CCHandler>();
-        battleRewardHandler = GetComponent<BattleRewardHandler>();
-
         // 플레이어가 가지고 있는 기본 스킬 생성 일단 테스트로 만들어놈
         player.GetComponent<Inventory>().CreateSkills();
-
-        StartBattle();
     }
 
     #region StartBattle
