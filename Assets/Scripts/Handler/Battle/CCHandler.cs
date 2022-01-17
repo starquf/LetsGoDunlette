@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,24 +33,31 @@ public class CCHandler : MonoBehaviour
         switch (ccType)
         {
             case CCType.Stun:
-                CheckStun();
+                CheckType(ccType,Stun);
+                break;
+            case CCType.Wound:
+                CheckType(ccType, Wound);
                 break;
         }
+    }
+    private void CheckType(CCType ccType,Action<CrowdControl> action)
+    {
+        for (int i = 0; i < crowdControls.Count; i++)
+        {
+            if (crowdControls[i].ccDic[ccType] > 0)
+            {
+                action?.Invoke(crowdControls[i]);
+            }
+        }
+    }
+
+    private void Wound(CrowdControl target)
+    {
+        target.GetComponent<LivingEntity>().GetDamage(5);
     }
 
     #region Stun
 
-    private void CheckStun()
-    {
-        for (int i = 0; i < crowdControls.Count; i++)
-        {
-            // 기절되어있다면
-            if (crowdControls[i].ccDic[CCType.Stun] > 0)
-            {
-                Stun(crowdControls[i]);
-            }
-        }
-    }
 
     private void Stun(CrowdControl target)
     {
