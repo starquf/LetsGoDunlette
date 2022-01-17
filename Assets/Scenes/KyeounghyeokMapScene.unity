@@ -507,6 +507,7 @@ GameObject:
   - component: {fileID: 1167585143}
   - component: {fileID: 1167585145}
   - component: {fileID: 1167585144}
+  - component: {fileID: 1167585146}
   m_Layer: 0
   m_Name: MapHandler
   m_TagString: Untagged
@@ -540,7 +541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8fa1862ce04eb54eb212c2d00e83e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSetting: 0
+  encounterHandler: {fileID: 1167585146}
   mapIcons: []
   Content: {fileID: 1121623193}
   curPlayerPosIcon: {fileID: 446682614}
@@ -559,6 +560,18 @@ MonoBehaviour:
   MapNodePrefab: {fileID: 7668356760350130076, guid: 99da33b99a58d5f4e8a2b1bd6b5ff118, type: 3}
   mapRows: 7
   mapCols: 10
+--- !u!114 &1167585146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167585142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcfaeb47db8b9614497e75be9ce0ddcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1327255656
 GameObject:
   m_ObjectHideFlags: 0

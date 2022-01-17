@@ -11,42 +11,33 @@ public class EncounterHandler : MonoBehaviour
 
     private void Start()
     {
-        StartEncounter(EncounterType.Battle);
+        //StartEncounter(mapNode.MONSTER);
     }
 
     // 인카운터 시작할 떄 호출
-    public void StartEncounter(EncounterType type)
+    public void StartEncounter(mapNode type)
     {
         CheckEncounter(type);
     }
 
-    private void CheckEncounter(EncounterType type)
+    private void CheckEncounter(mapNode type)
     {
         switch (type)
         {
-            case EncounterType.Battle:
-
-                print("전투 발생!!");
-                GameManager.Instance.battleHandler.StartBattle();
-
+            case mapNode.NONE:
                 break;
-
-            case EncounterType.RandomEvent:
-
-                print("랜덤 이벤트 발생!!");
-
+            case mapNode.START:
                 break;
-
-            case EncounterType.Rest:
-
-                print("휴식 발생!!");
-
+            case mapNode.BOSS:
                 break;
-
-            case EncounterType.BossBattle:
-
-                print("보스 전투 발생!!");
-
+            case mapNode.MONSTER:
+                //GameManager.Instance.battleHandler.StartBattle();
+                break;
+            case mapNode.SHOP:
+                break;
+            case mapNode.REST:
+                break;
+            case mapNode.TREASURE:
                 break;
         }
     }

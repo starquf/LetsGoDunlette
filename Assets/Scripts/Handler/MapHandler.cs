@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class MapHandler : MonoBehaviour
 {
-    public bool isSetting = false;
+    public EncounterHandler encounterHandler;
+
     [HideInInspector]
     public List<List<Node>> map;
 
@@ -28,6 +29,8 @@ public class MapHandler : MonoBehaviour
 
     void Start()
     {
+        ShowMap();
+        OnSelectNode(map[0][3]);
     }
 
     void Update()
@@ -42,6 +45,7 @@ public class MapHandler : MonoBehaviour
 
 
         //여기에 각 맵별 대충 구현
+        encounterHandler.StartEncounter(curNode.mapNode);
         //아래 디버그용
         if(curNode.depth == mapCreater.mapCols-1)
         {
@@ -51,6 +55,7 @@ public class MapHandler : MonoBehaviour
 
     public void ResetMap()
     {
+        mapCreater.MapReset();
         mapCreater.CreateMap();
     }
 
@@ -83,14 +88,16 @@ public class MapHandler : MonoBehaviour
 
     public void ShowMap()
     {
+        LayoutRebuilder.ForceRebuildLayoutImmediate(Content.GetComponent<RectTransform>());
         Transform trm = Content.transform;
-        int cols = map.Count;
+        int cols = mapCreater.mapCols;
         int rows = mapCreater.mapRows;
         Content.GetComponent<GridLayoutGroup>().constraintCount = rows;
         for (int c = 0; c < cols; c++)
         {
             for (int r = 0; r < rows; r++)
             {
+                print(c + ","+r);
                 Transform nodeTrm = GetCurNodeTrm(r, c);
                 Color color = Color.clear;
                 switch (map[c][r].mapNode)
@@ -120,12 +127,14 @@ public class MapHandler : MonoBehaviour
                         break;
                 }
                 nodeTrm.GetComponent<Image>().color = color;
-                if(map[c][r].mapNode != mapNode.NONE && c < cols-1 && false)
+                
+                if(map[c][r].mapNode != mapNode.NONE && c < cols-1)
                 {
                     Camera mainCam = Camera.main;
+                    LineRenderer lr = nodeTrm.gameObject.GetComponent<LineRenderer>();
+                    lr.positionCount = 2;
                     for (int i = 0; i < map[c][r].pointNodeList.Count; i++)
                     {
-                        LineRenderer lr = nodeTrm.gameObject.GetComponent<LineRenderer>();
                         Node pointNode = map[c][r].pointNodeList[i];
 
                         if (i<1)
@@ -136,8 +145,6 @@ public class MapHandler : MonoBehaviour
                             Vector3 pos2 = nodeTrm.InverseTransformPoint(GetCurNodeTrm(pointNode.idx, pointNode.depth).position);
                             lr.SetPosition(1, pos2);
                             lr.SetPosition(0, Vector2.zero);
-                            print(GetCurNodeTrm(pointNode.idx, pointNode.depth));
-                            print(GetCurNodeTrm(pointNode.idx, pointNode.depth).position);
                         }
                         else
                         {
@@ -147,10 +154,13 @@ public class MapHandler : MonoBehaviour
                             Vector3 pos2 = nodeTrm.InverseTransformPoint(GetCurNodeTrm(pointNode.idx, pointNode.depth).position);
                             lr.SetPosition(curPosCount+1, pos2);
                             lr.SetPosition(curPosCount, Vector2.zero);
-                            print(GetCurNodeTrm(pointNode.idx, pointNode.depth));
-                            print(GetCurNodeTrm(pointNode.idx, pointNode.depth).position);
                         }
                     }
+                }
+                else
+                {
+                    LineRenderer lr = nodeTrm.gameObject.GetComponent<LineRenderer>();
+                    lr.positionCount = 0;
                 }
                 int col = c;
                 int row = r;

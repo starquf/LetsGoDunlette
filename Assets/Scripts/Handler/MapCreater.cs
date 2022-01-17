@@ -37,6 +37,7 @@ public class MapCreater : MonoBehaviour
     public int mapRows;
     public int mapCols;
     public List<List<Node>> map = new List<List<Node>>();
+    private bool firstCreate = false;
 
     private void Awake()
     {
@@ -78,7 +79,20 @@ public class MapCreater : MonoBehaviour
             }
         }
     }
-    
+
+    public void MapReset()
+    {
+        for (int c = 0; c < mapCols; c++)
+        {
+            map.Add(new List<Node>());
+            for (int r = 0; r < mapRows; r++)
+            {
+                map[c][r].pointNodeList.Clear();
+                map[c][r].mapNode = mapNode.NONE;
+            }
+        }
+    }
+
     // 맵 만드는 함수
     public void CreateMap(int curDepth = 0)
     {
@@ -100,7 +114,18 @@ public class MapCreater : MonoBehaviour
         }
         else if (curDepth == 1)
         {
-            SetNode(curDepth, mapNode.MONSTER);
+            List<int> list = GetNotNoneIdx(beforeIdx);
+            foreach (int idx in list)
+            {
+                int[] plusIdx = GetRandomIdx(2);
+                for (int i = 0; i < plusIdx.Length; i++)
+                {
+                    int randIdx = Mathf.Clamp(plusIdx[i] + idx, 0, mapRows - 1);
+                    map[curDepth][randIdx].mapNode = mapNode.MONSTER;
+                    map[beforeIdx][idx].pointNodeList.Add(map[curDepth][randIdx]);
+                }
+            }
+            //SetNode(curDepth, mapNode.MONSTER);
         }
         else if(curDepth == mapCols - 2)
         {
@@ -125,7 +150,7 @@ public class MapCreater : MonoBehaviour
 
         while(maxLine < nodeCount)
         {
-            maxLine = Random.Range(mapRows - 3, mapRows - 1);
+            maxLine = Random.Range(mapRows - 3, mapRows);
         }
 
         int lineCount = maxLine / nodeCount;
