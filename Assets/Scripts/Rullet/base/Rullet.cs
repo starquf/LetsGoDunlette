@@ -137,14 +137,14 @@ public abstract class Rullet : MonoBehaviour
 
     public void ReRoll()
     {
-        rollSpeed = (1500f + UnityEngine.Random.Range(0f, 500f)) * UnityEngine.Random.Range(1f, 2f) * multiply;
+        rollSpeed = (600f + UnityEngine.Random.Range(0f, 300f)) * UnityEngine.Random.Range(1f, 2f) * multiply;
         stopSpeed = UnityEngine.Random.Range(2f, 2.5f);
     }
 
     protected virtual IEnumerator Roll()
     {
-        rollSpeed = (1500f + UnityEngine.Random.Range(0f, 500f)) * multiply;
-        stopSpeed = UnityEngine.Random.Range(2f, 2.5f);
+        rollSpeed = (600f + UnityEngine.Random.Range(0f, 300f)) * multiply;
+        stopSpeed = UnityEngine.Random.Range(6f, 6.5f);
 
         while (Mathf.Abs(rollSpeed) > 1.5f)
         {
