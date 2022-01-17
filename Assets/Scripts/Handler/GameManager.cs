@@ -64,6 +64,8 @@ public class GameManager : MonoBehaviour
     public event Action<SkillPiece, Sprite, Sprite> RewardEvent;
     [HideInInspector]
     public event Action OnUpdateUI;
+    [HideInInspector]
+    public event Action OnEndEncounter;
 
     private int gold = 1000;
     public int Gold 

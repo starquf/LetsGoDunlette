@@ -39,3 +39,11 @@ public enum TextUpAnimType
     Damage = 0,
     GetMoney = 1,
 }
+
+public enum EncounterType
+{
+    Battle,
+    RandomEvent,
+    Rest,
+    BossBattle
+}
