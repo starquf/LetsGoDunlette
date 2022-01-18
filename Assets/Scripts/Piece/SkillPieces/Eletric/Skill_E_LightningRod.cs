@@ -7,11 +7,8 @@ using Random = UnityEngine.Random;
 
 public class Skill_E_LightningRod : SkillPiece
 {
-    public GameObject LightningRodEffectPrefab;
-
-    public override void Cast(Action onCastEnd = null)
+    public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        base.Cast();
         print($"스킬 발동!! 이름 : {PieceName}");
 
         BattleHandler battleHandler = GameManager.Instance.battleHandler;
@@ -46,19 +43,19 @@ public class Skill_E_LightningRod : SkillPiece
             result.HighlightColor(0.4f);
         }
 
-        Vector3 target = battleHandler.enemy.transform.position;
-        target.y -= 0.7f;
-        target.x += 0.5f;
+        Vector3 targetPos = target.transform.position;
+        targetPos.y -= 0.7f;
+        targetPos.x += 0.5f;
 
         Anim_E_LightningRod lightningRodEffect = PoolManager.GetItem<Anim_E_LightningRod>();
-        lightningRodEffect.transform.position = target;
+        lightningRodEffect.transform.position = targetPos;
 
         lightningRodEffect.Play(() => {
 
             // 번개 속성이 존재한다면
             if (result != null)
             {
-                result.Cast(onCastEnd);
+                result.Cast(target, onCastEnd);
                 battleHandler.SetPieceToGraveyard(lightningSkillIdxDic[result]);
             }
             else
@@ -67,7 +64,7 @@ public class Skill_E_LightningRod : SkillPiece
             }
         });
 
-        GameManager.Instance.battleHandler.enemy.GetDamage(Value);
+        target.GetDamage(Value);
         GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
     }
 }

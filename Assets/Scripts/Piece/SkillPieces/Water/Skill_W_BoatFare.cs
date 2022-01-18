@@ -6,22 +6,23 @@ using UnityEngine;
 public class Skill_W_BoatFare : SkillPiece
 {
     BattleHandler battleHandler;
-    Vector3 target;
-    public override void Cast(Action onCastEnd = null)
+    Vector3 targetPos;
+
+    public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        base.Cast();
         print($"스킬 발동!! 이름 : {PieceName}");
         battleHandler = GameManager.Instance.battleHandler;
-        target = battleHandler.enemy.transform.position;
-        target.x -= 0.5f;
-        target.y += 0.5f;
+        targetPos = target.transform.position;
+        targetPos.x -= 0.5f;
+        targetPos.y += 0.5f;
 
         Anim_W_BoatFare boatFaredEffect = PoolManager.GetItem<Anim_W_BoatFare>();
-        boatFaredEffect.transform.position = target;
+        boatFaredEffect.transform.position = targetPos;
 
         boatFaredEffect.Play(() => {
-            battleHandler.enemy.GetDamage(Value);
+            target.GetDamage(Value);
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
+
             if (!CheckSilence())
             {
                 GetMoney(onCastEnd);
@@ -37,10 +38,10 @@ public class Skill_W_BoatFare : SkillPiece
     private void GetMoney(Action onCastEnd)
     {
         GameManager.Instance.Gold += 5;
-        if (battleHandler.enemy.IsDie)
+        if (battleHandler.enemys[0].IsDie)
         {
             Anim_W_BoatFareBonusMoney boatFaredBonusEffect = PoolManager.GetItem<Anim_W_BoatFareBonusMoney>();
-            boatFaredBonusEffect.transform.position = target;
+            boatFaredBonusEffect.transform.position = targetPos;
 
             boatFaredBonusEffect.Play(() => {
                 GameManager.Instance.Gold += 5;

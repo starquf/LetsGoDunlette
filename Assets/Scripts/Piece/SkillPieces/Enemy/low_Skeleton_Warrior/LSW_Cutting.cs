@@ -6,20 +6,18 @@ using UnityEngine;
 
 public class LSW_Cutting : SkillPiece
 {
-    public GameObject attackExpPrefab;
-
     protected override void Awake()
     {
         base.Awake();
         isPlayerSkill = false;
     }
 
-    public override void Cast(Action onCastEnd = null)
+    public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         print($"적 스킬 발동!! 이름 : {PieceName}");
         GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
-        Vector3 target = GameManager.Instance.battleHandler.player.transform.position;
+        Vector3 targetPos = target.transform.position;
         Vector3 startPos = skillImg.transform.position;
 
         for (int i = 0; i < 3; i++)
@@ -29,7 +27,7 @@ public class LSW_Cutting : SkillPiece
 
             int a = i;
 
-            attackObj.Play(target, () =>
+            attackObj.Play(targetPos, () =>
             {
                 attackObj.Sr.DOFade(0f, 0.1f)
                     .OnComplete(() =>
@@ -37,7 +35,6 @@ public class LSW_Cutting : SkillPiece
                         attackObj.EndEffect();
                     });
 
-                Instantiate(attackExpPrefab, attackObj.transform.position, Quaternion.identity);
                 GameManager.Instance.cameraHandler.ShakeCamera(0.25f, 0.2f);
 
                 if (a == 2)
@@ -47,6 +44,6 @@ public class LSW_Cutting : SkillPiece
 
         }
 
-        GameManager.Instance.battleHandler.player.GetDamage(Value);
+        target.GetDamage(Value);
     }
 }

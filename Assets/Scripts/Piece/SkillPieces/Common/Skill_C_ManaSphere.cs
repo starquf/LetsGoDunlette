@@ -15,30 +15,28 @@ public class Skill_C_ManaSphere : SkillPiece
         effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[PatternType.None];
     }
 
-    public override void Cast(Action onCastEnd = null)
+    public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        Vector3 startPos = GameManager.Instance.battleHandler.player.transform.position;
-        Vector3 target = GameManager.Instance.battleHandler.enemy.transform.position;
+        Vector3 startPos = owner.transform.position;
+        Vector3 targetPos = target.transform.position;
 
         Anim_C_SphereCast castAnim = PoolManager.GetItem<Anim_C_SphereCast>();
         castAnim.transform.position = startPos;
 
         castAnim.Play(() =>
         {
-            PlayerAttackAnimation();
-
             EffectObj effect = PoolManager.GetItem<EffectObj>();
             effect.transform.position = startPos;
             effect.SetSprite(manaSphereSpr);
             effect.SetColorGradient(effectGradient);
 
-            effect.Play(target, () =>
+            effect.Play(targetPos, () =>
             {
                 Anim_C_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_C_ManaSphereHit>();
-                hitEffect.transform.position = target;
+                hitEffect.transform.position = targetPos;
 
                 GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-                GameManager.Instance.battleHandler.enemy.GetDamage(Value);
+                target.GetDamage(Value);
                 onCastEnd?.Invoke();
 
                 hitEffect.Play(() =>

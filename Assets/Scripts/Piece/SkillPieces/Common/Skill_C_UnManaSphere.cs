@@ -15,18 +15,16 @@ public class Skill_C_UnManaSphere : SkillPiece
         effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[PatternType.None];
     }
 
-    public override void Cast(Action onCastEnd = null)
+    public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        Vector3 startPos = GameManager.Instance.battleHandler.player.transform.position;
-        Vector3 target = GameManager.Instance.battleHandler.enemy.transform.position;
+        Vector3 startPos = owner.transform.position;
+        Vector3 targetPos = target.transform.position;
 
         Anim_C_SphereCast castAnim = PoolManager.GetItem<Anim_C_SphereCast>();
         castAnim.transform.position = startPos;
 
         castAnim.Play(() =>
         {
-            PlayerAttackAnimation();
-
             int damage = Value / 2;
 
             int rand = Random.Range(0, 100);
@@ -40,15 +38,15 @@ public class Skill_C_UnManaSphere : SkillPiece
                 effect.SetSprite(manaSphereSpr);
                 effect.SetColorGradient(effectGradient);
 
-                effect.Play(target, () =>
+                effect.Play(targetPos, () =>
                 {
                     GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
                     print($"데미지 발동 : {damage}");
-                    GameManager.Instance.battleHandler.enemy.GetDamage(damage);
+                    target.GetDamage(damage);
 
                     Anim_C_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_C_ManaSphereHit>();
-                    hitEffect.transform.position = target;
+                    hitEffect.transform.position = targetPos;
 
                     hitEffect.Play(() =>
                     {
@@ -58,7 +56,7 @@ public class Skill_C_UnManaSphere : SkillPiece
                     {
                         if (!CheckSilence() && rand < 35)
                         {
-                            GameManager.Instance.battleHandler.player.cc.SetCC(CCType.Silence, 4);
+                            owner.GetComponent<LivingEntity>().cc.SetCC(CCType.Silence, 4);
                         }
 
                         onCastEnd?.Invoke();

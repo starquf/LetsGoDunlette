@@ -16,27 +16,16 @@ public class SkillPiece : RulletPiece
         PieceType = PieceType.SKILL;
     }
 
-    public override void Cast(Action onCastEnd = null)
+    public override void Cast(LivingEntity targetTrm, Action onCastEnd = null)
     {
-        PlayerAttackAnimation();
+
     }
 
     public virtual bool CheckSilence()
     {
-        BattleHandler bh = GameManager.Instance.battleHandler;
-        CrowdControl cc = isPlayerSkill ? bh.player.cc : bh.enemy.cc;
+        CrowdControl cc = owner.GetComponent<CrowdControl>();
 
         // 침묵 상태인가?
         return cc.ccDic[CCType.Silence] > 0;
-    }
-
-    protected void PlayerAttackAnimation()
-    {
-        Transform playerTrm = GameManager.Instance.battleHandler.player.transform;
-        Vector3 enermyPos = GameManager.Instance.battleHandler.enemy.transform.position;
-        Vector3 playerPos = playerTrm.position;
-
-
-        Sequence sequence = DOTween.Sequence().Append(playerTrm.DOMoveX(Mathf.Lerp(playerPos.x, enermyPos.x, 0.3f), 0.1f)).Append(playerTrm.DOMoveX(playerPos.x, 0.2f));
     }
 }

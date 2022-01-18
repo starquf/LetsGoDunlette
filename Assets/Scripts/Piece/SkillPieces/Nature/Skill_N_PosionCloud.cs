@@ -8,22 +8,21 @@ public class Skill_N_PosionCloud : SkillPiece
 {
     public GameObject posionCloudEffectPrefab;
 
-    public override void Cast(Action onCastEnd = null)
+    public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        base.Cast();
         print($"스킬 발동!! 이름 : {PieceName}");
 
         BattleHandler bh = GameManager.Instance.battleHandler;
-        Vector3 target = bh.enemy.transform.position;
+        Vector3 targetPos = target.transform.position;
 
         Anim_N_PosionCloud posionCloudEffect = PoolManager.GetItem<Anim_N_PosionCloud>();
-        posionCloudEffect.transform.position = target;
+        posionCloudEffect.transform.position = targetPos;
 
         posionCloudEffect.Play(() => {
             if(!CheckSilence())
             {
-                bh.enemy.GetComponent<SpriteRenderer>().color = Color.green;
-                bh.enemy.cc.SetCC(CCType.Wound, 4);
+                target.GetComponent<SpriteRenderer>().color = Color.green;
+                target.cc.SetCC(CCType.Wound, 4);
             }
             onCastEnd?.Invoke();
         });
@@ -37,10 +36,10 @@ public class Skill_N_PosionCloud : SkillPiece
             if (!CheckSilence())
             {
                 Anim_N_PosionCloud posionCloudEffect = PoolManager.GetItem<Anim_N_PosionCloud>();
-                posionCloudEffect.transform.position = target;
+                posionCloudEffect.transform.position = targetPos;
 
                 posionCloudEffect.Play(() => {
-                    bh.enemy.GetDamage(Value);
+                    target.GetDamage(Value);
                     GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
                 });
             }
@@ -49,7 +48,7 @@ public class Skill_N_PosionCloud : SkillPiece
             // 바로 없엘거면 이렇게
             if(cnt == 0)
             {
-                bh.enemy.GetComponent<SpriteRenderer>().color = Color.white;
+                target.GetComponent<SpriteRenderer>().color = Color.white;
                 bh.onNextAttack -= onNextTest;
             }
         };

@@ -5,21 +5,19 @@ using UnityEngine;
 
 public class Skill_C_Sign : SkillPiece
 {
-    public override void Cast(Action onCastEnd = null)
+    public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        BattleHandler bh = GameManager.Instance.battleHandler;
-
         // Ä§¹¬ »óÅÂ¸é
         if (!CheckSilence())
         {
             Anim_Contract contractAnim = PoolManager.GetItem<Anim_Contract>();
-            contractAnim.transform.position = bh.player.transform.position;
+            contractAnim.transform.position = owner.transform.position;
 
             contractAnim.Play(() => {
                 onCastEnd?.Invoke();
             });
 
-            bh.player.cc.SetBuff(BuffType.Contract, 20);
+            owner.GetComponent<LivingEntity>().cc.SetBuff(BuffType.Contract, 20);
         }
         else
         {
