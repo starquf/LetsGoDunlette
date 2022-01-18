@@ -49,16 +49,16 @@ public class BattleHandler : MonoBehaviour
 
     // 결과로 나온 룰렛조각
     [HideInInspector]
-    public RulletPiece result;
+    public SkillPiece result;
     private int resultIdx;
 
     //==================================================
 
     [Header("플레이어&적 Health")]
     public PlayerHealth player;
-    public EnemyHealth enemy;
 
-    private EnemyInventory enemyInventory;
+    [HideInInspector]
+    public List<EnemyHealth> enemys = new List<EnemyHealth>();
 
     //==================================================
     
@@ -123,7 +123,11 @@ public class BattleHandler : MonoBehaviour
     {
         List<CrowdControl> ccList = new List<CrowdControl>();
         ccList.Add(player.cc);
-        ccList.Add(enemy.cc);
+
+        for (int i = 0; i < enemys.Count; i++)
+        {
+            ccList.Add(enemys[i].cc);
+        }
 
         ccHandler.Init(ccList);
         battleRewardHandler.Init(battleInfo.rewards);
@@ -131,8 +135,12 @@ public class BattleHandler : MonoBehaviour
 
     private void CreateEnemy(List<EnemyHealth> enemyInfos)
     {
-        enemy = Instantiate(enemyInfos[0]);
-        enemyInventory = enemy.GetComponent<EnemyInventory>();
+        for (int i = 0; i < enemyInfos.Count; i++)
+        {
+            
+        }
+
+        enemys.Add(Instantiate(enemyInfos[0]));
     }
 
     private void SetStopHandler()
@@ -147,7 +155,7 @@ public class BattleHandler : MonoBehaviour
         {
             stopHandler.rullet.HighlightResult();
 
-            this.result = result;
+            this.result = result as SkillPiece;
             resultIdx = pieceIdx;
         });
     }
@@ -161,7 +169,7 @@ public class BattleHandler : MonoBehaviour
         yield return null;
 
         // 적의 스킬을 추가해준다
-        yield return new WaitForSeconds(enemyInventory.CreateSkillsSmooth() + 0.5f);
+        yield return new WaitForSeconds(enemys[0].GetComponent<EnemyInventory>().CreateSkillsSmooth() + 0.5f);
 
         // 인벤토리에서 랜덤한 6개의 스킬을 뽑아 룰렛에 적용한다. 단, 최소한 적의 스킬 1개와 내 스킬 2개가 보장된다.
 
@@ -270,8 +278,8 @@ public class BattleHandler : MonoBehaviour
         // 잠시 기다리고
         yield return oneSecWait;
 
-        // 적이 죽었는가?
-        if (enemy.IsDie)
+        // 적이 전부 죽었는가?
+        if (enemys[0].IsDie)
         {
             BattleEnd();
             yield break;
@@ -303,14 +311,23 @@ public class BattleHandler : MonoBehaviour
     {
         if (result != null)
         {
-            result.Cast(() =>
+            LivingEntity target = null;
+
+            // 플레이어 스킬이라면
+            if (result.isPlayerSkill)
+            {
+                // 타겟 지정해서 공격하는 로직 만들어야됨 일단 임시
+                target = enemys[0];
+            }
+            else
+            {
+                target = player;
+            }
+
+            result.Cast(target, () =>
             {
                 StartCoroutine(EndTurn());
             });
-        }
-        else
-        {
-
         }
     }
 

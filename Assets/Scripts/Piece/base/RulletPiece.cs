@@ -103,5 +103,5 @@ public abstract class RulletPiece : MonoBehaviour
         skillImg.transform.DOScale(Vector3.one, 0.5f);
     }
 
-    public abstract void Cast(Action onCastEnd = null);
+    public abstract void Cast(LivingEntity target, Action onCastEnd = null);
 }

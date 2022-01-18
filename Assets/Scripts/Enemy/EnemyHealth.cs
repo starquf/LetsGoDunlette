@@ -6,12 +6,13 @@ using DG.Tweening;
 public class EnemyHealth : LivingEntity
 {
     private SpriteRenderer sr;
-    public EnemyReward enemyReward;
+
+    [Header("보스 여부")]
+    public bool isBoss = false;
 
     protected override void Start()
     {
         sr = GetComponent<SpriteRenderer>();
-        enemyReward = GetComponent<EnemyReward>();
 
         BattleHandler battleHandler = GameManager.Instance.battleHandler;
 
@@ -27,8 +28,6 @@ public class EnemyHealth : LivingEntity
     {
         sr.DOFade(0f, 1f)
             .SetEase(Ease.Linear);
-
-        //enemyReward.GiveReward();
     }
 
     public override void Revive()
