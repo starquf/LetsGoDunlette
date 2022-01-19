@@ -3384,7 +3384,7 @@ MonoBehaviour:
   mainRullet: {fileID: 1688676333}
   result: {fileID: 0}
   player: {fileID: 1333142614}
-  enemy: {fileID: 0}
+  enemys: []
 --- !u!114 &625059887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7937,13 +7937,14 @@ GameObject:
   - component: {fileID: 1624579025}
   - component: {fileID: 1624579024}
   - component: {fileID: 1624579026}
+  - component: {fileID: 1624579027}
   m_Layer: 5
   m_Name: AllMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1624579023
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8033,6 +8034,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &1624579027
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1624579022}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1632239913
 GameObject:
   m_ObjectHideFlags: 0
