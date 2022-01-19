@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class MapHandler : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class MapHandler : MonoBehaviour
     private MapCreater mapCreater;
     private Transform mapHider;
 
+    private Sequence openSequence;
+
     private void Awake()
     {
         GameManager.Instance.mapHandler = this;
@@ -37,6 +40,26 @@ public class MapHandler : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void OpenMapPanel(bool open, bool quick = false)
+    {
+        CanvasGroup cvsGroup = mapUIs.GetComponent<CanvasGroup>();
+
+        openSequence.Kill();
+        if (!quick)
+        {
+            openSequence.Append(cvsGroup.DOFade(open ? 1 : 0, 0.5f).OnComplete(() => {
+                cvsGroup.interactable = open;
+                cvsGroup.blocksRaycasts = open;
+            }));
+        }
+        else
+        {
+            cvsGroup.alpha = open ? 1 : 0;
+            cvsGroup.interactable = open;
+            cvsGroup.blocksRaycasts = open;
+        }
     }
 
     public void MovePlayer()
