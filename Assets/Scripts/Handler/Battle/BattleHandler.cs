@@ -7,17 +7,6 @@ using UnityEngine.UI;
 
 public class BattleHandler : MonoBehaviour
 {
-    // BattleHandler _ TypeC
-
-    // 적의 스킬이 내 인벤토리에 들어가게 된다
-    // 인벤토리에서 랜덤한 6개의 조각으로 채워진다 (단, 무조건 1개 이상의 적 조각과 2개 이상의 플레이어 조각이 들어가야한다)
-    // 스킬 룰렛을 돌린다
-
-    // 결과가 나올 때까지 기다린다 or 리롤을 한다
-    // 결과가 나왔다면 나온 스킬이 발동된다
-
-    // 공격이 전부 끝났다면 다시 룰렛을 돌린다.
-
     //==================================================
 
     [Header("메인 룰렛 멈추는 핸들러")]
@@ -32,6 +21,9 @@ public class BattleHandler : MonoBehaviour
     //==================================================
 
     private BattleInfo battleInfo;
+
+    [Header("적을 생성하는 위치")]
+    public Transform createTrans;
 
     [Header("적 공통")]
     public Transform hpBar;
@@ -137,10 +129,49 @@ public class BattleHandler : MonoBehaviour
     {
         for (int i = 0; i < enemyInfos.Count; i++)
         {
-            
+            enemys.Add(Instantiate(enemyInfos[i]));
         }
 
-        enemys.Add(Instantiate(enemyInfos[0]));
+        // 보스면 가운데와 바꿔줘야된다 
+        SortBoss();
+        SetEnemyPosition();
+    }
+
+    private void SortBoss()
+    {
+        int idx = enemys.Count / 2;
+
+        for (int i = 0; i < enemys.Count; i++)
+        {
+            // 보스면
+            if (enemys[i].isBoss && i != idx)
+            {
+                EnemyHealth temp = enemys[idx];
+
+                enemys[idx] = enemys[i];
+                enemys[i] = temp;
+            }
+        }
+    }
+
+    private void SetEnemyPosition()
+    {
+        if (enemys.Count <= 0) return;
+
+        Vector2 screenX = new Vector2(Camera.main.ViewportToWorldPoint(Vector3.zero).x, Camera.main.ViewportToWorldPoint(Vector3.one).x);
+        float posX = (Mathf.Abs(screenX.x) + screenX.y) / (float)(enemys.Count + 1);
+
+        // -5  5   10   5   
+
+        float totalX = 0f;
+
+        for (int i = 0; i < enemys.Count; i++)
+        {
+            totalX += posX;
+
+            enemys[i].transform.position = createTrans.position;
+            enemys[i].transform.DOMoveX(totalX + screenX.x, 0.3f);
+        }
     }
 
     private void SetStopHandler()
@@ -169,7 +200,19 @@ public class BattleHandler : MonoBehaviour
         yield return null;
 
         // 적의 스킬을 추가해준다
-        yield return new WaitForSeconds(enemys[0].GetComponent<EnemyInventory>().CreateSkillsSmooth() + 0.5f);
+        float maxTime = 0;
+
+        for (int i = 0; i < enemys.Count; i++)
+        {
+            float time = enemys[i].GetComponent<EnemyInventory>().CreateSkillsSmooth();
+
+            if (maxTime < time)
+            {
+                maxTime = time;
+            }
+        }
+
+        yield return new WaitForSeconds(maxTime + 0.5f);
 
         // 인벤토리에서 랜덤한 6개의 스킬을 뽑아 룰렛에 적용한다. 단, 최소한 적의 스킬 1개와 내 스킬 2개가 보장된다.
 
