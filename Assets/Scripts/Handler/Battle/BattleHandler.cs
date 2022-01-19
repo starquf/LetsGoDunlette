@@ -12,6 +12,9 @@ public class BattleHandler : MonoBehaviour
     [Header("메인 룰렛 멈추는 핸들러")]
     public StopSliderHandler stopHandler;
 
+    [Header("캐스트 하는 스킬 띄워주는 핸들러")]
+    public PieceCastUIHandler castUIHandler;
+
     private BattleInfoHandler battleInfoHandler;
     private CCHandler ccHandler;
     private BattleRewardHandler battleRewardHandler;
@@ -367,8 +370,10 @@ public class BattleHandler : MonoBehaviour
                 target = player;
             }
 
+            castUIHandler.ShowCasting(result.skillImg.sprite);
             result.Cast(target, () =>
             {
+                castUIHandler.ShowPanel(false);
                 StartCoroutine(EndTurn());
             });
         }
