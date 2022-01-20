@@ -5,6 +5,7 @@ using DG.Tweening;
 
 public class EnemyHealth : LivingEntity
 {
+    private Collider2D coll;
     private SpriteRenderer sr;
 
     [Header("보스 여부")]
@@ -12,6 +13,7 @@ public class EnemyHealth : LivingEntity
 
     protected override void Start()
     {
+        coll = GetComponent<Collider2D>();
         sr = GetComponent<SpriteRenderer>();
 
         BattleHandler battleHandler = GameManager.Instance.battleHandler;
@@ -28,6 +30,8 @@ public class EnemyHealth : LivingEntity
     {
         sr.DOFade(0f, 1f)
             .SetEase(Ease.Linear);
+
+        coll.enabled = false;
     }
 
     public override void Revive()
@@ -36,5 +40,7 @@ public class EnemyHealth : LivingEntity
 
         sr.DOFade(1f, 1f)
             .SetEase(Ease.Linear);
+
+        coll.enabled = true;
     }
 }
