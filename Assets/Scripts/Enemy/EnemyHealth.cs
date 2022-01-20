@@ -16,12 +16,12 @@ public class EnemyHealth : LivingEntity
         coll = GetComponent<Collider2D>();
         sr = GetComponent<SpriteRenderer>();
 
-        BattleHandler battleHandler = GameManager.Instance.battleHandler;
+        //BattleHandler battleHandler = GameManager.Instance.battleHandler;
 
-        hpBar = battleHandler.hpBar;
-        hpShieldBar = battleHandler.hpShieldBar;
-        hpText = battleHandler.hpText;
-        damageTrans = battleHandler.damageTrans;
+        //hpBar = battleHandler.hpBar;
+        //hpShieldBar = battleHandler.hpShieldBar;
+        //hpText = battleHandler.hpText;
+        //damageTrans = battleHandler.damageTrans;
 
         base.Start();
     }
