@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PieceDesUIHandler : MonoBehaviour
 {
     public Text nameText;
-    public Image iconImg;
+    public Image bgImg;
     public Text desText;
 
     [Space(10f)]
@@ -25,10 +25,10 @@ public class PieceDesUIHandler : MonoBehaviour
         ShowPanel(false);
     }
 
-    public void ShowDescription(string name, Sprite icon, string des)
+    public void ShowDescription(string name, Sprite bg, string des)
     {
         nameText.text = name;
-        iconImg.sprite = icon;
+        bgImg.sprite = bg;
         desText.text = des;
 
         ShowPanel(true);

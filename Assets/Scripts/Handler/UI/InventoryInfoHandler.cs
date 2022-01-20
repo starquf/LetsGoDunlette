@@ -65,17 +65,17 @@ public class InventoryInfoHandler : MonoBehaviour
 
         for (int i = 0; i < skills.Count; i++)
         {
-            Sprite icon = skills[i].skillImg.sprite;
+            Sprite bg = skills[i].cardBG;
             string name = skills[i].PieceName;
             string des = skills[i].PieceDes;
 
             PieceInfoUI pieceInfoUI = PoolManager.GetItem<PieceInfoUI>();
-            pieceInfoUI.SetSkillIcon(icon);
+            pieceInfoUI.SetSkillIcon(skills[i].skillImg.sprite);
 
             pieceInfoUI.button.onClick.RemoveAllListeners();
             pieceInfoUI.button.onClick.AddListener(() =>
             {
-                desPanel.ShowDescription(name, icon, des);
+                desPanel.ShowDescription(name, bg, des);
             });
 
             pieceInfoUI.transform.SetAsFirstSibling();

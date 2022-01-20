@@ -32,6 +32,9 @@ public abstract class RulletPiece : MonoBehaviour
 
     public Image skillImg;
 
+    [Header("카드 배경")]
+    public Sprite cardBG;
+
     private float r;
     private Vector3 pos;
 
