@@ -370,11 +370,12 @@ public class BattleHandler : MonoBehaviour
                 target = player;
             }
 
-            castUIHandler.ShowCasting(result.skillImg.sprite);
-            result.Cast(target, () =>
-            {
-                castUIHandler.ShowPanel(false);
-                StartCoroutine(EndTurn());
+            castUIHandler.ShowCasting(result, () => {
+                result.Cast(target, () =>
+                {
+                    castUIHandler.EndCast(result);
+                    StartCoroutine(EndTurn());
+                });
             });
         }
     }

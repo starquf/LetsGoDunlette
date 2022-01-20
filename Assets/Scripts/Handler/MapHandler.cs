@@ -121,7 +121,7 @@ public class MapHandler : MonoBehaviour
         {
             for (int r = 0; r < rows; r++)
             {
-                print(c + ","+r);
+                //print(c + ","+r);
                 Transform nodeTrm = GetCurNodeTrm(r, c);
                 Color color = Color.clear;
                 switch (map[c][r].mapNode)
