@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7878481997818362494}
   - component: {fileID: 7878481997818362493}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CharacterPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,8 @@ GameObject:
   - component: {fileID: 7878481999268547014}
   - component: {fileID: 7878481999268547015}
   - component: {fileID: 7878481999268547065}
-  m_Layer: 0
+  - component: {fileID: -5426773400371243313}
+  m_Layer: 6
   m_Name: low_Skeleton_Warrior2-3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -208,7 +209,7 @@ MonoBehaviour:
   hp: 0
   shieldHp: 0
   cc: {fileID: 0}
-  enemyReward: {fileID: 0}
+  isBoss: 0
 --- !u!114 &7878481999268547065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,3 +232,19 @@ MonoBehaviour:
   buffIcons:
   - {fileID: 6949942483554766801, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
   - {fileID: 6617641044635203348, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
+--- !u!58 &-5426773400371243313
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7878481999268547066}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
