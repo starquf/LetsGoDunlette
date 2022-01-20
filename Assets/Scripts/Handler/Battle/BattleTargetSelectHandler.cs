@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BattleTargetSelectHandler : MonoBehaviour
 {
     public Transform detectTrans;
     public InventoryInfoHandler invenInfoHandler;
+    public Image arrowImg;
 
     private LineRenderer lr;
 
@@ -33,6 +35,8 @@ public class BattleTargetSelectHandler : MonoBehaviour
 
         mainCam = Camera.main;
         isEnemy = LayerMask.GetMask("Enemy");
+
+        arrowImg.enabled = false;
     }
 
     private void Update()
@@ -62,6 +66,9 @@ public class BattleTargetSelectHandler : MonoBehaviour
                 lr.SetPosition(0, detectPos);
                 lr.SetPosition(1, detectPos);
 
+                arrowImg.enabled = true;
+                arrowImg.transform.position = detectPos;
+
                 StartCoroutine(OnDrag());
             }
         }
@@ -85,33 +92,54 @@ public class BattleTargetSelectHandler : MonoBehaviour
             touchPos = mainCam.ScreenToWorldPoint(Input.mousePosition);
             touchPos.z = 0f;
 
-            // 선 그려주는 작업
-            lr.SetPosition(1, touchPos);
+            // 적이 선택되었다면
+            if (GetPositionEnemy(touchPos, out EnemyHealth enemy))
+            {
+                // 선 그려주는 작업
+                lr.SetPosition(1, enemy.transform.position);
+            }
+            else
+            {
+                // 선 그려주는 작업
+                lr.SetPosition(1, touchPos);
+            }
+
+            SetArrowPos();
 
             // 손을 때면
             if (Input.GetMouseButtonUp(0))
             {
-                DetectEnemy();
+                // 적이 선택되었다면
+                if (enemy != null)
+                {
+                    SetTarget(enemy);
+                }
 
                 lr.SetPosition(0, Vector3.zero);
                 lr.SetPosition(1, Vector3.zero);
 
                 isDrag = false;
+                arrowImg.enabled = false;
 
                 break;
             }
         }
     }
 
-    private void DetectEnemy()
+    private void SetArrowPos()
     {
-        // 적이 있다면
-        if (GetPositionEnemy(touchPos, out EnemyHealth enemy))
-        {
-            onEndSelect(enemy);
+        Vector2 dir = lr.GetPosition(1) - lr.GetPosition(0);
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
-            isSelect = false;
-        }
+        arrowImg.transform.position = lr.GetPosition(1);
+        arrowImg.transform.rotation = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
+    }
+
+    private void SetTarget(EnemyHealth enemy)
+    {
+        onEndSelect(enemy);
+
+        isSelect = false;
     }
 
     private bool GetPositionEnemy(Vector3 pos, out EnemyHealth enemy)

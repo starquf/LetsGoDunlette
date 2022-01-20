@@ -273,6 +273,14 @@ public class InventoryHandler : MonoBehaviour
         }
     }
 
+    public void RemoveOwnerPiece(Inventory owner)
+    {
+        for (int i = 0; i < owner.skills.Count; i++)
+        {
+            RemovePiece(owner.skills[i]);
+        }
+    }
+
     private void RemovePiece(SkillPiece piece)
     {
         skills.Remove(piece);

@@ -172,10 +172,13 @@ public class BattleHandler : MonoBehaviour
 
         for (int i = 0; i < enemys.Count; i++)
         {
-            totalX += posX;
+            if (!enemys[i].IsDie)
+            {
+                totalX += posX;
 
-            enemys[i].transform.position = createTrans.position;
-            enemys[i].transform.DOMoveX(totalX + screenX.x, 0.3f);
+                enemys[i].transform.position = createTrans.position;
+                enemys[i].transform.DOMoveX(totalX + screenX.x, 0.3f);
+            }
         }
     }
 
@@ -327,7 +330,7 @@ public class BattleHandler : MonoBehaviour
         yield return oneSecWait;
 
         // 적이 전부 죽었는가?
-        if (enemys[0].IsDie)
+        if (CheckEnemyDie())
         {
             BattleEnd();
             yield break;
@@ -342,6 +345,19 @@ public class BattleHandler : MonoBehaviour
 
         // 다음턴으로
         InitTurn();
+    }
+
+    private bool CheckEnemyDie()
+    {
+        for (int i = 0; i < enemys.Count; i++)
+        {
+            if (!enemys[i].IsDie)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     // 전투가 끝날 때
@@ -360,7 +376,7 @@ public class BattleHandler : MonoBehaviour
     {
         if (result != null)
         {
-            castUIHandler.ShowCasting(result.skillImg.sprite);
+            Action onShowCast = () => { };
 
             // 플레이어 스킬이라면
             if (result.isPlayerSkill)
@@ -375,12 +391,17 @@ public class BattleHandler : MonoBehaviour
             }
             else
             {
-                result.Cast(player, () =>
+                onShowCast = () =>
                 {
-                    castUIHandler.ShowPanel(false);
-                    StartCoroutine(EndTurn());
-                });
+                    result.Cast(player, () =>
+                    {
+                        castUIHandler.ShowPanel(false);
+                        StartCoroutine(EndTurn());
+                    });
+                };
             }
+
+            castUIHandler.ShowCasting(result, onShowCast);
         }
     }
 
