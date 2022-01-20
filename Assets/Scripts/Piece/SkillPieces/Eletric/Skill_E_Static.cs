@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Skill_E_Static : SkillPiece
 {
@@ -23,30 +24,21 @@ public class Skill_E_Static : SkillPiece
         staticEffect.Play(() => {
             target.GetDamage(Value);
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-
-            onCastEnd?.Invoke();
-        });
-
-        Action<RulletPiece> onNextTest = result => { };
-
-        onNextTest = result =>
-        {
-            if (!CheckSilence() && result.PieceType.Equals(PieceType.SKILL) && result.GetComponent<SkillPiece>().patternType.Equals(PatternType.Diamonds))
+            if(Random.Range(0,100) < 25)
             {
                 Anim_E_Static_Stun stunEffect = PoolManager.GetItem<Anim_E_Static_Stun>();
                 stunEffect.transform.position = targetPos;
 
-                stunEffect.Play(()=>{
+                stunEffect.Play(() => {
+                    onCastEnd?.Invoke();
                 });
 
                 target.cc.SetCC(CCType.Stun, 1);
             }
-
-            // 바로 없엘거면 이렇게
-            bh.onNextAttack -= onNextTest;
-        };
-
-        // 이벤트에 추가해주면 됨
-        bh.onNextAttack += onNextTest;
+            else
+            {
+                onCastEnd?.Invoke();
+            }
+        });
     }
 }
