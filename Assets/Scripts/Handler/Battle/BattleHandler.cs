@@ -18,6 +18,7 @@ public class BattleHandler : MonoBehaviour
     private BattleInfoHandler battleInfoHandler;
     private CCHandler ccHandler;
     private BattleRewardHandler battleRewardHandler;
+    private BattleTargetSelectHandler battleTargetSelector;
 
     private InventoryHandler inventory;
 
@@ -78,6 +79,7 @@ public class BattleHandler : MonoBehaviour
         battleInfoHandler = GetComponent<BattleInfoHandler>();
         ccHandler = GetComponent<CCHandler>();
         battleRewardHandler = GetComponent<BattleRewardHandler>();
+        battleTargetSelector = GetComponent<BattleTargetSelectHandler>();
     }
 
     private void Start()
@@ -345,6 +347,7 @@ public class BattleHandler : MonoBehaviour
     // 전투가 끝날 때
     private void BattleEnd()
     {
+        enemys.Clear();
         battleRewardHandler.GiveReward();
     }
 
@@ -357,25 +360,27 @@ public class BattleHandler : MonoBehaviour
     {
         if (result != null)
         {
-            LivingEntity target = null;
+            castUIHandler.ShowCasting(result.skillImg.sprite);
 
             // 플레이어 스킬이라면
             if (result.isPlayerSkill)
             {
-                // 타겟 지정해서 공격하는 로직 만들어야됨 일단 임시
-                target = enemys[0];
+                battleTargetSelector.SelectTarget(target => {
+                    result.Cast(target, () =>
+                    {
+                        castUIHandler.ShowPanel(false);
+                        StartCoroutine(EndTurn());
+                    });
+                });
             }
             else
             {
-                target = player;
+                result.Cast(player, () =>
+                {
+                    castUIHandler.ShowPanel(false);
+                    StartCoroutine(EndTurn());
+                });
             }
-
-            castUIHandler.ShowCasting(result.skillImg.sprite);
-            result.Cast(target, () =>
-            {
-                castUIHandler.ShowPanel(false);
-                StartCoroutine(EndTurn());
-            });
         }
     }
 

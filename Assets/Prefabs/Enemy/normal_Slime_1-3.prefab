@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 2194092688508076328}
   - component: {fileID: 2194092688508076325}
   - component: {fileID: 2194092688508076330}
-  m_Layer: 0
+  - component: {fileID: -2828916957511647186}
+  m_Layer: 6
   m_Name: normal_Slime_1-3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126,7 +127,7 @@ MonoBehaviour:
   hp: 0
   shieldHp: 0
   cc: {fileID: 0}
-  enemyReward: {fileID: 0}
+  isBoss: 0
 --- !u!114 &2194092688508076330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,6 +150,22 @@ MonoBehaviour:
   buffIcons:
   - {fileID: 6949942483554766801, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
   - {fileID: 6617641044635203348, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
+--- !u!58 &-2828916957511647186
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2194092688508076324}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &2194092688758032385
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,7 +176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2194092688758032390}
   - component: {fileID: 2194092688758032391}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CharacterPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
