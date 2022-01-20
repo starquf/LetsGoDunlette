@@ -95,6 +95,7 @@ public class InventoryHandler : MonoBehaviour
     // 사용한 스킬은 이걸 호출
     public void SetUseSkill(SkillPiece skill)
     {
+        skill.isInRullet = false;
         usedSkills.Add(skill);
 
         skill.ResetPiece();
@@ -133,6 +134,7 @@ public class InventoryHandler : MonoBehaviour
 
     public void SetUnUseSkill(SkillPiece skill)
     {
+        skill.isInRullet = false;
         unusedSkills.Add(skill);
 
         skill.ResetPiece();
@@ -273,11 +275,38 @@ public class InventoryHandler : MonoBehaviour
         }
     }
 
-    public void RemoveOwnerPiece(Inventory owner)
+    public void RemoveAllOwnerPiece(Inventory owner)
     {
         for (int i = 0; i < owner.skills.Count; i++)
         {
-            RemovePiece(owner.skills[i]);
+            SkillPiece piece = owner.skills[i];
+
+            // 룰렛 안에 있는 거면
+            if (piece.isInRullet)
+            {
+                CreateRemoveEffect(piece);
+                RemovePiece(piece);
+            }
+            else
+            {
+                RemovePiece(piece);
+            }
+        }
+    }
+
+    private void CreateRemoveEffect(SkillPiece piece)
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            EffectObj effect = PoolManager.GetItem<EffectObj>();
+            effect.SetSprite(effectSprDic[piece.patternType]);
+            effect.SetColorGradient(effectGradDic[piece.patternType]);
+
+            effect.transform.position = piece.skillImg.transform.position;
+
+            effect.transform.DOMove(Random.insideUnitCircle * 1.5f, 0.4f)
+                .SetRelative()
+                .OnComplete(() => effect.EndEffect());
         }
     }
 

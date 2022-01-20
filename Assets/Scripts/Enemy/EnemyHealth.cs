@@ -32,6 +32,8 @@ public class EnemyHealth : LivingEntity
             .SetEase(Ease.Linear);
 
         coll.enabled = false;
+
+        GameManager.Instance.inventoryHandler.RemoveAllOwnerPiece(GetComponent<Inventory>());
     }
 
     public override void Revive()

@@ -7,6 +7,7 @@ using System;
 public class SkillPiece : RulletPiece
 {
     public bool isPlayerSkill = true;
+    public bool isInRullet = false;
 
     [HideInInspector]
     public Inventory owner;

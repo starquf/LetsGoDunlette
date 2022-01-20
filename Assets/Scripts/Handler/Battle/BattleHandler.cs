@@ -134,7 +134,10 @@ public class BattleHandler : MonoBehaviour
     {
         for (int i = 0; i < enemyInfos.Count; i++)
         {
-            enemys.Add(Instantiate(enemyInfos[i]));
+            EnemyHealth enemy = Instantiate(enemyInfos[i]);
+            enemy.transform.position = createTrans.position;
+
+            enemys.Add(enemy);
         }
 
         // 보스면 가운데와 바꿔줘야된다 
@@ -159,14 +162,25 @@ public class BattleHandler : MonoBehaviour
         }
     }
 
-    private void SetEnemyPosition()
+    public void SetEnemyPosition()
     {
         if (enemys.Count <= 0) return;
 
-        Vector2 screenX = new Vector2(Camera.main.ViewportToWorldPoint(Vector3.zero).x, Camera.main.ViewportToWorldPoint(Vector3.one).x);
-        float posX = (Mathf.Abs(screenX.x) + screenX.y) / (float)(enemys.Count + 1);
+        int enemyCount = 0;
 
-        // -5  5   10   5   
+        for (int i = 0; i < enemys.Count; i++)
+        {
+            if (!enemys[i].IsDie)
+            {
+                enemyCount++;
+            }
+        }
+
+        Vector2 screenX = new Vector2(Camera.main.ViewportToWorldPoint(Vector3.zero).x, Camera.main.ViewportToWorldPoint(Vector3.one).x);
+        float posX = (Mathf.Abs(screenX.x) + screenX.y) / (float)(enemyCount + 1);
+
+        // -10  -5   0   5  10
+        // 
 
         float totalX = 0f;
 
@@ -176,7 +190,6 @@ public class BattleHandler : MonoBehaviour
             {
                 totalX += posX;
 
-                enemys[i].transform.position = createTrans.position;
                 enemys[i].transform.DOMoveX(totalX + screenX.x, 0.3f);
             }
         }
@@ -272,6 +285,9 @@ public class BattleHandler : MonoBehaviour
     // 다음 턴으로 넘어가는 것
     private void InitTurn()
     {
+        // 위치 초기화
+        SetEnemyPosition();
+
         // 버튼 초기화
         stopHandler.SetInteract(false);
 
