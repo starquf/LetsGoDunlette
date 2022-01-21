@@ -57,6 +57,11 @@ public class EffectObj : MonoBehaviour
         StartCoroutine(EndWait());
     }
 
+    public void EndEffectWithVisible()
+    {
+        StartCoroutine(EndWait());
+    }
+
     private IEnumerator EndWait()
     {
         yield return trailWait;

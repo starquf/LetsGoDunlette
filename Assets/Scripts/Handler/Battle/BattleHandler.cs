@@ -9,15 +9,16 @@ public class BattleHandler : MonoBehaviour
 {
     //==================================================
 
-    [Header("¸ŞÀÎ ·ê·¿ ¸ØÃß´Â ÇÚµé·¯")]
+    [Header("ë©”ì¸ ë£°ë › ë©ˆì¶”ëŠ” í•¸ë“¤ëŸ¬")]
     public StopSliderHandler stopHandler;
 
-    [Header("Ä³½ºÆ® ÇÏ´Â ½ºÅ³ ¶ç¿öÁÖ´Â ÇÚµé·¯")]
+    [Header("ìºìŠ¤íŠ¸ í•˜ëŠ” ìŠ¤í‚¬ ë„ì›Œì£¼ëŠ” í•¸ë“¤ëŸ¬")]
     public PieceCastUIHandler castUIHandler;
 
     private BattleInfoHandler battleInfoHandler;
     private CCHandler ccHandler;
     private BattleRewardHandler battleRewardHandler;
+    private BattleTargetSelectHandler battleTargetSelector;
 
     private InventoryHandler inventory;
 
@@ -25,10 +26,10 @@ public class BattleHandler : MonoBehaviour
 
     private BattleInfo battleInfo;
 
-    [Header("ÀûÀ» »ı¼ºÇÏ´Â À§Ä¡")]
+    [Header("ì ì„ ìƒì„±í•˜ëŠ” ìœ„ì¹˜")]
     public Transform createTrans;
 
-    [Header("Àû °øÅë")]
+    [Header("ì  ê³µí†µ")]
     public Transform hpBar;
     public Transform hpShieldBar;
     public Text hpText;
@@ -37,19 +38,19 @@ public class BattleHandler : MonoBehaviour
 
     //==================================================
 
-    [Header("·ê·¿µé")]
+    [Header("ë£°ë ›ë“¤")]
 
-    // ¸ŞÀÎ ·ê·¿
+    // ë©”ì¸ ë£°ë ›
     public SkillRullet mainRullet;
 
-    // °á°ú·Î ³ª¿Â ·ê·¿Á¶°¢
+    // ê²°ê³¼ë¡œ ë‚˜ì˜¨ ë£°ë ›ì¡°ê°
     [HideInInspector]
     public SkillPiece result;
     private int resultIdx;
 
     //==================================================
 
-    [Header("ÇÃ·¹ÀÌ¾î&Àû Health")]
+    [Header("í”Œë ˆì´ì–´&ì  Health")]
     public PlayerHealth player;
 
     [HideInInspector]
@@ -78,13 +79,14 @@ public class BattleHandler : MonoBehaviour
         battleInfoHandler = GetComponent<BattleInfoHandler>();
         ccHandler = GetComponent<CCHandler>();
         battleRewardHandler = GetComponent<BattleRewardHandler>();
+        battleTargetSelector = GetComponent<BattleTargetSelectHandler>();
     }
 
     private void Start()
     {
         inventory = GameManager.Instance.inventoryHandler;
 
-        // ÇÃ·¹ÀÌ¾î°¡ °¡Áö°í ÀÖ´Â ±âº» ½ºÅ³ »ı¼º ÀÏ´Ü Å×½ºÆ®·Î ¸¸µé¾î³ğ
+        // í”Œë ˆì´ì–´ê°€ ê°€ì§€ê³  ìˆëŠ” ê¸°ë³¸ ìŠ¤í‚¬ ìƒì„± ì¼ë‹¨ í…ŒìŠ¤íŠ¸ë¡œ ë§Œë“¤ì–´ë†ˆ
         player.GetComponent<Inventory>().CreateSkills();
 
         //StartBattle();
@@ -92,25 +94,25 @@ public class BattleHandler : MonoBehaviour
 
     #region StartBattle
 
-    // ÀüÅõ¸¦ ½ÃÀÛÇÏ´Â ÇÔ¼ö
+    // ì „íˆ¬ë¥¼ ì‹œì‘í•˜ëŠ” í•¨ìˆ˜
     public void StartBattle()
     {
         onNextAttack = null;
         nextAttack = null;
 
-        // ÇöÀç ÀüÅõ Á¤º¸ °¡Á®¿À±â
+        // í˜„ì¬ ì „íˆ¬ ì •ë³´ ê°€ì ¸ì˜¤ê¸°
         battleInfo = battleInfoHandler.GetRandomBattleInfo();
 
-        // Àû »ı¼º ÀÏ´Ü Å×½ºÆ®·Î ÇÏ³ª¸¸ ¸¸µë
+        // ì  ìƒì„± ì¼ë‹¨ í…ŒìŠ¤íŠ¸ë¡œ í•˜ë‚˜ë§Œ ë§Œë“¬
         CreateEnemy(battleInfo.enemyInfos);
 
-        // ÇÚµé·¯µé ÃÊ±âÈ­
+        // í•¸ë“¤ëŸ¬ë“¤ ì´ˆê¸°í™”
         InitHandler();
 
-        // ½ºÅ¾ ¹öÆ°¿¡ ±â´É Ãß°¡
+        // ìŠ¤íƒ‘ ë²„íŠ¼ì— ê¸°ëŠ¥ ì¶”ê°€
         SetStopHandler();
 
-        // ÀüÅõ°¡ ½ÃÀÛÇÏ±â Àü ÀÎº¥Åä¸®¿Í ·ê·¿ Á¤¸®
+        // ì „íˆ¬ê°€ ì‹œì‘í•˜ê¸° ì „ ì¸ë²¤í† ë¦¬ì™€ ë£°ë › ì •ë¦¬
         StartCoroutine(InitRullet());
     }
 
@@ -132,10 +134,13 @@ public class BattleHandler : MonoBehaviour
     {
         for (int i = 0; i < enemyInfos.Count; i++)
         {
-            enemys.Add(Instantiate(enemyInfos[i]));
+            EnemyHealth enemy = Instantiate(enemyInfos[i]);
+            enemy.transform.position = createTrans.position;
+
+            enemys.Add(enemy);
         }
 
-        // º¸½º¸é °¡¿îµ¥¿Í ¹Ù²ãÁà¾ßµÈ´Ù 
+        // ë³´ìŠ¤ë©´ ê°€ìš´ë°ì™€ ë°”ê¿”ì¤˜ì•¼ëœë‹¤ 
         SortBoss();
         SetEnemyPosition();
     }
@@ -146,7 +151,7 @@ public class BattleHandler : MonoBehaviour
 
         for (int i = 0; i < enemys.Count; i++)
         {
-            // º¸½º¸é
+            // ë³´ìŠ¤ë©´
             if (enemys[i].isBoss && i != idx)
             {
                 EnemyHealth temp = enemys[idx];
@@ -157,23 +162,36 @@ public class BattleHandler : MonoBehaviour
         }
     }
 
-    private void SetEnemyPosition()
+    public void SetEnemyPosition()
     {
         if (enemys.Count <= 0) return;
 
-        Vector2 screenX = new Vector2(Camera.main.ViewportToWorldPoint(Vector3.zero).x, Camera.main.ViewportToWorldPoint(Vector3.one).x);
-        float posX = (Mathf.Abs(screenX.x) + screenX.y) / (float)(enemys.Count + 1);
+        int enemyCount = 0;
 
-        // -5  5   10   5   
+        for (int i = 0; i < enemys.Count; i++)
+        {
+            if (!enemys[i].IsDie)
+            {
+                enemyCount++;
+            }
+        }
+
+        Vector2 screenX = new Vector2(Camera.main.ViewportToWorldPoint(Vector3.zero).x, Camera.main.ViewportToWorldPoint(Vector3.one).x);
+        float posX = (Mathf.Abs(screenX.x) + screenX.y) / (float)(enemyCount + 1);
+
+        // -10  -5   0   5  10
+        // 
 
         float totalX = 0f;
 
         for (int i = 0; i < enemys.Count; i++)
         {
-            totalX += posX;
+            if (!enemys[i].IsDie)
+            {
+                totalX += posX;
 
-            enemys[i].transform.position = createTrans.position;
-            enemys[i].transform.DOMoveX(totalX + screenX.x, 0.3f);
+                enemys[i].transform.DOMoveX(totalX + screenX.x, 0.3f);
+            }
         }
     }
 
@@ -181,7 +199,7 @@ public class BattleHandler : MonoBehaviour
     {
         if (stopHandler == null)
         {
-            Debug.LogError("ÀÎ½ºÆåÅÍ¿¡¼­ BatteHandler¿¡ ½ºÅ¾ ÇÚµé·¯¸¦ Ãß°¡ÇØÁÖ¼¼¿ä!!");
+            Debug.LogError("ì¸ìŠ¤í™í„°ì—ì„œ BatteHandlerì— ìŠ¤íƒ‘ í•¸ë“¤ëŸ¬ë¥¼ ì¶”ê°€í•´ì£¼ì„¸ìš”!!");
             return;
         }
 
@@ -202,7 +220,7 @@ public class BattleHandler : MonoBehaviour
     {
         yield return null;
 
-        // ÀûÀÇ ½ºÅ³À» Ãß°¡ÇØÁØ´Ù
+        // ì ì˜ ìŠ¤í‚¬ì„ ì¶”ê°€í•´ì¤€ë‹¤
         float maxTime = 0;
 
         for (int i = 0; i < enemys.Count; i++)
@@ -217,20 +235,20 @@ public class BattleHandler : MonoBehaviour
 
         yield return new WaitForSeconds(maxTime + 0.5f);
 
-        // ÀÎº¥Åä¸®¿¡¼­ ·£´ıÇÑ 6°³ÀÇ ½ºÅ³À» »Ì¾Æ ·ê·¿¿¡ Àû¿ëÇÑ´Ù. ´Ü, ÃÖ¼ÒÇÑ ÀûÀÇ ½ºÅ³ 1°³¿Í ³» ½ºÅ³ 2°³°¡ º¸ÀåµÈ´Ù.
+        // ì¸ë²¤í† ë¦¬ì—ì„œ ëœë¤í•œ 6ê°œì˜ ìŠ¤í‚¬ì„ ë½‘ì•„ ë£°ë ›ì— ì ìš©í•œë‹¤. ë‹¨, ìµœì†Œí•œ ì ì˜ ìŠ¤í‚¬ 1ê°œì™€ ë‚´ ìŠ¤í‚¬ 2ê°œê°€ ë³´ì¥ëœë‹¤.
 
-        // ÇÃ·¹ÀÌ¾î È®Á¤ 2°³
+        // í”Œë ˆì´ì–´ í™•ì • 2ê°œ
         for (int i = 0; i < 2; i++)
         {
             SetRandomPlayerOrEnemySkill(true);
             yield return new WaitForSeconds(0.15f);
         }
 
-        // Àû È®Á¤ ÇÏ³ª
+        // ì  í™•ì • í•˜ë‚˜
         SetRandomPlayerOrEnemySkill(false);
         yield return new WaitForSeconds(0.15f);
 
-        // ³ª¸ÓÁö ·£´ı 3°³
+        // ë‚˜ë¨¸ì§€ ëœë¤ 3ê°œ
         for (int i = 0; i < 3; i++)
         {
             SetRandomSkill();
@@ -240,7 +258,7 @@ public class BattleHandler : MonoBehaviour
 
         yield return oneSecWait;
 
-        // ÅÏ ½ÃÀÛ
+        // í„´ ì‹œì‘
         InitTurn();
     }
 
@@ -264,68 +282,71 @@ public class BattleHandler : MonoBehaviour
 
     #region Turns
 
-    // ´ÙÀ½ ÅÏÀ¸·Î ³Ñ¾î°¡´Â °Í
+    // ë‹¤ìŒ í„´ìœ¼ë¡œ ë„˜ì–´ê°€ëŠ” ê²ƒ
     private void InitTurn()
     {
-        // ¹öÆ° ÃÊ±âÈ­
+        // ìœ„ì¹˜ ì´ˆê¸°í™”
+        SetEnemyPosition();
+
+        // ë²„íŠ¼ ì´ˆê¸°í™”
         stopHandler.SetInteract(false);
 
         result = null;
 
         turnCnt++;
 
-        // ÇöÀç ÅÏ¿¡ °É·ÁÀÖ´Â ÀûÀÇ cc±â¿Í ÇÃ·¹ÀÌ¾îÀÇ cc±â¸¦ ÇÏ³ª ÁÙ¿©ÁØ´Ù.
+        // í˜„ì¬ í„´ì— ê±¸ë ¤ìˆëŠ” ì ì˜ ccê¸°ì™€ í”Œë ˆì´ì–´ì˜ ccê¸°ë¥¼ í•˜ë‚˜ ì¤„ì—¬ì¤€ë‹¤.
         ccHandler.DecreaseCC();
 
         nextAttack = null;
         nextAttack = onNextAttack;
 
-        // ÅÏ ½ÃÀÛ ·ÎÁ÷
+        // í„´ ì‹œì‘ ë¡œì§
         StartCoroutine(CheckTurn());
     }
 
     private IEnumerator CheckTurn()
     {
-        // ÀüºÎ µ¹·Á¹ö¸®°í
+        // ì „ë¶€ ëŒë ¤ë²„ë¦¬ê³ 
         RollAllRullet();
 
-        // ¸ØÃß°Ô ÇÏ´Â ¹öÆ° È°¼ºÈ­
+        // ë©ˆì¶”ê²Œ í•˜ëŠ” ë²„íŠ¼ í™œì„±í™”
         stopHandler.SetInteract(true);
 
-        // ÀüºÎ µ¹¸± ¶§±îÁö ±â´Ù¸°´Ù
+        // ì „ë¶€ ëŒë¦´ ë•Œê¹Œì§€ ê¸°ë‹¤ë¦°ë‹¤
         yield return new WaitUntil(CheckRullet);
 
-        // °á°ú º¸¿©ÁÖ°í
+        // ê²°ê³¼ ë³´ì—¬ì£¼ê³ 
         yield return oneSecWait;
 
-        // °á°ú¸¦ ÀúÀåÇØ³õ°í ±× Ä­À» ºóÄ­À¸·Î ¸¸µé¾îÁØ´Ù
+        // ê²°ê³¼ë¥¼ ì €ì¥í•´ë†“ê³  ê·¸ ì¹¸ì„ ë¹ˆì¹¸ìœ¼ë¡œ ë§Œë“¤ì–´ì¤€ë‹¤
         SetRulletEmpty(resultIdx);
 
-        // °á°ú ½ÇÇà
+        // ê²°ê³¼ ì‹¤í–‰
         CastResult();
     }
 
-    // ½ÇÇàÀÌ ÀüºÎ ³¡³ª¸é ½ÇÇàµÇ´Â ÄÚ·çÆ¾
+    // ì‹¤í–‰ì´ ì „ë¶€ ëë‚˜ë©´ ì‹¤í–‰ë˜ëŠ” ì½”ë£¨í‹´
     private IEnumerator EndTurn()
     {
-        // ´ÙÀ½ °ø°İ Ã¼Å©ÇÏ´Â ½ºÅ³µéÀÌ ¹ßµ¿µÇ´Â Å¸ÀÌ¹Ö
+        // ë‹¤ìŒ ê³µê²© ì²´í¬í•˜ëŠ” ìŠ¤í‚¬ë“¤ì´ ë°œë™ë˜ëŠ” íƒ€ì´ë°
         nextAttack?.Invoke(result);
 
         yield return pFiveSecWait;
 
-        // ÀúÀåÇÑ °á°ú¸¦ ÀÎº¥Åä¸®¿¡ ³Ö´Â´Ù
+        // ì €ì¥í•œ ê²°ê³¼ë¥¼ ì¸ë²¤í† ë¦¬ì— ë„£ëŠ”ë‹¤
         SetPieceToGraveyard(result as SkillPiece);
 
-        // ±âÀı Ã¼Å©
+        // ê¸°ì ˆ ì²´í¬
         ccHandler.CheckCC(CCType.Stun);
-        // »óÃ³ Ã¼Å©
+        // ìƒì²˜ ì²´í¬
         ccHandler.CheckCC(CCType.Wound);
 
-        // Àá½Ã ±â´Ù¸®°í
+        // ì ì‹œ ê¸°ë‹¤ë¦¬ê³ 
         yield return oneSecWait;
 
-        // ÀûÀÌ ÀüºÎ Á×¾ú´Â°¡?
-        if (enemys[0].IsDie)
+        // ì ì´ ì „ë¶€ ì£½ì—ˆëŠ”ê°€?
+        if (CheckEnemyDie())
         {
             BattleEnd();
             yield break;
@@ -333,18 +354,32 @@ public class BattleHandler : MonoBehaviour
 
         yield return pFiveSecWait;
 
-        // ·ê·¿ Á¶°¢ º¯°æ (µ¦¼øÈ¯)
+        // ë£°ë › ì¡°ê° ë³€ê²½ (ë±ìˆœí™˜)
         DrawRulletPieces();
 
         yield return pFiveSecWait;
 
-        // ´ÙÀ½ÅÏÀ¸·Î
+        // ë‹¤ìŒí„´ìœ¼ë¡œ
         InitTurn();
     }
 
-    // ÀüÅõ°¡ ³¡³¯ ¶§
+    private bool CheckEnemyDie()
+    {
+        for (int i = 0; i < enemys.Count; i++)
+        {
+            if (!enemys[i].IsDie)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // ì „íˆ¬ê°€ ëë‚  ë•Œ
     private void BattleEnd()
     {
+        enemys.Clear();
         battleRewardHandler.GiveReward();
     }
 
@@ -352,31 +387,37 @@ public class BattleHandler : MonoBehaviour
 
     #region Rullet Func
 
-    // °á°ú º¸¿©ÁÖ±â
+    // ê²°ê³¼ ë³´ì—¬ì£¼ê¸°
     private void CastResult()
     {
         if (result != null)
         {
-            LivingEntity target = null;
+            Action onShowCast = () => { };
 
-            // ÇÃ·¹ÀÌ¾î ½ºÅ³ÀÌ¶ó¸é
+            // í”Œë ˆì´ì–´ ìŠ¤í‚¬ì´ë¼ë©´
             if (result.isPlayerSkill)
             {
-                // Å¸°Ù ÁöÁ¤ÇØ¼­ °ø°İÇÏ´Â ·ÎÁ÷ ¸¸µé¾î¾ßµÊ ÀÏ´Ü ÀÓ½Ã
-                target = enemys[0];
+                battleTargetSelector.SelectTarget(target => {
+                    result.Cast(target, () =>
+                    {
+                        castUIHandler.ShowPanel(false);
+                        StartCoroutine(EndTurn());
+                    });
+                });
             }
             else
             {
-                target = player;
+                onShowCast = () =>
+                {
+                    result.Cast(player, () =>
+                    {
+                        castUIHandler.ShowPanel(false);
+                        StartCoroutine(EndTurn());
+                    });
+                };
             }
 
-            castUIHandler.ShowCasting(result, () => {
-                result.Cast(target, () =>
-                {
-                    castUIHandler.EndCast(result);
-                    StartCoroutine(EndTurn());
-                });
-            });
+            castUIHandler.ShowCasting(result, onShowCast);
         }
     }
 
@@ -403,7 +444,7 @@ public class BattleHandler : MonoBehaviour
 
         for (int i = 0; i < pieces.Count; i++)
         {
-            // ºñ¾îÀÖ´Â°÷ÀÌ¶ó¸é
+            // ë¹„ì–´ìˆëŠ”ê³³ì´ë¼ë©´
             if (pieces[i] == null)
             {
                 SkillPiece skill = inventory.GetRandomUnusedSkill();

@@ -85,7 +85,7 @@ public class FA_Kidding : SkillPiece
             SkillPiece skill = list[j].GetComponent<SkillPiece>();
             if (skill.isPlayerSkill)
             {
-                GameManager.Instance.battleHandler.mainRullet.ChangePiece(j, rulletPiece);
+                GameManager.Instance.battleHandler.mainRullet.ChangePiece(j, rulletPiece as SkillPiece);
                 return;
             }
         }
