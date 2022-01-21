@@ -34,7 +34,7 @@ public class InventoryHandler : MonoBehaviour
         effectSprDic = new Dictionary<PatternType, Sprite>();
         effectGradDic = new Dictionary<PatternType, Gradient>();
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 6; i++)
         {
             effectSprDic.Add((PatternType)i, effectSprites[i]);
             effectGradDic.Add((PatternType)i, effectGradients[i]);

@@ -92,6 +92,8 @@ public class FA_Kidding : SkillPiece
         {
             SkillPiece skill = list[j].GetComponent<SkillPiece>();
 
+            if (skill == null) continue;
+
             if (skill.isPlayerSkill)
             {
                 GameManager.Instance.inventoryHandler.GetSkillFromInventory(rulletPiece);
