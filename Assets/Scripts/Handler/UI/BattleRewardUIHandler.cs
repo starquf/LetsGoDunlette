@@ -64,6 +64,7 @@ public class BattleRewardUIHandler : MonoBehaviour
 
     public void ShowWinEffect(Action onShowEnd)
     {
+        AllBtnHandle(false);
         float moveX = 0 - battleWinTextImgTrm.transform.position.x;
         ShowPanel(allCvsGroup, true, () =>
         {
