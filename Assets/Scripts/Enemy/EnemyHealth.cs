@@ -29,7 +29,8 @@ public class EnemyHealth : LivingEntity
     protected override void Die()
     {
         sr.DOFade(0f, 1f)
-            .SetEase(Ease.Linear);
+            .SetEase(Ease.Linear)
+            .OnComplete(() => gameObject.SetActive(false));
 
         coll.enabled = false;
 

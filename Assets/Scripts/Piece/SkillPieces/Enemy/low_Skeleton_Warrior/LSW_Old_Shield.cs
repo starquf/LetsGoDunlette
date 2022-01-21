@@ -43,6 +43,6 @@ public class LSW_Old_Shield : SkillPiece
             , BezierType.Cubic, i * 0.1f);
         }
 
-        target.AddShield(value);
+        owner.GetComponent<EnemyHealth>().AddShield(value);
     }
 }
