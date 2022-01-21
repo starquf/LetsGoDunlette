@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6032582295365123912}
   - component: {fileID: 3994991374428720273}
   - component: {fileID: 789294422030842673}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,8 @@ GameObject:
   - component: {fileID: 1508469934039522094}
   - component: {fileID: 1508469934039522083}
   - component: {fileID: 1508469934039522092}
-  m_Layer: 0
+  - component: {fileID: 3105550462002760554}
+  m_Layer: 6
   m_Name: fairy4-1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -211,7 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3524c2ef38e2a2e47b29e3a0bdd7542d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ccUITrm: {fileID: 0}
+  ccUITrm: {fileID: 1897799376839971235}
   uiObj: {fileID: 4633525893839555858, guid: d59678b5cb46d314ebaec841ffd61e73, type: 3}
   ccIcons:
   - {fileID: 5093648005084248228, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
@@ -221,6 +222,22 @@ MonoBehaviour:
   buffIcons:
   - {fileID: 6949942483554766801, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
   - {fileID: 6617641044635203348, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
+--- !u!58 &3105550462002760554
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1508469934039522082}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &1669859250316998386
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,7 +249,7 @@ GameObject:
   - component: {fileID: 5923203187624532026}
   - component: {fileID: 6434668515113556433}
   - component: {fileID: 6615302203003750022}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -307,7 +324,7 @@ GameObject:
   - component: {fileID: 8256556037962024488}
   - component: {fileID: 1235332100864458268}
   - component: {fileID: 8108920781756977219}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -382,7 +399,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1897799376839971235}
   - component: {fileID: 8391780625354366966}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CrowdControlUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -445,7 +462,7 @@ GameObject:
   - component: {fileID: 8841519181562243274}
   - component: {fileID: 6722716099646354950}
   - component: {fileID: 8429731154634955327}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DamageEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -520,7 +537,7 @@ GameObject:
   - component: {fileID: 1500383471036577215}
   - component: {fileID: 2580919312151900521}
   - component: {fileID: 3269936615459640152}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: EnemyHPbar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -600,7 +617,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1214369580882263715}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SliderPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -637,7 +654,7 @@ GameObject:
   - component: {fileID: 6223369688059529538}
   - component: {fileID: 2747548372603486299}
   - component: {fileID: 2923003660890715870}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -712,7 +729,7 @@ GameObject:
   - component: {fileID: 4269366861946414749}
   - component: {fileID: 3564666649655460547}
   - component: {fileID: 3939314469008924389}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: hpText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -792,7 +809,7 @@ GameObject:
   - component: {fileID: 6992698176442779050}
   - component: {fileID: 4476557532787706635}
   - component: {fileID: 1131807249515618683}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ShieldBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -881,7 +898,7 @@ GameObject:
   - component: {fileID: 8083711158632188427}
   - component: {fileID: 7365017402111585476}
   - component: {fileID: 5272154191952170289}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: EnemyHPCvs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -980,7 +997,7 @@ GameObject:
   - component: {fileID: 5427735172709698505}
   - component: {fileID: 6614315596236698751}
   - component: {fileID: 5188515547809864364}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -29,13 +29,6 @@ public class BattleHandler : MonoBehaviour
     [Header("적을 생성하는 위치")]
     public Transform createTrans;
 
-    [Header("적 공통")]
-    public Transform hpBar;
-    public Transform hpShieldBar;
-    public Text hpText;
-    public Transform damageTrans;
-    public Transform ccUITrm;
-
     //==================================================
 
     [Header("룰렛들")]
