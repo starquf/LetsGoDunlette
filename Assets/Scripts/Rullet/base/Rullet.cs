@@ -143,7 +143,7 @@ public abstract class Rullet : MonoBehaviour
 
     protected virtual IEnumerator Roll()
     {
-        rollSpeed = (500f + UnityEngine.Random.Range(0f, 300f)) * multiply;
+        rollSpeed = (600f + UnityEngine.Random.Range(0f, 300f)) * multiply;
         stopSpeed = UnityEngine.Random.Range(7f, 7.5f);
 
         while (Mathf.Abs(rollSpeed) > 1.5f)

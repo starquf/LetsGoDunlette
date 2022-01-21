@@ -51,20 +51,26 @@ public class FA_Kidding : SkillPiece
 
     private void KiddingSkill() //현재 룰렛에 존재하는 플레이어의 룰렛 조각 중 하나를 적의 기본 공격으로 변경한다.
     {
+        // 1. 안쓴 조각에서 attack이 있는가?
+        // 2. 룰렛 안에 플레이어의 스킬이 있는가?
+
+        // 3. 서로 바꿔야됩니다. <-
+
         List<SkillPiece> unUsedinven = GameManager.Instance.inventoryHandler.unusedSkills;
+
         if (!TryFindAttackFromAndCall(unUsedinven, FindRandomPlayerSkillAndChangePiece))
         {
-            List<SkillPiece> usedInven = GameManager.Instance.inventoryHandler.usedSkills;
-            TryFindAttackFromAndCall(usedInven, FindRandomPlayerSkillAndChangePiece);
+            List<SkillPiece> usedinven = GameManager.Instance.inventoryHandler.usedSkills;
+            TryFindAttackFromAndCall(usedinven, FindRandomPlayerSkillAndChangePiece);
         }
     }
 
-    private bool TryFindAttackFromAndCall(List<SkillPiece> list, Action<RulletPiece> action)
+    private bool TryFindAttackFromAndCall(List<SkillPiece> list, Action<SkillPiece> action)
     {
-        List<SkillPiece> usedInven = GameManager.Instance.inventoryHandler.usedSkills;
         for (int i = 0; i < list.Count; i++)
         {
             FA_Attack attack = list[i].GetComponent<FA_Attack>();
+
             if (attack != null)
             {
                 if (attack.owner == owner)
@@ -74,18 +80,23 @@ public class FA_Kidding : SkillPiece
                 }
             }
         }
+
         return false;
     }
 
-    private void FindRandomPlayerSkillAndChangePiece(RulletPiece rulletPiece)
+    private void FindRandomPlayerSkillAndChangePiece(SkillPiece rulletPiece)
     {
         List<RulletPiece> list = GameManager.Instance.battleHandler.mainRullet.GetPieces();
+
         for (int j = 0; j < list.Count; j++)
         {
             SkillPiece skill = list[j].GetComponent<SkillPiece>();
+
             if (skill.isPlayerSkill)
             {
-                GameManager.Instance.battleHandler.mainRullet.ChangePiece(j, rulletPiece as SkillPiece);
+                GameManager.Instance.inventoryHandler.GetSkillFromInventory(rulletPiece);
+                GameManager.Instance.battleHandler.mainRullet.ChangePiece(j, rulletPiece);
+
                 return;
             }
         }

@@ -171,6 +171,17 @@ public class InventoryHandler : MonoBehaviour
         SetCountUI();
     }
 
+    // 직접 unusedSkill나 usedSkill를 순회해서 찾은 조각을 꺼내려면 이 함수를 사용해야됨
+    public void GetSkillFromInventory(SkillPiece piece)
+    {
+        piece.gameObject.SetActive(true);
+
+        unusedSkills.Remove(piece);
+        usedSkills.Remove(piece);
+
+        SetCountUI();
+    }
+
     // 랜덤한 안 쓴 스킬 하나 가져오기
     public SkillPiece GetRandomUnusedSkill()
     {

@@ -372,6 +372,7 @@ public class BattleHandler : MonoBehaviour
     // 전투가 끝날 때
     private void BattleEnd()
     {
+        player.cc.ResetAllCC();
         enemys.Clear();
         battleRewardHandler.GiveReward();
     }
