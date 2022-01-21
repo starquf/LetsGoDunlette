@@ -61,7 +61,6 @@ public class FA_Kidding : SkillPiece
 
     private bool TryFindAttackFromAndCall(List<SkillPiece> list, Action<RulletPiece> action)
     {
-        List<SkillPiece> usedInven = GameManager.Instance.inventoryHandler.usedSkills;
         for (int i = 0; i < list.Count; i++)
         {
             FA_Attack attack = list[i].GetComponent<FA_Attack>();
