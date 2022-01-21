@@ -44,6 +44,6 @@ public class NSl_Recover : SkillPiece
 
         }
 
-        target.Heal(value);
+        owner.GetComponent<EnemyHealth>().Heal(value);
     }
 }
