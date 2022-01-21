@@ -9,6 +9,11 @@ public class PieceCastUIHandler : MonoBehaviour
 {
     public Transform parent;
 
+    [Header("카드 UI")]
+    public Image cardBG;
+    public Text cardNameText;
+    public Text cardDesText;
+
     private CanvasGroup cvsGroup;
     private Sequence showSequence;
     private Sequence pieceMoveSequence;
@@ -27,10 +32,17 @@ public class PieceCastUIHandler : MonoBehaviour
 
     public void ShowCasting(SkillPiece skillPiece, Action onEndEffect)
     {
+        cardBG.sprite = skillPiece.cardBG;
+        cardNameText.text = skillPiece.PieceName;
+        cardDesText.text = skillPiece.PieceDes;
+
         pieceMoveSequence.Kill();
         skillPiece.transform.SetParent(parent);
-        pieceMoveSequence = DOTween.Sequence().Append(skillPiece.transform.DOMove(parent.position, 0.5f))
+        pieceMoveSequence = DOTween.Sequence()
+            .Append(skillPiece.transform.DOMove(parent.position, 0.5f))
             .Join(skillPiece.transform.DORotate(Quaternion.Euler(0, 0, 30).eulerAngles, 0.5f))
+            .Join(skillPiece.transform.DOScale(Vector3.one, 0.5f))
+            .AppendInterval(0.5f)
             .OnComplete(() => { print("이펙트끝남"); onEndEffect(); });
 
         ShowPanel(true);
