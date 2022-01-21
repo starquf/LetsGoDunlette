@@ -20,6 +20,16 @@ public class FA_Fairy_Ligtht : SkillPiece
         Vector3 targetPos = target.transform.position;
         Vector3 startPos = skillImg.transform.position;
 
+        //전투가 끝날 때 까지 기본 공격의 피해가 5 상승한다.
+        for (int i = 0; i < owner.skills.Count; i++)
+        {
+            var skill = owner.skills[i].GetComponent<FA_Attack>();
+            if (skill != null)
+            {
+                skill.AddValue(value);
+            }
+        }
+
         for (int i = 0; i < 3; i++)
         {
             EffectObj attackObj = PoolManager.GetItem<EffectObj>();
@@ -43,15 +53,5 @@ public class FA_Fairy_Ligtht : SkillPiece
             , BezierType.Cubic, i * 0.1f);
 
         }
-
-        for (int i = 0; i < owner.skills.Count; i++)
-        {
-            var skill = owner.skills[i].GetComponent<FA_Attack>();
-            if(!skill.Equals(null))
-            {
-                skill.AddValue(value);
-            }
-        }
-        //전투가 끝날 때 까지 기본 공격의 피해가 5 상승한다.
     }
 }

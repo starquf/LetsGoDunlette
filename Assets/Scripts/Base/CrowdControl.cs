@@ -76,6 +76,13 @@ public class CrowdControl : MonoBehaviour
 
         ccUIDic[cc].SetText(turn);
         ccUIDic[cc].gameObject.SetActive(true);
+
+        // 만약 0보다 작아졌다면
+        if (turn <= 0)
+        {
+            ccDic[cc] = 0;
+            ccUIDic[cc].gameObject.SetActive(false);
+        }
     }
 
     public void IncreaseCCTurn(CCType cc, int turn)
@@ -140,6 +147,14 @@ public class CrowdControl : MonoBehaviour
         foreach (CCType cc in Enum.GetValues(typeof(CCType)))
         {
             DecreaseCCTurn(cc);
+        }
+    }
+
+    public void ResetAllCC()
+    {
+        foreach (CCType cc in Enum.GetValues(typeof(CCType)))
+        {
+            SetCC(cc, 0);
         }
     }
 }
