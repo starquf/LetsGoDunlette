@@ -63,15 +63,16 @@ public class BattleRewardHandler : MonoBehaviour
         int rewardResultIdx = -1;
 
         rullet.transform.SetParent(battleRewardUIHandler.transform);
+        rullet.transform.SetAsFirstSibling();
+
         for (int i = 0; i < 6; i++)
         {
-            SkillPiece skill = Instantiate(rewards[Random.Range(0, rewards.Count)], transform).GetComponent<SkillPiece>();
-            skill.transform.SetParent(rullet.transform);
-            skill.transform.localPosition = Vector2.one;
-            skill.gameObject.SetActive(true);
+            SkillPiece skill = Instantiate(rewards[Random.Range(0, rewards.Count)], rullet.transform).GetComponent<SkillPiece>();
             rullet.AddPiece(skill);
         }
         rullet.SetRulletSmooth();
+
+        yield return new WaitForSeconds(0.5f);
 
         rullet.RollRullet();
         yield return new WaitForSeconds(2f);
@@ -112,6 +113,8 @@ public class BattleRewardHandler : MonoBehaviour
                     GameManager.Instance.inventoryHandler.AddSkill(rewardResult);
 
                     rullet.transform.SetParent(rulletParent);
+                    rullet.transform.SetAsFirstSibling();
+
                     isRewardEnd = true;
                 },()=>
                 {
@@ -119,6 +122,8 @@ public class BattleRewardHandler : MonoBehaviour
                     Destroy(rewardResult.gameObject);
 
                     rullet.transform.SetParent(rulletParent);
+                    rullet.transform.SetAsFirstSibling();
+
                     isRewardEnd = true;
                 });
             })
