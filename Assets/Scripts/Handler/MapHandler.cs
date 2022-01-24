@@ -52,6 +52,7 @@ public class MapHandler : MonoBehaviour
             openSequence.Append(cvsGroup.DOFade(open ? 1 : 0, 0.5f).OnComplete(() => {
                 cvsGroup.interactable = open;
                 cvsGroup.blocksRaycasts = open;
+                mapUIs.SetActive(open);
             }));
         }
         else
@@ -69,7 +70,10 @@ public class MapHandler : MonoBehaviour
 
 
         //여기에 각 맵별 대충 구현
-        encounterHandler.StartEncounter(curNode.mapNode);
+        if(curNode.mapNode != mapNode.START)
+        {
+            encounterHandler.StartEncounter(curNode.mapNode);
+        }
         //아래 디버그용
         if(curNode.depth == mapCreater.mapCols-1)
         {
@@ -133,10 +137,13 @@ public class MapHandler : MonoBehaviour
                         color = new Color(1, 0, 1, 1f);
                         break;
                     case mapNode.BOSS:
-                        color = new Color(1, 0, 0, 0.5f);
+                        color = new Color(0.3f, 0, 0, 0.5f);
                         break;
                     case mapNode.MONSTER:
                         color = new Color(1, 0, 0, 0.5f);
+                        break;
+                    case mapNode.EMONSTER:
+                        color = new Color(0.5f, 0, 0, 0.5f);
                         break;
                     case mapNode.SHOP:
                         color = new Color(1, 0.92f, 0.016f, 0.5f);
@@ -189,6 +196,7 @@ public class MapHandler : MonoBehaviour
                 int col = c;
                 int row = r;
                 nodeTrm.GetComponent<Button>().interactable = false;
+                nodeTrm.GetComponent<Button>().onClick.RemoveAllListeners();
                 nodeTrm.GetComponent<Button>().onClick.AddListener(() => { OnSelectNode(map[col][row]);  });
             }
         }

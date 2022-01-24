@@ -108,4 +108,9 @@ public class GameManager : MonoBehaviour
     {
         return battleHandler.player;
     }
+
+    public void EndEncounter()
+    {
+        OnEndEncounter();
+    }
 }

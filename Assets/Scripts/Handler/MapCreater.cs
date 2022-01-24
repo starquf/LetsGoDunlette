@@ -1,16 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public enum mapNode
 {
     NONE = 0,
     START = 1,
     BOSS = 2,
-    MONSTER = 3,
-    SHOP = 4,
-    REST = 5,
-    TREASURE = 6,
+    EMONSTER=3,
+    MONSTER = 4,
+    SHOP = 5,
+    REST = 6,
+    TREASURE = 7,
 }
 
 public class Node
@@ -36,6 +38,8 @@ public class MapCreater : MonoBehaviour
 
     public int mapRows;
     public int mapCols;
+    public int maxNode;
+    public int minNode;
     public List<List<Node>> map = new List<List<Node>>();
     private bool firstCreate = false;
 
@@ -114,18 +118,18 @@ public class MapCreater : MonoBehaviour
         }
         else if (curDepth == 1)
         {
-            List<int> list = GetNotNoneIdx(beforeIdx);
-            foreach (int idx in list)
-            {
-                int[] plusIdx = GetRandomIdx(2);
-                for (int i = 0; i < plusIdx.Length; i++)
-                {
-                    int randIdx = Mathf.Clamp(plusIdx[i] + idx, 0, mapRows - 1);
-                    map[curDepth][randIdx].mapNode = mapNode.MONSTER;
-                    map[beforeIdx][idx].pointNodeList.Add(map[curDepth][randIdx]);
-                }
-            }
-            //SetNode(curDepth, mapNode.MONSTER);
+            //List<int> list = GetNotNoneIdx(beforeIdx);
+            //foreach (int idx in list)
+            //{
+            //    int[] plusIdx = GetRandomIdx(2);
+            //    for (int i = 0; i < plusIdx.Length; i++)
+            //    {
+            //        int randIdx = Mathf.Clamp(plusIdx[i] + idx, 0, mapRows - 1);
+            //        map[curDepth][randIdx].mapNode = mapNode.MONSTER;
+            //        map[beforeIdx][idx].pointNodeList.Add(map[curDepth][randIdx]);
+            //    }
+            //}
+            SetNode(curDepth, mapNode.MONSTER);
         }
         else if(curDepth == mapCols - 2)
         {
@@ -146,11 +150,12 @@ public class MapCreater : MonoBehaviour
 
         List<int> list = GetNotNoneIdx(curDepth-1);
 
-        int nodeCount = list.Count;
+        int nodeCount = list.Count ;
+        //int nodeCount = Mathf.Clamp(Random.Range(minNode, maxNode+1), minNode, maxNode);
 
-        while(maxLine < nodeCount)
+        while(maxLine < nodeCount || (maxLine / nodeCount > 3))
         {
-            maxLine = Random.Range(mapRows - 3, mapRows);
+            maxLine = Random.Range(minNode, maxNode + 1);
         }
 
         int lineCount = maxLine / nodeCount;
@@ -178,28 +183,48 @@ public class MapCreater : MonoBehaviour
             for (int i = 0; i < plusIdx.Length; i++)
             {
                 int randIdx = Mathf.Clamp(plusIdx[i] + list[k], 0, mapRows - 1);
-                map[curDepth][randIdx].mapNode = mapType != mapNode.NONE ? mapType : GetRandomNode();
+                map[curDepth][randIdx].mapNode = mapType != mapNode.NONE ? mapType : GetRandomNode(map[curDepth - 1][list[k]].mapNode);
                 map[curDepth - 1][list[k]].pointNodeList.Add(map[curDepth][randIdx]);
             }
         }
     }
 
     // 랜덤으로 노드 값 가져오기
-    public mapNode GetRandomNode()
+    public mapNode GetRandomNode(mapNode beforeNodeType)
     {
         mapNode nodeType;
+
         int rand = Random.Range(0, 100);
-        if(rand<5)
+        if (beforeNodeType == mapNode.EMONSTER || beforeNodeType == mapNode.REST)
         {
-            nodeType = mapNode.SHOP;
+            while(rand<12 || (rand >= 40 && rand < 48))
+            {
+                rand = Random.Range(0, 100);
+            }
         }
-        else if(rand<17)
+        if(rand<12)
         {
             nodeType = mapNode.REST;
         }
-        else if(rand < 39)
+        else if(rand<34)
         {
-            nodeType = mapNode.TREASURE;
+            rand = Random.Range(0, 100);
+            if(rand<100)
+            {
+                nodeType = mapNode.TREASURE;
+            }
+            else
+            {
+                nodeType = mapNode.TREASURE;
+            }
+        }
+        else if(rand < 40)
+        {
+            nodeType = mapNode.SHOP;
+        }
+        else if(rand < 48)
+        {
+            nodeType = mapNode.EMONSTER;
         }
         else
         {

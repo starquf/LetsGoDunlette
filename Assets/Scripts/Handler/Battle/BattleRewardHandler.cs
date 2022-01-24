@@ -53,6 +53,7 @@ public class BattleRewardHandler : MonoBehaviour
 
         // 전투 다시 시작 임시로 넣어둠
         battleHandler.StartBattle();
+        GameManager.Instance.EndEncounter();
     }
 
     private IEnumerator CreateReward()
