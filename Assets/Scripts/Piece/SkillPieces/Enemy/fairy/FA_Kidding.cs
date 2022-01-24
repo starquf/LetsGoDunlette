@@ -90,9 +90,9 @@ public class FA_Kidding : SkillPiece
 
         for (int j = 0; j < list.Count; j++)
         {
-            SkillPiece skill = list[j].GetComponent<SkillPiece>();
+            if (list[j] == null) continue;
 
-            if (skill == null) continue;
+            SkillPiece skill = list[j].GetComponent<SkillPiece>();
 
             if (skill.isPlayerSkill)
             {
