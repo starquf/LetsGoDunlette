@@ -183,10 +183,35 @@ public class MapCreater : MonoBehaviour
             for (int i = 0; i < plusIdx.Length; i++)
             {
                 int randIdx = Mathf.Clamp(plusIdx[i] + list[k], 0, mapRows - 1);
-                map[curDepth][randIdx].mapNode = mapType != mapNode.NONE ? mapType : GetRandomNode(map[curDepth - 1][list[k]].mapNode);
-                map[curDepth - 1][list[k]].pointNodeList.Add(map[curDepth][randIdx]);
+                if(!(plusIdx[i] == -1 && IsCrosed(curDepth, list, k, randIdx)))
+                {
+                    map[curDepth][randIdx].mapNode = mapType != mapNode.NONE ? mapType : GetRandomNode(map[curDepth - 1][list[k]].mapNode);
+                    map[curDepth - 1][list[k]].pointNodeList.Add(map[curDepth][randIdx]);
+                }
+                else if(plusIdx.Length == 1)
+                {
+                    map[curDepth - 1][list[k]].pointNodeList.Add(map[curDepth][randIdx+1]);
+                }
             }
         }
+    }
+
+    public bool IsCrosed(int curDepth, List<int> list, int k, int randIdx)
+    {
+        if (list[k] - 1 < 0)
+            return false;
+        Node beforeDepthAndIdxNode = map[curDepth - 1][list[k] - 1];
+        if (beforeDepthAndIdxNode.pointNodeList.Count > 0)
+        {
+            for (int q = 0; q < map[curDepth - 1][list[k] - 1].pointNodeList.Count; q++)
+            {
+                if (map[curDepth - 1][list[k] - 1].pointNodeList[q] == map[curDepth][randIdx + 1])
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     // 랜덤으로 노드 값 가져오기
