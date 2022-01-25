@@ -63,7 +63,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
         if (shieldHp > 0)
         {
-            int left =  shieldHp - damage;
+            int left = shieldHp - damage;
             if (left < 0) // -1라면
             {
                 hp += left;
@@ -78,6 +78,40 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         {
             hp -= damage;
         }
+
+        SetHpText();
+
+        if (hp <= 0)
+        {
+            hp = 0;
+            isDie = true;
+
+            Die();
+        }
+        Anim_TextUp damageTextEffect = PoolManager.GetItem<Anim_TextUp>();
+        damageTextEffect.SetType(TextUpAnimType.Damage);
+        damageTextEffect.transform.position = transform.position;
+        damageTextEffect.Play(damage.ToString());
+
+        SetDamageEffect();
+    }
+
+    public virtual void GetDamageIgnoreShild(int damage)
+    {
+        if (isDie)
+        {
+            return;
+        }
+
+        // 계약 상태라면
+        if (cc.buffDic[BuffType.Contract] > 0)
+        {
+            damage = cc.buffDic[BuffType.Contract];
+            cc.RemoveBuff(BuffType.Contract);
+        }
+
+        hp -= damage;
+
 
         SetHpText();
 
