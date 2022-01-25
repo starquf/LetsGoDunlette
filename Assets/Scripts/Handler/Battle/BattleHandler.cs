@@ -90,6 +90,7 @@ public class BattleHandler : MonoBehaviour
     // 전투를 시작하는 함수
     public void StartBattle()
     {
+        print("전투시작");
         onNextAttack = null;
         nextAttack = null;
 

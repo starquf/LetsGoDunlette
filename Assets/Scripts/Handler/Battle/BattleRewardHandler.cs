@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class BattleRewardHandler : MonoBehaviour
 {
@@ -48,12 +49,12 @@ public class BattleRewardHandler : MonoBehaviour
 
         StartCoroutine(CreateReward());
         yield return new WaitUntil(()=> isRewardEnd); //적 보상을 주고
-
         // 끝
 
         // 전투 다시 시작 임시로 넣어둠
-        battleHandler.StartBattle();
+        //battleHandler.StartBattle();
         GameManager.Instance.EndEncounter();
+        isRewardEnd = false;
     }
 
     private IEnumerator CreateReward()
@@ -105,27 +106,46 @@ public class BattleRewardHandler : MonoBehaviour
             .Join(rewardResult.transform.DORotate(Quaternion.Euler(0,0,30).eulerAngles, 0.5f))
             .OnComplete(() =>
             {
+                rewardResult.transform.SetParent(battleRewardUIHandler.transform);
+                rewardResult.transform.SetAsFirstSibling();
+
+                rullet.transform.SetParent(rulletParent);
+                rullet.transform.SetAsFirstSibling();
+
+
                 battleRewardUIHandler.SetButton(() =>
                 {
                     print("리워드 가져감");
-                    Inventory owner = battleHandler.player.GetComponent<Inventory>();
-                    rewardResult.gameObject.SetActive(false);
-                    rewardResult.owner = owner;
-                    GameManager.Instance.inventoryHandler.AddSkill(rewardResult);
+                    Transform unusedInventoryTrm = GameManager.Instance.inventoryHandler.transform;
+                    DOTween.Sequence().Append(rewardResult.transform.DOMove(unusedInventoryTrm.position, 0.5f))
+                    .Join(rewardResult.transform.DOScale(Vector2.one * 0.1f, 0.5f))
+                    .Join(rewardResult.GetComponent<Image>().DOFade(0f,0.5f))
+                    .OnComplete(()=>
+                    {
+                        Inventory owner = battleHandler.player.GetComponent<Inventory>();
+                        rewardResult.gameObject.SetActive(false);
+                        rewardResult.owner = owner;
+                        GameManager.Instance.inventoryHandler.AddSkill(rewardResult);
+                        rewardResult.GetComponent<Image>().color = Color.white;
 
-                    rullet.transform.SetParent(rulletParent);
-                    rullet.transform.SetAsFirstSibling();
-
-                    isRewardEnd = true;
+                        print("끝");
+                        isRewardEnd = true;
+                    });
                 },()=>
                 {
                     print("리워드 버림");
-                    Destroy(rewardResult.gameObject);
 
-                    rullet.transform.SetParent(rulletParent);
-                    rullet.transform.SetAsFirstSibling();
+                    DOTween.Sequence().Append(rewardResult.transform.DOMoveX(3f, 0.5f))
+                    .Join(rewardResult.transform.DORotate(Quaternion.Euler(0,0,-60).eulerAngles, 0.5f))
+                    .Join(rewardResult.GetComponent<Image>().DOFade(0f, 0.5f))
+                    .OnComplete(() =>
+                    {
+                        Destroy(rewardResult.gameObject);
 
-                    isRewardEnd = true;
+
+                        print("끝");
+                        isRewardEnd = true;
+                    });
                 });
             })
         ;
