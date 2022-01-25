@@ -49,10 +49,11 @@ public class MapHandler : MonoBehaviour
         openSequence.Kill();
         if (!quick)
         {
+            if(open) mapUIs.SetActive(true);
             openSequence.Append(cvsGroup.DOFade(open ? 1 : 0, 0.5f).OnComplete(() => {
                 cvsGroup.interactable = open;
                 cvsGroup.blocksRaycasts = open;
-                mapUIs.SetActive(open);
+                if(!open) mapUIs.SetActive(false);
             }));
         }
         else
@@ -72,6 +73,7 @@ public class MapHandler : MonoBehaviour
         //여기에 각 맵별 대충 구현
         if(curNode.mapNode != mapNode.START)
         {
+            print(curNode.mapNode);
             encounterHandler.StartEncounter(curNode.mapNode);
         }
         //아래 디버그용
@@ -158,46 +160,50 @@ public class MapHandler : MonoBehaviour
                         break;
                 }
                 nodeTrm.GetComponent<Image>().color = color;
-                
-                if(map[c][r].mapNode != mapNode.NONE && c < cols-1)
-                {
-                    Camera mainCam = Camera.main;
-                    LineRenderer lr = nodeTrm.gameObject.GetComponent<LineRenderer>();
-                    lr.positionCount = 2;
-                    for (int i = 0; i < map[c][r].pointNodeList.Count; i++)
-                    {
-                        Node pointNode = map[c][r].pointNodeList[i];
 
-                        if (i<1)
+
+                nodeTrm.GetComponent<Button>().onClick.RemoveAllListeners();
+                if (map[c][r].mapNode != mapNode.NONE)
+                {
+                    if (c < cols - 1)
+                    {
+                        Camera mainCam = Camera.main;
+                        LineRenderer lr = nodeTrm.gameObject.GetComponent<LineRenderer>();
+                        lr.positionCount = 2;
+                        for (int i = 0; i < map[c][r].pointNodeList.Count; i++)
                         {
-                            lr.startWidth = 0.08f;
-                            lr.endWidth = 0.08f;
-                            Vector3 pos1 = mainCam.WorldToScreenPoint(Vector3.zero);
-                            Vector3 pos2 = nodeTrm.InverseTransformPoint(GetCurNodeTrm(pointNode.idx, pointNode.depth).position);
-                            lr.SetPosition(1, pos2);
-                            lr.SetPosition(0, Vector2.zero);
-                        }
-                        else
-                        {
-                            int curPosCount = lr.positionCount;
-                            lr.positionCount = curPosCount+2;
-                            Vector3 pos1 = mainCam.WorldToScreenPoint(Vector3.zero);
-                            Vector3 pos2 = nodeTrm.InverseTransformPoint(GetCurNodeTrm(pointNode.idx, pointNode.depth).position);
-                            lr.SetPosition(curPosCount+1, pos2);
-                            lr.SetPosition(curPosCount, Vector2.zero);
+                            Node pointNode = map[c][r].pointNodeList[i];
+
+                            if (i < 1)
+                            {
+                                lr.startWidth = 0.08f;
+                                lr.endWidth = 0.08f;
+                                Vector3 pos1 = mainCam.WorldToScreenPoint(Vector3.zero);
+                                Vector3 pos2 = nodeTrm.InverseTransformPoint(GetCurNodeTrm(pointNode.idx, pointNode.depth).position);
+                                lr.SetPosition(1, pos2);
+                                lr.SetPosition(0, Vector2.zero);
+                            }
+                            else
+                            {
+                                int curPosCount = lr.positionCount;
+                                lr.positionCount = curPosCount + 2;
+                                Vector3 pos1 = mainCam.WorldToScreenPoint(Vector3.zero);
+                                Vector3 pos2 = nodeTrm.InverseTransformPoint(GetCurNodeTrm(pointNode.idx, pointNode.depth).position);
+                                lr.SetPosition(curPosCount + 1, pos2);
+                                lr.SetPosition(curPosCount, Vector2.zero);
+                            }
                         }
                     }
+                    int col = c;
+                    int row = r;
+                    nodeTrm.GetComponent<Button>().onClick.AddListener(() => { OnSelectNode(map[col][row]); });
                 }
                 else
                 {
                     LineRenderer lr = nodeTrm.gameObject.GetComponent<LineRenderer>();
                     lr.positionCount = 0;
                 }
-                int col = c;
-                int row = r;
                 nodeTrm.GetComponent<Button>().interactable = false;
-                nodeTrm.GetComponent<Button>().onClick.RemoveAllListeners();
-                nodeTrm.GetComponent<Button>().onClick.AddListener(() => { OnSelectNode(map[col][row]);  });
             }
         }
     }

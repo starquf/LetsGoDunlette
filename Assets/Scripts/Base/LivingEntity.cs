@@ -68,10 +68,12 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
             {
                 hp += left;
                 shieldHp = 0;
+                cc.RemoveBuff(BuffType.Shield);
             }
             else
             {
                 shieldHp = left;
+                cc.DecreaseBuff(BuffType.Shield, damage);
             }
         }
         else
@@ -150,6 +152,8 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     public virtual void AddShield(int value)
     {
+        cc.IncreaseBuff(BuffType.Shield, value);
+
         shieldHp += value;
         SetHpText();
     }
