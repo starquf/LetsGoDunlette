@@ -12,12 +12,6 @@ public class SkillRullet : Rullet
         GetComponentsInChildren(pieces);
 
         SetRullet();
-
-        int sizeSum = 0;
-        for (int i = 0; i < pieces.Count; i++)
-        {
-            sizeSum += pieces[i].Size;
-        }
     }
 
     // 해당 인덱스의 조각을 인벤토리에 넣고 바꾸는 함수
@@ -36,6 +30,8 @@ public class SkillRullet : Rullet
         pieces[changeIdx] = changePiece;
 
         SetRulletSmooth();
+
+        CreateChain();
     }
 
     // 해당 인덱스의 조각을 바꾸는 함수
@@ -50,6 +46,65 @@ public class SkillRullet : Rullet
         pieces[changeIdx] = changePiece;
 
         SetRulletSmooth();
+
+        CreateChain();
+    }
+
+    // 체인 거는 함수
+    private void CreateChain()
+    {
+        SkillPiece currentPiece = null;
+        SkillPiece prevPiece = null;
+
+        for (int i = 0; i < pieces.Count; i++)
+        {
+            currentPiece = pieces[i] as SkillPiece;
+
+            if (i == 0)
+                prevPiece = pieces[pieces.Count - 1] as SkillPiece;
+
+            if (prevPiece != null && currentPiece != null)
+            {
+                // 만약 현재 조각이 전 조각의 속성과 같다면
+                if (currentPiece.patternType == prevPiece.patternType)
+                {
+                    print($"체인된 속성 : {currentPiece.patternType}");
+                    currentPiece.isChained = true;
+                    prevPiece.isChained = true;
+                }
+            }
+
+            prevPiece = currentPiece;
+        }
+
+        CheckChain();
+    }
+
+    // 체인 체크 함수
+    private void CheckChain()
+    {
+        SkillPiece currentPiece = null;
+        SkillPiece prevPiece = null;
+
+        for (int i = 0; i < pieces.Count; i++)
+        {
+            currentPiece = pieces[i] as SkillPiece;
+
+            if (i == 0)
+                prevPiece = pieces[pieces.Count - 1] as SkillPiece;
+
+            if (prevPiece != null)
+            {
+                // 만약 현재 조각이 전 조각의 속성과 같다면
+                if (currentPiece.PieceType == prevPiece.PieceType)
+                {
+                    currentPiece.isChained = true;
+                    prevPiece.isChained = true;
+                }
+            }
+
+            prevPiece = currentPiece;
+        }
     }
 
     // 해당 인덱스의 조각을 인벤토리로 넣는 함수

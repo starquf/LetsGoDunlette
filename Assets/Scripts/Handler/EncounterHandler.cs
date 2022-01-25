@@ -18,6 +18,7 @@ public class EncounterHandler : MonoBehaviour
     // 인카운터 시작할 떄 호출
     public void StartEncounter(mapNode type)
     {
+        //GameManager.Instance.mapHandler.OpenMapPanel(false);
         CheckEncounter(type);
     }
 
@@ -47,6 +48,6 @@ public class EncounterHandler : MonoBehaviour
     private void EndEncounter()
     {
         print("인카운터 끝남");
-        //GameManager.Instance.mapHandler.OpenMapPanel(true);
+        GameManager.Instance.mapHandler.OpenMapPanel(true);
     }
 }
