@@ -88,6 +88,8 @@ public class CrowdControl : MonoBehaviour
     public void IncreaseCCTurn(CCType cc, int turn)
     {
         ccDic[cc] += turn;
+        ccUIDic[cc].gameObject.SetActive(true);
+
         ccUIDic[cc].SetText(ccDic[cc]);
     }
 
@@ -117,6 +119,8 @@ public class CrowdControl : MonoBehaviour
     public void IncreaseBuff(BuffType buff, int turn)
     {
         buffDic[buff] += turn;
+        buffUIDic[buff].gameObject.SetActive(true);
+
         buffUIDic[buff].SetText(buffDic[buff]);
     }
 
