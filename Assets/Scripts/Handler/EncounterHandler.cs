@@ -11,14 +11,14 @@ public class EncounterHandler : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.mapHandler.OpenMapPanel(true, true);
-        //StartEncounter(mapNode.MONSTER);
+        //GameManager.Instance.mapHandler.OpenMapPanel(true, true);
+        StartEncounter(mapNode.MONSTER);
     }
 
     // 인카운터 시작할 떄 호출
     public void StartEncounter(mapNode type)
     {
-        GameManager.Instance.mapHandler.OpenMapPanel(false);
+        //GameManager.Instance.mapHandler.OpenMapPanel(false);
         CheckEncounter(type);
     }
 

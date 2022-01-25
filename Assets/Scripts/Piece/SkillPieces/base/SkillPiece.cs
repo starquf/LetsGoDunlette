@@ -9,6 +9,8 @@ public class SkillPiece : RulletPiece
     public bool isPlayerSkill = true;
     public bool isInRullet = false;
 
+    public bool isChained = false;
+
     [HideInInspector]
     public Inventory owner;
 
