@@ -45,5 +45,7 @@ public class FA_Attack : SkillPiece
         }
 
         target.GetDamage(Value);
+
+        owner.GetComponent<EnemyIndicator>().ShowText("АјАн");
     }
 }

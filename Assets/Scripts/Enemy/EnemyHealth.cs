@@ -8,6 +8,8 @@ public class EnemyHealth : LivingEntity
     private Collider2D coll;
     private SpriteRenderer sr;
 
+    public EnemyIndicator indicator;
+
     [Header("보스 여부")]
     public bool isBoss = false;
 
@@ -16,12 +18,7 @@ public class EnemyHealth : LivingEntity
         coll = GetComponent<Collider2D>();
         sr = GetComponent<SpriteRenderer>();
 
-        //BattleHandler battleHandler = GameManager.Instance.battleHandler;
-
-        //hpBar = battleHandler.hpBar;
-        //hpShieldBar = battleHandler.hpShieldBar;
-        //hpText = battleHandler.hpText;
-        //damageTrans = battleHandler.damageTrans;
+        indicator = GetComponent<EnemyIndicator>();
 
         base.Start();
     }

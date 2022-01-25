@@ -189,6 +189,14 @@ public class BattleHandler : MonoBehaviour
         }
     }
 
+    private void HideEnemyIndicator()
+    {
+        for (int i = 0; i < enemys.Count; i++)
+        {
+            enemys[i].indicator.HideText();
+        }
+    }
+
     private void SetStopHandler()
     {
         if (stopHandler == null)
@@ -281,6 +289,7 @@ public class BattleHandler : MonoBehaviour
     {
         // 위치 초기화
         SetEnemyPosition();
+        HideEnemyIndicator();
 
         // 버튼 초기화
         stopHandler.SetInteract(false);

@@ -1,5 +1,40 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &321705207522275278
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5039001028455539153}
+  m_Layer: 6
+  m_Name: Indicator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5039001028455539153
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 321705207522275278}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.0009999999, y: 0.0009999999, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2687577230503041391}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -0.00000023841858}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &500402692994384522
 GameObject:
   m_ObjectHideFlags: 0
@@ -588,6 +623,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8192675246898409266}
+  - {fileID: 5039001028455539153}
   m_Father: {fileID: 7878481999268547012}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -825,6 +861,7 @@ GameObject:
   - component: {fileID: 7878481999268547015}
   - component: {fileID: 7878481999268547065}
   - component: {fileID: -5426773400371243313}
+  - component: {fileID: 8242525110299847418}
   m_Layer: 6
   m_Name: low_Skeleton_Warrior2-3
   m_TagString: Untagged
@@ -938,6 +975,7 @@ MonoBehaviour:
   hp: 0
   shieldHp: 0
   cc: {fileID: 0}
+  indicator: {fileID: 0}
   isBoss: 0
 --- !u!114 &7878481999268547065
 MonoBehaviour:
@@ -977,6 +1015,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &8242525110299847418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7878481999268547066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 359fb90e66d93534cbc80db089d0caae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  indicatorTrans: {fileID: 5039001028455539153}
 --- !u!1 &7977155884251121281
 GameObject:
   m_ObjectHideFlags: 0

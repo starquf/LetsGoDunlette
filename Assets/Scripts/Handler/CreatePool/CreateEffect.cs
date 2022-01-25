@@ -8,6 +8,9 @@ public class CreateEffect : MonoBehaviour
     [Header("¿Ã∆Â∆Æ «¡∏Æ∆’")]
     public GameObject effectObj;
 
+    [Header("UI «¡∏Æ∆’")]
+    public GameObject enemyIndicator;
+
     private void Awake()
     {
         CreatePool();
@@ -16,5 +19,8 @@ public class CreateEffect : MonoBehaviour
     private void CreatePool()
     {
         PoolManager.CreatePool<EffectObj>(effectObj, this.transform, 10);
+
+        if (enemyIndicator != null)
+            PoolManager.CreatePool<EnemyIndicatorText>(enemyIndicator, this.transform, 10);
     }
 }
