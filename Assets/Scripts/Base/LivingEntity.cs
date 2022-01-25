@@ -172,6 +172,12 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
             hpBar.DOScaleX((float)hp / curMaxHp, 0.33f);
             hpShieldBar.DOScaleX((float)shieldHp / curMaxHp, 0.33f);
         }
+        else if (hp + shieldHp > maxHp)
+        {
+            float max = hp + shieldHp;
+            hpBar.DOScaleX((float)hp / max, 0.33f);
+            hpShieldBar.DOScaleX((float)shieldHp / max, 0.33f);
+        }
         else
         {
             hpBar.DOScaleX((float)hp / maxHp, 0.33f);
