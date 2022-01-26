@@ -396,6 +396,13 @@ public class BattleHandler : MonoBehaviour
     {
         if (result != null)
         {
+            // 침묵되어 있다면
+            if (result.owner.GetComponent<LivingEntity>().cc.ccDic[CCType.Silence] > 0)
+            {
+                StartCoroutine(EndTurn());
+                return;
+            }
+
             Action onShowCast = () => { };
 
             // 플레이어 스킬이라면
