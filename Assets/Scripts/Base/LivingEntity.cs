@@ -98,6 +98,13 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         SetDamageEffect();
     }
 
+    public virtual void GetDamage(int damage,GameObject owner) // 적 전용임
+    {
+        TrySetIndicator(owner, "공격");
+
+        GetDamage(damage);
+    }
+
     public virtual void GetDamageIgnoreShild(int damage)
     {
         if (isDie)
@@ -134,6 +141,8 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     public virtual void Heal(int value) //value 만큼 회복합니다.
     {
+        TrySetIndicator("회복");
+
         hp += value;
         hp = Mathf.Clamp(hp, 0, maxHp);
 
@@ -152,6 +161,8 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     public virtual void AddShield(int value)
     {
+        TrySetIndicator("보호막");
+
         cc.IncreaseBuff(BuffType.Shield, value);
 
         shieldHp += value;
@@ -190,4 +201,21 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     }
 
     protected abstract void Die();
+
+    private bool TrySetIndicator(string content)
+    {
+        return TrySetIndicator(gameObject, content);
+    }
+
+    private bool TrySetIndicator(GameObject go,string content)
+    {
+        var indicator = go.GetComponent<EnemyIndicator>();
+        if (indicator != null)
+        {
+            indicator.ShowText(content);
+            return true;
+        }
+
+        return false;
+    }
 }

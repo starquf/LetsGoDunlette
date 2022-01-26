@@ -43,7 +43,9 @@ public class MI_Biting : SkillPiece
             , BezierType.Cubic, i * 0.1f);
         }
 
-        target.GetDamage(Value);
+        target.GetDamage(Value, gameObject);
         target.cc.SetCC(CCType.Wound,5);
+
+        owner.GetComponent<EnemyIndicator>().ShowText("상처 부여");
     }
 }
