@@ -11,14 +11,14 @@ public class EncounterHandler : MonoBehaviour
 
     private void Start()
     {
-        //GameManager.Instance.mapHandler.OpenMapPanel(true, true);
-        StartEncounter(mapNode.MONSTER);
+        GameManager.Instance.mapHandler.OpenMapPanel(true, true);
+        //StartEncounter(mapNode.MONSTER);
     }
 
     // 인카운터 시작할 떄 호출
     public void StartEncounter(mapNode type)
     {
-        //GameManager.Instance.mapHandler.OpenMapPanel(false);
+        GameManager.Instance.mapHandler.OpenMapPanel(false);
         CheckEncounter(type);
     }
 
@@ -40,7 +40,7 @@ public class EncounterHandler : MonoBehaviour
                 break;
             case mapNode.MONSTER:
                 print("적");
-                //GameManager.Instance.mapHandler.OpenMapPanel(false);
+                GameManager.Instance.mapHandler.OpenMapPanel(false);
                 GameManager.Instance.battleHandler.StartBattle();
                 break;
             case mapNode.SHOP:
@@ -58,7 +58,7 @@ public class EncounterHandler : MonoBehaviour
     private void EndEncounter()
     {
         print("인카운터 끝남");
-        //GameManager.Instance.mapHandler.OpenMapPanel(true);
-        GameManager.Instance.battleHandler.StartBattle();
+        GameManager.Instance.mapHandler.OpenMapPanel(true);
+        //GameManager.Instance.battleHandler.StartBattle();
     }
 }

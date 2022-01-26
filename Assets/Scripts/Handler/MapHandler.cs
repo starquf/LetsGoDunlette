@@ -13,6 +13,7 @@ public class MapHandler : MonoBehaviour
     public List<List<Node>> map;
 
     public List<Sprite> mapIcons;
+    public List<Sprite> mapClearIcons;
 
     public GameObject mapUIs;
     public GameObject Content;
@@ -24,6 +25,9 @@ public class MapHandler : MonoBehaviour
     private Transform mapHider;
 
     private Sequence openSequence;
+
+
+    public GameObject lineNodePrefab;
 
     private void Awake()
     {
@@ -129,37 +133,39 @@ public class MapHandler : MonoBehaviour
             {
                 //print(c + ","+r);
                 Transform nodeTrm = GetCurNodeTrm(r, c);
-                Color color = Color.clear;
+                Sprite icon;
                 switch (map[c][r].mapNode)
                 {
                     case mapNode.NONE:
-                        color = Color.clear;
+                        nodeTrm.GetComponent<Image>().color = Color.clear;
+                        icon = mapIcons[0];
                         break;
                     case mapNode.START:
-                        color = new Color(1, 0, 1, 1f);
+                        icon = mapIcons[0];
                         break;
                     case mapNode.BOSS:
-                        color = new Color(0.3f, 0, 0, 0.5f);
+                        icon = mapIcons[5];
                         break;
                     case mapNode.MONSTER:
-                        color = new Color(1, 0, 0, 0.5f);
+                        icon = mapIcons[0];
                         break;
                     case mapNode.EMONSTER:
-                        color = new Color(0.5f, 0, 0, 0.5f);
+                        icon = mapIcons[1];
                         break;
                     case mapNode.SHOP:
-                        color = new Color(1, 0.92f, 0.016f, 0.5f);
+                        icon = mapIcons[4];
                         break;
                     case mapNode.REST:
-                        color = new Color(0, 0, 1, 0.5f);
+                        icon = mapIcons[3];
                         break;
                     case mapNode.TREASURE:
-                        color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+                        icon = mapIcons[2];
                         break;
                     default:
+                        icon = mapIcons[0];
                         break;
                 }
-                nodeTrm.GetComponent<Image>().color = color;
+                nodeTrm.GetComponent<Image>().sprite = icon;
 
 
                 nodeTrm.GetComponent<Button>().onClick.RemoveAllListeners();
@@ -168,41 +174,47 @@ public class MapHandler : MonoBehaviour
                     if (c < cols - 1)
                     {
                         Camera mainCam = Camera.main;
-                        LineRenderer lr = nodeTrm.gameObject.GetComponent<LineRenderer>();
-                        lr.positionCount = 2;
+                        //LineRenderer lr = nodeTrm.gameObject.GetComponent<LineRenderer>();
                         for (int i = 0; i < map[c][r].pointNodeList.Count; i++)
                         {
-                            Node pointNode = map[c][r].pointNodeList[i];
-
-                            if (i < 1)
+                            LineRenderer lr;
+                            if (nodeTrm.childCount-1 < i)
                             {
-                                lr.startWidth = 0.08f;
-                                lr.endWidth = 0.08f;
-                                Vector3 pos1 = mainCam.WorldToScreenPoint(Vector3.zero);
-                                Vector3 pos2 = nodeTrm.InverseTransformPoint(GetCurNodeTrm(pointNode.idx, pointNode.depth).position);
-                                lr.SetPosition(1, pos2);
-                                lr.SetPosition(0, Vector2.zero);
+                                GameObject lineObj = Instantiate(lineNodePrefab, nodeTrm);
+                                lr = lineObj.GetComponent<LineRenderer>();
+                                lr.positionCount = 2;
                             }
                             else
                             {
-                                int curPosCount = lr.positionCount;
-                                lr.positionCount = curPosCount + 2;
-                                Vector3 pos1 = mainCam.WorldToScreenPoint(Vector3.zero);
-                                Vector3 pos2 = nodeTrm.InverseTransformPoint(GetCurNodeTrm(pointNode.idx, pointNode.depth).position);
-                                lr.SetPosition(curPosCount + 1, pos2);
-                                lr.SetPosition(curPosCount, Vector2.zero);
+                                lr = nodeTrm.GetChild(i).GetComponent<LineRenderer>();
                             }
+
+                            Node pointNode = map[c][r].pointNodeList[i];
+
+                            float x = Mathf.Abs(r - pointNode.idx);
+
+                            int z = ((int)new Vector2(x, 1).magnitude);
+                            print($"c:{c},r:{r}  pc:{pointNode.idx}  x:{x}, z:{z}");
+                            lr.material.mainTextureScale = new Vector2(z*3, lr.material.mainTextureScale.y);
+                            lr.startWidth = 0.08f;
+                            lr.endWidth = 0.08f;
+                            Vector3 pos1 = mainCam.WorldToScreenPoint(Vector3.zero);
+                            Vector3 pos2 = nodeTrm.InverseTransformPoint(GetCurNodeTrm(pointNode.idx, pointNode.depth).position);
+                            lr.SetPosition(1, pos2);
+                            lr.SetPosition(0, Vector2.zero);
+
+
                         }
                     }
                     int col = c;
                     int row = r;
                     nodeTrm.GetComponent<Button>().onClick.AddListener(() => { OnSelectNode(map[col][row]); });
                 }
-                else
-                {
-                    LineRenderer lr = nodeTrm.gameObject.GetComponent<LineRenderer>();
-                    lr.positionCount = 0;
-                }
+                //else
+                //{
+                //    LineRenderer lr = nodeTrm.gameObject.GetComponent<LineRenderer>();
+                //    lr.positionCount = 0;
+                //}
                 nodeTrm.GetComponent<Button>().interactable = false;
             }
         }
