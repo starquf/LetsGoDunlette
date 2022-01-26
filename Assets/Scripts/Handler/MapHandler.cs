@@ -79,8 +79,8 @@ public class MapHandler : MonoBehaviour
         //여기에 각 맵별 대충 구현
         if(curNode.mapNode != mapNode.START)
         {
-            print(curNode.mapNode);
-            //encounterHandler.StartEncounter(curNode.mapNode);
+            //print(curNode.mapNode);
+            encounterHandler.StartEncounter(curNode.mapNode);
         }
         //아래 디버그용
         if(curNode.depth == mapCreater.mapCols-1)
