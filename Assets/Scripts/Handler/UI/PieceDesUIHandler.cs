@@ -8,6 +8,7 @@ public class PieceDesUIHandler : MonoBehaviour
     public Text nameText;
     public Image bgImg;
     public Text desText;
+    public Image bookmarkImg;
 
     [Space(10f)]
     public Button closeBtn;
@@ -25,11 +26,12 @@ public class PieceDesUIHandler : MonoBehaviour
         ShowPanel(false);
     }
 
-    public void ShowDescription(string name, Sprite bg, string des)
+    public void ShowDescription(string name, Sprite bg, string des, Sprite bookmark)
     {
         nameText.text = name;
         bgImg.sprite = bg;
         desText.text = des;
+        bookmarkImg.sprite = bookmark;
 
         ShowPanel(true);
     }
