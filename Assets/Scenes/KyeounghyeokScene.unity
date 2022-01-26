@@ -2179,6 +2179,7 @@ GameObject:
   - component: {fileID: 422022983}
   - component: {fileID: 422022982}
   - component: {fileID: 422022981}
+  - component: {fileID: 422022984}
   m_Layer: 5
   m_Name: Map
   m_TagString: Untagged
@@ -2204,39 +2205,30 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -165}
+  m_SizeDelta: {x: 0, y: -330}
   m_Pivot: {x: 0, y: 1}
---- !u!114 &422022981
-MonoBehaviour:
+--- !u!223 &422022981
+Canvas:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 422022979}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: -416569845
+  m_SortingOrder: 62
+  m_TargetDisplay: 0
 --- !u!114 &422022982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2258,6 +2250,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 422022979}
   m_CullTransparentMesh: 1
+--- !u!114 &422022984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422022979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &422727084
 GameObject:
   m_ObjectHideFlags: 0
@@ -2549,7 +2558,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &443365316
 Transform:
   m_ObjectHideFlags: 0
@@ -2577,10 +2586,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   encounterHandler: {fileID: 298181973}
-  mapIcons: []
+  mapIcons:
+  - {fileID: 812409168580154763, guid: 37b045bef863040b99722caabdfeb011, type: 3}
+  - {fileID: -5159783404846795703, guid: 37b045bef863040b99722caabdfeb011, type: 3}
+  - {fileID: -7336967363828752492, guid: 37b045bef863040b99722caabdfeb011, type: 3}
+  - {fileID: 1693557743346464085, guid: 37b045bef863040b99722caabdfeb011, type: 3}
+  - {fileID: -8515455940161310727, guid: 37b045bef863040b99722caabdfeb011, type: 3}
+  - {fileID: -3959234914497619467, guid: 37b045bef863040b99722caabdfeb011, type: 3}
+  mapClearIcons:
+  - {fileID: -8231846601670754041, guid: 37b045bef863040b99722caabdfeb011, type: 3}
+  - {fileID: -6928951598471552286, guid: 37b045bef863040b99722caabdfeb011, type: 3}
+  - {fileID: 6457710627042114762, guid: 37b045bef863040b99722caabdfeb011, type: 3}
+  - {fileID: 645662572222983644, guid: 37b045bef863040b99722caabdfeb011, type: 3}
+  - {fileID: 6477794070802434370, guid: 37b045bef863040b99722caabdfeb011, type: 3}
+  - {fileID: -4467418644624832180, guid: 37b045bef863040b99722caabdfeb011, type: 3}
   mapUIs: {fileID: 1716688402}
   Content: {fileID: 1847393613}
   curPlayerPosIcon: {fileID: 376979490}
+  lineNodePrefab: {fileID: 2745496766286179087, guid: c18da5ba002fd9545873885b63dcd198, type: 3}
 --- !u!114 &443365319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2595,7 +2618,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MapNodePrefab: {fileID: 7668356760350130076, guid: 99da33b99a58d5f4e8a2b1bd6b5ff118, type: 3}
   mapRows: 7
-  mapCols: 15
+  mapCols: 12
   maxNode: 5
   minNode: 3
 --- !u!1 &452571064
@@ -9742,14 +9765,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.2735849, g: 0.2735849, b: 0.2735849, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 21a38eaea125743e2a89fca7f035bba3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
