@@ -28,6 +28,7 @@ public class MapHandler : MonoBehaviour
 
 
     public GameObject lineNodePrefab;
+    public Material SelectedLineMat;
 
     private void Awake()
     {
@@ -95,10 +96,10 @@ public class MapHandler : MonoBehaviour
 
     public void OnSelectNode(Node node)
     {
-        if(node.depth>0)
+        if (node.depth>0)
         {
             int depth = node.depth;
-            for (int i = 0; i < map[depth].Count; i++)
+            for (int i = 0; i < mapCreater.mapRows; i++)
             {
                 if(map[depth][i].mapNode != mapNode.NONE && i != node.idx)
                 {
@@ -107,7 +108,18 @@ public class MapHandler : MonoBehaviour
                 }
                 GetCurNodeTrm(i, depth).GetComponent<Button>().interactable = false;
             }
+
+            for (int i = 0; i < curNode.pointNodeList.Count; i++)
+            {
+                if (curNode.pointNodeList[i] == node)
+                {
+                    print("tlqkf");
+                    LineRenderer lr = GetCurNodeTrm(curNode.idx, curNode.depth).GetChild(i).GetComponent<LineRenderer>();
+                    SetLineMat(lr, curNode.idx, node.idx, SelectedLineMat);
+                }
+            }
         }
+        GetCurNodeTrm(node.idx, node.depth).GetComponent<Image>().sprite = mapClearIcons[node.spriteIdx];
         curNode = node;
         for (int i = 0; i < node.pointNodeList.Count; i++)
         {
@@ -138,31 +150,42 @@ public class MapHandler : MonoBehaviour
                 {
                     case mapNode.NONE:
                         nodeTrm.GetComponent<Image>().color = Color.clear;
-                        icon = mapIcons[0];
+                        map[c][r].spriteIdx = 0;
+                        icon = mapIcons[map[c][r].spriteIdx];
                         break;
                     case mapNode.START:
-                        icon = mapIcons[0];
+                        map[c][r].spriteIdx = 0;
+                        icon = mapIcons[map[c][r].spriteIdx];
                         break;
                     case mapNode.BOSS:
-                        icon = mapIcons[5];
+                        GetCurNodeTrm(r, c).localScale =  Vector2.one *2f;
+                        map[c][r].spriteIdx = 5;
+                        icon = mapIcons[map[c][r].spriteIdx];
                         break;
                     case mapNode.MONSTER:
+                        map[c][r].spriteIdx = 0;
+                        icon = mapIcons[map[c][r].spriteIdx];
                         icon = mapIcons[0];
                         break;
                     case mapNode.EMONSTER:
-                        icon = mapIcons[1];
+                        map[c][r].spriteIdx = 1;
+                        icon = mapIcons[map[c][r].spriteIdx];
                         break;
                     case mapNode.SHOP:
-                        icon = mapIcons[4];
+                        map[c][r].spriteIdx = 4;
+                        icon = mapIcons[map[c][r].spriteIdx];
                         break;
                     case mapNode.REST:
-                        icon = mapIcons[3];
+                        map[c][r].spriteIdx = 3;
+                        icon = mapIcons[map[c][r].spriteIdx];
                         break;
                     case mapNode.TREASURE:
-                        icon = mapIcons[2];
+                        map[c][r].spriteIdx = 2;
+                        icon = mapIcons[map[c][r].spriteIdx];
                         break;
                     default:
-                        icon = mapIcons[0];
+                        map[c][r].spriteIdx = 0;
+                        icon = mapIcons[map[c][r].spriteIdx];
                         break;
                 }
                 nodeTrm.GetComponent<Image>().sprite = icon;
@@ -191,11 +214,8 @@ public class MapHandler : MonoBehaviour
 
                             Node pointNode = map[c][r].pointNodeList[i];
 
-                            float x = Mathf.Abs(r - pointNode.idx);
+                            SetLineMat(lr, r, pointNode.idx);
 
-                            int z = ((int)new Vector2(x, 1).magnitude);
-                            print($"c:{c},r:{r}  pc:{pointNode.idx}  x:{x}, z:{z}");
-                            lr.material.mainTextureScale = new Vector2(z*3, lr.material.mainTextureScale.y);
                             lr.startWidth = 0.08f;
                             lr.endWidth = 0.08f;
                             Vector3 pos1 = mainCam.WorldToScreenPoint(Vector3.zero);
@@ -218,6 +238,18 @@ public class MapHandler : MonoBehaviour
                 nodeTrm.GetComponent<Button>().interactable = false;
             }
         }
+    }
+
+    public void SetLineMat(LineRenderer lr, int r, int p, Material mat = null)
+    {
+        if(mat != null)
+        {
+            lr.material = mat;
+        }
+        float x = Mathf.Abs(r - p);
+
+        int z = ((int)new Vector2(x, 1).magnitude);
+        lr.material.mainTextureScale = new Vector2(z * 3, lr.material.mainTextureScale.y);
     }
 
     private Transform GetCurNodeTrm(int row, int col)

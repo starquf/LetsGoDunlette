@@ -20,6 +20,7 @@ public class Node
     public int idx;
     public int depth;
 
+    public int spriteIdx;
     public mapNode mapNode;
     public List<Node> pointNodeList;
 
