@@ -416,9 +416,10 @@ public class BattleHandler : MonoBehaviour
                 battleTargetSelector.SelectTarget(target => {
                     result.Cast(target, () =>
                     {
-                        castUIHandler.ShowPanel(false);
                         StartCoroutine(EndTurn());
                     });
+
+                    castUIHandler.ShowPanel(false);
                 });
             }
             else

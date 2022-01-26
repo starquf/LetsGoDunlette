@@ -33,6 +33,7 @@ public class EffectObj : MonoBehaviour
 
     public void SetSprite(Sprite sp)
     {
+        Sr.color = Color.white;
         Sr.sprite = sp;
     }
 

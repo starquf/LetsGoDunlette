@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 
 [System.Serializable]
@@ -8,16 +9,33 @@ public class BattleInfo
 {
     public List<EnemyHealth> enemyInfos = new List<EnemyHealth>();
     public List<GameObject> rewards = new List<GameObject>();
+
+    public bool isWeakEnemy;
 }
 
 public class BattleInfoHandler : MonoBehaviour
 {
     public List<BattleInfo> battleInfos = new List<BattleInfo>();
 
+    private int counter = 0;
+
     public BattleInfo GetRandomBattleInfo()
     {
-        int randIdx = Random.Range(0, battleInfos.Count);
+        counter++;
 
-        return battleInfos[randIdx];
+        if (counter > 2)
+        {
+            int randIdx = Random.Range(0, battleInfos.Count);
+
+            return battleInfos[randIdx];
+        }
+        else
+        {
+            List<BattleInfo> weakInfos = battleInfos.Where(x => x.isWeakEnemy).ToList();
+
+            int randIdx = Random.Range(0, weakInfos.Count);
+
+            return weakInfos[randIdx];
+        }
     }
 }
