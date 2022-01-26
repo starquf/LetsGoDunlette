@@ -145,10 +145,11 @@ public class MapHandler : MonoBehaviour
                 //print(c + ","+r);
                 Transform nodeTrm = GetCurNodeTrm(r, c);
                 Sprite icon;
+                Color color = Color.white;
                 switch (map[c][r].mapNode)
                 {
                     case mapNode.NONE:
-                        nodeTrm.GetComponent<Image>().color = Color.clear;
+                        color = Color.clear;
                         map[c][r].spriteIdx = 0;
                         icon = mapIcons[map[c][r].spriteIdx];
                         break;
@@ -188,7 +189,7 @@ public class MapHandler : MonoBehaviour
                         break;
                 }
                 nodeTrm.GetComponent<Image>().sprite = icon;
-
+                nodeTrm.GetComponent<Image>().color = color;
 
                 nodeTrm.GetComponent<Button>().onClick.RemoveAllListeners();
                 if (map[c][r].mapNode != mapNode.NONE)
