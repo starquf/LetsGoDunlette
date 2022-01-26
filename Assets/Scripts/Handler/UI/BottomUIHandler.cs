@@ -10,14 +10,14 @@ public class BottomUIHandler : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.OnUpdateUI += PlayGetMoneyAnim;
-        GameManager.Instance.OnUpdateUI += SetGoldUI;
-        SetGoldUI();
+        //GameManager.Instance.OnUpdateUI += PlayGetMoneyAnim;
+        //GameManager.Instance.OnUpdateUI += SetGoldUI;
+        //SetGoldUI();
     }
 
     public void SetGoldUI()
     {
-        goldText.text = GameManager.Instance.Gold.ToString();
+        //goldText.text = GameManager.Instance.Gold.ToString();
         curGlod = GameManager.Instance.Gold;
     }
 
