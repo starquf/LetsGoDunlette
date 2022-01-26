@@ -10,9 +10,18 @@ public class BattleRewardUIHandler : MonoBehaviour
     private CanvasGroup allCvsGroup;
     [SerializeField] private Transform battleWinTextImgTrm;
     [SerializeField] private CanvasGroup rewardCvsGroup;
+    [SerializeField] private CanvasGroup selectCardCvsGroup;
     [SerializeField] private Button rewardBtn;
+    [SerializeField] private Button selectCancelBtn;
+    [SerializeField] private Button selectBtn;
     [SerializeField] private Button rewardSkipBtn;
     [SerializeField] private Text rewardBtnText;
+    [SerializeField] private Text rewardSkipBtnText;
+
+    [Header("카드 UI")]
+    public Image cardBG;
+    public Text cardNameText;
+    public Text cardDesText;
 
     private Sequence showSequence;
     private Sequence winShowSequence;
@@ -24,42 +33,66 @@ public class BattleRewardUIHandler : MonoBehaviour
 
     void Start()
     {
-        rewardBtn.onClick.AddListener(() => {
-            print("tlqkf");
+        rewardSkipBtnText.text = "넘기기";
+        rewardBtnText.text = "확인";
+        selectBtn.onClick.AddListener(() =>
+        {
+            AllBtnHandle(false);
+            ShowPanel(selectCardCvsGroup, true);
         });
-        rewardSkipBtn.onClick.AddListener(() => {
-            print("whfrpxsp");
+        selectCancelBtn.onClick.AddListener(() =>
+        {
+            rewardBtn.interactable = false;
+            selectCancelBtn.interactable = false;
+            ShowPanel(selectCardCvsGroup, false, ()=> {
+                AllBtnHandle(true);
+                rewardBtn.interactable = true;
+                selectCancelBtn.interactable = true;
+            });
         });
     }
 
-    public void SetButton(Action onClickGet, Action onClickSkip)
+    public void SetButton(SkillPiece skillPiece, Action onClickGet, Action onClickSkip)
     {
+        cardBG.sprite = skillPiece.cardBG;
+        cardNameText.text = skillPiece.PieceName;
+        cardDesText.text = skillPiece.PieceDes;
+
         rewardBtn.onClick.RemoveAllListeners();
         rewardSkipBtn.onClick.RemoveAllListeners();
 
-        rewardBtnText.text = "넘기기";
-
         rewardBtn.onClick.AddListener(() => {
+            rewardBtn.interactable = false;
+            selectCancelBtn.interactable = false;
             onClickGet();
             ShowPanel(allCvsGroup, false, ()=> {
                 ShowPanel(rewardCvsGroup, false, null, true);
+                ShowPanel(selectCardCvsGroup, false, null, true);
+                rewardBtn.interactable = true;
+                selectCancelBtn.interactable = true;
+                rewardBtn.gameObject.SetActive(true);
             });
-            AllBtnHandle(false);
+            rewardBtn.gameObject.SetActive(false);
         });
         rewardSkipBtn.onClick.AddListener(() => {
+            rewardSkipBtn.interactable = false;
+            selectBtn.interactable = false;
             onClickSkip();
             ShowPanel(allCvsGroup, false, () => {
                 ShowPanel(rewardCvsGroup, false, null, true);
+                rewardSkipBtn.interactable = true;
+                selectBtn.interactable = true;
             });
             AllBtnHandle(false);
         });
         AllBtnHandle(true);
+        rewardSkipBtn.gameObject.SetActive(true);
     }
 
     public void AllBtnHandle(bool open)
     {
         rewardSkipBtn.gameObject.SetActive(open);
-        rewardBtn.gameObject.SetActive(open);
+        selectBtn.gameObject.SetActive(open);
     }
 
     public void ShowWinEffect(Action onShowEnd)

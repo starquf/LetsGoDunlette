@@ -52,9 +52,9 @@ public class BattleRewardHandler : MonoBehaviour
         // 끝
 
         // 전투 다시 시작 임시로 넣어둠
-        //battleHandler.StartBattle();
         GameManager.Instance.EndEncounter();
         isRewardEnd = false;
+        isWinEffectEnd = false;
     }
 
     private IEnumerator CreateReward()
@@ -113,7 +113,7 @@ public class BattleRewardHandler : MonoBehaviour
                 rullet.transform.SetAsFirstSibling();
 
 
-                battleRewardUIHandler.SetButton(() =>
+                battleRewardUIHandler.SetButton(rewardResult, () =>
                 {
                     print("리워드 가져감");
                     Transform unusedInventoryTrm = GameManager.Instance.inventoryHandler.transform;
