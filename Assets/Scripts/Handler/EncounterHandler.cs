@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EncounterHandler : MonoBehaviour
 {
+    public ToBeContinueHandler tbHandler;
+
     private void Awake()
     {
         GameManager.Instance.OnEndEncounter += EndEncounter;
@@ -28,15 +30,21 @@ public class EncounterHandler : MonoBehaviour
         {
             case mapNode.NONE:
                 print("???");
+                GameManager.Instance.mapHandler.OpenMapPanel(false);
+                tbHandler.StartEvent();
                 break;
             case mapNode.START:
                 print("시작");
                 break;
             case mapNode.BOSS:
                 print("보스");
+                GameManager.Instance.mapHandler.OpenMapPanel(false);
+                tbHandler.StartEvent();
                 break;
             case mapNode.EMONSTER:
                 print("엘리트 몹");
+                GameManager.Instance.mapHandler.OpenMapPanel(false);
+                tbHandler.StartEvent();
                 break;
             case mapNode.MONSTER:
                 print("적");
@@ -45,12 +53,18 @@ public class EncounterHandler : MonoBehaviour
                 break;
             case mapNode.SHOP:
                 print("상점");
+                GameManager.Instance.mapHandler.OpenMapPanel(false);
+                tbHandler.StartEvent();
                 break;
             case mapNode.REST:
                 print("휴식");
+                GameManager.Instance.mapHandler.OpenMapPanel(false);
+                tbHandler.StartEvent();
                 break;
             case mapNode.TREASURE:
                 print("보물");
+                GameManager.Instance.mapHandler.OpenMapPanel(false);
+                tbHandler.StartEvent();
                 break;
         }
     }
@@ -59,6 +73,5 @@ public class EncounterHandler : MonoBehaviour
     {
         print("인카운터 끝남");
         GameManager.Instance.mapHandler.OpenMapPanel(true);
-        //GameManager.Instance.battleHandler.StartBattle();
     }
 }
