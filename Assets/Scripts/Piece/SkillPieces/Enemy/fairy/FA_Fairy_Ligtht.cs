@@ -51,7 +51,8 @@ public class FA_Fairy_Ligtht : SkillPiece
                     onCastEnd?.Invoke();
             }
             , BezierType.Cubic, i * 0.1f);
-
         }
+
+        owner.GetComponent<EnemyIndicator>().ShowText("°­È­");
     }
 }

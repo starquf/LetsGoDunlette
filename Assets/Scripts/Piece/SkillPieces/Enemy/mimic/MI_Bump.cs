@@ -44,6 +44,6 @@ public class MI_Bump : SkillPiece
 
         }
 
-        target.GetDamage(Value);
+        target.GetDamage(Value, gameObject);
     }
 }

@@ -44,6 +44,6 @@ public class LSW_Cutting : SkillPiece
 
         }
 
-        target.GetDamage(Value);
+        target.GetDamage(Value, gameObject);
     }
 }

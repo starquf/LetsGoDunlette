@@ -44,6 +44,6 @@ public class DP_Attack : SkillPiece
 
         }
 
-        target.GetDamage(Value);
+        target.GetDamage(Value,gameObject);
     }
 }

@@ -45,7 +45,7 @@ public class FA_Kidding : SkillPiece
 
         }
 
-        target.GetDamage(Value);
+        target.GetDamage(Value, gameObject);
         KiddingSkill();
     }
 
@@ -63,6 +63,8 @@ public class FA_Kidding : SkillPiece
             List<SkillPiece> usedinven = GameManager.Instance.inventoryHandler.usedSkills;
             TryFindAttackFromAndCall(usedinven, FindRandomPlayerSkillAndChangePiece);
         }
+
+        owner.GetComponent<EnemyIndicator>().ShowText("조각 변경");
     }
 
     private bool TryFindAttackFromAndCall(List<SkillPiece> list, Action<SkillPiece> action)
