@@ -354,6 +354,11 @@ public class BattleHandler : MonoBehaviour
             BattleEnd();
             yield break;
         }
+        else if(CheckPlayerDie())
+        {
+            BattleEnd(false);
+            yield break;
+        }
 
         yield return pFiveSecWait;
 
@@ -364,6 +369,10 @@ public class BattleHandler : MonoBehaviour
 
         // 다음턴으로
         InitTurn();
+    }
+    private bool CheckPlayerDie()
+    {
+        return player.IsDie;
     }
 
     private bool CheckEnemyDie()
@@ -380,11 +389,26 @@ public class BattleHandler : MonoBehaviour
     }
 
     // 전투가 끝날 때
-    private void BattleEnd()
+    private void BattleEnd(bool isWin = true)
     {
         player.cc.ResetAllCC();
-        enemys.Clear();
-        battleRewardHandler.GiveReward();
+        if (isWin)
+        {
+            enemys.Clear();
+            battleRewardHandler.GiveReward();
+        }
+        else
+        {
+            battleRewardHandler.ResetRullet(()=> {
+                for (int i = 0; i < enemys.Count; i++)
+                {
+                    enemys[i].gameObject.SetActive(false);
+                }
+                enemys.Clear();
+                GameManager.Instance.mapHandler.GameOverProto();
+                player.Revive();
+            });
+        }
     }
 
     #endregion

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using System;
+using Random = UnityEngine.Random;
 
 public class BattleRewardHandler : MonoBehaviour
 {
@@ -35,6 +37,21 @@ public class BattleRewardHandler : MonoBehaviour
     public void GiveReward()
     {
         StartCoroutine(RewardRoutine());
+    }
+
+    public void ResetRullet(Action action)
+    {
+        StartCoroutine(ResetInventory(action));
+    }
+
+    public IEnumerator ResetInventory(Action action)
+    {
+        PutRulletPieceInInventory(); //·ê·¿ ´Ù ÀÎº¥Åä¸®¿¡ ³Ö°í
+        yield return oneSecWait;
+        yield return oneSecWait;
+        inventoryHandler.RemoveAllEnemyPiece(); //Àû ·ê·¿ ¾ø¾Ö°í
+
+        action();
     }
 
     private IEnumerator RewardRoutine()

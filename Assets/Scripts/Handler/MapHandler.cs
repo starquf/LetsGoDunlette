@@ -31,6 +31,9 @@ public class MapHandler : MonoBehaviour
     public Material LineMat;
     public Material SelectedLineMat;
 
+    //--------게임오버 임시구현-----------
+    public GameOverPanelHandler gameOverPanelHandler;
+
     private void Awake()
     {
         GameManager.Instance.mapHandler = this;
@@ -87,6 +90,12 @@ public class MapHandler : MonoBehaviour
         {
             StartCoroutine(ResetMap());
         }
+    }
+    
+    public void GameOverProto()
+    {
+        gameOverPanelHandler.GameOverEffect();
+        StartCoroutine(ResetMap());
     }
 
     public IEnumerator ResetMap()
