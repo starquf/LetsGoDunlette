@@ -98,7 +98,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         SetDamageEffect();
     }
 
-    public virtual void GetDamage(int damage,GameObject owner) // 적 전용임
+    public virtual void GetDamage(int damage, GameObject owner) // 적 전용임
     {
         TrySetIndicator(owner, "공격");
 
@@ -207,7 +207,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         return TrySetIndicator(gameObject, content);
     }
 
-    private bool TrySetIndicator(GameObject go,string content)
+    private bool TrySetIndicator(GameObject go, string content)
     {
         var indicator = go.GetComponent<EnemyIndicator>();
         if (indicator != null)

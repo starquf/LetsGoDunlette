@@ -44,6 +44,6 @@ public class NSl_Bounce : SkillPiece
 
         }
 
-        target.GetDamage(Value,gameObject);
+        target.GetDamage(Value, owner.gameObject);
     }
 }

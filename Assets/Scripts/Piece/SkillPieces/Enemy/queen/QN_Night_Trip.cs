@@ -44,6 +44,7 @@ public class QN_Night_Trip : SkillPiece
 
         }
 
+        // Àû »ý¼º
         target.GetDamage(Value);
     }
 }

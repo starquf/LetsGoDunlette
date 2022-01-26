@@ -56,7 +56,7 @@ public class Skill_C_UnManaSphere : SkillPiece
                     {
                         if (!CheckSilence() && rand < 35)
                         {
-                            owner.GetComponent<LivingEntity>().cc.SetCC(CCType.Silence, 4);
+                            owner.GetComponent<LivingEntity>().cc.SetCC(CCType.Silence, 3);
                         }
 
                         onCastEnd?.Invoke();

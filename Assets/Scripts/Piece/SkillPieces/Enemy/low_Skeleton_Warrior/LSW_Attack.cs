@@ -44,6 +44,6 @@ public class LSW_Attack : SkillPiece
 
         }
 
-        target.GetDamage(Value,gameObject);
+        target.GetDamage(Value, owner.gameObject);
     }
 }

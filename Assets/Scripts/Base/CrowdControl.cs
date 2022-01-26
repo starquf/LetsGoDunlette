@@ -77,11 +77,35 @@ public class CrowdControl : MonoBehaviour
         ccUIDic[cc].SetText(turn);
         ccUIDic[cc].gameObject.SetActive(true);
 
+        string messege = "";
+
+        switch (cc)
+        {
+            case CCType.Stun:
+                messege = "기절됨!";
+                break;
+
+            case CCType.Silence:
+                messege = "침묵됨!";
+                break;
+
+            case CCType.Wound:
+                messege = "상처입음!";
+                break;
+        }
+
         // 만약 0보다 작아졌다면
         if (turn <= 0)
         {
             ccDic[cc] = 0;
             ccUIDic[cc].gameObject.SetActive(false);
+        }
+        else
+        {
+            Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
+            textEffect.SetType(TextUpAnimType.Damage);
+            textEffect.transform.position = ccUIDic[cc].transform.position;
+            textEffect.Play(messege);
         }
     }
 

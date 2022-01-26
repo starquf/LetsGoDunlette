@@ -44,6 +44,6 @@ public class DP_Poke : SkillPiece
 
         }
 
-        target.GetDamage(Value,gameObject);
+        target.GetDamage(Value, owner.gameObject);
     }
 }

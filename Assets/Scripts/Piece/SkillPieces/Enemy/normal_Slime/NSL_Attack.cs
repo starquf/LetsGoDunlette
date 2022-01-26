@@ -44,6 +44,6 @@ public class NSL_Attack : SkillPiece
 
         }
 
-        target.GetDamage(Value);
+        target.GetDamage(Value, owner.gameObject);
     }
 }

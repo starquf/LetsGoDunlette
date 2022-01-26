@@ -43,6 +43,6 @@ public class MI_Attack : SkillPiece
             , BezierType.Cubic, i * 0.1f);
         }
 
-        target.GetDamage(Value, gameObject);
+        target.GetDamage(Value, owner.gameObject);
     }
 }
