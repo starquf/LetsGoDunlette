@@ -37,7 +37,7 @@ public class Skill_E_LightningRod : SkillPiece
         SkillPiece result = null;
 
         // 번개 속성이 존재한다면
-        if (!CheckSilence() && lightningSkillPieces.Count > 0)
+        if (lightningSkillPieces.Count > 0)
         {
             result = lightningSkillPieces[Random.Range(0, lightningSkillPieces.Count)];
             result.HighlightColor(0.4f);
