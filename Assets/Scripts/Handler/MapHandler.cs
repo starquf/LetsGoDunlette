@@ -28,6 +28,7 @@ public class MapHandler : MonoBehaviour
 
 
     public GameObject lineNodePrefab;
+    public Material LineMat;
     public Material SelectedLineMat;
 
     private void Awake()
@@ -79,19 +80,44 @@ public class MapHandler : MonoBehaviour
         if(curNode.mapNode != mapNode.START)
         {
             print(curNode.mapNode);
-            encounterHandler.StartEncounter(curNode.mapNode);
+            //encounterHandler.StartEncounter(curNode.mapNode);
         }
         //아래 디버그용
         if(curNode.depth == mapCreater.mapCols-1)
         {
-            Invoke("ResetMap", 1);
+            StartCoroutine(ResetMap());
         }
     }
 
-    public void ResetMap()
+    public IEnumerator ResetMap()
     {
+        yield return new WaitForSeconds(1f);
+        curPlayerPosIcon.SetParent(Content.transform.parent);
+        ResetNodeLine();
+        yield return new WaitForSeconds(0.1f);
         mapCreater.MapReset();
         mapCreater.CreateMap();
+    }
+
+    public void ResetNodeLine()
+    {
+        int cols = mapCreater.mapCols;
+        int rows = mapCreater.mapRows;
+        for (int c = 0; c < cols; c++)
+        {
+            for (int r = 0; r < rows; r++)
+            {
+                Transform nodeTrm = GetCurNodeTrm(r, c);
+                if(map[c][r].mapNode != mapNode.NONE && nodeTrm.childCount > 0)
+                {
+                    int count = nodeTrm.childCount;
+                    for (int i = 0; i < count; i++)
+                    {
+                        Destroy(nodeTrm.GetChild(i).gameObject);
+                    }
+                }
+            }
+        }
     }
 
     public void OnSelectNode(Node node)
@@ -113,7 +139,6 @@ public class MapHandler : MonoBehaviour
             {
                 if (curNode.pointNodeList[i] == node)
                 {
-                    print("tlqkf");
                     LineRenderer lr = GetCurNodeTrm(curNode.idx, curNode.depth).GetChild(i).GetComponent<LineRenderer>();
                     SetLineMat(lr, curNode.idx, node.idx, SelectedLineMat);
                 }
@@ -199,10 +224,22 @@ public class MapHandler : MonoBehaviour
                     {
                         Camera mainCam = Camera.main;
                         //LineRenderer lr = nodeTrm.gameObject.GetComponent<LineRenderer>();
+
+                        //int childCount = c == 0&&r==3 ? nodeTrm.childCount - 1 : nodeTrm.childCount;
+                        //if (map[c][r].pointNodeList.Count < childCount)
+                        //{
+                        //    print($"tlqkf? c:{c} r:{r} ");
+                        //    int count = nodeTrm.childCount - map[c][r].pointNodeList.Count;
+                        //    for (int k = 0; k < count; k++)
+                        //    {
+                        //        Destroy(nodeTrm.GetChild(0).gameObject);
+                        //    }
+                        //}
+
                         for (int i = 0; i < map[c][r].pointNodeList.Count; i++)
                         {
                             LineRenderer lr;
-                            if (nodeTrm.childCount-1 < i)
+                            if (nodeTrm.childCount - 1 <= i)
                             {
                                 GameObject lineObj = Instantiate(lineNodePrefab, nodeTrm);
                                 lr = lineObj.GetComponent<LineRenderer>();
@@ -215,7 +252,7 @@ public class MapHandler : MonoBehaviour
 
                             Node pointNode = map[c][r].pointNodeList[i];
 
-                            SetLineMat(lr, r, pointNode.idx);
+                            SetLineMat(lr, r, pointNode.idx, LineMat);
 
                             lr.startWidth = 0.08f;
                             lr.endWidth = 0.08f;
@@ -223,6 +260,7 @@ public class MapHandler : MonoBehaviour
                             Vector3 pos2 = nodeTrm.InverseTransformPoint(GetCurNodeTrm(pointNode.idx, pointNode.depth).position);
                             lr.SetPosition(1, pos2);
                             lr.SetPosition(0, Vector2.zero);
+                            
 
 
                         }
@@ -231,10 +269,13 @@ public class MapHandler : MonoBehaviour
                     int row = r;
                     nodeTrm.GetComponent<Button>().onClick.AddListener(() => { OnSelectNode(map[col][row]); });
                 }
-                //else
+                //else if(nodeTrm.childCount > 0)
                 //{
-                //    LineRenderer lr = nodeTrm.gameObject.GetComponent<LineRenderer>();
-                //    lr.positionCount = 0;
+                //    int count = nodeTrm.childCount;
+                //    for (int i = 0; i < count; i++)
+                //    {
+                //        Destroy(nodeTrm.GetChild(0).gameObject);
+                //    }
                 //}
                 nodeTrm.GetComponent<Button>().interactable = false;
             }
