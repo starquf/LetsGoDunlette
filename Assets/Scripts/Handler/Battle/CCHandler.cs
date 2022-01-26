@@ -45,6 +45,8 @@ public class CCHandler : MonoBehaviour
     {
         for (int i = 0; i < crowdControls.Count; i++)
         {
+            if (crowdControls[i].GetComponent<LivingEntity>().IsDie) continue;
+
             if (crowdControls[i].ccDic[ccType] > 0)
             {
                 action?.Invoke(crowdControls[i]);

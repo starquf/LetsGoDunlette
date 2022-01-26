@@ -49,9 +49,8 @@ public class BattleRewardHandler : MonoBehaviour
 
         StartCoroutine(CreateReward());
         yield return new WaitUntil(()=> isRewardEnd); //적 보상을 주고
-        // 끝
 
-        // 전투 다시 시작 임시로 넣어둠
+        // 전투 끝 알림
         GameManager.Instance.EndEncounter();
         isRewardEnd = false;
         isWinEffectEnd = false;

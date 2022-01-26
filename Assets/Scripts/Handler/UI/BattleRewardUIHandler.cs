@@ -103,7 +103,7 @@ public class BattleRewardUIHandler : MonoBehaviour
         {
             winShowSequence = DOTween.Sequence()
                 .Append(battleWinTextImgTrm.DOMoveX(0, 1f))
-                .Append(battleWinTextImgTrm.DOMoveX(moveX, 1f).SetDelay(2.5f))
+                .Append(battleWinTextImgTrm.DOMoveX(moveX, 0.9f).SetDelay(0.5f))
                 .OnComplete(()=> { battleWinTextImgTrm.transform.position += (Vector3.left * moveX * 2); ShowPanel(rewardCvsGroup, true); onShowEnd(); });
         });
     }
