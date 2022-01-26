@@ -59,5 +59,6 @@ public class EncounterHandler : MonoBehaviour
     {
         print("인카운터 끝남");
         //GameManager.Instance.mapHandler.OpenMapPanel(true);
+        GameManager.Instance.battleHandler.StartBattle();
     }
 }
