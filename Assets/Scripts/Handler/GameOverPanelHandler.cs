@@ -27,7 +27,7 @@ public class GameOverPanelHandler : MonoBehaviour
                 print("¿Ã∞≈ø÷ æ»µ ");
                 GameManager.Instance.mapHandler.OpenMapPanel(true);
                 ShowPanel(false, null, true);
-                gameOverImg.color = Color.clear;
+                gameOverImg.color = new Color(1f, 1f, 1f, 0f);
             });
         });
     }
