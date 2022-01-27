@@ -102,6 +102,8 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     {
         TrySetIndicator(owner, "АјАн");
 
+        owner.transform.DOPunchScale(transform.position + new Vector3(2,2,2), 1);
+
         GetDamage(damage);
     }
 
