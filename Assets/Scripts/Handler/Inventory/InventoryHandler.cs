@@ -18,9 +18,11 @@ public class InventoryHandler : MonoBehaviour
     [Header("문양 이펙트 관련")]
     [SerializeField] private List<Sprite> effectSprites = new List<Sprite>();
     [SerializeField] private List<Gradient> effectGradients = new List<Gradient>();
+    [SerializeField] private List<Sprite> bookmarkSprites = new List<Sprite>();
 
     public Dictionary<PatternType, Sprite> effectSprDic;
     public Dictionary<PatternType, Gradient> effectGradDic;
+    public Dictionary<PatternType, Sprite> bookmarkSprDic;
 
     private Tween unusedOpenTween;
     private Tween usedOpenTween;
@@ -33,11 +35,13 @@ public class InventoryHandler : MonoBehaviour
 
         effectSprDic = new Dictionary<PatternType, Sprite>();
         effectGradDic = new Dictionary<PatternType, Gradient>();
+        bookmarkSprDic = new Dictionary<PatternType, Sprite>();
 
         for (int i = 0; i < 6; i++)
         {
             effectSprDic.Add((PatternType)i, effectSprites[i]);
             effectGradDic.Add((PatternType)i, effectGradients[i]);
+            bookmarkSprDic.Add((PatternType)i, bookmarkSprites[i]);
         }
     }
 
