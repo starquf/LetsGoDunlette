@@ -128,6 +128,39 @@ public class MapHandler : MonoBehaviour
             }
         }
     }
+    private void OnAbleMapNode(Node node)
+    {
+        Image img = GetCurNodeTrm(node.idx, node.depth).GetComponent<Image>();
+        img.color = Color.white;
+
+        int pointNodeCount = node.pointNodeList.Count;
+        for (int i = 0; i < pointNodeCount; i++)
+        {
+            // 라인랜더러 투명화
+            //LineRenderer lr = GetCurNodeTrm(curNode.idx, curNode.depth).GetChild(i).GetComponent<LineRenderer>();
+            //lr.material.SetColor("_Color", Color.white);
+            //lr.startColor = Color.white;
+            //lr.endColor = Color.white;
+
+            OnAbleMapNode(node.pointNodeList[i]);
+        }
+    }
+
+    private void OnDisableMapNode(Node node)
+    {
+        Image img = GetCurNodeTrm(node.idx, node.depth).GetComponent<Image>();
+        img.color = new Color(img.color.r, img.color.g, img.color.b, 0.3f);
+
+        int pointNodeCount = node.pointNodeList.Count;
+        for (int i = 0; i < pointNodeCount; i++)
+        {
+            // 라인랜더러 투명화
+            //LineRenderer lr = GetCurNodeTrm(curNode.idx, curNode.depth).GetChild(i).GetComponent<LineRenderer>();
+            //lr.material.SetColor("_Color", new Color(1, 1, 1, 0.3f));
+
+            OnDisableMapNode(node.pointNodeList[i]);
+        }
+    }
 
     public void OnSelectNode(Node node)
     {
@@ -136,11 +169,6 @@ public class MapHandler : MonoBehaviour
             int depth = node.depth;
             for (int i = 0; i < mapCreater.mapRows; i++)
             {
-                if(map[depth][i].mapNode != mapNode.NONE && i != node.idx)
-                {
-                    Image img = Content.transform.GetChild((depth * map[0].Count) + i).GetComponent<Image>();
-                    img.color = new Color(img.color.r, img.color.g, img.color.b, 0.5f);
-                }
                 GetCurNodeTrm(i, depth).GetComponent<Button>().interactable = false;
             }
 
@@ -151,7 +179,13 @@ public class MapHandler : MonoBehaviour
                     LineRenderer lr = GetCurNodeTrm(curNode.idx, curNode.depth).GetChild(i).GetComponent<LineRenderer>();
                     SetLineMat(lr, curNode.idx, node.idx, SelectedLineMat);
                 }
+                else
+                {
+                    OnDisableMapNode(curNode.pointNodeList[i]);
+                }
             }
+
+            OnAbleMapNode(node);
         }
         GetCurNodeTrm(node.idx, node.depth).GetComponent<Image>().sprite = mapClearIcons[node.spriteIdx];
         curNode = node;
