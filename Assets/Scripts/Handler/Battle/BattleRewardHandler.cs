@@ -56,6 +56,8 @@ public class BattleRewardHandler : MonoBehaviour
 
     private IEnumerator RewardRoutine()
     {
+        yield return null;
+
         PutRulletPieceInInventory(); //·ê·¿ ´Ù ÀÎº¥Åä¸®¿¡ ³Ö°í
         yield return oneSecWait;
         yield return oneSecWait;
@@ -77,7 +79,7 @@ public class BattleRewardHandler : MonoBehaviour
     {
         SkillRullet rullet = battleHandler.mainRullet;
         Transform rulletParent = rullet.transform.parent; // ·ê·¿ ±âÁ¸ ºÎ¸ð Æ®·£½ºÆû
-        SkillPiece rewardResult = new SkillPiece();
+        SkillPiece rewardResult = null;
         int rewardResultIdx = -1;
 
         rullet.transform.SetParent(battleRewardUIHandler.transform);

@@ -224,6 +224,12 @@ public class BattleHandler : MonoBehaviour
 
             this.result = result as SkillPiece;
             resultIdx = pieceIdx;
+
+            // 결과를 저장해놓고 그 칸을 빈칸으로 만들어준다
+            SetRulletEmpty(resultIdx);
+
+            // 결과 실행
+            CastResult();
         });
     }
 
@@ -317,30 +323,22 @@ public class BattleHandler : MonoBehaviour
         nextAttack = null;
         nextAttack = onNextAttack;
 
-        // 턴 시작 로직
-        StartCoroutine(CheckTurn());
-    }
-
-    private IEnumerator CheckTurn()
-    {
         // 전부 돌려버리고
         RollAllRullet();
 
         // 멈추게 하는 버튼 활성화
         stopHandler.SetInteract(true);
+    }
 
-        // 전부 돌릴 때까지 기다린다
-        yield return new WaitUntil(CheckRullet);
-
+    /*
+    private IEnumerator CheckTurn()
+    {
         // 결과 보여주고
         yield return oneSecWait;
 
-        // 결과를 저장해놓고 그 칸을 빈칸으로 만들어준다
-        SetRulletEmpty(resultIdx);
-
-        // 결과 실행
-        CastResult();
+        
     }
+    */
 
     // 실행이 전부 끝나면 실행되는 코루틴
     private IEnumerator EndTurn()
@@ -348,10 +346,10 @@ public class BattleHandler : MonoBehaviour
         // 다음 공격 체크하는 스킬들이 발동되는 타이밍
         nextAttack?.Invoke(result);
 
-        yield return pFiveSecWait;
+        //yield return pFiveSecWait;
 
         // 저장한 결과를 인벤토리에 넣는다
-        SetPieceToGraveyard(result as SkillPiece);
+        SetPieceToGraveyard(result);
 
         // 기절 체크
         ccHandler.CheckCC(CCType.Stun);
@@ -359,7 +357,7 @@ public class BattleHandler : MonoBehaviour
         ccHandler.CheckCC(CCType.Wound);
 
         // 잠시 기다리고
-        yield return oneSecWait;
+        //yield return oneSecWait;
 
         // 적이 전부 죽었는가?
         if (CheckEnemyDie())
@@ -373,7 +371,8 @@ public class BattleHandler : MonoBehaviour
             yield break;
         }
 
-        yield return pFiveSecWait;
+        //yield return pFiveSecWait;
+        yield return null;
 
         // 룰렛 조각 변경 (덱순환)
         DrawRulletPieces();

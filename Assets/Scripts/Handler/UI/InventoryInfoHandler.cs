@@ -80,6 +80,7 @@ public class InventoryInfoHandler : MonoBehaviour
         {
             Sprite bg = skills[i].cardBG;
             Sprite bookmark = invenHandler.effectSprDic[skills[i].patternType];
+            Sprite bookmarkBG = invenHandler.bookmarkSprDic[skills[i].patternType];
             string name = skills[i].PieceName;
             string des = skills[i].PieceDes;
 
@@ -89,7 +90,7 @@ public class InventoryInfoHandler : MonoBehaviour
             pieceInfoUI.button.onClick.RemoveAllListeners();
             pieceInfoUI.button.onClick.AddListener(() =>
             {
-                desPanel.ShowDescription(name, bg, des, bookmark);
+                desPanel.ShowDescription(name, bg, des, bookmark, bookmarkBG);
             });
 
             pieceInfoUI.transform.SetAsFirstSibling();
