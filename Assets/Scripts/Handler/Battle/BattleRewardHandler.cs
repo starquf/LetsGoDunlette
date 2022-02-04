@@ -77,7 +77,7 @@ public class BattleRewardHandler : MonoBehaviour
     {
         SkillRullet rullet = battleHandler.mainRullet;
         Transform rulletParent = rullet.transform.parent; // ·ê·¿ ±âÁ¸ ºÎ¸ð Æ®·£½ºÆû
-        SkillPiece rewardResult = new SkillPiece();
+        SkillPiece rewardResult = null;
         int rewardResultIdx = -1;
 
         rullet.transform.SetParent(battleRewardUIHandler.transform);
