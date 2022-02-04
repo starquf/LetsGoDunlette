@@ -56,6 +56,8 @@ public class BattleRewardHandler : MonoBehaviour
 
     private IEnumerator RewardRoutine()
     {
+        yield return null;
+
         PutRulletPieceInInventory(); //룰렛 다 인벤토리에 넣고
         yield return oneSecWait;
         yield return oneSecWait;

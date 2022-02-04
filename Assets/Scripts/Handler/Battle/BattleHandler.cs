@@ -336,7 +336,7 @@ public class BattleHandler : MonoBehaviour
         //yield return pFiveSecWait;
 
         // 저장한 결과를 인벤토리에 넣는다
-        SetPieceToGraveyard(result as SkillPiece);
+        SetPieceToGraveyard(result);
 
         // 기절 체크
         ccHandler.CheckCC(CCType.Stun);
@@ -359,6 +359,7 @@ public class BattleHandler : MonoBehaviour
         }
 
         //yield return pFiveSecWait;
+        yield return null;
 
         // 룰렛 조각 변경 (덱순환)
         DrawRulletPieces();
