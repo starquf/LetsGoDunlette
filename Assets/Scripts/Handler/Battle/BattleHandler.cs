@@ -124,7 +124,7 @@ public class BattleHandler : MonoBehaviour
         battleRewardHandler.Init(battleInfo.rewards);
     }
 
-    private void CreateEnemy(List<EnemyHealth> enemyInfos)
+    public void CreateEnemy(List<EnemyHealth> enemyInfos) //다중생성
     {
         for (int i = 0; i < enemyInfos.Count; i++)
         {
@@ -133,6 +133,19 @@ public class BattleHandler : MonoBehaviour
 
             enemys.Add(enemy);
         }
+
+        // 보스면 가운데와 바꿔줘야된다 
+        SortBoss();
+        SetEnemyPosition();
+    }
+
+    public void CreateEnemy(EnemyHealth enemyInfo) //단일생성
+    {
+            EnemyHealth enemy = Instantiate(enemyInfo);
+            enemy.transform.position = createTrans.position;
+
+            enemys.Add(enemy);
+        
 
         // 보스면 가운데와 바꿔줘야된다 
         SortBoss();
