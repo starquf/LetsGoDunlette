@@ -128,6 +128,42 @@ public class MapHandler : MonoBehaviour
             }
         }
     }
+    private void OnAbleMapNode(Node node)
+    {
+        Image img = GetCurNodeTrm(node.idx, node.depth).GetComponent<Image>();
+        img.color = Color.white;
+
+        int pointNodeCount = node.pointNodeList.Count;
+        for (int i = 0; i < pointNodeCount; i++)
+        {
+            // 라인랜더러 투명화
+            LineRenderer lr = GetCurNodeTrm(node.idx, node.depth).GetChild(i).GetComponent<LineRenderer>();
+            lr.startColor = new Color(1, 1, 1, 1f);
+            lr.endColor = new Color(1, 1, 1, 1f);
+            //lr.material.SetColor("_Color", Color.white);
+
+            OnAbleMapNode(node.pointNodeList[i]);
+        }
+    }
+
+    private void OnDisableMapNode(Node node)
+    {
+        Image img = GetCurNodeTrm(node.idx, node.depth).GetComponent<Image>();
+        img.color = new Color(img.color.r, img.color.g, img.color.b, 0.3f);
+
+        int pointNodeCount = node.pointNodeList.Count;
+        print($"idx : {node.idx}, depth : {node.depth}, count :"+ pointNodeCount);
+        for (int i = 0; i < pointNodeCount; i++)
+        {
+            // 라인랜더러 투명화
+            LineRenderer lr = GetCurNodeTrm(node.idx, node.depth).GetChild(i).GetComponent<LineRenderer>();
+            lr.startColor = new Color(1, 1, 1, 0.3f);
+            lr.endColor = new Color(1, 1, 1, 0.3f);
+            //lr.material.SetColor("_Color", new Color(1, 1, 1, 0.3f));
+
+            OnDisableMapNode(node.pointNodeList[i]);
+        }
+    }
 
     public void OnSelectNode(Node node)
     {
@@ -136,11 +172,6 @@ public class MapHandler : MonoBehaviour
             int depth = node.depth;
             for (int i = 0; i < mapCreater.mapRows; i++)
             {
-                if(map[depth][i].mapNode != mapNode.NONE && i != node.idx)
-                {
-                    Image img = Content.transform.GetChild((depth * map[0].Count) + i).GetComponent<Image>();
-                    img.color = new Color(img.color.r, img.color.g, img.color.b, 0.5f);
-                }
                 GetCurNodeTrm(i, depth).GetComponent<Button>().interactable = false;
             }
 
@@ -151,7 +182,13 @@ public class MapHandler : MonoBehaviour
                     LineRenderer lr = GetCurNodeTrm(curNode.idx, curNode.depth).GetChild(i).GetComponent<LineRenderer>();
                     SetLineMat(lr, curNode.idx, node.idx, SelectedLineMat);
                 }
+                else
+                {
+                    OnDisableMapNode(curNode.pointNodeList[i]);
+                }
             }
+
+            OnAbleMapNode(node);
         }
         GetCurNodeTrm(node.idx, node.depth).GetComponent<Image>().sprite = mapClearIcons[node.spriteIdx];
         curNode = node;
@@ -232,23 +269,11 @@ public class MapHandler : MonoBehaviour
                     if (c < cols - 1)
                     {
                         Camera mainCam = Camera.main;
-                        //LineRenderer lr = nodeTrm.gameObject.GetComponent<LineRenderer>();
-
-                        //int childCount = c == 0&&r==3 ? nodeTrm.childCount - 1 : nodeTrm.childCount;
-                        //if (map[c][r].pointNodeList.Count < childCount)
-                        //{
-                        //    print($"tlqkf? c:{c} r:{r} ");
-                        //    int count = nodeTrm.childCount - map[c][r].pointNodeList.Count;
-                        //    for (int k = 0; k < count; k++)
-                        //    {
-                        //        Destroy(nodeTrm.GetChild(0).gameObject);
-                        //    }
-                        //}
 
                         for (int i = 0; i < map[c][r].pointNodeList.Count; i++)
                         {
                             LineRenderer lr;
-                            if (nodeTrm.childCount - 1 <= i)
+                            if (nodeTrm.childCount <= i)
                             {
                                 GameObject lineObj = Instantiate(lineNodePrefab, nodeTrm);
                                 lr = lineObj.GetComponent<LineRenderer>();
@@ -269,8 +294,6 @@ public class MapHandler : MonoBehaviour
                             Vector3 pos2 = nodeTrm.InverseTransformPoint(GetCurNodeTrm(pointNode.idx, pointNode.depth).position);
                             lr.SetPosition(1, pos2);
                             lr.SetPosition(0, Vector2.zero);
-                            
-
 
                         }
                     }

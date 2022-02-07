@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class QN_Night_Trip : SkillPiece
 {
+    [SerializeField] public EnemyHealth dependent; //辆加磊
     protected override void Awake()
     {
         base.Awake();
@@ -45,6 +46,9 @@ public class QN_Night_Trip : SkillPiece
         }
 
         // 利 积己
-        target.GetDamage(Value);
+        for (int i = 0; i < value; i++)
+        {
+            GameManager.Instance.battleHandler.CreateEnemy(dependent);
+        }
     }
 }
