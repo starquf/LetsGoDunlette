@@ -311,13 +311,18 @@ public class InventoryHandler : MonoBehaviour
 
     private void CreateRemoveEffect(SkillPiece piece)
     {
+        print("이펙트 생성중!!!");
+
         for (int i = 0; i < 5; i++)
         {
             EffectObj effect = PoolManager.GetItem<EffectObj>();
             effect.SetSprite(effectSprDic[piece.patternType]);
             effect.SetColorGradient(effectGradDic[piece.patternType]);
 
-            effect.transform.position = piece.skillImg.transform.position;
+            Vector3 pos = piece.skillImg.transform.position;
+            pos.z = 0f;
+
+            effect.transform.position = pos;
 
             effect.transform.DOMove(Random.insideUnitCircle * 1.5f, 0.4f)
                 .SetRelative()

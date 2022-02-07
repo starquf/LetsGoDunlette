@@ -17,6 +17,13 @@ public class SkillRullet : Rullet
         SetRullet();
     }
 
+    public override void AddPiece(RulletPiece piece)
+    {
+        base.AddPiece(piece);
+
+        (piece as SkillPiece).isInRullet = true;
+    }
+
     // 해당 인덱스의 조각을 인벤토리에 넣고 바꾸는 함수
     public void ChangePiece(int changeIdx, SkillPiece changePiece)
     {
