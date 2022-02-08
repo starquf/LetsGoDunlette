@@ -177,13 +177,16 @@ public class MapHandler : MonoBehaviour
 
             for (int i = 0; i < curNode.pointNodeList.Count; i++)
             {
-                if (curNode.pointNodeList[i] == node)
+                if (curNode.pointNodeList[i] == node && curNode.depth > 0 && curNode.pointNodeList.Count > 0)
                 {
                     LineRenderer lr = GetCurNodeTrm(curNode.idx, curNode.depth).GetChild(i).GetComponent<LineRenderer>();
                     SetLineMat(lr, curNode.idx, node.idx, SelectedLineMat);
                 }
                 else
                 {
+                    //LineRenderer lr = GetCurNodeTrm(curNode.idx, curNode.depth).GetChild(i).GetComponent<LineRenderer>();
+                    //lr.startColor = new Color(1, 1, 1, 0.3f);
+                    //lr.endColor = new Color(1, 1, 1, 0.3f);
                     OnDisableMapNode(curNode.pointNodeList[i]);
                 }
             }
@@ -226,6 +229,7 @@ public class MapHandler : MonoBehaviour
                         icon = mapIcons[map[c][r].spriteIdx];
                         break;
                     case mapNode.START:
+                        color = Color.clear;
                         map[c][r].spriteIdx = 0;
                         icon = mapIcons[map[c][r].spriteIdx];
                         break;
@@ -266,7 +270,7 @@ public class MapHandler : MonoBehaviour
                 nodeTrm.GetComponent<Button>().onClick.RemoveAllListeners();
                 if (map[c][r].mapNode != mapNode.NONE)
                 {
-                    if (c < cols - 1)
+                    if (c < cols - 1 && c != 0)
                     {
                         Camera mainCam = Camera.main;
 
