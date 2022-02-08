@@ -31,7 +31,10 @@ public class SkillRullet : Rullet
 
         InventoryHandler inventory = GameManager.Instance.inventoryHandler;
 
-        inventory.SetUseSkill((SkillPiece)pieces[changeIdx]);
+        if (pieces[changeIdx] != null)
+        {
+            inventory.SetUseSkill((SkillPiece)pieces[changeIdx]);
+        }
 
         changePiece.transform.SetParent(transform);
         changePiece.transform.DOLocalMove(Vector3.zero, 0.35f);

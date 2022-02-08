@@ -20,7 +20,7 @@ public class Skill_W_BoatFare : SkillPiece
         boatFaredEffect.transform.position = targetPos;
 
         boatFaredEffect.Play(() => {
-            target.GetDamage(Value);
+            target.GetDamage(Value, patternType);
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
             if (!CheckSilence())

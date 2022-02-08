@@ -371,11 +371,42 @@ public class BattleHandler : MonoBehaviour
             yield break;
         }
 
-        //yield return pFiveSecWait;
         yield return null;
 
         // 룰렛 조각 변경 (덱순환)
         DrawRulletPieces();
+
+        // 패널티 체크
+        if (CheckRulletPenalty(false))
+        {
+            yield return pFiveSecWait;
+
+            GivePenalty(false);
+            yield return null;
+            ResetRullet();
+
+            if (CheckPlayerDie())
+            {
+                BattleEnd(false);
+                yield break;
+            }
+        }
+        else if (CheckRulletPenalty(true))
+        {
+            yield return pFiveSecWait;
+
+            GivePenalty(true);
+            yield return null;
+            ResetRullet();
+
+            if (CheckEnemyDie())
+            {
+                BattleEnd();
+                yield break;
+            }
+        }
+
+        //yield return pFiveSecWait;
 
         yield return pFiveSecWait;
 
@@ -474,14 +505,39 @@ public class BattleHandler : MonoBehaviour
         }
     }
 
-    private bool CheckRullet()
+    private bool CheckRulletPenalty(bool isPlayerPiece)
     {
-        if (mainRullet.IsRoll)
+        List<RulletPiece> pieces = mainRullet.GetPieces();
+
+        for (int i = 0; i < pieces.Count; i++)
         {
-            return false;
+            if (pieces[i] != null)
+            {
+                if ((pieces[i] as SkillPiece).isPlayerSkill != isPlayerPiece)
+                {
+                    return false;
+                }
+            }
         }
 
         return true;
+    }
+
+    private void GivePenalty(bool isEnemy)
+    {
+        if (isEnemy)
+        {
+            for (int i = 0; i < enemys.Count; i++)
+            {
+                enemys[i].GetDamage(100);
+            }
+        }
+        else
+        {
+            player.GetDamage(100);
+        }
+
+        GameManager.Instance.cameraHandler.ShakeCamera(1f, 0.2f);
     }
 
     public void ChangeRulletPiece(int pieceIdx)
@@ -503,6 +559,16 @@ public class BattleHandler : MonoBehaviour
                 SkillPiece skill = inventory.GetRandomUnusedSkill();
                 mainRullet.SetPiece(i, skill);
             }
+        }
+    }
+
+    public void ResetRullet()
+    {
+        List<RulletPiece> pieces = mainRullet.GetPieces();
+
+        for (int i = 0; i < pieces.Count; i++)
+        {
+            ChangeRulletPiece(i);
         }
     }
 

@@ -22,7 +22,7 @@ public class Skill_E_Static : SkillPiece
         staticEffect.transform.position = targetPos;
 
         staticEffect.Play(() => {
-            target.GetDamage(Value);
+            target.GetDamage(Value, patternType);
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
             if(Random.Range(0,100) < 25)
             {

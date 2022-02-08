@@ -26,6 +26,8 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     private BattleHandler bh;
 
+    public PatternType weaknessType;
+
     [HideInInspector]
     public CrowdControl cc;
 
@@ -96,6 +98,18 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         damageTextEffect.Play(damage.ToString());
 
         SetDamageEffect();
+    }
+
+    public virtual void GetDamage(int damage, PatternType damageType)
+    {
+        if (weaknessType.Equals(damageType))
+        {
+            GetDamage((int)(damage * 1.5f));
+        }
+        else
+        {
+            GetDamage(damage);
+        }
     }
 
     public virtual void GetDamage(int damage, GameObject owner) // 적 전용임

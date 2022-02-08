@@ -17,7 +17,7 @@ public class Skill_F_ChainExplosion : SkillPiece
         staticEffect.transform.position = targetPos;
 
         staticEffect.Play(() => {
-            target.GetDamage(Value);
+            target.GetDamage(Value, patternType);
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
             onCastEnd?.Invoke();
@@ -33,7 +33,7 @@ public class Skill_F_ChainExplosion : SkillPiece
                 bonusEffect.transform.position = targetPos;
 
                 bonusEffect.Play(() => {
-                    target.GetDamage(Value);
+                    target.GetDamage(Value, patternType);
                     GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
                 });
             }
