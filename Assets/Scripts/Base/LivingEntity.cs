@@ -116,7 +116,11 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     {
         TrySetIndicator(owner, "АјАн");
 
-        owner.transform.DOPunchScale(transform.position + new Vector3(2,2,2), 1);
+        Sequence attackSeq = DOTween.Sequence()
+            .Append(owner.transform.DOScale(Vector3.one * 3f, 0.15f))
+            .Insert(0.1f, owner.transform.DOShakePosition(0.3f, 0.25f, 50, 90f))
+            //.AppendInterval(0.3f)
+            .Append(owner.transform.DOScale(Vector3.one * 2f, 0.5f));
 
         GetDamage(damage);
     }
