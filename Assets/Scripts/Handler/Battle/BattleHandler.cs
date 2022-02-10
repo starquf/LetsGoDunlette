@@ -63,6 +63,7 @@ public class BattleHandler : MonoBehaviour
     #region WaitSeconds
     private readonly WaitForSeconds oneSecWait = new WaitForSeconds(1f);
     private readonly WaitForSeconds pFiveSecWait = new WaitForSeconds(0.5f);
+    private readonly WaitForSeconds pOneSecWait = new WaitForSeconds(0.1f);
     #endregion
 
     private void Awake()
@@ -346,7 +347,7 @@ public class BattleHandler : MonoBehaviour
         // 다음 공격 체크하는 스킬들이 발동되는 타이밍
         nextAttack?.Invoke(result);
 
-        //yield return pFiveSecWait;
+        yield return pOneSecWait;
 
         // 저장한 결과를 인벤토리에 넣는다
         SetPieceToGraveyard(result);
