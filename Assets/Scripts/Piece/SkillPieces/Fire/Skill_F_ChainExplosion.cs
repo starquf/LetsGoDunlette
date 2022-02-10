@@ -27,14 +27,15 @@ public class Skill_F_ChainExplosion : SkillPiece
 
         onNextTest = result =>
         {
-            if (!CheckSilence() && result.PieceType.Equals(PieceType.SKILL) && result.GetComponent<SkillPiece>().isPlayerSkill)
+            if (result.PieceType.Equals(PieceType.SKILL) && result.GetComponent<SkillPiece>().isPlayerSkill)
             {
+                target.GetDamage(Value, patternType);
+                GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
+
                 Anim_F_ChainExplosionBonus bonusEffect = PoolManager.GetItem<Anim_F_ChainExplosionBonus>();
                 bonusEffect.transform.position = targetPos;
 
                 bonusEffect.Play(() => {
-                    target.GetDamage(Value, patternType);
-                    GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
                 });
             }
 
