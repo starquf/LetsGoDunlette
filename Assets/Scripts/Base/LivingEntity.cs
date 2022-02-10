@@ -141,9 +141,6 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
         hp -= damage;
 
-
-        SetHpText();
-
         if (hp <= 0)
         {
             hp = 0;
@@ -151,12 +148,14 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
             Die();
         }
+
         Anim_TextUp damageTextEffect = PoolManager.GetItem<Anim_TextUp>();
         damageTextEffect.SetType(TextUpAnimType.Damage);
         damageTextEffect.transform.position = transform.position;
         damageTextEffect.Play(damage.ToString());
 
         SetDamageEffect();
+        SetHpText();
     }
 
     public virtual void Heal(int value) //value 만큼 회복합니다.
