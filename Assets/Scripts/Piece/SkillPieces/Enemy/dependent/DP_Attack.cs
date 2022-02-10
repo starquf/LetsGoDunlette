@@ -45,5 +45,12 @@ public class DP_Attack : SkillPiece
         }
 
         target.GetDamage(Value, owner.gameObject);
+
+        Anim_M_Sword hitEffect = PoolManager.GetItem<Anim_M_Sword>();
+        hitEffect.transform.position = owner.transform.position;
+
+        hitEffect.Play(() =>
+        {
+        });
     }
 }

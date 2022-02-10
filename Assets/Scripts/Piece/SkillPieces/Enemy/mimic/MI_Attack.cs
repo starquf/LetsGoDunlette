@@ -44,5 +44,12 @@ public class MI_Attack : SkillPiece
         }
 
         target.GetDamage(Value, owner.gameObject);
+
+        Anim_M_Bite hitEffect = PoolManager.GetItem<Anim_M_Bite>();
+        hitEffect.transform.position = owner.transform.position;
+
+        hitEffect.Play(() =>
+        {
+        });
     }
 }

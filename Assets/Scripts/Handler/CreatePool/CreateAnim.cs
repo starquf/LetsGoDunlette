@@ -33,6 +33,12 @@ public class CreateAnim : MonoBehaviour
     public GameObject chainExplosionAnim;
     public GameObject chainExplosionBonusAnim;
 
+    [Header("利 加己")]
+    public GameObject buttAnim;
+    public GameObject swordAnim;
+    public GameObject biteAnim;
+    public GameObject scratchAnim;
+
     private void Awake()
     {
         CreatePool();
@@ -44,29 +50,35 @@ public class CreateAnim : MonoBehaviour
         PoolManager.CreatePool<Anim_TextUp>(TextUpAnim, this.transform, 5);
 
         // ===========================================================================  老馆 加己
-        PoolManager.CreatePool<Anim_Contract>(contractAnim, this.transform, 2);
-        PoolManager.CreatePool<Anim_C_SphereCast>(c_sphereCastAnim, this.transform, 2);
-        PoolManager.CreatePool<Anim_C_ManaSphereHit>(c_ManaSphereHitAnim, this.transform, 2);
+        PoolManager.CreatePool<Anim_Contract>(contractAnim, this.transform, 1);
+        PoolManager.CreatePool<Anim_C_SphereCast>(c_sphereCastAnim, this.transform, 1);
+        PoolManager.CreatePool<Anim_C_ManaSphereHit>(c_ManaSphereHitAnim, this.transform, 1);
 
         // ===========================================================================  锅俺 加己
-        PoolManager.CreatePool<Anim_E_ManaSphereHit>(e_ManaSphereHitAnim, this.transform, 2);
-        PoolManager.CreatePool<Anim_E_LightningRod>(lightningRodAnim, this.transform, 2);
-        PoolManager.CreatePool<Anim_E_Static>(staticAnim, this.transform, 2);
-        PoolManager.CreatePool<Anim_E_Static_Stun>(staticStunAnim, this.transform, 2);
+        PoolManager.CreatePool<Anim_E_ManaSphereHit>(e_ManaSphereHitAnim, this.transform, 1);
+        PoolManager.CreatePool<Anim_E_LightningRod>(lightningRodAnim, this.transform, 1);
+        PoolManager.CreatePool<Anim_E_Static>(staticAnim, this.transform, 1);
+        PoolManager.CreatePool<Anim_E_Static_Stun>(staticStunAnim, this.transform, 1);
 
         // ===========================================================================  磊楷 加己
-        PoolManager.CreatePool<Anim_N_ManaSphereHit>(n_ManaSphereHitAnim, this.transform, 2);
-        PoolManager.CreatePool<Anim_N_PosionCloud>(posionCloudAnim, this.transform, 2);
+        PoolManager.CreatePool<Anim_N_ManaSphereHit>(n_ManaSphereHitAnim, this.transform, 1);
+        PoolManager.CreatePool<Anim_N_PosionCloud>(posionCloudAnim, this.transform, 1);
 
         // ===========================================================================  拱 加己
-        PoolManager.CreatePool<Anim_W_ManaSphereHit>(w_ManaSphereHitAnim, this.transform, 2);
-        PoolManager.CreatePool<Anim_W_BoatFare>(boatFareAnim, this.transform, 2);
-        PoolManager.CreatePool<Anim_W_BoatFareBonusMoney>(boatFareBonusMoneyAnim, this.transform, 2);
+        PoolManager.CreatePool<Anim_W_ManaSphereHit>(w_ManaSphereHitAnim, this.transform, 1);
+        PoolManager.CreatePool<Anim_W_BoatFare>(boatFareAnim, this.transform, 1);
+        PoolManager.CreatePool<Anim_W_BoatFareBonusMoney>(boatFareBonusMoneyAnim, this.transform, 1);
 
         // ===========================================================================  阂 加己
-        PoolManager.CreatePool<Anim_F_ManaSphereHit>(f_ManaSphereHitAnim, this.transform, 2);
-        PoolManager.CreatePool<Anim_F_Arson>(arsonAnim, this.transform, 2);
-        PoolManager.CreatePool<Anim_F_ChainExplosion>(chainExplosionAnim, this.transform, 2);
-        PoolManager.CreatePool<Anim_F_ChainExplosionBonus>(chainExplosionBonusAnim, this.transform, 2);
+        PoolManager.CreatePool<Anim_F_ManaSphereHit>(f_ManaSphereHitAnim, this.transform, 1);
+        PoolManager.CreatePool<Anim_F_Arson>(arsonAnim, this.transform, 1);
+        PoolManager.CreatePool<Anim_F_ChainExplosion>(chainExplosionAnim, this.transform, 1);
+        PoolManager.CreatePool<Anim_F_ChainExplosionBonus>(chainExplosionBonusAnim, this.transform, 1);
+
+        // ===========================================================================  利 加己
+        PoolManager.CreatePool<Anim_M_Butt>(buttAnim, this.transform, 1);
+        PoolManager.CreatePool<Anim_M_Sword>(swordAnim, this.transform, 1);
+        PoolManager.CreatePool<Anim_M_Bite>(biteAnim, this.transform, 1);
+        PoolManager.CreatePool<Anim_M_Scratch>(scratchAnim, this.transform, 1);
     }
 }

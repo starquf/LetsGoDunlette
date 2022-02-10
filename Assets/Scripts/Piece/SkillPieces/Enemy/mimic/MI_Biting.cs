@@ -47,5 +47,12 @@ public class MI_Biting : SkillPiece
         target.cc.SetCC(CCType.Wound,5);
 
         owner.GetComponent<EnemyIndicator>().ShowText("상처 부여");
+
+        Anim_M_Bite hitEffect = PoolManager.GetItem<Anim_M_Bite>();
+        hitEffect.transform.position = owner.transform.position;
+
+        hitEffect.Play(() =>
+        {
+        });
     }
 }

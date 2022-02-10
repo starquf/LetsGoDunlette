@@ -15,7 +15,7 @@ public class NSL_Attack : SkillPiece
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         print($"적 스킬 발동!! 이름 : {PieceName}");
-        GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
+        GameManager.Instance.cameraHandler.ShakeCamera(0.7f, 0.15f);
 
         Vector3 targetPos = target.transform.position;
         Vector3 startPos = skillImg.transform.position;
@@ -45,5 +45,12 @@ public class NSL_Attack : SkillPiece
         }
 
         target.GetDamage(Value, owner.gameObject);
+
+        Anim_M_Butt hitEffect = PoolManager.GetItem<Anim_M_Butt>();
+        hitEffect.transform.position = owner.transform.position;
+
+        hitEffect.Play(() =>
+        {
+        });
     }
 }
