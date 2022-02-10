@@ -17,31 +17,15 @@ public class LSW_Old_Shield : SkillPiece
         print($"적 스킬 발동!! 이름 : {PieceName}");
         GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
-        Vector3 targetPos = target.transform.position;
-        Vector3 startPos = skillImg.transform.position;
+        Vector3 targetPos = owner.transform.position;
 
-        for (int i = 0; i < 3; i++)
+        Anim_M_Shield shieldEffect = PoolManager.GetItem<Anim_M_Shield>();
+        shieldEffect.transform.position = targetPos;
+
+        shieldEffect.Play(() =>
         {
-            EffectObj attackObj = PoolManager.GetItem<EffectObj>();
-            attackObj.transform.position = startPos;
-
-            int a = i;
-
-            attackObj.Play(targetPos, () =>
-            {
-                attackObj.Sr.DOFade(0f, 0.1f)
-                    .OnComplete(() =>
-                    {
-                        attackObj.EndEffect();
-                    });
-
-                GameManager.Instance.cameraHandler.ShakeCamera(0.25f, 0.2f);
-
-                if (a == 2)
-                    onCastEnd?.Invoke();
-            }
-            , BezierType.Cubic, i * 0.1f);
-        }
+            onCastEnd?.Invoke();
+        });
 
         owner.GetComponent<EnemyHealth>().AddShield(value);
     }

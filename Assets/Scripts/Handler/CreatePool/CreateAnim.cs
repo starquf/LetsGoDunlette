@@ -38,6 +38,8 @@ public class CreateAnim : MonoBehaviour
     public GameObject swordAnim;
     public GameObject biteAnim;
     public GameObject scratchAnim;
+    public GameObject recoverAnim;
+    public GameObject shieldAnim;
 
     private void Awake()
     {
@@ -80,5 +82,7 @@ public class CreateAnim : MonoBehaviour
         PoolManager.CreatePool<Anim_M_Sword>(swordAnim, this.transform, 1);
         PoolManager.CreatePool<Anim_M_Bite>(biteAnim, this.transform, 1);
         PoolManager.CreatePool<Anim_M_Scratch>(scratchAnim, this.transform, 1);
+        PoolManager.CreatePool<Anim_M_Recover>(recoverAnim, this.transform, 1);
+        PoolManager.CreatePool<Anim_M_Shield>(shieldAnim, this.transform, 1);
     }
 }
