@@ -2,13 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class EnemyHealth : LivingEntity
 {
     private Collider2D coll;
     private SpriteRenderer sr;
 
+    [HideInInspector]
     public EnemyIndicator indicator;
+
+    public Image weaknessImg;
 
     [Header("보스 여부")]
     public bool isBoss = false;
@@ -19,6 +23,9 @@ public class EnemyHealth : LivingEntity
         sr = GetComponent<SpriteRenderer>();
 
         indicator = GetComponent<EnemyIndicator>();
+
+        if(weaknessImg != null)
+            weaknessImg.sprite = GameManager.Instance.inventoryHandler.effectSprDic[weaknessType];
 
         base.Start();
     }
