@@ -4,9 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class QN_Night_Trip : SkillPiece
+public class HP_Scratching : SkillPiece
 {
-    [SerializeField] public EnemyHealth dependent; //종속자
     protected override void Awake()
     {
         base.Awake();
@@ -45,11 +44,16 @@ public class QN_Night_Trip : SkillPiece
 
         }
 
-        // 적 생성
-        for (int i = 0; i < value; i++)
+        target.GetDamage(Value, owner.gameObject);
+
+        //이 스킬은 삭제되어야함
+        
+
+        Anim_M_Sword hitEffect = PoolManager.GetItem<Anim_M_Sword>();
+        hitEffect.transform.position = owner.transform.position;
+
+        hitEffect.Play(() =>
         {
-            GameManager.Instance.battleHandler.CreateEnemy(dependent);
-        }
-        owner.GetComponent<EnemyIndicator>().ShowText("소환");
+        });
     }
 }

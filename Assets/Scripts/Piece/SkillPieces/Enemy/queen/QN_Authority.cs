@@ -50,7 +50,7 @@ public class QN_Authority : SkillPiece
         {
             var health = enemys[i];
 
-            if(health != owner)
+            if(health.gameObject != owner.gameObject)
             {
                 health.AddShield(10);
             }

@@ -125,7 +125,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         GetDamage(damage);
     }
 
-    public virtual void GetDamageIgnoreShild(int damage)
+    public virtual void GetDamageIgnoreShild(int damage) //쉴드 무시하고 받는 데미지
     {
         if (isDie)
         {
