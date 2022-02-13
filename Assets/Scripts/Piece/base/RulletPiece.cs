@@ -30,6 +30,7 @@ public abstract class RulletPiece : MonoBehaviour
 
     private Image highlightImg;
 
+    [HideInInspector]
     public Image skillImg;
 
     [Header("카드 배경")]
@@ -40,9 +41,11 @@ public abstract class RulletPiece : MonoBehaviour
 
     protected virtual void Start()
     {
+
         highlightImg = GetComponentsInChildren<Image>()[1];
         transform.GetComponent<Image>().fillAmount = Size / 36f;
 
+        skillImg = transform.Find("SkillIcon").GetComponent<Image>();
         if (skillImg == null) return;
 
         float angle = -360f * ((Size / 36f) / 2f);

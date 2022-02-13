@@ -97,9 +97,13 @@ public class BattleTargetSelectHandler : MonoBehaviour
             {
                 // 선 그려주는 작업
                 lr.SetPosition(1, enemy.transform.position);
+                lr.endColor = Color.red;
+                arrowImg.color = Color.red;
             }
             else
             {
+                lr.endColor = Color.white;
+                arrowImg.color = Color.white;
                 // 선 그려주는 작업
                 lr.SetPosition(1, touchPos);
             }
