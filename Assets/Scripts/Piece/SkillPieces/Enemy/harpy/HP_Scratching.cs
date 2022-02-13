@@ -46,6 +46,9 @@ public class HP_Scratching : SkillPiece
 
         target.GetDamage(Value, owner.gameObject);
 
+        //이 스킬은 삭제되어야함
+        
+
         Anim_M_Sword hitEffect = PoolManager.GetItem<Anim_M_Sword>();
         hitEffect.transform.position = owner.transform.position;
 
