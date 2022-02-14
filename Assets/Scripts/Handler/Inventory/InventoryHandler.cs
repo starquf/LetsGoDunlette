@@ -126,7 +126,7 @@ public class InventoryHandler : MonoBehaviour
 
                 effect.EndEffect();
             }
-            , BezierType.Quadratic, 0.5f);
+            , BezierType.Quadratic, 0.4f);
         }
 
         skill.transform.SetParent(usedTrans);
@@ -165,7 +165,7 @@ public class InventoryHandler : MonoBehaviour
 
                 effect.EndEffect();
             }
-            , BezierType.Quadratic, 0.5f);
+            , BezierType.Quadratic, 0.4f);
         }
 
         skill.transform.SetParent(transform);

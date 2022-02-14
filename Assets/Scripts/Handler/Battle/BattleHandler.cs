@@ -349,9 +349,6 @@ public class BattleHandler : MonoBehaviour
 
         yield return pOneSecWait;
 
-        // 저장한 결과를 인벤토리에 넣는다
-        SetPieceToGraveyard(result);
-
         // 기절 체크
         ccHandler.CheckCC(CCType.Stun);
         // 상처 체크
@@ -363,16 +360,23 @@ public class BattleHandler : MonoBehaviour
         // 적이 전부 죽었는가?
         if (CheckEnemyDie())
         {
+            SetPieceToInventory(result);
+
             BattleEnd();
             yield break;
         }
         else if(CheckPlayerDie())
         {
+            SetPieceToInventory(result);
+
             BattleEnd(false);
             yield break;
         }
 
         yield return null;
+
+        // 저장한 결과를 인벤토리에 넣는다
+        SetPieceToGraveyard(result);
 
         // 룰렛 조각 변경 (덱순환)
         DrawRulletPieces();
@@ -406,8 +410,6 @@ public class BattleHandler : MonoBehaviour
                 yield break;
             }
         }
-
-        //yield return pFiveSecWait;
 
         yield return pFiveSecWait;
 
@@ -519,6 +521,11 @@ public class BattleHandler : MonoBehaviour
                     return false;
                 }
             }
+            else
+            {
+                print("빈칸 발생");
+                return false;
+            }
         }
 
         return true;
@@ -581,6 +588,11 @@ public class BattleHandler : MonoBehaviour
     public void SetPieceToGraveyard(SkillPiece piece)
     {
         GameManager.Instance.inventoryHandler.SetUseSkill(piece);
+    }
+
+    public void SetPieceToInventory(SkillPiece piece)
+    {
+        GameManager.Instance.inventoryHandler.SetUnUseSkill(piece);
     }
 
     public void SetRulletEmpty(int pieceIdx)
