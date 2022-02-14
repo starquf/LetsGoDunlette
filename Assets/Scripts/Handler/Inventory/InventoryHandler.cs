@@ -1,7 +1,9 @@
 using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class InventoryHandler : MonoBehaviour
 {
@@ -27,6 +29,8 @@ public class InventoryHandler : MonoBehaviour
     private Tween unusedOpenTween;
     private Tween usedOpenTween;
 
+    public event Action onUpdateInfo;
+
     private void Awake()
     {
         GameManager.Instance.inventoryHandler = this;
@@ -49,6 +53,8 @@ public class InventoryHandler : MonoBehaviour
     {
         unusedCardCount.text = unusedSkills.Count.ToString();
         usedCardCount.text = usedSkills.Count.ToString();
+
+        onUpdateInfo?.Invoke();
     }
 
     // 스킬 추가 할땐 이걸 호출

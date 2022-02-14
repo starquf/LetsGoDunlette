@@ -85,8 +85,6 @@ public class BattleHandler : MonoBehaviour
 
         // 플레이어가 가지고 있는 기본 스킬 생성 일단 테스트로 만들어놈
         player.GetComponent<Inventory>().CreateSkills();
-
-        //StartBattle();
     }
 
     #region StartBattle

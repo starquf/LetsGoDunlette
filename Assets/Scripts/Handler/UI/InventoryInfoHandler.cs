@@ -66,12 +66,31 @@ public class InventoryInfoHandler : MonoBehaviour
             ShowInfoPanel(false);
         });
 
+        invenHandler.onUpdateInfo += ResetInventoryInfo;
+
         ShowInfoPanel(false);
         cg.alpha = 0f;
     }
 
     public void ShowInventoryInfo()
     {
+        ShowInfoPanel(true);
+
+        ResetInventoryInfo();
+    }
+
+    private void ResetPieceInfo()
+    {
+        for (int i = 0; i < pieceHolderTrm.childCount; i++)
+        {
+            pieceHolderTrm.GetChild(i).gameObject.SetActive(false);
+        }
+    }
+
+    private void ResetInventoryInfo()
+    {
+        if (!isShow) return;
+
         ResetPieceInfo();
 
         List<SkillPiece> skills = invenHandler.unusedSkills;
@@ -97,16 +116,6 @@ public class InventoryInfoHandler : MonoBehaviour
         }
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(contentRect);
-
-        ShowInfoPanel(true);
-    }
-
-    private void ResetPieceInfo()
-    {
-        for (int i = 0; i < pieceHolderTrm.childCount; i++)
-        {
-            pieceHolderTrm.GetChild(i).gameObject.SetActive(false);
-        }
     }
 
     private void ShowInfoPanel(bool enable)
