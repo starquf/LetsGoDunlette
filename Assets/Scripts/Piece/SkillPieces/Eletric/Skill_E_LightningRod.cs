@@ -56,7 +56,7 @@ public class Skill_E_LightningRod : SkillPiece
             if (result != null)
             {
                 result.Cast(target, onCastEnd);
-                battleHandler.SetPieceToGraveyard(lightningSkillIdxDic[result]);
+                battleHandler.battleUtil.SetPieceToGraveyard(lightningSkillIdxDic[result]);
             }
             else
             {

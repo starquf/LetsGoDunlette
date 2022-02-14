@@ -19,6 +19,8 @@ public class BattleHandler : MonoBehaviour
     private CCHandler ccHandler;
     private BattleRewardHandler battleRewardHandler;
     private BattleTargetSelectHandler battleTargetSelector;
+    [HideInInspector]
+    public BattleUtilHandler battleUtil;
 
     private InventoryHandler inventory;
 
@@ -74,6 +76,7 @@ public class BattleHandler : MonoBehaviour
         ccHandler = GetComponent<CCHandler>();
         battleRewardHandler = GetComponent<BattleRewardHandler>();
         battleTargetSelector = GetComponent<BattleTargetSelectHandler>();
+        battleUtil = GetComponent<BattleUtilHandler>();
     }
 
     private void Start()
@@ -123,6 +126,7 @@ public class BattleHandler : MonoBehaviour
 
         ccHandler.Init(ccList);
         battleRewardHandler.Init(battleInfo.rewards);
+        battleUtil.Init(inventory, mainRullet);
     }
 
     public void CreateEnemy(List<EnemyHealth> enemyInfos) //다중생성
@@ -142,11 +146,10 @@ public class BattleHandler : MonoBehaviour
 
     public void CreateEnemy(EnemyHealth enemyInfo) //단일생성
     {
-            EnemyHealth enemy = Instantiate(enemyInfo);
-            enemy.transform.position = createTrans.position;
+        EnemyHealth enemy = Instantiate(enemyInfo);
+        enemy.transform.position = createTrans.position;
 
-            enemys.Add(enemy);
-        
+        enemys.Add(enemy);
 
         // 보스면 가운데와 바꿔줘야된다 
         SortBoss();
@@ -227,7 +230,7 @@ public class BattleHandler : MonoBehaviour
             resultIdx = pieceIdx;
 
             // 결과를 저장해놓고 그 칸을 빈칸으로 만들어준다
-            SetRulletEmpty(resultIdx);
+            battleUtil.SetRulletEmpty(resultIdx);
 
             // 결과 실행
             CastResult();
@@ -325,21 +328,11 @@ public class BattleHandler : MonoBehaviour
         nextAttack = onNextAttack;
 
         // 전부 돌려버리고
-        RollAllRullet();
+        mainRullet.RollRullet();
 
         // 멈추게 하는 버튼 활성화
         stopHandler.SetInteract(true);
     }
-
-    /*
-    private IEnumerator CheckTurn()
-    {
-        // 결과 보여주고
-        yield return oneSecWait;
-
-        
-    }
-    */
 
     // 실행이 전부 끝나면 실행되는 코루틴
     private IEnumerator EndTurn()
@@ -360,14 +353,14 @@ public class BattleHandler : MonoBehaviour
         // 적이 전부 죽었는가?
         if (CheckEnemyDie())
         {
-            SetPieceToInventory(result);
+            battleUtil.SetPieceToInventory(result);
 
             BattleEnd();
             yield break;
         }
         else if(CheckPlayerDie())
         {
-            SetPieceToInventory(result);
+            battleUtil.SetPieceToInventory(result);
 
             BattleEnd(false);
             yield break;
@@ -376,19 +369,19 @@ public class BattleHandler : MonoBehaviour
         yield return null;
 
         // 저장한 결과를 인벤토리에 넣는다
-        SetPieceToGraveyard(result);
+        battleUtil.SetPieceToGraveyard(result);
 
         // 룰렛 조각 변경 (덱순환)
-        DrawRulletPieces();
+        battleUtil.DrawRulletPieces();
 
         // 패널티 체크
-        if (CheckRulletPenalty(false))
+        if (battleUtil.CheckRulletPenalty(false))
         {
             yield return pFiveSecWait;
 
             GivePenalty(false);
             yield return null;
-            ResetRullet();
+            battleUtil.ResetRullet();
 
             if (CheckPlayerDie())
             {
@@ -396,13 +389,13 @@ public class BattleHandler : MonoBehaviour
                 yield break;
             }
         }
-        else if (CheckRulletPenalty(true))
+        else if (battleUtil.CheckRulletPenalty(true))
         {
             yield return pFiveSecWait;
 
             GivePenalty(true);
             yield return null;
-            ResetRullet();
+            battleUtil.ResetRullet();
 
             if (CheckEnemyDie())
             {
@@ -508,29 +501,6 @@ public class BattleHandler : MonoBehaviour
         }
     }
 
-    private bool CheckRulletPenalty(bool isPlayerPiece)
-    {
-        List<RulletPiece> pieces = mainRullet.GetPieces();
-
-        for (int i = 0; i < pieces.Count; i++)
-        {
-            if (pieces[i] != null)
-            {
-                if ((pieces[i] as SkillPiece).isPlayerSkill != isPlayerPiece)
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                print("빈칸 발생");
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     private void GivePenalty(bool isEnemy)
     {
         if (isEnemy)
@@ -547,63 +517,5 @@ public class BattleHandler : MonoBehaviour
 
         GameManager.Instance.cameraHandler.ShakeCamera(1f, 0.2f);
     }
-
-    public void ChangeRulletPiece(int pieceIdx)
-    {
-        SkillPiece skill = inventory.GetRandomUnusedSkill();
-
-        mainRullet.GetComponent<SkillRullet>().ChangePiece(pieceIdx, skill);
-    }
-
-    public void DrawRulletPieces()
-    {
-        List<RulletPiece> pieces = mainRullet.GetPieces();
-
-        for (int i = 0; i < pieces.Count; i++)
-        {
-            // 비어있는곳이라면
-            if (pieces[i] == null)
-            {
-                SkillPiece skill = inventory.GetRandomUnusedSkill();
-                mainRullet.SetPiece(i, skill);
-            }
-        }
-    }
-
-    public void ResetRullet()
-    {
-        List<RulletPiece> pieces = mainRullet.GetPieces();
-
-        for (int i = 0; i < pieces.Count; i++)
-        {
-            ChangeRulletPiece(i);
-        }
-    }
-
-    public void SetPieceToGraveyard(int pieceIdx)
-    {
-        mainRullet.PutRulletPieceToGraveYard(pieceIdx);
-    }
-
-    public void SetPieceToGraveyard(SkillPiece piece)
-    {
-        GameManager.Instance.inventoryHandler.SetUseSkill(piece);
-    }
-
-    public void SetPieceToInventory(SkillPiece piece)
-    {
-        GameManager.Instance.inventoryHandler.SetUnUseSkill(piece);
-    }
-
-    public void SetRulletEmpty(int pieceIdx)
-    {
-        mainRullet.SetEmpty(pieceIdx);
-    }
-
-    private void RollAllRullet()
-    {
-        mainRullet.RollRullet();
-    }
-
     #endregion
 }
