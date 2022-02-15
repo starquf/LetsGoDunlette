@@ -22,10 +22,12 @@ public abstract class Rullet : MonoBehaviour
     protected float rollSpeed;
     protected float stopSpeed;
     protected float multiply = 1f;
+    public float speedWeight = 0f;
 
     protected Tween fillTween;
 
-    public Transform pinTrans;
+    //public Transform pinTrans;
+    public Text speedText;
 
     protected virtual void Start()
     {
@@ -137,26 +139,25 @@ public abstract class Rullet : MonoBehaviour
 
     public void ReRoll()
     {
-        rollSpeed = (600f + UnityEngine.Random.Range(0f, 300f)) * UnityEngine.Random.Range(1f, 2f) * multiply;
-        stopSpeed = UnityEngine.Random.Range(2f, 2.5f);
+        rollSpeed = (600f + UnityEngine.Random.Range(0f, 100f)) * multiply;
+        stopSpeed = UnityEngine.Random.Range(10f, 10.5f);
     }
 
     protected virtual IEnumerator Roll()
     {
-        rollSpeed = (500f + UnityEngine.Random.Range(0f, 150f)) * multiply;
+        rollSpeed = (500f + UnityEngine.Random.Range(0, 100) + speedWeight) * multiply;
         stopSpeed = UnityEngine.Random.Range(10f, 10.5f);
+
+        if (speedText != null)
+        {
+            speedText.text = $"Speed : {rollSpeed.ToString()}";
+        }
 
         while (Mathf.Abs(rollSpeed) > 1.5f)
         {
             yield return null;
 
             transform.Rotate(0f, 0f, rollSpeed * Time.deltaTime);
-
-            if (pinTrans != null)
-            {
-                // 이새낀 보류해주세요 나중에 선한쌤이 보면 됡것 같습니다
-                pinTrans.rotation = Quaternion.AngleAxis(Mathf.Clamp(Mathf.Cos(transform.eulerAngles.z * Mathf.Deg2Rad * 5.5f), -1f, 0f) * 30f, Vector3.forward);
-            }
 
             if (isStop)
             {

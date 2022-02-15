@@ -429,6 +429,8 @@ public class BattleHandler : MonoBehaviour
     private void BattleEnd(bool isWin = true)
     {
         player.cc.ResetAllCC();
+        mainRullet.speedWeight = 0f;
+
         if (isWin)
         {
             enemys.Clear();
@@ -482,6 +484,8 @@ public class BattleHandler : MonoBehaviour
 
                     castUIHandler.ShowPanel(false);
                 });
+
+                mainRullet.speedWeight += 50f;
             }
             else
             {
@@ -493,6 +497,8 @@ public class BattleHandler : MonoBehaviour
                         StartCoroutine(EndTurn());
                     });
                 };
+
+                mainRullet.speedWeight = 0f;
             }
 
             castUIHandler.ShowCasting(result, onShowCast);
