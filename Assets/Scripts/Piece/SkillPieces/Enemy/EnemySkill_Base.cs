@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DP_Attack : SkillPiece
+public class EnemySkill_Base : SkillPiece
 {
     protected override void Awake()
     {
