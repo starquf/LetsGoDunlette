@@ -2073,7 +2073,7 @@ MonoBehaviour:
     - {fileID: 371756096964453561, guid: 3f4d736f510bf1844a6d9e65aa56ee62, type: 3}
     - {fileID: 5219999204231547788, guid: 4ed7a1b480621884c837456d10617387, type: 3}
     - {fileID: 6804786383528516221, guid: 280dbc5884aab634c8f8c5b874ead8d1, type: 3}
-    isWeakEnemy: 1
+    isWeakEnemy: 0
   - enemyInfos:
     - {fileID: 5510414319434966474, guid: 26136f4085e14dc4693b7f1199ed2f87, type: 3}
     rewards:
@@ -2082,7 +2082,7 @@ MonoBehaviour:
     - {fileID: 5219999204231547788, guid: 83d9fe2125c697546bd00e7b71e0b878, type: 3}
     - {fileID: 371756096964453561, guid: bf9e9150d06c31e4c9b3bc949168fbf3, type: 3}
     - {fileID: 371756096964453561, guid: 3f4d736f510bf1844a6d9e65aa56ee62, type: 3}
-    isWeakEnemy: 1
+    isWeakEnemy: 0
   - enemyInfos:
     - {fileID: 5510414319434966474, guid: 26136f4085e14dc4693b7f1199ed2f87, type: 3}
     - {fileID: 5510414319434966474, guid: 26136f4085e14dc4693b7f1199ed2f87, type: 3}
@@ -2102,7 +2102,7 @@ MonoBehaviour:
     - {fileID: 5219999204231547788, guid: 0059602853cef8342963ab23ba58a6a1, type: 3}
     - {fileID: 5219999204231547788, guid: 4ed7a1b480621884c837456d10617387, type: 3}
     - {fileID: 5219999204231547788, guid: 0059602853cef8342963ab23ba58a6a1, type: 3}
-    isWeakEnemy: 0
+    isWeakEnemy: 1
   - enemyInfos:
     - {fileID: 5510414319434966474, guid: 26136f4085e14dc4693b7f1199ed2f87, type: 3}
     - {fileID: 2194092688508076325, guid: b973359c2a6ebf5458cf06cc02d9aca1, type: 3}
@@ -2561,6 +2561,85 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!1 &529233479
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 529233480}
+  - component: {fileID: 529233482}
+  - component: {fileID: 529233481}
+  m_Layer: 5
+  m_Name: SpeedText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &529233480
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529233479}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1154257378}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -313.11, y: 420.4}
+  m_SizeDelta: {x: 384.21, y: 109.86}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &529233481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529233479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: f97d263ed55af6047b038d000e1c0ee0, type: 3}
+    m_FontSize: 80
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 90
+    m_Alignment: 3
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Speed : 0'
+--- !u!222 &529233482
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529233479}
+  m_CullTransparentMesh: 1
 --- !u!1 &560249178
 GameObject:
   m_ObjectHideFlags: 0
@@ -3898,7 +3977,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80e499ed5be11ff4f989d2917034b5ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pinTrans: {fileID: 0}
+  speedWeight: 0
+  speedText: {fileID: 529233481}
 --- !u!114 &802963614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6942,6 +7022,7 @@ RectTransform:
   - {fileID: 286728808}
   - {fileID: 717179859}
   - {fileID: 620923563}
+  - {fileID: 529233480}
   m_Father: {fileID: 1434228503}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
