@@ -30,6 +30,17 @@ public class EnemyHealth : LivingEntity
         base.Start();
     }
 
+    public override void GetDamage(int damage)
+    {
+        base.GetDamage(damage);
+
+        if (!isDie)
+        {
+            sr.color = Color.red;
+            sr.DOColor(Color.white, 0.55f);
+        }
+    }
+
     protected override void Die()
     {
         sr.DOFade(0f, 1f)

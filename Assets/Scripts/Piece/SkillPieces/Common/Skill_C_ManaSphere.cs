@@ -35,7 +35,7 @@ public class Skill_C_ManaSphere : SkillPiece
                 Anim_C_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_C_ManaSphereHit>();
                 hitEffect.transform.position = targetPos;
 
-                GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
+                GameManager.Instance.cameraHandler.ShakeCamera(1f, 0.2f);
                 target.GetDamage(Value, patternType);
                 onCastEnd?.Invoke();
 
