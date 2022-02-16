@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class EnemySkill_Base : SkillPiece
 {
+    public GameObject a1;
+    public GameObject a2;
+
     protected override void Awake()
     {
         base.Awake();
