@@ -47,3 +47,14 @@ public enum EncounterType
     Rest,
     BossBattle
 }
+
+public enum ScrollType
+{
+    Heal,
+    Use,
+    Shield,
+    Hiding,
+    Power,
+    Chaos,
+    Memorie
+}
