@@ -24,6 +24,7 @@ public abstract class Rullet : MonoBehaviour
     protected float multiply = 1f;
     public float speedWeight = 0f;
 
+    protected Coroutine rollCor;
     protected Tween fillTween;
 
     //public Transform pinTrans;
@@ -126,8 +127,17 @@ public abstract class Rullet : MonoBehaviour
 
         result = null;
         isRoll = true;
+        isStop = false;
 
-        StartCoroutine(Roll());
+        rollCor = StartCoroutine(Roll());
+    }
+
+    public virtual void PauseRullet()
+    {
+        if (rollCor != null)
+            StopCoroutine(rollCor);
+
+        isRoll = false;
     }
 
     public void StopRullet(Action<RulletPiece, int> onResult)

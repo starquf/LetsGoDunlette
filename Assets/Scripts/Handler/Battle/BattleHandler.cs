@@ -19,6 +19,7 @@ public class BattleHandler : MonoBehaviour
     private CCHandler ccHandler;
     private BattleRewardHandler battleRewardHandler;
     private BattleTargetSelectHandler battleTargetSelector;
+    private BattleScrollHandler battleScrollHandler;
     [HideInInspector]
     public BattleUtilHandler battleUtil;
 
@@ -47,6 +48,7 @@ public class BattleHandler : MonoBehaviour
 
     [Header("플레이어&적 Health")]
     public PlayerHealth player;
+    public Transform playerImgTrans;
 
     [HideInInspector]
     public List<EnemyHealth> enemys = new List<EnemyHealth>();
@@ -77,6 +79,7 @@ public class BattleHandler : MonoBehaviour
         battleRewardHandler = GetComponent<BattleRewardHandler>();
         battleTargetSelector = GetComponent<BattleTargetSelectHandler>();
         battleUtil = GetComponent<BattleUtilHandler>();
+        battleScrollHandler = GetComponent<BattleScrollHandler>();
     }
 
     private void Start()
@@ -232,6 +235,11 @@ public class BattleHandler : MonoBehaviour
 
             // 결과 실행
             CastResult();
+        },
+        () => 
+        {
+            // 스크롤 버튼 비활성화
+            battleScrollHandler.SetInteract(false);
         });
     }
 
@@ -325,11 +333,19 @@ public class BattleHandler : MonoBehaviour
         nextAttack = null;
         nextAttack = onNextAttack;
 
+        StartTurn();
+    }
+
+    public void StartTurn()
+    {
         // 전부 돌려버리고
         mainRullet.RollRullet();
 
         // 멈추게 하는 버튼 활성화
         stopHandler.SetInteract(true);
+
+        // 스크롤 버튼 활성화
+        battleScrollHandler.SetInteract(true);
     }
 
     // 실행이 전부 끝나면 실행되는 코루틴
@@ -344,9 +360,6 @@ public class BattleHandler : MonoBehaviour
         ccHandler.CheckCC(CCType.Stun);
         // 상처 체크
         ccHandler.CheckCC(CCType.Wound);
-
-        // 잠시 기다리고
-        //yield return oneSecWait;
 
         // 적이 전부 죽었는가?
         if (CheckEnemyDie())
@@ -407,6 +420,7 @@ public class BattleHandler : MonoBehaviour
         // 다음턴으로
         InitTurn();
     }
+
     private bool CheckPlayerDie()
     {
         return player.IsDie;
