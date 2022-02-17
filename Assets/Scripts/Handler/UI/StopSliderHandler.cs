@@ -16,6 +16,7 @@ public class StopSliderHandler : MonoBehaviour
     public Rullet rullet;
 
     public Action<RulletPiece, int> onStopRullet;
+    public Action onStartStop;
 
     private void Start()
     {
@@ -26,16 +27,18 @@ public class StopSliderHandler : MonoBehaviour
         {
             if (!isStopped)
             {
+                onStartStop?.Invoke();
                 StopRullet();
             }
         });
         cg.interactable = false;
     }
 
-    public void Init(Rullet rullet, Action<RulletPiece, int> onStopRullet)
+    public void Init(Rullet rullet, Action<RulletPiece, int> onStopRullet, Action onStartStop = null)
     {
         this.rullet = rullet;
         this.onStopRullet = onStopRullet;
+        this.onStartStop = onStartStop;
     }
 
     private void StopRullet()
