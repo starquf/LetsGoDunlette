@@ -28,6 +28,7 @@ public abstract class RulletPiece : MonoBehaviour
     protected int value;
     public int Value => value;
 
+    private Image bgImg;
     private Image highlightImg;
 
     [HideInInspector]
@@ -39,9 +40,9 @@ public abstract class RulletPiece : MonoBehaviour
     private float r;
     private Vector3 pos;
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
-
+        bgImg = GetComponent<Image>();
         highlightImg = GetComponentsInChildren<Image>()[1];
         transform.GetComponent<Image>().fillAmount = Size / 36f;
 
@@ -58,6 +59,11 @@ public abstract class RulletPiece : MonoBehaviour
 
         skillImg.transform.localRotation = Quaternion.AngleAxis(angle, Vector3.forward);
         skillImg.transform.localPosition = pos * r;
+    }
+
+    protected virtual void Start()
+    {
+
     }
 
     public virtual void ChangePieceName(string pieceName)
@@ -85,6 +91,8 @@ public abstract class RulletPiece : MonoBehaviour
     {
         transform.localScale = Vector3.one;
         skillImg.transform.localScale = Vector3.one;
+        skillImg.color = Color.white;
+        bgImg.color = Color.white;
         highlightImg.color = Color.clear;
     }
 

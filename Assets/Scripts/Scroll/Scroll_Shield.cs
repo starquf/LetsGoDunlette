@@ -16,7 +16,7 @@ public class Scroll_Shield : Scroll
 
     public override void Use(Action onEndUse)
     {
-        bh.player.AddShield(100);
+        bh.player.AddShield(50);
 
         Anim_M_Shield shieldEffect = PoolManager.GetItem<Anim_M_Shield>();
         shieldEffect.transform.position = bh.playerImgTrans.position;

@@ -14,10 +14,13 @@ public class SkillPiece : RulletPiece
     [HideInInspector]
     public Inventory owner;
 
-    protected virtual void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         PieceType = PieceType.SKILL;
     }
+
 
     public override void Cast(LivingEntity targetTrm, Action onCastEnd = null)
     {
