@@ -73,22 +73,40 @@ public class MapHandler : MonoBehaviour
         }
     }
 
-    public void MovePlayer()
+    public void MovePlayer(bool skip = false)
     {
         curPlayerPosIcon.SetParent(GetCurNodeTrm(curNode.idx, curNode.depth));
-        curPlayerPosIcon.localPosition = Vector2.zero;
-
-
-        //여기에 각 맵별 대충 구현
-        if(curNode.mapNode != mapNode.START)
+        if (skip)
         {
-            //print(curNode.mapNode);
-            encounterHandler.StartEncounter(curNode.mapNode);
+            curPlayerPosIcon.localPosition = Vector3.zero;
+            //여기에 각 맵별 대충 구현
+            if (curNode.mapNode != mapNode.START)
+            {
+                //print(curNode.mapNode);
+                encounterHandler.StartEncounter(curNode.mapNode);
+            }
+            //아래 디버그용
+            if (curNode.depth == mapCreater.mapCols - 1)
+            {
+                StartCoroutine(ResetMap());
+            }
         }
-        //아래 디버그용
-        if(curNode.depth == mapCreater.mapCols-1)
+        else
         {
-            StartCoroutine(ResetMap());
+            DOTween.Sequence().Append(curPlayerPosIcon.DOLocalMove(Vector3.zero, 0.5f).SetDelay(0.2f))
+                .OnComplete(() => {
+                    //여기에 각 맵별 대충 구현
+                    if (curNode.mapNode != mapNode.START)
+                    {
+                        //print(curNode.mapNode);
+                        encounterHandler.StartEncounter(curNode.mapNode);
+                    }
+                    //아래 디버그용
+                    if (curNode.depth == mapCreater.mapCols - 1)
+                    {
+                        StartCoroutine(ResetMap());
+                    }
+                });
         }
     }
     
@@ -203,7 +221,7 @@ public class MapHandler : MonoBehaviour
             nextNodeImg.color = new Color(nextNodeImg.color.r, nextNodeImg.color.g, nextNodeImg.color.b, 1);
             GetCurNodeTrm(row, depth).GetComponent<Button>().interactable = true;
         }
-        MovePlayer();
+        MovePlayer(node.depth == 0);
     }
 
     public void ShowMap()

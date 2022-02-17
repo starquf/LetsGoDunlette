@@ -482,7 +482,7 @@ public class BattleHandler : MonoBehaviour
                         StartCoroutine(EndTurn());
                     });
 
-                    castUIHandler.ShowPanel(false);
+                    castUIHandler.EndCast(result);
                 });
 
                 mainRullet.speedWeight += 50f;
@@ -493,7 +493,7 @@ public class BattleHandler : MonoBehaviour
                 {
                     result.Cast(player, () =>
                     {
-                        castUIHandler.ShowPanel(false);
+                        castUIHandler.EndCast(result);
                         StartCoroutine(EndTurn());
                     });
                 };

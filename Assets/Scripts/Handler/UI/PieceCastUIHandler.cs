@@ -42,7 +42,9 @@ public class PieceCastUIHandler : MonoBehaviour
             .Append(skillPiece.transform.DOMove(parent.position, 0.5f))
             .Join(skillPiece.transform.DORotate(Quaternion.Euler(0, 0, 30).eulerAngles, 0.5f))
             //.Join(skillPiece.transform.DOScale(Vector3.one, 0.5f))
-            .AppendInterval(0.5f)
+            .AppendInterval(0.1f)
+            .Append(skillPiece.GetComponent<Image>().DOFade(0, 0.3f))
+            .Join(skillPiece.skillImg.DOFade(0, 0.3f))
             .OnComplete(() => { print("ÀÌÆåÆ®³¡³²"); onEndEffect(); });
 
         ShowPanel(true);
@@ -50,10 +52,13 @@ public class PieceCastUIHandler : MonoBehaviour
 
     public void EndCast(SkillPiece skillPiece)
     {
-        ShowPanel(false);
+        ShowPanel(false,false, ()=> {
+            skillPiece.GetComponent<Image>().color = Color.white;
+            skillPiece.skillImg.color = Color.white;
+        });
     }
 
-    public void ShowPanel(bool enable, bool skip = false)
+    public void ShowPanel(bool enable, bool skip = false, Action endEvent = null)
     {
         showSequence.Kill();
         if (!skip)
@@ -61,6 +66,7 @@ public class PieceCastUIHandler : MonoBehaviour
             showSequence = DOTween.Sequence().Append(cvsGroup.DOFade(enable ? 1 : 0, enable ? 0.2f:0.5f).OnComplete(() => {
                 cvsGroup.interactable = enable;
                 cvsGroup.blocksRaycasts = enable;
+                endEvent?.Invoke();
             }));
         }
         else
@@ -68,6 +74,7 @@ public class PieceCastUIHandler : MonoBehaviour
             cvsGroup.alpha = enable ? 1 : 0;
             cvsGroup.interactable = enable;
             cvsGroup.blocksRaycasts = enable;
+            endEvent?.Invoke();
         }
     }
 }
