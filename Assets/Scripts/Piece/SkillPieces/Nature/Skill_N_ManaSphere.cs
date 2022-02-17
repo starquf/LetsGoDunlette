@@ -25,6 +25,7 @@ public class Skill_N_ManaSphere : SkillPiece
         skillEffect.transform.position = startPos;
         skillEffect.SetSprite(manaSphereSpr);
         skillEffect.SetColorGradient(effectGradient);
+        skillEffect.SetScale(Vector3.one);
 
         skillEffect.Play(targetPos, () => {
             Anim_N_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_N_ManaSphereHit>();
@@ -39,6 +40,6 @@ public class Skill_N_ManaSphere : SkillPiece
             });
 
             skillEffect.EndEffect();
-        }, BezierType.Linear, isRotate: true);
+        }, BezierType.Linear, isRotate: true, playSpeed: 2f);
     }
 }

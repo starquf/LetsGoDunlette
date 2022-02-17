@@ -29,6 +29,7 @@ public class Skill_C_ManaSphere : SkillPiece
             effect.transform.position = startPos;
             effect.SetSprite(manaSphereSpr);
             effect.SetColorGradient(effectGradient);
+            effect.SetScale(Vector3.one * 2f);
 
             effect.Play(targetPos, () =>
             {
@@ -44,7 +45,7 @@ public class Skill_C_ManaSphere : SkillPiece
                 });
 
                 effect.EndEffect();
-            }, BezierType.Linear, isRotate:true);
+            }, BezierType.Linear, isRotate:true, playSpeed: 2f);
         });
     }
 }

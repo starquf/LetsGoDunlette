@@ -42,6 +42,11 @@ public class EffectObj : MonoBehaviour
         tr.colorGradient = gradient;
     }
 
+    public void SetScale(Vector3 scale)
+    {
+        transform.localScale = scale;
+    }
+
     public void SetRandomSprite(List<Sprite> sprites)
     {
         if (sprites.Count > 0)
@@ -54,6 +59,7 @@ public class EffectObj : MonoBehaviour
     public void EndEffect()
     {
         Sr.color = Color.clear;
+        transform.localScale = Vector3.one * 0.5f;
 
         StartCoroutine(EndWait());
     }
