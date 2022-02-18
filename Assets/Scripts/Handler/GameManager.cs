@@ -84,6 +84,8 @@ public class GameManager : MonoBehaviour
     public InventoryHandler inventoryHandler;
     [HideInInspector]
     public MapHandler mapHandler;
+    [HideInInspector]
+    public ShakeHandler shakeHandler;
 
     [HideInInspector]
     public event Action OnUpdateUI;

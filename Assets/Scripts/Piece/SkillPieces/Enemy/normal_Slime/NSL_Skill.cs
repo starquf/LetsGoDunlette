@@ -24,7 +24,7 @@ public class NSL_Skill : SkillPiece
 
     private void NSl_Recover(LivingEntity target, Action onCastEnd = null)
     {
-        GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
+        GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
         Vector3 targetPos = owner.transform.position;
 
@@ -41,7 +41,7 @@ public class NSL_Skill : SkillPiece
 
     private void NSL_Bounce(LivingEntity target, Action onCastEnd = null)
     {
-        GameManager.Instance.cameraHandler.ShakeCamera(2f, 0.2f);
+        GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
         target.GetDamage(30, owner.gameObject);
 

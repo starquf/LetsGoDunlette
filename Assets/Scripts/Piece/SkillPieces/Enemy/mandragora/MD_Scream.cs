@@ -15,7 +15,7 @@ public class MD_Scream : SkillPiece
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         print($"적 스킬 발동!! 이름 : {PieceName}");
-        GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
+        GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
         Vector3 targetPos = target.transform.position;
         Vector3 startPos = skillImg.transform.position;

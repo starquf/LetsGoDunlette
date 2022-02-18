@@ -24,7 +24,7 @@ public class MI_Skill : SkillPiece
 
     private void MI_Biting(LivingEntity target, Action onCastEnd = null)
     {
-        GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
+        GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
         target.GetDamage(20, owner.gameObject);
         target.cc.SetCC(CCType.Wound, 5);
@@ -42,7 +42,7 @@ public class MI_Skill : SkillPiece
 
     private void MI_Bump(LivingEntity target, Action onCastEnd = null)
     {
-        GameManager.Instance.cameraHandler.ShakeCamera(0.7f, 0.15f);
+        GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.7f, 0.15f);
 
         target.GetDamage(35, owner.gameObject);
 

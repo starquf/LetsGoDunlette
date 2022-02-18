@@ -15,7 +15,7 @@ public class NSL_Attack : SkillPiece
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         print($"적 스킬 발동!! 이름 : {PieceName}");
-        GameManager.Instance.cameraHandler.ShakeCamera(2f, 0.2f);
+        GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
         Vector3 targetPos = target.transform.position;
         Vector3 startPos = skillImg.transform.position;
