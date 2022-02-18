@@ -37,7 +37,10 @@ public class PieceCastUIHandler : MonoBehaviour
         cardDesText.text = skillPiece.PieceDes;
 
         pieceMoveSequence.Kill();
+
+        skillPiece.gameObject.SetActive(true);
         skillPiece.transform.SetParent(parent);
+
         pieceMoveSequence = DOTween.Sequence()
             .Append(skillPiece.transform.DOMove(parent.position, 0.5f))
             .Join(skillPiece.transform.DORotate(Quaternion.Euler(0, 0, 30).eulerAngles, 0.5f))
