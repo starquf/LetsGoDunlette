@@ -234,7 +234,7 @@ public class BattleHandler : MonoBehaviour
             battleUtil.SetRulletEmpty(resultIdx);
 
             // 결과 실행
-            CastResult();
+            CastPiece(this.result);
         },
         () => 
         {
@@ -469,16 +469,18 @@ public class BattleHandler : MonoBehaviour
     #region Rullet Func
 
     // 결과 보여주기
-    private void CastResult()
+    public void CastPiece(SkillPiece piece)
     {
-        if (result != null)
+        result = piece;
+
+        if (piece != null)
         {
             // 침묵되어 있다면
-            if (result.owner.GetComponent<LivingEntity>().cc.ccDic[CCType.Silence] > 0)
+            if (piece.owner.GetComponent<LivingEntity>().cc.ccDic[CCType.Silence] > 0)
             {
                 Anim_TextUp silenceTextEffect = PoolManager.GetItem<Anim_TextUp>();
                 silenceTextEffect.SetType(TextUpAnimType.Damage);
-                silenceTextEffect.transform.position = result.skillImg.transform.position;
+                silenceTextEffect.transform.position = piece.skillImg.transform.position;
                 silenceTextEffect.Play("침묵됨!");
 
                 StartCoroutine(EndTurn());
@@ -488,15 +490,15 @@ public class BattleHandler : MonoBehaviour
             Action onShowCast = () => { };
 
             // 플레이어 스킬이라면
-            if (result.isPlayerSkill)
+            if (piece.isPlayerSkill)
             {
                 battleTargetSelector.SelectTarget(target => {
-                    result.Cast(target, () =>
+                    piece.Cast(target, () =>
                     {
                         StartCoroutine(EndTurn());
                     });
 
-                    castUIHandler.EndCast(result);
+                    castUIHandler.EndCast(piece);
                 });
 
                 mainRullet.speedWeight += 50f;
@@ -505,9 +507,9 @@ public class BattleHandler : MonoBehaviour
             {
                 onShowCast = () =>
                 {
-                    result.Cast(player, () =>
+                    piece.Cast(player, () =>
                     {
-                        castUIHandler.EndCast(result);
+                        castUIHandler.EndCast(piece);
                         StartCoroutine(EndTurn());
                     });
                 };
@@ -515,7 +517,7 @@ public class BattleHandler : MonoBehaviour
                 mainRullet.speedWeight = 0f;
             }
 
-            castUIHandler.ShowCasting(result, onShowCast);
+            castUIHandler.ShowCasting(piece, onShowCast);
         }
     }
 

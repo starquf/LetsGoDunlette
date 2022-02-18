@@ -33,7 +33,7 @@ public class QN_Skill : SkillPiece
 
     private void QN_Night_Trip(LivingEntity target, Action onCastEnd = null)
     {
-        GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
+        GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
         // Àû »ý¼º
         for (int i = 0; i < value; i++)
@@ -54,7 +54,7 @@ public class QN_Skill : SkillPiece
 
     private void QN_Authority(LivingEntity target, Action onCastEnd = null)
     {
-        GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
+        GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
         Anim_M_Shield effect = PoolManager.GetItem<Anim_M_Shield>();
         effect.transform.position = owner.transform.position;

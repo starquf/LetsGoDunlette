@@ -24,7 +24,7 @@ public class FA_Skill : SkillPiece
 
     private void FA_Fairy_Ligtht(LivingEntity target, Action onCastEnd = null)
     {
-        GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
+        GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.2f);
 
         //전투가 끝날 때 까지 기본 공격의 피해가 5 상승한다.
         for (int i = 0; i < owner.skills.Count; i++)
@@ -49,7 +49,7 @@ public class FA_Skill : SkillPiece
 
     private void FA_Kidding(LivingEntity target, Action onCastEnd = null)
     {
-        GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
+        GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.2f);
 
         target.GetDamage(Value, gameObject);
         KiddingSkill();

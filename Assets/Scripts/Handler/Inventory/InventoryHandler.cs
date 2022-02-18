@@ -348,4 +348,18 @@ public class InventoryHandler : MonoBehaviour
         Destroy(piece.gameObject);
         SetCountUI();
     }
+
+    // 플레이어/적 스킬 유무
+    public bool CheckPlayerOrEnemyInUnUsedInven(bool isPlayer)
+    {
+        for (int i = 0; i < unusedSkills.Count; i++)
+        {
+            if (unusedSkills[i].isPlayerSkill == isPlayer)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

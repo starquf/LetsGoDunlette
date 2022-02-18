@@ -24,7 +24,7 @@ public class LSW_Skill : SkillPiece
 
     private void LSW_Cutting(LivingEntity target, Action onCastEnd = null)
     {
-        GameManager.Instance.cameraHandler.ShakeCamera(2f, 0.2f);
+        GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
         target.GetDamage(30, owner.gameObject);
 
@@ -41,7 +41,7 @@ public class LSW_Skill : SkillPiece
 
     private void LSW_Old_Shield(LivingEntity target, Action onCastEnd = null)
     {
-        GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
+        GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
         Anim_M_Shield shieldEffect = PoolManager.GetItem<Anim_M_Shield>();
         shieldEffect.transform.position = owner.transform.position;

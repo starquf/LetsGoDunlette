@@ -39,7 +39,7 @@ public class BattleScrollHandler : MonoBehaviour
 
         SetScroll(slots[0], PoolManager.GetItem<Scroll_Heal>());
         SetScroll(slots[1], PoolManager.GetItem<Scroll_Shield>());
-        SetScroll(slots[2], PoolManager.GetItem<Scroll_Shield>());
+        SetScroll(slots[2], PoolManager.GetItem<Scroll_Use>());
     }
 
     private void UseScroll(ScrollSlot slot, Scroll scroll)
