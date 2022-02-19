@@ -35,7 +35,6 @@ public class DP_Skill : SkillPiece
             if (health.isBoss)
             {
                 // queen 임.
-
                 health.Heal(5);
                 owner.GetComponent<EnemyHealth>().GetDamageIgnoreShild(10);
                 break; // 여왕은 1명이라는 가정
@@ -44,11 +43,12 @@ public class DP_Skill : SkillPiece
 
         Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
         effect.transform.position = owner.transform.position;
-
         effect.Play(() =>
         {
             onCastEnd?.Invoke();
         });
+
+
     }
 
     private void DP_Poke(LivingEntity target, Action onCastEnd = null)
