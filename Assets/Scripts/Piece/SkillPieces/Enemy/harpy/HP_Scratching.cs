@@ -14,46 +14,18 @@ public class HP_Scratching : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        print($"적 스킬 발동!! 이름 : {PieceName}");
-        GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
+        GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
-        Vector3 targetPos = target.transform.position;
-        Vector3 startPos = skillImg.transform.position;
+        Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
+        effect.transform.position = owner.transform.position;
 
-        for (int i = 0; i < 3; i++)
+        effect.Play(() =>
         {
-            EffectObj attackObj = PoolManager.GetItem<EffectObj>();
-            attackObj.transform.position = startPos;
-
-            int a = i;
-
-            attackObj.Play(targetPos, () =>
-            {
-                attackObj.Sr.DOFade(0f, 0.1f)
-                    .OnComplete(() =>
-                    {
-                        attackObj.EndEffect();
-                    });
-
-                GameManager.Instance.cameraHandler.ShakeCamera(0.25f, 0.2f);
-
-                if (a == 2)
-                    onCastEnd?.Invoke();
-            }
-            , BezierType.Cubic, i * 0.1f);
-
-        }
+            onCastEnd?.Invoke();
+        });
 
         target.GetDamage(Value, owner.gameObject);
 
-        //이 스킬은 삭제되어야함
-        
-
-        Anim_M_Sword hitEffect = PoolManager.GetItem<Anim_M_Sword>();
-        hitEffect.transform.position = owner.transform.position;
-
-        hitEffect.Play(() =>
-        {
-        });
+        //삭제 되어야함
     }
 }
