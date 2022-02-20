@@ -1,9 +1,8 @@
 using System;
 using Random = UnityEngine.Random;
 
-public class KB_Skill : SkillPiece
+public class GG_Skill : SkillPiece
 {
-    private int stolenGolds = 0;
     protected override void Awake()
     {
         base.Awake();
@@ -14,45 +13,45 @@ public class KB_Skill : SkillPiece
     {
         if (Random.Range(1, 100) <= value)
         {
-            KB_Pickpocket(target, onCastEnd);
+            GG_Beat(target, onCastEnd);
         }
         else
         {
-            KB_Transform(target, onCastEnd);
+            GG_Recover(target, onCastEnd);
         }
     }
 
-    private void KB_Pickpocket(LivingEntity target, Action onCastEnd = null) //플레이어에게서 10골드를 훔친다.
+    private void GG_Beat(LivingEntity target, Action onCastEnd = null) 
     {
         GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
         Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
         effect.transform.position = owner.transform.position;
 
-        target.GetDamage(10, owner.gameObject);
+        target.GetDamage(30, owner.gameObject);
 
         effect.Play(() =>
         {
             onCastEnd?.Invoke();
         });
 
-        //골드 훔치는 루틴
-        stolenGolds += GameManager.Instance.TryStillGold(10);
+
+
     }
 
-    private void KB_Transform(LivingEntity target, Action onCastEnd = null) //이번 전투에서 플레이어에게서 훔친 골드만큼 데미지를 준다.
+    private void GG_Recover(LivingEntity target, Action onCastEnd = null) //자신의 체력을 30만큼 회복한다.
     {
         GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
-        Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
+        Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
         effect.transform.position = owner.transform.position;
-
-        target.GetDamage(stolenGolds, owner.gameObject);
 
         effect.Play(() =>
         {
             onCastEnd?.Invoke();
         });
+
+        owner.GetComponent<EnemyHealth>().Heal(30);
     }
 
 
