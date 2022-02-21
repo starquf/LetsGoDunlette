@@ -115,4 +115,19 @@ public class GameManager : MonoBehaviour
     {
         OnEndEncounter();
     }
+
+    public int TryStillGold(int max) //ÃÖ´ë max ¸¸Å­ °ñµå¸¦ ÈÉÄ§ ÈÉÄ£ °ñµå¸¦ ¸®ÅÏ
+    {
+        int remain = gold - max;
+
+        if (remain >= 0)
+        {
+            return max;
+        }
+        else
+        {
+            return gold;
+        }
+    }
+
 }

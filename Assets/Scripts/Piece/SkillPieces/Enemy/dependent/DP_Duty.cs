@@ -54,9 +54,9 @@ public class DP_Duty : SkillPiece
             {
                 // queen 임.
 
-                health.Heal(value);
-
+                health.Heal(5);
                 owner.GetComponent<EnemyHealth>().GetDamageIgnoreShild(10);
+                break; // 여왕은 1명이라는 가정
             }
         }
 

@@ -20,20 +20,20 @@ public class QN_Skill : SkillPiece
 
             if (health.gameObject != owner.gameObject)
             {
+                print("1");
+
                 QN_Authority(target, onCastEnd);
-                break;
-            }
-            else
-            {
-                QN_Night_Trip(target, onCastEnd);
-                break;
+                return;
             }
         }
+
+        print("2");
+        QN_Night_Trip(target, onCastEnd);
     }
 
     private void QN_Night_Trip(LivingEntity target, Action onCastEnd = null)
     {
-        GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
+       GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
         // Àû »ý¼º
         for (int i = 0; i < value; i++)
@@ -54,15 +54,7 @@ public class QN_Skill : SkillPiece
 
     private void QN_Authority(LivingEntity target, Action onCastEnd = null)
     {
-        GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
-
-        Anim_M_Shield effect = PoolManager.GetItem<Anim_M_Shield>();
-        effect.transform.position = owner.transform.position;
-
-        effect.Play(() =>
-        {
-            onCastEnd?.Invoke();
-        });
+        //GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
         var enemys = GameManager.Instance.battleHandler.enemys;
 
@@ -75,6 +67,15 @@ public class QN_Skill : SkillPiece
                 health.AddShield(10);
             }
         }
+
+        Anim_M_Shield effect = PoolManager.GetItem<Anim_M_Shield>();
+        effect.transform.position = owner.transform.position;
+
+        effect.Play(() =>
+        {
+            onCastEnd?.Invoke();
+        });
+
     }
 
 
