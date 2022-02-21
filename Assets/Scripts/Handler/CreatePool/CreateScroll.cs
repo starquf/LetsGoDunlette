@@ -8,6 +8,7 @@ public class CreateScroll : MonoBehaviour
     public GameObject scroll_HealObj;
     public GameObject scroll_ShieldObj;
     public GameObject scroll_UseObj;
+    public GameObject scroll_ChaosObj;
 
     private void Awake()
     {
@@ -19,5 +20,6 @@ public class CreateScroll : MonoBehaviour
         PoolManager.CreatePool<Scroll_Heal>(scroll_HealObj, this.transform, 2);
         PoolManager.CreatePool<Scroll_Shield>(scroll_ShieldObj, this.transform, 2);
         PoolManager.CreatePool<Scroll_Use>(scroll_UseObj, this.transform, 2);
+        PoolManager.CreatePool<Scroll_Chaos>(scroll_ChaosObj, this.transform, 2);
     }
 }

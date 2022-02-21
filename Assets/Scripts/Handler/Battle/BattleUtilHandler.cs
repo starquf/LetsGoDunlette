@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -86,5 +87,17 @@ public class BattleUtilHandler : MonoBehaviour
     public void SetRulletEmpty(int pieceIdx)
     {
         mainRullet.SetEmpty(pieceIdx);
+    }
+
+    public void SetTimer(float time, Action onEndWait)
+    {
+        StartCoroutine(WaitTimer(time, onEndWait));
+    }
+
+    private IEnumerator WaitTimer(float time, Action onEndWait)
+    {
+        yield return new WaitForSeconds(time);
+
+        onEndWait?.Invoke();
     }
 }

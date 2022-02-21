@@ -12,16 +12,6 @@ public class ShakeHandler : MonoBehaviour
         GameManager.Instance.shakeHandler = this;
     }
 
-    private void Start()
-    {
-
-    }
-
-    private void Update()
-    {
-
-    }
-
     // BackCvsUI 흔들때 부르는 함수
     public void ShakeBackCvsUI(float intensity, float time)
     {
