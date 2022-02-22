@@ -37,7 +37,7 @@ public class Skill_C_UnManaSphere : SkillPiece
                 effect.transform.position = startPos;
                 effect.SetSprite(manaSphereSpr);
                 effect.SetColorGradient(effectGradient);
-                effect.SetScale(Vector3.one * 2f);
+                effect.SetScale(Vector3.one);
 
                 effect.Play(targetPos, () =>
                 {
