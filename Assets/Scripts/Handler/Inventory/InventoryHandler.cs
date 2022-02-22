@@ -105,6 +105,13 @@ public class InventoryHandler : MonoBehaviour
     // 사용한 스킬은 이걸 호출
     public void SetUseSkill(SkillPiece skill)
     {
+        if (skill.isDisposable)
+        {
+            RemovePiece(skill);
+            SetCountUI();
+            return;
+        }
+
         skill.isInRullet = false;
         usedSkills.Add(skill);
 
@@ -339,7 +346,7 @@ public class InventoryHandler : MonoBehaviour
         }
     }
 
-    private void RemovePiece(SkillPiece piece)
+    public void RemovePiece(SkillPiece piece)
     {
         skills.Remove(piece);
         usedSkills.Remove(piece);

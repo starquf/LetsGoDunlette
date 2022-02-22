@@ -27,14 +27,13 @@ public class HP_Gliding : SkillPiece
     }
 
     //스킬 부분
-    public void GlidingSkill() //덱에 할퀴기 2개 집어넣는다. //아직 버그있음
+    public void GlidingSkill() //덱에 할퀴기 2개 집어넣는다.
     {
         Inventory owner1 = owner.GetComponent<EnemyInventory>();
 
         for (int i = 0; i < value; i++)
         {
-            SkillPiece skill = GameManager.Instance.inventoryHandler.CreateSkill(scratchingSkill, owner1);
-            GameManager.Instance.inventoryHandler.unusedSkills.Add(skill);
+            GameManager.Instance.inventoryHandler.CreateSkill(scratchingSkill, owner1);
         }
         owner.GetComponent<EnemyIndicator>().ShowText("할퀴기 추가");
     }
