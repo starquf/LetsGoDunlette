@@ -264,25 +264,39 @@ public class BattleHandler : MonoBehaviour
             }
         }
 
-        yield return new WaitForSeconds(maxTime + 0.5f);
+        yield return new WaitForSeconds(maxTime + 0.25f);
 
         // 인벤토리에서 랜덤한 6개의 스킬을 뽑아 룰렛에 적용한다. 단, 최소한 적의 스킬 1개와 내 스킬 2개가 보장된다.
 
-        // 플레이어 확정 2개
-        for (int i = 0; i < 2; i++)
-        {
-            SetRandomPlayerOrEnemySkill(true);
-            yield return new WaitForSeconds(0.15f);
-        }
+        int player = 0;
+        int enemy = 0;
 
-        // 적 확정 하나
-        SetRandomPlayerOrEnemySkill(false);
-        yield return new WaitForSeconds(0.15f);
-
-        // 나머지 랜덤 3개
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 6; i++)
         {
-            SetRandomSkill();
+            if(i > 2)
+            {
+                if (player < 2)
+                {
+                    SetRandomPlayerOrEnemySkill(true);
+                    player++;
+                    continue;
+                }
+                else if (enemy < 1)
+                {
+                    SetRandomPlayerOrEnemySkill(false);
+                    enemy++;
+                    continue;
+                }
+            }
+
+            if(SetRandomSkill())
+            {
+                player++;
+            }
+            else
+            {
+                enemy++;
+            }
 
             yield return new WaitForSeconds(0.15f);
         }
@@ -301,12 +315,14 @@ public class BattleHandler : MonoBehaviour
         mainRullet.AddPiece(skill);
     }
 
-    private void SetRandomSkill()
+    private bool SetRandomSkill() //true 면 플레이어
     {
         SkillPiece skill = inventory.GetRandomUnusedSkill();
         skill.transform.localScale = new Vector3(0.2f, 0.2f, 1f);
 
         mainRullet.AddPiece(skill);
+
+        return skill.isPlayerSkill;
     }
 
     #endregion

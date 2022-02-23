@@ -19,13 +19,11 @@ public class HP_Scratching : SkillPiece
         Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
         effect.transform.position = owner.transform.position;
 
+        target.GetDamage(Value, owner.gameObject);
+
         effect.Play(() =>
         {
             onCastEnd?.Invoke();
         });
-
-        target.GetDamage(Value, owner.gameObject);
-
-        //삭제 되어야함
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System;
 
 public class InventoryInfoHandler : MonoBehaviour
 {
@@ -29,14 +30,22 @@ public class InventoryInfoHandler : MonoBehaviour
     public GameObject pieceInfoObj;
 
     public PieceDesUIHandler desPanel;
-
     private InventoryHandler invenHandler;
 
     private bool isShow = false;
 
+    [SerializeField] 
+    private Text messageText;
+    private string msg = "사용되지 않은 조각";
+
+    private Action<SkillPiece> onClickPiece = null;
+    private ShowInfoRange currentRange = ShowInfoRange.Inventory;
+
     private void Awake()
     {
         PoolManager.CreatePool<PieceInfoUI>(pieceInfoObj, pieceHolderTrm, 5);
+
+        GameManager.Instance.invenInfoHandler = this;
     }
 
     private void Start()
@@ -56,7 +65,7 @@ public class InventoryInfoHandler : MonoBehaviour
         invenBtn.onClick.AddListener(() =>
         {
             if (!isShow)
-                ShowInventoryInfo();
+                ShowInventoryInfo(msg, ShowInfoRange.Inventory, desPanel.ShowDescription);
         });
         //usedInvenBtn.onClick.AddListener(() => { ShowInfoPanel(true); });
 
@@ -72,10 +81,13 @@ public class InventoryInfoHandler : MonoBehaviour
         cg.alpha = 0f;
     }
 
-    public void ShowInventoryInfo()
+    public void ShowInventoryInfo(string msg, ShowInfoRange showRange, Action<SkillPiece> onClickPiece = null)
     {
-        ShowInfoPanel(true);
+        messageText.text = msg;
+        this.onClickPiece = onClickPiece;
+        currentRange = showRange;
 
+        ShowInfoPanel(true);
         ResetInventoryInfo();
     }
 
@@ -93,23 +105,30 @@ public class InventoryInfoHandler : MonoBehaviour
 
         ResetPieceInfo();
 
-        List<SkillPiece> skills = invenHandler.unusedSkills;
+        List<SkillPiece> skills = null;
+
+        switch (currentRange)
+        {
+            case ShowInfoRange.Inventory:
+                skills = invenHandler.unusedSkills;
+                break;
+
+            case ShowInfoRange.Graveyard:
+                skills = invenHandler.usedSkills;
+                break;
+        }
 
         for (int i = 0; i < skills.Count; i++)
         {
-            Sprite bg = skills[i].cardBG;
-            Sprite bookmark = invenHandler.effectSprDic[skills[i].patternType];
-            Sprite bookmarkBG = invenHandler.bookmarkSprDic[skills[i].patternType];
-            string name = skills[i].PieceName;
-            string des = skills[i].PieceDes;
+            SkillPiece sp = skills[i];
 
             PieceInfoUI pieceInfoUI = PoolManager.GetItem<PieceInfoUI>();
-            pieceInfoUI.SetSkillIcon(skills[i].skillImg.sprite);
+            pieceInfoUI.SetSkillIcon(sp.skillImg.sprite);
 
             pieceInfoUI.button.onClick.RemoveAllListeners();
             pieceInfoUI.button.onClick.AddListener(() =>
             {
-                desPanel.ShowDescription(name, bg, des, bookmark, bookmarkBG);
+                onClickPiece?.Invoke(sp);
             });
 
             pieceInfoUI.transform.SetAsFirstSibling();
