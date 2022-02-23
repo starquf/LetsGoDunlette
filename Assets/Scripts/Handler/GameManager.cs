@@ -83,6 +83,8 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public InventoryHandler inventoryHandler;
     [HideInInspector]
+    public InventoryInfoHandler invenInfoHandler;
+    [HideInInspector]
     public MapHandler mapHandler;
     [HideInInspector]
     public ShakeHandler shakeHandler;

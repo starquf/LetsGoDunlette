@@ -58,3 +58,9 @@ public enum ScrollType
     Chaos,
     Memorie
 }
+
+public enum ShowInfoRange
+{
+    Inventory,
+    Graveyard
+}
