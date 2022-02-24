@@ -29,6 +29,12 @@ public class InventoryInfoHandler : MonoBehaviour
     public Transform pieceHolderTrm;
     public GameObject pieceInfoObj;
 
+    [Header("하이라이트 관련")]
+    public CanvasGroup highlight;
+    public Text highlightText;
+
+    private Tween highlightTween;
+
     public PieceDesUIHandler desPanel;
     private InventoryHandler invenHandler;
 
@@ -40,6 +46,8 @@ public class InventoryInfoHandler : MonoBehaviour
 
     private Action<SkillPiece> onClickPiece = null;
     private ShowInfoRange currentRange = ShowInfoRange.Inventory;
+
+    public Action onCloseBtn = null;
 
     private void Awake()
     {
@@ -71,8 +79,7 @@ public class InventoryInfoHandler : MonoBehaviour
 
         closeBtn.onClick.AddListener(() =>
         {
-            desPanel.ShowPanel(false);
-            ShowInfoPanel(false);
+            CloseInventoryInfo();
         });
 
         invenHandler.onUpdateInfo += ResetInventoryInfo;
@@ -81,14 +88,31 @@ public class InventoryInfoHandler : MonoBehaviour
         cg.alpha = 0f;
     }
 
-    public void ShowInventoryInfo(string msg, ShowInfoRange showRange, Action<SkillPiece> onClickPiece = null)
+    public void ShowInventoryInfo(string msg, ShowInfoRange showRange, Action<SkillPiece> onClickPiece = null, Action onCloseBtn = null)
     {
         messageText.text = msg;
+
         this.onClickPiece = onClickPiece;
+        this.onCloseBtn = onCloseBtn;
+
         currentRange = showRange;
 
         ShowInfoPanel(true);
         ResetInventoryInfo();
+    }
+
+    public void CloseInventoryInfo()
+    {
+        onCloseBtn?.Invoke();
+
+        desPanel.ShowPanel(false);
+        ShowInfoPanel(false);
+
+        if (highlight.alpha > 0)
+        {
+            highlightTween.Kill();
+            highlightTween = highlight.DOFade(0f, 0.33f);
+        }
     }
 
     private void ResetPieceInfo()
@@ -141,6 +165,14 @@ public class InventoryInfoHandler : MonoBehaviour
     {
         SetCGEnable(enable);
         ShowCGEffect(enable);
+    }
+
+    public void ShowHighlight(string message)
+    {
+        highlightText.text = message;
+
+        highlightTween.Kill();
+        highlightTween = highlight.DOFade(1f, 0.33f);
     }
 
     private void SetCGEnable(bool enable)

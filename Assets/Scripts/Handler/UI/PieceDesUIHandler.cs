@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class PieceDesUIHandler : MonoBehaviour
 {
@@ -15,6 +17,7 @@ public class PieceDesUIHandler : MonoBehaviour
 
     [Space(10f)]
     public Button closeBtn;
+    public Button confirmBtn;
 
     private CanvasGroup cg;
     private RectTransform rect;
@@ -45,7 +48,16 @@ public class PieceDesUIHandler : MonoBehaviour
         bookmarkImg.sprite = bookmark;
         bookmarkBGImg.sprite = bookmarkBG;
 
+        confirmBtn.gameObject.SetActive(false);
+
         ShowPanel(true);
+    }
+
+    public void ShowConfirmBtn(Action onConfirm)
+    {
+        confirmBtn.gameObject.SetActive(true);
+        confirmBtn.onClick.RemoveAllListeners();
+        confirmBtn.onClick.AddListener(() => onConfirm?.Invoke());
     }
 
     public void ShowPanel(bool enable)

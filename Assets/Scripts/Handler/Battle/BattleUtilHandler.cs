@@ -44,6 +44,11 @@ public class BattleUtilHandler : MonoBehaviour
         mainRullet.GetComponent<SkillRullet>().ChangePiece(pieceIdx, skill);
     }
 
+    public void ChangeRulletPiece(int pieceIdx, SkillPiece piece)
+    {
+        mainRullet.GetComponent<SkillRullet>().ChangePiece(pieceIdx, piece);
+    }
+
     public void DrawRulletPieces()
     {
         List<RulletPiece> pieces = mainRullet.GetPieces();

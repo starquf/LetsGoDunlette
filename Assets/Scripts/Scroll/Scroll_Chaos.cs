@@ -14,7 +14,7 @@ public class Scroll_Chaos : Scroll
         scrollType = ScrollType.Chaos;
     }
 
-    public override void Use(Action onEndUse)
+    public override void Use(Action onEndUse, Action onCancelUse)
     {
         bh.mainRullet.PauseRullet();
 

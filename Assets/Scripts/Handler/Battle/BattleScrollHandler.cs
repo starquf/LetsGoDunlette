@@ -47,12 +47,17 @@ public class BattleScrollHandler : MonoBehaviour
         SetInteract(false);
         bh.stopHandler.SetInteract(false);
 
+        scroll.slot = slot;
+
         scroll.Use(() =>
+        {
+            slot.RemoveScroll();
+            bh.StartTurn();
+        },
+        () => 
         {
             bh.StartTurn();
         });
-
-        slot.RemoveScroll();
     }
 
     private void SetScroll(ScrollSlot slot, Scroll scroll)

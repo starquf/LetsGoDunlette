@@ -16,7 +16,7 @@ public class Scroll_Use : Scroll
         scrollType = ScrollType.Use;
     }
 
-    public override void Use(Action onEndUse)
+    public override void Use(Action onEndUse, Action onCancelUse)
     {
         bh.mainRullet.PauseRullet();
 
@@ -26,6 +26,7 @@ public class Scroll_Use : Scroll
             SkillPiece piece = ih.GetRandomPlayerOrEnemySkill(true);
 
             bh.CastPiece(piece);
+            slot.RemoveScroll();
         }
     }
 }

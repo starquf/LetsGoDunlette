@@ -14,7 +14,7 @@ public class Scroll_Shield : Scroll
         scrollType = ScrollType.Shield;
     }
 
-    public override void Use(Action onEndUse)
+    public override void Use(Action onEndUse, Action onCancelUse)
     {
         bh.player.AddShield(50);
 

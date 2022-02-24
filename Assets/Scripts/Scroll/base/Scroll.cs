@@ -11,10 +11,12 @@ public abstract class Scroll : MonoBehaviour
     [HideInInspector]
     public Sprite scrollIcon;
 
+    public ScrollSlot slot;
+
     private void Awake()
     {
         scrollIcon = GetComponent<Image>().sprite;
     }
 
-    public abstract void Use(Action onEndUse);
+    public abstract void Use(Action onEndUse, Action onCancelUse);
 }

@@ -14,7 +14,7 @@ public class Scroll_Heal : Scroll
         scrollType = ScrollType.Heal;
     }
 
-    public override void Use(Action onEndUse)
+    public override void Use(Action onEndUse, Action onCancelUse)
     {
         bh.player.Heal(50);
 
