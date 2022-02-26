@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using DG.Tweening;
 using System;
+using UnityEngine;
 
 public class SkillPiece : RulletPiece
 {
@@ -35,4 +32,28 @@ public class SkillPiece : RulletPiece
         // 침묵 상태인가?
         return cc.ccDic[CCType.Silence] > 0;
     }
+
+    private GameObject go;
+    private string content;
+    protected SkillPiece SetIndicator(GameObject go, string content)
+    {
+        this.go = go;
+        this.content = content;
+
+        return this;
+    }
+
+    public void OnComplete(Action action)
+    {
+        EnemyIndicator enemyIndicator = go.GetComponent<EnemyIndicator>();
+        if (enemyIndicator != null)
+        {
+            enemyIndicator.ShowText(content,action);
+        }
+        else
+        {
+            print("enemyIndicator is null!");
+        }
+    }
+
 }

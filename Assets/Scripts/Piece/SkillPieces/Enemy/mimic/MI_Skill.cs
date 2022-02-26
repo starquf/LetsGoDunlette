@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class MI_Skill : SkillPiece
@@ -24,34 +23,40 @@ public class MI_Skill : SkillPiece
 
     private void MI_Biting(LivingEntity target, Action onCastEnd = null)
     {
-        GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
-
-        target.GetDamage(20, owner.gameObject);
-        target.cc.SetCC(CCType.Wound, 5);
-
-        owner.GetComponent<EnemyIndicator>().ShowText("상처 부여");
-
-        Anim_M_Bite hitEffect = PoolManager.GetItem<Anim_M_Bite>();
-        hitEffect.transform.position = owner.transform.position;
-
-        hitEffect.Play(() =>
+        SetIndicator(owner.gameObject, "공격").OnComplete(() =>
         {
-            onCastEnd?.Invoke();
+            GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
+
+            Anim_M_Bite hitEffect = PoolManager.GetItem<Anim_M_Bite>();
+            hitEffect.transform.position = owner.transform.position;
+
+            target.GetDamage(20, owner.gameObject);
+            hitEffect.Play(() =>
+            {
+                SetIndicator(owner.gameObject, "상처부여").OnComplete(() =>
+                {
+                    target.cc.SetCC(CCType.Wound, 5);
+                    onCastEnd?.Invoke();
+                });
+            });
         });
     }
 
     private void MI_Bump(LivingEntity target, Action onCastEnd = null)
     {
-        GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.7f, 0.15f);
-
-        target.GetDamage(35, owner.gameObject);
-
-        Anim_M_Bite hitEffect = PoolManager.GetItem<Anim_M_Bite>();
-        hitEffect.transform.position = owner.transform.position;
-
-        hitEffect.Play(() =>
+        SetIndicator(owner.gameObject, "공격").OnComplete(() =>
         {
-            onCastEnd?.Invoke();
+            GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.7f, 0.15f);
+
+            target.GetDamage(35, owner.gameObject);
+
+            Anim_M_Bite hitEffect = PoolManager.GetItem<Anim_M_Bite>();
+            hitEffect.transform.position = owner.transform.position;
+
+            hitEffect.Play(() =>
+            {
+                onCastEnd?.Invoke();
+            });
         });
     }
 

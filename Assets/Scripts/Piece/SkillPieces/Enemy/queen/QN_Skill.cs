@@ -20,14 +20,10 @@ public class QN_Skill : SkillPiece
 
             if (health.gameObject != owner.gameObject)
             {
-                print("1");
-
                 QN_Authority(target, onCastEnd);
                 return;
             }
         }
-
-        print("2");
         QN_Night_Trip(target, onCastEnd);
     }
 
@@ -54,7 +50,7 @@ public class QN_Skill : SkillPiece
 
     private void QN_Authority(LivingEntity target, Action onCastEnd = null)
     {
-        //GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
+        GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
         var enemys = GameManager.Instance.battleHandler.enemys;
 

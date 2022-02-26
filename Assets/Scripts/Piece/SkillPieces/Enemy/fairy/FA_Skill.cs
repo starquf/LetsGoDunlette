@@ -24,42 +24,49 @@ public class FA_Skill : SkillPiece
 
     private void FA_Fairy_Ligtht(LivingEntity target, Action onCastEnd = null)
     {
-        GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.2f);
-
-        //전투가 끝날 때 까지 기본 공격의 피해가 5 상승한다.
-        for (int i = 0; i < owner.skills.Count; i++)
+        SetIndicator(owner.gameObject, "강화").OnComplete(() =>
         {
-            FA_Attack skill = owner.skills[i].GetComponent<FA_Attack>();
-            if (skill != null)
+            GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.2f);
+
+            //전투가 끝날 때 까지 기본 공격의 피해가 5 상승한다.
+            for (int i = 0; i < owner.skills.Count; i++)
             {
-                skill.AddValue(5);
+                FA_Attack skill = owner.skills[i].GetComponent<FA_Attack>();
+                if (skill != null)
+                {
+                    skill.AddValue(5);
+                }
             }
-        }
 
-        owner.GetComponent<EnemyIndicator>().ShowText("강화");
+            Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
+            effect.transform.position = owner.transform.position;
 
-        Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
-        effect.transform.position = owner.transform.position;
-
-        effect.Play(() =>
-        {
-            onCastEnd?.Invoke();
+            effect.Play(() =>
+            {
+                onCastEnd?.Invoke();
+            });
         });
     }
 
     private void FA_Kidding(LivingEntity target, Action onCastEnd = null)
     {
-        GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.2f);
-
-        target.GetDamage(Value, gameObject);
-        KiddingSkill();
-
-        Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
-        effect.transform.position = owner.transform.position;
-
-        effect.Play(() =>
+        SetIndicator(owner.gameObject, "공격").OnComplete(() =>
         {
-            onCastEnd?.Invoke();
+            GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.2f);
+
+            target.GetDamage(Value, gameObject);
+
+            Anim_M_Scratch effect = PoolManager.GetItem<Anim_M_Scratch>();
+            effect.transform.position = owner.transform.position;
+
+            effect.Play(() =>
+            {
+                SetIndicator(owner.gameObject, "조각변경").OnComplete(() =>
+                {
+                    KiddingSkill();
+                    onCastEnd?.Invoke();
+                });
+            });
         });
     }
 
@@ -77,8 +84,6 @@ public class FA_Skill : SkillPiece
             List<SkillPiece> usedinven = GameManager.Instance.inventoryHandler.usedSkills;
             TryFindAttackFromAndCall(usedinven, FindRandomPlayerSkillAndChangePiece);
         }
-
-        owner.GetComponent<EnemyIndicator>().ShowText("조각 변경");
     }
 
     private bool TryFindAttackFromAndCall(List<SkillPiece> list, Action<SkillPiece> action)

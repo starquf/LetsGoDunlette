@@ -23,51 +23,55 @@ public class MD_Skill : SkillPiece
 
     private void MD_Hallucinations(LivingEntity target, Action onCastEnd = null) //40% 확률로 침묵을 부여한다.
     {
-        GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-
-        Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-        effect.transform.position = owner.transform.position;
-
-        target.GetDamage(15, owner.gameObject);
-
-        effect.Play(() =>
+        SetIndicator(owner.gameObject, "공격").OnComplete(() =>
         {
-            if (Random.Range(1, 100) <= 40)
+            GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
+
+            Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
+            effect.transform.position = owner.transform.position;
+
+            target.GetDamage(15, owner.gameObject);
+
+            effect.Play(() =>
             {
-                target.cc.SetCC(CCType.Silence, 2);
+                if (Random.Range(1, 100) <= 40)
+                {
+                    SetIndicator(owner.gameObject, "침묵부여").OnComplete(() =>
+                    {
+                        target.cc.SetCC(CCType.Silence, 2);
 
-                owner.GetComponent<EnemyIndicator>().ShowText("침묵 부여");
-
-                Anim_M_Recover effect1 = PoolManager.GetItem<Anim_M_Recover>();
-                effect1.transform.position = owner.transform.position;
-                effect1.Play(() =>
+                        Anim_M_Recover effect1 = PoolManager.GetItem<Anim_M_Recover>();
+                        effect1.transform.position = owner.transform.position;
+                        effect1.Play(() =>
+                        {
+                            onCastEnd?.Invoke();
+                        });
+                    });
+                }
+                else
                 {
                     onCastEnd?.Invoke();
-                });
-            }
-            else
-            {
-                onCastEnd?.Invoke();
-            }
+                }
+            });
         });
-
-
-
     }
 
     private void MD_Scream(LivingEntity target, Action onCastEnd = null)
     {
-        GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-
-        Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-        effect.transform.position = owner.transform.position;
-
-        effect.Play(() =>
+        SetIndicator(owner.gameObject, "공격").OnComplete(() =>
         {
-            onCastEnd?.Invoke();
-        });
+            GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
-        target.GetDamage(35, owner.gameObject);
+            Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
+            effect.transform.position = owner.transform.position;
+
+            effect.Play(() =>
+            {
+                onCastEnd?.Invoke();
+            });
+
+            target.GetDamage(35, owner.gameObject);
+        });
     }
 
 
