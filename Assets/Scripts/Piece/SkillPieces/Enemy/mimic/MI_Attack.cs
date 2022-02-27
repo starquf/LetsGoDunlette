@@ -14,42 +14,17 @@ public class MI_Attack : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        print($"적 스킬 발동!! 이름 : {PieceName}");
-        GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
-
-        Vector3 targetPos = target.transform.position;
-        Vector3 startPos = skillImg.transform.position;
-
-        for (int i = 0; i < 3; i++)
+        SetIndicator(owner.gameObject, "공격").OnComplete(() =>
         {
-            EffectObj attackObj = PoolManager.GetItem<EffectObj>();
-            attackObj.transform.position = startPos;
+            target.GetDamage(Value, owner.gameObject);
+            GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
+            Anim_M_Bite hitEffect = PoolManager.GetItem<Anim_M_Bite>();
+            hitEffect.transform.position = owner.transform.position;
 
-            int a = i;
-
-            attackObj.Play(targetPos, () =>
+            hitEffect.Play(() =>
             {
-                attackObj.Sr.DOFade(0f, 0.1f)
-                    .OnComplete(() =>
-                    {
-                        attackObj.EndEffect();
-                    });
-
-                GameManager.Instance.cameraHandler.ShakeCamera(0.25f, 0.2f);
-
-                if (a == 2)
-                    onCastEnd?.Invoke();
-            }
-            , BezierType.Cubic, i * 0.1f);
-        }
-
-        target.GetDamage(Value, owner.gameObject);
-
-        Anim_M_Bite hitEffect = PoolManager.GetItem<Anim_M_Bite>();
-        hitEffect.transform.position = owner.transform.position;
-
-        hitEffect.Play(() =>
-        {
+                onCastEnd?.Invoke();
+            });
         });
     }
 }

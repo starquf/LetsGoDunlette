@@ -24,54 +24,52 @@ public class NL_Skill : SkillPiece
 
     private void NL_Poison_Dagger(LivingEntity target, Action onCastEnd = null) //상처를 부여해서 2턴 동안 10의 피해를 입힌다..
     {
-        GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-
-        Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-        effect.transform.position = owner.transform.position;
-
-        target.cc.SetCC(CCType.Wound, 2);
-
-        owner.GetComponent<EnemyIndicator>().ShowText("상처 부여");
-
-        target.GetDamage(20 + addAdditionalDamage, owner.gameObject);
-
-
-        effect.Play(() =>
+        SetIndicator(owner.gameObject, "공격").OnComplete(() =>
         {
-            onCastEnd?.Invoke();
+            GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
+            Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
+            effect.transform.position = owner.transform.position;
+
+            target.GetDamage(20 + addAdditionalDamage, owner.gameObject);
+
+            effect.Play(() =>
+            {
+                SetIndicator(owner.gameObject, "상처부여").OnComplete(() =>
+                {
+                    target.cc.SetCC(CCType.Wound, 2);
+                    onCastEnd?.Invoke();
+                });
+            });
         });
-
-
-
     }
 
     private void NL_Mark(LivingEntity target, Action onCastEnd = null) //놀의 모든 공격의 피해가 5 상승한다. 상처 제외
     {
-        GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-
-        Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-        effect.transform.position = owner.transform.position;
-
-        effect.Play(() =>
+        SetIndicator(owner.gameObject, "강화").OnComplete(() =>
         {
-            onCastEnd?.Invoke();
-        });
+            GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
-        addAdditionalDamage += 5;
+            Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
+            effect.transform.position = owner.transform.position;
 
-        for (int i = 0; i < owner.skills.Count; i++)
-        {
-            NL_Attack skill = owner.skills[i].GetComponent<NL_Attack>();
-            if (skill != null)
+            effect.Play(() =>
             {
-                skill.AddValue(5);
+                onCastEnd?.Invoke();
+            });
 
-                // break; // 1개 라고 가정함
+            addAdditionalDamage += 5;
+
+            for (int i = 0; i < owner.skills.Count; i++)
+            {
+                NL_Attack skill = owner.skills[i].GetComponent<NL_Attack>();
+                if (skill != null)
+                {
+                    skill.AddValue(5);
+
+                    // break; // 1개 라고 가정함
+                }
             }
-        }
-        owner.GetComponent<EnemyIndicator>().ShowText("강화");
-
-
+        });
     }
 
 

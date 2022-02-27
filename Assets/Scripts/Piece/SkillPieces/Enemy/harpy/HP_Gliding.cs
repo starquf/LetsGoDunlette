@@ -13,17 +13,21 @@ public class HP_Gliding : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-
-        Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-        effect.transform.position = owner.transform.position;
-
-        effect.Play(() =>
+        SetIndicator(owner.gameObject, "할퀴기 추가").OnComplete(() =>
         {
-            onCastEnd?.Invoke();
+            GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
+            Anim_M_Sword hitEffect = PoolManager.GetItem<Anim_M_Sword>();
+            hitEffect.transform.position = owner.transform.position;
+
+            hitEffect.Play(() =>
+            {
+                onCastEnd?.Invoke();
+            });
+
+            GlidingSkill();
+
         });
 
-        GlidingSkill();
     }
 
     //스킬 부분
@@ -35,6 +39,5 @@ public class HP_Gliding : SkillPiece
         {
             GameManager.Instance.inventoryHandler.CreateSkill(scratchingSkill, owner1);
         }
-        owner.GetComponent<EnemyIndicator>().ShowText("할퀴기 추가");
     }
 }

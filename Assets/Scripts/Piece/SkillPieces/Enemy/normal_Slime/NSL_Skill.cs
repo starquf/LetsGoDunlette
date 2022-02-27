@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class NSL_Skill : SkillPiece
@@ -24,33 +23,37 @@ public class NSL_Skill : SkillPiece
 
     private void NSl_Recover(LivingEntity target, Action onCastEnd = null)
     {
-        GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
-
-        Vector3 targetPos = owner.transform.position;
-
-        Anim_M_Recover recoverEffect = PoolManager.GetItem<Anim_M_Recover>();
-        recoverEffect.transform.position = targetPos;
-
-        recoverEffect.Play(() =>
+        SetIndicator(owner.gameObject, "회복").OnComplete(() =>
         {
-            onCastEnd?.Invoke();
-        });
+            GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
-        owner.GetComponent<EnemyHealth>().Heal(30);
+            Anim_M_Recover recoverEffect = PoolManager.GetItem<Anim_M_Recover>();
+            recoverEffect.transform.position = owner.transform.position;
+
+            recoverEffect.Play(() =>
+            {
+                onCastEnd?.Invoke();
+            });
+
+            owner.GetComponent<EnemyHealth>().Heal(30);
+        });
     }
 
     private void NSL_Bounce(LivingEntity target, Action onCastEnd = null)
     {
-        GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
-
-        target.GetDamage(30, owner.gameObject);
-
-        Anim_M_Butt hitEffect = PoolManager.GetItem<Anim_M_Butt>();
-        hitEffect.transform.position = owner.transform.position;
-
-        hitEffect.Play(() =>
+        SetIndicator(owner.gameObject, "공격").OnComplete(() =>
         {
-            onCastEnd?.Invoke();
+            GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
+
+            target.GetDamage(30, owner.gameObject);
+
+            Anim_M_Butt hitEffect = PoolManager.GetItem<Anim_M_Butt>();
+            hitEffect.transform.position = owner.transform.position;
+
+            hitEffect.Play(() =>
+            {
+                onCastEnd?.Invoke();
+            });
         });
     }
 

@@ -24,34 +24,40 @@ public class KB_Skill : SkillPiece
 
     private void KB_Pickpocket(LivingEntity target, Action onCastEnd = null) //플레이어에게서 10골드를 훔친다.
     {
-        GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-
-        Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-        effect.transform.position = owner.transform.position;
-
-        target.GetDamage(10, owner.gameObject);
-
-        effect.Play(() =>
+        SetIndicator(owner.gameObject, "공격").OnComplete(() =>
         {
-            onCastEnd?.Invoke();
-        });
+            GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
-        //골드 훔치는 루틴
-        stolenGolds += GameManager.Instance.TryStillGold(10);
+            Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
+            effect.transform.position = owner.transform.position;
+
+            target.GetDamage(10, owner.gameObject);
+
+            effect.Play(() =>
+            {
+                onCastEnd?.Invoke();
+            });
+
+            //골드 훔치는 루틴
+            stolenGolds += GameManager.Instance.TryStillGold(10);
+        });
     }
 
     private void KB_Transform(LivingEntity target, Action onCastEnd = null) //이번 전투에서 플레이어에게서 훔친 골드만큼 데미지를 준다.
     {
-        GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-
-        Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-        effect.transform.position = owner.transform.position;
-
-        target.GetDamage(stolenGolds, owner.gameObject);
-
-        effect.Play(() =>
+        SetIndicator(owner.gameObject, "공격").OnComplete(() =>
         {
-            onCastEnd?.Invoke();
+            GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
+
+            Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
+            effect.transform.position = owner.transform.position;
+
+            target.GetDamage(stolenGolds, owner.gameObject);
+
+            effect.Play(() =>
+            {
+                onCastEnd?.Invoke();
+            });
         });
     }
 

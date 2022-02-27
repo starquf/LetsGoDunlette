@@ -14,16 +14,17 @@ public class HP_Scratching : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-
-        Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-        effect.transform.position = owner.transform.position;
-
-        target.GetDamage(Value, owner.gameObject);
-
-        effect.Play(() =>
+        SetIndicator(owner.gameObject, "АјАн").OnComplete(() =>
         {
-            onCastEnd?.Invoke();
+            target.GetDamage(Value, owner.gameObject);
+            GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
+            Anim_M_Sword hitEffect = PoolManager.GetItem<Anim_M_Sword>();
+            hitEffect.transform.position = owner.transform.position;
+
+            hitEffect.Play(() =>
+            {
+                onCastEnd?.Invoke();
+            });
         });
     }
 }
