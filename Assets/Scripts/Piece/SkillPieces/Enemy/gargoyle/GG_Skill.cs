@@ -21,18 +21,20 @@ public class GG_Skill : SkillPiece
         }
     }
 
-    private void GG_Beat(LivingEntity target, Action onCastEnd = null) 
+    private void GG_Beat(LivingEntity target, Action onCastEnd = null)
     {
-        GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-
-        Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-        effect.transform.position = owner.transform.position;
-
-        target.GetDamage(30, owner.gameObject);
-
-        effect.Play(() =>
+        SetIndicator(owner.gameObject, "공격").OnComplete(() =>
         {
-            onCastEnd?.Invoke();
+            GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
+            target.GetDamage(30, owner.gameObject);
+
+            Anim_M_Sword hitEffect = PoolManager.GetItem<Anim_M_Sword>();
+            hitEffect.transform.position = owner.transform.position;
+
+            hitEffect.Play(() =>
+            {
+                onCastEnd?.Invoke();
+            });
         });
 
 
@@ -41,17 +43,21 @@ public class GG_Skill : SkillPiece
 
     private void GG_Recover(LivingEntity target, Action onCastEnd = null) //자신의 체력을 30만큼 회복한다.
     {
-        GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-
-        Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
-        effect.transform.position = owner.transform.position;
-
-        effect.Play(() =>
+        SetIndicator(owner.gameObject, "공격").OnComplete(() =>
         {
-            onCastEnd?.Invoke();
+            GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
+
+            owner.GetComponent<EnemyHealth>().Heal(30);
+
+            Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
+            effect.transform.position = owner.transform.position;
+
+            effect.Play(() =>
+            {
+                onCastEnd?.Invoke();
+            });
         });
 
-        owner.GetComponent<EnemyHealth>().Heal(30);
     }
 
 
