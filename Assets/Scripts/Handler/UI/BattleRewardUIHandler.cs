@@ -98,13 +98,25 @@ public class BattleRewardUIHandler : MonoBehaviour
     public void ShowWinEffect(Action onShowEnd)
     {
         AllBtnHandle(false);
-        float moveX = 0 - battleWinTextImgTrm.transform.position.x;
+        //float moveX = 0 - battleWinTextImgTrm.transform.position.x;
+
+        Image battleWinTextImg = battleWinTextImgTrm.GetComponent<Image>();
+        battleWinTextImg.color = new Color(1f, 1f, 1f, 0f);
+
+        battleWinTextImgTrm.localPosition = new Vector3(0f, 200f);
+
         ShowPanel(allCvsGroup, true, () =>
         {
             winShowSequence = DOTween.Sequence()
-                .Append(battleWinTextImgTrm.DOMoveX(0, 1f))
-                .Append(battleWinTextImgTrm.DOMoveX(moveX, 0.9f).SetDelay(0.5f))
-                .OnComplete(()=> { battleWinTextImgTrm.transform.position += (Vector3.left * moveX * 2); ShowPanel(rewardCvsGroup, true); onShowEnd(); });
+                .AppendInterval(0.15f)
+                .Append(battleWinTextImg.DOFade(1f, 0.8f))
+                .AppendInterval(0.6f)
+                .Append(battleWinTextImgTrm.DOLocalMoveY(1150f, 0.8f))
+                .OnComplete(()=> { 
+                    rewardCvsGroup.transform.DOLocalMoveY(1000f, 0.9f).From().SetEase(Ease.OutBounce);
+                    ShowPanel(rewardCvsGroup, true); 
+                    onShowEnd(); 
+                });
         });
     }
 

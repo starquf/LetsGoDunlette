@@ -24,7 +24,7 @@ public class EnemyIndicator : MonoBehaviour
         indiText.transform.localPosition = new Vector2(0f, (indicatorList.Count + 1) * indiText.rectTransform.rect.height);
         indiText.transform.DOLocalMoveY(-100f, 0.5f)
             .From(true);
-        GameManager.Instance.battleHandler.battleUtil.SetTimer(1.0f, action);
+        GameManager.Instance.battleHandler.battleUtil.SetTimer(0.5f, action);
 
         indicatorList.Add(indiText);
     }

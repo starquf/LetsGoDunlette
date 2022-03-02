@@ -81,7 +81,7 @@ public class InventoryHandler : MonoBehaviour
             .SetDelay(0.5f);
 
         skill.transform.DOMove(transform.position, 0.5f)
-            .SetDelay(0.5f)
+            .SetDelay(0.24f)
             .OnComplete(() =>
             {
                 skill.gameObject.SetActive(false);
