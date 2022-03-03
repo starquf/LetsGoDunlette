@@ -18,6 +18,8 @@ public class BattleRewardUIHandler : MonoBehaviour
     [SerializeField] private Text rewardBtnText;
     [SerializeField] private Text rewardSkipBtnText;
 
+    [SerializeField] private List<ParticleSystem> fireworks = new List<ParticleSystem>();
+
     [Header("Ä«µå UI")]
     public Image cardBG;
     public Text cardNameText;
@@ -110,8 +112,15 @@ public class BattleRewardUIHandler : MonoBehaviour
             winShowSequence = DOTween.Sequence()
                 .AppendInterval(0.15f)
                 .Append(battleWinTextImg.DOFade(1f, 0.8f))
+                .InsertCallback(0.5f, () => {
+                    for (int i = 0; i < fireworks.Count; i++)
+                    {
+                        fireworks[i].Play();
+                    }
+                })
                 .AppendInterval(0.6f)
                 .Append(battleWinTextImgTrm.DOLocalMoveY(1150f, 0.8f))
+                .Join(battleWinTextImg.DOFade(0f, 0.5f))
                 .OnComplete(()=> { 
                     rewardCvsGroup.transform.DOLocalMoveY(1000f, 0.9f).From().SetEase(Ease.OutBounce);
                     ShowPanel(rewardCvsGroup, true); 
