@@ -382,14 +382,14 @@ public class BattleHandler : MonoBehaviour
         ccHandler.CheckCC(CCType.Wound);
 
         // 적이 전부 죽었는가?
-        if (CheckEnemyDie())
+        if (battleUtil.CheckEnemyDie(enemys))
         {
             battleUtil.SetPieceToInventory(result);
 
             BattleEnd();
             yield break;
         }
-        else if(CheckPlayerDie())
+        else if(battleUtil.CheckDie(player))
         {
             battleUtil.SetPieceToInventory(result);
 
@@ -414,7 +414,7 @@ public class BattleHandler : MonoBehaviour
             yield return null;
             battleUtil.ResetRullet();
 
-            if (CheckPlayerDie())
+            if (battleUtil.CheckDie(player))
             {
                 BattleEnd(false);
                 yield break;
@@ -428,7 +428,7 @@ public class BattleHandler : MonoBehaviour
             yield return null;
             battleUtil.ResetRullet();
 
-            if (CheckEnemyDie())
+            if (battleUtil.CheckEnemyDie(enemys))
             {
                 BattleEnd();
                 yield break;
@@ -439,24 +439,6 @@ public class BattleHandler : MonoBehaviour
 
         // 다음턴으로
         InitTurn();
-    }
-
-    private bool CheckPlayerDie()
-    {
-        return player.IsDie;
-    }
-
-    private bool CheckEnemyDie()
-    {
-        for (int i = 0; i < enemys.Count; i++)
-        {
-            if (!enemys[i].IsDie)
-            {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     // 전투가 끝날 때
@@ -512,14 +494,33 @@ public class BattleHandler : MonoBehaviour
             // 플레이어 스킬이라면
             if (piece.isPlayerSkill)
             {
-                battleTargetSelector.SelectTarget(target => {
-                    piece.Cast(target, () =>
-                    {
-                        StartCoroutine(EndTurn());
-                    });
+                List<EnemyHealth> livingEnemys = battleUtil.CheckLivingEnemy(enemys);
 
-                    castUIHandler.EndCast(piece);
-                });
+                // 적이 한명 이하라면
+                if (livingEnemys.Count <= 1)
+                {
+                    onShowCast = () =>
+                    {
+                        piece.Cast(livingEnemys[0], () =>
+                        {
+                            StartCoroutine(EndTurn());
+                        });
+
+                        castUIHandler.EndCast(piece);
+                    };
+                }
+                else
+                {
+                    battleTargetSelector.SelectTarget(target =>
+                    {
+                        piece.Cast(target, () =>
+                        {
+                            StartCoroutine(EndTurn());
+                        });
+
+                        castUIHandler.EndCast(piece);
+                    });
+                }
 
                 mainRullet.speedWeight += 50f;
             }
