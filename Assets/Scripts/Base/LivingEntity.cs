@@ -196,25 +196,36 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     {
         hpText.text = $"{hp}/{maxHp}";
 
-        DOTween.To(() => hpBar.fillAmount, x => hpBar.fillAmount = x, (float)hp / curMaxHp, 0.33f);
-        DOTween.To(() => hpShieldBar.fillAmount, x => hpShieldBar.fillAmount = x, ((float)hp + shieldHp) / curMaxHp, 0.33f).OnComplete(() =>
-        {
-            DOTween.To(() => hpBarAfterImageBar.fillAmount, x => hpBarAfterImageBar.fillAmount = x, (float)hp / curMaxHp, 0.33f);
-        });
-
         if (hp == maxHp)
         {
+            DOTween.To(() => hpBar.fillAmount, x => hpBar.fillAmount = x, (float)hp / curMaxHp, 0.33f);
+            DOTween.To(() => hpShieldBar.fillAmount, x => hpShieldBar.fillAmount = x, ((float)hp + shieldHp) / curMaxHp, 0.33f).OnComplete(() =>
+            {
+                DOTween.To(() => hpBarAfterImageBar.fillAmount, x => hpBarAfterImageBar.fillAmount = x, (float)hp / curMaxHp, 0.33f);
+            });
         }
         else if (hp + shieldHp > maxHp)
         {
             float max = hp + shieldHp;
             //hpBar.DOScaleX((float)hp / max, 0.33f);
             //hpShieldBar.DOScaleX((float)shieldHp / max, 0.33f);
+
+            DOTween.To(() => hpBar.fillAmount, x => hpBar.fillAmount = x, (float)hp / max, 0.33f);
+            DOTween.To(() => hpShieldBar.fillAmount, x => hpShieldBar.fillAmount = x, ((float)hp + shieldHp) / max, 0.33f).OnComplete(() =>
+            {
+                DOTween.To(() => hpBarAfterImageBar.fillAmount, x => hpBarAfterImageBar.fillAmount = x, (float)hp / max, 0.33f);
+            });
         }
         else
         {
             //hpBar.DOScaleX((float)hp / maxHp, 0.33f);
             //hpShieldBar.DOScaleX((float)shieldHp / maxHp, 0.33f);
+            DOTween.To(() => hpBar.fillAmount, x => hpBar.fillAmount = x, (float)hp / maxHp, 0.33f);
+            DOTween.To(() => hpShieldBar.fillAmount, x => hpShieldBar.fillAmount = x, ((float)hp + shieldHp) / maxHp, 0.33f).OnComplete(() =>
+            {
+                DOTween.To(() => hpBarAfterImageBar.fillAmount, x => hpBarAfterImageBar.fillAmount = x, (float)hp / maxHp, 0.33f);
+            });
+
         }
     }
 
