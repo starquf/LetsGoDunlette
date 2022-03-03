@@ -62,6 +62,8 @@ public class BattleHandler : MonoBehaviour
     public event Action<RulletPiece> onNextAttack;
     private event Action<RulletPiece> nextAttack;
 
+    public event Action onEndTurn;
+
     //==================================================
 
     #region WaitSeconds
@@ -367,6 +369,8 @@ public class BattleHandler : MonoBehaviour
     // 실행이 전부 끝나면 실행되는 코루틴
     private IEnumerator EndTurn()
     {
+        onEndTurn?.Invoke();
+
         // 다음 공격 체크하는 스킬들이 발동되는 타이밍
         nextAttack?.Invoke(result);
 
