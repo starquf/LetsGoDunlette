@@ -105,4 +105,37 @@ public class BattleUtilHandler : MonoBehaviour
 
         onEndWait?.Invoke();
     }
+
+    public bool CheckDie(LivingEntity player)
+    {
+        return player.IsDie;
+    }
+
+    public bool CheckEnemyDie(List<EnemyHealth> enemys)
+    {
+        for (int i = 0; i < enemys.Count; i++)
+        {
+            if (!enemys[i].IsDie)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public List<EnemyHealth> CheckLivingEnemy(List<EnemyHealth> enemys)
+    {
+        List<EnemyHealth> livingEnemys = new List<EnemyHealth>();
+
+        for (int i = 0; i < enemys.Count; i++)
+        {
+            if (!enemys[i].IsDie)
+            {
+                livingEnemys.Add(enemys[i]);
+            }
+        }
+
+        return livingEnemys;
+    }
 }
