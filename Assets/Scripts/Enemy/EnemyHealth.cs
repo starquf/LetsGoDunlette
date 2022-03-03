@@ -46,11 +46,12 @@ public class EnemyHealth : LivingEntity
         onDieAction = () =>
         {
             ShowDieEffect();
-            bh.onEndTurn -= onDieAction;
+            bh.onEndAttack -= onDieAction;
         };
 
-        bh.onEndTurn += onDieAction;
+        bh.onEndAttack += onDieAction;
 
+        GameManager.Instance.inventoryHandler.RemoveAllOwnerPiece(GetComponent<Inventory>());
         coll.enabled = false;
     }
 
@@ -59,8 +60,6 @@ public class EnemyHealth : LivingEntity
         sr.DOFade(0f, 1f)
             .SetEase(Ease.Linear)
             .OnComplete(() => gameObject.SetActive(false));
-
-        GameManager.Instance.inventoryHandler.RemoveAllOwnerPiece(GetComponent<Inventory>());
     }
 
     public override void Revive()
