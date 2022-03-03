@@ -24,7 +24,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     protected bool isDie = false;
     public bool IsDie => isDie;
 
-    private BattleHandler bh;
+    protected BattleHandler bh;
 
     public PatternType weaknessType;
 
@@ -92,6 +92,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
             Die();
         }
+
         Anim_TextUp damageTextEffect = PoolManager.GetItem<Anim_TextUp>();
         damageTextEffect.SetType(TextUpAnimType.Damage);
         damageTextEffect.transform.position = transform.position;
