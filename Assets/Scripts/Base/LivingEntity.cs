@@ -5,8 +5,9 @@ using UnityEngine.UI;
 public abstract class LivingEntity : MonoBehaviour, IDamageable
 {
     // 이거 나중에 클래스로 뺴줘요
-    public Transform hpBar;
-    public Transform hpShieldBar;
+    public Image hpBar;
+    public Image hpBarAfterImageBar;
+    public Image hpShieldBar;
     public Text hpText;
 
     public Transform damageTrans;
@@ -40,7 +41,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     {
         hp = maxHp;
         shieldHp = 0;
-        SetHpText();
+        SetHPBar();
 
         bh = GameManager.Instance.battleHandler;
         damageImg = damageTrans.GetComponent<Image>();
@@ -83,7 +84,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
             hp -= damage;
         }
 
-        SetHpText();
+        SetHPBar();
 
         if (hp <= 0)
         {
@@ -154,7 +155,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         damageTextEffect.Play(damage.ToString());
 
         SetDamageEffect();
-        SetHpText();
+        SetHPBar();
     }
 
     public virtual void Heal(int value) //value 만큼 회복합니다.
@@ -162,7 +163,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         hp += value;
         hp = Mathf.Clamp(hp, 0, maxHp);
 
-        SetHpText();
+        SetHPBar();
     }
 
     private void SetDamageEffect()
@@ -180,7 +181,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         cc.IncreaseBuff(BuffType.Shield, value);
 
         shieldHp += value;
-        SetHpText();
+        SetHPBar();
     }
 
     public virtual void Revive()
@@ -188,29 +189,32 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         isDie = false;
         hp = maxHp;
 
-        SetHpText();
-
-        hpBar.DOScaleX(1f, 0.33f);
+        SetHPBar();
     }
 
-    protected virtual void SetHpText()
+    protected virtual void SetHPBar()
     {
         hpText.text = $"{hp}/{maxHp}";
+
+        DOTween.To(() => hpBar.fillAmount, x => hpBar.fillAmount = x, (float)hp / curMaxHp, 0.33f);
+        DOTween.To(() => hpShieldBar.fillAmount, x => hpShieldBar.fillAmount = x, ((float)hp + shieldHp) / curMaxHp, 0.33f).OnComplete(() =>
+        {
+            DOTween.To(() => hpBarAfterImageBar.fillAmount, x => hpBarAfterImageBar.fillAmount = x, (float)hp / curMaxHp, 0.33f);
+        });
+
         if (hp == maxHp)
         {
-            hpBar.DOScaleX((float)hp / curMaxHp, 0.33f);
-            hpShieldBar.DOScaleX((float)shieldHp / curMaxHp, 0.33f);
         }
         else if (hp + shieldHp > maxHp)
         {
             float max = hp + shieldHp;
-            hpBar.DOScaleX((float)hp / max, 0.33f);
-            hpShieldBar.DOScaleX((float)shieldHp / max, 0.33f);
+            //hpBar.DOScaleX((float)hp / max, 0.33f);
+            //hpShieldBar.DOScaleX((float)shieldHp / max, 0.33f);
         }
         else
         {
-            hpBar.DOScaleX((float)hp / maxHp, 0.33f);
-            hpShieldBar.DOScaleX((float)shieldHp / maxHp, 0.33f);
+            //hpBar.DOScaleX((float)hp / maxHp, 0.33f);
+            //hpShieldBar.DOScaleX((float)shieldHp / maxHp, 0.33f);
         }
     }
 
