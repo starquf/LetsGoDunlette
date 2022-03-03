@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using System;
 
 public class EnemyHealth : LivingEntity
 {
@@ -34,20 +35,30 @@ public class EnemyHealth : LivingEntity
     {
         base.GetDamage(damage);
 
-        if (!isDie)
-        {
-            sr.color = Color.red;
-            sr.DOColor(Color.white, 0.55f);
-        }
+        sr.color = Color.red;
+        sr.DOColor(Color.white, 0.35f);
     }
 
     protected override void Die()
     {
+        Action onDieAction = () => { };
+
+        onDieAction = () =>
+        {
+            ShowDieEffect();
+            bh.onEndTurn -= onDieAction;
+        };
+
+        bh.onEndTurn += onDieAction;
+
+        coll.enabled = false;
+    }
+
+    public virtual void ShowDieEffect()
+    {
         sr.DOFade(0f, 1f)
             .SetEase(Ease.Linear)
             .OnComplete(() => gameObject.SetActive(false));
-
-        coll.enabled = false;
 
         GameManager.Instance.inventoryHandler.RemoveAllOwnerPiece(GetComponent<Inventory>());
     }
