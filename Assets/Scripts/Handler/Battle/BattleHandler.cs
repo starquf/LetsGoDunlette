@@ -523,8 +523,6 @@ public class BattleHandler : MonoBehaviour
                         castUIHandler.EndCast(piece);
                     });
                 }
-
-                mainRullet.speedWeight += 50f;
             }
             else
             {
@@ -536,9 +534,9 @@ public class BattleHandler : MonoBehaviour
                         StartCoroutine(EndTurn());
                     });
                 };
-
-                mainRullet.speedWeight = 0f;
             }
+
+            mainRullet.speedWeight += 20f;
 
             castUIHandler.ShowCasting(piece, onShowCast);
         }

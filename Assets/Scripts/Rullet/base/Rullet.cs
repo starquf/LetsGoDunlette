@@ -149,6 +149,8 @@ public abstract class Rullet : MonoBehaviour
         if(timeCor != null)
             StopCoroutine(timeCor);
 
+        timeText.text = "";
+
         isRoll = false;
     }
 
@@ -158,6 +160,8 @@ public abstract class Rullet : MonoBehaviour
 
         if (timeCor != null)
             StopCoroutine(timeCor);
+
+        timeText.text = "";
     }
 
     public void ReRoll()
