@@ -37,7 +37,7 @@ public class StopSliderHandler : MonoBehaviour
     public void Init(Rullet rullet, Action<RulletPiece, int> onStopRullet, Action onStartStop = null)
     {
         this.rullet = rullet;
-        this.onStopRullet = onStopRullet;
+        rullet.onResult = onStopRullet;
         this.onStartStop = onStartStop;
     }
 
@@ -45,7 +45,7 @@ public class StopSliderHandler : MonoBehaviour
     {
         isStopped = true;
 
-        rullet.StopRullet(onStopRullet);
+        rullet.StopRullet();
     }
 
     public void SetInteract(bool enable)

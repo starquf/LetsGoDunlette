@@ -94,19 +94,22 @@ public class BattleRewardHandler : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
 
-        rullet.RollRullet();
+        rullet.RollRullet(false);
         yield return new WaitForSeconds(2f);
 
         bool isRulletStop = false;
         // ·ê·¿ ¸ØÃç¼­ °á°ú ¹Þ¾Æ¿À´Â°Å
-        rullet.StopRullet((result, pieceIdx) =>
+
+        rullet.onResult = (result, pieceIdx) =>
         {
             rullet.HighlightResult();
 
             rewardResult = result as SkillPiece;
             rewardResultIdx = pieceIdx;
             isRulletStop = true;
-        });
+        };
+
+        rullet.StopRullet();
 
         yield return new WaitUntil(() => isRulletStop);
         List<RulletPiece> rulletPieces = rullet.GetPieces();

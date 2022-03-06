@@ -10,7 +10,7 @@ public abstract class Rullet : MonoBehaviour
     protected List<RulletPiece> pieces = new List<RulletPiece>();
     protected RulletPiece result;
 
-    protected Action<RulletPiece, int> onResult;
+    public Action<RulletPiece, int> onResult;
 
     protected int maxSize = 36;
 
@@ -25,10 +25,14 @@ public abstract class Rullet : MonoBehaviour
     public float speedWeight = 0f;
 
     protected Coroutine rollCor;
+    protected Coroutine timeCor;
     protected Tween fillTween;
 
     //public Transform pinTrans;
     public Text speedText;
+    public Text timeText;
+
+    protected WaitForSeconds oneSecWait = new WaitForSeconds(1f);
 
     protected virtual void Start()
     {
@@ -121,7 +125,7 @@ public abstract class Rullet : MonoBehaviour
         }
     }
 
-    public virtual void RollRullet()
+    public virtual void RollRullet(bool hasTimer = true, int time = 10)
     {
         if (isRoll) return;
 
@@ -129,7 +133,12 @@ public abstract class Rullet : MonoBehaviour
         isRoll = true;
         isStop = false;
 
+        timeText.text = "";
+
         rollCor = StartCoroutine(Roll());
+
+        if(hasTimer)
+            timeCor = StartCoroutine(Timer(time));
     }
 
     public virtual void PauseRullet()
@@ -137,14 +146,18 @@ public abstract class Rullet : MonoBehaviour
         if (rollCor != null)
             StopCoroutine(rollCor);
 
+        if(timeCor != null)
+            StopCoroutine(timeCor);
+
         isRoll = false;
     }
 
-    public void StopRullet(Action<RulletPiece, int> onResult)
+    public void StopRullet()
     {
         isStop = true;
 
-        this.onResult = onResult;
+        if (timeCor != null)
+            StopCoroutine(timeCor);
     }
 
     public void ReRoll()
@@ -179,6 +192,29 @@ public abstract class Rullet : MonoBehaviour
         isRoll = false;
 
         RulletResult(onResult);
+    }
+
+    protected virtual IEnumerator Timer(int time)
+    {
+        for (int i = time; i > 0; i--)
+        {
+            timeText.text = i.ToString();
+
+            if (i < 4)
+            {
+                timeText.color = Color.red;
+            }
+            else
+            {
+                timeText.color = Color.white;
+            }
+
+            yield return oneSecWait;
+        }
+
+        timeText.text = "";
+
+        isStop = true;
     }
 
     protected virtual void RulletResult(Action<RulletPiece, int> onResult)
