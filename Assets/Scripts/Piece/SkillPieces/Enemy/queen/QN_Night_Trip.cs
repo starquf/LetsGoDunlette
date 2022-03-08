@@ -48,7 +48,7 @@ public class QN_Night_Trip : SkillPiece
         // 旋 持失
         for (int i = 0; i < value; i++)
         {
-            GameManager.Instance.battleHandler.CreateEnemy(dependent);
+            //GameManager.Instance.battleHandler.CreateEnemy(dependent);
         }
         owner.GetComponent<EnemyIndicator>().ShowText("社発");
     }

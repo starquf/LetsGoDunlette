@@ -116,11 +116,24 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     public virtual void GetDamage(int damage, GameObject owner) // 적 전용임
     {
+        Vector3 size = owner.transform.localScale;
+        SpriteRenderer sr = owner.GetComponent<SpriteRenderer>();
+
         DOTween.Sequence()
-            .Append(owner.transform.DOScale(Vector3.one * 3f, 0.15f))
+            .AppendCallback(() => 
+            {
+                sr.sortingLayerID = SortingLayer.NameToID("Effect");
+                sr.sortingOrder = -1;
+            })
+            .Append(owner.transform.DOScale(size * 2f, 0.15f))
             .Insert(0.1f, owner.transform.DOShakePosition(0.3f, 0.25f, 50, 90f))
             //.AppendInterval(0.3f)
-            .Append(owner.transform.DOScale(Vector3.one * 2f, 0.5f));
+            .Append(owner.transform.DOScale(size, 0.5f))
+            .AppendCallback(() =>
+            {
+                sr.sortingLayerID = SortingLayer.NameToID("Default");
+                sr.sortingOrder = 1;
+            });
 
         GetDamage(damage);
     }

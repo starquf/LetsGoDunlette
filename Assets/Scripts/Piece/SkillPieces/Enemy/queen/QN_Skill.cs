@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -29,13 +30,23 @@ public class QN_Skill : SkillPiece
 
     private void QN_Night_Trip(LivingEntity target, Action onCastEnd = null)
     {
-       GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
+        GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
+
+        List<EnemyHealth> dependents = new List<EnemyHealth>();
+
+        print(owner.GetComponent<Queen_Info>() != null);
+        EnemyHealth dependentObj = owner.GetComponent<Queen_Info>().dependentObj;
 
         // 旋 持失
-        for (int i = 0; i < value; i++)
+        for (int i = 0; i < 2; i++)
         {
-            //GameManager.Instance.battleHandler.CreateEnemy(dependent);
+            dependents.Add(dependentObj);
         }
+
+        GameManager.Instance.battleHandler.CreateEnemy(dependents, () =>
+        {
+            onCastEnd?.Invoke();
+        });
 
         owner.GetComponent<EnemyIndicator>().ShowText("社発");
 
@@ -44,7 +55,7 @@ public class QN_Skill : SkillPiece
 
         effect.Play(() =>
         {
-            onCastEnd?.Invoke();
+            
         });
     }
 
