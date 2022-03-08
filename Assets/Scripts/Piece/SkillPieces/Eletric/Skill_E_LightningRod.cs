@@ -25,7 +25,7 @@ public class Skill_E_LightningRod : SkillPiece
 
             if(skillPieces[i].PieceType.Equals(PieceType.SKILL))
             {
-                if(skillPieces[i].patternType.Equals(PatternType.Diamonds) && skillPieces[i] != this)
+                if(skillPieces[i].currentType.Equals(PatternType.Diamonds) && skillPieces[i] != this)
                 {
                     SkillPiece piece = skillPieces[i] as SkillPiece;
                     lightningSkillPieces.Add(piece);

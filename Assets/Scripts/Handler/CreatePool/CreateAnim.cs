@@ -26,6 +26,7 @@ public class CreateAnim : MonoBehaviour
     public GameObject w_ManaSphereHitAnim;
     public GameObject boatFareAnim;
     public GameObject boatFareBonusMoneyAnim;
+    public GameObject splashAnim;
 
     [Header("阂 加己")]
     public GameObject f_ManaSphereHitAnim;
@@ -70,6 +71,7 @@ public class CreateAnim : MonoBehaviour
         PoolManager.CreatePool<Anim_W_ManaSphereHit>(w_ManaSphereHitAnim, this.transform, 1);
         PoolManager.CreatePool<Anim_W_BoatFare>(boatFareAnim, this.transform, 1);
         PoolManager.CreatePool<Anim_W_BoatFareBonusMoney>(boatFareBonusMoneyAnim, this.transform, 1);
+        PoolManager.CreatePool<Anim_W_Splash>(splashAnim, this.transform, 1);
 
         // ===========================================================================  阂 加己
         PoolManager.CreatePool<Anim_F_ManaSphereHit>(f_ManaSphereHitAnim, this.transform, 1);
