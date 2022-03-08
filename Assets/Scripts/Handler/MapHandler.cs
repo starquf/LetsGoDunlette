@@ -72,6 +72,10 @@ public class MapHandler : MonoBehaviour
             cvsGroup.interactable = open;
             cvsGroup.blocksRaycasts = open;
         }
+        if(open)
+        {
+            SoundHandler.Instance.PlayBGMSound("Battle_2");
+        }
     }
 
     public void MovePlayer(bool skip = false)
@@ -227,8 +231,6 @@ public class MapHandler : MonoBehaviour
 
     public void ShowMap()
     {
-        SoundHandler.Instance.PlayBGMSound("Battle_2");
-
         LayoutRebuilder.ForceRebuildLayoutImmediate(Content.GetComponent<RectTransform>());
         Transform trm = Content.transform;
         int cols = mapCreater.mapCols;
