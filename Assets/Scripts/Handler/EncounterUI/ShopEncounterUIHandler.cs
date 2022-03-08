@@ -130,7 +130,10 @@ public class ShopEncounterUIHandler : MonoBehaviour
     private void EndEvent()
     {
         isSelectPanelEnable = false;
-        ShowPanel(false);
+        ShowPanel(false, ()=>
+        {
+            selectPanel.alpha = 0;
+        });
 
         GameManager.Instance.EndEncounter();
     }
