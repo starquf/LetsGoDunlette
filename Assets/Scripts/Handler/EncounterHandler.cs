@@ -5,6 +5,7 @@ using UnityEngine;
 public class EncounterHandler : MonoBehaviour
 {
     public ToBeContinueHandler tbHandler;
+    public ShopEncounterUIHandler shopEncounterUIHandler;
 
     private void Awake()
     {
@@ -30,7 +31,7 @@ public class EncounterHandler : MonoBehaviour
         {
             case mapNode.NONE:
                 print("???");
-                GameManager.Instance.mapHandler.OpenMapPanel(false);
+                //GameManager.Instance.mapHandler.OpenMapPanel(false);
                 tbHandler.StartEvent();
                 break;
             case mapNode.START:
@@ -38,32 +39,32 @@ public class EncounterHandler : MonoBehaviour
                 break;
             case mapNode.BOSS:
                 print("º¸½º");
-                GameManager.Instance.mapHandler.OpenMapPanel(false);
+                //GameManager.Instance.mapHandler.OpenMapPanel(false);
                 tbHandler.StartEvent();
                 break;
             case mapNode.EMONSTER:
                 print("¿¤¸®Æ® ¸÷");
-                GameManager.Instance.mapHandler.OpenMapPanel(false);
+                //GameManager.Instance.mapHandler.OpenMapPanel(false);
                 tbHandler.StartEvent();
                 break;
             case mapNode.MONSTER:
                 print("Àû");
-                GameManager.Instance.mapHandler.OpenMapPanel(false);
+                //GameManager.Instance.mapHandler.OpenMapPanel(false);
                 GameManager.Instance.battleHandler.StartBattle();
                 break;
             case mapNode.SHOP:
                 print("»óÁ¡");
-                GameManager.Instance.mapHandler.OpenMapPanel(false);
-                tbHandler.StartEvent();
+                //GameManager.Instance.mapHandler.OpenMapPanel(false);
+                shopEncounterUIHandler.StartEvent();
                 break;
             case mapNode.REST:
                 print("ÈÞ½Ä");
-                GameManager.Instance.mapHandler.OpenMapPanel(false);
+                //GameManager.Instance.mapHandler.OpenMapPanel(false);
                 tbHandler.StartEvent();
                 break;
             case mapNode.TREASURE:
                 print("º¸¹°");
-                GameManager.Instance.mapHandler.OpenMapPanel(false);
+                //GameManager.Instance.mapHandler.OpenMapPanel(false);
                 tbHandler.StartEvent();
                 break;
         }

@@ -7,7 +7,8 @@ using System;
 
 public abstract class RulletPiece : MonoBehaviour
 {
-    public PatternType patternType = PatternType.None;
+    [SerializeField] protected PatternType patternType = PatternType.None;
+    public PatternType currentType = PatternType.None;
 
     public PieceType PieceType { get; protected set; }
 
@@ -80,6 +81,16 @@ public abstract class RulletPiece : MonoBehaviour
         this.size = Mathf.Clamp(size, 0, 36);
     }
 
+    public virtual void ChangeType(PatternType type)
+    {
+        if (currentType != type)
+        {
+            bgImg.sprite = GameManager.Instance.inventoryHandler.pieceBGSprDic[type];
+        }
+
+        currentType = type;
+    }
+
     public virtual void AddSize(int size)
     {
         int result = this.size + size;
@@ -94,6 +105,8 @@ public abstract class RulletPiece : MonoBehaviour
         skillImg.color = Color.white;
         bgImg.color = Color.white;
         highlightImg.color = Color.clear;
+
+        ChangeType(patternType);
     }
 
     public virtual void Highlight()

@@ -21,10 +21,12 @@ public class InventoryHandler : MonoBehaviour
     [SerializeField] private List<Sprite> effectSprites = new List<Sprite>();
     [SerializeField] private List<Gradient> effectGradients = new List<Gradient>();
     [SerializeField] private List<Sprite> bookmarkSprites = new List<Sprite>();
+    [SerializeField] private List<Sprite> pieceBGSprites = new List<Sprite>();
 
     public Dictionary<PatternType, Sprite> effectSprDic;
     public Dictionary<PatternType, Gradient> effectGradDic;
     public Dictionary<PatternType, Sprite> bookmarkSprDic;
+    public Dictionary<PatternType, Sprite> pieceBGSprDic;
 
     private Tween unusedOpenTween;
     private Tween usedOpenTween;
@@ -40,12 +42,14 @@ public class InventoryHandler : MonoBehaviour
         effectSprDic = new Dictionary<PatternType, Sprite>();
         effectGradDic = new Dictionary<PatternType, Gradient>();
         bookmarkSprDic = new Dictionary<PatternType, Sprite>();
+        pieceBGSprDic = new Dictionary<PatternType, Sprite>();
 
         for (int i = 0; i < 6; i++)
         {
             effectSprDic.Add((PatternType)i, effectSprites[i]);
             effectGradDic.Add((PatternType)i, effectGradients[i]);
             bookmarkSprDic.Add((PatternType)i, bookmarkSprites[i]);
+            pieceBGSprDic.Add((PatternType)i, pieceBGSprites[i]);
         }
     }
 
@@ -120,8 +124,8 @@ public class InventoryHandler : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             EffectObj effect = PoolManager.GetItem<EffectObj>();
-            effect.SetSprite(effectSprDic[skill.patternType]);
-            effect.SetColorGradient(effectGradDic[skill.patternType]);
+            effect.SetSprite(effectSprDic[skill.currentType]);
+            effect.SetColorGradient(effectGradDic[skill.currentType]);
 
             effect.transform.position = skill.skillImg.transform.position;
 
@@ -159,8 +163,8 @@ public class InventoryHandler : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             EffectObj effect = PoolManager.GetItem<EffectObj>();
-            effect.SetSprite(effectSprDic[skill.patternType]);
-            effect.SetColorGradient(effectGradDic[skill.patternType]);
+            effect.SetSprite(effectSprDic[skill.currentType]);
+            effect.SetColorGradient(effectGradDic[skill.currentType]);
 
             effect.transform.position = skill.skillImg.transform.position;
 
@@ -272,8 +276,8 @@ public class InventoryHandler : MonoBehaviour
             for (int j = 0; j < 5; j++)
             {
                 EffectObj effect = PoolManager.GetItem<EffectObj>();
-                effect.SetSprite(effectSprDic[usedSkills[i].patternType]);
-                effect.SetColorGradient(effectGradDic[usedSkills[i].patternType]);
+                effect.SetSprite(effectSprDic[usedSkills[i].currentType]);
+                effect.SetColorGradient(effectGradDic[usedSkills[i].currentType]);
 
                 effect.transform.position = usedTrans.position;
 
@@ -332,8 +336,8 @@ public class InventoryHandler : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             EffectObj effect = PoolManager.GetItem<EffectObj>();
-            effect.SetSprite(effectSprDic[piece.patternType]);
-            effect.SetColorGradient(effectGradDic[piece.patternType]);
+            effect.SetSprite(effectSprDic[piece.currentType]);
+            effect.SetColorGradient(effectGradDic[piece.currentType]);
 
             Vector3 pos = piece.skillImg.transform.position;
             pos.z = 0f;

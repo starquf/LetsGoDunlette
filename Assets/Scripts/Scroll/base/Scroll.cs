@@ -11,6 +11,16 @@ public abstract class Scroll : MonoBehaviour
     [HideInInspector]
     public Sprite scrollIcon;
 
+
+    [SerializeField]
+    protected string scrollName;
+    public string ScrollName => scrollName;
+
+    [SerializeField]
+    [TextArea]
+    protected string scrollDes;
+    public string ScrollDes => scrollDes;
+
     public ScrollSlot slot;
 
     private void Awake()
