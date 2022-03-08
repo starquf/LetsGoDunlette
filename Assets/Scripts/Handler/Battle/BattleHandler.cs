@@ -105,16 +105,17 @@ public class BattleHandler : MonoBehaviour
         battleInfo = battleInfoHandler.GetRandomBattleInfo();
 
         // 적 생성 일단 테스트로 하나만 만듬
-        CreateEnemy(battleInfo.enemyInfos);
+        CreateEnemy(battleInfo.enemyInfos, () =>
+        {
+            // 전투가 시작하기 전 인벤토리와 룰렛 정리
+            StartCoroutine(InitRullet());
+        });
 
         // 핸들러들 초기화
         InitHandler();
 
         // 스탑 버튼에 기능 추가
         SetStopHandler();
-
-        // 전투가 시작하기 전 인벤토리와 룰렛 정리
-        StartCoroutine(InitRullet());
     }
 
     private void InitHandler()
@@ -132,31 +133,25 @@ public class BattleHandler : MonoBehaviour
         battleUtil.Init(inventory, mainRullet);
     }
 
-    public void CreateEnemy(List<EnemyHealth> enemyInfos) //다중생성
+    public void CreateEnemy(List<EnemyHealth> enemyInfos, Action onCreateEnd) //다중생성
     {
+        List<EnemyHealth> createdEnemy = new List<EnemyHealth>();
+
         for (int i = 0; i < enemyInfos.Count; i++)
         {
             EnemyHealth enemy = Instantiate(enemyInfos[i]);
             enemy.transform.position = createTrans.position;
 
             enemys.Add(enemy);
+            createdEnemy.Add(enemy);
         }
 
         // 보스면 가운데와 바꿔줘야된다 
         SortBoss();
         SetEnemyPosition();
-    }
 
-    public void CreateEnemy(EnemyHealth enemyInfo) //단일생성
-    {
-        EnemyHealth enemy = Instantiate(enemyInfo);
-        enemy.transform.position = createTrans.position;
-
-        enemys.Add(enemy);
-
-        // 보스면 가운데와 바꿔줘야된다 
-        SortBoss();
-        SetEnemyPosition();
+        // 스킬 생성
+        StartCoroutine(CreateEnemySkill(createdEnemy, onCreateEnd));
     }
 
     private void SortBoss()
@@ -253,21 +248,6 @@ public class BattleHandler : MonoBehaviour
     {
         yield return null;
 
-        // 적의 스킬을 추가해준다
-        float maxTime = 0;
-
-        for (int i = 0; i < enemys.Count; i++)
-        {
-            float time = enemys[i].GetComponent<EnemyInventory>().CreateSkillsSmooth();
-
-            if (maxTime < time)
-            {
-                maxTime = time;
-            }
-        }
-
-        yield return new WaitForSeconds(maxTime + 0.25f);
-
         // 인벤토리에서 랜덤한 6개의 스킬을 뽑아 룰렛에 적용한다. 단, 최소한 적의 스킬 1개와 내 스킬 2개가 보장된다.
 
         int player = 0;
@@ -307,6 +287,28 @@ public class BattleHandler : MonoBehaviour
 
         // 턴 시작
         InitTurn();
+    }
+
+    private IEnumerator CreateEnemySkill(List<EnemyHealth> enemys, Action onCreateEnd = null)
+    {
+        // 적의 스킬을 추가해준다
+        float maxTime = 0;
+
+        for (int i = 0; i < enemys.Count; i++)
+        {
+            float time = enemys[i].GetComponent<EnemyInventory>().CreateSkillsSmooth();
+
+            if (maxTime < time)
+            {
+                maxTime = time;
+            }
+        }
+
+        yield return new WaitForSeconds(maxTime + 0.25f);
+
+        onCreateEnd?.Invoke();
+
+        yield break;
     }
 
     private void SetRandomPlayerOrEnemySkill(bool isPlayer)
@@ -465,6 +467,14 @@ public class BattleHandler : MonoBehaviour
                 GameManager.Instance.mapHandler.GameOverProto();
                 player.Revive();
             });
+        }
+    }
+
+    public void BattleForceEnd()
+    {
+        for (int i = enemys.Count - 1; i >= 0; i--)
+        {
+            enemys[i].Kill();
         }
     }
 

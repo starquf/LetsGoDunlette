@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 1508469934039522082}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.03, y: 2.395, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children:
   - {fileID: 8081550647171231900}
   m_Father: {fileID: 0}
@@ -116,8 +116,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65e8d3eb5c6db9544b113545f8cc90f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hpBar: {fileID: 8256556037962024488}
-  hpShieldBar: {fileID: 760827777867214620}
+  hpBar: {fileID: 0}
+  hpBarAfterImageBar: {fileID: 0}
+  hpShieldBar: {fileID: 0}
   hpText: {fileID: 3939314469008924389}
   damageTrans: {fileID: 8841519181562243274}
   maxHp: 120
@@ -287,16 +288,6 @@ PrefabInstance:
 --- !u!224 &8081550647171231900 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7898691776362301721, guid: 6f7d579030297a24b86f71b29f71499e, type: 3}
-  m_PrefabInstance: {fileID: 2142206184229697925}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &760827777867214620 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1672425327879624345, guid: 6f7d579030297a24b86f71b29f71499e, type: 3}
-  m_PrefabInstance: {fileID: 2142206184229697925}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &8256556037962024488 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8011772706640019373, guid: 6f7d579030297a24b86f71b29f71499e, type: 3}
   m_PrefabInstance: {fileID: 2142206184229697925}
   m_PrefabAsset: {fileID: 0}
 --- !u!224 &8841519181562243274 stripped
