@@ -53,6 +53,7 @@ public class MapHandler : MonoBehaviour
 
     public void OpenMapPanel(bool open, bool quick = false)
     {
+
         CanvasGroup cvsGroup = mapUIs.GetComponent<CanvasGroup>();
 
         openSequence.Kill();
@@ -226,6 +227,8 @@ public class MapHandler : MonoBehaviour
 
     public void ShowMap()
     {
+        SoundHandler.Instance.PlayBGMSound("Battle_2");
+
         LayoutRebuilder.ForceRebuildLayoutImmediate(Content.GetComponent<RectTransform>());
         Transform trm = Content.transform;
         int cols = mapCreater.mapCols;
