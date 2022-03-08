@@ -50,7 +50,7 @@ public class EncounterHandler : MonoBehaviour
             case mapNode.MONSTER:
                 print("Àû");
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
-                GameManager.Instance.battleHandler.StartBattle();
+                shopEncounterUIHandler.StartEvent();
                 break;
             case mapNode.SHOP:
                 print("»óÁ¡");
