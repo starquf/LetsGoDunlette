@@ -98,6 +98,8 @@ public class BattleHandler : MonoBehaviour
     public void StartBattle()
     {
         print("전투시작");
+        SoundHandler.Instance.PlayBGMSound("Battle_4");
+
         onNextAttack = null;
         nextAttack = null;
 

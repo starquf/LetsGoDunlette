@@ -53,6 +53,7 @@ public class MapHandler : MonoBehaviour
 
     public void OpenMapPanel(bool open, bool quick = false)
     {
+
         CanvasGroup cvsGroup = mapUIs.GetComponent<CanvasGroup>();
 
         openSequence.Kill();
@@ -70,6 +71,10 @@ public class MapHandler : MonoBehaviour
             cvsGroup.alpha = open ? 1 : 0;
             cvsGroup.interactable = open;
             cvsGroup.blocksRaycasts = open;
+        }
+        if(open)
+        {
+            SoundHandler.Instance.PlayBGMSound("Battle_2");
         }
     }
 
