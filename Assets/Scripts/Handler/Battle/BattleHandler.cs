@@ -470,6 +470,14 @@ public class BattleHandler : MonoBehaviour
         }
     }
 
+    public void BattleForceEnd()
+    {
+        for (int i = enemys.Count - 1; i >= 0; i--)
+        {
+            enemys[i].Kill();
+        }
+    }
+
     #endregion
 
     #region Rullet Func

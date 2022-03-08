@@ -39,17 +39,14 @@ public class EnemyHealth : LivingEntity
         sr.DOColor(Color.white, 0.35f);
     }
 
+    public virtual void Kill()
+    {
+        GetDamage(curMaxHp);
+    }
+
     protected override void Die()
     {
-        Action onDieAction = () => { };
-
-        onDieAction = () =>
-        {
-            ShowDieEffect();
-            bh.onEndAttack -= onDieAction;
-        };
-
-        bh.onEndAttack += onDieAction;
+        ShowDieEffect();
 
         GameManager.Instance.inventoryHandler.RemoveAllOwnerPiece(GetComponent<Inventory>());
         coll.enabled = false;
