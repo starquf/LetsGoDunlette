@@ -37,8 +37,8 @@ public class PieceDesUIHandler : MonoBehaviour
     public void ShowDescription(SkillPiece skillPiece)
     {
         Sprite bg = skillPiece.cardBG;
-        Sprite bookmark = invenHandler.effectSprDic[skillPiece.patternType];
-        Sprite bookmarkBG = invenHandler.bookmarkSprDic[skillPiece.patternType];
+        Sprite bookmark = invenHandler.effectSprDic[skillPiece.currentType];
+        Sprite bookmarkBG = invenHandler.bookmarkSprDic[skillPiece.currentType];
         string name = skillPiece.PieceName;
         string des = skillPiece.PieceDes;
 

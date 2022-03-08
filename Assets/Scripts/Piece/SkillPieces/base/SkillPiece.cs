@@ -6,7 +6,6 @@ public class SkillPiece : RulletPiece
     public bool isPlayerSkill = true;
     public bool isInRullet = false;
 
-    public bool isChained = false;
     public bool isDisposable = false; //1회용인가
 
     public bool hasTarget = true;

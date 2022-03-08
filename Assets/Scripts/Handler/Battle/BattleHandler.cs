@@ -408,7 +408,7 @@ public class BattleHandler : MonoBehaviour
         battleUtil.DrawRulletPieces();
 
         // 패널티 체크
-        if (battleUtil.CheckRulletPenalty(false))
+        while (battleUtil.CheckRulletPenalty(false))
         {
             yield return pFiveSecWait;
 
@@ -422,7 +422,7 @@ public class BattleHandler : MonoBehaviour
                 yield break;
             }
         }
-        else if (battleUtil.CheckRulletPenalty(true))
+        while (battleUtil.CheckRulletPenalty(true))
         {
             yield return pFiveSecWait;
 
@@ -506,14 +506,12 @@ public class BattleHandler : MonoBehaviour
             // 플레이어 스킬이라면
             if (piece.isPlayerSkill)
             {
-                List<EnemyHealth> livingEnemys = battleUtil.CheckLivingEnemy(enemys);
-
-                // 적이 한명 이하라면
-                if (livingEnemys.Count <= 1)
+                // 적이 한명 이하라면           조각이 대상 지정이 아니라면
+                if (enemys.Count <= 1 || !piece.hasTarget)
                 {
                     onShowCast = () =>
                     {
-                        piece.Cast(livingEnemys[0], () =>
+                        piece.Cast(enemys[0], () =>
                         {
                             StartCoroutine(EndTurn());
                         });
