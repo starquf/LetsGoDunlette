@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -24,30 +25,49 @@ public class DP_Skill : SkillPiece
 
     private void DP_Duty(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(owner.gameObject, "회복").OnComplete(() =>
+        EnemyHealth boss = null;
+
+        List<EnemyHealth> enemys = GameManager.Instance.battleHandler.enemys;
+
+        for (int i = 0; i < enemys.Count; i++)
         {
-            GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
+            var health = enemys[i];
 
-            var enemys = GameManager.Instance.battleHandler.enemys;
-
-            for (int i = 0; i < enemys.Count; i++)
+            if (health.isBoss)
             {
-                var health = enemys[i];
-
-                if (health.isBoss)
-                {
-                    // queen 임.
-                    health.Heal(5);
-                    owner.GetComponent<EnemyHealth>().GetDamageIgnoreShild(10);
-                    break; // 여왕은 1명이라는 가정
-                }
+                boss = health;
+                // queen 임.
+                break; // 여왕은 1명이라는 가정
             }
+        }
 
-            Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
+        if (boss == null)
+        {
+            Debug.LogError("보스가 없음");
+        }
+
+        SetIndicator(owner.gameObject, "희생").OnComplete(() =>
+        {
+            owner.GetComponent<EnemyHealth>().GetDamageIgnoreShild(40);
+
+            Anim_M_Butt effect = PoolManager.GetItem<Anim_M_Butt>();
             effect.transform.position = owner.transform.position;
             effect.Play(() =>
             {
-                onCastEnd?.Invoke();
+            });
+
+            SetIndicator(boss.gameObject, "회복").OnComplete(() =>
+            {
+                GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
+
+                boss.Heal(30);
+
+                Anim_M_Recover healEffect = PoolManager.GetItem<Anim_M_Recover>();
+                healEffect.transform.position = boss.transform.position;
+                healEffect.Play(() =>
+                {
+                    onCastEnd?.Invoke();
+                });
             });
         });
         //나중에 힐 이펙트가 여왕한테 가야함   
