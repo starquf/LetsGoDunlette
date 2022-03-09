@@ -81,6 +81,8 @@ public class BattleUtilHandler : MonoBehaviour
 
     public void SetPieceToGraveyard(SkillPiece piece)
     {
+        if (piece == null) return;
+
         GameManager.Instance.inventoryHandler.SetUseSkill(piece);
     }
 

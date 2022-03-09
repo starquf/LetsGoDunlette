@@ -15,13 +15,23 @@ public class CCHandler : MonoBehaviour
         battleHandler = GameManager.Instance.battleHandler;
     }
 
-    public void Init(List<CrowdControl> ccList)
+    public void Init()
     {
+        List<CrowdControl> ccList = new List<CrowdControl>();
+        ccList.Add(battleHandler.player.cc);
+
+        for (int i = 0; i < battleHandler.enemys.Count; i++)
+        {
+            ccList.Add(battleHandler.enemys[i].cc);
+        }
+
         crowdControls = ccList;
     }
 
     public void DecreaseCC()
     {
+        Init();
+
         for (int i = 0; i < crowdControls.Count; i++)
         {
             crowdControls[i].DecreaseAllTurn();
@@ -30,6 +40,8 @@ public class CCHandler : MonoBehaviour
 
     public void CheckCC(CCType ccType)
     {
+        Init();
+
         switch (ccType)
         {
             case CCType.Stun:

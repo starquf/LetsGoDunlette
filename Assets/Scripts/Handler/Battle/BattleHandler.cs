@@ -50,7 +50,7 @@ public class BattleHandler : MonoBehaviour
     public PlayerHealth player;
     public Transform playerImgTrans;
 
-    [HideInInspector]
+    //[HideInInspector]
     public List<EnemyHealth> enemys = new List<EnemyHealth>();
 
     //==================================================
@@ -122,15 +122,6 @@ public class BattleHandler : MonoBehaviour
 
     private void InitHandler()
     {
-        List<CrowdControl> ccList = new List<CrowdControl>();
-        ccList.Add(player.cc);
-
-        for (int i = 0; i < enemys.Count; i++)
-        {
-            ccList.Add(enemys[i].cc);
-        }
-
-        ccHandler.Init(ccList);
         battleRewardHandler.Init(battleInfo.rewards);
         battleUtil.Init(inventory, mainRullet);
     }
@@ -224,6 +215,8 @@ public class BattleHandler : MonoBehaviour
 
         stopHandler.Init(mainRullet, (result, pieceIdx) =>
         {
+            battleScrollHandler.SetInteract(false);
+
             stopHandler.rullet.HighlightResult();
 
             this.result = result as SkillPiece;

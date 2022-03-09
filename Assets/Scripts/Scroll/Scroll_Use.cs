@@ -18,6 +18,12 @@ public class Scroll_Use : Scroll
 
     public override void Use(Action onEndUse, Action onCancelUse)
     {
+        if (bh.mainRullet.IsStop)
+        {
+            onCancelUse?.Invoke();
+            return;
+        }
+
         bh.mainRullet.PauseRullet();
 
         // 플레이어 스킬이 존재한다면

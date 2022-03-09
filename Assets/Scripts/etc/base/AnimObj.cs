@@ -7,9 +7,18 @@ public class AnimObj : MonoBehaviour
 {
     private Animator anim;
 
+    private Vector3 originScale;
+
     protected virtual void Awake()
     {
         anim = GetComponent<Animator>();
+
+        originScale = transform.localScale;
+    }
+
+    public void SetScale(float scale)
+    {
+        transform.localScale = originScale * scale;
     }
 
     public void Play(Action onEndAnim = null)
@@ -24,6 +33,8 @@ public class AnimObj : MonoBehaviour
         yield return new WaitForSeconds(time);
 
         onEndAnim?.Invoke();
+
+        transform.localScale = originScale;
         gameObject.SetActive(false);
     }
 }

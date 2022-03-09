@@ -16,6 +16,12 @@ public class Scroll_Chaos : Scroll
 
     public override void Use(Action onEndUse, Action onCancelUse)
     {
+        if (bh.mainRullet.IsStop)
+        {
+            onCancelUse?.Invoke();
+            return;
+        }
+
         bh.mainRullet.PauseRullet();
 
         bh.battleUtil.ResetRullet();

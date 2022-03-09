@@ -80,14 +80,19 @@ public class EffectObj : MonoBehaviour
     //                     끝점      끝났을 때 불리는 콜백 함수      배지어 타입 (기본 큐빅)        실행될 딜레이       실행될 스피드        선을 따라 회전할건지
     public void Play(Vector3 target, Action onEndEffect, BezierType type = BezierType.Cubic, float delay = 0f, float playSpeed = 1.6f, bool isRotate = false)
     {
+        if (isRotate)
+        {
+            Vector3 dir = target - transform.position;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        }
+
         StartCoroutine(PlayEffect(target, onEndEffect, type, delay, playSpeed, isRotate));
     }
 
     private IEnumerator PlayEffect(Vector3 target, Action onEndEffect, BezierType type, float delay, float playSpeed, bool isRotate)
     {
-        if (delay > 0)
-            yield return new WaitForSeconds(delay);
-
         Vector3 start = transform.position;
 
         float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
@@ -100,6 +105,9 @@ public class EffectObj : MonoBehaviour
         Vector3 dir = Vector3.zero;
 
         transform.rotation = Quaternion.identity;
+
+        if (delay > 0)
+            yield return new WaitForSeconds(delay);
 
         float t = 0f;
 

@@ -38,6 +38,7 @@ public class Skill_W_MermaidBlessing : SkillPiece
 
                     Anim_W_Splash splashEffect = PoolManager.GetItem<Anim_W_Splash>();
                     splashEffect.transform.position = skillPieces[i].skillImg.transform.position;
+                    splashEffect.SetScale(0.5f);
 
                     skillPieces[a].ChangeType(PatternType.Spade);
 

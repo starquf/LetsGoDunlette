@@ -18,6 +18,7 @@ public abstract class Rullet : MonoBehaviour
     public bool IsRoll => isRoll;
 
     private bool isStop = false;
+    public bool IsStop => isStop;
 
     protected float rollSpeed;
     protected float stopSpeed;
@@ -31,6 +32,9 @@ public abstract class Rullet : MonoBehaviour
     //public Transform pinTrans;
     public Text speedText;
     public Text timeText;
+
+    protected int currentTime;
+    protected bool isPaused = false;
 
     protected WaitForSeconds oneSecWait = new WaitForSeconds(1f);
 
@@ -137,12 +141,19 @@ public abstract class Rullet : MonoBehaviour
 
         rollCor = StartCoroutine(Roll());
 
-        if(hasTimer)
-            timeCor = StartCoroutine(Timer(time));
+        if (hasTimer)
+        {
+            if(!isPaused)
+                currentTime = time;
+
+            timeCor = StartCoroutine(Timer());
+        }
     }
 
     public virtual void PauseRullet()
     {
+        if (isStop) return;
+
         if (rollCor != null)
             StopCoroutine(rollCor);
 
@@ -151,6 +162,7 @@ public abstract class Rullet : MonoBehaviour
 
         timeText.text = "";
 
+        isPaused = true;
         isRoll = false;
     }
 
@@ -194,14 +206,16 @@ public abstract class Rullet : MonoBehaviour
 
         isStop = false;
         isRoll = false;
+        isPaused = false;
 
         RulletResult(onResult);
     }
 
-    protected virtual IEnumerator Timer(int time)
+    protected virtual IEnumerator Timer()
     {
-        for (int i = time; i > 0; i--)
+        for (int i = currentTime; i > 0; i--)
         {
+            currentTime--;
             timeText.text = i.ToString();
 
             if (i < 4)
