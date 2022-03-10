@@ -237,11 +237,11 @@ public class MapCreater : MonoBehaviour
             rand = Random.Range(0, 100);
             if(rand<100)
             {
-                nodeType = mapNode.TREASURE;
+                nodeType = mapNode.RandomEncounter;
             }
             else
             {
-                nodeType = mapNode.TREASURE;
+                nodeType = mapNode.RandomEncounter;
             }
         }
         else if(rand < 40)
