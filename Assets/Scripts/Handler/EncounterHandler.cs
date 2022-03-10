@@ -7,6 +7,7 @@ public class EncounterHandler : MonoBehaviour
     public ToBeContinueHandler tbHandler;
     public ShopEncounterUIHandler shopEncounterUIHandler;
     public RandomEncounterUIHandler randomEncounterUIHandler;
+    public RestEncounterUIHandler restEncounterUIHandler;
 
     private void Awake()
     {
@@ -41,7 +42,7 @@ public class EncounterHandler : MonoBehaviour
             case mapNode.BOSS:
                 print("º¸½º");
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
-                tbHandler.StartEvent();
+                GameManager.Instance.battleHandler.StartBattle(true);
                 break;
             case mapNode.EMONSTER:
                 print("¿¤¸®Æ® ¸÷");
@@ -61,7 +62,7 @@ public class EncounterHandler : MonoBehaviour
             case mapNode.REST:
                 print("ÈÞ½Ä");
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
-                tbHandler.StartEvent();
+                restEncounterUIHandler.StartEvent();
                 break;
             case mapNode.RandomEncounter:
                 print("º¸¹°");

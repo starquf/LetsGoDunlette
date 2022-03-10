@@ -23,7 +23,21 @@ public abstract class Rullet : MonoBehaviour
     protected float rollSpeed;
     protected float stopSpeed;
     protected float multiply = 1f;
-    public float speedWeight = 0f;
+
+    protected float rulletSpeed = 0f;
+    public float RulletSpeed 
+    {
+        get 
+        {
+            return rulletSpeed; 
+        }
+        set
+        {
+            rulletSpeed = value;
+
+            rulletSpeed = Mathf.Clamp(rulletSpeed, 600f, 1500f);
+        }
+    }
 
     protected Coroutine rollCor;
     protected Coroutine timeCor;
@@ -40,8 +54,7 @@ public abstract class Rullet : MonoBehaviour
 
     protected virtual void Start()
     {
-        GetComponentsInChildren(pieces);
-
+        ResetRulletSpeed();
         SetRullet();
     }
 
@@ -57,6 +70,12 @@ public abstract class Rullet : MonoBehaviour
             pieces[i].transform.DOScale(Vector3.one, 0.3f);
             pieces[i].UnHighlight();
         }
+    }
+
+    public virtual void ResetRulletSpeed()
+    {
+        rulletSpeed = 700f;
+        print(rulletSpeed);
     }
 
     public virtual List<RulletPiece> GetPieces()
@@ -184,8 +203,8 @@ public abstract class Rullet : MonoBehaviour
 
     protected virtual IEnumerator Roll()
     {
-        rollSpeed = (500f + UnityEngine.Random.Range(0, 100) + speedWeight) * multiply;
-        stopSpeed = UnityEngine.Random.Range(10f, 10.5f);
+        rollSpeed = (rulletSpeed + UnityEngine.Random.Range(0, 100)) * multiply;
+        stopSpeed = UnityEngine.Random.Range(9.5f, 10.5f);
 
         if (speedText != null)
         {

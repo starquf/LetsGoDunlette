@@ -9,8 +9,7 @@ public class SkillRullet : Rullet
 {
     protected override void Start()
     {
-        GetComponentsInChildren(pieces);
-        SetRullet();
+        base.Start();
     }
 
     public override void AddPiece(RulletPiece piece)

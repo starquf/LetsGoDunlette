@@ -8,6 +8,8 @@ using Random = UnityEngine.Random;
 
 public class RandomEncounterUIHandler : MonoBehaviour
 {
+    private EncounterInfoHandler encounterInfoHandler;
+
     [Header("인카운터 데이터들")]
     public List<RandomEncounter> randomEncounterList;
 
@@ -15,7 +17,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
     public CanvasGroup enStartPanel;
     public CanvasGroup enEndPanel;
 
-    public Image encounterImg, whiteImg;
+    public Image encounterImg;
     public Text encounterTitleTxt, encounterTxt, encounterResultTxt;
     public List<Text> encounterChoiceTxtList;
     public Button ExitBtn;
@@ -24,6 +26,12 @@ public class RandomEncounterUIHandler : MonoBehaviour
 
     private void Awake()
     {
+        encounterInfoHandler = GetComponent<EncounterInfoHandler>();
+        for (int i = 0; i < randomEncounterList.Count; i++)
+        {
+            randomEncounterList[i].encounterInfoHandler = this.encounterInfoHandler;
+            randomEncounterList[i].OnExitEncounter = EndEvent;
+        }
         mainPanel = GetComponent<CanvasGroup>();
         ExitBtn.onClick.AddListener(OnExitBtnClick);
     }
@@ -68,27 +76,28 @@ public class RandomEncounterUIHandler : MonoBehaviour
     {
         randomEncounter.ResultSet(choiceIdx);
 
-        whiteImg.DOFade(1, 0.3f);
+        encounterImg.DOColor(Color.black, 0.5f);
+        encounterTxt.DOFade(0, 0.5f);
         ShowPanel(false, enStartPanel, 0.3f, ()=>
         {
-            encounterTxt.text = randomEncounter.en_End_TextList[choiceIdx];
+            encounterTxt.text = randomEncounter.showText;
             encounterResultTxt.text = randomEncounter.en_End_Result;
-            encounterImg.sprite = randomEncounter.en_End_Image[choiceIdx];
-            whiteImg.DOFade(0, 0.3f).SetEase(Ease.InQuad);
+            encounterImg.sprite = randomEncounter.showImg;
+            encounterImg.DOColor(Color.white, 0.3f).SetEase(Ease.InQuad);
+            encounterTxt.DOFade(1, 0.3f).SetEase(Ease.InQuad);
             ShowPanel(true, enEndPanel);
         });
-        //randomEncounter.Result();
     }
 
 
     private void OnExitBtnClick()
     {
-        EndEvent();
+        randomEncounter.Result();
     }
 
     #endregion
 
-    private void EndEvent()
+    private void EndEvent(bool openMap = true)
     {
         ShowPanel(false, null, 0.5f, () =>
         {
@@ -96,8 +105,10 @@ public class RandomEncounterUIHandler : MonoBehaviour
             ShowPanelSkip(false, enEndPanel);
         });
 
-
-        GameManager.Instance.EndEncounter();
+        if (openMap)
+        {
+            GameManager.Instance.EndEncounter();
+        }
     }
 
     public void ShowPanel(bool enable, CanvasGroup cvsGroup = null, float time = 0.5f, Action onComplecteEvent = null)

@@ -43,6 +43,8 @@ public abstract class RulletPiece : MonoBehaviour
 
     protected virtual void Awake()
     {
+        currentType = patternType;
+
         bgImg = GetComponent<Image>();
         highlightImg = GetComponentsInChildren<Image>()[1];
         transform.GetComponent<Image>().fillAmount = Size / 36f;

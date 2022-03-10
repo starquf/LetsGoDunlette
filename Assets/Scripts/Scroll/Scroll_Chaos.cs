@@ -24,7 +24,9 @@ public class Scroll_Chaos : Scroll
 
         bh.mainRullet.PauseRullet();
 
-        bh.battleUtil.ResetRullet();
-        bh.battleUtil.SetTimer(0.5f, onEndUse);
+        StartCoroutine(bh.battleUtil.ResetRullet(() => 
+        {
+            bh.battleUtil.SetTimer(0.5f, onEndUse);
+        }));
     }
 }

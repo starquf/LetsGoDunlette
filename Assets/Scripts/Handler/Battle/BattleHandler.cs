@@ -95,7 +95,7 @@ public class BattleHandler : MonoBehaviour
     #region StartBattle
 
     // 전투를 시작하는 함수
-    public void StartBattle()
+    public void StartBattle(bool isBoss = false)
     {
         print("전투시작");
         SoundHandler.Instance.PlayBGMSound("Battle_4");
@@ -104,7 +104,7 @@ public class BattleHandler : MonoBehaviour
         nextAttack = null;
 
         // 현재 전투 정보 가져오기
-        battleInfo = battleInfoHandler.GetRandomBattleInfo();
+        battleInfo = !isBoss ? battleInfoHandler.GetRandomBattleInfo() : battleInfoHandler.GetRandomBossInfo();
 
         // 적 생성 일단 테스트로 하나만 만듬
         CreateEnemy(battleInfo.enemyInfos, () =>
@@ -245,38 +245,7 @@ public class BattleHandler : MonoBehaviour
 
         // 인벤토리에서 랜덤한 6개의 스킬을 뽑아 룰렛에 적용한다. 단, 최소한 적의 스킬 1개와 내 스킬 2개가 보장된다.
 
-        int player = 0;
-        int enemy = 0;
-
-        for (int i = 0; i < 6; i++)
-        {
-            if(i > 2)
-            {
-                if (player < 2)
-                {
-                    SetRandomPlayerOrEnemySkill(true);
-                    player++;
-                    continue;
-                }
-                else if (enemy < 1)
-                {
-                    SetRandomPlayerOrEnemySkill(false);
-                    enemy++;
-                    continue;
-                }
-            }
-
-            if(SetRandomSkill())
-            {
-                player++;
-            }
-            else
-            {
-                enemy++;
-            }
-
-            yield return new WaitForSeconds(0.15f);
-        }
+        yield return StartCoroutine(battleUtil.ResetRulletPiecesWithCondition());
 
         yield return oneSecWait;
 
@@ -305,25 +274,6 @@ public class BattleHandler : MonoBehaviour
 
         yield break;
     }
-
-    private void SetRandomPlayerOrEnemySkill(bool isPlayer)
-    {
-        SkillPiece skill = inventory.GetRandomPlayerOrEnemySkill(isPlayer);
-        skill.transform.localScale = new Vector3(0.2f, 0.2f, 1f);
-
-        mainRullet.AddPiece(skill);
-    }
-
-    private bool SetRandomSkill() //true 면 플레이어
-    {
-        SkillPiece skill = inventory.GetRandomUnusedSkill();
-        skill.transform.localScale = new Vector3(0.2f, 0.2f, 1f);
-
-        mainRullet.AddPiece(skill);
-
-        return skill.isPlayerSkill;
-    }
-
     #endregion
 
     #region Turns
@@ -400,16 +350,17 @@ public class BattleHandler : MonoBehaviour
         battleUtil.SetPieceToGraveyard(result);
 
         // 룰렛 조각 변경 (덱순환)
-        battleUtil.DrawRulletPieces();
+        yield return StartCoroutine(battleUtil.DrawRulletPieces());
 
         // 패널티 체크
-        while (battleUtil.CheckRulletPenalty(false))
+        if (battleUtil.CheckRulletPenalty(false))
         {
             yield return pFiveSecWait;
 
             GivePenalty(false);
             yield return null;
-            battleUtil.ResetRullet();
+
+            yield return StartCoroutine(battleUtil.ResetRulletPiecesWithCondition());
 
             if (battleUtil.CheckDie(player))
             {
@@ -417,13 +368,14 @@ public class BattleHandler : MonoBehaviour
                 yield break;
             }
         }
-        while (battleUtil.CheckRulletPenalty(true))
+        if (battleUtil.CheckRulletPenalty(true))
         {
             yield return pFiveSecWait;
 
             GivePenalty(true);
             yield return null;
-            battleUtil.ResetRullet();
+
+            yield return StartCoroutine(battleUtil.ResetRulletPiecesWithCondition());
 
             onEndAttack?.Invoke();
 
@@ -444,7 +396,7 @@ public class BattleHandler : MonoBehaviour
     private void BattleEnd(bool isWin = true)
     {
         player.cc.ResetAllCC();
-        mainRullet.speedWeight = 0f;
+        mainRullet.ResetRulletSpeed();
 
         if (isWin)
         {
@@ -537,9 +489,11 @@ public class BattleHandler : MonoBehaviour
                         StartCoroutine(EndTurn());
                     });
                 };
+
+                mainRullet.RulletSpeed -= 40f;
             }
 
-            mainRullet.speedWeight += 20f;
+            mainRullet.RulletSpeed += 20f;
 
             castUIHandler.ShowCasting(piece, onShowCast);
         }
