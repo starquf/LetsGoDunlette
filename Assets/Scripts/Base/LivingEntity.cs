@@ -5,12 +5,14 @@ using UnityEngine.UI;
 public abstract class LivingEntity : MonoBehaviour, IDamageable
 {
     // 이거 나중에 클래스로 뺴줘요
-    public Image hpBar;
-    public Image hpBarAfterImageBar;
-    public Image hpShieldBar;
-    public Text hpText;
+    public GameObject hPCvs;
 
-    public Transform damageTrans;
+    private Image hpBar;
+    private Image hpBarAfterImageBar;
+    private Image hpShieldBar;
+    private Text hpText;
+
+    private Transform damageTrans;
 
     private Image damageImg;
     private Color damageColor;
@@ -41,6 +43,15 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     {
         hp = maxHp;
         shieldHp = 0;
+
+        Transform bar = hPCvs.transform.Find("HPBar").transform;
+        hpBar = bar.Find("HPBar").GetComponent<Image>();
+        hpBarAfterImageBar = bar.Find("HPAfterImageBar").GetComponent<Image>();
+        hpShieldBar = bar.Find("HPShieldBar").GetComponent<Image>();
+        hpText = bar.Find("hpText").GetComponent<Text>();
+
+        damageTrans = hPCvs.transform.Find("DamageEffect").transform;
+
         SetHPBar();
 
         bh = GameManager.Instance.battleHandler;
@@ -120,7 +131,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         SpriteRenderer sr = owner.GetComponent<SpriteRenderer>();
 
         DOTween.Sequence()
-            .AppendCallback(() => 
+            .AppendCallback(() =>
             {
                 sr.sortingLayerID = SortingLayer.NameToID("Effect");
                 sr.sortingOrder = -1;
