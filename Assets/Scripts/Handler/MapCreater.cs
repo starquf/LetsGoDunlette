@@ -12,7 +12,7 @@ public enum mapNode
     MONSTER = 4,
     SHOP = 5,
     REST = 6,
-    TREASURE = 7,
+    RandomEncounter = 7,
 }
 
 public class Node

@@ -63,10 +63,10 @@ public class EncounterHandler : MonoBehaviour
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
                 tbHandler.StartEvent();
                 break;
-            case mapNode.TREASURE:
+            case mapNode.RandomEncounter:
                 print("º¸¹°");
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
-                tbHandler.StartEvent();
+                randomEncounterUIHandler.StartEvent();
                 break;
         }
     }
