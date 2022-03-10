@@ -8,6 +8,8 @@ using Random = UnityEngine.Random;
 
 public class RandomEncounterUIHandler : MonoBehaviour
 {
+    private EncounterInfoHandler encounterInfoHandler;
+
     [Header("인카운터 데이터들")]
     public List<RandomEncounter> randomEncounterList;
 
@@ -24,6 +26,12 @@ public class RandomEncounterUIHandler : MonoBehaviour
 
     private void Awake()
     {
+        encounterInfoHandler = GetComponent<EncounterInfoHandler>();
+        for (int i = 0; i < randomEncounterList.Count; i++)
+        {
+            randomEncounterList[i].encounterInfoHandler = this.encounterInfoHandler;
+            randomEncounterList[i].OnExitEncounter = EndEvent;
+        }
         mainPanel = GetComponent<CanvasGroup>();
         ExitBtn.onClick.AddListener(OnExitBtnClick);
     }
@@ -79,18 +87,17 @@ public class RandomEncounterUIHandler : MonoBehaviour
             encounterTxt.DOFade(1, 0.3f).SetEase(Ease.InQuad);
             ShowPanel(true, enEndPanel);
         });
-        //randomEncounter.Result();
     }
 
 
     private void OnExitBtnClick()
     {
-        EndEvent();
+        randomEncounter.Result();
     }
 
     #endregion
 
-    private void EndEvent()
+    private void EndEvent(bool openMap = true)
     {
         ShowPanel(false, null, 0.5f, () =>
         {
@@ -98,8 +105,10 @@ public class RandomEncounterUIHandler : MonoBehaviour
             ShowPanelSkip(false, enEndPanel);
         });
 
-
-        GameManager.Instance.EndEncounter();
+        if (openMap)
+        {
+            GameManager.Instance.EndEncounter();
+        }
     }
 
     public void ShowPanel(bool enable, CanvasGroup cvsGroup = null, float time = 0.5f, Action onComplecteEvent = null)

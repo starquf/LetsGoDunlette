@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class RandomEncounter : MonoBehaviour
 {
+    [HideInInspector]public EncounterInfoHandler encounterInfoHandler;
+    [HideInInspector]public Action<bool> OnExitEncounter;
+
     [Header("º±≈√¿¸")]
     public Sprite en_Start_Image;
     public string en_Name, en_Start_Text;
@@ -15,7 +19,7 @@ public abstract class RandomEncounter : MonoBehaviour
     public List<string> en_End_TextList;
     [HideInInspector]public string en_End_Result, showText;
     [HideInInspector] public Sprite showImg;
-
+    [HideInInspector]public bool isEffectEnd;
     protected int choiceIdx;
 
     public abstract void ResultSet(int resultIdx);

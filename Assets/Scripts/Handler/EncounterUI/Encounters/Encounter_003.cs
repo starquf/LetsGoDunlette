@@ -20,6 +20,7 @@ public class Encounter_003 : RandomEncounter
                 }
                 else
                 {
+                    choiceIdx = 1;
                     showText = en_End_TextList[1];
                     showImg = en_End_Image[1];
                     en_End_Result = "°ñµå È¹µæ";
@@ -38,10 +39,10 @@ public class Encounter_003 : RandomEncounter
         switch (choiceIdx)
         {
             case 0:
-
+                OnExitEncounter?.Invoke(false);
                 break;
             case 1:
-
+                OnExitEncounter?.Invoke(true);
                 break;
             default:
                 break;

@@ -1,10 +1,11 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Encounter_001 : RandomEncounter
 {
-
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;
@@ -35,12 +36,42 @@ public class Encounter_001 : RandomEncounter
         switch (choiceIdx)
         {
             case 0:
-
+                GameManager.Instance.Gold += 10;
+                OnExitEncounter?.Invoke(true);
                 break;
             case 1:
-
+                PlayerHealth playerHealth = GameManager.Instance.GetPlayer();
+                playerHealth.Heal((int)(playerHealth.maxHp*0.2f));
+                OnExitEncounter?.Invoke(true);
                 break;
             case 2:
+                BattleHandler battleHandler = GameManager.Instance.battleHandler;
+                SkillRullet rullet = battleHandler.mainRullet;
+                RulletPiece rulletPieces = encounterInfoHandler.GetRandomRewards(1)[0];
+
+                SkillPiece skill = Instantiate(rulletPieces, rullet.transform).GetComponent<SkillPiece>();
+                skill.transform.position = Vector2.zero;
+                skill.transform.rotation = Quaternion.Euler(0, 0, 30f);
+                Image skillImg = skill.GetComponent<Image>();
+                skillImg.color = new Color(1,1,1,0);
+                skill.transform.SetParent(encounterInfoHandler.transform);
+
+
+                Transform unusedInventoryTrm = GameManager.Instance.inventoryHandler.transform;
+                DOTween.Sequence().Append(skillImg.DOFade(1, 0.5f)).SetDelay(1f)
+                .Append(skill.transform.DOMove(unusedInventoryTrm.position, 0.5f))
+                .Join(skill.transform.DOScale(Vector2.one * 0.1f, 0.5f))
+                .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
+                .OnComplete(() =>
+                {
+                    Inventory owner = battleHandler.player.GetComponent<Inventory>();
+                    skill.gameObject.SetActive(false);
+                    skill.owner = owner;
+                    GameManager.Instance.inventoryHandler.AddSkill(skill);
+                    skill.GetComponent<Image>().color = Color.white;
+
+                    OnExitEncounter?.Invoke(true);
+                });
 
                 break;
             default:

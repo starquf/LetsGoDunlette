@@ -149,7 +149,6 @@ public class BattleRewardHandler : MonoBehaviour
                         GameManager.Instance.inventoryHandler.AddSkill(rewardResult);
                         rewardResult.GetComponent<Image>().color = Color.white;
 
-                        print("³¡");
                         isRewardEnd = true;
                     });
                 },()=>
