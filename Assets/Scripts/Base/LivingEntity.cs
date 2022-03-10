@@ -253,5 +253,18 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         }
     }
 
+    public void ChangeShieldToHealth()
+    {
+        if(shieldHp > 0)
+        {
+            int previousShield = shieldHp;
+            shieldHp = 0;
+
+            Heal(previousShield);
+        }
+
+        SetHPBar();
+    }
+
     protected abstract void Die();
 }

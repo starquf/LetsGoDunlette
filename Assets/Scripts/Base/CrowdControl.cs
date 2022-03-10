@@ -185,4 +185,15 @@ public class CrowdControl : MonoBehaviour
             SetCC(cc, 0);
         }
     }
+
+    public bool IsCC()
+    {
+        foreach (CCType cc in Enum.GetValues(typeof(CCType)))
+        {
+            if(ccDic[cc] > 0)
+                return true;
+        }
+
+        return false;
+    }
 }
