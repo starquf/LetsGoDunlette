@@ -52,7 +52,7 @@ public class SoundHandler : MonoBehaviour
         foreach (var audioClip in Resources.LoadAll<AudioClip>("Sound/BGM")) // Resource 폴더에있는 사운드들 담아두기
         {
             bgmSoundDic.Add(audioClip.name, audioClip);
-            Debug.Log(audioClip.name);
+            //Debug.Log(audioClip.name);
         }
     }
 
@@ -174,7 +174,7 @@ public class SoundHandler : MonoBehaviour
             nowvolume += Time.deltaTime * 0.5f;
             nowvolume = Mathf.Clamp(nowvolume, 0, newvolume);
 
-            Debug.Log(nowvolume);
+            //Debug.Log(nowvolume);
             AdjustBGMVolume(nowvolume);
 
             yield return null;

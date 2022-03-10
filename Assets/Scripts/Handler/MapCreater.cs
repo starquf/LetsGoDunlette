@@ -12,7 +12,7 @@ public enum mapNode
     MONSTER = 4,
     SHOP = 5,
     REST = 6,
-    TREASURE = 7,
+    RandomEncounter = 7,
 }
 
 public class Node
@@ -237,11 +237,11 @@ public class MapCreater : MonoBehaviour
             rand = Random.Range(0, 100);
             if(rand<100)
             {
-                nodeType = mapNode.TREASURE;
+                nodeType = mapNode.RandomEncounter;
             }
             else
             {
-                nodeType = mapNode.TREASURE;
+                nodeType = mapNode.RandomEncounter;
             }
         }
         else if(rand < 40)
