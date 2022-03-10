@@ -11,14 +11,17 @@ public class Encounter_001 : RandomEncounter
         switch (resultIdx)
         {
             case 0:
+                showText = en_End_TextList[0];
                 showImg = en_End_Image[0];
                 en_End_Result = "°ñµå È¹µæ";
                 break;
             case 1:
+                showText = en_End_TextList[1];
                 showImg = en_End_Image[1];
                 en_End_Result = "Ã¼·Â 30% È¸º¹";
                 break;
             case 2:
+                showText = en_End_TextList[2];
                 showImg = en_End_Image[2];
                 en_End_Result = "¹«ÀÛÀ§ ·ê·¿ Á¶°¢ È¹µæ";
                 break;

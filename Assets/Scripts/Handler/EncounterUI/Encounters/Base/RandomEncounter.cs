@@ -13,7 +13,7 @@ public abstract class RandomEncounter : MonoBehaviour
     [Header("º±≈√»ƒ")]
     public List<Sprite> en_End_Image;
     public List<string> en_End_TextList;
-    [HideInInspector]public string en_End_Result;
+    [HideInInspector]public string en_End_Result, showText;
     [HideInInspector] public Sprite showImg;
 
     protected int choiceIdx;

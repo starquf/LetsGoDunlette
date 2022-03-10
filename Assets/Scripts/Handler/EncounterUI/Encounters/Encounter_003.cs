@@ -14,11 +14,13 @@ public class Encounter_003 : RandomEncounter
                 int rand = Random.Range(0, 100);
                 if(rand < 50)
                 {
+                    showText = en_End_TextList[0];
                     showImg = en_End_Image[0];
                     en_End_Result = "¹Ì¹Í°ú ÀüÅõ!!";
                 }
                 else
                 {
+                    showText = en_End_TextList[1];
                     showImg = en_End_Image[1];
                     en_End_Result = "°ñµå È¹µæ";
                 }

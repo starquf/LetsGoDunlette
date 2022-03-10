@@ -15,7 +15,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
     public CanvasGroup enStartPanel;
     public CanvasGroup enEndPanel;
 
-    public Image encounterImg, whiteImg;
+    public Image encounterImg;
     public Text encounterTitleTxt, encounterTxt, encounterResultTxt;
     public List<Text> encounterChoiceTxtList;
     public Button ExitBtn;
@@ -68,13 +68,15 @@ public class RandomEncounterUIHandler : MonoBehaviour
     {
         randomEncounter.ResultSet(choiceIdx);
 
-        whiteImg.DOFade(1, 0.3f);
+        encounterImg.DOColor(Color.black, 0.5f);
+        encounterTxt.DOFade(0, 0.5f);
         ShowPanel(false, enStartPanel, 0.3f, ()=>
         {
-            encounterTxt.text = randomEncounter.en_End_TextList[choiceIdx];
+            encounterTxt.text = randomEncounter.showText;
             encounterResultTxt.text = randomEncounter.en_End_Result;
             encounterImg.sprite = randomEncounter.showImg;
-            whiteImg.DOFade(0, 0.3f).SetEase(Ease.InQuad);
+            encounterImg.DOColor(Color.white, 0.3f).SetEase(Ease.InQuad);
+            encounterTxt.DOFade(1, 0.3f).SetEase(Ease.InQuad);
             ShowPanel(true, enEndPanel);
         });
         //randomEncounter.Result();
