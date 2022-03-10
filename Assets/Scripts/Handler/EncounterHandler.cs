@@ -6,6 +6,7 @@ public class EncounterHandler : MonoBehaviour
 {
     public ToBeContinueHandler tbHandler;
     public ShopEncounterUIHandler shopEncounterUIHandler;
+    public RandomEncounterUIHandler randomEncounterUIHandler;
 
     private void Awake()
     {

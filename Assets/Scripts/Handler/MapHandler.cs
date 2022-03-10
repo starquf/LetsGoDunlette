@@ -175,7 +175,7 @@ public class MapHandler : MonoBehaviour
         img.color = new Color(img.color.r, img.color.g, img.color.b, 0.3f);
 
         int pointNodeCount = node.pointNodeList.Count;
-        print($"idx : {node.idx}, depth : {node.depth}, count :"+ pointNodeCount);
+        //print($"idx : {node.idx}, depth : {node.depth}, count :"+ pointNodeCount);
         for (int i = 0; i < pointNodeCount; i++)
         {
             // 라인랜더러 투명화
