@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Skill_W_MermaidBlessing : SkillPiece
 {
-    private readonly WaitForSeconds pOneSecWait = new WaitForSeconds(0.1f);
+    private readonly WaitForSeconds pTwoSecWait = new WaitForSeconds(0.2f);
 
     protected override void Start()
     {
@@ -26,6 +26,8 @@ public class Skill_W_MermaidBlessing : SkillPiece
         Rullet rullet = battleHandler.mainRullet;
         List<RulletPiece> skillPieces = rullet.GetPieces();
 
+        yield return pTwoSecWait;
+
         for (int i = 0; i < skillPieces.Count; i++)
         {
             if (skillPieces[i] == null) continue;
@@ -37,19 +39,25 @@ public class Skill_W_MermaidBlessing : SkillPiece
                     int a = i;
 
                     Anim_W_Splash splashEffect = PoolManager.GetItem<Anim_W_Splash>();
-                    splashEffect.transform.position = skillPieces[i].skillImg.transform.position;
+                    splashEffect.transform.position = skillPieces[a].skillImg.transform.position;
                     splashEffect.SetScale(0.5f);
 
                     skillPieces[a].ChangeType(PatternType.Spade);
+                    skillPieces[a].HighlightColor(0.4f);
 
                     splashEffect.Play();
 
-                    yield return pOneSecWait;
+                    Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
+                    textEffect.SetType(TextUpAnimType.Damage);
+                    textEffect.transform.position = skillPieces[a].skillImg.transform.position;
+                    textEffect.Play("속성 변경!");
+
+                    yield return pTwoSecWait;
                 }
             }
         }
 
-        yield return pOneSecWait;
+        yield return pTwoSecWait;
 
         onCastEnd?.Invoke();
     }

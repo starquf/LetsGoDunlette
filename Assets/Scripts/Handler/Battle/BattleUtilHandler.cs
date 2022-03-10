@@ -49,29 +49,113 @@ public class BattleUtilHandler : MonoBehaviour
         mainRullet.GetComponent<SkillRullet>().ChangePiece(pieceIdx, piece);
     }
 
-    public void DrawRulletPieces()
+    public IEnumerator DrawRulletPieces()
     {
         List<RulletPiece> pieces = mainRullet.GetPieces();
+        List<int> changeIdxList = new List<int>();
 
         for (int i = 0; i < pieces.Count; i++)
         {
             // 비어있는곳이라면
             if (pieces[i] == null)
             {
-                SkillPiece skill = inventory.GetRandomUnusedSkill();
-                mainRullet.SetPiece(i, skill);
+                changeIdxList.Add(i);
             }
         }
+
+        for (int i = 0; i < changeIdxList.Count; i++)
+        {
+            SkillPiece skill = inventory.GetRandomUnusedSkill();
+            mainRullet.SetPiece(changeIdxList[i], skill);
+
+            if (i != changeIdxList.Count - 1)
+            {
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+
+        yield break;
     }
 
-    public void ResetRullet()
+    public IEnumerator ResetRulletPiecesWithCondition()
+    {
+        // 인벤토리에서 랜덤한 6개의 스킬을 뽑아 룰렛에 적용한다. 단, 최소한 적의 스킬 1개와 내 스킬 2개가 보장된다.
+        // true : 플레이어    false : 적
+
+        List<bool> condition = new List<bool>() { true, true, false };
+        List<RulletPiece> pieces = mainRullet.GetPieces();
+
+        for (int i = 0; i < condition.Count; i++)
+        {
+            SkillPiece skill = GetRandomPlayerOrEnemySkill(condition[i]);
+
+            if (pieces.Count <= i)
+            {
+                mainRullet.AddPiece(skill);
+            }
+            else
+            {
+                ChangeRulletPiece(i, skill);
+            }
+
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        for (int i = condition.Count; i < 6; i++)
+        {
+            SkillPiece skill = GetRandomSkill();
+
+            if (pieces.Count <= i)
+            {
+                mainRullet.AddPiece(skill);
+            }
+            else
+            {
+                ChangeRulletPiece(i, skill);
+            }
+
+            if (i != 5)
+            {
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+
+        yield break;
+    }
+
+    public SkillPiece GetRandomPlayerOrEnemySkill(bool isPlayer) //true 면 플레이어
+    {
+        SkillPiece skill = inventory.GetRandomPlayerOrEnemySkill(isPlayer);
+        skill.transform.localScale = new Vector3(0.2f, 0.2f, 1f);
+
+        return skill;
+    }
+
+    public SkillPiece GetRandomSkill()
+    {
+        SkillPiece skill = inventory.GetRandomUnusedSkill();
+        skill.transform.localScale = new Vector3(0.2f, 0.2f, 1f);
+
+        return skill;
+    }
+
+    public IEnumerator ResetRullet(Action onEndReset = null)
     {
         List<RulletPiece> pieces = mainRullet.GetPieces();
 
         for (int i = 0; i < pieces.Count; i++)
         {
             ChangeRulletPiece(i);
+
+            if (i != 5)
+            {
+                yield return new WaitForSeconds(0.1f);
+            }
         }
+
+        onEndReset?.Invoke();
+
+        yield break;
     }
 
     public void SetPieceToGraveyard(int pieceIdx)
