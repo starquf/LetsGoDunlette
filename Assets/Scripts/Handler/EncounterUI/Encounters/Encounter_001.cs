@@ -70,7 +70,6 @@ public class Encounter_001 : RandomEncounter
                     GameManager.Instance.inventoryHandler.AddSkill(skill);
                     skill.GetComponent<Image>().color = Color.white;
 
-                    GameManager.Instance.battleHandler.StartBattle();
                     OnExitEncounter?.Invoke(true);
                 });
 

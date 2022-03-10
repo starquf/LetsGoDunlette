@@ -39,6 +39,7 @@ public class Encounter_003 : RandomEncounter
         switch (choiceIdx)
         {
             case 0:
+                GameManager.Instance.battleHandler.StartBattle();
                 OnExitEncounter?.Invoke(false);
                 break;
             case 1:
