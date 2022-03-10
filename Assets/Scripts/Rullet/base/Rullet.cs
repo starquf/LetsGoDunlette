@@ -35,7 +35,7 @@ public abstract class Rullet : MonoBehaviour
         {
             rulletSpeed = value;
 
-            rulletSpeed = Mathf.Clamp(rulletSpeed, 600f, 1500f);
+            rulletSpeed = Mathf.Clamp(rulletSpeed, 500f, 1500f);
         }
     }
 
@@ -74,7 +74,7 @@ public abstract class Rullet : MonoBehaviour
 
     public virtual void ResetRulletSpeed()
     {
-        rulletSpeed = 700f;
+        rulletSpeed = 600f;
         print(rulletSpeed);
     }
 
@@ -204,7 +204,7 @@ public abstract class Rullet : MonoBehaviour
     protected virtual IEnumerator Roll()
     {
         rollSpeed = (rulletSpeed + UnityEngine.Random.Range(0, 100)) * multiply;
-        stopSpeed = UnityEngine.Random.Range(9.5f, 10.5f);
+        stopSpeed = UnityEngine.Random.Range(10f, 10.5f);
 
         if (speedText != null)
         {

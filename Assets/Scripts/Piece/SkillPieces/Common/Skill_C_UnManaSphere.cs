@@ -37,7 +37,7 @@ public class Skill_C_UnManaSphere : SkillPiece
                 effect.transform.position = startPos;
                 effect.SetSprite(manaSphereSpr);
                 effect.SetColorGradient(effectGradient);
-                effect.SetScale(Vector3.one);
+                effect.SetScale(Vector3.one * Random.Range(0.6f, 1f));
 
                 effect.Play(targetPos, () =>
                 {
@@ -65,7 +65,7 @@ public class Skill_C_UnManaSphere : SkillPiece
 
                     effect.EndEffect();
 
-                }, BezierType.Quadratic, isRotate: true, delay: i * 0.05f, playSpeed: 2f);
+                }, BezierType.Quadratic, isRotate: true, delay: i * 0.15f, playSpeed: 1.7f);
             }
         });
     }

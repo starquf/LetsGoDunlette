@@ -208,6 +208,14 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         SetHPBar();
     }
 
+    public virtual void RemoveShield()
+    {
+        cc.RemoveBuff(BuffType.Shield);
+
+        shieldHp = 0;
+        SetHPBar();
+    }
+
     public virtual void Revive()
     {
         isDie = false;

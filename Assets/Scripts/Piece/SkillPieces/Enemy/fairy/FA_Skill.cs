@@ -54,7 +54,7 @@ public class FA_Skill : SkillPiece
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.2f);
 
-            target.GetDamage(Value, gameObject);
+            target.GetDamage(Value, owner.gameObject);
 
             Anim_M_Scratch effect = PoolManager.GetItem<Anim_M_Scratch>();
             effect.transform.position = owner.transform.position;
