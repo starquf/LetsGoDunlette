@@ -93,6 +93,9 @@ public class EffectObj : MonoBehaviour
 
     private IEnumerator PlayEffect(Vector3 target, Action onEndEffect, BezierType type, float delay, float playSpeed, bool isRotate)
     {
+        if (delay > 0)
+            yield return new WaitForSeconds(delay);
+
         Vector3 start = transform.position;
 
         float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
@@ -105,9 +108,6 @@ public class EffectObj : MonoBehaviour
         Vector3 dir = Vector3.zero;
 
         transform.rotation = Quaternion.identity;
-
-        if (delay > 0)
-            yield return new WaitForSeconds(delay);
 
         float t = 0f;
 

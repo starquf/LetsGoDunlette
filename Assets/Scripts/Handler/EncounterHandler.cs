@@ -41,7 +41,7 @@ public class EncounterHandler : MonoBehaviour
             case mapNode.BOSS:
                 print("º¸½º");
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
-                tbHandler.StartEvent();
+                GameManager.Instance.battleHandler.StartBattle(true);
                 break;
             case mapNode.EMONSTER:
                 print("¿¤¸®Æ® ¸÷");
