@@ -73,7 +73,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
         {
             encounterTxt.text = randomEncounter.en_End_TextList[choiceIdx];
             encounterResultTxt.text = randomEncounter.en_End_Result;
-            encounterImg.sprite = randomEncounter.en_End_Image[choiceIdx];
+            encounterImg.sprite = randomEncounter.showImg;
             whiteImg.DOFade(0, 0.3f).SetEase(Ease.InQuad);
             ShowPanel(true, enEndPanel);
         });

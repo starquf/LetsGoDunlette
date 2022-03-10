@@ -278,7 +278,7 @@ public class MapHandler : MonoBehaviour
                         map[c][r].spriteIdx = 3;
                         icon = mapIcons[map[c][r].spriteIdx];
                         break;
-                    case mapNode.TREASURE:
+                    case mapNode.RandomEncounter:
                         map[c][r].spriteIdx = 2;
                         icon = mapIcons[map[c][r].spriteIdx];
                         break;
