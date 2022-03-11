@@ -45,7 +45,7 @@ public class PieceCastUIHandler : MonoBehaviour
             .Append(skillPiece.transform.DOMove(parent.position, 0.5f))
             .Join(skillPiece.transform.DORotate(Quaternion.Euler(0, 0, 30).eulerAngles, 0.5f))
             //.Join(skillPiece.transform.DOScale(Vector3.one, 0.5f))
-            .AppendInterval(0.1f)
+            .AppendInterval(0.3f)
             .Append(skillPiece.GetComponent<Image>().DOFade(0, 0.3f))
             .Join(skillPiece.skillImg.DOFade(0, 0.3f))
             .OnComplete(() => { print("ÀÌÆåÆ®³¡³²"); onEndEffect(); });
@@ -55,9 +55,12 @@ public class PieceCastUIHandler : MonoBehaviour
 
     public void EndCast(SkillPiece skillPiece)
     {
-        ShowPanel(false,false, ()=> {
-            skillPiece.GetComponent<Image>().color = Color.white;
-            skillPiece.skillImg.color = Color.white;
+        ShowPanel(false,false, () => {
+            if (skillPiece != null)
+            {
+                skillPiece.GetComponent<Image>().color = Color.white;
+                skillPiece.skillImg.color = Color.white;
+            }
         });
     }
 

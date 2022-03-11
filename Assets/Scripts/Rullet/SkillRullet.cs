@@ -22,6 +22,11 @@ public class SkillRullet : Rullet
     // 해당 인덱스의 조각을 인벤토리에 넣고 바꾸는 함수
     public void ChangePiece(int changeIdx, SkillPiece changePiece)
     {
+        if (changePiece == null)
+        {
+            Debug.LogError("null 있음 !!");
+        }
+
         changePiece.isInRullet = true;
 
         InventoryHandler inventory = GameManager.Instance.inventoryHandler;
@@ -43,6 +48,11 @@ public class SkillRullet : Rullet
     // 해당 인덱스의 조각을 바꾸는 함수
     public void SetPiece(int changeIdx, SkillPiece changePiece)
     {
+        if (changePiece == null)
+        {
+            Debug.LogError("null 발생!!");
+        }
+
         changePiece.isInRullet = true;
 
         changePiece.transform.SetParent(transform);

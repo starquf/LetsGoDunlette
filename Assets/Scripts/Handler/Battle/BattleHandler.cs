@@ -66,10 +66,13 @@ public class BattleHandler : MonoBehaviour
 
     //==================================================
 
+    public Transform bottomPos;
+
     #region WaitSeconds
     private readonly WaitForSeconds oneSecWait = new WaitForSeconds(1f);
     private readonly WaitForSeconds pFiveSecWait = new WaitForSeconds(0.5f);
     private readonly WaitForSeconds pOneSecWait = new WaitForSeconds(0.1f);
+    private List<bool> boolList = new List<bool>() { true, false };
     #endregion
 
     private void Awake()
@@ -245,7 +248,7 @@ public class BattleHandler : MonoBehaviour
 
         // 인벤토리에서 랜덤한 6개의 스킬을 뽑아 룰렛에 적용한다. 단, 최소한 적의 스킬 1개와 내 스킬 2개가 보장된다.
 
-        yield return StartCoroutine(battleUtil.ResetRulletPiecesWithCondition());
+        yield return StartCoroutine(battleUtil.ResetRulletPiecesWithCondition(hasWait:true));
 
         yield return oneSecWait;
 
@@ -328,21 +331,10 @@ public class BattleHandler : MonoBehaviour
         // 상처 체크
         ccHandler.CheckCC(CCType.Wound);
 
-        // 적이 전부 죽었는가?
-        if (battleUtil.CheckEnemyDie(enemys))
+        CheckBattleEnd(() =>
         {
             battleUtil.SetPieceToInventory(result);
-
-            BattleEnd();
-            yield break;
-        }
-        else if(battleUtil.CheckDie(player))
-        {
-            battleUtil.SetPieceToInventory(result);
-
-            BattleEnd(false);
-            yield break;
-        }
+        });
 
         yield return null;
 
@@ -353,38 +345,8 @@ public class BattleHandler : MonoBehaviour
         yield return StartCoroutine(battleUtil.DrawRulletPieces());
 
         // 패널티 체크
-        if (battleUtil.CheckRulletPenalty(false))
-        {
-            yield return pFiveSecWait;
 
-            GivePenalty(false);
-            yield return null;
-
-            yield return StartCoroutine(battleUtil.ResetRulletPiecesWithCondition());
-
-            if (battleUtil.CheckDie(player))
-            {
-                BattleEnd(false);
-                yield break;
-            }
-        }
-        if (battleUtil.CheckRulletPenalty(true))
-        {
-            yield return pFiveSecWait;
-
-            GivePenalty(true);
-            yield return null;
-
-            yield return StartCoroutine(battleUtil.ResetRulletPiecesWithCondition());
-
-            onEndAttack?.Invoke();
-
-            if (battleUtil.CheckEnemyDie(enemys))
-            {
-                BattleEnd();
-                yield break;
-            }
-        }
+        yield return StartCoroutine(CheckPanelty());
 
         yield return pFiveSecWait;
 
@@ -392,10 +354,68 @@ public class BattleHandler : MonoBehaviour
         InitTurn();
     }
 
+    public void CheckBattleEnd(Action onEndBattle = null)
+    {
+        if (battleUtil.CheckEnemyDie(enemys))
+        {
+            onEndBattle?.Invoke();
+
+            BattleEnd();
+
+            StopAllCoroutines();
+        }
+        else if (battleUtil.CheckDie(player))
+        {
+            onEndBattle?.Invoke();
+
+            BattleEnd(false);
+
+            StopAllCoroutines();
+        }
+    }
+
+    public IEnumerator CheckPanelty(Action onEndCheckPanelty = null)
+    {
+        for (int i = 0; i < boolList.Count; i++)
+        {
+            while (battleUtil.CheckRulletPenalty(boolList[i]))
+            {
+                yield return pFiveSecWait;
+
+                GivePenalty(boolList[i]);
+
+                yield return null;
+
+                yield return StartCoroutine(battleUtil.ResetRulletPiecesWithCondition(pos => 
+                {
+                    GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.15f, 0.1f);
+
+                    Anim_M_Butt hitEffect = PoolManager.GetItem<Anim_M_Butt>();
+                    hitEffect.SetScale(0.8f);
+                    hitEffect.transform.position = pos;
+
+                    hitEffect.Play();
+                }));
+
+                CheckBattleEnd();
+
+                yield return null;
+
+                yield return StartCoroutine(battleUtil.DrawRulletPieces());
+            }
+        }
+
+        onEndCheckPanelty?.Invoke();
+
+        yield break;
+    }
+
     // 전투가 끝날 때
     private void BattleEnd(bool isWin = true)
     {
         player.cc.ResetAllCC();
+        player.RemoveShield();
+
         mainRullet.ResetRulletSpeed();
 
         if (isWin)
@@ -478,6 +498,8 @@ public class BattleHandler : MonoBehaviour
                         castUIHandler.EndCast(piece);
                     });
                 }
+
+                mainRullet.RulletSpeed += 50f;
             }
             else
             {
@@ -490,10 +512,8 @@ public class BattleHandler : MonoBehaviour
                     });
                 };
 
-                mainRullet.RulletSpeed -= 40f;
+                mainRullet.RulletSpeed -= 100f;
             }
-
-            mainRullet.RulletSpeed += 20f;
 
             castUIHandler.ShowCasting(piece, onShowCast);
         }
@@ -505,12 +525,12 @@ public class BattleHandler : MonoBehaviour
         {
             for (int i = 0; i < enemys.Count; i++)
             {
-                enemys[i].GetDamage(100);
+                enemys[i].GetDamage(200);
             }
         }
         else
         {
-            player.GetDamage(100);
+            player.GetDamage((int)(player.maxHp * 0.3f));
         }
 
         GameManager.Instance.cameraHandler.ShakeCamera(1f, 0.2f);

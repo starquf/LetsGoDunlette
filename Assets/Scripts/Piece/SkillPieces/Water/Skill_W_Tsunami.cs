@@ -32,7 +32,7 @@ public class Skill_W_Tsunami : SkillPiece
     {
         int waterCnt = 0;
 
-        Vector3 startPos = bh.mainRullet.transform.position;
+        Vector3 startPos = bh.bottomPos.position;
 
         Rullet rullet = bh.mainRullet;
         List<RulletPiece> skillPieces = rullet.GetPieces();
@@ -45,12 +45,19 @@ public class Skill_W_Tsunami : SkillPiece
             {
                 if (skillPieces[i].currentType.Equals(PatternType.Spade) && skillPieces[i] != this)
                 {
+                    Vector3 skillPos = skillPieces[i].skillImg.transform.position;
                     int a = i;
 
                     waterCnt++;
 
+                    Anim_W_Splash splashEffect = PoolManager.GetItem<Anim_W_Splash>();
+                    splashEffect.transform.position = skillPos;
+                    splashEffect.SetScale(0.5f);
+
+                    splashEffect.Play();
+
                     EffectObj effect = PoolManager.GetItem<EffectObj>();
-                    effect.transform.position = skillPieces[i].skillImg.transform.position;
+                    effect.transform.position = skillPos;
                     effect.SetSprite(manaSphereSpr);
                     effect.SetColorGradient(effectGradient);
                     effect.SetScale(Vector3.one);
@@ -65,7 +72,7 @@ public class Skill_W_Tsunami : SkillPiece
                         splashEffect.Play();
 
                         effect.EndEffect();
-                    }, BezierType.Linear, isRotate: true, playSpeed: 4f);
+                    }, BezierType.Quadratic, isRotate: true, playSpeed: 2.3f);
 
                     yield return pTwoSecWait;
                 }

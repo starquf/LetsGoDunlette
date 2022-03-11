@@ -26,7 +26,10 @@ public class Scroll_Chaos : Scroll
 
         StartCoroutine(bh.battleUtil.ResetRullet(() => 
         {
-            bh.battleUtil.SetTimer(0.5f, onEndUse);
+            bh.battleUtil.SetTimer(0.5f, () => 
+            {
+                StartCoroutine(bh.CheckPanelty(onEndUse));
+            });
         }));
     }
 }
