@@ -117,7 +117,7 @@ public class BattleHandler : MonoBehaviour
         }
 
         // 적 생성
-        CreateEnemy(bInfo.enemyInfos, () =>
+        CreateEnemy(battleInfo.enemyInfos, () =>
         {
             // 전투가 시작하기 전 인벤토리와 룰렛 정리
             StartCoroutine(InitRullet());
