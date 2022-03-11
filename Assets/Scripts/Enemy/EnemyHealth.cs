@@ -7,6 +7,9 @@ using System;
 
 public class EnemyHealth : LivingEntity
 {
+    [Header("적 기본 데이터")]
+    public EnemyType enemyType;
+
     private Collider2D coll;
     private SpriteRenderer sr;
 
@@ -18,13 +21,18 @@ public class EnemyHealth : LivingEntity
     [Header("보스 여부")]
     public bool isBoss = false;
 
-    protected override void Start()
+    protected override void Awake()
     {
+        base.Awake();
+
         coll = GetComponent<Collider2D>();
         sr = GetComponent<SpriteRenderer>();
 
         indicator = GetComponent<EnemyIndicator>();
+    }
 
+    protected override void Start()
+    {
         if(weaknessImg != null)
             weaknessImg.sprite = GameManager.Instance.inventoryHandler.effectSprDic[weaknessType];
 
@@ -61,11 +69,12 @@ public class EnemyHealth : LivingEntity
             .OnComplete(() => gameObject.SetActive(false));
     }
 
-    public override void Revive()
+    public override void Init()
     {
-        base.Revive();
+        base.Init();
 
         sr.DOFade(1f, 1f)
+            .From(0f)
             .SetEase(Ease.Linear);
 
         coll.enabled = true;

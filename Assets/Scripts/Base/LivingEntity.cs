@@ -34,9 +34,20 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     [HideInInspector]
     public CrowdControl cc;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         cc = GetComponent<CrowdControl>();
+
+        Transform bar = hPCvs.transform.Find("HPBar").transform;
+        hpBar = bar.Find("HPBar").GetComponent<Image>();
+        hpBarAfterImageBar = bar.Find("HPAfterImageBar").GetComponent<Image>();
+        hpShieldBar = bar.Find("HPShieldBar").GetComponent<Image>();
+        hpText = bar.Find("hpText").GetComponent<Text>();
+        damageTrans = hPCvs.transform.Find("DamageEffect").transform;
+
+        damageImg = damageTrans.GetComponent<Image>();
+        damageColor = damageImg.color;
+        damageColor = new Color(damageColor.r, damageColor.g, damageColor.b, 1f);
     }
 
     protected virtual void Start()
@@ -44,21 +55,9 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         hp = maxHp;
         shieldHp = 0;
 
-        Transform bar = hPCvs.transform.Find("HPBar").transform;
-        hpBar = bar.Find("HPBar").GetComponent<Image>();
-        hpBarAfterImageBar = bar.Find("HPAfterImageBar").GetComponent<Image>();
-        hpShieldBar = bar.Find("HPShieldBar").GetComponent<Image>();
-        hpText = bar.Find("hpText").GetComponent<Text>();
-
-        damageTrans = hPCvs.transform.Find("DamageEffect").transform;
-
         SetHPBar();
 
         bh = GameManager.Instance.battleHandler;
-        damageImg = damageTrans.GetComponent<Image>();
-
-        damageColor = damageImg.color;
-        damageColor = new Color(damageColor.r, damageColor.g, damageColor.b, 1f);
     }
 
     public virtual void GetDamage(int damage)
@@ -216,10 +215,11 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         SetHPBar();
     }
 
-    public virtual void Revive()
+    public virtual void Init()
     {
         isDie = false;
         hp = maxHp;
+        shieldHp = 0;
 
         SetHPBar();
     }

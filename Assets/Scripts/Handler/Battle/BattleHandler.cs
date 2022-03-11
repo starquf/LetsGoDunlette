@@ -129,13 +129,14 @@ public class BattleHandler : MonoBehaviour
         battleUtil.Init(inventory, mainRullet);
     }
 
-    public void CreateEnemy(List<EnemyHealth> enemyInfos, Action onCreateEnd) //다중생성
+    public void CreateEnemy(List<EnemyType> enemyInfos, Action onCreateEnd) //다중생성
     {
         List<EnemyHealth> createdEnemy = new List<EnemyHealth>();
 
         for (int i = 0; i < enemyInfos.Count; i++)
         {
-            EnemyHealth enemy = Instantiate(enemyInfos[i]);
+            EnemyHealth enemy = PoolManager.GetEnemy(enemyInfos[i]);
+            enemy.Init();
             enemy.transform.position = createTrans.position;
 
             enemys.Add(enemy);
@@ -432,7 +433,7 @@ public class BattleHandler : MonoBehaviour
                 }
                 enemys.Clear();
                 GameManager.Instance.mapHandler.GameOverProto();
-                player.Revive();
+                player.Init();
             });
         }
     }

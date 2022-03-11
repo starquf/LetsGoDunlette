@@ -32,15 +32,12 @@ public class QN_Skill : SkillPiece
     {
         GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
-        List<EnemyHealth> dependents = new List<EnemyHealth>();
-
-        print(owner.GetComponent<Queen_Info>() != null);
-        EnemyHealth dependentObj = owner.GetComponent<Queen_Info>().dependentObj;
+        List<EnemyType> dependents = new List<EnemyType>();
 
         // Àû »ý¼º
         for (int i = 0; i < 2; i++)
         {
-            dependents.Add(dependentObj);
+            dependents.Add(EnemyType.DEPENDENT);
         }
 
         GameManager.Instance.battleHandler.CreateEnemy(dependents, () =>

@@ -64,3 +64,18 @@ public enum ShowInfoRange
     Inventory,
     Graveyard
 }
+
+public enum EnemyType
+{
+    NORMAL_SLIME,
+    LOW_SKELETON_WARRIOR,
+    MIMIC,
+    FAIRY,
+    QUEEN,
+    DEPENDENT,
+    HARPY,
+    MANDRAGORA,
+    GNOLL,
+    KOBOLD,
+    GAGOYLE
+}

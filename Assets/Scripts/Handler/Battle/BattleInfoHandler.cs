@@ -7,7 +7,7 @@ using System.Linq;
 [System.Serializable]
 public class BattleInfo
 {
-    public List<EnemyHealth> enemyInfos = new List<EnemyHealth>();
+    public List<EnemyType> enemyInfos = new List<EnemyType>();
     public List<GameObject> rewards = new List<GameObject>();
 
     public bool isWeakEnemy;
