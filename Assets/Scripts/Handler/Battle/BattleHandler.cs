@@ -98,7 +98,7 @@ public class BattleHandler : MonoBehaviour
     #region StartBattle
 
     // 전투를 시작하는 함수
-    public void StartBattle(bool isBoss = false)
+    public void StartBattle(bool isBoss = false, BattleInfo bInfo = null)
     {
         print("전투시작");
         SoundHandler.Instance.PlayBGMSound("Battle_4");
@@ -106,11 +106,18 @@ public class BattleHandler : MonoBehaviour
         onNextAttack = null;
         nextAttack = null;
 
-        // 현재 전투 정보 가져오기
-        battleInfo = !isBoss ? battleInfoHandler.GetRandomBattleInfo() : battleInfoHandler.GetRandomBossInfo();
+        if (bInfo != null)
+        {
+            battleInfo = bInfo;
+        }
+        else
+        {
+            // 랜덤 전투 정보 가져오기
+            battleInfo = !isBoss ? battleInfoHandler.GetRandomBattleInfo() : battleInfoHandler.GetRandomBossInfo();
+        }
 
-        // 적 생성 일단 테스트로 하나만 만듬
-        CreateEnemy(battleInfo.enemyInfos, () =>
+        // 적 생성
+        CreateEnemy(bInfo.enemyInfos, () =>
         {
             // 전투가 시작하기 전 인벤토리와 룰렛 정리
             StartCoroutine(InitRullet());
