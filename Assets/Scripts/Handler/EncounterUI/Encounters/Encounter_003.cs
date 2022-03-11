@@ -27,7 +27,9 @@ public class Encounter_003 : RandomEncounter
                 }
                 break;
             case 1:
-                en_End_Result = "µµ¸ÁÄ£´Ù..";
+                showText = en_End_TextList[2];
+                showImg = en_End_Image[2];
+                en_End_Result = "µµ¸ÁÃÆ´Ù.";
                 break;
             default:
                 break;
