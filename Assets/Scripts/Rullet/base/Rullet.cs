@@ -36,6 +36,7 @@ public abstract class Rullet : MonoBehaviour
             rulletSpeed = value;
 
             rulletSpeed = Mathf.Clamp(rulletSpeed, 500f, 1500f);
+            speedText.text = $"Speed : {rulletSpeed.ToString()}";
         }
     }
 
@@ -75,7 +76,6 @@ public abstract class Rullet : MonoBehaviour
     public virtual void ResetRulletSpeed()
     {
         rulletSpeed = 600f;
-        print(rulletSpeed);
     }
 
     public virtual List<RulletPiece> GetPieces()
@@ -122,7 +122,7 @@ public abstract class Rullet : MonoBehaviour
             if (pieces[i] != null)
             {
                 pieces[i].transform
-                    .DORotateQuaternion(Quaternion.AngleAxis(transform.eulerAngles.z + sizeSum * angle, Vector3.forward), 0.35f);
+                            .DORotateQuaternion(Quaternion.AngleAxis(transform.eulerAngles.z + sizeSum * angle, Vector3.forward), 0.35f);
 
                 sizeSum += pieces[i].Size;
             }
@@ -206,10 +206,7 @@ public abstract class Rullet : MonoBehaviour
         rollSpeed = (rulletSpeed + UnityEngine.Random.Range(0, 100)) * multiply;
         stopSpeed = UnityEngine.Random.Range(10f, 10.5f);
 
-        if (speedText != null)
-        {
-            speedText.text = $"Speed : {rollSpeed.ToString()}";
-        }
+        speedText.text = $"Speed : {rulletSpeed.ToString()}";
 
         while (Mathf.Abs(rollSpeed) > 1.5f)
         {

@@ -111,6 +111,12 @@ public abstract class RulletPiece : MonoBehaviour
         ChangeType(patternType);
     }
 
+    public void KillTween()
+    {
+        transform.DOKill();
+        skillImg.transform.DOKill();
+    }
+
     public virtual void Highlight()
     {
         highlightImg.color = Color.white;

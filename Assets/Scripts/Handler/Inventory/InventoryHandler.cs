@@ -215,6 +215,12 @@ public class InventoryHandler : MonoBehaviour
         int randIdx = Random.Range(0, unusedSkills.Count);
 
         SkillPiece result = unusedSkills[randIdx];
+
+        if (result == null)
+        {
+            Debug.LogError("null ¿÷¿Ω !!");
+        }
+
         result.ResetPiece();
 
         result.gameObject.SetActive(true);
@@ -352,6 +358,8 @@ public class InventoryHandler : MonoBehaviour
 
     public void RemovePiece(SkillPiece piece)
     {
+        piece.KillTween();
+
         skills.Remove(piece);
         usedSkills.Remove(piece);
         unusedSkills.Remove(piece);

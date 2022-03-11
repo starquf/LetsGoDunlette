@@ -77,7 +77,7 @@ public class BattleUtilHandler : MonoBehaviour
         yield break;
     }
 
-    public IEnumerator ResetRulletPiecesWithCondition()
+    public IEnumerator ResetRulletPiecesWithCondition(Action<Vector3> onResetPiecePosition = null, bool hasWait = false)
     {
         // 인벤토리에서 랜덤한 6개의 스킬을 뽑아 룰렛에 적용한다. 단, 최소한 적의 스킬 1개와 내 스킬 2개가 보장된다.
         // true : 플레이어    false : 적
@@ -87,6 +87,13 @@ public class BattleUtilHandler : MonoBehaviour
 
         for (int i = 0; i < condition.Count; i++)
         {
+            if (pieces.Count > i)
+            {
+                onResetPiecePosition?.Invoke(pieces[i].skillImg.transform.position);
+            }
+
+            yield return null;
+
             SkillPiece skill = GetRandomPlayerOrEnemySkill(condition[i]);
 
             if (pieces.Count <= i)
@@ -98,11 +105,19 @@ public class BattleUtilHandler : MonoBehaviour
                 ChangeRulletPiece(i, skill);
             }
 
-            yield return new WaitForSeconds(0.1f);
+            if(hasWait)
+                yield return new WaitForSeconds(0.15f);
         }
 
         for (int i = condition.Count; i < 6; i++)
         {
+            if (pieces.Count > i)
+            {
+                onResetPiecePosition?.Invoke(pieces[i].skillImg.transform.position);
+            }
+
+            yield return null;
+
             SkillPiece skill = GetRandomSkill();
 
             if (pieces.Count <= i)
@@ -116,7 +131,8 @@ public class BattleUtilHandler : MonoBehaviour
 
             if (i != 5)
             {
-                yield return new WaitForSeconds(0.1f);
+                if (hasWait)
+                    yield return new WaitForSeconds(0.15f);
             }
         }
 
@@ -126,6 +142,7 @@ public class BattleUtilHandler : MonoBehaviour
     public SkillPiece GetRandomPlayerOrEnemySkill(bool isPlayer) //true 면 플레이어
     {
         SkillPiece skill = inventory.GetRandomPlayerOrEnemySkill(isPlayer);
+
         skill.transform.localScale = new Vector3(0.2f, 0.2f, 1f);
 
         return skill;

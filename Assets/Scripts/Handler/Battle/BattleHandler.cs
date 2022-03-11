@@ -248,7 +248,7 @@ public class BattleHandler : MonoBehaviour
 
         // 인벤토리에서 랜덤한 6개의 스킬을 뽑아 룰렛에 적용한다. 단, 최소한 적의 스킬 1개와 내 스킬 2개가 보장된다.
 
-        yield return StartCoroutine(battleUtil.ResetRulletPiecesWithCondition());
+        yield return StartCoroutine(battleUtil.ResetRulletPiecesWithCondition(hasWait:true));
 
         yield return oneSecWait;
 
@@ -383,11 +383,25 @@ public class BattleHandler : MonoBehaviour
                 yield return pFiveSecWait;
 
                 GivePenalty(boolList[i]);
+
                 yield return null;
 
-                yield return StartCoroutine(battleUtil.ResetRulletPiecesWithCondition());
+                yield return StartCoroutine(battleUtil.ResetRulletPiecesWithCondition(pos => 
+                {
+                    GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.15f, 0.1f);
+
+                    Anim_M_Butt hitEffect = PoolManager.GetItem<Anim_M_Butt>();
+                    hitEffect.SetScale(0.8f);
+                    hitEffect.transform.position = pos;
+
+                    hitEffect.Play();
+                }));
 
                 CheckBattleEnd();
+
+                yield return null;
+
+                yield return StartCoroutine(battleUtil.DrawRulletPieces());
             }
         }
 
@@ -484,6 +498,8 @@ public class BattleHandler : MonoBehaviour
                         castUIHandler.EndCast(piece);
                     });
                 }
+
+                mainRullet.RulletSpeed += 50f;
             }
             else
             {
@@ -496,10 +512,8 @@ public class BattleHandler : MonoBehaviour
                     });
                 };
 
-                mainRullet.RulletSpeed -= 50f;
+                mainRullet.RulletSpeed -= 100f;
             }
-
-            mainRullet.RulletSpeed += 20f;
 
             castUIHandler.ShowCasting(piece, onShowCast);
         }
@@ -511,12 +525,12 @@ public class BattleHandler : MonoBehaviour
         {
             for (int i = 0; i < enemys.Count; i++)
             {
-                enemys[i].GetDamage(100);
+                enemys[i].GetDamage(200);
             }
         }
         else
         {
-            player.GetDamage(100);
+            player.GetDamage((int)(player.maxHp * 0.3f));
         }
 
         GameManager.Instance.cameraHandler.ShakeCamera(1f, 0.2f);

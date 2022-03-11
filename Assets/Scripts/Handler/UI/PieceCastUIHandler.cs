@@ -55,9 +55,12 @@ public class PieceCastUIHandler : MonoBehaviour
 
     public void EndCast(SkillPiece skillPiece)
     {
-        ShowPanel(false,false, ()=> {
-            skillPiece.GetComponent<Image>().color = Color.white;
-            skillPiece.skillImg.color = Color.white;
+        ShowPanel(false,false, () => {
+            if (skillPiece != null)
+            {
+                skillPiece.GetComponent<Image>().color = Color.white;
+                skillPiece.skillImg.color = Color.white;
+            }
         });
     }
 
