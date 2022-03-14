@@ -47,7 +47,7 @@ public class Encounter_001 : RandomEncounter
             case 2:
                 BattleHandler battleHandler = GameManager.Instance.battleHandler;
                 SkillRullet rullet = battleHandler.mainRullet;
-                RulletPiece rulletPieces = encounterInfoHandler.GetRandomRewards(1)[0];
+                RulletPiece rulletPieces = encounterInfoHandler.GetRandomRewards(1)[0].GetComponent<RulletPiece>();
 
                 SkillPiece skill = Instantiate(rulletPieces, rullet.transform).GetComponent<SkillPiece>();
                 skill.transform.position = Vector2.zero;
