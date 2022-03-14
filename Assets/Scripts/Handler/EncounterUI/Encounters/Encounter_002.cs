@@ -11,13 +11,14 @@ public class Encounter_002 : RandomEncounter
         switch (resultIdx)
         {
             case 0:
-                en_End_Result = "°ñµå È¹µæ";
+                showText = en_End_TextList[0];
+                showImg = en_End_Image[0];
+                en_End_Result = "ÄÚº¼Æ®¿Í ÀüÅõ ½ÃÀÛ";
                 break;
             case 1:
-                en_End_Result = "Ã¼·Â 30% È¸º¹";
-                break;
-            case 2:
-                en_End_Result = "¹«ÀÛÀ§ ·ê·¿ Á¶°¢ È¹µæ";
+                showText = en_End_TextList[1];
+                showImg = en_End_Image[1];
+                en_End_Result = "¹«½ÃÇß´Ù...";
                 break;
             default:
                 break;
@@ -29,13 +30,16 @@ public class Encounter_002 : RandomEncounter
         switch (choiceIdx)
         {
             case 0:
+                BattleInfo bInfo = new BattleInfo();
+                bInfo.enemyInfos = new List<EnemyType>() { EnemyType.KOBOLD };
+                bInfo.rewards = encounterInfoHandler.encounterInfo.rewards;
+                bInfo.isWeakEnemy = false;
 
+                GameManager.Instance.battleHandler.StartBattle(false, bInfo);
+                OnExitEncounter?.Invoke(false);
                 break;
             case 1:
-
-                break;
-            case 2:
-
+                OnExitEncounter?.Invoke(true);
                 break;
             default:
                 break;
