@@ -274,6 +274,11 @@ public class InventoryHandler : MonoBehaviour
     {
         for (int i = 0; i < usedSkills.Count; i++)
         {
+            if (usedSkills[i] == null)
+            {
+                continue;
+            }
+
             // 사용한거를 옮겨
             unusedSkills.Add(usedSkills[i]);
             usedSkills[i].transform.SetParent(transform);
@@ -333,6 +338,8 @@ public class InventoryHandler : MonoBehaviour
                 RemovePiece(piece);
             }
         }
+
+        owner.skills.Clear();
     }
 
     private void CreateRemoveEffect(SkillPiece piece)
