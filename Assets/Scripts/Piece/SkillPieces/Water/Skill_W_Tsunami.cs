@@ -89,12 +89,7 @@ public class Skill_W_Tsunami : SkillPiece
 
         skillEffect.Play(bh.createTrans.position, () => {
 
-            List<EnemyHealth> enemys = new List<EnemyHealth>();
-
-            for (int i = 0; i < bh.enemys.Count; i++)
-            {
-                enemys.Add(bh.enemys[i]);
-            }
+            List<EnemyHealth> enemys = bh.battleUtil.DeepCopyList(bh.enemys);
 
             for (int i = 0; i < enemys.Count; i++)
             {

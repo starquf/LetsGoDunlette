@@ -241,4 +241,16 @@ public class BattleUtilHandler : MonoBehaviour
 
         return livingEnemys;
     }
+
+    public List<T> DeepCopyList<T>(List<T> targetList)
+    {
+        List<T> list = new List<T>();
+
+        for (int i = 0; i < targetList.Count; i++)
+        {
+            list.Add(targetList[i]);
+        }
+
+        return list;
+    }
 }

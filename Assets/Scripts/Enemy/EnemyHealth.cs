@@ -54,6 +54,8 @@ public class EnemyHealth : LivingEntity
 
     protected override void Die()
     {
+        print($"{gameObject.name} Á×À½!!");
+
         ShowDieEffect();
 
         GameManager.Instance.inventoryHandler.RemoveAllOwnerPiece(GetComponent<Inventory>());

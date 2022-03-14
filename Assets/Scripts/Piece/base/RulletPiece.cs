@@ -115,6 +115,7 @@ public abstract class RulletPiece : MonoBehaviour
     {
         transform.DOKill();
         skillImg.transform.DOKill();
+        highlightImg.DOKill();
     }
 
     public virtual void Highlight()
@@ -144,4 +145,9 @@ public abstract class RulletPiece : MonoBehaviour
     }
 
     public abstract void Cast(LivingEntity target, Action onCastEnd = null);
+
+    protected virtual void OnDestroy()
+    {
+        KillTween();
+    }
 }

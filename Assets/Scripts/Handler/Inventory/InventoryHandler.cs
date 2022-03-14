@@ -68,6 +68,7 @@ public class InventoryHandler : MonoBehaviour
         skill.gameObject.SetActive(false);
         skill.owner = owner;
 
+        owner.skills.Add(skill);
         AddSkill(skill);
 
         return skill;
@@ -109,6 +110,12 @@ public class InventoryHandler : MonoBehaviour
     // 사용한 스킬은 이걸 호출
     public void SetUseSkill(SkillPiece skill)
     {
+        if (skill == null)
+        {
+            Debug.LogError("null 발생!!");
+            return;
+        }
+
         if (skill.isDisposable)
         {
             RemovePiece(skill);
@@ -323,7 +330,7 @@ public class InventoryHandler : MonoBehaviour
 
     public void RemoveAllOwnerPiece(Inventory owner)
     {
-        for (int i = 0; i < owner.skills.Count; i++)
+        for (int i = owner.skills.Count - 1; i >= 0; i--)
         {
             SkillPiece piece = owner.skills[i];
 
@@ -370,6 +377,7 @@ public class InventoryHandler : MonoBehaviour
         skills.Remove(piece);
         usedSkills.Remove(piece);
         unusedSkills.Remove(piece);
+        piece.owner.skills.Remove(piece);
 
         Destroy(piece.gameObject);
         SetCountUI();

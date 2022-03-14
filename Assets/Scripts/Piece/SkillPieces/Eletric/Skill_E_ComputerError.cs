@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public class Skill_E_ComputerError : SkillPiece
 {
-    private BattleHandler bh = GameManager.Instance.battleHandler;
+    private BattleHandler bh = null;
 
     protected override void Start()
     {
@@ -19,15 +19,16 @@ public class Skill_E_ComputerError : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        List<EnemyHealth> enemys = new List<EnemyHealth>();
-
-        for (int i = 0; i < bh.enemys.Count; i++)
-        {
-            enemys.Add(bh.enemys[i]);
-        }
+        List<EnemyHealth> enemys = bh.battleUtil.DeepCopyList(bh.enemys);
 
         for (int i = 0; i < enemys.Count; i++)
         {
+            Anim_E_Static_Stun stunEffect = PoolManager.GetItem<Anim_E_Static_Stun>();
+            stunEffect.transform.position = enemys[i].transform.position;
+            stunEffect.SetScale(0.7f);
+
+            stunEffect.Play();
+
             enemys[i].GetDamage(Value, patternType);
         }
 
