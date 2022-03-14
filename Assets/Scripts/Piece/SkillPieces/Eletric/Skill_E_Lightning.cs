@@ -23,7 +23,7 @@ public class Skill_E_Lightning : SkillPiece
                 {
                     playerHealth.cc.SetCC(CCType.Stun, 1);
                 }
-                else
+                else 
                 {
                     target.cc.SetCC(CCType.Stun, 1);
                 }
