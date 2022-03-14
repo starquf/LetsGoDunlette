@@ -16,11 +16,12 @@ public class RandomEncounterUIHandler : MonoBehaviour
     private CanvasGroup mainPanel;
     public CanvasGroup enStartPanel;
     public CanvasGroup enEndPanel;
+    public CanvasGroup imgButtonRowsCvs;
 
     public Image encounterImg;
     public Text encounterTitleTxt, encounterTxt, encounterResultTxt;
     public List<Text> encounterChoiceTxtList;
-    public Button ExitBtn;
+    public Button exitBtn;
 
     private RandomEncounter randomEncounter;
 
@@ -33,7 +34,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
             randomEncounterList[i].OnExitEncounter = EndEvent;
         }
         mainPanel = GetComponent<CanvasGroup>();
-        ExitBtn.onClick.AddListener(OnExitBtnClick);
+        exitBtn.onClick.AddListener(OnExitBtnClick);
     }
 
     public void InitEncounter()
@@ -103,6 +104,8 @@ public class RandomEncounterUIHandler : MonoBehaviour
         {
             ShowPanelSkip(true, enStartPanel);
             ShowPanelSkip(false, enEndPanel);
+            ShowPanelSkip(false, imgButtonRowsCvs);
+            exitBtn.gameObject.SetActive(true);
         });
 
         if (openMap)

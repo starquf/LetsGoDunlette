@@ -353,7 +353,6 @@ public class BattleHandler : MonoBehaviour
         yield return StartCoroutine(battleUtil.DrawRulletPieces());
 
         // 패널티 체크
-
         yield return StartCoroutine(CheckPanelty());
 
         yield return pFiveSecWait;
