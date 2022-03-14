@@ -37,35 +37,29 @@ public class EncounterHandler : MonoBehaviour
                 tbHandler.StartEvent();
                 break;
             case mapNode.START:
-                print("½ÃÀÛ");
                 break;
             case mapNode.BOSS:
-                print("º¸½º");
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
                 GameManager.Instance.battleHandler.StartBattle(isBoss : true);
                 break;
             case mapNode.EMONSTER:
-                print("¿¤¸®Æ® ¸÷");
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
                 tbHandler.StartEvent();
                 break;
             case mapNode.MONSTER:
-                print("Àû");
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
-                GameManager.Instance.battleHandler.StartBattle();
+                //GameManager.Instance.battleHandler.StartBattle();
+                randomEncounterUIHandler.StartEvent();
                 break;
             case mapNode.SHOP:
-                print("»óÁ¡");
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
                 shopEncounterUIHandler.StartEvent();
                 break;
             case mapNode.REST:
-                print("ÈÞ½Ä");
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
                 restEncounterUIHandler.StartEvent();
                 break;
             case mapNode.RandomEncounter:
-                print("º¸¹°");
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
                 randomEncounterUIHandler.StartEvent();
                 break;

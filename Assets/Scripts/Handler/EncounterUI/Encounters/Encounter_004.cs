@@ -11,13 +11,14 @@ public class Encounter_004 : RandomEncounter
         switch (resultIdx)
         {
             case 0:
-                en_End_Result = "°ñµå È¹µæ";
+                showText = en_End_TextList[0];
+                showImg = en_End_Image[0];
+                en_End_Result = "Ã¼·Â 20°¨¼Ò";
                 break;
             case 1:
-                en_End_Result = "Ã¼·Â 30% È¸º¹";
-                break;
-            case 2:
-                en_End_Result = "¹«ÀÛÀ§ ·ê·¿ Á¶°¢ È¹µæ";
+                showText = en_End_TextList[1];
+                showImg = en_End_Image[1];
+                en_End_Result = "°ñµå ÀÒÀ½";
                 break;
             default:
                 break;
@@ -29,13 +30,12 @@ public class Encounter_004 : RandomEncounter
         switch (choiceIdx)
         {
             case 0:
-
+                PlayerHealth playerHealth = GameManager.Instance.GetPlayer();
+                playerHealth.GetDamage(20);
+                OnExitEncounter?.Invoke(true);
                 break;
             case 1:
-
-                break;
-            case 2:
-
+                OnExitEncounter?.Invoke(true);
                 break;
             default:
                 break;

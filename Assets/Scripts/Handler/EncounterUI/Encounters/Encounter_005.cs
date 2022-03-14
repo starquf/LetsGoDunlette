@@ -1,27 +1,93 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Encounter_005 : RandomEncounter
 {
+    private bool IsWin()
+    {
+        return true;
+        int rand = Random.Range(0, 99);
+        if(rand < 33)
+        {
+            return true;
+        }
+        return false;
+    }
 
     public override void ResultSet(int resultIdx)
     {
-        choiceIdx = resultIdx;
-        switch (resultIdx)
+        if(IsWin())
         {
-            case 0:
-                en_End_Result = "°ñµå È¹µæ";
-                break;
-            case 1:
-                en_End_Result = "Ã¼·Â 30% È¸º¹";
-                break;
-            case 2:
-                en_End_Result = "¹«ÀÛÀ§ ·ê·¿ Á¶°¢ È¹µæ";
-                break;
-            default:
-                break;
+            choiceIdx = 0;
+            showText = en_End_TextList[0];
+            showImg = en_End_Image[0];
+            en_End_Result = "½Â¸®\n3°³Áß ÇÏ³ª ¼±ÅÃÇØ ÁÖ¼¼¿ä";
+
+            RandomEncounterUIHandler randomEncounterUIHandler = encounterInfoHandler.GetComponent<RandomEncounterUIHandler>();
+            Transform parent = randomEncounterUIHandler.imgButtonRowsCvs.transform;
+
+            randomEncounterUIHandler.exitBtn.gameObject.SetActive(false);
+            randomEncounterUIHandler.ShowPanel(true, randomEncounterUIHandler.imgButtonRowsCvs, 1f);
+
+            List<GameObject> rulletPieces = encounterInfoHandler.GetRandomRewards(3);
+            for (int i = 0; i < 3; i++)
+            {
+                int idx = i;
+                GameObject item = parent.GetChild(idx).gameObject;
+                Image image = item.GetComponent<Image>();
+                //image.sprite = rulletPieces[idx].GetComponent<SkillPiece>().skillImg.sprite;
+                image.sprite = rulletPieces[idx].transform.Find("SkillIcon").GetComponent<Image>().sprite;
+                
+                item.GetComponent<Button>().onClick.AddListener(() =>
+                {
+                    randomEncounterUIHandler.imgButtonRowsCvs.interactable = false;
+                    randomEncounterUIHandler.ShowPanel(false, randomEncounterUIHandler.imgButtonRowsCvs);
+
+                    // ¼³¸íÃ¢ ¶ç¿ö ÁÖ°í ¾Æ·¡ÀÖ´Â ÇÔ¼ö ½ÇÇà
+                    GetRulletPiece(rulletPieces[idx].GetComponent<SkillPiece>());
+                });
+            }
         }
+        else
+        {
+            choiceIdx = 1;
+            showText = en_End_TextList[1];
+            showImg = en_End_Image[1];
+            en_End_Result = "ÆÐ¹è";
+        }
+    }
+
+    private void GetRulletPiece(SkillPiece rulletPiece)
+    {
+        BattleHandler battleHandler = GameManager.Instance.battleHandler;
+        SkillRullet rullet = battleHandler.mainRullet;
+
+        SkillPiece skill = Instantiate(rulletPiece, rullet.transform).GetComponent<SkillPiece>();
+        skill.transform.position = Vector2.zero;
+        skill.transform.rotation = Quaternion.Euler(0, 0, 30f);
+        Image skillImg = skill.GetComponent<Image>();
+        skillImg.color = new Color(1, 1, 1, 0);
+        skill.transform.SetParent(encounterInfoHandler.transform);
+
+
+        Transform unusedInventoryTrm = GameManager.Instance.inventoryHandler.transform;
+        DOTween.Sequence().Append(skillImg.DOFade(1, 0.5f)).SetDelay(1f)
+        .Append(skill.transform.DOMove(unusedInventoryTrm.position, 0.5f))
+        .Join(skill.transform.DOScale(Vector2.one * 0.1f, 0.5f))
+        .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
+        .OnComplete(() =>
+        {
+            Inventory owner = battleHandler.player.GetComponent<Inventory>();
+            skill.gameObject.SetActive(false);
+            skill.owner = owner;
+            GameManager.Instance.inventoryHandler.AddSkill(skill);
+            skill.GetComponent<Image>().color = Color.white;
+
+            OnExitEncounter?.Invoke(true);
+        });
     }
 
     public override void Result()
@@ -29,13 +95,10 @@ public class Encounter_005 : RandomEncounter
         switch (choiceIdx)
         {
             case 0:
-
+                OnExitEncounter?.Invoke(true);
                 break;
             case 1:
-
-                break;
-            case 2:
-
+                OnExitEncounter?.Invoke(true);
                 break;
             default:
                 break;
