@@ -186,7 +186,7 @@ public class MapCreater : MonoBehaviour
                 int randIdx = Mathf.Clamp(plusIdx[i] + list[k], 0, mapRows - 1);
                 if(!(plusIdx[i] == -1 && IsCrosed(curDepth, list, k, randIdx)))
                 {
-                    map[curDepth][randIdx].mapNode = mapType != mapNode.NONE ? mapType : GetRandomNode(map[curDepth - 1][list[k]].mapNode);
+                    map[curDepth][randIdx].mapNode = mapType != mapNode.NONE ? mapType : GetRandomNode(map[curDepth - 1][list[k]].mapNode, curDepth);
                     map[curDepth - 1][list[k]].pointNodeList.Add(map[curDepth][randIdx]);
                 }
                 else if(plusIdx.Length == 1)
@@ -216,12 +216,26 @@ public class MapCreater : MonoBehaviour
     }
 
     // 랜덤으로 노드 값 가져오기
-    public mapNode GetRandomNode(mapNode beforeNodeType)
+    public mapNode GetRandomNode(mapNode beforeNodeType, int depth)
     {
         mapNode nodeType;
 
         int rand = Random.Range(0, 100);
-        if (beforeNodeType == mapNode.EMONSTER || beforeNodeType == mapNode.REST)
+        if(beforeNodeType==mapNode.EMONSTER)
+        {
+            while (rand >= 40 && rand < 48)
+            {
+                rand = Random.Range(0, 100);
+            }
+        }
+        if(beforeNodeType==mapNode.REST || depth == mapCols - 3)
+        {
+            while (rand < 12)
+            {
+                rand = Random.Range(12, 100);
+            }
+        }
+        if ((beforeNodeType==mapNode.REST || depth == mapCols - 3) && beforeNodeType==mapNode.EMONSTER)
         {
             while(rand<12 || (rand >= 40 && rand < 48))
             {
