@@ -274,5 +274,13 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         SetHPBar();
     }
 
+    public bool HasShield()
+    {
+        if (shieldHp > 0)
+        {
+            return true;
+        }
+        return false;
+    }
     protected abstract void Die();
 }

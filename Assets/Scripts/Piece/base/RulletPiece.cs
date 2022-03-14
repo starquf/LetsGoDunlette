@@ -100,7 +100,7 @@ public abstract class RulletPiece : MonoBehaviour
         this.size = Mathf.Clamp(result, 0, 36);
     }
 
-    public void ResetPiece()
+    public virtual void ResetPiece()
     {
         transform.localScale = Vector3.one;
         skillImg.transform.localScale = Vector3.one;

@@ -41,7 +41,12 @@ public class Encounter_003 : RandomEncounter
         switch (choiceIdx)
         {
             case 0:
-                GameManager.Instance.battleHandler.StartBattle();
+                BattleInfo bInfo = new BattleInfo();
+                bInfo.enemyInfos = new List<EnemyType>() { EnemyType.MIMIC };
+                bInfo.rewards = encounterInfoHandler.encounterInfo.rewards;
+                bInfo.isWeakEnemy = false;
+                
+                GameManager.Instance.battleHandler.StartBattle(false, bInfo);
                 OnExitEncounter?.Invoke(false);
                 break;
             case 1:
