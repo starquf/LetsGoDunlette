@@ -8,7 +8,6 @@ public class Encounter_005 : RandomEncounter
 {
     private bool IsWin()
     {
-        return true;
         int rand = Random.Range(0, 99);
         if(rand < 33)
         {
@@ -21,6 +20,7 @@ public class Encounter_005 : RandomEncounter
     {
         if(IsWin())
         {
+            print("이김");
             choiceIdx = 0;
             showText = en_End_TextList[0];
             showImg = en_End_Image[0];
@@ -32,27 +32,33 @@ public class Encounter_005 : RandomEncounter
             randomEncounterUIHandler.exitBtn.gameObject.SetActive(false);
             randomEncounterUIHandler.ShowPanel(true, randomEncounterUIHandler.imgButtonRowsCvs, 1f);
 
-            List<GameObject> rulletPieces = encounterInfoHandler.GetRandomRewards(3);
+            List<Scroll> scrolls = encounterInfoHandler.GetRandomScrollRewards(3);
             for (int i = 0; i < 3; i++)
             {
                 int idx = i;
                 GameObject item = parent.GetChild(idx).gameObject;
                 Image image = item.GetComponent<Image>();
                 //image.sprite = rulletPieces[idx].GetComponent<SkillPiece>().skillImg.sprite;
-                image.sprite = rulletPieces[idx].transform.Find("SkillIcon").GetComponent<Image>().sprite;
+                image.sprite = scrolls[idx].GetComponent<Image>().sprite;
                 
                 item.GetComponent<Button>().onClick.AddListener(() =>
                 {
+                    for (int j = 0; j < 3; j++)
+                    {
+                        int idx2 = j;
+                        parent.GetChild(idx2).GetComponent<Button>().onClick.RemoveAllListeners();
+                    }
                     randomEncounterUIHandler.imgButtonRowsCvs.interactable = false;
                     randomEncounterUIHandler.ShowPanel(false, randomEncounterUIHandler.imgButtonRowsCvs);
 
                     // 설명창 띄워 주고 아래있는 함수 실행
-                    GetRulletPiece(rulletPieces[idx].GetComponent<SkillPiece>());
+                    GetScroll(scrolls[idx]);
                 });
             }
         }
         else
         {
+            print("짐");
             choiceIdx = 1;
             showText = en_End_TextList[1];
             showImg = en_End_Image[1];
@@ -60,33 +66,31 @@ public class Encounter_005 : RandomEncounter
         }
     }
 
-    private void GetRulletPiece(SkillPiece rulletPiece)
+    private void GetScroll(Scroll _scroll)
     {
         BattleHandler battleHandler = GameManager.Instance.battleHandler;
-        SkillRullet rullet = battleHandler.mainRullet;
+        BattleScrollHandler battleScrollHandler = battleHandler.GetComponent<BattleScrollHandler>();
 
-        SkillPiece skill = Instantiate(rulletPiece, rullet.transform).GetComponent<SkillPiece>();
-        skill.transform.position = Vector2.zero;
-        skill.transform.rotation = Quaternion.Euler(0, 0, 30f);
-        Image skillImg = skill.GetComponent<Image>();
-        skillImg.color = new Color(1, 1, 1, 0);
-        skill.transform.SetParent(encounterInfoHandler.transform);
+        GameObject scroll = Instantiate(_scroll, Vector3.zero, Quaternion.identity).gameObject;
+        Image scrollImg = scroll.GetComponent<Image>();
+        scrollImg.color = new Color(1, 1, 1, 0);
+        scroll.transform.SetParent(encounterInfoHandler.transform);
+        scroll.GetComponent<RectTransform>().sizeDelta = Vector2.one * 400f;
+        scroll.transform.position = Vector2.zero;
+        scroll.transform.localScale = Vector3.one;
 
-
-        Transform unusedInventoryTrm = GameManager.Instance.inventoryHandler.transform;
-        DOTween.Sequence().Append(skillImg.DOFade(1, 0.5f)).SetDelay(1f)
-        .Append(skill.transform.DOMove(unusedInventoryTrm.position, 0.5f))
-        .Join(skill.transform.DOScale(Vector2.one * 0.1f, 0.5f))
-        .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
-        .OnComplete(() =>
+        battleScrollHandler.GetScroll(_scroll, () =>
         {
-            Inventory owner = battleHandler.player.GetComponent<Inventory>();
-            skill.gameObject.SetActive(false);
-            skill.owner = owner;
-            GameManager.Instance.inventoryHandler.AddSkill(skill);
-            skill.GetComponent<Image>().color = Color.white;
-
-            OnExitEncounter?.Invoke(true);
+            Transform unusedInventoryTrm = GameManager.Instance.inventoryHandler.transform;
+            DOTween.Sequence().Append(scrollImg.DOFade(1, 0.5f)).SetDelay(1f)
+            .Append(scroll.transform.DOMove(unusedInventoryTrm.position, 0.5f))
+            .Join(scroll.transform.DOScale(Vector2.one * 0.1f, 0.5f))
+            .Join(scroll.GetComponent<Image>().DOFade(0f, 0.5f))
+            .OnComplete(() =>
+            {
+                Destroy(scroll);
+                OnExitEncounter?.Invoke(true);
+            });
         });
     }
 

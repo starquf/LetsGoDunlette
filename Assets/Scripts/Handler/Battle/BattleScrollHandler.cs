@@ -37,9 +37,62 @@ public class BattleScrollHandler : MonoBehaviour
             });
         }
 
-        SetScroll(slots[0], PoolManager.GetItem<Scroll_Heal>());
-        SetScroll(slots[1], PoolManager.GetItem<Scroll_Shield>());
-        SetScroll(slots[2], PoolManager.GetItem<Scroll_Chaos>());
+        GetScroll(PoolManager.GetItem<Scroll_Heal>());
+        GetScroll(PoolManager.GetItem<Scroll_Shield>());
+        GetScroll(PoolManager.GetItem<Scroll_Chaos>());
+    }
+
+    public bool HaveEmptySlot()
+    {
+        for (int i = 0; i < slots.Count; i++)
+        {
+            ScrollSlot scrollSlot = slots[i];
+            if (scrollSlot.scroll == null)
+                return true;
+        }
+        return false;
+    }
+
+    public void GetScroll(Scroll scroll, Action OnComplete = null)
+    {
+        for (int i = 0; i < slots.Count; i++)
+        {
+            ScrollSlot scrollSlot = slots[i];
+            if(scrollSlot.scroll == null)
+            {
+                SetScroll(scrollSlot, scroll);
+                SortScroll();
+                OnComplete?.Invoke();
+                return;
+            }
+        }
+
+        // 여기 까지오면 모든 슬롯이 다 차있는거 선택해서 변경하는거 구현해야됨
+        Debug.LogWarning("스크롤 변경 구현안됨..");
+        OnComplete?.Invoke();
+    }
+
+    private void SortScroll()
+    {
+        List<int> emptySlotIdxList = new List<int>();
+        for (int i = 0; i < slots.Count; i++)
+        {
+            int idx = i;
+            ScrollSlot scrollSlot = slots[idx];
+            if (scrollSlot.scroll == null)
+            {
+                emptySlotIdxList.Add(idx);
+                emptySlotIdxList.Sort();
+            }
+            else if(emptySlotIdxList.Count > 0)
+            {
+                SetScroll(slots[emptySlotIdxList[0]], scrollSlot.scroll);
+                scrollSlot.RemoveScroll();
+
+                emptySlotIdxList.RemoveAt(0);
+                emptySlotIdxList.Add(idx);
+            }
+        }
     }
 
     private void UseScroll(ScrollSlot slot, Scroll scroll)

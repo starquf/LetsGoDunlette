@@ -37,9 +37,29 @@ public class RandomEncounterUIHandler : MonoBehaviour
         exitBtn.onClick.AddListener(OnExitBtnClick);
     }
 
+    private bool CanStartEncounter(int idx)
+    {
+        if(idx < 0)
+        {
+            return false;
+        }
+        else if(idx == 8) // 스크롤 없을시 발동 x
+        {
+
+        }
+        return true;
+    }
+
     public void InitEncounter()
     {
-        randomEncounter = randomEncounterList[Random.Range(0, randomEncounterList.Count)];
+        int randIdx = -1;
+        
+        while(CanStartEncounter(randIdx))
+        {
+            randIdx = Random.Range(0, randomEncounterList.Count);
+        }
+        randIdx = 4;
+        randomEncounter = randomEncounterList[randIdx];
 
         encounterTitleTxt.text = randomEncounter.en_Name;
         encounterTxt.text = randomEncounter.en_Start_Text;
@@ -102,6 +122,10 @@ public class RandomEncounterUIHandler : MonoBehaviour
     {
         ShowPanel(false, null, 0.5f, () =>
         {
+            for (int i = 0; i < 3; i++)
+            {
+                encounterChoiceTxtList[i].transform.parent.GetComponent<Button>().onClick.RemoveAllListeners();
+            }
             ShowPanelSkip(true, enStartPanel);
             ShowPanelSkip(false, enEndPanel);
             ShowPanelSkip(false, imgButtonRowsCvs);
