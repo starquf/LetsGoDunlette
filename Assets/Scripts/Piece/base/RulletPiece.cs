@@ -35,6 +35,8 @@ public abstract class RulletPiece : MonoBehaviour
     [HideInInspector]
     public Image skillImg;
 
+    public int pieceIdx = 0;
+
     [Header("카드 배경")]
     public Sprite cardBG;
 
@@ -104,6 +106,7 @@ public abstract class RulletPiece : MonoBehaviour
     {
         KillTween();
 
+        pieceIdx = 0;
         transform.localScale = Vector3.one;
         skillImg.transform.localScale = Vector3.one;
         skillImg.color = Color.white;

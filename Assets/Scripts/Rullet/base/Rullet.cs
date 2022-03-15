@@ -96,6 +96,8 @@ public abstract class Rullet : MonoBehaviour
                 if (pieces[i] == null) // ºóÄ­ÀÌ¶ó¸é
                 {
                     print("ºñ¾îÀÖ´Â Ä­ : " + i);
+
+                    piece.pieceIdx = i;
                     pieces[i] = piece;
 
                     break;
@@ -104,6 +106,7 @@ public abstract class Rullet : MonoBehaviour
         }
         else
         {
+            piece.pieceIdx = pieces.Count;
             pieces.Add(piece);
         }
 

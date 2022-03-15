@@ -27,8 +27,6 @@ public class SkillRullet : Rullet
             Debug.LogError("null 있음 !!");
         }
 
-        changePiece.isInRullet = true;
-
         InventoryHandler inventory = GameManager.Instance.inventoryHandler;
 
         if (pieces[changeIdx] != null)
@@ -36,13 +34,7 @@ public class SkillRullet : Rullet
             inventory.SetUseSkill((SkillPiece)pieces[changeIdx]);
         }
 
-        changePiece.transform.SetParent(transform);
-        changePiece.transform.DOLocalMove(Vector3.zero, 0.35f);
-        changePiece.transform.DOScale(Vector3.one, 0.35f);
-
-        pieces[changeIdx] = changePiece;
-
-        SetRulletSmooth();
+        SetPiece(changeIdx, changePiece);
     }
 
     // 해당 인덱스의 조각을 바꾸는 함수
@@ -55,6 +47,7 @@ public class SkillRullet : Rullet
 
         changePiece.isInRullet = true;
 
+        changePiece.pieceIdx = changeIdx;
         changePiece.transform.SetParent(transform);
         changePiece.transform.DOLocalMove(Vector3.zero, 0.35f);
         changePiece.transform.DOScale(Vector3.one, 0.35f);

@@ -13,10 +13,10 @@ public class Skill_F_Arson : SkillPiece
 
         Vector3 targetPos = target.transform.position;
 
-        Anim_F_Arson staticEffect = PoolManager.GetItem<Anim_F_Arson>();
-        staticEffect.transform.position = targetPos;
+        Anim_F_Arson fireEffect = PoolManager.GetItem<Anim_F_Arson>();
+        fireEffect.transform.position = targetPos;
 
-        staticEffect.Play(() => {
+        fireEffect.Play(() => {
             target.GetDamage(Value, patternType);
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
