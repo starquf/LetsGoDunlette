@@ -36,7 +36,8 @@ public class RestEncounterUIHandler : MonoBehaviour
         {
             ShowPanel(true, restResultPanel, 0.5f, ()=>
             {
-                GameManager.Instance.GetPlayer().Heal(10);
+                PlayerHealth playerHealth = GameManager.Instance.GetPlayer();
+                playerHealth.Heal((int)(playerHealth.maxHp * 0.4f));
             });
         });
     }
