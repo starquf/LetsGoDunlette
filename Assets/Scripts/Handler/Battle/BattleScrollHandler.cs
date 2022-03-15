@@ -132,6 +132,7 @@ public class BattleScrollHandler : MonoBehaviour
         scroll.Use(() =>
         {
             slot.RemoveScroll();
+            SortScroll();
             bh.StartTurn();
         },
         () => 
