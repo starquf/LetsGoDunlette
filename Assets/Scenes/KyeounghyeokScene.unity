@@ -8328,6 +8328,7 @@ GameObject:
   - component: {fileID: 456113564}
   - component: {fileID: 456113569}
   - component: {fileID: 456113570}
+  - component: {fileID: 456113571}
   m_Layer: 0
   m_Name: BattleHandler
   m_TagString: Untagged
@@ -8405,13 +8406,13 @@ MonoBehaviour:
   stopHandler: {fileID: 620923564}
   castUIHandler: {fileID: 2025231002}
   battleUtil: {fileID: 0}
+  battleEvent: {fileID: 0}
   createTrans: {fileID: 185746769}
   mainRullet: {fileID: 802963613}
   result: {fileID: 0}
   player: {fileID: 1965074053}
   playerImgTrans: {fileID: 1574549549}
   enemys: []
-  eventBookInfos: []
   bottomPos: {fileID: 1633865266}
 --- !u!114 &456113568
 MonoBehaviour:
@@ -8568,6 +8569,18 @@ MonoBehaviour:
   - {fileID: 1369643175}
   - {fileID: 254879384}
   - {fileID: 2020174404}
+--- !u!114 &456113571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456113562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa453fb1636ab6442bde6cdd11fc576c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &457397896
 GameObject:
   m_ObjectHideFlags: 0
@@ -22145,14 +22158,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillPrefabs:
-  - {fileID: 2288853367069960182, guid: 2a3df3b1e313aac4f9316752602894bd, type: 3}
-  - {fileID: 2288853367069960182, guid: 2a3df3b1e313aac4f9316752602894bd, type: 3}
-  - {fileID: 2288853367069960182, guid: 5c37c22b7596cf34999eaba5a1068c50, type: 3}
-  - {fileID: 2288853367069960182, guid: 5c37c22b7596cf34999eaba5a1068c50, type: 3}
-  - {fileID: 5219999204231547788, guid: 4ed7a1b480621884c837456d10617387, type: 3}
-  - {fileID: 5219999204231547788, guid: 4ed7a1b480621884c837456d10617387, type: 3}
-  - {fileID: 5219999204231547788, guid: 4ed7a1b480621884c837456d10617387, type: 3}
-  - {fileID: 5219999204231547788, guid: 4ed7a1b480621884c837456d10617387, type: 3}
+  - {fileID: 6804786383528516221, guid: 335fbaa9e19543c48b6fb94560515b38, type: 3}
+  - {fileID: 6804786383528516221, guid: 335fbaa9e19543c48b6fb94560515b38, type: 3}
+  - {fileID: 6804786383528516221, guid: 335fbaa9e19543c48b6fb94560515b38, type: 3}
+  - {fileID: 6804786383528516221, guid: 335fbaa9e19543c48b6fb94560515b38, type: 3}
+  - {fileID: 6804786383528516221, guid: 335fbaa9e19543c48b6fb94560515b38, type: 3}
+  - {fileID: 6804786383528516221, guid: 335fbaa9e19543c48b6fb94560515b38, type: 3}
+  - {fileID: 6804786383528516221, guid: 335fbaa9e19543c48b6fb94560515b38, type: 3}
+  - {fileID: 6804786383528516221, guid: 335fbaa9e19543c48b6fb94560515b38, type: 3}
+  - {fileID: 2288853367069960182, guid: 55da7e36d9ee6fa4699eb3ed2e2a5807, type: 3}
+  - {fileID: 2288853367069960182, guid: 55da7e36d9ee6fa4699eb3ed2e2a5807, type: 3}
+  - {fileID: 2288853367069960182, guid: 55da7e36d9ee6fa4699eb3ed2e2a5807, type: 3}
   skills: []
 --- !u!114 &1965074055
 MonoBehaviour:
@@ -22376,6 +22392,7 @@ MonoBehaviour:
   boatFareAnim: {fileID: 6329140545610595919, guid: c09920b62c86cf841a22c70965a831dc, type: 3}
   boatFareBonusMoneyAnim: {fileID: 6329140545610595919, guid: ff3ec6f9d041a4e438410ed6e8e24a29, type: 3}
   splashAnim: {fileID: 6329140545610595919, guid: 15304fb5fe8e66d4a8d85292da55d8b3, type: 3}
+  splash1Anim: {fileID: 6329140545610595919, guid: 8bcd0f28477b9c848970171a7d4f61de, type: 3}
   f_ManaSphereHitAnim: {fileID: 8510189776845874911, guid: a9932ab94dd0965439d5d721a2826a1e, type: 3}
   arsonAnim: {fileID: 6329140545610595919, guid: bc78101426859fa478444d5312111690, type: 3}
   chainExplosionAnim: {fileID: 6329140545610595919, guid: b087330cedfb6b8498fc1aafd21ebf18, type: 3}
