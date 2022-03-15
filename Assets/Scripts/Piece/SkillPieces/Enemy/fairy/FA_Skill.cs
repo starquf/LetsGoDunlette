@@ -24,7 +24,7 @@ public class FA_Skill : SkillPiece
 
     private void FA_Fairy_Ligtht(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(owner.gameObject, "강화").OnComplete(() =>
+        SetIndicator(owner.gameObject, "강화").OnEnd(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.2f);
 
@@ -50,7 +50,7 @@ public class FA_Skill : SkillPiece
 
     private void FA_Kidding(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(owner.gameObject, "공격").OnComplete(() =>
+        SetIndicator(owner.gameObject, "공격").OnEnd(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.2f);
 
@@ -61,7 +61,7 @@ public class FA_Skill : SkillPiece
 
             effect.Play(() =>
             {
-                SetIndicator(owner.gameObject, "조각변경").OnComplete(() =>
+                SetIndicator(owner.gameObject, "조각변경").OnEnd(() =>
                 {
                     KiddingSkill();
                     onCastEnd?.Invoke();

@@ -3,7 +3,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+
+[Serializable]
+public class EventBookInfo
+{
+    public int turn;
+    public Action action;
+
+    public EventBookInfo(int turn, Action action)
+    {
+        this.turn = turn;
+        this.action = action;
+    }
+}
 
 public class BattleHandler : MonoBehaviour
 {
@@ -54,7 +66,7 @@ public class BattleHandler : MonoBehaviour
     public List<EnemyHealth> enemys = new List<EnemyHealth>();
 
     //==================================================
-    
+
     private int turnCnt = 0;
 
     //==================================================
@@ -63,6 +75,8 @@ public class BattleHandler : MonoBehaviour
     private event Action<RulletPiece> nextAttack;
 
     public event Action onEndAttack;
+
+    public List<EventBookInfo> eventBookInfos = new List<EventBookInfo>();
 
     //==================================================
 
@@ -177,7 +191,10 @@ public class BattleHandler : MonoBehaviour
 
     public void SetEnemyPosition()
     {
-        if (enemys.Count <= 0) return;
+        if (enemys.Count <= 0)
+        {
+            return;
+        }
 
         int enemyCount = 0;
 
@@ -239,7 +256,7 @@ public class BattleHandler : MonoBehaviour
             // 결과 실행
             CastPiece(this.result);
         },
-        () => 
+        () =>
         {
             // 스크롤 버튼 비활성화
             battleScrollHandler.SetInteract(false);
@@ -256,7 +273,7 @@ public class BattleHandler : MonoBehaviour
 
         // 인벤토리에서 랜덤한 6개의 스킬을 뽑아 룰렛에 적용한다. 단, 최소한 적의 스킬 1개와 내 스킬 2개가 보장된다.
 
-        yield return StartCoroutine(battleUtil.ResetRulletPiecesWithCondition(hasWait:true));
+        yield return StartCoroutine(battleUtil.ResetRulletPiecesWithCondition(hasWait: true));
 
         yield return oneSecWait;
 
@@ -327,6 +344,8 @@ public class BattleHandler : MonoBehaviour
     // 실행이 전부 끝나면 실행되는 코루틴
     private IEnumerator EndTurn()
     {
+        BookedEvent(); //예약된 이벤트가 있으면 실행함
+
         onEndAttack?.Invoke();
 
         // 다음 공격 체크하는 스킬들이 발동되는 타이밍
@@ -361,6 +380,25 @@ public class BattleHandler : MonoBehaviour
         InitTurn();
     }
 
+
+    public void BookEvent(EventBookInfo bookEvent)
+    {
+        eventBookInfos.Add(bookEvent);
+    }
+
+    private void BookedEvent()
+    {
+        for (int i = eventBookInfos.Count - 1; i >= 0 ; i--)
+        {
+            eventBookInfos[i].turn--;
+            if(eventBookInfos[i].turn <= 0)
+            {
+                eventBookInfos[i].action?.Invoke();
+                eventBookInfos.Remove(eventBookInfos[i]);
+            }
+        }
+    }
+
     public void CheckBattleEnd(Action onEndBattle = null)
     {
         if (battleUtil.CheckEnemyDie(enemys))
@@ -393,7 +431,7 @@ public class BattleHandler : MonoBehaviour
 
                 yield return null;
 
-                yield return StartCoroutine(battleUtil.ResetRulletPiecesWithCondition(pos => 
+                yield return StartCoroutine(battleUtil.ResetRulletPiecesWithCondition(pos =>
                 {
                     GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.15f, 0.1f);
 
@@ -432,7 +470,8 @@ public class BattleHandler : MonoBehaviour
         }
         else
         {
-            battleRewardHandler.ResetRullet(()=> {
+            battleRewardHandler.ResetRullet(() =>
+            {
                 for (int i = 0; i < enemys.Count; i++)
                 {
                     enemys[i].gameObject.SetActive(false);

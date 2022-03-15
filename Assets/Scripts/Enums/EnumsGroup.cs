@@ -25,13 +25,14 @@ public enum CCType
     Stun = 0,          // 기절
     Silence = 1,       // 침묵
     Exhausted = 2,     // 피곤함
-    Wound = 3          // 상처
+    Wound = 3,          // 상처
+    Invincibility = 4 // 무적
 }
 
 public enum BuffType
 {
     Shield = 0,
-    Contract = 1
+    Contract = 1,
 }
 
 public enum TextUpAnimType
@@ -77,5 +78,8 @@ public enum EnemyType
     MANDRAGORA,
     GNOLL,
     KOBOLD,
-    GAGOYLE
+    GAGOYLE,
+    ALLIGATOR,
+    BUGBEAR,
+    REDFOX,
 }

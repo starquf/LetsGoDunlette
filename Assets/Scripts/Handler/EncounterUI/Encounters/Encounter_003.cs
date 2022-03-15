@@ -43,7 +43,7 @@ public class Encounter_003 : RandomEncounter
             case 0:
                 BattleInfo bInfo = new BattleInfo();
                 bInfo.enemyInfos = new List<EnemyType>() { EnemyType.MIMIC };
-                bInfo.rewards = encounterInfoHandler.encounterInfo.rewards;
+                bInfo.rewards = encounterInfoHandler.encounterInfo.skillRewards;
                 bInfo.isWeakEnemy = false;
                 
                 GameManager.Instance.battleHandler.StartBattle(false, bInfo);

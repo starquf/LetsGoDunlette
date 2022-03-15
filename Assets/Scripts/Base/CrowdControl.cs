@@ -92,6 +92,10 @@ public class CrowdControl : MonoBehaviour
             case CCType.Wound:
                 messege = "상처입음!";
                 break;
+
+            case CCType.Invincibility:
+                messege = "무적상태!";
+                break;
         }
 
         // 만약 0보다 작아졌다면

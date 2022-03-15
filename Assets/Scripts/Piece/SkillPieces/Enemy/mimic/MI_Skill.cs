@@ -23,7 +23,7 @@ public class MI_Skill : SkillPiece
 
     private void MI_Biting(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(owner.gameObject, "공격").OnComplete(() =>
+        SetIndicator(owner.gameObject, "공격").OnEnd(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
@@ -33,7 +33,7 @@ public class MI_Skill : SkillPiece
             target.GetDamage(20, owner.gameObject);
             hitEffect.Play(() =>
             {
-                SetIndicator(owner.gameObject, "상처부여").OnComplete(() =>
+                SetIndicator(owner.gameObject, "상처부여").OnEnd(() =>
                 {
                     target.cc.SetCC(CCType.Wound, 5);
                     onCastEnd?.Invoke();
@@ -44,7 +44,7 @@ public class MI_Skill : SkillPiece
 
     private void MI_Bump(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(owner.gameObject, "공격").OnComplete(() =>
+        SetIndicator(owner.gameObject, "공격").OnEnd(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.7f, 0.15f);
 

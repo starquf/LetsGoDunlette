@@ -19,7 +19,7 @@ public class Encounter_001 : RandomEncounter
             case 1:
                 showText = en_End_TextList[1];
                 showImg = en_End_Image[1];
-                en_End_Result = "체력 30% 회복";
+                en_End_Result = "최대 체력의 30% 만큼 회복";
                 break;
             case 2:
                 showText = en_End_TextList[2];
@@ -41,13 +41,13 @@ public class Encounter_001 : RandomEncounter
                 break;
             case 1:
                 PlayerHealth playerHealth = GameManager.Instance.GetPlayer();
-                playerHealth.Heal((int)(playerHealth.maxHp*0.2f));
+                playerHealth.Heal((int)(playerHealth.maxHp*0.3f));
                 OnExitEncounter?.Invoke(true);
                 break;
             case 2:
                 BattleHandler battleHandler = GameManager.Instance.battleHandler;
                 SkillRullet rullet = battleHandler.mainRullet;
-                RulletPiece rulletPieces = encounterInfoHandler.GetRandomRewards(1)[0].GetComponent<RulletPiece>();
+                SkillPiece rulletPieces = encounterInfoHandler.GetRandomSkillRewards(1)[0].GetComponent<SkillPiece>();
 
                 SkillPiece skill = Instantiate(rulletPieces, rullet.transform).GetComponent<SkillPiece>();
                 skill.transform.position = Vector2.zero;

@@ -44,7 +44,7 @@ public class SkillPiece : RulletPiece
         return this;
     }
 
-    public void OnComplete(Action action)
+    public void OnEnd(Action action)
     {
         EnemyIndicator enemyIndicator = go.GetComponent<EnemyIndicator>();
         if (enemyIndicator != null)

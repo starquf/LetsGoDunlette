@@ -46,7 +46,7 @@ public class DP_Skill : SkillPiece
             Debug.LogError("보스가 없음");
         }
 
-        SetIndicator(owner.gameObject, "희생").OnComplete(() =>
+        SetIndicator(owner.gameObject, "희생").OnEnd(() =>
         {
             owner.GetComponent<EnemyHealth>().GetDamageIgnoreShild(40);
 
@@ -56,7 +56,7 @@ public class DP_Skill : SkillPiece
             {
             });
 
-            SetIndicator(boss.gameObject, "회복").OnComplete(() =>
+            SetIndicator(boss.gameObject, "회복").OnEnd(() =>
             {
                 GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
@@ -75,7 +75,7 @@ public class DP_Skill : SkillPiece
 
     private void DP_Poke(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(owner.gameObject, "공격").OnComplete(() =>
+        SetIndicator(owner.gameObject, "공격").OnEnd(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
             Anim_M_Sword hitEffect = PoolManager.GetItem<Anim_M_Sword>();

@@ -67,6 +67,11 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
             return;
         }
 
+        if (cc.ccDic[CCType.Invincibility] > 0)
+        {
+            return;
+        }
+
         // 계약 상태라면
         if (cc.buffDic[BuffType.Contract] > 0)
         {
@@ -285,6 +290,12 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
             return true;
         }
         return false;
+    }
+
+    public void RemoveAllShield()
+    {
+        shieldHp = 0;
+        SetHPBar();
     }
     protected abstract void Die();
 }
