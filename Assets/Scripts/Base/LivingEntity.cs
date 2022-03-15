@@ -291,5 +291,11 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         }
         return false;
     }
+
+    public void RemoveAllShield()
+    {
+        shieldHp = 0;
+        SetHPBar();
+    }
     protected abstract void Die();
 }
