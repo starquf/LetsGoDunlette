@@ -60,7 +60,7 @@ public class Skill_E_ComputerError : SkillPiece
 
                 pieceIdxs.RemoveAt(randIdx);
             }
-            while (pieces[pieceIdx] == null);
+            while (pieces[pieceIdx] == null || pieces[pieceIdx] == this);
 
             if (stop) break;
 
@@ -69,7 +69,10 @@ public class Skill_E_ComputerError : SkillPiece
             Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
             textEffect.SetType(TextUpAnimType.Damage);
             textEffect.transform.position = effectPos;
+            textEffect.SetScale(0.8f);
             textEffect.Play("전산오류 효과발동!");
+
+            GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.25f);
 
             Anim_E_Static_Stun stunEffect = PoolManager.GetItem<Anim_E_Static_Stun>();
             stunEffect.transform.position = effectPos;

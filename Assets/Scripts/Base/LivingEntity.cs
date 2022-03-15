@@ -19,7 +19,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     private Tween damageTween;
 
     public int maxHp;
-    protected int curMaxHp => maxHp + shieldHp;
+    public int curMaxHp => maxHp + shieldHp;
 
     [SerializeField] protected int hp;
     [SerializeField] protected int shieldHp = 0;
@@ -219,6 +219,10 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     {
         isDie = false;
         hp = maxHp;
+
+        cc.ResetAllCC();
+        cc.RemoveBuff(BuffType.Shield);
+
         shieldHp = 0;
 
         SetHPBar();

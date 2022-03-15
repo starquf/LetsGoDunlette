@@ -86,11 +86,11 @@ GameObject:
   - component: {fileID: 5219999204231547791}
   - component: {fileID: 5219999204231547785}
   - component: {fileID: 5219999204231547790}
-  - component: {fileID: 2907625179539217620}
+  - component: {fileID: 1843399482790222976}
   - component: {fileID: 9047865064128128728}
   - component: {fileID: 3518844564356163631}
   m_Layer: 5
-  m_Name: SP_E_ComputerError
+  m_Name: SP_E_AdjustableCurrent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -157,7 +157,7 @@ MonoBehaviour:
   m_FillOrigin: 2
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2907625179539217620
+--- !u!114 &1843399482790222976
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -166,23 +166,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 5219999204231547788}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f01acf8d474cf4d4d829f83e8929d97b, type: 3}
+  m_Script: {fileID: 11500000, guid: 49a1c305477b3404a8c0838f36e70f4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   patternType: 2
   currentType: 2
   size: 6
-  pieceName: "\uC804\uC0B0\uC624\uB958"
-  pieceDes: "\uB8F0\uB81B\uC5D0 \uC788\uB294 \uBB34\uC791\uC704 \uC870\uAC01 2\uAC1C\uB97C
-    \uBB34\uB364\uC5D0 \uBCF4\uB0B8\uB2E4."
+  pieceName: "\uC801\uC751\uD615 \uC804\uB958"
+  pieceDes: "\uC801\uC5D0\uAC8C 40\uC758 \uD53C\uD574\uB97C \uC785\uD78C\uB2E4. 10%\uD655\uB960\uB85C
+    \uAE30\uC808\uC744 \uBD80\uC5EC\uD55C\uB2E4. \uC774 \uC2A4\uD0AC\uB85C \uC801\uC744
+    \uCC98\uCE58\uD588\uC744 \uACBD\uC6B0 \uD655\uB960\uC774 \uC601\uAD6C\uD788 10%\uC99D\uAC00\uD55C\uB2E4."
   value: 40
   skillImg: {fileID: 0}
   cardBG: {fileID: 0}
   isPlayerSkill: 1
   isInRullet: 0
   isDisposable: 0
-  hasTarget: 0
+  hasTarget: 1
   owner: {fileID: 0}
+  percentage: 10
+  effectSprList:
+  - {fileID: -637073673992986840, guid: 1a88794ad73c241d3b2c200bb6f6f119, type: 3}
+  - {fileID: -1735687761736172324, guid: 1a88794ad73c241d3b2c200bb6f6f119, type: 3}
+  - {fileID: 1404358140470265926, guid: 1a88794ad73c241d3b2c200bb6f6f119, type: 3}
+  - {fileID: 1334476116172150407, guid: 1a88794ad73c241d3b2c200bb6f6f119, type: 3}
+  - {fileID: -7812325778879854477, guid: 1a88794ad73c241d3b2c200bb6f6f119, type: 3}
+  - {fileID: -4715261823437859637, guid: 1a88794ad73c241d3b2c200bb6f6f119, type: 3}
+  - {fileID: 5317160009495356395, guid: 1a88794ad73c241d3b2c200bb6f6f119, type: 3}
+  - {fileID: -1145983914139003466, guid: 1a88794ad73c241d3b2c200bb6f6f119, type: 3}
 --- !u!114 &9047865064128128728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,7 +438,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 5108406358768584905, guid: 0ff16ab32b9d0c840a7db86001858f6b, type: 3}
+  m_Sprite: {fileID: 9200627281699405420, guid: 0ff16ab32b9d0c840a7db86001858f6b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

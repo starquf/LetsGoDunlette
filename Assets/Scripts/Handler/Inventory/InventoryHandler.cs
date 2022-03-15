@@ -203,6 +203,7 @@ public class InventoryHandler : MonoBehaviour
     public void GetSkillFromInventory(SkillPiece piece)
     {
         piece.gameObject.SetActive(true);
+        piece.ResetPiece();
 
         unusedSkills.Remove(piece);
         usedSkills.Remove(piece);
@@ -267,6 +268,7 @@ public class InventoryHandler : MonoBehaviour
         int randIdx = Random.Range(0, filterdSkill.Count);
 
         SkillPiece result = filterdSkill[randIdx];
+        result.ResetPiece();
 
         result.gameObject.SetActive(true);
 

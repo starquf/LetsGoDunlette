@@ -102,6 +102,8 @@ public abstract class RulletPiece : MonoBehaviour
 
     public virtual void ResetPiece()
     {
+        KillTween();
+
         transform.localScale = Vector3.one;
         skillImg.transform.localScale = Vector3.one;
         skillImg.color = Color.white;
@@ -115,6 +117,7 @@ public abstract class RulletPiece : MonoBehaviour
     {
         transform.DOKill();
         skillImg.transform.DOKill();
+        bgImg.DOKill();
         highlightImg.DOKill();
     }
 

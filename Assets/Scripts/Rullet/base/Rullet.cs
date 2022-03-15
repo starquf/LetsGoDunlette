@@ -7,7 +7,7 @@ using System;
 
 public abstract class Rullet : MonoBehaviour
 {
-    protected List<RulletPiece> pieces = new List<RulletPiece>();
+    [SerializeField] protected List<RulletPiece> pieces = new List<RulletPiece>();
     protected RulletPiece result;
 
     public Action<RulletPiece, int> onResult;
