@@ -25,9 +25,23 @@ public class AG_Skill : SkillPiece
 
     private void AG_Diving(LivingEntity target, Action onCastEnd = null) //2턴간 침묵을 받고 아무 데미지도 받지 않는다. 2턴이 지나면 플레이어에게 60만큼 피해를 입힌다.
     {
+        GameManager.Instance.battleHandler.BookEvent(new EventBookInfo(3, () =>
+        {
+            SetIndicator(owner.gameObject, "공격").OnEnd(() =>
+            {
+                target.GetDamage(60);
+
+                Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
+                effect.transform.position = owner.transform.position;
+                effect.Play(() =>
+                {
+                });
+            });
+        }));
+
         SetIndicator(owner.gameObject, "침묵").OnEnd(() =>
         {
-            owner.GetComponent<EnemyHealth>().cc.SetCC(CCType.Silence, 2);
+            owner.GetComponent<EnemyHealth>().cc.SetCC(CCType.Silence, 3);
 
             Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
             effect.transform.position = owner.transform.position;
