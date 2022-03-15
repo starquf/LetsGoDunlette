@@ -24,9 +24,11 @@ public class RandomEncounterUIHandler : MonoBehaviour
     public Button exitBtn;
 
     private RandomEncounter randomEncounter;
+    private BattleScrollHandler battleScrollHandler;
 
     private void Awake()
     {
+        battleScrollHandler = GameManager.Instance.battleHandler.GetComponent<BattleScrollHandler>();
         encounterInfoHandler = GetComponent<EncounterInfoHandler>();
         for (int i = 0; i < randomEncounterList.Count; i++)
         {
@@ -45,7 +47,10 @@ public class RandomEncounterUIHandler : MonoBehaviour
         }
         else if(idx == 8) // 스크롤 없을시 발동 x
         {
-
+            if (!battleScrollHandler.HasScroll())
+            {
+                return false;
+            }
         }
         return true;
     }
@@ -53,12 +58,11 @@ public class RandomEncounterUIHandler : MonoBehaviour
     public void InitEncounter()
     {
         int randIdx = -1;
-        
-        while(CanStartEncounter(randIdx))
+
+        while (!CanStartEncounter(randIdx))
         {
             randIdx = Random.Range(0, randomEncounterList.Count);
         }
-        randIdx = 4;
         randomEncounter = randomEncounterList[randIdx];
 
         encounterTitleTxt.text = randomEncounter.en_Name;
@@ -83,6 +87,8 @@ public class RandomEncounterUIHandler : MonoBehaviour
                 });
             }
         }
+
+        randomEncounter.Init();
     }
 
     public void StartEvent()

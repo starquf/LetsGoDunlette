@@ -20,7 +20,6 @@ public class Encounter_005 : RandomEncounter
     {
         if(IsWin())
         {
-            print("ÀÌ±è");
             choiceIdx = 0;
             showText = en_End_TextList[0];
             showImg = en_End_Image[0];
@@ -38,7 +37,6 @@ public class Encounter_005 : RandomEncounter
                 int idx = i;
                 GameObject item = parent.GetChild(idx).gameObject;
                 Image image = item.GetComponent<Image>();
-                //image.sprite = rulletPieces[idx].GetComponent<SkillPiece>().skillImg.sprite;
                 image.sprite = scrolls[idx].GetComponent<Image>().sprite;
                 
                 item.GetComponent<Button>().onClick.AddListener(() =>
@@ -51,6 +49,7 @@ public class Encounter_005 : RandomEncounter
                     randomEncounterUIHandler.imgButtonRowsCvs.interactable = false;
                     randomEncounterUIHandler.ShowPanel(false, randomEncounterUIHandler.imgButtonRowsCvs);
 
+                    Debug.LogWarning("¼³¸íÃ¢ ¶ç¿öÁà¾ßµÊ");
                     // ¼³¸íÃ¢ ¶ç¿ö ÁÖ°í ¾Æ·¡ÀÖ´Â ÇÔ¼ö ½ÇÇà
                     GetScroll(scrolls[idx]);
                 });
@@ -58,7 +57,6 @@ public class Encounter_005 : RandomEncounter
         }
         else
         {
-            print("Áü");
             choiceIdx = 1;
             showText = en_End_TextList[1];
             showImg = en_End_Image[1];

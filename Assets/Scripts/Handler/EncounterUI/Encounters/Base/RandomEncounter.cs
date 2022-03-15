@@ -22,6 +22,11 @@ public abstract class RandomEncounter : MonoBehaviour
     [HideInInspector]public bool isEffectEnd;
     protected int choiceIdx;
 
+    public virtual void Init()
+    {
+
+    }
+
     public abstract void ResultSet(int resultIdx);
     public abstract void Result();
 }

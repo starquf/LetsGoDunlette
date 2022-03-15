@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class BattleScrollHandler : MonoBehaviour
 {
@@ -42,15 +43,39 @@ public class BattleScrollHandler : MonoBehaviour
         GetScroll(PoolManager.GetItem<Scroll_Chaos>());
     }
 
-    public bool HaveEmptySlot()
+    public bool HasScroll()
     {
         for (int i = 0; i < slots.Count; i++)
         {
             ScrollSlot scrollSlot = slots[i];
-            if (scrollSlot.scroll == null)
+            if (scrollSlot.scroll != null)
+            {
                 return true;
+            }
         }
         return false;
+    }
+
+    public void RemoveRandomScroll()
+    {
+        List<ScrollSlot> scrollList = new List<ScrollSlot>();
+        for (int i = 0; i < slots.Count; i++)
+        {
+            ScrollSlot scrollSlot = slots[i];
+            if (scrollSlot.scroll != null)
+            {
+                scrollList.Add(scrollSlot);
+            }
+        }
+        int randIdx = Random.Range(0, scrollList.Count);
+        scrollList[randIdx].RemoveScroll();
+        SortScroll();
+    }
+
+    private void ChangeScroll(int idx, Scroll scroll)
+    {
+        slots[idx].RemoveScroll();
+        SetScroll(slots[idx], scroll);
     }
 
     public void GetScroll(Scroll scroll, Action OnComplete = null)
@@ -72,7 +97,7 @@ public class BattleScrollHandler : MonoBehaviour
         OnComplete?.Invoke();
     }
 
-    private void SortScroll()
+    public void SortScroll()
     {
         List<int> emptySlotIdxList = new List<int>();
         for (int i = 0; i < slots.Count; i++)
@@ -87,7 +112,7 @@ public class BattleScrollHandler : MonoBehaviour
             else if(emptySlotIdxList.Count > 0)
             {
                 SetScroll(slots[emptySlotIdxList[0]], scrollSlot.scroll);
-                scrollSlot.RemoveScroll();
+                slots[idx].scroll = null;
 
                 emptySlotIdxList.RemoveAt(0);
                 emptySlotIdxList.Add(idx);
