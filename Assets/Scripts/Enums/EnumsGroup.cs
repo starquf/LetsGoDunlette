@@ -80,5 +80,6 @@ public enum EnemyType
     KOBOLD,
     GAGOYLE,
     ALLIGATOR,
-    BUGBEAR
+    BUGBEAR,
+    REDFOX,
 }
