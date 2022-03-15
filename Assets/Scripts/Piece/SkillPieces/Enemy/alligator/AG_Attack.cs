@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class QN_Attack : SkillPiece
+public class AG_Attack : SkillPiece
 {
     protected override void Awake()
     {

@@ -23,7 +23,7 @@ public class NSL_Skill : SkillPiece
 
     private void NSl_Recover(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(owner.gameObject, "회복").OnComplete(() =>
+        SetIndicator(owner.gameObject, "회복").OnEnd(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
@@ -41,7 +41,7 @@ public class NSL_Skill : SkillPiece
 
     private void NSL_Bounce(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(owner.gameObject, "공격").OnComplete(() =>
+        SetIndicator(owner.gameObject, "공격").OnEnd(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 

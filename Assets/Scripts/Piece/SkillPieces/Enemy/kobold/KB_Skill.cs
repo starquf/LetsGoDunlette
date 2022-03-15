@@ -24,7 +24,7 @@ public class KB_Skill : SkillPiece
 
     private void KB_Pickpocket(LivingEntity target, Action onCastEnd = null) //플레이어에게서 10골드를 훔친다.
     {
-        SetIndicator(owner.gameObject, "공격").OnComplete(() =>
+        SetIndicator(owner.gameObject, "공격").OnEnd(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
@@ -45,7 +45,7 @@ public class KB_Skill : SkillPiece
 
     private void KB_Transform(LivingEntity target, Action onCastEnd = null) //이번 전투에서 플레이어에게서 훔친 골드만큼 데미지를 준다.
     {
-        SetIndicator(owner.gameObject, "공격").OnComplete(() =>
+        SetIndicator(owner.gameObject, "공격").OnEnd(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 

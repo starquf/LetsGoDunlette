@@ -23,7 +23,7 @@ public class MD_Skill : SkillPiece
 
     private void MD_Hallucinations(LivingEntity target, Action onCastEnd = null) //40% 확률로 침묵을 부여한다.
     {
-        SetIndicator(owner.gameObject, "공격").OnComplete(() =>
+        SetIndicator(owner.gameObject, "공격").OnEnd(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
@@ -36,7 +36,7 @@ public class MD_Skill : SkillPiece
             {
                 if (Random.Range(1, 100) <= 40)
                 {
-                    SetIndicator(owner.gameObject, "침묵부여").OnComplete(() =>
+                    SetIndicator(owner.gameObject, "침묵부여").OnEnd(() =>
                     {
                         target.cc.SetCC(CCType.Silence, 2);
 
@@ -58,7 +58,7 @@ public class MD_Skill : SkillPiece
 
     private void MD_Scream(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(owner.gameObject, "공격").OnComplete(() =>
+        SetIndicator(owner.gameObject, "공격").OnEnd(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 

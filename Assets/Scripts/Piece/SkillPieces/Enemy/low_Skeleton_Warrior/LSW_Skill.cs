@@ -23,7 +23,7 @@ public class LSW_Skill : SkillPiece
 
     private void LSW_Cutting(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(owner.gameObject, "공격").OnComplete(() =>
+        SetIndicator(owner.gameObject, "공격").OnEnd(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
@@ -41,7 +41,7 @@ public class LSW_Skill : SkillPiece
 
     private void LSW_Old_Shield(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(owner.gameObject, "보호막").OnComplete(() =>
+        SetIndicator(owner.gameObject, "보호막").OnEnd(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 

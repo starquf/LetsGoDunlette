@@ -14,7 +14,7 @@ public class KB_Attack : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(owner.gameObject, "공격").OnComplete(() =>
+        SetIndicator(owner.gameObject, "공격").OnEnd(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
             target.GetDamage(Value, owner.gameObject);
