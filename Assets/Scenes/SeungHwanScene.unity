@@ -8479,6 +8479,7 @@ GameObject:
   - component: {fileID: 456113564}
   - component: {fileID: 456113569}
   - component: {fileID: 456113570}
+  - component: {fileID: 456113571}
   m_Layer: 0
   m_Name: BattleHandler
   m_TagString: Untagged
@@ -8556,6 +8557,7 @@ MonoBehaviour:
   stopHandler: {fileID: 620923564}
   castUIHandler: {fileID: 2025231002}
   battleUtil: {fileID: 0}
+  battleEvent: {fileID: 0}
   createTrans: {fileID: 185746769}
   mainRullet: {fileID: 802963613}
   result: {fileID: 0}
@@ -8733,6 +8735,18 @@ MonoBehaviour:
   - {fileID: 1369643175}
   - {fileID: 254879384}
   - {fileID: 2020174404}
+--- !u!114 &456113571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456113562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa453fb1636ab6442bde6cdd11fc576c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &457397896
 GameObject:
   m_ObjectHideFlags: 0
@@ -16807,17 +16821,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   encounterInfo:
-    rewards:
-    - {fileID: 371756096964453561, guid: a980da93873bbde46b5865235dd47e53, type: 3}
-    - {fileID: 371756096964453561, guid: e005909586a64d54fbc45978c34207e5, type: 3}
-    - {fileID: 371756096964453561, guid: bf9e9150d06c31e4c9b3bc949168fbf3, type: 3}
-    - {fileID: 371756096964453561, guid: 3f4d736f510bf1844a6d9e65aa56ee62, type: 3}
-    - {fileID: 5219999204231547788, guid: 0059602853cef8342963ab23ba58a6a1, type: 3}
-    - {fileID: 5219999204231547788, guid: 4ed7a1b480621884c837456d10617387, type: 3}
-    - {fileID: 6804786383528516221, guid: a8a9d93516f63fa49a6427f5741f3648, type: 3}
-    - {fileID: 6804786383528516221, guid: 280dbc5884aab634c8f8c5b874ead8d1, type: 3}
-    - {fileID: 2288853367069960182, guid: dab3f8dc95a6b574b8c1adcf517a9bb8, type: 3}
-    - {fileID: 2288853367069960182, guid: 5c37c22b7596cf34999eaba5a1068c50, type: 3}
+    skillRewards: []
+    scrollRewards: []
 --- !u!114 &1326288567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22343,18 +22348,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillPrefabs:
-  - {fileID: 2288853367069960182, guid: 2a3df3b1e313aac4f9316752602894bd, type: 3}
-  - {fileID: 2288853367069960182, guid: 2a3df3b1e313aac4f9316752602894bd, type: 3}
-  - {fileID: 2288853367069960182, guid: 5c37c22b7596cf34999eaba5a1068c50, type: 3}
-  - {fileID: 2288853367069960182, guid: 5c37c22b7596cf34999eaba5a1068c50, type: 3}
-  - {fileID: 2288853367069960182, guid: 2a3df3b1e313aac4f9316752602894bd, type: 3}
-  - {fileID: 2288853367069960182, guid: 07982fb0b6ad38943b2e091545bdef4b, type: 3}
-  - {fileID: 2288853367069960182, guid: 5c37c22b7596cf34999eaba5a1068c50, type: 3}
-  - {fileID: 2288853367069960182, guid: 5c37c22b7596cf34999eaba5a1068c50, type: 3}
-  - {fileID: 371756096964453561, guid: e005909586a64d54fbc45978c34207e5, type: 3}
-  - {fileID: 371756096964453561, guid: e005909586a64d54fbc45978c34207e5, type: 3}
-  - {fileID: 371756096964453561, guid: e005909586a64d54fbc45978c34207e5, type: 3}
-  - {fileID: 371756096964453561, guid: e005909586a64d54fbc45978c34207e5, type: 3}
+  - {fileID: 5219999204231547788, guid: e3b69a60961350c4490f2d31e6a1fe32, type: 3}
+  - {fileID: 5219999204231547788, guid: e3b69a60961350c4490f2d31e6a1fe32, type: 3}
+  - {fileID: 5219999204231547788, guid: e3b69a60961350c4490f2d31e6a1fe32, type: 3}
+  - {fileID: 5219999204231547788, guid: 344a851715ec3e449b731e8738ade5b5, type: 3}
+  - {fileID: 5219999204231547788, guid: 344a851715ec3e449b731e8738ade5b5, type: 3}
+  - {fileID: 5219999204231547788, guid: 4c5392ef9977e9e4292e0c125f8ee59a, type: 3}
+  - {fileID: 5219999204231547788, guid: 4c5392ef9977e9e4292e0c125f8ee59a, type: 3}
+  - {fileID: 5219999204231547788, guid: bb9447d7bedb41b4d870a44ea4a3fb9d, type: 3}
   skills: []
 --- !u!114 &1965074055
 MonoBehaviour:

@@ -47,6 +47,7 @@ public class SkillRullet : Rullet
 
         changePiece.isInRullet = true;
 
+        changePiece.OnRullet();
         changePiece.pieceIdx = changeIdx;
         changePiece.transform.SetParent(transform);
         changePiece.transform.DOLocalMove(Vector3.zero, 0.35f);

@@ -116,6 +116,11 @@ public abstract class RulletPiece : MonoBehaviour
         ChangeType(patternType);
     }
 
+    public virtual void OnRullet()
+    {
+        
+    }
+
     public void KillTween()
     {
         transform.DOKill();

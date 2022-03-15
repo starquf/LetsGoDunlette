@@ -106,6 +106,7 @@ public abstract class Rullet : MonoBehaviour
         }
         else
         {
+            piece.OnRullet();
             piece.pieceIdx = pieces.Count;
             pieces.Add(piece);
         }

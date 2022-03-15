@@ -10,7 +10,7 @@ public class SkillPiece : RulletPiece
 
     public bool hasTarget = true;
 
-    //[HideInInspector]
+    [HideInInspector]
     public Inventory owner;
 
     protected override void Awake()

@@ -4,19 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public class EventBookInfo
-{
-    public int turn;
-    public Action action;
-
-    public EventBookInfo(int turn, Action action)
-    {
-        this.turn = turn;
-        this.action = action;
-    }
-}
-
 public class BattleHandler : MonoBehaviour
 {
     //==================================================
@@ -34,6 +21,8 @@ public class BattleHandler : MonoBehaviour
     private BattleScrollHandler battleScrollHandler;
     [HideInInspector]
     public BattleUtilHandler battleUtil;
+    [HideInInspector]
+    public BattleEventHandler battleEvent;
 
     private InventoryHandler inventory;
 
@@ -71,15 +60,6 @@ public class BattleHandler : MonoBehaviour
 
     //==================================================
 
-    public event Action<RulletPiece> onNextAttack;
-    private event Action<RulletPiece> nextAttack;
-
-    public event Action onEndAttack;
-
-    public List<EventBookInfo> eventBookInfos = new List<EventBookInfo>();
-
-    //==================================================
-
     public Transform bottomPos;
 
     #region WaitSeconds
@@ -99,6 +79,7 @@ public class BattleHandler : MonoBehaviour
         battleTargetSelector = GetComponent<BattleTargetSelectHandler>();
         battleUtil = GetComponent<BattleUtilHandler>();
         battleScrollHandler = GetComponent<BattleScrollHandler>();
+        battleEvent = GetComponent<BattleEventHandler>();
     }
 
     private void Start()
@@ -116,9 +97,6 @@ public class BattleHandler : MonoBehaviour
     {
         print("전투시작");
         SoundHandler.Instance.PlayBGMSound("Battle_4");
-
-        onNextAttack = null;
-        nextAttack = null;
 
         if (bInfo != null)
         {
@@ -322,15 +300,15 @@ public class BattleHandler : MonoBehaviour
 
         // 현재 턴에 걸려있는 적의 cc기와 플레이어의 cc기를 하나 줄여준다.
         ccHandler.DecreaseCC();
-
-        nextAttack = null;
-        nextAttack = onNextAttack;
+        battleEvent.InitNextSkill();
 
         StartTurn();
     }
 
     public void StartTurn()
     {
+        battleEvent.OnStartTurn();
+
         // 전부 돌려버리고
         mainRullet.RollRullet();
 
@@ -344,12 +322,10 @@ public class BattleHandler : MonoBehaviour
     // 실행이 전부 끝나면 실행되는 코루틴
     private IEnumerator EndTurn()
     {
-        BookedEvent(); //예약된 이벤트가 있으면 실행함
-
-        onEndAttack?.Invoke();
+        battleEvent.OnEndTurn();
 
         // 다음 공격 체크하는 스킬들이 발동되는 타이밍
-        nextAttack?.Invoke(result);
+        battleEvent.OnNextSkill(result);
 
         yield return pOneSecWait;
 
@@ -378,25 +354,6 @@ public class BattleHandler : MonoBehaviour
 
         // 다음턴으로
         InitTurn();
-    }
-
-
-    public void BookEvent(EventBookInfo bookEvent)
-    {
-        eventBookInfos.Add(bookEvent);
-    }
-
-    private void BookedEvent()
-    {
-        for (int i = eventBookInfos.Count - 1; i >= 0 ; i--)
-        {
-            eventBookInfos[i].turn--;
-            if(eventBookInfos[i].turn <= 0)
-            {
-                eventBookInfos[i].action?.Invoke();
-                eventBookInfos.Remove(eventBookInfos[i]);
-            }
-        }
     }
 
     public void CheckBattleEnd(Action onEndBattle = null)
@@ -513,6 +470,8 @@ public class BattleHandler : MonoBehaviour
                 StartCoroutine(EndTurn());
                 return;
             }
+
+            battleEvent.OnCastPiece(result);
 
             Action onShowCast = () => { };
 

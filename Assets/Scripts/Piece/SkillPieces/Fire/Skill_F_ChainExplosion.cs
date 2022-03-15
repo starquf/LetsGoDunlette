@@ -23,27 +23,27 @@ public class Skill_F_ChainExplosion : SkillPiece
             onCastEnd?.Invoke();
         });
 
-        Action<RulletPiece> onNextTest = result => { };
+        Action<RulletPiece> onNextAttack = result => { };
+        int targetHp = target.curMaxHp;
 
-        onNextTest = result =>
+        onNextAttack = result =>
         {
-            if (result.PieceType.Equals(PieceType.SKILL) && result.GetComponent<SkillPiece>().isPlayerSkill)
+            if (result.GetComponent<SkillPiece>().isPlayerSkill && target.curMaxHp > targetHp)
             {
                 target.GetDamage(Value, patternType);
-                GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
+                GameManager.Instance.cameraHandler.ShakeCamera(1.5f, 0.15f);
 
                 Anim_F_ChainExplosionBonus bonusEffect = PoolManager.GetItem<Anim_F_ChainExplosionBonus>();
                 bonusEffect.transform.position = targetPos;
 
-                bonusEffect.Play(() => {
-                });
+                bonusEffect.Play();
             }
 
             // 바로 없엘거면 이렇게
-            bh.onNextAttack -= onNextTest;
+            bh.battleEvent.onNextSkill -= onNextAttack;
         };
 
         // 이벤트에 추가해주면 됨
-        bh.onNextAttack += onNextTest;
+        bh.battleEvent.onNextSkill += onNextAttack;
     }
 }
