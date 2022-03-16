@@ -358,19 +358,19 @@ public class BattleHandler : MonoBehaviour
 
     public void CheckBattleEnd(Action onEndBattle = null)
     {
-        if (battleUtil.CheckEnemyDie(enemys))
-        {
-            onEndBattle?.Invoke();
-
-            BattleEnd();
-
-            StopAllCoroutines();
-        }
-        else if (battleUtil.CheckDie(player))
+        if (battleUtil.CheckDie(player))
         {
             onEndBattle?.Invoke();
 
             BattleEnd(false);
+
+            StopAllCoroutines();
+        }
+        else if (battleUtil.CheckEnemyDie(enemys))
+        {
+            onEndBattle?.Invoke();
+
+            BattleEnd();
 
             StopAllCoroutines();
         }
