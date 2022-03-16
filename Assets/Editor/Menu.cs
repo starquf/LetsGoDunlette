@@ -55,4 +55,15 @@ public class Menu : MonoBehaviour
         }
         EditorSceneManager.OpenScene("Assets/Scenes/SunHo.unity");
     }
+
+    [MenuItem("Scene/CopySeunghwan")]
+    static void CopySeunghwan()
+    {
+        string path = Application.dataPath;
+        string fileName = path + "/Scenes/SeungHwanScene.unity";
+        string destFileName = path + "/Scenes/Seunghyeok.unity";
+
+
+        System.IO.File.Copy(fileName, destFileName, true);
+    }
 }
