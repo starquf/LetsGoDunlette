@@ -263,8 +263,8 @@ public abstract class Rullet : MonoBehaviour
         float sizeAngle = 360f / maxSize;
 
         // -180 ~ 180 표현식을 0 ~ 360 표현식으로 변환하는 과정
-        float rulletAngle = Quaternion.FromToRotation(Vector3.right, transform.right).eulerAngles.z;
-        print("룰렛 각도 : " + rulletAngle);
+        float rulletAngle = transform.eulerAngles.z;
+        //print("룰렛 각도 : " + rulletAngle);
 
         int pieceIdx = -1;
 
