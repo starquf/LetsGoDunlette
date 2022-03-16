@@ -11,10 +11,8 @@ public class Skill_N_NaturalHealing : SkillPiece
     {
         owner.GetComponent<PlayerHealth>().Heal(40);
 
-        Anim_F_Arson effect = PoolManager.GetItem<Anim_F_Arson>();
-        effect.transform.position = skillImg.transform.position;
-        effect.SetScale(0.5f);
-
+        Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
+        effect.transform.position = GameManager.Instance.battleHandler.playerImgTrans.position;
 
         effect.Play(() =>
         {
