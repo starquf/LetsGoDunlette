@@ -117,9 +117,9 @@ public class Skill_W_FireSuppression : SkillPiece
 
                 List<EnemyHealth> enemys = bh.battleUtil.DeepCopyList(bh.enemys);
 
-                target.GetDamage(20, patternType);
+                target.GetDamage(40, patternType);
 
-                Anim_W_Splash splashEffect = PoolManager.GetItem<Anim_W_Splash>();
+                Anim_W_Splash1 splashEffect = PoolManager.GetItem<Anim_W_Splash1>();
                 splashEffect.transform.position = target.transform.position;
 
                 GameManager.Instance.cameraHandler.ShakeCamera(1f, 0.15f);
