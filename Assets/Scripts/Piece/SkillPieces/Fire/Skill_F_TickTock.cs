@@ -54,6 +54,7 @@ public class Skill_F_TickTock : SkillPiece
                     effect.transform.position = bh.playerImgTrans.position;
                     effect.SetScale(Random.Range(0.8f, 1f));
 
+                    GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.25f, 0.1f);
                     owner.GetComponent<LivingEntity>().GetDamage(60);
                     effect.Play();
                     bh.mainRullet.PutRulletPieceToGraveYard(pieceIdx);
