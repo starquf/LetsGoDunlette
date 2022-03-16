@@ -101,6 +101,10 @@ public class Skill_W_FireSuppression : SkillPiece
 
             splashEffect.Play();
 
+            if(waterCnt <= 0)
+            {
+                onCastEnd?.Invoke();
+            }
             skillEffect.EndEffect();
         }, BezierType.Linear, isRotate: true, playSpeed: 2f);
         for (int i = 0; i < waterCnt; i++)
