@@ -24,11 +24,11 @@ public class Skill_F_ChainExplosion : SkillPiece
         });
 
         Action<RulletPiece> onNextAttack = result => { };
-        int targetHp = target.curMaxHp;
+        int targetHp = target.curHp;
 
         onNextAttack = result =>
         {
-            if (result.GetComponent<SkillPiece>().isPlayerSkill && target.curMaxHp > targetHp)
+            if (result.GetComponent<SkillPiece>().isPlayerSkill && target.curHp > targetHp)
             {
                 target.GetDamage(Value, patternType);
                 GameManager.Instance.cameraHandler.ShakeCamera(1.5f, 0.15f);
