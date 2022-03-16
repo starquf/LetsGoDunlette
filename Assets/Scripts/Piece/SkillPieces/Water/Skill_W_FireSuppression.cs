@@ -49,12 +49,6 @@ public class Skill_W_FireSuppression : SkillPiece
                     int a = i;
 
                     waterCnt++;
-                    /*
-                    Anim_W_Splash1 splashEffect = PoolManager.GetItem<Anim_W_Splash1>();
-                    splashEffect.transform.position = skillPos;
-                    splashEffect.SetScale(0.5f);
-
-                    splashEffect.Play();*/
 
                     EffectObj effect = PoolManager.GetItem<EffectObj>();
                     effect.transform.position = startPos;
@@ -63,6 +57,12 @@ public class Skill_W_FireSuppression : SkillPiece
                     effect.SetScale(Vector3.one);
 
                     effect.Play(skillPos, () => {
+
+                        Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
+                        textEffect.SetType(TextUpAnimType.Damage);
+                        textEffect.transform.position = skillPieces[a].skillImg.transform.position;
+                        textEffect.Play("화재진압 발동!");
+
                         Anim_W_Splash1 splashEffect = PoolManager.GetItem<Anim_W_Splash1>();
                         splashEffect.transform.position = skillPos;
                         splashEffect.SetScale(0.5f);
@@ -71,29 +71,7 @@ public class Skill_W_FireSuppression : SkillPiece
 
                         splashEffect.Play();
 
-                        EffectObj skillEffect = PoolManager.GetItem<EffectObj>();
-                        skillEffect.transform.position = skillPos;
-                        skillEffect.SetSprite(manaSphereSpr);
-                        skillEffect.SetColorGradient(effectGradient);
-                        skillEffect.SetScale(Vector3.one);
-
-                        skillEffect.Play(target.transform.position, () => {
-
-                            List<EnemyHealth> enemys = bh.battleUtil.DeepCopyList(bh.enemys);
-
-                            target.GetDamage(20, patternType);
-
-                            Anim_W_Splash splashEffect = PoolManager.GetItem<Anim_W_Splash>();
-                            splashEffect.transform.position = target.transform.position;
-
-                            GameManager.Instance.cameraHandler.ShakeCamera(1.5f, 0.15f);
-
-                            splashEffect.Play();
-
-                            GameManager.Instance.battleHandler.mainRullet.PutRulletPieceToGraveYard(a);
-                            skillEffect.EndEffect();
-                        }, BezierType.Linear, isRotate: true, playSpeed: 2f);
-
+                        GameManager.Instance.battleHandler.mainRullet.PutRulletPieceToGraveYard(a);
                         effect.EndEffect();
                     }, BezierType.Quadratic, isRotate: true, playSpeed: 2.3f);
 
@@ -123,9 +101,41 @@ public class Skill_W_FireSuppression : SkillPiece
 
             splashEffect.Play();
 
-            onCastEnd?.Invoke();
-
+            if(waterCnt <= 0)
+            {
+                onCastEnd?.Invoke();
+            }
             skillEffect.EndEffect();
         }, BezierType.Linear, isRotate: true, playSpeed: 2f);
+        for (int i = 0; i < waterCnt; i++)
+        {
+            yield return new WaitForSeconds(0.1f);
+            int a = i;
+            EffectObj effect = PoolManager.GetItem<EffectObj>();
+            effect.transform.position = startPos;
+            effect.SetSprite(manaSphereSpr);
+            effect.SetColorGradient(effectGradient);
+            effect.SetScale(Vector3.one);
+
+            effect.Play(target.transform.position, () => {
+
+                List<EnemyHealth> enemys = bh.battleUtil.DeepCopyList(bh.enemys);
+
+                target.GetDamage(40, patternType);
+
+                Anim_W_Splash1 splashEffect = PoolManager.GetItem<Anim_W_Splash1>();
+                splashEffect.transform.position = target.transform.position;
+
+                GameManager.Instance.cameraHandler.ShakeCamera(1f, 0.15f);
+
+                splashEffect.Play();
+
+                if (a == waterCnt - 1)
+                {
+                    onCastEnd?.Invoke();
+                }
+                effect.EndEffect();
+            }, BezierType.Cubic, isRotate: true, playSpeed: 2f);
+        }
     }
 }
