@@ -20,6 +20,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     public int maxHp;
     public int curMaxHp => maxHp + shieldHp;
+    public int curHp => hp + shieldHp;
 
     [SerializeField] protected int hp;
     [SerializeField] protected int shieldHp = 0;
