@@ -88,6 +88,8 @@ public class GameManager : MonoBehaviour
     public MapHandler mapHandler;
     [HideInInspector]
     public ShakeHandler shakeHandler;
+    [HideInInspector]
+    public SkillPrefabContainer skillContainer;
 
     [HideInInspector]
     public event Action OnUpdateUI;

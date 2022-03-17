@@ -4,11 +4,26 @@ using Random = UnityEngine.Random;
 
 public class RF_Skill : SkillPiece
 {
-    public GameObject presentgSkill; // 할퀴기
+    private GameObject presentgSkill; // 할퀴기
+
+    private BattleHandler bh;
+    private InventoryHandler ih;
+
     protected override void Awake()
     {
         base.Awake();
+
         isPlayerSkill = false;
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+
+        presentgSkill = GameManager.Instance.skillContainer.GetSkillPrefab<RF_Present>();
+
+        bh = GameManager.Instance.battleHandler;
+        ih = GameManager.Instance.inventoryHandler;
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
@@ -59,16 +74,14 @@ public class RF_Skill : SkillPiece
             {
                 SetIndicator(owner.gameObject, "조각 추가").OnEnd(() =>
                 {
-                    Inventory owner1 = owner.GetComponent<EnemyInventory>();
-
                     for (int i = 0; i < 3; i++)
                     {
-                        GameManager.Instance.inventoryHandler.CreateSkill(presentgSkill, owner1);
+                        ih.CreateSkill(presentgSkill, owner, owner.transform.position);
                     }
-                });
-                onCastEnd?.Invoke();
-            });
 
+                     bh.battleUtil.SetTimer(0.5f, onCastEnd);
+                });
+            });
         });
     }
 

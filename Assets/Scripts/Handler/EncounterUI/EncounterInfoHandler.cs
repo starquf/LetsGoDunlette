@@ -7,7 +7,6 @@ using UnityEngine;
 [System.Serializable]
 public class EncounterInfo
 {
-    public List<GameObject> skillRewards = new List<GameObject> ();
     public List<Scroll> scrollRewards = new List<Scroll>();
 }
 
@@ -15,10 +14,17 @@ public class EncounterInfoHandler : MonoBehaviour
 {
     public EncounterInfo encounterInfo;
 
+    private SkillPrefabContainer sc;
+
+    private void Start()
+    {
+        sc = GameManager.Instance.skillContainer;
+    }
+
     public List<GameObject> GetRandomSkillRewards(int count)
     {
         List<GameObject> result = new List<GameObject>();
-        List<GameObject> rewardRulletPieces = encounterInfo.skillRewards.ToList();
+        List<GameObject> rewardRulletPieces = sc.playerSkillPrefabs.ToList();
         for (int i = 0; i < count; i++)
         {
             GameObject randomPiece = rewardRulletPieces[Random.Range(0, rewardRulletPieces.Count)];
