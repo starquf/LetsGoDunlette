@@ -48,6 +48,7 @@ public class Skill_N_Drain : SkillPiece
 
         const float time = 0.8f;
         int rand = Random.Range(7, 13);
+        int healAmount = 0;
         for (int i = 0; i < rand; i++)
         {
             int a = i;
@@ -59,23 +60,23 @@ public class Skill_N_Drain : SkillPiece
 
             effect.Play(bh.playerHpbarTrans.position, () => {
                 effect.EndEffect();
-                if (a == rand -1)
+
+                Anim_M_Recover skillEffect = PoolManager.GetItem<Anim_M_Recover>();
+                skillEffect.transform.position = effect.transform.position;
+                skillEffect.SetScale(0.4f);
+
+
+                skillEffect.Play();
+                if(a == rand -1)
                 {
-                    Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-                    textEffect.SetType(TextUpAnimType.Damage);
-                    textEffect.transform.position = playerTrm.position;
-                    textEffect.Play("È¸º¹!");
-                    owner.GetComponent<PlayerHealth>().Heal(20);
-
-                    Anim_M_Recover skillEffect = PoolManager.GetItem<Anim_M_Recover>();
-                    skillEffect.transform.position = playerTrm.position;
-                    skillEffect.SetScale(0.8f);
-
-
-                    skillEffect.Play(() =>
-                    {
-                        onCastEnd?.Invoke();
-                    });
+                    owner.GetComponent<PlayerHealth>().Heal(20 - healAmount);
+                    onCastEnd?.Invoke();
+                }
+                else
+                {
+                    int heal = (20 - healAmount) / rand;
+                    healAmount += heal;
+                    owner.GetComponent<PlayerHealth>().Heal(heal);
                 }
             }, BezierType.Quadratic, isRotate: true, playSpeed: 1.5f);
             yield return new WaitForSeconds(time / (float)rand);
