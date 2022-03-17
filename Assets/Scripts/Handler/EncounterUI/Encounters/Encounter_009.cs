@@ -58,7 +58,7 @@ public class Encounter_009 : RandomEncounter
                 bInfo.enemyInfos = new List<EnemyType>() { EnemyType.GNOLL };
                 bInfo.isWeakEnemy = false;
 
-                GameManager.Instance.battleHandler.StartBattle(false, bInfo);
+                GameManager.Instance.battleHandler.StartBattle(bInfo: bInfo);
                 OnExitEncounter?.Invoke(false);
                 break;
             case 1:

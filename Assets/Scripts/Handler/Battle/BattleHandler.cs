@@ -94,7 +94,7 @@ public class BattleHandler : MonoBehaviour
     #region StartBattle
 
     // 전투를 시작하는 함수
-    public void StartBattle(bool isBoss = false, BattleInfo bInfo = null, bool isElite = false)
+    public void StartBattle(bool isElite = false, bool isBoss = false, BattleInfo bInfo = null)
     {
         print("전투시작");
         SoundHandler.Instance.PlayBGMSound("Battle_4");

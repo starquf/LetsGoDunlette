@@ -34,7 +34,7 @@ public class Encounter_002 : RandomEncounter
                 bInfo.enemyInfos = new List<EnemyType>() { EnemyType.KOBOLD };
                 bInfo.isWeakEnemy = false;
 
-                GameManager.Instance.battleHandler.StartBattle(false, bInfo);
+                GameManager.Instance.battleHandler.StartBattle(bInfo:bInfo);
                 OnExitEncounter?.Invoke(false);
                 break;
             case 1:
