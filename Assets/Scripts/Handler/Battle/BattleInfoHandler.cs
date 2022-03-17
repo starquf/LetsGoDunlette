@@ -17,6 +17,7 @@ public class BattleInfoHandler : MonoBehaviour
 {
     public List<BattleInfo> battleInfos = new List<BattleInfo>();
     public List<BattleInfo> bossInfos = new List<BattleInfo>();
+    public List<BattleInfo> eliteInfos = new List<BattleInfo>();
 
     private int counter = 0;
 
@@ -45,6 +46,15 @@ public class BattleInfoHandler : MonoBehaviour
         counter++;
 
         int randIdx = Random.Range(0, bossInfos.Count);
+
+        return bossInfos[randIdx];
+    }
+
+    public BattleInfo GetRandomEliteInfo()
+    {
+        counter++;
+
+        int randIdx = Random.Range(0, eliteInfos.Count);
 
         return bossInfos[randIdx];
     }
