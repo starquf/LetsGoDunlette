@@ -50,6 +50,7 @@ public class BattleHandler : MonoBehaviour
     [Header("플레이어&적 Health")]
     public PlayerHealth player;
     public Transform playerImgTrans;
+    public Transform playerHpbarTrans;
 
     //[HideInInspector]
     public List<EnemyHealth> enemys = new List<EnemyHealth>();

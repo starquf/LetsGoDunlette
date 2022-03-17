@@ -57,7 +57,7 @@ public class Skill_N_Drain : SkillPiece
             effect.SetColorGradient(effectGradient);
             effect.SetScale(Vector3.one * 0.5f);
 
-            effect.Play(playerTrm.position, () => {
+            effect.Play(bh.playerHpbarTrans.position, () => {
                 effect.EndEffect();
                 if (a == rand -1)
                 {
