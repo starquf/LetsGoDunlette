@@ -56,7 +56,6 @@ public class Encounter_009 : RandomEncounter
             case 0:
                 BattleInfo bInfo = new BattleInfo();
                 bInfo.enemyInfos = new List<EnemyType>() { EnemyType.GNOLL };
-                bInfo.rewards = encounterInfoHandler.encounterInfo.skillRewards;
                 bInfo.isWeakEnemy = false;
 
                 GameManager.Instance.battleHandler.StartBattle(false, bInfo);

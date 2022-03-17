@@ -8,7 +8,6 @@ using System.Linq;
 public class BattleInfo
 {
     public List<EnemyType> enemyInfos = new List<EnemyType>();
-    public List<GameObject> rewards = new List<GameObject>();
 
     public bool isWeakEnemy;
 }
