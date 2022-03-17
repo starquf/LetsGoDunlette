@@ -79,6 +79,7 @@ public class InventoryHandler : MonoBehaviour
         SkillPiece skill = Instantiate(skillPrefab, transform).GetComponent<SkillPiece>();
         skill.transform.position = makePos;
         skill.owner = owner;
+        owner.skills.Add(skill);
 
         skill.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
 
