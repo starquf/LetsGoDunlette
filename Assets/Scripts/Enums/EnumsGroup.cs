@@ -57,7 +57,9 @@ public enum ScrollType
     Hiding,
     Power,
     Chaos,
-    Memorie
+    Memorie,
+    Flame,
+    Twice
 }
 
 public enum ShowInfoRange
