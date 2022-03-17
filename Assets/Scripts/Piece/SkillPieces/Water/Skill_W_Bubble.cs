@@ -35,7 +35,10 @@ public class Skill_W_Bubble : SkillPiece
                 if(a == rand-1)
                 {
                     target.AddShield(Value);
-
+                    Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
+                    textEffect.SetType(TextUpAnimType.Damage);
+                    textEffect.transform.position = target.transform.position;
+                    textEffect.Play("½¯µå!");
                     Anim_Shield effect = PoolManager.GetItem<Anim_Shield>();
                     effect.transform.position = bh.playerImgTrans.position;
                     effect.SetScale(0.8f);
