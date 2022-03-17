@@ -19,6 +19,7 @@ public class CreateAnim : MonoBehaviour
     public GameObject staticStunAnim;
 
     [Header("磊楷 加己")]
+    public GameObject n_DrainAnim;
     public GameObject n_ManaSphereHitAnim;
     public GameObject posionCloudAnim;
 
@@ -66,6 +67,7 @@ public class CreateAnim : MonoBehaviour
 
         // ===========================================================================  磊楷 加己
         PoolManager.CreatePool<Anim_N_ManaSphereHit>(n_ManaSphereHitAnim, this.transform, 1);
+        PoolManager.CreatePool<Anim_N_Drain>(n_DrainAnim, this.transform, 1);
         PoolManager.CreatePool<Anim_N_PosionCloud>(posionCloudAnim, this.transform, 1);
 
         // ===========================================================================  拱 加己

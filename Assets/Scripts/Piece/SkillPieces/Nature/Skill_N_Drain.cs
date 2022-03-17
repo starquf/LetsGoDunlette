@@ -3,23 +3,82 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Skill_N_Drain : SkillPiece
 {
+    public Sprite drainingEffectSpr;
+    private Gradient effectGradient;
+
+    protected override void Start()
+    {
+        base.Start();
+
+        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[PatternType.Clover];
+
+        hasTarget = true;
+    }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null) //적에게 50의 피해를 입힌다.		-	회복	체력을 20 회복한다.
     {
+        StartCoroutine(Drain(target, onCastEnd));
+    }
+
+    private IEnumerator Drain(LivingEntity target, Action onCastEnd = null)
+    {
+        BattleHandler bh = GameManager.Instance.battleHandler;
         target.GetDamage(value);
-        owner.GetComponent<PlayerHealth>().Heal(20);
 
-        Anim_F_Arson effect = PoolManager.GetItem<Anim_F_Arson>();
-        effect.transform.position = skillImg.transform.position;
-        effect.SetScale(0.5f);
+        Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
+        textEffect.SetType(TextUpAnimType.Damage);
+        textEffect.transform.position = target.transform.position;
+        textEffect.Play("흡수!");
+
+        Anim_N_Drain skillEffect = PoolManager.GetItem<Anim_N_Drain>();
+        skillEffect.transform.position = target.transform.position;
+        skillEffect.SetScale(1f);
 
 
-        effect.Play(() =>
+        GameManager.Instance.cameraHandler.ShakeCamera(2f, 0.3f);
+        skillEffect.Play();
+
+        yield return new WaitForSeconds(0.1f);
+
+        Transform playerTrm = bh.playerImgTrans;
+
+        const float time = 0.8f;
+        int rand = Random.Range(7, 13);
+        for (int i = 0; i < rand; i++)
         {
-            onCastEnd?.Invoke();
-        });
+            int a = i;
+            EffectObj effect = PoolManager.GetItem<EffectObj>();
+            effect.transform.position = target.transform.position;
+            effect.SetSprite(drainingEffectSpr);
+            effect.SetColorGradient(effectGradient);
+            effect.SetScale(Vector3.one * 0.5f);
+
+            effect.Play(playerTrm.position, () => {
+                effect.EndEffect();
+                if (a == rand -1)
+                {
+                    Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
+                    textEffect.SetType(TextUpAnimType.Damage);
+                    textEffect.transform.position = playerTrm.position;
+                    textEffect.Play("회복!");
+                    owner.GetComponent<PlayerHealth>().Heal(20);
+
+                    Anim_M_Recover skillEffect = PoolManager.GetItem<Anim_M_Recover>();
+                    skillEffect.transform.position = playerTrm.position;
+                    skillEffect.SetScale(0.8f);
+
+
+                    skillEffect.Play(() =>
+                    {
+                        onCastEnd?.Invoke();
+                    });
+                }
+            }, BezierType.Quadratic, isRotate: true, playSpeed: 1.5f);
+            yield return new WaitForSeconds(time / (float)rand);
+        }
     }
 }
