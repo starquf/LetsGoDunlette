@@ -11,21 +11,23 @@ public class Skill_F_TickTock : SkillPiece
     public Text counterText;
     private int turnCount = 3;
 
+    private BattleHandler bh = null;
+
     private readonly WaitForSeconds pOneSecWait = new WaitForSeconds(0.1f);
     private readonly WaitForSeconds pTwoSecWait = new WaitForSeconds(0.2f);
     protected override void Start()
     {
         base.Start();
 
+        bh = GameManager.Instance.battleHandler;
+
         hasTarget = true;
     }   
     public override void OnRullet()
     {
-        BattleHandler bh = GameManager.Instance.battleHandler;
+        bh = GameManager.Instance.battleHandler;
 
         bh.battleEvent.onNextSkill -= onNextTurn;
-
-        turnCount = 3;
 
         onNextTurn = piece =>
         {
@@ -61,6 +63,8 @@ public class Skill_F_TickTock : SkillPiece
                 }
             }
         };
+
+        turnCount = 3;
 
         bh.battleEvent.onNextSkill += onNextTurn;
     }

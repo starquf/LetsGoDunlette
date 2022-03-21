@@ -52,6 +52,12 @@ public class Skill_F_DrawingWires : SkillPiece
             CheckLeft(pieces, target, onCastEnd);
         }
 
+        Anim_F_ManaSphereHit hit = PoolManager.GetItem<Anim_F_ManaSphereHit>();
+        hit.transform.position = target.transform.position;
+        hit.SetScale(0.5f);
+
+        hit.Play();
+
         target.GetDamage(Value, patternType);
         GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
     }
