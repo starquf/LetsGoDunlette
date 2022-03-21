@@ -42,7 +42,7 @@ public class RF_Skill : SkillPiece
     {
             SetIndicator(owner.gameObject, "공격").OnEnd(() =>
             {
-                target.GetDamage(10);
+                target.GetDamage(10, owner.gameObject);
 
                 Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
                 effect.transform.position = owner.transform.position;
@@ -51,8 +51,8 @@ public class RF_Skill : SkillPiece
                     SetIndicator(owner.gameObject, "상처 부여").OnEnd(() =>
                     {
                         target.cc.SetCC(CCType.Wound, 3);
-                        Anim_M_Butt effect = PoolManager.GetItem<Anim_M_Butt>();
-                        effect.transform.position = owner.transform.position;
+                        Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
+                        effect.transform.position = bh.playerImgTrans.position;
                         effect.Play(() =>
                         {
                             onCastEnd?.Invoke();

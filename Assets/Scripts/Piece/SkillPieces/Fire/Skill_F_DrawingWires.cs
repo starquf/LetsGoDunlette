@@ -83,7 +83,6 @@ public class Skill_F_DrawingWires : SkillPiece
 
             hitEffect.Play(() => 
             {
-                
                 prevPiece.Cast(target, () =>
                 {
                     onCastEnd?.Invoke();

@@ -123,6 +123,8 @@ public abstract class RulletPiece : MonoBehaviour
 
     public void KillTween()
     {
+        if (transform == null) return;
+
         transform.DOKill();
         skillImg.transform.DOKill();
         bgImg.DOKill();
