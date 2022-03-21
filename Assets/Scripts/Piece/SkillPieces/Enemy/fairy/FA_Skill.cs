@@ -12,7 +12,7 @@ public class FA_Skill : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        if (Random.Range(1, 100) <= value)
+        if (Random.Range(0, 100) <= value)
         {
             FA_Fairy_Ligtht(target, onCastEnd);
         }
