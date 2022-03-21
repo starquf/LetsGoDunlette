@@ -10,6 +10,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     private Image hpBar;
     private Image hpBarAfterImageBar;
     private Image hpShieldBar;
+
     private Text hpText;
 
     private Transform damageTrans;
@@ -277,6 +278,8 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         {
             int previousShield = shieldHp;
             shieldHp = 0;
+
+            cc.RemoveBuff(BuffType.Shield);
 
             Heal(previousShield);
         }
