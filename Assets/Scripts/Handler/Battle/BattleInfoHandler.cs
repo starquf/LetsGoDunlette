@@ -55,6 +55,6 @@ public class BattleInfoHandler : MonoBehaviour
 
         int randIdx = Random.Range(0, eliteInfos.Count);
 
-        return bossInfos[randIdx];
+        return eliteInfos[randIdx];
     }
 }
