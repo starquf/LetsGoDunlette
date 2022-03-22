@@ -70,7 +70,11 @@ public class Skill_E_Charging : SkillPiece
 
     private IEnumerator ChargeAttack(Action onCastEnd = null)
     {
-        if (bh.enemys.Count <= 0) yield break;
+        if (bh.enemys.Count <= 0)
+        {
+            onCastEnd?.Invoke();
+            yield break;
+        }
 
         List<EnemyHealth> enemys = bh.battleUtil.DeepCopyList(bh.enemys);
 

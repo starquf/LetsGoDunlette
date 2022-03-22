@@ -97,18 +97,20 @@ public class BattleEventHandler : MonoBehaviour
     {
         for (int i = eventBookInfos.Count - 1; i >= 0; i--)
         {
-            eventBookInfos[i].turn--;
-            if (eventBookInfos[i].turn <= 0)
+            int a = i;
+
+            eventBookInfos[a].turn--;
+            if (eventBookInfos[a].turn <= 0)
             {
                 Action closer = () => { };
                 closer = () => 
                 {
-                    eventBookInfos[i].action?.Invoke();
+                    eventBookInfos[a].action?.Invoke();
                     onEndTurn -= closer;
                 };
 
                 onEndTurn += closer;
-                eventBookInfos.RemoveAt(i);
+                eventBookInfos.RemoveAt(a);
             }
         }
     }

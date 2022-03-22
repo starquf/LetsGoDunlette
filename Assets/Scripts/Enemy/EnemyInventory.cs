@@ -21,8 +21,6 @@ public class EnemyInventory : Inventory
         {
             SkillPiece skill = inventoryHandler.CreateSkill(skillPrefabs[i], this, transform.position);
 
-            skills.Add(skill);
-
             yield return new WaitForSeconds(waitTime);
         }
     }

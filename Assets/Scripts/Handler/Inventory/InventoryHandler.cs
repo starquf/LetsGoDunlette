@@ -375,6 +375,8 @@ public class InventoryHandler : MonoBehaviour
 
     public void RemovePiece(SkillPiece piece)
     {
+        if (piece == null) return;
+
         piece.KillTween();
 
         skills.Remove(piece);
