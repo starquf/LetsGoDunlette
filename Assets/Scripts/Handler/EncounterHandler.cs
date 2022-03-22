@@ -9,6 +9,8 @@ public class EncounterHandler : MonoBehaviour
     public RandomEncounterUIHandler randomEncounterUIHandler;
     public RestEncounterUIHandler restEncounterUIHandler;
 
+    private BattleHandler bh = null;
+
     private void Awake()
     {
         GameManager.Instance.OnEndEncounter += EndEncounter;
@@ -16,6 +18,8 @@ public class EncounterHandler : MonoBehaviour
 
     private void Start()
     {
+        bh = GameManager.Instance.battleHandler;
+        bh.GetComponent<BattleScrollHandler>().ShowScrollUI(open: false,skip: true);
         GameManager.Instance.mapHandler.OpenMapPanel(true, true);
         //StartEncounter(mapNode.MONSTER);
     }
@@ -40,15 +44,15 @@ public class EncounterHandler : MonoBehaviour
                 break;
             case mapNode.BOSS:
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
-                GameManager.Instance.battleHandler.StartBattle(isBoss : true);
+                bh.StartBattle(isBoss : true);
                 break;
             case mapNode.EMONSTER:
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
-                GameManager.Instance.battleHandler.StartBattle(isElite: true);
+                bh.StartBattle(isElite: true);
                 break;
             case mapNode.MONSTER:
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
-                GameManager.Instance.battleHandler.StartBattle();
+                bh.StartBattle();
                 //randomEncounterUIHandler.StartEvent();
                 break;
             case mapNode.SHOP:
@@ -69,6 +73,7 @@ public class EncounterHandler : MonoBehaviour
     private void EndEncounter()
     {
         print("인카운터 끝남");
+        bh.GetComponent<BattleScrollHandler>().ShowScrollUI(open:false);
         GameManager.Instance.mapHandler.OpenMapPanel(true);
     }
 }
