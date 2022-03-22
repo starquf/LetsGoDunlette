@@ -244,6 +244,11 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     {
         hpText.text = $"{hp}/{maxHp}";
 
+        if(shieldHp > 0)
+        {
+            hpText.text = $"{hp}+{shieldHp}/{maxHp}";
+        }
+
         if (hp == maxHp)
         {
             DOTween.To(() => hpBar.fillAmount, x => hpBar.fillAmount = x, (float)hp / curMaxHp, 0.33f);
