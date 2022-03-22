@@ -100,4 +100,14 @@ public class BattleEventHandler : MonoBehaviour
             }
         }
     }
+
+    public void ResetAllEvents()
+    {
+        onStartTurn = null;
+        onCastPiece = null;
+        onEndTurn = null;
+        onNextSkill = null;
+        nextSkill = null;
+        eventBookInfos.Clear();
+    }
 }

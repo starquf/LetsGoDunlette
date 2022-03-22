@@ -468,6 +468,7 @@ public class BattleHandler : MonoBehaviour
         player.RemoveShield();
 
         mainRullet.ResetRulletSpeed();
+        battleEvent.ResetAllEvents();
 
         if (isWin)
         {
