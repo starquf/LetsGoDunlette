@@ -115,7 +115,8 @@ public class BattleScrollHandler : MonoBehaviour
                 }
                 else
                 {
-                    ShowScrollUI(isChangeScroll: true);
+                    ShowScrollUI();
+                    SetInteract(false);
                     GetAnim(a, scroll, () => {
                         SetScroll(scrollSlot, scroll);
                         SortScroll();

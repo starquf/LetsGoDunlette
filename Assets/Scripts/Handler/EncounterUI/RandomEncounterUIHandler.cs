@@ -28,14 +28,18 @@ public class RandomEncounterUIHandler : MonoBehaviour
 
     private void Awake()
     {
-        battleScrollHandler = GameManager.Instance.battleHandler.GetComponent<BattleScrollHandler>();
         encounterInfoHandler = GetComponent<EncounterInfoHandler>();
+        mainPanel = GetComponent<CanvasGroup>();
+    }
+
+    private void Start()
+    {
+        battleScrollHandler = GameManager.Instance.battleHandler.GetComponent<BattleScrollHandler>();
         for (int i = 0; i < randomEncounterList.Count; i++)
         {
             randomEncounterList[i].encounterInfoHandler = this.encounterInfoHandler;
             randomEncounterList[i].OnExitEncounter = EndEvent;
         }
-        mainPanel = GetComponent<CanvasGroup>();
         exitBtn.onClick.AddListener(OnExitBtnClick);
     }
 
