@@ -69,7 +69,7 @@ public class BB_Skill : SkillPiece
     {
         SetIndicator(owner.gameObject, "АјАн").OnEnd(() =>
         {
-            target.GetDamage(80);
+            target.GetDamage(60);
 
             Anim_M_Butt effect = PoolManager.GetItem<Anim_M_Butt>();
             effect.transform.position = owner.transform.position;
