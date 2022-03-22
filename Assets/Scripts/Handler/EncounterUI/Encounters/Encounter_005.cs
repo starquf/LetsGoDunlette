@@ -78,16 +78,7 @@ public class Encounter_005 : RandomEncounter
         scroll.transform.localScale = Vector3.one;
 
         battleScrollHandler.GetScroll(scroll, () =>
-        {/*
-            Transform unusedInventoryTrm = GameManager.Instance.inventoryHandler.transform;
-            DOTween.Sequence().Append(scrollImg.DOFade(1, 0.5f)).SetDelay(1f)
-            .Append(scroll.transform.DOMove(unusedInventoryTrm.position, 0.5f))
-            .Join(scroll.transform.DOScale(Vector2.one * 0.1f, 0.5f))
-            .Join(scroll.GetComponent<Image>().DOFade(0f, 0.5f))
-            .OnComplete(() =>
-            {
-                OnExitEncounter?.Invoke(true);
-            });*/
+        {
             OnExitEncounter?.Invoke(true);
         }, true);
     }

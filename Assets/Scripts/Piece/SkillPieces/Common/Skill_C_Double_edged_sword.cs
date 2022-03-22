@@ -12,7 +12,7 @@ public class Skill_C_Double_edged_sword : SkillPiece
         PlayerHealth playerHealth = owner.GetComponent<PlayerHealth>();
         if (!playerHealth.HasShield())
         {
-            playerHealth.GetDamage(50);
+            playerHealth.GetDamage(20);
         }
         else
         {

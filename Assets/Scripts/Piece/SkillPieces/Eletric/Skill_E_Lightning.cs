@@ -28,7 +28,7 @@ public class Skill_E_Lightning : SkillPiece
             PlayerHealth playerHealth = owner.GetComponent<PlayerHealth>();
             if (playerHealth.HasShield())
             {
-                if (Random.Range(0, 100) < 60)
+                if (Random.Range(0, 100) < 70)
                 {
                     Anim_E_Static_Stun stunEffect = PoolManager.GetItem<Anim_E_Static_Stun>();
                     stunEffect.transform.position = bh.playerImgTrans.position;

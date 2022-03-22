@@ -26,7 +26,7 @@ public class Skill_W_Check : SkillPiece
 
                 splashEffect.Play(() =>
                 {
-                    owner.GetComponent<PlayerHealth>().AddShield(10);
+                    owner.GetComponent<PlayerHealth>().AddShield(20);
                     onCastEnd?.Invoke();
                 });
             }

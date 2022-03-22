@@ -16,15 +16,23 @@ public class Skill_W_MermaidBlessing : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        StartCoroutine(Blessing(onCastEnd));
+        StartCoroutine(Blessing(target, onCastEnd));
     }
 
-    private IEnumerator Blessing(Action onCastEnd = null)
+    private IEnumerator Blessing(LivingEntity target, Action onCastEnd = null)
     {
         BattleHandler battleHandler = GameManager.Instance.battleHandler;
 
         Rullet rullet = battleHandler.mainRullet;
         List<RulletPiece> skillPieces = rullet.GetPieces();
+
+        Anim_W_Splash splashEffect1 = PoolManager.GetItem<Anim_W_Splash>();
+        splashEffect1.transform.position = target.transform.position;
+        splashEffect1.SetScale(1f);
+
+        splashEffect1.Play();
+
+        target.GetDamage(Value);
 
         yield return pTwoSecWait;
 
