@@ -39,7 +39,7 @@ public class Skill_F_Stigmatized : SkillPiece
 
                 GameManager.Instance.cameraHandler.ShakeCamera(1.5f, 0.15f);
 
-                target.GetDamage(Value);
+                target.GetDamage(30);
             }
 
             if (turnCnt <= 0 || target.IsDie)
@@ -51,6 +51,8 @@ public class Skill_F_Stigmatized : SkillPiece
         };
 
         bh.battleEvent.SetNextSkill(action);
+
+        target.GetDamage(Value);
 
         Anim_F_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_F_ManaSphereHit>();
         hitEffect.transform.position = target.transform.position;
