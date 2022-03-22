@@ -521,7 +521,7 @@ public class BattleHandler : MonoBehaviour
                 return;
             }
 
-            battleEvent.OnCastPiece(result);
+            battleEvent.OnCastPiece(piece);
 
             Action onShowCast = () => { };
 

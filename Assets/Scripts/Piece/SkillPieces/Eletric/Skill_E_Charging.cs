@@ -26,7 +26,7 @@ public class Skill_E_Charging : SkillPiece
 
     public override void OnRullet()
     {
-        GameManager.Instance.battleHandler.battleEvent.RemoveNextSkill(onCharge);
+        GameManager.Instance.battleHandler.battleEvent.RemoveCastPiece(onCharge);
 
         onCharge = piece =>
         {
@@ -50,14 +50,14 @@ public class Skill_E_Charging : SkillPiece
             }
         };
 
-        GameManager.Instance.battleHandler.battleEvent.SetNextSkill(onCharge);
+        GameManager.Instance.battleHandler.battleEvent.SetCastPiece(onCharge);
     }
 
     public override void ResetPiece()
     {
         base.ResetPiece();
 
-        GameManager.Instance.battleHandler.battleEvent.RemoveNextSkill(onCharge);
+        GameManager.Instance.battleHandler.battleEvent.RemoveCastPiece(onCharge);
 
         attackCount = 1;
         counterText.text = attackCount.ToString();
@@ -65,14 +65,18 @@ public class Skill_E_Charging : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        StartCoroutine(ChargeAttack(onCastEnd));
+        GameManager.Instance.battleHandler.battleUtil.StartCoroutine(ChargeAttack(onCastEnd));
     }
 
     private IEnumerator ChargeAttack(Action onCastEnd = null)
     {
+        if (bh.enemys.Count <= 0) yield break;
+
         List<EnemyHealth> enemys = bh.battleUtil.DeepCopyList(bh.enemys);
 
-        for (int i = 0; i < attackCount; i++)
+        int atkCnt = attackCount;
+
+        for (int i = 0; i < atkCnt; i++)
         {
             EnemyHealth enemy = enemys[Random.Range(0, enemys.Count)];
 

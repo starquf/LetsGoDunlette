@@ -7,6 +7,15 @@ using Random = UnityEngine.Random;
 
 public class Skill_E_LightningRod : SkillPiece
 {
+    public Sprite effectSpr;
+    private Gradient effectGradient;
+
+    protected override void Start()
+    {
+        base.Start();
+        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[PatternType.Diamonds];
+    }
+
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         print($"스킬 발동!! 이름 : {PieceName}");
@@ -46,6 +55,16 @@ public class Skill_E_LightningRod : SkillPiece
             textEffect.SetType(TextUpAnimType.Damage);
             textEffect.transform.position = result.skillImg.transform.position;
             textEffect.Play("피뢰침 효과발동!");
+
+            EffectObj effect = PoolManager.GetItem<EffectObj>();
+            effect.transform.position = skillImg.transform.position;
+            effect.SetSprite(effectSpr);
+            effect.SetColorGradient(effectGradient);
+            effect.SetScale(Vector3.one * 0.6f);
+
+            effect.Play(result.skillImg.transform.position, () => {
+                effect.EndEffect();
+            }, BezierType.Linear, isRotate: true, playSpeed: 3f);
         }
 
         Vector3 targetPos = target.transform.position;
@@ -60,7 +79,10 @@ public class Skill_E_LightningRod : SkillPiece
             // 번개 속성이 존재한다면
             if (result != null)
             {
+                battleHandler.battleEvent.OnCastPiece(result);
+
                 result.Cast(target, onCastEnd);
+
                 battleHandler.battleUtil.SetPieceToGraveyard(lightningSkillIdxDic[result]);
             }
             else

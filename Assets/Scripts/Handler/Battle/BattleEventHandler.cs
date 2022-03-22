@@ -21,7 +21,7 @@ public class BattleEventHandler : MonoBehaviour
     private BattleHandler bh;
 
     public event Action onStartTurn;
-    public event Action<SkillPiece> onCastPiece;
+    private event Action<SkillPiece> onCastPiece;
     public event Action onEndTurn;
 
     private event Action<SkillPiece> onNextSkill;
@@ -44,6 +44,18 @@ public class BattleEventHandler : MonoBehaviour
     public void OnCastPiece(SkillPiece piece)
     {
         onCastPiece?.Invoke(piece);
+    }
+
+    public void SetCastPiece(Action<SkillPiece> action)
+    {
+        if (!bh.isBattle) return;
+
+        onCastPiece += action;
+    }
+
+    public void RemoveCastPiece(Action<SkillPiece> action)
+    {
+        onCastPiece -= action;
     }
 
     public void OnEndTurn()
