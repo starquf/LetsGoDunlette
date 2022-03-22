@@ -137,6 +137,7 @@ public class BattleHandler : MonoBehaviour
         }
         else
         {
+            print("적 가져옴");
             battleInfo = battleInfoHandler.GetRandomBattleInfo();
         }
 

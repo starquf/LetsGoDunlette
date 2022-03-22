@@ -36,14 +36,14 @@ public class BattleInfoHandler : MonoBehaviour
 
             int randIdx = Random.Range(0, weakInfos.Count);
 
+            print("¾àÇÑÀû");
+
             return weakInfos[randIdx];
         }
     }
 
     public BattleInfo GetRandomBossInfo()
     {
-        counter++;
-
         int randIdx = Random.Range(0, bossInfos.Count);
 
         return bossInfos[randIdx];
@@ -51,8 +51,6 @@ public class BattleInfoHandler : MonoBehaviour
 
     public BattleInfo GetRandomEliteInfo()
     {
-        counter++;
-
         int randIdx = Random.Range(0, eliteInfos.Count);
 
         return eliteInfos[randIdx];

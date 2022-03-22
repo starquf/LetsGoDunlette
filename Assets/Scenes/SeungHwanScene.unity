@@ -283,9 +283,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   battleInfos:
   - enemyInfos: 00000000
-    isWeakEnemy: 1
+    isWeakEnemy: 0
   - enemyInfos: 01000000
-    isWeakEnemy: 1
+    isWeakEnemy: 0
   - enemyInfos: 0000000000000000
     isWeakEnemy: 0
   - enemyInfos: 0100000000000000
@@ -296,6 +296,8 @@ MonoBehaviour:
     isWeakEnemy: 0
   - enemyInfos: 03000000
     isWeakEnemy: 0
+  - enemyInfos: 0d000000
+    isWeakEnemy: 1
   bossInfos:
   - enemyInfos: 04000000
     isWeakEnemy: 0
@@ -783,8 +785,8 @@ MonoBehaviour:
   - {fileID: 5219999204231547788, guid: 4c5392ef9977e9e4292e0c125f8ee59a, type: 3}
   - {fileID: 5219999204231547788, guid: 4c5392ef9977e9e4292e0c125f8ee59a, type: 3}
   - {fileID: 5219999204231547788, guid: 4c5392ef9977e9e4292e0c125f8ee59a, type: 3}
-  - {fileID: 5219999204231547788, guid: 4c5392ef9977e9e4292e0c125f8ee59a, type: 3}
-  - {fileID: 5219999204231547788, guid: 0059602853cef8342963ab23ba58a6a1, type: 3}
+  - {fileID: 5219999204231547788, guid: e3b69a60961350c4490f2d31e6a1fe32, type: 3}
+  - {fileID: 5219999204231547788, guid: e3b69a60961350c4490f2d31e6a1fe32, type: 3}
   - {fileID: 5219999204231547788, guid: 0059602853cef8342963ab23ba58a6a1, type: 3}
   - {fileID: 5219999204231547788, guid: 0059602853cef8342963ab23ba58a6a1, type: 3}
   - {fileID: 5219999204231547788, guid: 0059602853cef8342963ab23ba58a6a1, type: 3}
@@ -26634,6 +26636,7 @@ MonoBehaviour:
   mapHandler: {fileID: 0}
   shakeHandler: {fileID: 0}
   skillContainer: {fileID: 0}
+  battleFieldHandler: {fileID: 0}
 --- !u!4 &1909515657
 Transform:
   m_ObjectHideFlags: 0
