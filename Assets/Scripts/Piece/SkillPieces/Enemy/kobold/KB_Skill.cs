@@ -31,7 +31,7 @@ public class KB_Skill : SkillPiece
             Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
             effect.transform.position = owner.transform.position;
 
-            target.GetDamage(10, owner.gameObject);
+            target.GetDamage(10, this, owner);
 
             effect.Play(() =>
             {
@@ -52,7 +52,7 @@ public class KB_Skill : SkillPiece
             Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
             effect.transform.position = owner.transform.position;
 
-            target.GetDamage(stolenGolds, owner.gameObject);
+            target.GetDamage(stolenGolds, this, owner);
 
             effect.Play(() =>
             {

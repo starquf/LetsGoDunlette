@@ -45,7 +45,7 @@ public class FA_Kidding : SkillPiece
 
         }
 
-        target.GetDamage(Value, gameObject);
+        target.GetDamage(Value, this, owner);
         KiddingSkill();
     }
 

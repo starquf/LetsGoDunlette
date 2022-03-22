@@ -30,7 +30,7 @@ public class MI_Skill : SkillPiece
             Anim_M_Bite hitEffect = PoolManager.GetItem<Anim_M_Bite>();
             hitEffect.transform.position = owner.transform.position;
 
-            target.GetDamage(20, owner.gameObject);
+            target.GetDamage(20, this, owner);
             hitEffect.Play(() =>
             {
                 SetIndicator(owner.gameObject, "상처부여").OnEnd(() =>
@@ -48,7 +48,7 @@ public class MI_Skill : SkillPiece
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.7f, 0.15f);
 
-            target.GetDamage(35, owner.gameObject);
+            target.GetDamage(35, this, owner);
 
             Anim_M_Bite hitEffect = PoolManager.GetItem<Anim_M_Bite>();
             hitEffect.transform.position = owner.transform.position;

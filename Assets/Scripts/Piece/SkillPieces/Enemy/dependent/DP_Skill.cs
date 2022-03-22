@@ -85,7 +85,7 @@ public class DP_Skill : SkillPiece
             {
                 onCastEnd?.Invoke();
             });
-            target.GetDamage(15, owner.gameObject);
+            target.GetDamage(15, this, owner);
         });
     }
 

@@ -16,7 +16,7 @@ public class QN_Attack : SkillPiece
     {
         SetIndicator(owner.gameObject, "АјАн").OnEnd(() =>
         {
-            target.GetDamage(Value, owner.gameObject);
+            target.GetDamage(Value, this, owner);
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
             Anim_M_Sword hitEffect = PoolManager.GetItem<Anim_M_Sword>();
             hitEffect.transform.position = owner.transform.position;

@@ -44,7 +44,7 @@ public class MI_Bump : SkillPiece
 
         }
 
-        target.GetDamage(Value, owner.gameObject);
+        target.GetDamage(Value, this, owner);
 
         Anim_M_Bite hitEffect = PoolManager.GetItem<Anim_M_Bite>();
         hitEffect.transform.position = owner.transform.position;

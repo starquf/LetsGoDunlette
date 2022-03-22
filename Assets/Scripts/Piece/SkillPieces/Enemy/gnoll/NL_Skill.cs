@@ -30,7 +30,7 @@ public class NL_Skill : SkillPiece
             Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
             effect.transform.position = owner.transform.position;
 
-            target.GetDamage(20 + addAdditionalDamage, owner.gameObject);
+            target.GetDamage(20 + addAdditionalDamage, this, owner);
 
             effect.Play(() =>
             {

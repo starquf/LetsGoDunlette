@@ -30,7 +30,7 @@ public class MD_Skill : SkillPiece
             Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
             effect.transform.position = owner.transform.position;
 
-            target.GetDamage(15, owner.gameObject);
+            target.GetDamage(15, this, owner);
 
             effect.Play(() =>
             {
@@ -70,7 +70,7 @@ public class MD_Skill : SkillPiece
                 onCastEnd?.Invoke();
             });
 
-            target.GetDamage(35, owner.gameObject);
+            target.GetDamage(35, this, owner);
         });
     }
 

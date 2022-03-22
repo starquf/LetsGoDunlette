@@ -44,7 +44,7 @@ public class MD_Hallucinations : SkillPiece
 
         }
 
-        target.GetDamage(Value, owner.gameObject);
+        target.GetDamage(Value, this, owner);
 
         Anim_M_Sword hitEffect = PoolManager.GetItem<Anim_M_Sword>();
         hitEffect.transform.position = owner.transform.position;

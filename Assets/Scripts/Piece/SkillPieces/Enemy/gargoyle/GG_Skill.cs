@@ -26,7 +26,7 @@ public class GG_Skill : SkillPiece
         SetIndicator(owner.gameObject, "АјАн").OnEnd(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
-            target.GetDamage(30, owner.gameObject);
+            target.GetDamage(30, this, owner);
 
             Anim_M_Sword hitEffect = PoolManager.GetItem<Anim_M_Sword>();
             hitEffect.transform.position = owner.transform.position;

@@ -43,7 +43,7 @@ public class RF_Skill : SkillPiece
     {
             SetIndicator(owner.gameObject, "АјАн").OnEnd(() =>
             {
-                target.GetDamage(10, owner.gameObject);
+                target.GetDamage(10, this, owner);
 
                 Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
                 effect.transform.position = owner.transform.position;

@@ -131,7 +131,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         }
     }
 
-    public virtual void GetDamage(int damage, GameObject owner) // 적 전용임
+    public virtual void GetDamage(int damage, SkillPiece skillPiece,Inventory owner) // 적 전용임
     {
         Vector3 size = owner.transform.localScale;
         SpriteRenderer sr = owner.GetComponent<SpriteRenderer>();
@@ -151,6 +151,11 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
                 sr.sortingLayerID = SortingLayer.NameToID("Default");
                 sr.sortingOrder = 1;
             });
+
+        if(skillPiece.currentType == GameManager.Instance.battleFieldHandler.FieldType)
+        {
+            damage += 20;
+        }
 
         GetDamage(damage);
     }
