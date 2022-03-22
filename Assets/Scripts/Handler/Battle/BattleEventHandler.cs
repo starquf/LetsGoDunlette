@@ -102,10 +102,12 @@ public class BattleEventHandler : MonoBehaviour
             eventBookInfos[a].turn--;
             if (eventBookInfos[a].turn <= 0)
             {
+                Action bookedEvent = eventBookInfos[a].action;
+
                 Action closer = () => { };
                 closer = () => 
                 {
-                    eventBookInfos[a].action?.Invoke();
+                    bookedEvent?.Invoke();
                     onEndTurn -= closer;
                 };
 
