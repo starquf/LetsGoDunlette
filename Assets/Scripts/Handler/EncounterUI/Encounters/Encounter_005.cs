@@ -69,7 +69,7 @@ public class Encounter_005 : RandomEncounter
         BattleHandler battleHandler = GameManager.Instance.battleHandler;
         BattleScrollHandler battleScrollHandler = battleHandler.GetComponent<BattleScrollHandler>();
 
-        GameObject scroll = Instantiate(_scroll, Vector3.zero, Quaternion.identity).gameObject;
+        Scroll scroll = Instantiate(_scroll, Vector3.zero, Quaternion.identity).GetComponent<Scroll>();
         Image scrollImg = scroll.GetComponent<Image>();
         scrollImg.color = new Color(1, 1, 1, 0);
         scroll.transform.SetParent(encounterInfoHandler.transform);
@@ -77,8 +77,8 @@ public class Encounter_005 : RandomEncounter
         scroll.transform.position = Vector2.zero;
         scroll.transform.localScale = Vector3.one;
 
-        battleScrollHandler.GetScroll(_scroll, () =>
-        {
+        battleScrollHandler.GetScroll(scroll, () =>
+        {/*
             Transform unusedInventoryTrm = GameManager.Instance.inventoryHandler.transform;
             DOTween.Sequence().Append(scrollImg.DOFade(1, 0.5f)).SetDelay(1f)
             .Append(scroll.transform.DOMove(unusedInventoryTrm.position, 0.5f))
@@ -86,10 +86,10 @@ public class Encounter_005 : RandomEncounter
             .Join(scroll.GetComponent<Image>().DOFade(0f, 0.5f))
             .OnComplete(() =>
             {
-                Destroy(scroll);
                 OnExitEncounter?.Invoke(true);
-            });
-        });
+            });*/
+            OnExitEncounter?.Invoke(true);
+        }, true);
     }
 
     public override void Result()

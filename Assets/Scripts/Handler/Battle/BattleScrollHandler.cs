@@ -3,11 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 using Random = UnityEngine.Random;
 
 public class BattleScrollHandler : MonoBehaviour
 {
+    public RectTransform scrollUI;
     public List<ScrollSlot> slots = new List<ScrollSlot>();
+
+    private Sequence scrollUISequence;
 
     private BattleHandler bh;
 
@@ -18,6 +22,9 @@ public class BattleScrollHandler : MonoBehaviour
         bh = GetComponent<BattleHandler>();
 
         InitSlot();
+        GetScroll(PoolManager.GetItem<Scroll_Heal>());
+        GetScroll(PoolManager.GetItem<Scroll_Shield>());
+        GetScroll(PoolManager.GetItem<Scroll_Chaos>());
     }
 
     private void InitSlot()
@@ -26,6 +33,7 @@ public class BattleScrollHandler : MonoBehaviour
         {
             int a = i;
 
+            slots[a].GetComponent<Button>().onClick.RemoveAllListeners();
             slots[a].GetComponent<Button>().onClick.AddListener(() =>
             {
                 if (!canUse) return;
@@ -37,10 +45,30 @@ public class BattleScrollHandler : MonoBehaviour
                 }
             });
         }
+    }
 
-        GetScroll(PoolManager.GetItem<Scroll_Heal>());
-        GetScroll(PoolManager.GetItem<Scroll_Shield>());
-        GetScroll(PoolManager.GetItem<Scroll_Chaos>());
+    public void ShowScrollUI(bool isChangeScroll = false, bool open = true, bool skip = false)
+    {
+        scrollUISequence.Kill();
+
+        if(skip)
+        {
+            scrollUI.anchoredPosition = new Vector2(open ? 0f : -150f, scrollUI.anchoredPosition.y);
+            SetInteract(isChangeScroll && open);
+        }
+        else
+        {
+            if(!open)
+            {
+                SetInteract(false);
+            }
+            scrollUISequence = DOTween.Sequence()
+                .Append(scrollUI.DOAnchorPosX(open ? 0f : -150f, 0.5f))
+                .OnComplete(() =>
+                {
+                    SetInteract(isChangeScroll && open);
+                });
+        }
     }
 
     public bool HasScroll()
@@ -71,31 +99,88 @@ public class BattleScrollHandler : MonoBehaviour
         scrollList[randIdx].RemoveScroll();
         SortScroll();
     }
-
-    private void ChangeScroll(int idx, Scroll scroll)
-    {
-        slots[idx].RemoveScroll();
-        SetScroll(slots[idx], scroll);
-    }
-
-    public void GetScroll(Scroll scroll, Action OnComplete = null)
+    public void GetScroll(Scroll scroll, Action OnComplete = null, bool playAnim = false)
     {
         for (int i = 0; i < slots.Count; i++)
         {
-            ScrollSlot scrollSlot = slots[i];
-            if(scrollSlot.scroll == null)
+            int a = i;
+            ScrollSlot scrollSlot = slots[a];
+            if (scrollSlot.scroll == null)
             {
-                SetScroll(scrollSlot, scroll);
-                SortScroll();
-                OnComplete?.Invoke();
+                if(!playAnim)
+                {
+                    SetScroll(scrollSlot, scroll);
+                    SortScroll();
+                    OnComplete?.Invoke();
+                }
+                else
+                {
+                    ShowScrollUI(isChangeScroll: true);
+                    GetAnim(a, scroll, () => {
+                        SetScroll(scrollSlot, scroll);
+                        SortScroll();
+                        OnComplete?.Invoke();
+                    });
+                }
                 return;
             }
         }
 
         // 여기 까지오면 모든 슬롯이 다 차있는거 선택해서 변경하는거 구현해야됨
-        Debug.LogWarning("스크롤 변경 구현안됨..");
-        OnComplete?.Invoke();
+        ChangeScroll(scroll, () =>
+        {
+            Debug.LogWarning("스크롤 변경 구현안됨..");
+            OnComplete?.Invoke();
+        });
     }
+
+    private void GetAnim(int slotIdx, Scroll scroll, Action OnComplete = null)
+    {
+        Image scrollImg = scroll.GetComponent<Image>();
+        DOTween.Sequence().Append(scrollImg.DOFade(1, 0.5f)).SetDelay(1f)
+        .Append(scroll.transform.DOMove(slots[slotIdx].transform.position, 0.5f))
+        .Join(scroll.transform.DOScale(Vector2.one * 0.1f, 0.5f))
+        .Join(scroll.GetComponent<Image>().DOFade(0f, 0.5f))
+        .OnComplete(() =>
+        {
+            scroll.GetComponent<RectTransform>().sizeDelta = new Vector2(96f, 112f);
+            scrollImg.color = Color.white;
+            OnComplete?.Invoke();
+        });
+    }
+
+    private void ChangeScroll(Scroll scroll, Action OnChanged = null)
+    {
+        ShowScrollUI(isChangeScroll: true);
+        for (int i = 0; i < slots.Count; i++)
+        {
+            int a = i;
+            slots[a].GetComponent<Button>().onClick.RemoveAllListeners();
+            slots[a].GetComponent<Button>().onClick.AddListener(() =>
+            {
+                if (!canUse) return;
+
+                if (slots[a].scroll != null || !bh.mainRullet.IsStop)
+                {
+                    SetInteract(false);
+                    GetAnim(a, scroll, () => {
+                        ChangeScrollData(a, scroll);
+                        ShowScrollUI(open: false);
+
+                        InitSlot();
+                        OnChanged?.Invoke();
+                    });
+                }
+            });
+        }
+    }
+
+    private void ChangeScrollData(int idx, Scroll scroll)
+    {
+        slots[idx].RemoveScroll();
+        SetScroll(slots[idx], scroll);
+    }
+    
 
     public void SortScroll()
     {

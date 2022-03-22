@@ -58,7 +58,6 @@ public class RandomEncounterUIHandler : MonoBehaviour
     public void InitEncounter()
     {
         int randIdx = -1;
-
         while (!CanStartEncounter(randIdx))
         {
             randIdx = Random.Range(0, randomEncounterList.Count);
@@ -130,7 +129,8 @@ public class RandomEncounterUIHandler : MonoBehaviour
         {
             for (int i = 0; i < 3; i++)
             {
-                encounterChoiceTxtList[i].transform.parent.GetComponent<Button>().onClick.RemoveAllListeners();
+                int a = i;
+                encounterChoiceTxtList[a].transform.parent.GetComponent<Button>().onClick.RemoveAllListeners();
             }
             ShowPanelSkip(true, enStartPanel);
             ShowPanelSkip(false, enEndPanel);
@@ -149,6 +149,11 @@ public class RandomEncounterUIHandler : MonoBehaviour
         if(cvsGroup == null)
         {
             cvsGroup = mainPanel;
+        }
+        if(!enable)
+        {
+            cvsGroup.blocksRaycasts = enable;
+            cvsGroup.interactable = enable;
         }
         cvsGroup.DOFade(enable ? 1 : 0, time)
             .OnComplete(() => {
