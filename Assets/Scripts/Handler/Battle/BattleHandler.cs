@@ -33,6 +33,9 @@ public class BattleHandler : MonoBehaviour
     [Header("적을 생성하는 위치")]
     public Transform createTrans;
 
+    [HideInInspector]
+    public bool isBattle = false;
+
     //==================================================
 
     [Header("룰렛들")]
@@ -96,6 +99,14 @@ public class BattleHandler : MonoBehaviour
     // 전투를 시작하는 함수
     public void StartBattle(bool isElite = false, bool isBoss = false, BattleInfo bInfo = null)
     {
+        if (isBattle)
+        {
+            Debug.LogError("이미 전투가 진행중입니다!");
+            return;
+        }
+
+        isBattle = true;
+
         GetComponent<BattleScrollHandler>().ShowScrollUI();
         print("전투시작");
         SoundHandler.Instance.PlayBGMSound("Battle_4");
@@ -425,6 +436,8 @@ public class BattleHandler : MonoBehaviour
     // 전투가 끝날 때
     private void BattleEnd(bool isWin = true)
     {
+        isBattle = false;
+
         player.cc.ResetAllCC();
         player.RemoveShield();
 

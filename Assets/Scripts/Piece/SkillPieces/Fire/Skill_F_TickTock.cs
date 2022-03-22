@@ -28,7 +28,7 @@ public class Skill_F_TickTock : SkillPiece
     {
         bh = GameManager.Instance.battleHandler;
 
-        bh.battleEvent.onNextSkill -= onNextTurn;
+        bh.battleEvent.RemoveNextSkill(onNextTurn);
 
         onNextTurn = piece =>
         {
@@ -51,7 +51,7 @@ public class Skill_F_TickTock : SkillPiece
                 counterText.text = turnCount.ToString();
                 if (turnCount <= 0)
                 {
-                    bh.battleEvent.onNextSkill -= onNextTurn;
+                    bh.battleEvent.RemoveNextSkill(onNextTurn);
 
                     Anim_F_ManaSphereHit effect = PoolManager.GetItem<Anim_F_ManaSphereHit>();
                     effect.transform.position = bh.playerImgTrans.position;
@@ -67,14 +67,14 @@ public class Skill_F_TickTock : SkillPiece
 
         turnCount = 3;
 
-        bh.battleEvent.onNextSkill += onNextTurn;
+        bh.battleEvent.SetNextSkill(onNextTurn);
     }
 
     public override void ResetPiece()
     {
         base.ResetPiece();
 
-        GameManager.Instance.battleHandler.battleEvent.onNextSkill -= onNextTurn;
+        GameManager.Instance.battleHandler.battleEvent.RemoveNextSkill(onNextTurn);
 
         turnCount = 3;
         counterText.text = turnCount.ToString();
