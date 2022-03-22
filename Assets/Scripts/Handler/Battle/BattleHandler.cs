@@ -63,6 +63,11 @@ public class BattleHandler : MonoBehaviour
 
     public Transform bottomPos;
 
+    //==================================================
+
+    [Header("현재 맵 보스 타입")]
+    BattleInfo _bInfo = null;
+    public EnemyType curMapBossType = EnemyType.NORMAL_SLIME;
     #region WaitSeconds
     private readonly WaitForSeconds oneSecWait = new WaitForSeconds(1f);
     private readonly WaitForSeconds pFiveSecWait = new WaitForSeconds(0.5f);
@@ -106,8 +111,14 @@ public class BattleHandler : MonoBehaviour
         }
         else if(isBoss)
         {
+            if(_bInfo == null)
+            {
+                Debug.LogError("보스 설정이 안되어있음");
+                return;
+            }
+            battleInfo = _bInfo;
             // 랜덤 전투 정보 가져오기
-            battleInfo = battleInfoHandler.GetRandomBossInfo();
+            //battleInfo = battleInfoHandler.GetRandomBossInfo();
         }
         else if(isElite)
         {
@@ -136,6 +147,21 @@ public class BattleHandler : MonoBehaviour
     {
         battleRewardHandler.Init(GameManager.Instance.skillContainer.playerSkillPrefabs);
         battleUtil.Init(inventory, mainRullet);
+    }
+
+    public int SetRandomBoss()
+    {
+        _bInfo = battleInfoHandler.GetRandomBossInfo();
+        switch (_bInfo.enemyInfos[0])
+        {
+            case EnemyType.QUEEN:
+                return 0;
+            case EnemyType.REDFOX:
+                return 1;
+            default:
+                Debug.LogError("이상한 보스가 설정됨");
+                return -1;
+        }
     }
 
     public void CreateEnemy(List<EnemyType> enemyInfos, Action onCreateEnd) //다중생성
