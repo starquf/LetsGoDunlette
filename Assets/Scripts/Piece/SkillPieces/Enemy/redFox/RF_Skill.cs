@@ -31,6 +31,7 @@ public class RF_Skill : SkillPiece
         if (Random.Range(0, 100) <= value)
         {
             RF_Sharp_Claw(target, onCastEnd);
+            //RF_Sneaky(target, onCastEnd);
         }
         else
         {

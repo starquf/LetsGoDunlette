@@ -23,6 +23,7 @@ public class Skill_F_TickTock : SkillPiece
 
         hasTarget = true;
     }   
+
     public override void OnRullet()
     {
         bh = GameManager.Instance.battleHandler;

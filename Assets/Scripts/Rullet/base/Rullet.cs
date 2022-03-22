@@ -97,6 +97,7 @@ public abstract class Rullet : MonoBehaviour
                 {
                     print("비어있는 칸 : " + i);
 
+                    piece.OnRullet();
                     piece.pieceIdx = i;
                     pieces[i] = piece;
 
