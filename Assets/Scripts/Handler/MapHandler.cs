@@ -249,44 +249,42 @@ public class MapHandler : MonoBehaviour
                     case mapNode.NONE:
                         color = Color.clear;
                         map[c][r].spriteIdx = 0;
-                        icon = mapIcons[map[c][r].spriteIdx];
                         break;
                     case mapNode.START:
                         color = Color.clear;
                         map[c][r].spriteIdx = 0;
-                        icon = mapIcons[map[c][r].spriteIdx];
                         break;
                     case mapNode.BOSS:
                         GetCurNodeTrm(r, c).localScale =  Vector2.one *2f;
-                        map[c][r].spriteIdx = 5;
-                        icon = mapIcons[map[c][r].spriteIdx];
+                        int bossIdx = -1;
+                        bossIdx = GameManager.Instance.battleHandler.SetRandomBoss();
+                        if(bossIdx < 0)
+                        {
+                            Debug.LogError("이상한 보스가 설정됨2");
+                        }
+                        map[c][r].spriteIdx = 5 + bossIdx;
                         break;
                     case mapNode.MONSTER:
                         map[c][r].spriteIdx = 0;
-                        icon = mapIcons[map[c][r].spriteIdx];
                         icon = mapIcons[0];
                         break;
                     case mapNode.EMONSTER:
                         map[c][r].spriteIdx = 1;
-                        icon = mapIcons[map[c][r].spriteIdx];
                         break;
                     case mapNode.SHOP:
                         map[c][r].spriteIdx = 4;
-                        icon = mapIcons[map[c][r].spriteIdx];
                         break;
                     case mapNode.REST:
                         map[c][r].spriteIdx = 3;
-                        icon = mapIcons[map[c][r].spriteIdx];
                         break;
                     case mapNode.RandomEncounter:
                         map[c][r].spriteIdx = 2;
-                        icon = mapIcons[map[c][r].spriteIdx];
                         break;
                     default:
                         map[c][r].spriteIdx = 0;
-                        icon = mapIcons[map[c][r].spriteIdx];
                         break;
                 }
+                icon = mapIcons[map[c][r].spriteIdx];
                 nodeTrm.GetComponent<Image>().sprite = icon;
                 nodeTrm.GetComponent<Image>().color = color;
 

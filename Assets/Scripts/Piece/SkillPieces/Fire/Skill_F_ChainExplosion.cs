@@ -41,11 +41,11 @@ public class Skill_F_ChainExplosion : SkillPiece
                 }
 
                 // 바로 없엘거면 이렇게
-                bh.battleEvent.onNextSkill -= onNextAttack;
+                bh.battleEvent.RemoveNextSkill(onNextAttack);
             };
 
             // 이벤트에 추가해주면 됨
-            bh.battleEvent.onNextSkill += onNextAttack;
+            bh.battleEvent.SetNextSkill(onNextAttack);
 
             onCastEnd?.Invoke();
         });

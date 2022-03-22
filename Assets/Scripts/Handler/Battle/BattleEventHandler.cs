@@ -18,16 +18,23 @@ public class BookedEventInfo
 
 public class BattleEventHandler : MonoBehaviour
 {
+    private BattleHandler bh;
+
     public event Action onStartTurn;
     public event Action<SkillPiece> onCastPiece;
     public event Action onEndTurn;
 
-    public event Action<SkillPiece> onNextSkill;
+    private event Action<SkillPiece> onNextSkill;
     private event Action<SkillPiece> nextSkill;
 
     private List<BookedEventInfo> eventBookInfos = new List<BookedEventInfo>();
 
     //public bool isWait = false;
+
+    private void Start()
+    {
+        bh = GameManager.Instance.battleHandler;
+    }
 
     public void OnStartTurn()
     {
@@ -44,6 +51,18 @@ public class BattleEventHandler : MonoBehaviour
         BookedEvent();
 
         onEndTurn?.Invoke();
+    }
+
+    public void SetNextSkill(Action<SkillPiece> action)
+    {
+        if (!bh.isBattle) return;
+
+        onNextSkill += action;
+    }
+
+    public void RemoveNextSkill(Action<SkillPiece> action)
+    {
+        onNextSkill -= action;
     }
 
     public void OnNextSkill(SkillPiece piece)

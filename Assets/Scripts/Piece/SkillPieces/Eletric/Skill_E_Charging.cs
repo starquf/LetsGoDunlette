@@ -26,7 +26,7 @@ public class Skill_E_Charging : SkillPiece
 
     public override void OnRullet()
     {
-        GameManager.Instance.battleHandler.battleEvent.onNextSkill -= onCharge;
+        GameManager.Instance.battleHandler.battleEvent.RemoveNextSkill(onCharge);
 
         onCharge = piece =>
         {
@@ -50,14 +50,14 @@ public class Skill_E_Charging : SkillPiece
             }
         };
 
-        GameManager.Instance.battleHandler.battleEvent.onNextSkill += onCharge;
+        GameManager.Instance.battleHandler.battleEvent.SetNextSkill(onCharge);
     }
 
     public override void ResetPiece()
     {
         base.ResetPiece();
 
-        GameManager.Instance.battleHandler.battleEvent.onNextSkill -= onCharge;
+        GameManager.Instance.battleHandler.battleEvent.RemoveNextSkill(onCharge);
 
         attackCount = 1;
         counterText.text = attackCount.ToString();

@@ -33,6 +33,9 @@ public class BattleHandler : MonoBehaviour
     [Header("적을 생성하는 위치")]
     public Transform createTrans;
 
+    [HideInInspector]
+    public bool isBattle = false;
+
     //==================================================
 
     [Header("룰렛들")]
@@ -63,6 +66,11 @@ public class BattleHandler : MonoBehaviour
 
     public Transform bottomPos;
 
+    //==================================================
+
+    [Header("현재 맵 보스 타입")]
+    BattleInfo _bInfo = null;
+    public EnemyType curMapBossType = EnemyType.NORMAL_SLIME;
     #region WaitSeconds
     private readonly WaitForSeconds oneSecWait = new WaitForSeconds(1f);
     private readonly WaitForSeconds pFiveSecWait = new WaitForSeconds(0.5f);
@@ -96,6 +104,14 @@ public class BattleHandler : MonoBehaviour
     // 전투를 시작하는 함수
     public void StartBattle(bool isElite = false, bool isBoss = false, BattleInfo bInfo = null)
     {
+        if (isBattle)
+        {
+            Debug.LogError("이미 전투가 진행중입니다!");
+            return;
+        }
+
+        isBattle = true;
+
         GetComponent<BattleScrollHandler>().ShowScrollUI();
         print("전투시작");
         SoundHandler.Instance.PlayBGMSound("Battle_4");
@@ -106,8 +122,14 @@ public class BattleHandler : MonoBehaviour
         }
         else if(isBoss)
         {
+            if(_bInfo == null)
+            {
+                Debug.LogError("보스 설정이 안되어있음");
+                return;
+            }
+            battleInfo = _bInfo;
             // 랜덤 전투 정보 가져오기
-            battleInfo = battleInfoHandler.GetRandomBossInfo();
+            //battleInfo = battleInfoHandler.GetRandomBossInfo();
         }
         else if(isElite)
         {
@@ -136,6 +158,21 @@ public class BattleHandler : MonoBehaviour
     {
         battleRewardHandler.Init(GameManager.Instance.skillContainer.playerSkillPrefabs);
         battleUtil.Init(inventory, mainRullet);
+    }
+
+    public int SetRandomBoss()
+    {
+        _bInfo = battleInfoHandler.GetRandomBossInfo();
+        switch (_bInfo.enemyInfos[0])
+        {
+            case EnemyType.QUEEN:
+                return 0;
+            case EnemyType.REDFOX:
+                return 1;
+            default:
+                Debug.LogError("이상한 보스가 설정됨");
+                return -1;
+        }
     }
 
     public void CreateEnemy(List<EnemyType> enemyInfos, Action onCreateEnd) //다중생성
@@ -425,6 +462,8 @@ public class BattleHandler : MonoBehaviour
     // 전투가 끝날 때
     private void BattleEnd(bool isWin = true)
     {
+        isBattle = false;
+
         player.cc.ResetAllCC();
         player.RemoveShield();
 

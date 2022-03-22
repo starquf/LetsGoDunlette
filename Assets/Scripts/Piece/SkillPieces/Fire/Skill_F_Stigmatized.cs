@@ -44,13 +44,13 @@ public class Skill_F_Stigmatized : SkillPiece
 
             if (turnCnt <= 0 || target.IsDie)
             {
-                bh.battleEvent.onNextSkill -= action;
+                bh.battleEvent.RemoveNextSkill(action);
             }
 
             targetHp = target.curHp;
         };
 
-        bh.battleEvent.onNextSkill += action;
+        bh.battleEvent.SetNextSkill(action);
 
         Anim_F_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_F_ManaSphereHit>();
         hitEffect.transform.position = target.transform.position;
