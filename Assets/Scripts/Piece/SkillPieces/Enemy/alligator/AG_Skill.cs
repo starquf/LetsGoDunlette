@@ -66,7 +66,7 @@ public class AG_Skill : SkillPiece
     {
         SetIndicator(owner.gameObject, "È¸º¹").OnEnd(() =>
         {
-            owner.GetComponent<EnemyHealth>().Heal(40);
+            owner.GetComponent<EnemyHealth>().Heal(30);
 
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
             Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
