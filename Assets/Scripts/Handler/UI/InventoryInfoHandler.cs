@@ -65,7 +65,7 @@ public class InventoryInfoHandler : MonoBehaviour
         endPos = cg.transform.localPosition.y - rect.rect.height;
 
         bgStartPos = bottomBG.localPosition.y;
-        bgEndPos = bottomBG.localPosition.y - 40f;
+        bgEndPos = bottomBG.localPosition.y - 200f;
 
         contentRect = pieceHolderTrm.parent.GetComponent<RectTransform>();
         invenHandler = GameManager.Instance.inventoryHandler;
