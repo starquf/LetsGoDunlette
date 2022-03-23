@@ -246,7 +246,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
         if(shieldHp > 0)
         {
-            hpText.text = $"{hp}+{shieldHp}/{maxHp}";
+            hpText.text = $"{hp}+<color=aqua>{shieldHp}</color>/{maxHp}";
         }
 
         if (hp == maxHp)
