@@ -46,14 +46,6 @@ public class QN_Skill : SkillPiece
         });
 
         owner.GetComponent<EnemyIndicator>().ShowText("º“»Ø");
-
-        Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-        effect.transform.position = owner.transform.position;
-
-        effect.Play(() =>
-        {
-            
-        });
     }
 
     private void QN_Authority(LivingEntity target, Action onCastEnd = null)
