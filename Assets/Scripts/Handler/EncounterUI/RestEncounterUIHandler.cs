@@ -12,7 +12,7 @@ public class RestEncounterUIHandler : MonoBehaviour
     public CanvasGroup restSelectPanel;
     public CanvasGroup restResultPanel;
 
-    public Button RestBtn, UpgradePieceBtn, EatMinsooBtn, ExitBtn;
+    public Button RestBtn, UpgradePieceBtn, ExitBtn;
 
     private void Awake()
     {
@@ -23,7 +23,6 @@ public class RestEncounterUIHandler : MonoBehaviour
     {
         RestBtn.onClick.AddListener(OnRestBtnClick);
         UpgradePieceBtn.onClick.AddListener(OnUpgradeBtnClick);
-        EatMinsooBtn.onClick.AddListener(OnEatMinsooBtnClick);
         ExitBtn.onClick.AddListener(OnExitBtnClick);
     }
 
@@ -47,13 +46,6 @@ public class RestEncounterUIHandler : MonoBehaviour
     }
 
     private void OnUpgradeBtnClick()
-    {
-        print("아직 구현안됨 사발면");
-        EndEvent();
-    }
-
-
-    private void OnEatMinsooBtnClick()
     {
         print("아직 구현안됨 사발면");
         EndEvent();
