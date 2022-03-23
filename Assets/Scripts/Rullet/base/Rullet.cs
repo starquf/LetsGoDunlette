@@ -154,7 +154,7 @@ public abstract class Rullet : MonoBehaviour
         }
     }
 
-    public virtual void RollRullet(bool hasTimer = true, int time = 10)
+    public virtual void RollRullet(bool hasTimer = true)
     {
         if (isRoll) return;
 
@@ -169,24 +169,27 @@ public abstract class Rullet : MonoBehaviour
         if (hasTimer)
         {
             if(!isPaused)
-                currentTime = time;
+                currentTime = GetTime();
 
             timeCor = StartCoroutine(Timer());
         }
     }
 
+    private float GetTime()
+    {
+        return 10 - (rulletSpeed / 180f);
+    }
+
     public virtual void PauseRullet()
     {
-        if (isStop) return;
+        if (!isRoll) return;    // 돌아가지 않는 상태거나
+        if (isStop) return;     // 멈추고 있다면  리턴
 
         if (rollCor != null)
             StopCoroutine(rollCor);
 
         if(timeCor != null)
             StopCoroutine(timeCor);
-
-        currentResetTime = currentTime;
-        StartCoroutine(ResetTimer());
 
         isPaused = true;
         isRoll = false;
@@ -205,13 +208,13 @@ public abstract class Rullet : MonoBehaviour
 
     public void ReRoll()
     {
-        rollSpeed = (600f + UnityEngine.Random.Range(0f, 100f)) * multiply;
+        rollSpeed = (600f + UnityEngine.Random.Range(0f, 50f)) * multiply;
         stopSpeed = UnityEngine.Random.Range(10f, 10.5f);
     }
 
     protected virtual IEnumerator Roll()
     {
-        rollSpeed = (rulletSpeed + UnityEngine.Random.Range(0, 100)) * multiply;
+        rollSpeed = (rulletSpeed + UnityEngine.Random.Range(0, 50)) * multiply;
         stopSpeed = UnityEngine.Random.Range(10f, 10.5f);
 
         speedText.text = $"Speed : {rulletSpeed.ToString()}";
@@ -237,54 +240,37 @@ public abstract class Rullet : MonoBehaviour
 
     protected virtual IEnumerator Timer()
     {
-        //for (int i = currentTime; i > 0; i--)
-        //{
-        //    currentTime--;
-        //    timeText.text = i.ToString();
+        float counter = 0;
 
-        //    if (i < 4)
-        //    {
-        //        timeText.color = Color.red;
-        //    }
-        //    else
-        //    {
-        //        timeText.color = Color.white;
-        //    }
-
-        //    yield return oneSecWait;
-        //}
-
-        //timeText.text = "";
-        currentTime -= Time.deltaTime;
-        float counter = Mathf.Clamp(currentTime / 10f, 0f, 1f);
-        timerFillAmount.fillAmount = counter;
-        //255 -> 0
-        //    237 -> 0
-        timerFillAmount.color = new Color(1, counter, counter);
-
-
-        yield return null;
-
-        if (currentTime < 0)
-            isStop = true;
-        else if(!isStop)
+        while (currentTime > 0)
         {
-            StartCoroutine(Timer());
+            currentTime -= Time.deltaTime;
+
+            counter = Mathf.Clamp(currentTime / GetTime(), 0f, 1f);
+
+            timerFillAmount.fillAmount = counter;
+            //255 -> 0
+            //    237 -> 0
+            timerFillAmount.color = new Color(1, counter, counter);
+
+            yield return null;
         }
+
+        isStop = true;
     }
 
     protected virtual IEnumerator ResetTimer()
     {
-        //0.5f;
-        currentTime -= currentResetTime / (0.3f/Time.deltaTime);
-        float counter = Mathf.Clamp(currentTime / 10f, 0f, 1f);
-        timerFillAmount.fillAmount = counter;
-        timerFillAmount.color = new Color(1, counter, counter);
-        //Time.deltaTime
+        float counter = 0;
 
-        yield return null;
-        if (currentTime > 0){
-            StartCoroutine(ResetTimer());
+        while (currentTime > 0)
+        {
+            currentTime -= currentResetTime / (0.25f / Time.deltaTime);
+            counter = Mathf.Clamp(currentTime / GetTime(), 0f, 1f);
+            timerFillAmount.fillAmount = counter;
+            timerFillAmount.color = new Color(1, counter, counter);
+
+            yield return null;
         }
     }
 

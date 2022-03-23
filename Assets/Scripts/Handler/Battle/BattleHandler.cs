@@ -36,6 +36,8 @@ public class BattleHandler : MonoBehaviour
     [HideInInspector]
     public bool isBattle = false;
 
+    public bool canPause = false;
+
     //==================================================
 
     [Header("룰렛들")]
@@ -110,8 +112,6 @@ public class BattleHandler : MonoBehaviour
             return;
         }
 
-        isBattle = true;
-
         GetComponent<BattleScrollHandler>().ShowScrollUI();
         print("전투시작");
         SoundHandler.Instance.PlayBGMSound("Battle_4");
@@ -120,9 +120,9 @@ public class BattleHandler : MonoBehaviour
         {
             battleInfo = bInfo;
         }
-        else if(isBoss)
+        else if (isBoss)
         {
-            if(_bInfo == null)
+            if (_bInfo == null)
             {
                 Debug.LogError("보스 설정이 안되어있음");
                 return;
@@ -131,7 +131,7 @@ public class BattleHandler : MonoBehaviour
             // 랜덤 전투 정보 가져오기
             //battleInfo = battleInfoHandler.GetRandomBossInfo();
         }
-        else if(isElite)
+        else if (isElite)
         {
             battleInfo = battleInfoHandler.GetRandomEliteInfo();
         }
@@ -269,7 +269,7 @@ public class BattleHandler : MonoBehaviour
 
         stopHandler.Init(mainRullet, (result, pieceIdx) =>
         {
-            battleScrollHandler.SetInteract(false);
+            SetInteract(false);
 
             stopHandler.rullet.HighlightResult();
 
@@ -285,7 +285,7 @@ public class BattleHandler : MonoBehaviour
         () =>
         {
             // 스크롤 버튼 비활성화
-            battleScrollHandler.SetInteract(false);
+            SetInteract(false);
         });
     }
 
@@ -302,6 +302,8 @@ public class BattleHandler : MonoBehaviour
         yield return StartCoroutine(battleUtil.ResetRulletPiecesWithCondition(hasWait: true));
 
         yield return oneSecWait;
+
+        isBattle = true;
 
         // 턴 시작
         InitTurn();
@@ -349,22 +351,45 @@ public class BattleHandler : MonoBehaviour
         // 현재 턴에 걸려있는 적의 cc기와 플레이어의 cc기를 하나 줄여준다.
         ccHandler.DecreaseCC();
         battleEvent.InitNextSkill();
+        battleEvent.OnStartTurn();
+
+        canPause = true;
 
         StartTurn();
     }
 
     public void StartTurn()
     {
-        battleEvent.OnStartTurn();
-
         // 전부 돌려버리고
         mainRullet.RollRullet();
 
         // 멈추게 하는 버튼 활성화
-        stopHandler.SetInteract(true);
+        SetInteract(true);
+    }
+
+    public void SetPause(bool isPause)
+    {
+        if (canPause)
+        {
+            if (isPause)
+            {
+                mainRullet.PauseRullet();
+                SetInteract(false);
+            }
+            else
+            {
+                StartTurn();
+            }
+        }
+    }
+
+    public void SetInteract(bool enable)
+    {
+        // 멈추게 하는 버튼 활성화
+        stopHandler.SetInteract(enable);
 
         // 스크롤 버튼 활성화
-        battleScrollHandler.SetInteract(true);
+        battleScrollHandler.SetInteract(enable);
     }
 
     // 실행이 전부 끝나면 실행되는 코루틴
@@ -463,6 +488,7 @@ public class BattleHandler : MonoBehaviour
     // 전투가 끝날 때
     private void BattleEnd(bool isWin = true)
     {
+        canPause = false;
         isBattle = false;
 
         player.cc.ResetAllCC();
@@ -506,6 +532,7 @@ public class BattleHandler : MonoBehaviour
     // 결과 보여주기
     public void CastPiece(SkillPiece piece)
     {
+        canPause = false;
         result = piece;
 
         if (piece != null)

@@ -354,6 +354,11 @@ public class MapHandler : MonoBehaviour
 
     private Transform GetCurNodeTrm(int row, int col)
     {
+        if (mapCreater == null)
+        {
+            mapCreater = GetComponent<MapCreater>();
+        }
+
         Transform nodeTrm = Content.transform.GetChild((mapCreater.mapRows * col) + row);
         return nodeTrm;
     }

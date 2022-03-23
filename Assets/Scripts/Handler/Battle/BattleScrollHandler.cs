@@ -218,19 +218,21 @@ public class BattleScrollHandler : MonoBehaviour
     {
         if (scroll == null) return;
 
-        SetInteract(false);
-        bh.stopHandler.SetInteract(false);
+        bh.SetInteract(false);
 
         scroll.slot = slot;
+        bh.canPause = false;
 
         scroll.Use(() =>
         {
+            bh.canPause = true;
             slot.RemoveScroll();
             SortScroll();
             bh.StartTurn();
         },
         () => 
         {
+            bh.canPause = true;
             bh.StartTurn();
         });
     }

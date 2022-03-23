@@ -37,6 +37,7 @@ public class InventoryInfoHandler : MonoBehaviour
 
     public PieceDesUIHandler desPanel;
     private InventoryHandler invenHandler;
+    private BattleHandler bh;
 
     private bool isShow = false;
 
@@ -69,6 +70,7 @@ public class InventoryInfoHandler : MonoBehaviour
 
         contentRect = pieceHolderTrm.parent.GetComponent<RectTransform>();
         invenHandler = GameManager.Instance.inventoryHandler;
+        bh = GameManager.Instance.battleHandler;
 
         invenBtn.onClick.AddListener(() =>
         {
@@ -92,6 +94,11 @@ public class InventoryInfoHandler : MonoBehaviour
     {
         messageText.text = msg;
 
+        if (onCloseBtn == null)
+        {
+            onCloseBtn = () => { BattleSetPause(false); };
+        }
+
         this.onClickPiece = onClickPiece;
         this.onCloseBtn = onCloseBtn;
 
@@ -99,6 +106,8 @@ public class InventoryInfoHandler : MonoBehaviour
 
         ShowInfoPanel(true);
         ResetInventoryInfo();
+
+        BattleSetPause(true);
     }
 
     public void CloseInventoryInfo()
@@ -112,6 +121,14 @@ public class InventoryInfoHandler : MonoBehaviour
         {
             highlightTween.Kill();
             highlightTween = highlight.DOFade(0f, 0.33f);
+        }
+    }
+
+    public void BattleSetPause(bool isPause)
+    {
+        if (bh.isBattle)
+        {
+            bh.SetPause(isPause);
         }
     }
 
