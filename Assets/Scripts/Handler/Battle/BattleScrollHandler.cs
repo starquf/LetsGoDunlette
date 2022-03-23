@@ -18,10 +18,14 @@ public class BattleScrollHandler : MonoBehaviour
 
     private bool canUse = false;
 
+    private void Awake()
+    {
+        goldhandler = scrollUI.GetComponentInChildren<GoldUIHandler>();
+    }
+
     private void Start()
     {
         bh = GetComponent<BattleHandler>();
-        goldhandler = scrollUI.GetComponentInChildren<GoldUIHandler>();
 
         InitSlot();
         GetScroll(PoolManager.GetItem<Scroll_Heal>());

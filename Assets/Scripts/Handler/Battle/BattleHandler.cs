@@ -555,7 +555,7 @@ public class BattleHandler : MonoBehaviour
                     });
                 }
 
-                mainRullet.RulletSpeed += 50f;
+                mainRullet.RulletSpeed += 100f;
             }
             else
             {
@@ -568,7 +568,7 @@ public class BattleHandler : MonoBehaviour
                     });
                 };
 
-                mainRullet.RulletSpeed -= 100f;
+                mainRullet.RulletSpeed -= 200f;
             }
 
             castUIHandler.ShowCasting(piece, onShowCast);

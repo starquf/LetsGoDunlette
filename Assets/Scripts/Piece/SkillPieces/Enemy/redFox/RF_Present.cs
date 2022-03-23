@@ -51,6 +51,7 @@ public class RF_Present : SkillPiece
         {
             target = targetList[Random.Range(0, targetList.Count)];
 
+            bgImg.sprite = GameManager.Instance.inventoryHandler.pieceBGSprDic[target.currentType];
             skillImg.sprite = target.skillImg.sprite;
         }
     }

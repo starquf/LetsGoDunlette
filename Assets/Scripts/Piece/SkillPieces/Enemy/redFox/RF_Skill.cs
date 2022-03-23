@@ -63,11 +63,11 @@ public class RF_Skill : SkillPiece
             });
     }
 
-    private void RF_Sneaky(LivingEntity target, Action onCastEnd = null) //인벤토리에 '여우의 선물'을 3개 추가한다.
+    private void RF_Sneaky(LivingEntity target, Action onCastEnd = null) //인벤토리에 '여우의 선물'을 2개 추가한다.
     {
         SetIndicator(owner.gameObject, "공격").OnEnd(() =>
         {
-            target.GetDamage(20);
+            target.GetDamage(20, this, owner);
 
             Anim_M_Butt effect = PoolManager.GetItem<Anim_M_Butt>();
             effect.transform.position = owner.transform.position;
@@ -75,12 +75,12 @@ public class RF_Skill : SkillPiece
             {
                 SetIndicator(owner.gameObject, "조각 추가").OnEnd(() =>
                 {
-                    for (int i = 0; i < 3; i++)
+                    for (int i = 0; i < 2; i++)
                     {
-                        ih.CreateSkill(presentgSkill, owner, owner.transform.position);
+                        bh.battleUtil.SetTimer(0.25f * i, () => { ih.CreateSkill(presentgSkill, owner, owner.transform.position); });
                     }
 
-                     bh.battleUtil.SetTimer(0.5f, onCastEnd);
+                     bh.battleUtil.SetTimer(0.5f + 0.25f * 1, onCastEnd);
                 });
             });
         });

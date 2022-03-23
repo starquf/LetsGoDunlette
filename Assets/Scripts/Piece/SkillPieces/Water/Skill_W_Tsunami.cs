@@ -72,7 +72,7 @@ public class Skill_W_Tsunami : SkillPiece
                         splashEffect.Play();
 
                         effect.EndEffect();
-                    }, BezierType.Quadratic, isRotate: true, playSpeed: 2.3f);
+                    }, BezierType.Quadratic, isRotate: true, playSpeed: 2f);
 
                     yield return pTwoSecWait;
                 }
@@ -106,6 +106,6 @@ public class Skill_W_Tsunami : SkillPiece
             onCastEnd?.Invoke();
 
             skillEffect.EndEffect();
-        }, BezierType.Linear, isRotate: true, playSpeed: 2f);
+        }, BezierType.Linear, isRotate: true, playSpeed: 1.8f);
     }
 }

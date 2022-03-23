@@ -46,11 +46,6 @@ public class MapHandler : MonoBehaviour
         OnSelectNode(map[0][3]);
     }
 
-    void Update()
-    {
-
-    }
-
     public void OpenMapPanel(bool open, bool quick = false)
     {
 
@@ -233,6 +228,12 @@ public class MapHandler : MonoBehaviour
     {
         LayoutRebuilder.ForceRebuildLayoutImmediate(Content.GetComponent<RectTransform>());
         Transform trm = Content.transform;
+
+        if (mapCreater == null)
+        {
+            mapCreater = GetComponent<MapCreater>();
+        }
+
         int cols = mapCreater.mapCols;
         int rows = mapCreater.mapRows;
         Content.GetComponent<GridLayoutGroup>().constraintCount = rows;

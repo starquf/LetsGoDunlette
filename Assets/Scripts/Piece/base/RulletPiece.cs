@@ -29,8 +29,8 @@ public abstract class RulletPiece : MonoBehaviour
     protected int value;
     public int Value => value;
 
-    private Image bgImg;
-    private Image highlightImg;
+    protected Image bgImg;
+    protected Image highlightImg;
 
     [HideInInspector]
     public Image skillImg;
