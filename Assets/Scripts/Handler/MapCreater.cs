@@ -42,7 +42,7 @@ public class MapCreater : MonoBehaviour
     public int maxNode;
     public int minNode;
     public List<List<Node>> map = new List<List<Node>>();
-    //private bool firstCreate = false;
+    private bool firstCreate = true;
 
     private void Awake()
     {
@@ -68,7 +68,11 @@ public class MapCreater : MonoBehaviour
         }
 
         mapHandler.map = this.map;
-        mapHandler.ShowMap();
+        if(!firstCreate)
+        {
+            firstCreate = true;
+            mapHandler.ShowMap();
+        }
         mapHandler.OnSelectNode(map[0][3]);
     }
 

@@ -17,6 +17,10 @@ public class RestEncounterUIHandler : MonoBehaviour
     private void Awake()
     {
         mainPanel = GetComponent<CanvasGroup>();
+    }
+
+    private void Start()
+    {
         RestBtn.onClick.AddListener(OnRestBtnClick);
         UpgradePieceBtn.onClick.AddListener(OnUpgradeBtnClick);
         EatMinsooBtn.onClick.AddListener(OnEatMinsooBtnClick);
