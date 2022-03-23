@@ -45,6 +45,29 @@ public class EnemyHealth : LivingEntity
 
         sr.color = Color.red;
         sr.DOColor(Color.white, 0.35f);
+
+        StartCoroutine(UnBeatTime());
+    }
+
+    IEnumerator UnBeatTime()
+    {
+        int countTime = 0;
+        while (countTime < 15)
+        {
+            //Alpha Effect
+            if (countTime % 2 == 0)
+                sr.color = new Color32(255, 255, 255, 20);
+            else
+
+                sr.color = new Color32(255, 255, 255, 200);
+            //Wait Update Frame
+            yield return new WaitForSeconds(0.1f);
+            countTime++;
+
+            //Alpha Effect End
+            sr.color = new Color32(255, 255, 255, 255);
+            yield return null;
+        }
     }
 
     public virtual void Kill()
