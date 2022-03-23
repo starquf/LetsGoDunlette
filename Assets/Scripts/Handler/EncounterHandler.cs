@@ -52,7 +52,7 @@ public class EncounterHandler : MonoBehaviour
                 break;
             case mapNode.MONSTER:
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
-                bh.StartBattle();
+                shopEncounterUIHandler.StartEvent();
                 //randomEncounterUIHandler.StartEvent();
                 break;
             case mapNode.SHOP:

@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 
 public enum ProductType
 {
+    None,
     Scroll,
     RulletPiece,
 }
@@ -43,8 +44,11 @@ public class ShopEncounterUIHandler : MonoBehaviour
     {
         exitBtn.onClick.AddListener(OnExitBtnClick);
         purchaseBtn.onClick.AddListener(OnPurchaseBtnClick);
+
+        InitBtn();
     }
 
+    //상점 열렸을때 호출
     public void StartEvent()
     {
         isSelectPanelEnable = false;
@@ -57,27 +61,37 @@ public class ShopEncounterUIHandler : MonoBehaviour
         ShowPanel(true);
     }
 
+    // 상점 버튼에 함수 추가
+    private void InitBtn()
+    {
+        for (int i = 0; i < products.Count; i++)
+        {
+            int idx = i;
+            products[idx].GetComponent<Button>().onClick.AddListener(() =>
+            {
+                SelectProduct(idx);
+            });
+        }
+    }
+
+    //상점 랜덤으로 만들어줌
     private void InitShop()
     {
         for (int i = 0; i < products.Count; i++)
         {
-            if(i<3)
+            int idx = i;
+            if (idx < 3)
             {
                 RulletPiece rulletPiece = randomRulletPiece[Random.Range(0, randomRulletPiece.Count)];
                 randomRulletPiece.Remove(rulletPiece);
-                products[i].SetProduct(ProductType.RulletPiece, null, rulletPiece);
+                products[idx].SetProduct(ProductType.RulletPiece, null, rulletPiece);
             }
             else
             {
                 Scroll scroll = randomScrollPiece[Random.Range(0, randomScrollPiece.Count)];
                 randomScrollPiece.Remove(scroll);
-                products[i].SetProduct(ProductType.Scroll, scroll);
+                products[idx].SetProduct(ProductType.Scroll, scroll);
             }
-            int idx = i;
-            products[i].GetComponent<Button>().onClick.AddListener(() =>
-            {
-                SelectProduct(idx);
-            });
         }
     }
 
@@ -85,7 +99,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
     // 굳이 함수로 뺀이유 -> 구매됨 같은 효과 넣을꺼면 이 함수에 넣으라고
     private void OnPurchaseBtnClick()
     {
-        PurchaseProduct();
+        StartCoroutine(PurchaseProduct());
     }
 
     private void OnExitBtnClick()
@@ -94,13 +108,103 @@ public class ShopEncounterUIHandler : MonoBehaviour
     }
     #endregion
 
-    private void PurchaseProduct()
+    private IEnumerator PurchaseProduct()
     {
+        ProductInfo selectProduct = products[selectIdx];
+        if (GameManager.Instance.Gold < selectProduct.price)
+        {
+            Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
+            textEffect.SetType(TextUpAnimType.Damage);
+            textEffect.transform.position = Vector3.zero;
+            textEffect.Play("골드가 부족합니다!");
+            yield break;
+        }
+        else
+        {
+            GameManager.Instance.Gold -= selectProduct.price;
 
+            yield return new WaitForSeconds(2f);
+
+            SetButtonInterval(false);
+
+            switch (selectProduct.productType)
+            {
+                case ProductType.Scroll:
+                    Scroll scroll = Instantiate(selectProduct.scroll, Vector3.zero, Quaternion.identity).GetComponent<Scroll>();
+                    Image scrollImg = scroll.GetComponent<Image>();
+                    scrollImg.color = new Color(1, 1, 1, 0);
+                    scroll.transform.SetParent(this.transform);
+                    scroll.GetComponent<RectTransform>().sizeDelta = Vector2.one * 400f;
+                    scroll.transform.position = selectProductImg.transform.position;
+                    scroll.transform.localScale = Vector3.one;
+
+                    GameManager.Instance.battleHandler.GetComponent<BattleScrollHandler>().GetScroll(scroll, () => {
+                        selectPanel.DOFade(0, 0.5f);
+                        SetProductSold(selectIdx);
+                        SetButtonInterval(true);
+                    }, true);
+
+                    break;
+                case ProductType.RulletPiece:
+                    SkillPiece skillPiece = Instantiate(selectProduct.rulletPiece, Vector3.zero, Quaternion.identity).GetComponent<SkillPiece>();
+
+                    Image skillImg = skillPiece.GetComponent<Image>();
+                    skillImg.color = new Color(1, 1, 1, 0);
+                    skillPiece.transform.SetParent(this.transform);
+                    skillPiece.transform.localScale = Vector3.one;
+                    skillPiece.transform.position = Vector3.zero;
+                    skillPiece.transform.rotation = Quaternion.Euler(0, 0, 30f);
+                    
+
+                    BattleHandler battleHandler = GameManager.Instance.battleHandler;
+                    Transform unusedInventoryTrm = GameManager.Instance.inventoryHandler.transform;
+
+                    DOTween.Sequence()
+                     .Append(skillImg.DOFade(1, 0.5f))
+                    .Append(skillPiece.transform.DOMove(unusedInventoryTrm.position, 0.5f).SetDelay(1f))
+                    .Join(skillPiece.transform.DOScale(Vector2.one * 0.1f, 0.5f))
+                    .Join(skillPiece.GetComponent<Image>().DOFade(0f, 0.5f))
+                    .OnComplete(() =>
+                    {
+                        Inventory owner = battleHandler.player.GetComponent<Inventory>();
+                        skillPiece.gameObject.SetActive(false);
+                        skillPiece.owner = owner;
+                        GameManager.Instance.inventoryHandler.AddSkill(skillPiece);
+                        skillImg.color = Color.white;
+
+                        selectPanel.DOFade(0, 0.5f);
+                        SetProductSold(selectIdx);
+                        SetButtonInterval(true);
+                    });
+                    break;
+                default:
+                    Debug.LogError("선택된 상품의 타입이 스크롤이나, 룰렛조각이 아닙니다.");
+                    yield break;
+            }
+        }
     }
 
-    private void SelectProduct(int selectIdx)
+    // 상점 팔렸을때 
+    private void SetProductSold(int selectProductIdx)
     {
+        products[selectIdx].SetProductSold();
+        selectIdx = -1;
+        products[selectProductIdx].GetComponent<Button>().interactable = false;
+    }
+
+    private void SetButtonInterval(bool enable)
+    {
+        for (int i = 0; i < products.Count; i++)
+        {
+            int idx = i;
+            products[idx].GetComponent<Button>().interactable = enable;
+        }
+        exitBtn.interactable = enable;
+        purchaseBtn.interactable = enable;
+    }
+
+    // 품목 선택시 애니메이션, 보여주기
+    private void SelectProduct(int selectIdx){
         if (isSelectPanelEnable)
         {
             if (this.selectIdx == selectIdx)

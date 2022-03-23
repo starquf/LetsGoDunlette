@@ -6,8 +6,6 @@ using DG.Tweening;
 
 public class GoldUIHandler : MonoBehaviour
 {
-    GameManager gameManager = null;
-
     private Text goldText = null;
     private int prevGold = 0;
 
@@ -42,7 +40,7 @@ public class GoldUIHandler : MonoBehaviour
 
     private IEnumerator UpdateGoldUIAnim()
     {
-        gameManager.battleHandler.GetComponent<BattleScrollHandler>().ShowScrollUI();
+        GameManager.Instance.battleHandler.GetComponent<BattleScrollHandler>().ShowScrollUI();
 
         yield return new WaitForSeconds(0.5f);
 
@@ -57,6 +55,6 @@ public class GoldUIHandler : MonoBehaviour
 
         yield return new WaitForSeconds(0.3f);
 
-        gameManager.battleHandler.GetComponent<BattleScrollHandler>().ShowScrollUI(open:false);
+        GameManager.Instance.battleHandler.GetComponent<BattleScrollHandler>().ShowScrollUI(open:false);
     }
 }

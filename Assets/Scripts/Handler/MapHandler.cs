@@ -54,6 +54,11 @@ public class MapHandler : MonoBehaviour
         openSequence.Kill();
         if (!quick)
         {
+            if(!open)
+            {
+                cvsGroup.interactable = false;
+                cvsGroup.blocksRaycasts = false;
+            }
             mapUIs.SetActive(open);
             openSequence = DOTween.Sequence()
                 .Append(cvsGroup.DOFade(open ? 1 : 0, 0.5f).OnComplete(() => {
