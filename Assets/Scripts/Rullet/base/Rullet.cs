@@ -46,9 +46,10 @@ public abstract class Rullet : MonoBehaviour
 
     //public Transform pinTrans;
     public Text speedText;
-    public Text timeText;
+    public Image timerFillAmount;
 
-    protected int currentTime;
+    protected float currentTime;
+    protected float currentResetTime;
     protected bool isPaused = false;
 
     protected WaitForSeconds oneSecWait = new WaitForSeconds(1f);
@@ -161,7 +162,7 @@ public abstract class Rullet : MonoBehaviour
         isRoll = true;
         isStop = false;
 
-        timeText.text = "";
+        timerFillAmount.fillAmount = 10;
 
         rollCor = StartCoroutine(Roll());
 
@@ -184,7 +185,8 @@ public abstract class Rullet : MonoBehaviour
         if(timeCor != null)
             StopCoroutine(timeCor);
 
-        timeText.text = "";
+        currentResetTime = currentTime;
+        StartCoroutine(ResetTimer());
 
         isPaused = true;
         isRoll = false;
@@ -197,7 +199,8 @@ public abstract class Rullet : MonoBehaviour
         if (timeCor != null)
             StopCoroutine(timeCor);
 
-        timeText.text = "";
+        currentResetTime = currentTime;
+        StartCoroutine(ResetTimer());
     }
 
     public void ReRoll()
@@ -234,26 +237,55 @@ public abstract class Rullet : MonoBehaviour
 
     protected virtual IEnumerator Timer()
     {
-        for (int i = currentTime; i > 0; i--)
+        //for (int i = currentTime; i > 0; i--)
+        //{
+        //    currentTime--;
+        //    timeText.text = i.ToString();
+
+        //    if (i < 4)
+        //    {
+        //        timeText.color = Color.red;
+        //    }
+        //    else
+        //    {
+        //        timeText.color = Color.white;
+        //    }
+
+        //    yield return oneSecWait;
+        //}
+
+        //timeText.text = "";
+        currentTime -= Time.deltaTime;
+        float counter = Mathf.Clamp(currentTime / 10f, 0f, 1f);
+        timerFillAmount.fillAmount = counter;
+        //255 -> 0
+        //    237 -> 0
+        timerFillAmount.color = new Color(1, counter, counter);
+
+
+        yield return null;
+
+        if (currentTime < 0)
+            isStop = true;
+        else if(!isStop)
         {
-            currentTime--;
-            timeText.text = i.ToString();
-
-            if (i < 4)
-            {
-                timeText.color = Color.red;
-            }
-            else
-            {
-                timeText.color = Color.white;
-            }
-
-            yield return oneSecWait;
+            StartCoroutine(Timer());
         }
+    }
 
-        timeText.text = "";
+    protected virtual IEnumerator ResetTimer()
+    {
+        //0.5f;
+        currentTime -= currentResetTime / (0.3f/Time.deltaTime);
+        float counter = Mathf.Clamp(currentTime / 10f, 0f, 1f);
+        timerFillAmount.fillAmount = counter;
+        timerFillAmount.color = new Color(1, counter, counter);
+        //Time.deltaTime
 
-        isStop = true;
+        yield return null;
+        if (currentTime > 0){
+            StartCoroutine(ResetTimer());
+        }
     }
 
     protected virtual void RulletResult(Action<RulletPiece, int> onResult)
