@@ -44,7 +44,7 @@ public class MapCreater : MonoBehaviour
     public List<List<Node>> map = new List<List<Node>>();
     //private bool firstCreate = false;
 
-    private void Awake()
+    private void Start()
     {
         Init();
         CreateMap();
