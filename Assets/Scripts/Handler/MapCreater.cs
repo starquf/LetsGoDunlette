@@ -123,22 +123,15 @@ public class MapCreater : MonoBehaviour
         }
         else if (curDepth == 1)
         {
-            //List<int> list = GetNotNoneIdx(beforeIdx);
-            //foreach (int idx in list)
-            //{
-            //    int[] plusIdx = GetRandomIdx(2);
-            //    for (int i = 0; i < plusIdx.Length; i++)
-            //    {
-            //        int randIdx = Mathf.Clamp(plusIdx[i] + idx, 0, mapRows - 1);
-            //        map[curDepth][randIdx].mapNode = mapNode.MONSTER;
-            //        map[beforeIdx][idx].pointNodeList.Add(map[curDepth][randIdx]);
-            //    }
-            //}
             SetNode(curDepth, mapNode.MONSTER);
         }
         else if(curDepth == mapCols - 2)
         {
             SetNode(curDepth, mapNode.REST);
+        }
+        else if (curDepth == 5)
+        {
+            SetNode(curDepth, mapNode.SHOP);
         }
         else
         {
@@ -225,48 +218,48 @@ public class MapCreater : MonoBehaviour
         mapNode nodeType;
 
         int rand = Random.Range(0, 100);
-        if(beforeNodeType==mapNode.EMONSTER)
+        //if(beforeNodeType==mapNode.EMONSTER)
+        //{
+        //    while (rand >= 42 && rand < 50)
+        //    {
+        //        rand = Random.Range(0, 100);
+        //    }
+        //}
+        //if(beforeNodeType==mapNode.REST || depth == mapCols - 3)
+        //{
+        //    while (rand < 12)
+        //    {
+        //        rand = Random.Range(12, 100);
+        //    }
+        //}
+        //if ((beforeNodeType==mapNode.REST || depth == mapCols - 3) && beforeNodeType==mapNode.EMONSTER)
+        //{
+        //    while(rand<12 || (rand >= 42 && rand < 50))
+        //    {
+        //        rand = Random.Range(0, 100);
+        //    }
+        //}
+
+        while (((rand < 12 || (rand >= 34 && rand < 50)) && depth <= 4) ||
+        ((beforeNodeType == mapNode.REST || depth == mapCols - 3) && rand < 12) ||
+        (beforeNodeType == mapNode.EMONSTER && rand >= 42 && rand < 50))
         {
-            while (rand >= 40 && rand < 48)
-            {
-                rand = Random.Range(0, 100);
-            }
+            rand = Random.Range(0, 100);
         }
-        if(beforeNodeType==mapNode.REST || depth == mapCols - 3)
-        {
-            while (rand < 12)
-            {
-                rand = Random.Range(12, 100);
-            }
-        }
-        if ((beforeNodeType==mapNode.REST || depth == mapCols - 3) && beforeNodeType==mapNode.EMONSTER)
-        {
-            while(rand<12 || (rand >= 40 && rand < 48))
-            {
-                rand = Random.Range(0, 100);
-            }
-        }
+
         if(rand<12)
         {
             nodeType = mapNode.REST;
         }
         else if(rand<34)
         {
-            rand = Random.Range(0, 100);
-            if(rand<100)
-            {
-                nodeType = mapNode.RandomEncounter;
-            }
-            else
-            {
-                nodeType = mapNode.RandomEncounter;
-            }
+            nodeType = mapNode.RandomEncounter;
         }
-        else if(rand < 40)
+        else if(rand < 42)
         {
             nodeType = mapNode.SHOP;
         }
-        else if(rand < 48)
+        else if(rand < 50)
         {
             nodeType = mapNode.EMONSTER;
         }
