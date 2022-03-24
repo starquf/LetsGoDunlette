@@ -121,11 +121,11 @@ public class ShopEncounterUIHandler : MonoBehaviour
         }
         else
         {
+            SetButtonInterval(false);
             GameManager.Instance.Gold -= selectProduct.price;
 
             yield return new WaitForSeconds(2f);
 
-            SetButtonInterval(false);
 
             switch (selectProduct.productType)
             {
