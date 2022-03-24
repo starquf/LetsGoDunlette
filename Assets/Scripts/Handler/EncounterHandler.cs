@@ -36,7 +36,7 @@ public class EncounterHandler : MonoBehaviour
         switch (type)
         {
             case mapNode.NONE:
-                print("???");
+                //print("???");
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
                 tbHandler.StartEvent();
                 break;
@@ -72,7 +72,7 @@ public class EncounterHandler : MonoBehaviour
 
     private void EndEncounter()
     {
-        print("인카운터 끝남");
+        //print("인카운터 끝남");
         bh.GetComponent<BattleScrollHandler>().ShowScrollUI(open:false);
         GameManager.Instance.mapHandler.OpenMapPanel(true);
     }

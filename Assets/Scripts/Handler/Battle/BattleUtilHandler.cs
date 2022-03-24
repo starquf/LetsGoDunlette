@@ -29,7 +29,7 @@ public class BattleUtilHandler : MonoBehaviour
             }
             else
             {
-                print("后沫 惯积");
+                //print("后沫 惯积");
                 return false;
             }
         }

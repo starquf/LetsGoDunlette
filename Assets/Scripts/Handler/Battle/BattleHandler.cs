@@ -113,7 +113,7 @@ public class BattleHandler : MonoBehaviour
         }
 
         GetComponent<BattleScrollHandler>().ShowScrollUI();
-        print("전투시작");
+        //print("전투시작");
         SoundHandler.Instance.PlayBGMSound("Battle_4");
 
         if (bInfo != null)
@@ -137,7 +137,7 @@ public class BattleHandler : MonoBehaviour
         }
         else
         {
-            print("적 가져옴");
+            //print("적 가져옴");
             battleInfo = battleInfoHandler.GetRandomBattleInfo();
         }
 

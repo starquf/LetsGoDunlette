@@ -24,7 +24,7 @@ public class GameOverPanelHandler : MonoBehaviour
             DOTween.Sequence().Append(gameOverImg.DOFade(1, 2f))
             .OnComplete(() =>
             {
-                print("¿Ã∞≈ø÷ æ»µ ");
+                //print("¿Ã∞≈ø÷ æ»µ ");
                 GameManager.Instance.mapHandler.OpenMapPanel(true);
                 ShowPanel(false, null, true);
                 gameOverImg.color = new Color(1f, 1f, 1f, 0f);

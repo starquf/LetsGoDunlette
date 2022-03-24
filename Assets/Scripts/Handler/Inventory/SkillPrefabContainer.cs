@@ -27,7 +27,7 @@ public class SkillPrefabContainer : MonoBehaviour
             SkillPiece piece = skillPrefabs[i].GetComponent<SkillPiece>();
 
             string name = piece.GetType().Name;
-            //print($"스킬 이름 : {name}");
+            ////print($"스킬 이름 : {name}");
 
             if (piece.isPlayerSkill)
                 playerSkillPrefabs.Add(skillPrefabs[i]);

@@ -354,7 +354,7 @@ public class InventoryHandler : MonoBehaviour
 
     private void CreateRemoveEffect(SkillPiece piece)
     {
-        print("이펙트 생성중!!!");
+        //print("이펙트 생성중!!!");
 
         for (int i = 0; i < 5; i++)
         {

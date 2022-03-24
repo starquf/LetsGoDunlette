@@ -90,7 +90,7 @@ public class TurnRouletteSample : MonoBehaviour
 
                 action?.Invoke(result);
 
-                print(result);
+                //print(result);
 
                 break;
             }

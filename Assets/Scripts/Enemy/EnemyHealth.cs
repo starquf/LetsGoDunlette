@@ -80,7 +80,7 @@ public class EnemyHealth : LivingEntity
 
     protected override void Die()
     {
-        print($"{gameObject.name} Á×À½!!");
+        //print($"{gameObject.name} Á×À½!!");
 
         ShowDieEffect();
 

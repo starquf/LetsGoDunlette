@@ -48,7 +48,8 @@ public class PieceCastUIHandler : MonoBehaviour
             .AppendInterval(0.3f)
             .Append(skillPiece.GetComponent<Image>().DOFade(0, 0.3f))
             .Join(skillPiece.skillImg.DOFade(0, 0.3f))
-            .OnComplete(() => { print("¿Ã∆Â∆Æ≥°≥≤"); onEndEffect(); });
+            .OnComplete(() => { //print("¿Ã∆Â∆Æ≥°≥≤");
+                                onEndEffect(); });
 
         ShowPanel(true);
     }

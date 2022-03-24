@@ -47,7 +47,7 @@ public class RestEncounterUIHandler : MonoBehaviour
 
     private void OnUpgradeBtnClick()
     {
-        print("아직 구현안됨 사발면");
+        //print("아직 구현안됨 사발면");
         EndEvent();
     }
 

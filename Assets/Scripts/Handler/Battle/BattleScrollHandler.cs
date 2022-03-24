@@ -48,7 +48,7 @@ public class BattleScrollHandler : MonoBehaviour
 
                 if (slots[a].scroll != null || !bh.mainRullet.IsStop)
                 {
-                    print("스크롤 사용");
+                    //print("스크롤 사용");
                     UseScroll(slots[a], slots[a].scroll);
                 }
             });

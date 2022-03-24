@@ -9,7 +9,7 @@ public class Skill_F_Arson : SkillPiece
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         BattleHandler bh = GameManager.Instance.battleHandler;
-        print($"스킬 발동!! 이름 : {PieceName}");
+        //print($"스킬 발동!! 이름 : {PieceName}");
 
         Vector3 targetPos = target.transform.position;
 

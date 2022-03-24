@@ -14,7 +14,7 @@ public class QN_Authority : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        print($"적 스킬 발동!! 이름 : {PieceName}");
+        //print($"적 스킬 발동!! 이름 : {PieceName}");
         GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
         Vector3 targetPos = target.transform.position;

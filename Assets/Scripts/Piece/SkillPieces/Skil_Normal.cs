@@ -8,7 +8,7 @@ public class Skil_Normal : SkillPiece
 {
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        print($"스킬 발동!! 이름 : {PieceName}");
+        //print($"스킬 발동!! 이름 : {PieceName}");
         GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
         Vector3 targetPos = target.transform.position;
