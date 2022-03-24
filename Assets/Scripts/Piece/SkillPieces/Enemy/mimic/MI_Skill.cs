@@ -3,6 +3,9 @@ using Random = UnityEngine.Random;
 
 public class MI_Skill : SkillPiece
 {
+    public int bittingDamage = 15;
+    public int bumpDamage = 35;
+
     protected override void Awake()
     {
         base.Awake();
@@ -30,7 +33,7 @@ public class MI_Skill : SkillPiece
             Anim_M_Bite hitEffect = PoolManager.GetItem<Anim_M_Bite>();
             hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
 
-            target.GetDamage(20, this, owner);
+            target.GetDamage(bittingDamage, this, owner);
             hitEffect.Play(() =>
             {
                 SetIndicator(owner.gameObject, "상처부여").OnEnd(() =>
@@ -48,7 +51,7 @@ public class MI_Skill : SkillPiece
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.7f, 0.15f);
 
-            target.GetDamage(35, this, owner);
+            target.GetDamage(bumpDamage, this, owner);
 
             Anim_M_Bite hitEffect = PoolManager.GetItem<Anim_M_Bite>();
             hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
