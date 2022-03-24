@@ -52,7 +52,7 @@ public class EnemyHealth : LivingEntity
     IEnumerator UnBeatTime()
     {
         int countTime = 0;
-        while (countTime < 15)
+        while (countTime < 10)
         {
             //Alpha Effect
             if (countTime % 2 == 0)
