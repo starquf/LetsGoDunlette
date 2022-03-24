@@ -51,7 +51,7 @@ public class DP_Skill : SkillPiece
             owner.GetComponent<EnemyHealth>().GetDamageIgnoreShild(40);
 
             Anim_M_Butt effect = PoolManager.GetItem<Anim_M_Butt>();
-            effect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
+            effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
             effect.Play(() =>
             {
             });
