@@ -5,12 +5,20 @@ using UnityEngine;
 public class Encounter_004 : RandomEncounter
 {
 
+    public int lostGoldValue = 10;
+
+    public override void Init()
+    {
+        GameManager.Instance.Gold -= lostGoldValue;
+    }
+
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;
         switch (resultIdx)
         {
             case 0:
+                GameManager.Instance.Gold += lostGoldValue;
                 showText = en_End_TextList[0];
                 showImg = en_End_Image[0];
                 en_End_Result = "체력 20감소";

@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public event Action OnEndEncounter;
 
-    private int gold = 1000;
+    private int gold = 100;
     public int Gold 
     {
         get 

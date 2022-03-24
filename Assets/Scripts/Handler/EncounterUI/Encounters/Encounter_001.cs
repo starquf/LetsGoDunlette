@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class Encounter_001 : RandomEncounter
 {
+    public int getGoldValue = 10;
     private SkillPiece skill;
     public override void ResultSet(int resultIdx)
     {
@@ -16,7 +17,7 @@ public class Encounter_001 : RandomEncounter
                 showText = en_End_TextList[0];
                 showImg = en_End_Image[0];
                 en_End_Result = "°ñµå È¹µæ";
-                GameManager.Instance.Gold += 10;
+                GameManager.Instance.Gold += getGoldValue;
                 break;
             case 1:
                 showText = en_End_TextList[1];
