@@ -1,8 +1,10 @@
 using System;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class MI_Skill : SkillPiece
 {
+    [Header("데미지 변수")]
     public int bittingDamage = 15;
     public int bumpDamage = 35;
 
