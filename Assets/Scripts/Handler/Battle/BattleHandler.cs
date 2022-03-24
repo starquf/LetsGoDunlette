@@ -35,6 +35,8 @@ public class BattleHandler : MonoBehaviour
 
     [HideInInspector]
     public bool isBattle = false;
+    [HideInInspector]
+    public bool isBattleStart = false;
 
     public bool canPause = false;
 
@@ -106,11 +108,12 @@ public class BattleHandler : MonoBehaviour
     // 전투를 시작하는 함수
     public void StartBattle(bool isElite = false, bool isBoss = false, BattleInfo bInfo = null)
     {
-        if (isBattle)
+        if (isBattleStart)
         {
-            Debug.LogError("이미 전투가 진행중입니다!");
+            //Debug.LogError("이미 전투가 진행중입니다!");
             return;
         }
+        isBattleStart = true;
 
         GetComponent<BattleScrollHandler>().ShowScrollUI();
         //print("전투시작");
@@ -490,6 +493,7 @@ public class BattleHandler : MonoBehaviour
     {
         canPause = false;
         isBattle = false;
+        isBattleStart = false;
 
         player.cc.ResetAllCC();
         player.RemoveShield();
