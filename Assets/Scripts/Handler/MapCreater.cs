@@ -70,8 +70,11 @@ public class MapCreater : MonoBehaviour
         mapHandler.map = this.map;
         if(!firstCreate)
         {
-            firstCreate = true;
             mapHandler.ShowMap();
+        }
+        else
+        {
+            firstCreate = false;
         }
         mapHandler.OnSelectNode(map[0][3]);
     }
