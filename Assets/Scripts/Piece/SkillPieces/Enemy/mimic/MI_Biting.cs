@@ -49,7 +49,7 @@ public class MI_Biting : SkillPiece
         owner.GetComponent<EnemyIndicator>().ShowText("상처 부여");
 
         Anim_M_Bite hitEffect = PoolManager.GetItem<Anim_M_Bite>();
-        hitEffect.transform.position = owner.transform.position;
+        hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
 
         hitEffect.Play(() =>
         {

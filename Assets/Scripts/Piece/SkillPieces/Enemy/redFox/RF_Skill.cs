@@ -46,7 +46,7 @@ public class RF_Skill : SkillPiece
                 target.GetDamage(10, this, owner);
 
                 Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-                effect.transform.position = owner.transform.position;
+                effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
                 effect.Play(() =>
                 {
                     SetIndicator(owner.gameObject, "상처 부여").OnEnd(() =>
@@ -70,7 +70,7 @@ public class RF_Skill : SkillPiece
             target.GetDamage(20, this, owner);
 
             Anim_M_Butt effect = PoolManager.GetItem<Anim_M_Butt>();
-            effect.transform.position = owner.transform.position;
+            effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
             effect.Play(() =>
             {
                 SetIndicator(owner.gameObject, "조각 추가").OnEnd(() =>

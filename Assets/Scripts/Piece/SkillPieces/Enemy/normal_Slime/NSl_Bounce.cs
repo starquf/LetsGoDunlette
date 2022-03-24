@@ -47,7 +47,7 @@ public class NSl_Bounce : SkillPiece
         target.GetDamage(Value, this, owner);
 
         Anim_M_Butt hitEffect = PoolManager.GetItem<Anim_M_Butt>();
-        hitEffect.transform.position = owner.transform.position;
+        hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
 
         hitEffect.Play(() =>
         {

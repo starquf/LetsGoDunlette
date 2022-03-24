@@ -20,7 +20,7 @@ public class GG_Attack : SkillPiece
             target.GetDamage(Value, this, owner);
 
             Anim_M_Sword hitEffect = PoolManager.GetItem<Anim_M_Sword>();
-            hitEffect.transform.position = owner.transform.position;
+            hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
 
             hitEffect.Play(() =>
             {

@@ -48,7 +48,7 @@ public class NSL_Skill : SkillPiece
             target.GetDamage(30, this, owner);
 
             Anim_M_Butt hitEffect = PoolManager.GetItem<Anim_M_Butt>();
-            hitEffect.transform.position = owner.transform.position;
+            hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
 
             hitEffect.Play(() =>
             {

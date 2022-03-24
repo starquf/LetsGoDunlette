@@ -28,7 +28,7 @@ public class MI_Skill : SkillPiece
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
             Anim_M_Bite hitEffect = PoolManager.GetItem<Anim_M_Bite>();
-            hitEffect.transform.position = owner.transform.position;
+            hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
 
             target.GetDamage(20, this, owner);
             hitEffect.Play(() =>
@@ -51,7 +51,7 @@ public class MI_Skill : SkillPiece
             target.GetDamage(35, this, owner);
 
             Anim_M_Bite hitEffect = PoolManager.GetItem<Anim_M_Bite>();
-            hitEffect.transform.position = owner.transform.position;
+            hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
 
             hitEffect.Play(() =>
             {

@@ -98,6 +98,8 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public event Action OnEndEncounter;
 
+    public Transform enemyEffectTrm;
+
     private int gold = 100;
     public int Gold 
     {
