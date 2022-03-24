@@ -119,6 +119,8 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         SetDamageEffect();
     }
 
+    
+
     public virtual void GetDamage(int damage, PatternType damageType)
     {
         if (weaknessType.Equals(damageType))
@@ -131,7 +133,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         }
     }
 
-    public virtual void GetDamage(int damage, SkillPiece skillPiece,Inventory owner) // 적 전용임
+    public virtual void GetDamage(int damage, SkillPiece skillPiece,Inventory owner) // 적이 사용 전용
     {
         Vector3 size = owner.transform.localScale;
         SpriteRenderer sr = owner.GetComponent<SpriteRenderer>();

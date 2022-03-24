@@ -46,7 +46,10 @@ public class EnemyHealth : LivingEntity
         sr.color = Color.red;
         sr.DOColor(Color.white, 0.35f);
 
-        StartCoroutine(UnBeatTime());
+        if(!IsDie)
+        {
+            StartCoroutine(UnBeatTime());
+        }
     }
 
     IEnumerator UnBeatTime()
