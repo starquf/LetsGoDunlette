@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class Encounter_008 : RandomEncounter
 {
 
+    public int getGoldValue = 10;
     public SkillPiece fisingPiece;
     private SkillPiece skill;
 
@@ -34,6 +35,7 @@ public class Encounter_008 : RandomEncounter
 
                 break;
             case 1:
+                GameManager.Instance.Gold += getGoldValue;
                 showText = en_End_TextList[1];
                 showImg = en_End_Image[1];
                 en_End_Result = "°ñµå È¹µæ";

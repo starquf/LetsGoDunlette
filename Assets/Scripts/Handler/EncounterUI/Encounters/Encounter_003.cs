@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Encounter_003 : RandomEncounter
 {
+    public int getGoldValue = 10;
 
     public override void ResultSet(int resultIdx)
     {
@@ -20,6 +21,7 @@ public class Encounter_003 : RandomEncounter
                 }
                 else
                 {
+                    GameManager.Instance.Gold += getGoldValue;
                     choiceIdx = 1;
                     showText = en_End_TextList[1];
                     showImg = en_End_Image[1];
