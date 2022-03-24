@@ -11,13 +11,16 @@ public class EncounterHandler : MonoBehaviour
 
     private BattleHandler bh = null;
 
+    private bool isEncounterPlaying = false;
+
     private void Awake()
     {
-        GameManager.Instance.OnEndEncounter += EndEncounter;
+        isEncounterPlaying = false;
     }
 
     private void Start()
     {
+        GameManager.Instance.OnEndEncounter += EndEncounter;
         bh = GameManager.Instance.battleHandler;
         bh.GetComponent<BattleScrollHandler>().ShowScrollUI(open: false,skip: true);
         GameManager.Instance.mapHandler.OpenMapPanel(true, true);
@@ -27,6 +30,8 @@ public class EncounterHandler : MonoBehaviour
     // 인카운터 시작할 떄 호출
     public void StartEncounter(mapNode type)
     {
+        if (isEncounterPlaying) return;
+        isEncounterPlaying = true;
         GameManager.Instance.mapHandler.OpenMapPanel(false);
         CheckEncounter(type);
     }
@@ -36,7 +41,7 @@ public class EncounterHandler : MonoBehaviour
         switch (type)
         {
             case mapNode.NONE:
-                //print("???");
+                ///print("???");
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
                 tbHandler.StartEvent();
                 break;
@@ -72,6 +77,8 @@ public class EncounterHandler : MonoBehaviour
 
     private void EndEncounter()
     {
+        if (!isEncounterPlaying) return;
+        isEncounterPlaying = false;
         //print("인카운터 끝남");
         bh.GetComponent<BattleScrollHandler>().ShowScrollUI(open:false);
         GameManager.Instance.mapHandler.OpenMapPanel(true);

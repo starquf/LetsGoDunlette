@@ -195,7 +195,8 @@ public class MapHandler : MonoBehaviour
             int depth = node.depth;
             for (int i = 0; i < mapCreater.mapRows; i++)
             {
-                GetCurNodeTrm(i, depth).GetComponent<Button>().interactable = false;
+                int idx = i;
+                GetCurNodeTrm(idx, depth).GetComponent<Button>().interactable = false;
             }
 
             for (int i = 0; i < curNode.pointNodeList.Count; i++)
