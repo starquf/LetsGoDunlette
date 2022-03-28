@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NSl_Bounce : SkillPiece
+public class LSW_Cutting : SkillPiece
 {
     protected override void Awake()
     {
@@ -14,8 +14,8 @@ public class NSl_Bounce : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        print($"적 스킬 발동!! 이름 : {PieceName}");
-        GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
+        //print($"적 스킬 발동!! 이름 : {PieceName}");
+        GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.2f, 0.2f);
 
         Vector3 targetPos = target.transform.position;
         Vector3 startPos = skillImg.transform.position;
@@ -46,8 +46,8 @@ public class NSl_Bounce : SkillPiece
 
         target.GetDamage(Value, this, owner);
 
-        Anim_M_Butt hitEffect = PoolManager.GetItem<Anim_M_Butt>();
-        hitEffect.transform.position = owner.transform.position;
+        Anim_M_Sword hitEffect = PoolManager.GetItem<Anim_M_Sword>();
+        hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
 
         hitEffect.Play(() =>
         {

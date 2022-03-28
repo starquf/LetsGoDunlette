@@ -9,7 +9,7 @@ public class Skill_F_ChainExplosion : SkillPiece
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         BattleHandler bh = GameManager.Instance.battleHandler;
-        print($"스킬 발동!! 이름 : {PieceName}");
+        //print($"스킬 발동!! 이름 : {PieceName}");
 
         Vector3 targetPos = target.transform.position;
 
@@ -25,11 +25,11 @@ public class Skill_F_ChainExplosion : SkillPiece
 
             onNextAttack = result =>
             {
-                print($"현재체력 : {target.curHp}       예전 체력 : {targetHp}");
+                //print($"현재체력 : {target.curHp}       예전 체력 : {targetHp}");
 
                 if (result.isPlayerSkill && target.curHp < targetHp)
                 {
-                    print("발동!");
+                    //print("발동!");
 
                     target.GetDamage(Value, patternType);
                     GameManager.Instance.cameraHandler.ShakeCamera(1.5f, 0.15f);

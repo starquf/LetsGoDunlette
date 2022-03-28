@@ -11,7 +11,7 @@ public class PlayerHealth : LivingEntity
 
     protected override void Die()
     {
-        print("³ª Á×À½!");
+        //print("³ª Á×À½!");
     }
 
     public override void GetDamage(int damage)

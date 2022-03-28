@@ -32,7 +32,7 @@ public class AG_Skill : SkillPiece
                 target.GetDamage(60);
 
                 Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-                effect.transform.position = owner.transform.position;
+                effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
                 effect.Play(() =>
                 {
                 });
@@ -44,7 +44,7 @@ public class AG_Skill : SkillPiece
             owner.GetComponent<EnemyHealth>().cc.SetCC(CCType.Silence, 3);
 
             Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-            effect.transform.position = owner.transform.position;
+            effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
             effect.Play(() =>
             {
                 SetIndicator(owner.gameObject, "¹«Àû").OnEnd(() =>
@@ -52,7 +52,7 @@ public class AG_Skill : SkillPiece
                     owner.GetComponent<EnemyHealth>().cc.SetCC(CCType.Invincibility, 3);
 
                     Anim_M_Butt effect = PoolManager.GetItem<Anim_M_Butt>();
-                    effect.transform.position = owner.transform.position;
+                    effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
                     effect.Play(() =>
                     {
                         onCastEnd?.Invoke();
@@ -70,7 +70,7 @@ public class AG_Skill : SkillPiece
 
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
             Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
-            effect.transform.position = owner.transform.position;
+            effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
 
             effect.Play(() =>
             {

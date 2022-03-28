@@ -28,7 +28,7 @@ public class MD_Skill : SkillPiece
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
             Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-            effect.transform.position = owner.transform.position;
+            effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
 
             target.GetDamage(15, this, owner);
 
@@ -41,7 +41,7 @@ public class MD_Skill : SkillPiece
                         target.cc.SetCC(CCType.Silence, 2);
 
                         Anim_M_Recover effect1 = PoolManager.GetItem<Anim_M_Recover>();
-                        effect1.transform.position = owner.transform.position;
+                        effect1.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
                         effect1.Play(() =>
                         {
                             onCastEnd?.Invoke();
@@ -63,7 +63,7 @@ public class MD_Skill : SkillPiece
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
             Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-            effect.transform.position = owner.transform.position;
+            effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
 
             effect.Play(() =>
             {

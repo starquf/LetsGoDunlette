@@ -32,7 +32,7 @@ public class BB_Skill : SkillPiece
                 target.RemoveAllShield();
 
                 Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-                effect.transform.position = owner.transform.position;
+                effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
                 effect.Play(() =>
                 {
                     SetIndicator(owner.gameObject, "공격").OnEnd(() =>
@@ -40,7 +40,7 @@ public class BB_Skill : SkillPiece
                         target.GetDamage(20);
 
                         Anim_M_Butt effect = PoolManager.GetItem<Anim_M_Butt>();
-                        effect.transform.position = owner.transform.position;
+                        effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
                         effect.Play(() =>
                         {
                             onCastEnd?.Invoke();
@@ -56,7 +56,7 @@ public class BB_Skill : SkillPiece
                 target.GetDamage(20);
 
                 Anim_M_Butt effect = PoolManager.GetItem<Anim_M_Butt>();
-                effect.transform.position = owner.transform.position;
+                effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
                 effect.Play(() =>
                 {
                     onCastEnd?.Invoke();
@@ -72,7 +72,7 @@ public class BB_Skill : SkillPiece
             target.GetDamage(60);
 
             Anim_M_Butt effect = PoolManager.GetItem<Anim_M_Butt>();
-            effect.transform.position = owner.transform.position;
+            effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
             effect.Play(() =>
             {
                 SetIndicator(owner.gameObject, "기절").OnEnd(() =>

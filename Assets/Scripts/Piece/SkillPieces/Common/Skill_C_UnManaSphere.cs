@@ -43,7 +43,7 @@ public class Skill_C_UnManaSphere : SkillPiece
                 {
                     GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
-                    print($"데미지 발동 : {damage}");
+                    //print($"데미지 발동 : {damage}");
                     target.GetDamage(Value / 2, patternType);
 
                     Anim_C_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_C_ManaSphereHit>();

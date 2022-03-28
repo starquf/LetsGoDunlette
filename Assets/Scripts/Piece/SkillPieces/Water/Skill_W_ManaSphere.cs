@@ -16,7 +16,7 @@ public class Skill_W_ManaSphere : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        print($"스킬 발동!! 이름 : {PieceName}");
+        //print($"스킬 발동!! 이름 : {PieceName}");
 
         Vector3 targetPos = target.transform.position;
         Vector3 startPos = owner.transform.position;

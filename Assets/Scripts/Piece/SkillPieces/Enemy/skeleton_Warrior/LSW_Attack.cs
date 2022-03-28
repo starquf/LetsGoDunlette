@@ -1,6 +1,10 @@
+using DG.Tweening;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class NSL_Attack : SkillPiece
+public class LSW_Attack : SkillPiece
 {
     protected override void Awake()
     {
@@ -12,10 +16,11 @@ public class NSL_Attack : SkillPiece
     {
         SetIndicator(owner.gameObject, "АјАн").OnEnd(() =>
         {
-            target.GetDamage(Value, this,owner);
+            target.GetDamage(Value, this, owner);
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
-            Anim_M_Butt hitEffect = PoolManager.GetItem<Anim_M_Butt>();
-            hitEffect.transform.position = owner.transform.position;
+            Anim_M_Sword hitEffect = PoolManager.GetItem<Anim_M_Sword>();
+            hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
+            hitEffect.SetScale(2);
 
             hitEffect.Play(() =>
             {

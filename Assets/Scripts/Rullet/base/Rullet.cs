@@ -96,7 +96,7 @@ public abstract class Rullet : MonoBehaviour
             {
                 if (pieces[i] == null) // 빈칸이라면
                 {
-                    print("비어있는 칸 : " + i);
+                    //print("비어있는 칸 : " + i);
 
                     piece.OnRullet();
                     piece.pieceIdx = i;
@@ -283,7 +283,7 @@ public abstract class Rullet : MonoBehaviour
 
         // -180 ~ 180 표현식을 0 ~ 360 표현식으로 변환하는 과정
         float rulletAngle = transform.eulerAngles.z;
-        //print("룰렛 각도 : " + rulletAngle);
+        ////print("룰렛 각도 : " + rulletAngle);
 
         int pieceIdx = -1;
 
@@ -303,12 +303,12 @@ public abstract class Rullet : MonoBehaviour
 
         if (pieceIdx >= 0)
         {
-            print($"{pieceIdx + 1}번째 당첨!");
+            //print($"{pieceIdx + 1}번째 당첨!");
             result = pieces[pieceIdx];
         }
         else
         {
-            print("기본 당첨!");
+            //print("기본 당첨!");
             CastDefault();
         }
 

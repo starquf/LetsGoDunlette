@@ -67,7 +67,7 @@ public class BattleEventHandler : MonoBehaviour
 
     public void SetNextSkill(Action<SkillPiece> action)
     {
-        if (!bh.isBattle) return;
+        if (!bh.isBattleStart) return;
 
         onNextSkill += action;
     }

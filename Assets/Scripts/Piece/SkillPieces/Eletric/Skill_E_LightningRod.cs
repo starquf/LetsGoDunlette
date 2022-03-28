@@ -18,7 +18,7 @@ public class Skill_E_LightningRod : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        print($"스킬 발동!! 이름 : {PieceName}");
+        //print($"스킬 발동!! 이름 : {PieceName}");
 
         BattleHandler battleHandler = GameManager.Instance.battleHandler;
 

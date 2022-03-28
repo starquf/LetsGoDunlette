@@ -65,7 +65,7 @@ public class RF_Present : SkillPiece
             target.GetDamage(Value, this, owner);
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
             Anim_M_Sword hitEffect = PoolManager.GetItem<Anim_M_Sword>();
-            hitEffect.transform.position = owner.transform.position;
+            hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
 
             hitEffect.Play(() =>
             {

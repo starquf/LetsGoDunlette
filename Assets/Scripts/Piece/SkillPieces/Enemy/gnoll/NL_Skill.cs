@@ -28,7 +28,7 @@ public class NL_Skill : SkillPiece
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
             Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-            effect.transform.position = owner.transform.position;
+            effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
 
             target.GetDamage(20 + addAdditionalDamage, this, owner);
 
@@ -50,7 +50,7 @@ public class NL_Skill : SkillPiece
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
             Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-            effect.transform.position = owner.transform.position;
+            effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
 
             effect.Play(() =>
             {

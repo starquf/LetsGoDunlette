@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LSW_Old_Shield : SkillPiece
+public class NSl_Recover : SkillPiece
 {
     protected override void Awake()
     {
@@ -14,19 +14,19 @@ public class LSW_Old_Shield : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        print($"적 스킬 발동!! 이름 : {PieceName}");
+        //print($"적 스킬 발동!! 이름 : {PieceName}");
         GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
         Vector3 targetPos = owner.transform.position;
 
-        Anim_M_Shield shieldEffect = PoolManager.GetItem<Anim_M_Shield>();
-        shieldEffect.transform.position = targetPos;
+        Anim_M_Recover recoverEffect = PoolManager.GetItem<Anim_M_Recover>();
+        recoverEffect.transform.position = targetPos;
 
-        shieldEffect.Play(() =>
+        recoverEffect.Play(() =>
         {
             onCastEnd?.Invoke();
         });
 
-        owner.GetComponent<EnemyHealth>().AddShield(value);
+        owner.GetComponent<EnemyHealth>().Heal(value);
     }
 }

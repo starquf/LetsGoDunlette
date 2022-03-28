@@ -3,6 +3,9 @@ using Random = UnityEngine.Random;
 
 public class LSW_Skill : SkillPiece
 {
+    [UnityEngine.Header("스킬 벨류")]
+    public int cuttingDmg = 25;
+    public int shieldVal = 15;
     protected override void Awake()
     {
         base.Awake();
@@ -27,10 +30,10 @@ public class LSW_Skill : SkillPiece
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
-            target.GetDamage(30, this, owner);
+            target.GetDamage(cuttingDmg, this, owner);
 
             Anim_M_Sword hitEffect = PoolManager.GetItem<Anim_M_Sword>();
-            hitEffect.transform.position = owner.transform.position;
+            hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
 
             hitEffect.Play(() =>
             {
@@ -53,7 +56,7 @@ public class LSW_Skill : SkillPiece
                 onCastEnd?.Invoke();
             });
 
-            owner.GetComponent<EnemyHealth>().AddShield(15);
+            owner.GetComponent<EnemyHealth>().AddShield(shieldVal);
         });
     }
 

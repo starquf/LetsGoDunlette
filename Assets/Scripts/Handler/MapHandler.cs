@@ -87,7 +87,7 @@ public class MapHandler : MonoBehaviour
             //여기에 각 맵별 대충 구현
             if (curNode.mapNode != mapNode.START)
             {
-                //print(curNode.mapNode);
+                ////print(curNode.mapNode);
                 encounterHandler.StartEncounter(curNode.mapNode);
             }
             //아래 디버그용
@@ -103,7 +103,7 @@ public class MapHandler : MonoBehaviour
                     //여기에 각 맵별 대충 구현
                     if (curNode.mapNode != mapNode.START)
                     {
-                        //print(curNode.mapNode);
+                        ////print(curNode.mapNode);
                         encounterHandler.StartEncounter(curNode.mapNode);
                     }
                     //아래 디버그용
@@ -175,7 +175,7 @@ public class MapHandler : MonoBehaviour
         img.color = new Color(img.color.r, img.color.g, img.color.b, 0.3f);
 
         int pointNodeCount = node.pointNodeList.Count;
-        //print($"idx : {node.idx}, depth : {node.depth}, count :"+ pointNodeCount);
+        ////print($"idx : {node.idx}, depth : {node.depth}, count :"+ pointNodeCount);
         for (int i = 0; i < pointNodeCount; i++)
         {
             // 라인랜더러 투명화
@@ -195,7 +195,8 @@ public class MapHandler : MonoBehaviour
             int depth = node.depth;
             for (int i = 0; i < mapCreater.mapRows; i++)
             {
-                GetCurNodeTrm(i, depth).GetComponent<Button>().interactable = false;
+                int idx = i;
+                GetCurNodeTrm(idx, depth).GetComponent<Button>().interactable = false;
             }
 
             for (int i = 0; i < curNode.pointNodeList.Count; i++)
@@ -246,7 +247,7 @@ public class MapHandler : MonoBehaviour
         {
             for (int r = 0; r < rows; r++)
             {
-                //print(c + ","+r);
+                ////print(c + ","+r);
                 Transform nodeTrm = GetCurNodeTrm(r, c);
                 Sprite icon;
                 Color color = Color.white;

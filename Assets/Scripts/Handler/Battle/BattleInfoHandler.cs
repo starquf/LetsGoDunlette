@@ -36,7 +36,7 @@ public class BattleInfoHandler : MonoBehaviour
 
             int randIdx = Random.Range(0, weakInfos.Count);
 
-            print("약한적");
+            //print("약한적");
 
             return weakInfos[randIdx];
         }

@@ -57,7 +57,7 @@ public class FA_Skill : SkillPiece
             target.GetDamage(Value, this, owner);
 
             Anim_M_Scratch effect = PoolManager.GetItem<Anim_M_Scratch>();
-            effect.transform.position = owner.transform.position;
+            effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
 
             effect.Play(() =>
             {

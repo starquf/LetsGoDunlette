@@ -3,6 +3,10 @@ using Random = UnityEngine.Random;
 
 public class NSL_Skill : SkillPiece
 {
+    [UnityEngine.Header("스킬 벨류")]
+    public int BounceDmg = 25;
+    public int recoverVal = 30;
+
     protected override void Awake()
     {
         base.Awake();
@@ -35,7 +39,7 @@ public class NSL_Skill : SkillPiece
                 onCastEnd?.Invoke();
             });
 
-            owner.GetComponent<EnemyHealth>().Heal(30);
+            owner.GetComponent<EnemyHealth>().Heal(recoverVal);
         });
     }
 
@@ -45,10 +49,10 @@ public class NSL_Skill : SkillPiece
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
-            target.GetDamage(30, this, owner);
+            target.GetDamage(BounceDmg, this, owner);
 
             Anim_M_Butt hitEffect = PoolManager.GetItem<Anim_M_Butt>();
-            hitEffect.transform.position = owner.transform.position;
+            hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
 
             hitEffect.Play(() =>
             {

@@ -14,7 +14,7 @@ public class MD_Scream : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        print($"적 스킬 발동!! 이름 : {PieceName}");
+        //print($"적 스킬 발동!! 이름 : {PieceName}");
         GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
         Vector3 targetPos = target.transform.position;
@@ -47,7 +47,7 @@ public class MD_Scream : SkillPiece
         target.GetDamage(Value, this, owner);
 
         Anim_M_Sword hitEffect = PoolManager.GetItem<Anim_M_Sword>();
-        hitEffect.transform.position = owner.transform.position;
+        hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
 
         hitEffect.Play(() =>
         {

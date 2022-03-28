@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
 
                 if (_instance == null)
                 {
-                    print("게임매니져가 존재하지 않습니다!!");
+                    //print("게임매니져가 존재하지 않습니다!!");
                 }
             }
 
@@ -97,6 +97,8 @@ public class GameManager : MonoBehaviour
     public event Action OnUpdateUI;
     [HideInInspector]
     public event Action OnEndEncounter;
+
+    public Transform enemyEffectTrm;
 
     private int gold = 100;
     public int Gold 

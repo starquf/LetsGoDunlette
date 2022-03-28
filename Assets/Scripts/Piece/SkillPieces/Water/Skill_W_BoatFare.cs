@@ -10,7 +10,7 @@ public class Skill_W_BoatFare : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        print($"스킬 발동!! 이름 : {PieceName}");
+        //print($"스킬 발동!! 이름 : {PieceName}");
         battleHandler = GameManager.Instance.battleHandler;
         targetPos = target.transform.position;
         targetPos.x -= 0.5f;

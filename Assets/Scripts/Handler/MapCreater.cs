@@ -52,7 +52,7 @@ public class MapCreater : MonoBehaviour
 
     public void MapCreateComplete()
     {
-        print("¸Ê ´Ù¸¸µë");
+        ////print("¸Ê ´Ù¸¸µë");
         MapHandler mapHandler = GetComponent<MapHandler>();
 
         if(!(mapHandler.Content.transform.childCount > 0))

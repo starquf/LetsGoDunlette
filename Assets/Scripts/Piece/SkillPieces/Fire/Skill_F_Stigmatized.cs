@@ -25,12 +25,12 @@ public class Skill_F_Stigmatized : SkillPiece
 
         action = piece =>
         {
-            print($"카운트중! 적 예전 체력 : {targetHp}  현재 체력 : {target.curHp}");
+            //print($"카운트중! 적 예전 체력 : {targetHp}  현재 체력 : {target.curHp}");
             turnCnt--;
 
             if (piece.currentType.Equals(PatternType.Heart) && target.curHp < targetHp)
             {
-                print("추가뎀 들어감!");
+                //print("추가뎀 들어감!");
 
                 Anim_F_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_F_ManaSphereHit>();
                 hitEffect.transform.position = target.transform.position + Vector3.down * 0.2f;

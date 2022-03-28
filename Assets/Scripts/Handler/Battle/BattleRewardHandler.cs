@@ -136,7 +136,7 @@ public class BattleRewardHandler : MonoBehaviour
 
                 battleRewardUIHandler.SetButton(rewardResult, () =>
                 {
-                    print("리워드 가져감");
+                    //print("리워드 가져감");
                     Transform unusedInventoryTrm = GameManager.Instance.inventoryHandler.transform;
                     DOTween.Sequence().Append(rewardResult.transform.DOMove(unusedInventoryTrm.position, 0.5f))
                     .Join(rewardResult.transform.DOScale(Vector2.one * 0.1f, 0.5f))
@@ -153,7 +153,7 @@ public class BattleRewardHandler : MonoBehaviour
                     });
                 },()=>
                 {
-                    print("리워드 버림");
+                    //print("리워드 버림");
 
                     DOTween.Sequence().Append(rewardResult.transform.DOMoveX(3f, 0.5f))
                     .Join(rewardResult.transform.DORotate(Quaternion.Euler(0,0,-60).eulerAngles, 0.5f))
@@ -163,7 +163,7 @@ public class BattleRewardHandler : MonoBehaviour
                         Destroy(rewardResult.gameObject);
 
 
-                        print("끝");
+                        //print("끝");
                         isRewardEnd = true;
                     });
                 });

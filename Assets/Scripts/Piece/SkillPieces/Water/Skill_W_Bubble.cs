@@ -17,7 +17,7 @@ public class Skill_W_Bubble : SkillPiece
 
     private IEnumerator Bubble(LivingEntity target, Action onCastEnd = null)
     {
-        print($"스킬 발동!! 이름 : {PieceName}");
+        //print($"스킬 발동!! 이름 : {PieceName}");
         bh = GameManager.Instance.battleHandler;
         target = bh.player;
 
