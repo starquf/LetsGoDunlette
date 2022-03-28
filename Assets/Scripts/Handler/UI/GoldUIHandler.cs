@@ -40,10 +40,27 @@ public class GoldUIHandler : MonoBehaviour
 
     private IEnumerator UpdateGoldUIAnim()
     {
-        GameManager.Instance.battleHandler.GetComponent<BattleScrollHandler>().ShowScrollUI();
+        BattleHandler bh = GameManager.Instance.battleHandler;
+        if(bh.isBattle)
+        {
+            GetMoneyAnim();
+        }
+        else
+        {
+            bh.GetComponent<BattleScrollHandler>().ShowScrollUI();
 
-        yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.5f);
 
+            GetMoneyAnim();
+
+            yield return new WaitForSeconds(0.3f);
+
+            GameManager.Instance.battleHandler.GetComponent<BattleScrollHandler>().ShowScrollUI(open: false);
+        }
+    }
+
+    private void GetMoneyAnim()
+    {
         int curGold = GameManager.Instance.Gold;
         Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
         textEffect.SetType(TextUpAnimType.GetMoney);
@@ -52,9 +69,5 @@ public class GoldUIHandler : MonoBehaviour
 
         goldText.text = curGold.ToString();
         prevGold = curGold;
-
-        yield return new WaitForSeconds(0.3f);
-
-        GameManager.Instance.battleHandler.GetComponent<BattleScrollHandler>().ShowScrollUI(open:false);
     }
 }
