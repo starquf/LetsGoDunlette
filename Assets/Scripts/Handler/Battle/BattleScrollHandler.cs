@@ -147,9 +147,9 @@ public class BattleScrollHandler : MonoBehaviour
     {
         Image scrollImg = scroll.GetComponent<Image>();
         DOTween.Sequence().Append(scrollImg.DOFade(1, 0.5f)).SetDelay(1f)
-        .Append(scroll.transform.DOMove(slots[slotIdx].transform.position, 0.5f))
-        .Join(scroll.transform.DOScale(Vector2.one * 0.1f, 0.5f))
-        .Join(scroll.GetComponent<Image>().DOFade(0f, 0.5f))
+        .Append(scroll.transform.DOMove(slots[slotIdx].transform.position, 0.3f))
+        .Join(scroll.transform.DOScale(Vector2.one * 0.1f, 0.3f))
+        .Join(scroll.GetComponent<Image>().DOFade(0f, 0.3f))
         .OnComplete(() =>
         {
             scroll.GetComponent<RectTransform>().sizeDelta = new Vector2(96f, 112f);
