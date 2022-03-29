@@ -99,6 +99,8 @@ public class GameManager : MonoBehaviour
     public event Action OnUpdateUI;
     [HideInInspector]
     public event Action OnEndEncounter;
+    [HideInInspector]
+    public event Action OnResetGame;
 
     public Transform enemyEffectTrm;
 
@@ -124,6 +126,11 @@ public class GameManager : MonoBehaviour
     public void EndEncounter()
     {
         OnEndEncounter();
+    }
+
+    public void ResetGame()
+    {
+        OnResetGame();
     }
 
     public int TryStillGold(int max) //√÷¥Î max ∏∏≈≠ ∞ÒµÂ∏¶ »…ƒß »…ƒ£ ∞ÒµÂ∏¶ ∏Æ≈œ

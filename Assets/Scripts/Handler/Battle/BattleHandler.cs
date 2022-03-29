@@ -517,6 +517,7 @@ public class BattleHandler : MonoBehaviour
                 }
                 enemys.Clear();
                 GameManager.Instance.mapHandler.GameOverProto();
+                GameManager.Instance.ResetGame();
                 player.Init();
             });
         }

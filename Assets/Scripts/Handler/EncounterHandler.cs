@@ -20,6 +20,7 @@ public class EncounterHandler : MonoBehaviour
 
     private void Start()
     {
+        GameManager.Instance.OnResetGame += () => isEncounterPlaying = false;;
         GameManager.Instance.OnEndEncounter += EndEncounter;
         bh = GameManager.Instance.battleHandler;
         bh.GetComponent<BattleScrollHandler>().ShowScrollUI(open: false,skip: true);
@@ -80,7 +81,6 @@ public class EncounterHandler : MonoBehaviour
     {
         if (!isEncounterPlaying) return;
         isEncounterPlaying = false;
-        //print("인카운터 끝남");
         bh.GetComponent<BattleScrollHandler>().ShowScrollUI(open:false);
         GameManager.Instance.goldUIHandler.ShowGoldUI(false);
         GameManager.Instance.mapHandler.OpenMapPanel(true);
