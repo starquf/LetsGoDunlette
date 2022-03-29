@@ -52,7 +52,7 @@ public class DP_Skill : SkillPiece
 
             Anim_M_Butt effect = PoolManager.GetItem<Anim_M_Butt>();
             effect.transform.position = owner.transform.position;
-            effect.SetScale(2);
+            effect.SetScale(1f);
             effect.Play();
 
             SetIndicator(boss.gameObject, "È¸º¹").OnEnd(() =>
