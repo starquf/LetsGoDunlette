@@ -621,7 +621,7 @@ public class BattleHandler : MonoBehaviour
     {
         if (isEnemy)
         {
-            for (int i = 0; i < enemys.Count; i++)
+            for (int i = enemys.Count - 1; i >= 0; i--)
             {
                 enemys[i].GetDamage(200);
             }
