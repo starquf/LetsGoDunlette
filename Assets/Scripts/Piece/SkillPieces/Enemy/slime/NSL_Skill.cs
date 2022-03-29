@@ -7,9 +7,6 @@ public class NSL_Skill : SkillPiece
     public int BounceDmg = 25;
     public int recoverVal = 30;
 
-    public PieceInfo[] pieceInfo;
-    private Action<LivingEntity, Action> onCastSkill;
-
     protected override void Awake()
     {
         base.Awake();

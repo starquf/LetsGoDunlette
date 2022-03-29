@@ -11,6 +11,10 @@ public class SkillPiece : RulletPiece
 
     public bool hasTarget = true;
 
+    public PieceInfo[] pieceInfo;
+    protected Action<LivingEntity, Action> onCastSkill;
+
+
     [HideInInspector]
     public Inventory owner;
 

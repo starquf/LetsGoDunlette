@@ -7,8 +7,6 @@ public class LSW_Skill : SkillPiece
     public int cuttingDmg = 25;
     public int shieldVal = 15;
 
-    public PieceInfo[] pieceInfo;
-    private Action<LivingEntity, Action> onCastSkill;
 
     protected override void Awake()
     {
