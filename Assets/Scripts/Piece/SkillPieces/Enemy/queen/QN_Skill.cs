@@ -11,8 +11,9 @@ public class QN_Skill : SkillPiece
         isPlayerSkill = false;
     }
 
-    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    public override PieceInfo ChoiceSkill()
     {
+        base.ChoiceSkill();
         var enemys = GameManager.Instance.battleHandler.enemys;
 
         for (int i = 0; i < enemys.Count; i++)
@@ -21,11 +22,17 @@ public class QN_Skill : SkillPiece
 
             if (health.gameObject != owner.gameObject)
             {
-                QN_Authority(target, onCastEnd);
-                return;
+                onCastSkill = QN_Authority;
+                return pieceInfo[0];
             }
         }
-        QN_Night_Trip(target, onCastEnd);
+        onCastSkill = QN_Night_Trip;
+        return pieceInfo[1];
+    }
+
+    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    {
+        onCastSkill(target, onCastEnd);
     }
 
     private void QN_Night_Trip(LivingEntity target, Action onCastEnd = null)

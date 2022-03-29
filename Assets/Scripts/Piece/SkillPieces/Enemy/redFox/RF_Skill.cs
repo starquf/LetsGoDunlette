@@ -26,17 +26,25 @@ public class RF_Skill : SkillPiece
         ih = GameManager.Instance.inventoryHandler;
     }
 
-    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    public override PieceInfo ChoiceSkill()
     {
+        base.ChoiceSkill();
         if (Random.Range(0, 100) <= value)
         {
-            RF_Sharp_Claw(target, onCastEnd);
-            //RF_Sneaky(target, onCastEnd);
+            onCastSkill = RF_Sharp_Claw;
+            return pieceInfo[0];
         }
         else
         {
-            RF_Sneaky(target, onCastEnd);
+            onCastSkill = RF_Sneaky;
+            return pieceInfo[1];
         }
+    }
+
+
+    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    {
+        onCastSkill(target, onCastEnd);
     }
 
     private void RF_Sharp_Claw(LivingEntity target, Action onCastEnd = null) //상처를 부여해서 3턴 동안 10의 피해를 입힌다.

@@ -9,16 +9,24 @@ public class MD_Skill : SkillPiece
         isPlayerSkill = false;
     }
 
-    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    public override PieceInfo ChoiceSkill()
     {
+        base.ChoiceSkill();
         if (Random.Range(0, 100) <= value)
         {
-            MD_Hallucinations(target, onCastEnd);
+            onCastSkill = MD_Hallucinations;
+            return pieceInfo[0];
         }
         else
         {
-            MD_Scream(target, onCastEnd);
+            onCastSkill = MD_Scream;
+            return pieceInfo[1];
         }
+    }
+
+    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    {
+        onCastSkill(target, onCastEnd);
     }
 
     private void MD_Hallucinations(LivingEntity target, Action onCastEnd = null) //40% È®·ü·Î Ä§¹¬À» ºÎ¿©ÇÑ´Ù.
