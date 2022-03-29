@@ -39,6 +39,21 @@ public class PoolManager
         poolDic.Add(t.ToString(), pool);
     }
 
+    public static void CreateScrollPool(ScrollType t, GameObject prefab, Transform parent, int count = 5)
+    {
+        foreach (string key in poolDic.Keys)
+        {
+            if (key.Equals(t.ToString()))
+            {
+                return;
+            }
+        }
+
+        ScrollPooling pool = new ScrollPooling(prefab, parent, count);
+
+        poolDic.Add(t.ToString(), pool);
+    }
+
     public static T GetItem<T>() where T : MonoBehaviour
     {
         Type t = typeof(T);
@@ -49,6 +64,12 @@ public class PoolManager
     public static EnemyHealth GetEnemy(EnemyType t)
     {
         EnemyPooling pool = (EnemyPooling)poolDic[t.ToString()];
+        return pool.GetOrCreate();
+    }
+
+    public static Scroll GetScroll(ScrollType t)
+    {
+        ScrollPooling pool = (ScrollPooling)poolDic[t.ToString()];
         return pool.GetOrCreate();
     }
 

@@ -16,20 +16,16 @@ public class BattleScrollHandler : MonoBehaviour
     private Sequence scrollUISequence;
 
     private BattleHandler bh;
-    private GoldUIHandler goldhandler;
 
     private bool canUse = false;
 
-    private void Awake()
-    {
-        goldhandler = scrollUI.GetComponentInChildren<GoldUIHandler>();
-    }
 
     private void Start()
     {
         bh = GetComponent<BattleHandler>();
 
         InitSlot();
+
         GetScroll(PoolManager.GetItem<Scroll_Heal>());
         GetScroll(PoolManager.GetItem<Scroll_Shield>());
         GetScroll(PoolManager.GetItem<Scroll_Chaos>());
@@ -63,7 +59,6 @@ public class BattleScrollHandler : MonoBehaviour
         {
             scrollUI.anchoredPosition = new Vector2(open ? 0f : -150f, scrollUI.anchoredPosition.y);
             SetInteract(isChangeScroll && open);
-            goldhandler.ShowGoldText(open, true);
         }
         else
         {
@@ -80,7 +75,6 @@ public class BattleScrollHandler : MonoBehaviour
                 .OnComplete(() =>
                 {
                     SetInteract(isChangeScroll && open);
-                    goldhandler.ShowGoldText(open);
                 });
         }
     }

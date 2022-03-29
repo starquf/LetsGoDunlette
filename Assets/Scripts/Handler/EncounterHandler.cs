@@ -23,6 +23,7 @@ public class EncounterHandler : MonoBehaviour
         GameManager.Instance.OnEndEncounter += EndEncounter;
         bh = GameManager.Instance.battleHandler;
         bh.GetComponent<BattleScrollHandler>().ShowScrollUI(open: false,skip: true);
+        GameManager.Instance.goldUIHandler.ShowGoldUI(false, true);
         GameManager.Instance.mapHandler.OpenMapPanel(true, true);
         //StartEncounter(mapNode.MONSTER);
     }
@@ -81,6 +82,7 @@ public class EncounterHandler : MonoBehaviour
         isEncounterPlaying = false;
         //print("인카운터 끝남");
         bh.GetComponent<BattleScrollHandler>().ShowScrollUI(open:false);
+        GameManager.Instance.goldUIHandler.ShowGoldUI(false);
         GameManager.Instance.mapHandler.OpenMapPanel(true);
     }
 }

@@ -6,11 +6,17 @@ using DG.Tweening;
 
 public class GoldUIHandler : MonoBehaviour
 {
+    private RectTransform thisRectTrm;
     private Text goldText = null;
     private int prevGold = 0;
 
+    private Sequence goldUISequence;
+
     private void Awake()
     {
+        GameManager.Instance.goldUIHandler = this;
+
+        thisRectTrm = GetComponent<RectTransform>();
         goldText = GetComponentInChildren<Text>();
     }
     void Start()
@@ -25,6 +31,24 @@ public class GoldUIHandler : MonoBehaviour
         int curGold = GameManager.Instance.Gold;
         goldText.text = curGold.ToString();
         prevGold = curGold;
+    }
+    public void ShowGoldUI(bool open = true, bool skip = false)
+    {
+        if (skip)
+        {
+            thisRectTrm.anchoredPosition = new Vector2(open ? 0f : -150f, thisRectTrm.anchoredPosition.y);
+            ShowGoldText(open, true);
+        }
+        else
+        {
+            goldUISequence.Kill();
+            goldUISequence = DOTween.Sequence()
+                .Append(thisRectTrm.DOAnchorPosX(open ? 0f : -150f, 0.5f))
+                .OnComplete(() =>
+                {
+                    ShowGoldText(open);
+                });
+        }
     }
 
     public void ShowGoldText(bool open = true, bool skip = false)
@@ -47,7 +71,7 @@ public class GoldUIHandler : MonoBehaviour
         }
         else
         {
-            bh.GetComponent<BattleScrollHandler>().ShowScrollUI();
+            ShowGoldUI();
 
             yield return new WaitForSeconds(0.5f);
 
@@ -55,7 +79,7 @@ public class GoldUIHandler : MonoBehaviour
 
             yield return new WaitForSeconds(0.3f);
 
-            GameManager.Instance.battleHandler.GetComponent<BattleScrollHandler>().ShowScrollUI(open: false);
+            ShowGoldUI(false);
         }
     }
 
