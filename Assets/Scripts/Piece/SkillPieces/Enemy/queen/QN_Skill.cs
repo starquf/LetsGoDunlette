@@ -23,11 +23,11 @@ public class QN_Skill : SkillPiece
             if (health.gameObject != owner.gameObject)
             {
                 onCastSkill = QN_Authority;
-                return pieceInfo[0];
+                return pieceInfo[1];
             }
         }
         onCastSkill = QN_Night_Trip;
-        return pieceInfo[1];
+        return pieceInfo[0];
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
