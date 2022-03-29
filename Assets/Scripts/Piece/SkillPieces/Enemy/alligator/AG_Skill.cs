@@ -11,16 +11,25 @@ public class AG_Skill : SkillPiece
         isPlayerSkill = false;
     }
 
-    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    public override PieceInfo ChoiceSkill()
     {
+        base.ChoiceSkill();
         if (Random.Range(0, 100) <= value)
         {
-            AG_Diving(target, onCastEnd);
+            onCastSkill = AG_Diving;
+            return pieceInfo[0];
         }
         else
         {
-            AG_Crocodile_Bird(target, onCastEnd);
+            onCastSkill = AG_Crocodile_Bird;
+            return pieceInfo[1];
         }
+    }
+
+
+    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    {
+        onCastSkill(target, onCastEnd);
     }
 
     private void AG_Diving(LivingEntity target, Action onCastEnd = null) //2턴간 침묵을 받고 아무 데미지도 받지 않는다. 2턴이 지나면 플레이어에게 60만큼 피해를 입힌다.

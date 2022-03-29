@@ -9,16 +9,25 @@ public class GG_Skill : SkillPiece
         isPlayerSkill = false;
     }
 
-    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    public override PieceInfo ChoiceSkill()
     {
+        base.ChoiceSkill();
         if (Random.Range(0, 100) <= value)
         {
-            GG_Beat(target, onCastEnd);
+            onCastSkill = GG_Beat;
+            return pieceInfo[0];
         }
         else
         {
-            GG_Recover(target, onCastEnd);
+            onCastSkill = GG_Recover;
+            return pieceInfo[1];
         }
+    }
+
+
+    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    {
+        onCastSkill(target, onCastEnd);
     }
 
     private void GG_Beat(LivingEntity target, Action onCastEnd = null)

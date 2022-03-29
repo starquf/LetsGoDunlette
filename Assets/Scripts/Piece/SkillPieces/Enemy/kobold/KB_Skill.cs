@@ -10,16 +10,25 @@ public class KB_Skill : SkillPiece
         isPlayerSkill = false;
     }
 
-    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    public override PieceInfo ChoiceSkill()
     {
+        base.ChoiceSkill();
         if (Random.Range(0, 100) <= value)
         {
-            KB_Pickpocket(target, onCastEnd);
+            onCastSkill = KB_Pickpocket;
+            return pieceInfo[0];
         }
         else
         {
-            KB_Transform(target, onCastEnd);
+            onCastSkill = KB_Transform;
+            return pieceInfo[1];
         }
+    }
+
+
+    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    {
+        onCastSkill(target, onCastEnd);
     }
 
     private void KB_Pickpocket(LivingEntity target, Action onCastEnd = null) //플레이어에게서 10골드를 훔친다.
