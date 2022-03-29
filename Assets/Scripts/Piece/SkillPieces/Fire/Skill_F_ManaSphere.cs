@@ -33,12 +33,10 @@ public class Skill_F_ManaSphere : SkillPiece
             hitEffect.transform.position = targetPos;
 
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-            target.GetDamage(Value, patternType);
+            target.GetDamage(Value, currentType);
             onCastEnd?.Invoke();
 
-            hitEffect.Play(() =>
-            {
-            });
+            hitEffect.Play();
 
             skillEffect.EndEffect();
         }, BezierType.Linear, isRotate: true, playSpeed: 2f);

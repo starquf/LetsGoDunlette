@@ -23,18 +23,18 @@ public class Skill_W_BoatFare : SkillPiece
         boatFaredEffect.transform.position = targetPos;
 
         boatFaredEffect.Play(() => {
-            target.GetDamage(Value, patternType);
+            target.GetDamage(Value, currentType);
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
-            GetMoney(onCastEnd);
+            GetMoney(onCastEnd, target);
         });
 
     }
 
-    private void GetMoney(Action onCastEnd)
+    private void GetMoney(Action onCastEnd, LivingEntity target)
     {
         GameManager.Instance.Gold += getMoney;
-        if (!(battleHandler.enemys.Count > 0))
+        if (target.IsDie)
         {
             Anim_W_BoatFareBonusMoney boatFaredBonusEffect = PoolManager.GetItem<Anim_W_BoatFareBonusMoney>();
             boatFaredBonusEffect.transform.position = targetPos;

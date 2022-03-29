@@ -93,7 +93,7 @@ public class Skill_W_Tsunami : SkillPiece
 
             for (int i = 0; i < enemys.Count; i++)
             {
-                enemys[i].GetDamage(Value + 10 * waterCnt, patternType);
+                enemys[i].GetDamage(Value + 10 * waterCnt, currentType);
 
                 Anim_W_Splash splashEffect = PoolManager.GetItem<Anim_W_Splash>();
                 splashEffect.transform.position = enemys[i].transform.position;

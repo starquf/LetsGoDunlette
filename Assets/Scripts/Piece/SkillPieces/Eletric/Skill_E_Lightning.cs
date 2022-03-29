@@ -15,7 +15,7 @@ public class Skill_E_Lightning : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        target.GetDamage(value);
+        target.GetDamage(value, currentType);
 
         Anim_E_Static effect = PoolManager.GetItem<Anim_E_Static>();
         effect.transform.position = target.transform.position;
@@ -28,7 +28,7 @@ public class Skill_E_Lightning : SkillPiece
             PlayerHealth playerHealth = owner.GetComponent<PlayerHealth>();
             if (playerHealth.HasShield())
             {
-                if (Random.Range(0, 100) < 70)
+                if (Random.Range(0, 100) < 60)
                 {
                     Anim_E_Static_Stun stunEffect = PoolManager.GetItem<Anim_E_Static_Stun>();
                     stunEffect.transform.position = bh.playerImgTrans.position;
@@ -40,12 +40,15 @@ public class Skill_E_Lightning : SkillPiece
             }
             else
             {
-                Anim_E_Static_Stun stunEffect = PoolManager.GetItem<Anim_E_Static_Stun>();
-                stunEffect.transform.position = target.transform.position;
+                if (Random.Range(0, 100) < 70)
+                {
+                    Anim_E_Static_Stun stunEffect = PoolManager.GetItem<Anim_E_Static_Stun>();
+                    stunEffect.transform.position = target.transform.position;
 
-                stunEffect.Play();
+                    stunEffect.Play();
 
-                target.cc.SetCC(CCType.Stun, 1);
+                    target.cc.SetCC(CCType.Stun, 1);
+                }
             }
 
             onCastEnd?.Invoke();

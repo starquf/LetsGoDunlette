@@ -32,7 +32,7 @@ public class Skill_W_MermaidBlessing : SkillPiece
 
         splashEffect1.Play();
 
-        target.GetDamage(Value);
+        target.GetDamage(Value, currentType);
 
         yield return pTwoSecWait;
 

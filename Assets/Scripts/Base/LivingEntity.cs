@@ -119,8 +119,6 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         SetDamageEffect();
     }
 
-    
-
     public virtual void GetDamage(int damage, PatternType damageType)
     {
         if (weaknessType.Equals(damageType))

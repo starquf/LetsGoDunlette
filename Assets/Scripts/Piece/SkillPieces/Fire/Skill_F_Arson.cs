@@ -17,7 +17,7 @@ public class Skill_F_Arson : SkillPiece
         fireEffect.transform.position = targetPos;
 
         fireEffect.Play(() => {
-            target.GetDamage(Value, patternType);
+            target.GetDamage(Value, currentType);
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
             onCastEnd?.Invoke();

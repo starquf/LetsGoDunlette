@@ -50,7 +50,7 @@ public class Skill_E_AdjustableCurrent : SkillPiece
                         target.cc.SetCC(CCType.Stun, 1);
                     }
 
-                    target.GetDamage(Value, patternType);
+                    target.GetDamage(Value, currentType);
 
                     // Å³°¢
                     if (target.IsDie)

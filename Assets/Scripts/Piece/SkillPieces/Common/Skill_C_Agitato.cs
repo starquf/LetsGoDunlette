@@ -20,7 +20,7 @@ public class Skill_C_Agitato : SkillPiece
     {
         int damageStack = (int)bh.mainRullet.RulletSpeed / 50;
 
-        target.GetDamage(damageStack * 5, patternType);
+        target.GetDamage(damageStack * 5, currentType);
 
         onCastEnd?.Invoke();
     }

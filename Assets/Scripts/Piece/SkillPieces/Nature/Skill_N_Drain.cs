@@ -10,6 +10,9 @@ public class Skill_N_Drain : SkillPiece
     public Sprite drainingEffectSpr;
     private Gradient effectGradient;
 
+    [Header("파라매터들")]
+    public int healValue = 15;
+
     protected override void Start()
     {
         base.Start();
@@ -27,7 +30,7 @@ public class Skill_N_Drain : SkillPiece
     private IEnumerator Drain(LivingEntity target, Action onCastEnd = null)
     {
         BattleHandler bh = GameManager.Instance.battleHandler;
-        target.GetDamage(value);
+        target.GetDamage(value, currentType);
 
         Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
         textEffect.SetType(TextUpAnimType.Damage);
@@ -37,7 +40,6 @@ public class Skill_N_Drain : SkillPiece
         Anim_N_Drain skillEffect = PoolManager.GetItem<Anim_N_Drain>();
         skillEffect.transform.position = target.transform.position;
         skillEffect.SetScale(1f);
-
 
         GameManager.Instance.cameraHandler.ShakeCamera(2f, 0.3f);
         skillEffect.Play();
@@ -69,12 +71,12 @@ public class Skill_N_Drain : SkillPiece
                 skillEffect.Play();
                 if(a == rand -1)
                 {
-                    owner.GetComponent<PlayerHealth>().Heal(20 - healAmount);
+                    owner.GetComponent<PlayerHealth>().Heal(healValue - healAmount);
                     onCastEnd?.Invoke();
                 }
                 else
                 {
-                    int heal = (20 - healAmount) / rand;
+                    int heal = (healValue - healAmount) / rand;
                     healAmount += heal;
                     owner.GetComponent<PlayerHealth>().Heal(heal);
                 }
