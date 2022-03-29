@@ -11,7 +11,7 @@ public class Skill_W_MermaidBlessing : SkillPiece
     {
         base.Start();
 
-        hasTarget = false;
+        hasTarget = true;
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
