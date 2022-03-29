@@ -48,13 +48,7 @@ public class Skill_E_AdjustableCurrent : SkillPiece
                         stunEffect.Play();
 
                         target.cc.SetCC(CCType.Stun, 1);
-                    }
 
-                    target.GetDamage(Value, currentType);
-
-                    // Å³°¢
-                    if (target.IsDie)
-                    {
                         Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
                         textEffect.SetType(TextUpAnimType.Damage);
                         textEffect.transform.position = target.transform.position;
@@ -66,6 +60,8 @@ public class Skill_E_AdjustableCurrent : SkillPiece
                         if (percentage > 100)
                             percentage = 100;
                     }
+
+                    target.GetDamage(Value, currentType);
 
                     GameManager.Instance.cameraHandler.ShakeCamera(0.7f, 0.15f);
 
