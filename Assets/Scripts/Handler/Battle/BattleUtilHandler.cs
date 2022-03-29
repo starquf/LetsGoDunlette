@@ -172,6 +172,8 @@ public class BattleUtilHandler : MonoBehaviour
             }
         }
 
+        yield return new WaitForSeconds(0.35f);
+
         onEndReset?.Invoke();
 
         yield break;
