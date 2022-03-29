@@ -48,7 +48,7 @@ public class BattleEventHandler : MonoBehaviour
 
     public void SetCastPiece(Action<SkillPiece> action)
     {
-        if (!bh.isBattle) return;
+        if (!bh.isBattleStart) return;
 
         onCastPiece += action;
     }
