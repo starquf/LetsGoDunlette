@@ -37,7 +37,7 @@ public class Skill_C_ManaSphere : SkillPiece
                 hitEffect.transform.position = targetPos;
 
                 GameManager.Instance.cameraHandler.ShakeCamera(1f, 0.2f);
-                target.GetDamage(Value, patternType);
+                target.GetDamage(Value, currentType);
                 onCastEnd?.Invoke();
 
                 hitEffect.Play(() =>

@@ -14,16 +14,24 @@ public class MI_Skill : SkillPiece
         isPlayerSkill = false;
     }
 
-    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    public override PieceInfo ChoiceSkill()
     {
+        base.ChoiceSkill();
         if (Random.Range(0, 100) <= value)
         {
-            MI_Biting(target, onCastEnd);
+            onCastSkill = MI_Biting;
+            return pieceInfo[0];
         }
         else
         {
-            MI_Bump(target, onCastEnd);
+            onCastSkill = MI_Bump;
+            return pieceInfo[1];
         }
+    }
+
+    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    {
+        onCastSkill(target, onCastEnd);
     }
 
     private void MI_Biting(LivingEntity target, Action onCastEnd = null)

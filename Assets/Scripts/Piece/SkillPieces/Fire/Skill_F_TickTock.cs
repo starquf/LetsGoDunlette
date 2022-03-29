@@ -82,7 +82,7 @@ public class Skill_F_TickTock : SkillPiece
     
     public override void Cast(LivingEntity target, Action onCastEnd = null) //룰렛에 들어온 뒤 사용되지 않은채로 3턴이 지나면 자신에게 60의 데미지를 준 뒤 무덤으로 이동한다.
     {
-        target.GetDamage(value);
+        target.GetDamage(value, currentType);
 
         GameManager.Instance.cameraHandler.ShakeCamera(3.5f, 0.2f);
 
@@ -90,9 +90,8 @@ public class Skill_F_TickTock : SkillPiece
         effect.transform.position = target.transform.position;
         effect.SetScale(Random.Range(0.8f, 1f));
 
-        effect.Play(() =>
-        {
-        });
+        effect.Play();
+
         Anim_F_ManaSphereHit skillEffect = PoolManager.GetItem<Anim_F_ManaSphereHit>();
         skillEffect.transform.position = target.transform.position;
         skillEffect.SetScale(Random.Range(0.6f, 0.7f));

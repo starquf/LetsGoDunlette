@@ -16,7 +16,7 @@ public class Skill_C_Double_edged_sword : SkillPiece
         }
         else
         {
-            target.GetDamage(value);
+            target.GetDamage(value, currentType);
         }
 
 

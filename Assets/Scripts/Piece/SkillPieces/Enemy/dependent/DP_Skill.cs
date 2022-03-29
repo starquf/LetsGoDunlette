@@ -10,17 +10,24 @@ public class DP_Skill : SkillPiece
         base.Awake();
         isPlayerSkill = false;
     }
-
-    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    public override PieceInfo ChoiceSkill()
     {
+        base.ChoiceSkill();
         if (Random.Range(0, 100) <= value)
         {
-            DP_Duty(target, onCastEnd);
+            onCastSkill = DP_Duty;
+            return pieceInfo[0];
         }
         else
         {
-            DP_Poke(target, onCastEnd);
+            onCastSkill = DP_Poke;
+            return pieceInfo[1];
         }
+    }
+
+    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    {
+        onCastSkill(target, onCastEnd);
     }
 
     private void DP_Duty(LivingEntity target, Action onCastEnd = null)
@@ -51,10 +58,9 @@ public class DP_Skill : SkillPiece
             owner.GetComponent<EnemyHealth>().GetDamageIgnoreShild(40);
 
             Anim_M_Butt effect = PoolManager.GetItem<Anim_M_Butt>();
-            effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
-            effect.Play(() =>
-            {
-            });
+            effect.transform.position = owner.transform.position;
+            effect.SetScale(1f);
+            effect.Play();
 
             SetIndicator(boss.gameObject, "È¸º¹").OnEnd(() =>
             {

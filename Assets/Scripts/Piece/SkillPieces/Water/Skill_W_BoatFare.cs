@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class Skill_W_BoatFare : SkillPiece
 {
+    public int getMoney = 10;
+    public int getBonusMoney = 5;
+
     BattleHandler battleHandler;
     Vector3 targetPos;
 
@@ -20,31 +23,24 @@ public class Skill_W_BoatFare : SkillPiece
         boatFaredEffect.transform.position = targetPos;
 
         boatFaredEffect.Play(() => {
-            target.GetDamage(Value, patternType);
+            target.GetDamage(Value, currentType);
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
-            if (!CheckSilence())
-            {
-                GetMoney(onCastEnd);
-            }
-            else 
-            {
-                onCastEnd?.Invoke();
-            }
+            GetMoney(onCastEnd, target);
         });
 
     }
 
-    private void GetMoney(Action onCastEnd)
+    private void GetMoney(Action onCastEnd, LivingEntity target)
     {
-        GameManager.Instance.Gold += 5;
-        if (battleHandler.enemys[0].IsDie)
+        GameManager.Instance.Gold += getMoney;
+        if (target.IsDie)
         {
             Anim_W_BoatFareBonusMoney boatFaredBonusEffect = PoolManager.GetItem<Anim_W_BoatFareBonusMoney>();
             boatFaredBonusEffect.transform.position = targetPos;
 
             boatFaredBonusEffect.Play(() => {
-                GameManager.Instance.Gold += 5;
+                GameManager.Instance.Gold += getBonusMoney;
                 onCastEnd?.Invoke();
             });
         }

@@ -115,6 +115,7 @@ public class BattleHandler : MonoBehaviour
         }
         isBattleStart = true;
 
+        GameManager.Instance.goldUIHandler.ShowGoldUI();
         GetComponent<BattleScrollHandler>().ShowScrollUI();
         //print("전투시작");
         SoundHandler.Instance.PlayBGMSound("Battle_4");
@@ -304,7 +305,7 @@ public class BattleHandler : MonoBehaviour
 
         yield return StartCoroutine(battleUtil.ResetRulletPiecesWithCondition(hasWait: true));
 
-        yield return oneSecWait;
+        yield return pFiveSecWait;
 
         isBattle = true;
 
@@ -432,7 +433,7 @@ public class BattleHandler : MonoBehaviour
         InitTurn();
     }
 
-    public void CheckBattleEnd(Action onEndBattle = null)
+    public bool CheckBattleEnd(Action onEndBattle = null)
     {
         if (battleUtil.CheckDie(player))
         {
@@ -441,6 +442,8 @@ public class BattleHandler : MonoBehaviour
             BattleEnd(false);
 
             StopAllCoroutines();
+
+            return true;
         }
         else if (battleUtil.CheckEnemyDie(enemys))
         {
@@ -449,7 +452,11 @@ public class BattleHandler : MonoBehaviour
             BattleEnd();
 
             StopAllCoroutines();
+
+            return true;
         }
+
+        return false;
     }
 
     public IEnumerator CheckPanelty(Action onEndCheckPanelty = null)
@@ -475,7 +482,10 @@ public class BattleHandler : MonoBehaviour
                     hitEffect.Play();
                 }));
 
-                CheckBattleEnd();
+                if (CheckBattleEnd())
+                {
+                    yield break;
+                }
 
                 yield return null;
 
@@ -516,6 +526,7 @@ public class BattleHandler : MonoBehaviour
                 }
                 enemys.Clear();
                 GameManager.Instance.mapHandler.GameOverProto();
+                GameManager.Instance.ResetGame();
                 player.Init();
             });
         }

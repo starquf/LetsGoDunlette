@@ -119,8 +119,6 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         SetDamageEffect();
     }
 
-    
-
     public virtual void GetDamage(int damage, PatternType damageType)
     {
         if (weaknessType.Equals(damageType))
@@ -244,11 +242,17 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     protected virtual void SetHPBar()
     {
+
         hpText.text = $"{hp}/{maxHp}";
 
         if(shieldHp > 0)
         {
             hpText.text = $"{hp}+<color=aqua>{shieldHp}</color>/{maxHp}";
+        }
+
+        if (hp <= 0)
+        {
+            hpText.text = $"»ç¸Á";
         }
 
         if (hp == maxHp)
@@ -280,8 +284,9 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
             {
                 DOTween.To(() => hpBarAfterImageBar.fillAmount, x => hpBarAfterImageBar.fillAmount = x, (float)hp / maxHp, 0.33f);
             });
-
         }
+
+
     }
 
     public void ChangeShieldToHealth()

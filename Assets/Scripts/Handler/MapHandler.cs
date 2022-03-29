@@ -42,6 +42,7 @@ public class MapHandler : MonoBehaviour
 
     void Start()
     {
+        GameManager.Instance.OnResetGame += ()=> StartCoroutine(ResetMap());
         ShowMap();
         OnSelectNode(map[0][3]);
     }
@@ -118,7 +119,6 @@ public class MapHandler : MonoBehaviour
     public void GameOverProto()
     {
         gameOverPanelHandler.GameOverEffect();
-        StartCoroutine(ResetMap());
     }
 
     public IEnumerator ResetMap()

@@ -5,11 +5,7 @@ using UnityEngine;
 public class CreateScroll : MonoBehaviour
 {
     [Header("스크롤 오브젝트들")]
-    public GameObject scroll_HealObj;
-    public GameObject scroll_ShieldObj;
-    public GameObject scroll_UseObj;
-    public GameObject scroll_ChaosObj;
-    public GameObject scroll_MemorieObj;
+    public List<Scroll> scrollList = new List<Scroll>();
 
     private void Awake()
     {
@@ -18,10 +14,9 @@ public class CreateScroll : MonoBehaviour
 
     private void CreatePool()
     {
-        PoolManager.CreatePool<Scroll_Heal>(scroll_HealObj, this.transform, 2);
-        PoolManager.CreatePool<Scroll_Shield>(scroll_ShieldObj, this.transform, 2);
-        PoolManager.CreatePool<Scroll_Use>(scroll_UseObj, this.transform, 2);
-        PoolManager.CreatePool<Scroll_Chaos>(scroll_ChaosObj, this.transform, 2);
-        PoolManager.CreatePool<Scroll_Memorie>(scroll_MemorieObj, this.transform, 2);
+        for (int i = 0; i < scrollList.Count; i++)
+        {
+            PoolManager.CreateScrollPool(scrollList[i].scrollType, scrollList[i].gameObject, this.transform, 1);
+        }
     }
 }

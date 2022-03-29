@@ -10,16 +10,25 @@ public class NL_Skill : SkillPiece
         isPlayerSkill = false;
     }
 
-    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    public override PieceInfo ChoiceSkill()
     {
+        base.ChoiceSkill();
         if (Random.Range(0, 100) <= value)
         {
-            NL_Poison_Dagger(target, onCastEnd);
+            onCastSkill = NL_Poison_Dagger;
+            return pieceInfo[0];
         }
         else
         {
-            NL_Mark(target, onCastEnd);
+            onCastSkill = NL_Mark;
+            return pieceInfo[1];
         }
+    }
+
+
+    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    {
+        onCastSkill(target, onCastEnd);
     }
 
     private void NL_Poison_Dagger(LivingEntity target, Action onCastEnd = null) //상처를 부여해서 2턴 동안 10의 피해를 입힌다..

@@ -10,16 +10,24 @@ public class FA_Skill : SkillPiece
         isPlayerSkill = false;
     }
 
-    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    public override PieceInfo ChoiceSkill()
     {
+        base.ChoiceSkill();
         if (Random.Range(0, 100) <= value)
         {
-            FA_Fairy_Ligtht(target, onCastEnd);
+            onCastSkill = FA_Fairy_Ligtht;
+            return pieceInfo[0];
         }
         else
         {
-            FA_Kidding(target, onCastEnd);
+            onCastSkill = FA_Kidding;
+            return pieceInfo[1];
         }
+    }
+
+    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    {
+        onCastSkill(target, onCastEnd);
     }
 
     private void FA_Fairy_Ligtht(LivingEntity target, Action onCastEnd = null)

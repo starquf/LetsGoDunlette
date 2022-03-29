@@ -99,7 +99,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
     // 굳이 함수로 뺀이유 -> 구매됨 같은 효과 넣을꺼면 이 함수에 넣으라고
     private void OnPurchaseBtnClick()
     {
-        StartCoroutine(PurchaseProduct());
+        PurchaseProduct();
     }
 
     private void OnExitBtnClick()
@@ -108,7 +108,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
     }
     #endregion
 
-    private IEnumerator PurchaseProduct()
+    private void PurchaseProduct()
     {
         ProductInfo selectProduct = products[selectIdx];
         if (GameManager.Instance.Gold < selectProduct.price)
@@ -117,20 +117,18 @@ public class ShopEncounterUIHandler : MonoBehaviour
             textEffect.SetType(TextUpAnimType.Damage);
             textEffect.transform.position = Vector3.zero;
             textEffect.Play("골드가 부족합니다!");
-            yield break;
+            return;
         }
         else
         {
             SetButtonInterval(false);
             GameManager.Instance.Gold -= selectProduct.price;
 
-            yield return new WaitForSeconds(2f);
-
 
             switch (selectProduct.productType)
             {
                 case ProductType.Scroll:
-                    Scroll scroll = Instantiate(selectProduct.scroll, Vector3.zero, Quaternion.identity).GetComponent<Scroll>();
+                    Scroll scroll = PoolManager.GetScroll(selectProduct.scroll.scrollType);
                     Image scrollImg = scroll.GetComponent<Image>();
                     scrollImg.color = new Color(1, 1, 1, 0);
                     scroll.transform.SetParent(this.transform);
@@ -161,9 +159,9 @@ public class ShopEncounterUIHandler : MonoBehaviour
 
                     DOTween.Sequence()
                      .Append(skillImg.DOFade(1, 0.5f))
-                    .Append(skillPiece.transform.DOMove(unusedInventoryTrm.position, 0.5f).SetDelay(1f))
-                    .Join(skillPiece.transform.DOScale(Vector2.one * 0.1f, 0.5f))
-                    .Join(skillPiece.GetComponent<Image>().DOFade(0f, 0.5f))
+                    .Append(skillPiece.transform.DOMove(unusedInventoryTrm.position, 0.3f).SetDelay(0.5f))
+                    .Join(skillPiece.transform.DOScale(Vector2.one * 0.1f, 0.3f))
+                    .Join(skillPiece.GetComponent<Image>().DOFade(0f, 0.3f))
                     .OnComplete(() =>
                     {
                         Inventory owner = battleHandler.player.GetComponent<Inventory>();
@@ -179,7 +177,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
                     break;
                 default:
                     Debug.LogError("선택된 상품의 타입이 스크롤이나, 룰렛조각이 아닙니다.");
-                    yield break;
+                    return;
             }
         }
     }

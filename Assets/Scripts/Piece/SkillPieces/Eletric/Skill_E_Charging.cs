@@ -84,7 +84,7 @@ public class Skill_E_Charging : SkillPiece
         {
             EnemyHealth enemy = enemys[Random.Range(0, enemys.Count)];
 
-            enemy.GetDamage(Value, patternType);
+            enemy.GetDamage(Value, currentType);
 
             Anim_E_Static staticEffect = PoolManager.GetItem<Anim_E_Static>();
             staticEffect.transform.position = enemy.transform.position;

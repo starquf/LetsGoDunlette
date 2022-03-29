@@ -69,7 +69,7 @@ public class Encounter_005 : RandomEncounter
         BattleHandler battleHandler = GameManager.Instance.battleHandler;
         BattleScrollHandler battleScrollHandler = battleHandler.GetComponent<BattleScrollHandler>();
 
-        Scroll scroll = Instantiate(_scroll, Vector3.zero, Quaternion.identity).GetComponent<Scroll>();
+        Scroll scroll = PoolManager.GetScroll(_scroll.scrollType);
         Image scrollImg = scroll.GetComponent<Image>();
         scrollImg.color = new Color(1, 1, 1, 0);
         scroll.transform.SetParent(encounterInfoHandler.transform);

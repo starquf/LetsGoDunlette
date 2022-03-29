@@ -10,6 +10,9 @@ public class Skill_E_Static : SkillPiece
     public GameObject staticEffectPrefab;
     public GameObject staticStunEffectPrefab;
 
+    [Header("±âÀý È®·ü")]
+    public int stunPercent;
+
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         BattleHandler bh = GameManager.Instance.battleHandler;
@@ -22,9 +25,9 @@ public class Skill_E_Static : SkillPiece
         staticEffect.transform.position = targetPos;
 
         staticEffect.Play(() => {
-            target.GetDamage(Value, patternType);
+            target.GetDamage(Value, currentType);
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-            if(Random.Range(0,100) < 25)
+            if(Random.Range(0,100) < stunPercent)
             {
                 Anim_E_Static_Stun stunEffect = PoolManager.GetItem<Anim_E_Static_Stun>();
                 stunEffect.transform.position = targetPos;

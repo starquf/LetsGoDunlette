@@ -92,11 +92,15 @@ public class GameManager : MonoBehaviour
     public SkillPrefabContainer skillContainer;
     [HideInInspector]
     public BattleFieldHandler battleFieldHandler;
+    [HideInInspector]
+    public GoldUIHandler goldUIHandler;
 
     [HideInInspector]
     public event Action OnUpdateUI;
     [HideInInspector]
     public event Action OnEndEncounter;
+    [HideInInspector]
+    public event Action OnResetGame;
 
     public Transform enemyEffectTrm;
 
@@ -122,6 +126,11 @@ public class GameManager : MonoBehaviour
     public void EndEncounter()
     {
         OnEndEncounter();
+    }
+
+    public void ResetGame()
+    {
+        OnResetGame();
     }
 
     public int TryStillGold(int max) //√÷¥Î max ∏∏≈≠ ∞ÒµÂ∏¶ »…ƒß »…ƒ£ ∞ÒµÂ∏¶ ∏Æ≈œ

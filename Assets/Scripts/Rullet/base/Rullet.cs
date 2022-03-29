@@ -206,6 +206,19 @@ public abstract class Rullet : MonoBehaviour
         StartCoroutine(ResetTimer());
     }
 
+    public void StopForceRullet()
+    {
+        if (rollCor != null)
+            StopCoroutine(rollCor);
+
+        if (timeCor != null)
+            StopCoroutine(timeCor);
+
+        isStop = false;
+        isRoll = false;
+        isPaused = false;
+    }
+
     public void ReRoll()
     {
         rollSpeed = (600f + UnityEngine.Random.Range(0f, 50f)) * multiply;

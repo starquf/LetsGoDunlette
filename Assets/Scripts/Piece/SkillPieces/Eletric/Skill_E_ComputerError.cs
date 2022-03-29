@@ -29,7 +29,7 @@ public class Skill_E_ComputerError : SkillPiece
 
             stunEffect.Play();
 
-            enemys[i].GetDamage(Value, patternType);
+            enemys[i].GetDamage(Value, currentType);
         }
 
         GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);

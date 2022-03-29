@@ -43,7 +43,7 @@ public class Skill_N_Pigeon : SkillPiece
                 hitEffect.SetScale(0.5f);
                 hitEffect.transform.position = targetPos;
 
-                target.GetDamage(value / 10);
+                target.GetDamage(value / 10, currentType);
 
                 GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
                 hitEffect.Play();

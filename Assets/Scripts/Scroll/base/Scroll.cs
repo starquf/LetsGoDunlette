@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public abstract class Scroll : MonoBehaviour
 {
-    [HideInInspector]
     public ScrollType scrollType;
     [HideInInspector]
     public Sprite scrollIcon;

@@ -16,23 +16,19 @@ public class BattleScrollHandler : MonoBehaviour
     private Sequence scrollUISequence;
 
     private BattleHandler bh;
-    private GoldUIHandler goldhandler;
 
     private bool canUse = false;
 
-    private void Awake()
-    {
-        goldhandler = scrollUI.GetComponentInChildren<GoldUIHandler>();
-    }
 
     private void Start()
     {
         bh = GetComponent<BattleHandler>();
 
         InitSlot();
-        GetScroll(PoolManager.GetItem<Scroll_Heal>());
-        GetScroll(PoolManager.GetItem<Scroll_Shield>());
-        GetScroll(PoolManager.GetItem<Scroll_Chaos>());
+
+        GetScroll(PoolManager.GetScroll(ScrollType.Heal));
+        GetScroll(PoolManager.GetScroll(ScrollType.Shield));
+        GetScroll(PoolManager.GetScroll(ScrollType.Chaos));
     }
 
     private void InitSlot()
@@ -63,7 +59,6 @@ public class BattleScrollHandler : MonoBehaviour
         {
             scrollUI.anchoredPosition = new Vector2(open ? 0f : -150f, scrollUI.anchoredPosition.y);
             SetInteract(isChangeScroll && open);
-            goldhandler.ShowGoldText(open, true);
         }
         else
         {
@@ -80,7 +75,6 @@ public class BattleScrollHandler : MonoBehaviour
                 .OnComplete(() =>
                 {
                     SetInteract(isChangeScroll && open);
-                    goldhandler.ShowGoldText(open);
                 });
         }
     }
@@ -153,9 +147,9 @@ public class BattleScrollHandler : MonoBehaviour
     {
         Image scrollImg = scroll.GetComponent<Image>();
         DOTween.Sequence().Append(scrollImg.DOFade(1, 0.5f)).SetDelay(1f)
-        .Append(scroll.transform.DOMove(slots[slotIdx].transform.position, 0.5f))
-        .Join(scroll.transform.DOScale(Vector2.one * 0.1f, 0.5f))
-        .Join(scroll.GetComponent<Image>().DOFade(0f, 0.5f))
+        .Append(scroll.transform.DOMove(slots[slotIdx].transform.position, 0.3f))
+        .Join(scroll.transform.DOScale(Vector2.one * 0.1f, 0.3f))
+        .Join(scroll.GetComponent<Image>().DOFade(0f, 0.3f))
         .OnComplete(() =>
         {
             scroll.GetComponent<RectTransform>().sizeDelta = new Vector2(96f, 112f);
