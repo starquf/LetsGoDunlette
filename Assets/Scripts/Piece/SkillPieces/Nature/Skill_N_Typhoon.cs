@@ -23,13 +23,29 @@ public class Skill_N_Typhoon : SkillPiece
 
         for (int i = 0; i < enemys.Count; i++)
         {
+            Vector2 attackPos = enemys[i].transform.position;
+
             Anim_N_Wind windEffect = PoolManager.GetItem<Anim_N_Wind>();
-            windEffect.transform.position = enemys[i].transform.position;
+            windEffect.transform.position = attackPos;
             windEffect.SetScale(0.7f);
 
             windEffect.Play();
 
             enemys[i].GetDamage(Value, currentType);
+
+            if (enemys.Count >= 2)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    windEffect = PoolManager.GetItem<Anim_N_Wind>();
+                    windEffect.transform.position = attackPos + Random.insideUnitCircle * 1.5f;
+                    windEffect.SetScale(Random.Range(0.15f, 0.3f));
+
+                    windEffect.Play();
+                }
+
+                enemys[i].GetDamage(50, currentType);
+            }
         }
 
         Rullet rullet = bh.mainRullet;
@@ -58,6 +74,7 @@ public class Skill_N_Typhoon : SkillPiece
         }
 
         GameManager.Instance.cameraHandler.ShakeCamera(1.5f, 0.3f);
+        GameManager.Instance.shakeHandler.ShakeBackCvsUI(1.5f, 0.3f);
 
         onCastEnd?.Invoke();
     }
