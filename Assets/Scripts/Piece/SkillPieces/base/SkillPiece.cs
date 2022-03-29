@@ -7,6 +7,7 @@ public class SkillPiece : RulletPiece
     public bool isInRullet = false;
 
     public bool isDisposable = false; //1회용인가
+    public bool isRandomSkill = false; //랜덤 스킬인가??
 
     public bool hasTarget = true;
 
@@ -18,6 +19,11 @@ public class SkillPiece : RulletPiece
         base.Awake();
 
         PieceType = PieceType.SKILL;
+    }
+
+    public virtual PieceInfo ChoiceSkill()
+    {
+        return new PieceInfo("None","None");
     }
 
 

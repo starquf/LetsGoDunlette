@@ -7,22 +7,33 @@ public class NSL_Skill : SkillPiece
     public int BounceDmg = 25;
     public int recoverVal = 30;
 
+    public PieceInfo[] pieceInfo;
+    private Action<LivingEntity, Action> onCastSkill;
+
     protected override void Awake()
     {
         base.Awake();
         isPlayerSkill = false;
     }
 
-    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    public override PieceInfo ChoiceSkill()
     {
+        base.ChoiceSkill();
         if (Random.Range(0, 100) <= value)
         {
-            NSl_Recover(target, onCastEnd);
+            onCastSkill = NSl_Recover;
+            return pieceInfo[0];
         }
         else
         {
-            NSL_Bounce(target, onCastEnd);
+            onCastSkill = NSL_Bounce;
+            return pieceInfo[1];
         }
+    }
+
+    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    {
+        onCastSkill(target, onCastEnd);
     }
 
     private void NSl_Recover(LivingEntity target, Action onCastEnd = null)

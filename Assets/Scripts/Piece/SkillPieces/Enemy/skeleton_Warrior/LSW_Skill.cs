@@ -6,22 +6,34 @@ public class LSW_Skill : SkillPiece
     [UnityEngine.Header("스킬 벨류")]
     public int cuttingDmg = 25;
     public int shieldVal = 15;
+
+    public PieceInfo[] pieceInfo;
+    private Action<LivingEntity, Action> onCastSkill;
+
     protected override void Awake()
     {
         base.Awake();
         isPlayerSkill = false;
     }
 
-    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    public override PieceInfo ChoiceSkill()
     {
+        base.ChoiceSkill();
         if (Random.Range(0, 100) <= value)
         {
-            LSW_Cutting(target, onCastEnd);
+            onCastSkill = LSW_Cutting;
+            return pieceInfo[0];
         }
         else
         {
-            LSW_Old_Shield(target, onCastEnd);
+            onCastSkill = LSW_Old_Shield;
+            return pieceInfo[1];
         }
+    }
+
+    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    {
+        onCastSkill(target, onCastEnd);
     }
 
     private void LSW_Cutting(LivingEntity target, Action onCastEnd = null)
