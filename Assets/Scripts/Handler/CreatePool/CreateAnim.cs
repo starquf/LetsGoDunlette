@@ -22,6 +22,7 @@ public class CreateAnim : MonoBehaviour
     public GameObject n_DrainAnim;
     public GameObject n_ManaSphereHitAnim;
     public GameObject posionCloudAnim;
+    public GameObject windAnim;
 
     [Header("拱 加己")]
     public GameObject w_ManaSphereHitAnim;
@@ -71,6 +72,7 @@ public class CreateAnim : MonoBehaviour
         PoolManager.CreatePool<Anim_N_ManaSphereHit>(n_ManaSphereHitAnim, this.transform, 1);
         PoolManager.CreatePool<Anim_N_Drain>(n_DrainAnim, this.transform, 1);
         PoolManager.CreatePool<Anim_N_PosionCloud>(posionCloudAnim, this.transform, 1);
+        PoolManager.CreatePool<Anim_N_Wind>(windAnim, this.transform, 1);
 
         // ===========================================================================  拱 加己
         PoolManager.CreatePool<Anim_W_ManaSphereHit>(w_ManaSphereHitAnim, this.transform, 1);
