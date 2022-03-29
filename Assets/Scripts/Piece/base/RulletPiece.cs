@@ -5,6 +5,19 @@ using UnityEngine.UI;
 using DG.Tweening;
 using System;
 
+[Serializable]
+public class PieceInfo
+{
+    public string PieceName;
+    public string PieceDes;
+
+    public PieceInfo(string pieceName, string pieceDes)
+    {
+        PieceName = pieceName;
+        PieceDes = pieceDes;
+    }
+}
+
 public abstract class RulletPiece : MonoBehaviour
 {
     [SerializeField] protected PatternType patternType = PatternType.None;

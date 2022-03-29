@@ -32,9 +32,19 @@ public class PieceCastUIHandler : MonoBehaviour
 
     public void ShowCasting(SkillPiece skillPiece, Action onEndEffect)
     {
-        cardBG.sprite = skillPiece.cardBG;
-        cardNameText.text = skillPiece.PieceName;
-        cardDesText.text = skillPiece.PieceDes;
+        if(skillPiece.isRandomSkill)
+        {
+            PieceInfo info = skillPiece.ChoiceSkill();
+            cardBG.sprite = skillPiece.cardBG;
+            cardNameText.text = info.PieceName;
+            cardDesText.text = info.PieceDes;
+        }
+        else
+        {
+            cardBG.sprite = skillPiece.cardBG;
+            cardNameText.text = skillPiece.PieceName;
+            cardDesText.text = skillPiece.PieceDes;
+        }
 
         pieceMoveSequence.Kill();
 
