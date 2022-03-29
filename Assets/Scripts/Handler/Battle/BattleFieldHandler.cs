@@ -25,6 +25,23 @@ public class BattleFieldHandler : MonoBehaviour
 
     public void SetFieldType(PatternType type)
     {
+        switch (type)
+        {
+            case PatternType.None:
+                break;
+            case PatternType.Clover:
+                break;
+            case PatternType.Diamonds:
+                break;
+            case PatternType.Heart:
+                break;
+            case PatternType.Spade:
+                break;
+            case PatternType.Monster:
+                break;
+            default:
+                break;
+        }
         nowFieldType = type;
     }
 }
