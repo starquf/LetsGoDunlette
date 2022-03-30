@@ -35,15 +35,6 @@ public class Skill_N_Typhoon : SkillPiece
 
             if (enemys.Count >= 2)
             {
-                for (int j = 0; j < 10; j++)
-                {
-                    windEffect = PoolManager.GetItem<Anim_N_Wind>();
-                    windEffect.transform.position = attackPos + Random.insideUnitCircle * 1.5f;
-                    windEffect.SetScale(Random.Range(0.15f, 0.3f));
-
-                    windEffect.Play();
-                }
-
                 enemys[i].GetDamage(50, currentType);
             }
         }
@@ -64,7 +55,7 @@ public class Skill_N_Typhoon : SkillPiece
         textEffect.SetScale(0.8f);
         textEffect.Play("태풍 효과발동!");
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 7; i++)
         {
             Anim_N_Wind windEffect = PoolManager.GetItem<Anim_N_Wind>();
             windEffect.transform.position = effectPos + Random.insideUnitCircle * 2f;

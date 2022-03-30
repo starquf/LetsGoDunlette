@@ -75,7 +75,7 @@ public class EnemyHealth : LivingEntity
 
     public virtual void Kill()
     {
-        GetDamage(curMaxHp);
+        GetDamage(curHp);
     }
 
     protected override void Die()

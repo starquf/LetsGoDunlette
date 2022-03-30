@@ -54,12 +54,12 @@ public enum ScrollType
     Heal,
     Use,
     Shield,
-    Hiding,
-    Power,
+    //Hiding,
+    //Power,
     Chaos,
     Memorie,
-    Flame,
-    Twice
+    //Flame,
+    //Twice
 }
 
 public enum ShowInfoRange

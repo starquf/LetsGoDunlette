@@ -119,6 +119,28 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         SetDamageEffect();
     }
 
+    public virtual void SetHp(int hp)
+    {
+        if (isDie)
+        {
+            return;
+        }
+
+        RemoveShield();
+
+        this.hp = hp;
+
+        if (hp <= 0)
+        {
+            hp = 0;
+            isDie = true;
+
+            Die();
+        }
+
+        SetHPBar();
+    }
+
     public virtual void GetDamage(int damage, PatternType damageType)
     {
         if (weaknessType.Equals(damageType))

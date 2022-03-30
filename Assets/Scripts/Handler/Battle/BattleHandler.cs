@@ -18,7 +18,9 @@ public class BattleHandler : MonoBehaviour
     private CCHandler ccHandler;
     private BattleRewardHandler battleRewardHandler;
     private BattleTargetSelectHandler battleTargetSelector;
-    private BattleScrollHandler battleScrollHandler;
+
+    [HideInInspector]
+    public BattleScrollHandler battleScroll;
     [HideInInspector]
     public BattleUtilHandler battleUtil;
     [HideInInspector]
@@ -91,7 +93,7 @@ public class BattleHandler : MonoBehaviour
         battleRewardHandler = GetComponent<BattleRewardHandler>();
         battleTargetSelector = GetComponent<BattleTargetSelectHandler>();
         battleUtil = GetComponent<BattleUtilHandler>();
-        battleScrollHandler = GetComponent<BattleScrollHandler>();
+        battleScroll = GetComponent<BattleScrollHandler>();
         battleEvent = GetComponent<BattleEventHandler>();
     }
 
@@ -393,7 +395,7 @@ public class BattleHandler : MonoBehaviour
         stopHandler.SetInteract(enable);
 
         // 스크롤 버튼 활성화
-        battleScrollHandler.SetInteract(enable);
+        battleScroll.SetInteract(enable);
     }
 
     // 실행이 전부 끝나면 실행되는 코루틴
