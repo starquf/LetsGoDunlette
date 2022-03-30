@@ -38,6 +38,11 @@ public class DebugBattlePanelHandler : MonoBehaviour, IDebugPanel
             bh.BattleForceEnd();
             bh.CheckBattleEnd();
             bh.mainRullet.StopForceRullet();
+
+            for (int i = 0; i < battleHideImgObjs.Count; i++)
+            {
+                battleHideImgObjs[i].SetActive(true);
+            }
         });
 
         hpSubmitBtn.onClick.AddListener(OnSubmitHp);
