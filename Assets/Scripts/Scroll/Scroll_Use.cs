@@ -24,15 +24,19 @@ public class Scroll_Use : Scroll
             return;
         }
 
-        bh.mainRullet.PauseRullet();
-
         // 플레이어 스킬이 존재한다면
         if (ih.CheckPlayerOrEnemyInUnUsedInven(true))
         {
+            bh.mainRullet.PauseRullet();
+
             SkillPiece piece = ih.GetRandomPlayerOrEnemySkill(true);
 
             bh.CastPiece(piece);
             slot.RemoveScroll();
+        }
+        else
+        {
+            onCancelUse?.Invoke();
         }
     }
 }

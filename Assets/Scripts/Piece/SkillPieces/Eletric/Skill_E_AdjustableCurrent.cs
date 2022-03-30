@@ -2,12 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class Skill_E_AdjustableCurrent : SkillPiece
 {
     [SerializeField]
     private int percentage = 20;
+
+    public Text percentText;
 
     public List<Sprite> effectSprList = new List<Sprite>();
 
@@ -56,6 +59,7 @@ public class Skill_E_AdjustableCurrent : SkillPiece
                         textEffect.Play("기절 확률 증가!");
 
                         percentage += 10;
+                        percentText.text = (percentage / 10).ToString();
 
                         if (percentage > 100)
                             percentage = 100;
