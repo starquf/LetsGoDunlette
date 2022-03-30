@@ -92,6 +92,20 @@ public class BattleScrollHandler : MonoBehaviour
         return false;
     }
 
+    public bool IsFullScroll()
+    {
+        for (int i = 0; i < slots.Count; i++)
+        {
+            ScrollSlot scrollSlot = slots[i];
+            if (scrollSlot.scroll == null)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public void RemoveRandomScroll()
     {
         List<ScrollSlot> scrollList = new List<ScrollSlot>();

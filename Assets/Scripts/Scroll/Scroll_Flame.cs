@@ -10,7 +10,7 @@ public class Scroll_Flame : Scroll
     {
         bh = GameManager.Instance.battleHandler;
 
-        scrollType = ScrollType.Flame;
+        //scrollType = ScrollType.Flame;
     }
 
     public override void Use(Action onEndUse, Action onCancelUse)
