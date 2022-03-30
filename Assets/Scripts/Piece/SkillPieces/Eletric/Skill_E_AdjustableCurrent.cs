@@ -9,7 +9,6 @@ public class Skill_E_AdjustableCurrent : SkillPiece
 {
     [SerializeField]
     private int percentage = 20;
-    private int stack = 1;
 
     public Text percentText;
 
@@ -60,11 +59,13 @@ public class Skill_E_AdjustableCurrent : SkillPiece
                         textEffect.Play("기절 확률 증가!");
 
                         percentage += 10;
-                        stack += 1;
-                        percentText.text = stack.ToString();
 
                         if (percentage > 100)
+                        {
                             percentage = 100;
+                        }
+
+                        percentText.text = $"{percentage.ToString()}%";
                     }
 
                     target.GetDamage(Value, currentType);
