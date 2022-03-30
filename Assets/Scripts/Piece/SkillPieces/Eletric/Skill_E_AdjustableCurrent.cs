@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 public class Skill_E_AdjustableCurrent : SkillPiece
 {
     [SerializeField]
-    private int percentage = 10;
+    private int percentage = 20;
 
     public List<Sprite> effectSprList = new List<Sprite>();
 
