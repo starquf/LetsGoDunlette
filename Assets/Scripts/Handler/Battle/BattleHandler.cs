@@ -77,6 +77,8 @@ public class BattleHandler : MonoBehaviour
     [Header("현재 맵 보스 타입")]
     BattleInfo _bInfo = null;
     public EnemyType curMapBossType = EnemyType.NORMAL_SLIME;
+    public bool isElite = false;
+    public bool isBoss = false;
     #region WaitSeconds
     private readonly WaitForSeconds oneSecWait = new WaitForSeconds(1f);
     private readonly WaitForSeconds pFiveSecWait = new WaitForSeconds(0.5f);
@@ -110,6 +112,9 @@ public class BattleHandler : MonoBehaviour
     // 전투를 시작하는 함수
     public void StartBattle(bool isElite = false, bool isBoss = false, BattleInfo bInfo = null)
     {
+        this.isElite = isElite;
+        this.isBoss = isBoss;
+
         if (isBattleStart)
         {
             //Debug.LogError("이미 전투가 진행중입니다!");

@@ -54,7 +54,7 @@ public enum ScrollType
     Heal,
     Use,
     Shield,
-    //Hiding,
+    Hiding,
     //Power,
     Chaos,
     Memorie,
