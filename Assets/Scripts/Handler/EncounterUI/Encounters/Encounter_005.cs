@@ -9,7 +9,7 @@ public class Encounter_005 : RandomEncounter
     private bool IsWin()
     {
         int rand = Random.Range(0, 99);
-        if(rand < 33)
+        if(rand < 40)
         {
             return true;
         }
