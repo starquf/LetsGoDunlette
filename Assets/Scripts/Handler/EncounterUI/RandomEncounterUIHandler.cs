@@ -26,6 +26,8 @@ public class RandomEncounterUIHandler : MonoBehaviour
     private RandomEncounter randomEncounter;
     private BattleScrollHandler battleScrollHandler;
 
+    private int encounterIdx;
+
     private void Awake()
     {
         encounterInfoHandler = GetComponent<EncounterInfoHandler>();
@@ -41,9 +43,15 @@ public class RandomEncounterUIHandler : MonoBehaviour
             randomEncounterList[i].OnExitEncounter = EndEvent;
         }
         exitBtn.onClick.AddListener(OnExitBtnClick);
+        encounterIdx = -1;
     }
 
-    private bool CanStartEncounter(int idx)
+    public void SetRandomEncounter(int idx)
+    {
+        encounterIdx = idx;
+    }
+
+    public bool CanStartEncounter(int idx)
     {
         if(idx < 0)
         {
@@ -61,12 +69,21 @@ public class RandomEncounterUIHandler : MonoBehaviour
 
     public void InitEncounter()
     {
-        int randIdx = -1;
-        while (!CanStartEncounter(randIdx))
+        if(encounterIdx < 0)
         {
-            randIdx = Random.Range(0, randomEncounterList.Count);
+            int randIdx = -1;
+            while (!CanStartEncounter(randIdx))
+            {
+                randIdx = Random.Range(0, randomEncounterList.Count);
+            }
+            randomEncounter = randomEncounterList[randIdx];
+            randomEncounter = randomEncounterList[10];
         }
-        randomEncounter = randomEncounterList[randIdx];
+        else
+        {
+            randomEncounter = randomEncounterList[encounterIdx];
+            encounterIdx = -1;
+        }
 
         encounterTitleTxt.text = randomEncounter.en_Name;
         encounterTxt.text = randomEncounter.en_Start_Text;
