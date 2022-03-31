@@ -7,21 +7,21 @@ using UnityEngine.UI;
 public class Encounter_016 : RandomEncounter
 {
     RandomEncounterUIHandler encounterUIHandler = null;
-    private List<int> encounterIdxList = new List<int>();
+    private List<int> encounterIdxList;
 
     public override void Init()
     {
+        encounterIdxList = new List<int>();
         encounterUIHandler = encounterInfoHandler.GetComponent<RandomEncounterUIHandler>();
         for (int i = 0; i < 3; i++)
         {
             int randIdx = -1;
-            while (!encounterUIHandler.CanStartEncounter(randIdx))
+            while (!encounterUIHandler.CanStartEncounter(randIdx) || (encounterIdxList.Contains(randIdx) || randIdx == 10))
             {
-                //while(encounterIdxList.Contains(randIdx) || randIdx == 10)
-                //{
-                    randIdx = Random.Range(0, encounterUIHandler.randomEncounterList.Count);
-                //}
+                randIdx = Random.Range(0, encounterUIHandler.randomEncounterList.Count);
+                print(encounterIdxList.Contains(randIdx) + ", " + (randIdx == 10));
             }
+
             encounterIdxList.Add(randIdx);
 
             encounterUIHandler.encounterChoiceTxtList[i].text = encounterUIHandler.randomEncounterList[randIdx].en_Name;
