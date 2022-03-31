@@ -77,7 +77,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
                 randIdx = Random.Range(0, randomEncounterList.Count);
             }
             randomEncounter = randomEncounterList[randIdx];
-            randomEncounter = randomEncounterList[10];
+            //randomEncounter = randomEncounterList[10];
         }
         else
         {
