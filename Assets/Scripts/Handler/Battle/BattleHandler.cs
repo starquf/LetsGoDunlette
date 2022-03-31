@@ -434,7 +434,8 @@ public class BattleHandler : MonoBehaviour
         // 패널티 체크
         yield return StartCoroutine(CheckPanelty());
 
-        yield return pFiveSecWait;
+        yield return pOneSecWait;
+        yield return pOneSecWait;
 
         // 다음턴으로
         InitTurn();
