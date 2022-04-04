@@ -164,6 +164,12 @@ public class BattleHandler : MonoBehaviour
 
         // 스탑 버튼에 기능 추가
         SetStopHandler();
+
+        LogCon log = new LogCon();
+        log.text = "전투 시작";
+        log.hasLine = true;
+
+        DebugLogHandler.AddLog(LogType.OnlyText, log);
     }
 
     private void InitHandler()
@@ -359,6 +365,17 @@ public class BattleHandler : MonoBehaviour
 
         turnCnt++;
 
+        LogCon log = new LogCon();
+        log.text = "";
+        log.hasLine = true;
+
+        DebugLogHandler.AddLog(LogType.OnlyText, log);
+
+        log = new LogCon();
+        log.text = $"{turnCnt}턴 시작";
+
+        DebugLogHandler.AddLog(LogType.OnlyText, log);
+
         // 현재 턴에 걸려있는 적의 cc기와 플레이어의 cc기를 하나 줄여준다.
         ccHandler.DecreaseCC();
         battleEvent.InitNextSkill();
@@ -513,11 +530,19 @@ public class BattleHandler : MonoBehaviour
         isBattle = false;
         isBattleStart = false;
 
+        turnCnt = 0;
+
         player.cc.ResetAllCC();
         player.RemoveShield();
 
         mainRullet.ResetRulletSpeed();
         battleEvent.ResetAllEvents();
+
+        LogCon log = new LogCon();
+        log.text = "전투 종료";
+        log.hasLine = true;
+
+        DebugLogHandler.AddLog(LogType.OnlyText, log);
 
         if (isWin)
         {

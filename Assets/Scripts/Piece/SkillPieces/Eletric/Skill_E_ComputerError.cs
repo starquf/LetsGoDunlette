@@ -30,6 +30,13 @@ public class Skill_E_ComputerError : SkillPiece
             stunEffect.Play();
 
             enemys[i].GetDamage(Value, currentType);
+
+            LogCon log = new LogCon();
+            log.text = $"{Value} 데미지 부여";
+            log.selfSpr = skillImg.sprite;
+            log.targetSpr = enemys[i].GetComponent<SpriteRenderer>().sprite;
+
+            DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
         }
 
         GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
@@ -71,6 +78,15 @@ public class Skill_E_ComputerError : SkillPiece
             textEffect.transform.position = effectPos;
             textEffect.SetScale(0.8f);
             textEffect.Play("전산오류 효과발동!");
+
+
+            LogCon log = new LogCon();
+            log.text = $"무덤으로 보냄";
+            log.selfSpr = skillImg.sprite;
+            log.targetSpr = pieces[pieceIdx].skillImg.sprite;
+
+            DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
+
 
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.25f);
 

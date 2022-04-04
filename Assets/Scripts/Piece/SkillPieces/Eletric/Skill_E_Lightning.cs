@@ -17,6 +17,13 @@ public class Skill_E_Lightning : SkillPiece
     {
         target.GetDamage(value, currentType);
 
+        LogCon log = new LogCon();
+        log.text = $"{Value} 데미지 부여";
+        log.selfSpr = skillImg.sprite;
+        log.targetSpr = target.GetComponent<SpriteRenderer>().sprite;
+
+        DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
+
         Anim_E_Static effect = PoolManager.GetItem<Anim_E_Static>();
         effect.transform.position = target.transform.position;
         effect.SetScale(1.2f);
@@ -36,6 +43,13 @@ public class Skill_E_Lightning : SkillPiece
                     stunEffect.Play();
 
                     playerHealth.cc.SetCC(CCType.Stun, 1);
+
+                    LogCon log = new LogCon();
+                    log.text = $"기절시킴";
+                    log.selfSpr = skillImg.sprite;
+                    log.targetSpr = playerHealth.GetComponent<SpriteRenderer>().sprite;
+
+                    DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
                 }
             }
             else
@@ -48,6 +62,13 @@ public class Skill_E_Lightning : SkillPiece
                     stunEffect.Play();
 
                     target.cc.SetCC(CCType.Stun, 1);
+
+                    LogCon log = new LogCon();
+                    log.text = $"기절시킴";
+                    log.selfSpr = skillImg.sprite;
+                    log.targetSpr = target.GetComponent<SpriteRenderer>().sprite;
+
+                    DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
                 }
             }
 
