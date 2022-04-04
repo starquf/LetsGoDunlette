@@ -53,16 +53,27 @@ public class RandomEncounterUIHandler : MonoBehaviour
 
     public bool CanStartEncounter(int idx)
     {
-        if(idx < 0)
+        if (idx < 0)
         {
             return false;
         }
-        else if(idx == 8) // 스크롤 없을시 발동 x
+        else if (idx == 8) // 스크롤 없을시 발동 x
         {
             if (!battleScrollHandler.HasScroll())
             {
                 return false;
             }
+        }
+        else if(idx == 11)//16으로 바꿔야됨
+        {
+            for (int i = 0; i < GameManager.Instance.inventoryHandler.unusedSkills.Count; i++)
+            {
+                if(GameManager.Instance.inventoryHandler.unusedSkills[i].currentType == PatternType.Diamonds)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
         return true;
     }
@@ -72,12 +83,12 @@ public class RandomEncounterUIHandler : MonoBehaviour
         if(encounterIdx < 0)
         {
             int randIdx = -1;
+            //randIdx = 11;
             while (!CanStartEncounter(randIdx))
             {
                 randIdx = Random.Range(0, randomEncounterList.Count);
             }
             randomEncounter = randomEncounterList[randIdx];
-            //randomEncounter = randomEncounterList[10];
         }
         else
         {
