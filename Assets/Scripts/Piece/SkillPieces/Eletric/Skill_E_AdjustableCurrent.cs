@@ -52,11 +52,24 @@ public class Skill_E_AdjustableCurrent : SkillPiece
 
                         target.cc.SetCC(CCType.Stun, 1);
 
+                        LogCon log = new LogCon();
+                        log.text = $"기절시킴";
+                        log.selfSpr = skillImg.sprite;
+                        log.targetSpr = target.GetComponent<SpriteRenderer>().sprite;
+
+                        DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
+
                         Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
                         textEffect.SetType(TextUpAnimType.Damage);
                         textEffect.transform.position = target.transform.position;
                         textEffect.SetScale(0.7f);
                         textEffect.Play("기절 확률 증가!");
+
+                        log = new LogCon();
+                        log.text = $"확률 증가";
+                        log.selfSpr = skillImg.sprite;
+
+                        DebugLogHandler.AddLog(LogType.ImageText, log);
 
                         percentage += 10;
 
@@ -69,6 +82,13 @@ public class Skill_E_AdjustableCurrent : SkillPiece
                     }
 
                     target.GetDamage(Value, currentType);
+
+                    LogCon log2 = new LogCon();
+                    log2.text = $"{Value} 데미지 부여";
+                    log2.selfSpr = skillImg.sprite;
+                    log2.targetSpr = target.GetComponent<SpriteRenderer>().sprite;
+
+                    DebugLogHandler.AddLog(LogType.ImgTextToTarget, log2);
 
                     GameManager.Instance.cameraHandler.ShakeCamera(0.7f, 0.15f);
 

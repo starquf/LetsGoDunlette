@@ -26,6 +26,14 @@ public class Skill_E_Static : SkillPiece
 
         staticEffect.Play(() => {
             target.GetDamage(Value, currentType);
+
+            LogCon log = new LogCon();
+            log.text = $"{Value} 데미지 부여";
+            log.selfSpr = skillImg.sprite;
+            log.targetSpr = target.GetComponent<SpriteRenderer>().sprite;
+
+            DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
+
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
             if(Random.Range(0,100) < stunPercent)
             {
@@ -37,6 +45,13 @@ public class Skill_E_Static : SkillPiece
                 });
 
                 target.cc.SetCC(CCType.Stun, 1);
+
+                log = new LogCon();
+                log.text = $"기절시킴";
+                log.selfSpr = skillImg.sprite;
+                log.targetSpr = target.GetComponent<SpriteRenderer>().sprite;
+
+                DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
             }
             else
             {

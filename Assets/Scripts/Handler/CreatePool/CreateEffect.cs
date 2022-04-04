@@ -10,6 +10,7 @@ public class CreateEffect : MonoBehaviour
 
     [Header("UI ÇÁ¸®ÆÕ")]
     public GameObject enemyIndicator;
+    public GameObject logLine;
 
     private void Awake()
     {
@@ -22,5 +23,7 @@ public class CreateEffect : MonoBehaviour
 
         if (enemyIndicator != null)
             PoolManager.CreatePool<EnemyIndicatorText>(enemyIndicator, this.transform, 10);
+
+        PoolManager.CreatePool<LogLine>(logLine, this.transform, 10);
     }
 }

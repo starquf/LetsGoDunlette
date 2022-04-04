@@ -38,6 +38,12 @@ public class Skill_E_Charging : SkillPiece
                 textEffect.SetScale(0.8f);
                 textEffect.Play("충전됨!");
 
+                LogCon log = new LogCon();
+                log.text = $"충전됨";
+                log.selfSpr = skillImg.sprite;
+
+                DebugLogHandler.AddLog(LogType.ImageText, log);
+
                 Anim_E_Static_Stun staticEffect = PoolManager.GetItem<Anim_E_Static_Stun>();
                 staticEffect.transform.position = skillImg.transform.position;
                 staticEffect.SetScale(0.8f);
@@ -85,6 +91,13 @@ public class Skill_E_Charging : SkillPiece
             EnemyHealth enemy = enemys[Random.Range(0, enemys.Count)];
 
             enemy.GetDamage(Value, currentType);
+
+            LogCon log = new LogCon();
+            log.text = $"{Value} 데미지 부여";
+            log.selfSpr = skillImg.sprite;
+            log.targetSpr = enemy.GetComponent<SpriteRenderer>().sprite;
+
+            DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
 
             Anim_E_Static staticEffect = PoolManager.GetItem<Anim_E_Static>();
             staticEffect.transform.position = enemy.transform.position;
