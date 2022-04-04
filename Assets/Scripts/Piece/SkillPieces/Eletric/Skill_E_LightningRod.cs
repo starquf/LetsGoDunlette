@@ -81,9 +81,23 @@ public class Skill_E_LightningRod : SkillPiece
             {
                 battleHandler.battleEvent.OnCastPiece(result);
 
+                LogCon log = new LogCon();
+                log.text = $"스킬 발동";
+                log.selfSpr = skillImg.sprite;
+                log.targetSpr = result.skillImg.sprite;
+
+                DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
+
                 result.Cast(target, onCastEnd);
 
                 battleHandler.battleUtil.SetPieceToGraveyard(lightningSkillIdxDic[result]);
+
+                log = new LogCon();
+                log.text = $"무덤으로 보냄";
+                log.selfSpr = skillImg.sprite;
+                log.targetSpr = result.skillImg.sprite;
+
+                DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
             }
             else
             {
@@ -92,6 +106,14 @@ public class Skill_E_LightningRod : SkillPiece
         });
 
         target.GetDamage(Value, currentType);
+
+        LogCon log = new LogCon();
+        log.text = $"{Value} 데미지 부여";
+        log.selfSpr = skillImg.sprite;
+        log.targetSpr = target.GetComponent<SpriteRenderer>().sprite;
+
+        DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
+
         GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
     }
 }

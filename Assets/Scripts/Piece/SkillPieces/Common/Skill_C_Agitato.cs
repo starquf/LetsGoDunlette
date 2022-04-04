@@ -22,6 +22,13 @@ public class Skill_C_Agitato : SkillPiece
 
         target.GetDamage(damageStack * 5, currentType);
 
+        LogCon log = new LogCon();
+        log.text = $"{damageStack * 5} 데미지 부여";
+        log.selfSpr = skillImg.sprite;
+        log.targetSpr = target.GetComponent<SpriteRenderer>().sprite;
+
+        DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
+
         onCastEnd?.Invoke();
     }
 }
