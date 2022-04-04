@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -194,8 +193,21 @@ public class CrowdControl : MonoBehaviour
     {
         foreach (CCType cc in Enum.GetValues(typeof(CCType)))
         {
-            if(ccDic[cc] > 0)
+            if (ccDic[cc] > 0)
+            {
                 return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool IsCC(CCType ccType)
+    {
+
+        if (ccDic[ccType] > 0)
+        {
+            return true;
         }
 
         return false;
