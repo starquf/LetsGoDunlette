@@ -26,7 +26,8 @@ public enum CCType
     Silence = 1,       // 침묵
     Exhausted = 2,     // 피곤함
     Wound = 3,          // 상처
-    Invincibility = 4 // 무적
+    Invincibility = 4, // 무적
+    Fascinate //매혹 (세이렌 전용)
 }
 
 public enum BuffType
@@ -84,4 +85,10 @@ public enum EnemyType
     ALLIGATOR,
     BUGBEAR,
     REDFOX,
+    GARGOYLE_ATTACKER,
+    SIRENE,
+    TAROS,
+    SARO,
+    GAR,
+    DNAM
 }
