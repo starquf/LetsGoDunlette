@@ -9,6 +9,29 @@ using Random = UnityEngine.Random;
 public class Encounter_013 : RandomEncounter
 {
     public int lostGoldValue = 10;
+
+    public SkillPiece GetRamdomSkill()
+    {
+        InventoryHandler inventoryHandler = GameManager.Instance.inventoryHandler;
+        List<SkillPiece> skills = new List<SkillPiece>();
+        for (int i = 0; i < inventoryHandler.unusedSkills.Count; i++)
+        {
+            if (inventoryHandler.unusedSkills[i].isPlayerSkill)
+            {
+                skills.Add(inventoryHandler.unusedSkills[i]);
+            }
+        }
+        for (int i = 0; i < inventoryHandler.usedSkills.Count; i++)
+        {
+            if (inventoryHandler.usedSkills[i].isPlayerSkill)
+            {
+                skills.Add(inventoryHandler.usedSkills[i]);
+            }
+        }
+        int randIdx = Random.Range(0, skills.Count);
+        return skills[randIdx];
+    }
+
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;
@@ -31,16 +54,8 @@ public class Encounter_013 : RandomEncounter
                         Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
                         textEffect.Play("위험한 내기 실패!!!");
                         InventoryHandler inventoryHandler = GameManager.Instance.inventoryHandler;
-                        List<SkillPiece> skills = new List<SkillPiece>();
-                        for (int i = 0; i < inventoryHandler.skills.Count; i++)
-                        {
-                            if(inventoryHandler.skills[i].isPlayerSkill)
-                            {
-                                skills.Add(inventoryHandler.skills[i]);
-                            }
-                        }
-                        int randIdx = Random.Range(0, skills.Count);
-                        SkillPiece sp = skills[randIdx];
+                        
+                        SkillPiece sp = GetRamdomSkill();
                         inventoryHandler.GetSkillFromInventory(sp);
                         DOTween.Sequence()
                         .Append(sp.transform.DOMove(Vector2.zero, 0.5f))
