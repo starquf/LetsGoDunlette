@@ -79,6 +79,7 @@ public class BattleHandler : MonoBehaviour
     public EnemyType curMapBossType = EnemyType.NORMAL_SLIME;
     public bool isElite = false;
     public bool isBoss = false;
+    private bool isStartBattel = false;
     #region WaitSeconds
     private readonly WaitForSeconds oneSecWait = new WaitForSeconds(1f);
     private readonly WaitForSeconds pFiveSecWait = new WaitForSeconds(0.5f);
@@ -105,6 +106,7 @@ public class BattleHandler : MonoBehaviour
 
         // 플레이어가 가지고 있는 기본 스킬 생성 일단 테스트로 만들어놈
         player.GetComponent<Inventory>().CreateSkills();
+        battleEvent.onStartBattle += () => isStartBattel = true;
     }
 
     #region StartBattle
@@ -170,6 +172,8 @@ public class BattleHandler : MonoBehaviour
         log.hasLine = true;
 
         DebugLogHandler.AddLog(LogType.OnlyText, log);
+
+        battleEvent.OnStartBattle();
     }
 
     private void InitHandler()
@@ -377,9 +381,16 @@ public class BattleHandler : MonoBehaviour
         DebugLogHandler.AddLog(LogType.OnlyText, log);
 
         // 현재 턴에 걸려있는 적의 cc기와 플레이어의 cc기를 하나 줄여준다.
-        ccHandler.DecreaseCC();
         battleEvent.InitNextSkill();
         battleEvent.OnStartTurn();
+        if (!isBattleStart)
+        {
+            ccHandler.DecreaseCC();
+        }
+        else
+        {
+            isBattleStart = false;
+        }
 
         canPause = true;
 

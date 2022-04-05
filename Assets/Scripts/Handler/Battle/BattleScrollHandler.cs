@@ -152,7 +152,6 @@ public class BattleScrollHandler : MonoBehaviour
         // 여기 까지오면 모든 슬롯이 다 차있는거 선택해서 변경하는거 구현해야됨
         ChangeScroll(scroll, () =>
         {
-            Debug.LogWarning("스크롤 변경 구현안됨..");
             OnComplete?.Invoke();
         });
     }

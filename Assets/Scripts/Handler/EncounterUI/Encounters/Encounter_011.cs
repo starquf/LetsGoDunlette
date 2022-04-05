@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ using UnityEngine.UI;
 
 public class Encounter_011 : RandomEncounter
 {
+    public int battleCntValue = 2;
     public SkillPiece mermaidBlessingPiece;
     private SkillPiece skill;
     private SkillPiece skill2;
@@ -72,7 +74,6 @@ public class Encounter_011 : RandomEncounter
                 showText = en_End_TextList[2];
                 showImg = en_End_Image[2];
                 en_End_Result = "다음 2번의 전투 시작 시, 2턴간 침묵 상태이상 적용";
-                Debug.LogError("미구현");
                 break;
             default:
                 break;
@@ -127,6 +128,24 @@ public class Encounter_011 : RandomEncounter
                 OnExitEncounter?.Invoke(true);
                 break;
             case 2:
+                PlayerHealth playerHealth = GameManager.Instance.GetPlayer();
+                BattleEventHandler battleEventHandler = GameManager.Instance.battleHandler.battleEvent;
+
+                int battlecount = battleCntValue;
+
+                Action onBattleStart = null;
+                onBattleStart = () =>
+                {
+                    battlecount--;
+                    playerHealth.cc.SetCC(CCType.Silence, 2);
+                    if (battlecount <= 0)
+                    {
+                        battleEventHandler.onStartBattle -= onBattleStart;
+                    }
+                };
+
+                battleEventHandler.onStartBattle += onBattleStart;
+
                 OnExitEncounter?.Invoke(true);
                 break;
             default:
@@ -134,4 +153,5 @@ public class Encounter_011 : RandomEncounter
         }
         choiceIdx = -1;
     }
+
 }
