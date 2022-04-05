@@ -4,7 +4,8 @@ using UnityEngine;
 public class TA_Skill : SkillPiece
 {
     public Sprite heatingSprite;
-    bool isHeating = false;
+    public Sprite normalSprite;
+
     public int skillCount = 0;
     protected override void Awake()
     {
@@ -15,11 +16,23 @@ public class TA_Skill : SkillPiece
     public override PieceInfo ChoiceSkill()
     {
         base.ChoiceSkill();
-        if (!isHeating)
+        if (!owner.GetComponent<EnemyHealth>().cc.IsCC(CCType.Heating))
         {
             if (skillCount < 2)
             {
                 onCastSkill = TA_Off_Limits;
+
+                owner.GetComponent<SpriteRenderer>().sprite = normalSprite;
+
+                for (int i = 0; i < owner.skills.Count; i++)
+                {
+                    TA_Skill skill = owner.skills[i].GetComponent<TA_Skill>();
+                    if (skill != null)
+                    {
+                        skill.pieceInfo[0].PieceDes = "플레이어에게 40의 피해를 입힌다.";
+                    }
+                }
+
                 return pieceInfo[0];
             }
             else
@@ -27,6 +40,7 @@ public class TA_Skill : SkillPiece
                 onCastSkill = TA_Body_Heating;
                 return pieceInfo[1];
             }
+
         }
         else
         {
@@ -45,7 +59,7 @@ public class TA_Skill : SkillPiece
     {
         SetIndicator(owner.gameObject, "공격").OnEnd(() =>
         {
-            if (isHeating)
+            if (owner.GetComponent<EnemyHealth>().cc.IsCC(CCType.Heating))
             {
                 target.GetDamage(50, this, owner);
             }
@@ -76,26 +90,18 @@ public class TA_Skill : SkillPiece
     {
         SetIndicator(owner.gameObject, "강화").OnEnd(() =>
         {
-            for (int i = 0; i < owner.skills.Count; i++)
-            {
-                TA_Attack skill = owner.skills[i].GetComponent<TA_Attack>();
-                if (skill != null)
-                {
-                    skill.AddValue(10);
-                    // break; // 1개 라고 가정함
-                }
-            }
+            owner.GetComponent<SpriteRenderer>().sprite = heatingSprite;
+            owner.GetComponent<EnemyHealth>().cc.SetCC(CCType.Heating, 4);
 
             for (int i = 0; i < owner.skills.Count; i++)
             {
                 TA_Skill skill = owner.skills[i].GetComponent<TA_Skill>();
                 if (skill != null)
                 {
-                    skill.isHeating = true;
+                    skill.pieceInfo[0].PieceDes = "플레이어에게 50의 피해를 입힌다.";
+                    skill.skillCount = 0;
                 }
             }
-
-            owner.GetComponent<SpriteRenderer>().sprite = heatingSprite;
 
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
             Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
