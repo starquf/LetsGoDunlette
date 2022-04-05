@@ -64,6 +64,21 @@ public class RandomEncounterUIHandler : MonoBehaviour
                 return false;
             }
         }
+        else if(idx == 13)
+        {
+            for (int i = 0; i < battleScrollHandler.slots.Count; i++)
+            {
+                ScrollSlot scrollSlot = battleScrollHandler.slots[i];
+                if (scrollSlot.scroll != null)
+                {
+                    if (scrollSlot.scroll.scrollType == ScrollType.Heal)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
         else if(idx == 16)//16À¸·Î ¹Ù²ã¾ßµÊ
         {
             for (int i = 0; i < GameManager.Instance.inventoryHandler.unusedSkills.Count; i++)
@@ -83,7 +98,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
         if(encounterIdx < 0)
         {
             int randIdx = -1;
-            //randIdx = 14;
+            randIdx = 12;
             while (!CanStartEncounter(randIdx))
             {
                 randIdx = Random.Range(0, randomEncounterList.Count);

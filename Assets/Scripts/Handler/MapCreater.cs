@@ -68,6 +68,7 @@ public class MapCreater : MonoBehaviour
         }
 
         mapHandler.map = this.map;
+
         if(!firstCreate)
         {
             mapHandler.ShowMap();
@@ -76,6 +77,7 @@ public class MapCreater : MonoBehaviour
         {
             firstCreate = false;
         }
+
         mapHandler.OnSelectNode(map[0][3]);
     }
 
