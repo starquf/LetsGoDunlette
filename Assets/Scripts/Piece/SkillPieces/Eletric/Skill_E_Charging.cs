@@ -71,10 +71,10 @@ public class Skill_E_Charging : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        GameManager.Instance.battleHandler.battleUtil.StartCoroutine(ChargeAttack(onCastEnd));
+        GameManager.Instance.battleHandler.battleUtil.StartCoroutine(ChargeAttack(target, onCastEnd));
     }
 
-    private IEnumerator ChargeAttack(Action onCastEnd = null)
+    private IEnumerator ChargeAttack(LivingEntity target, Action onCastEnd = null)
     {
         if (bh.enemys.Count <= 0)
         {
@@ -82,13 +82,22 @@ public class Skill_E_Charging : SkillPiece
             yield break;
         }
 
-        List<EnemyHealth> enemys = bh.battleUtil.DeepCopyList(bh.enemys);
+        List<LivingEntity> targets = new List<LivingEntity>();
+
+        if (target == bh.player)
+        {
+            targets.Add(target);
+        }
+        else
+        {
+            targets = bh.battleUtil.DeepCopyEnemyList(bh.enemys);
+        }
 
         int atkCnt = attackCount;
 
         for (int i = 0; i < atkCnt; i++)
         {
-            EnemyHealth enemy = enemys[Random.Range(0, enemys.Count)];
+            LivingEntity enemy = targets[Random.Range(0, targets.Count)];
 
             enemy.GetDamage(Value, currentType);
 

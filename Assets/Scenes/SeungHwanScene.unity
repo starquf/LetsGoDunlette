@@ -4821,6 +4821,9 @@ MonoBehaviour:
   - {fileID: 8488250946742138023, guid: 5064b6c06cb00af48820e0b959ae1ec9, type: 3}
   - {fileID: 3478037225019446062, guid: 3b22ef133deca13448c05d88ffa1a421, type: 3}
   - {fileID: 2847914281021763638, guid: f7c155f131548ab40b3a4d4fdfd7a718, type: 3}
+  - {fileID: 277614994068543483, guid: 16d965ea72d8b094ab777c7b8a7d013e, type: 3}
+  - {fileID: 1852730878418644016, guid: ada592710435d9e47a0c6b9211fc96a6, type: 3}
+  - {fileID: 9128753765892485134, guid: 5ab4d96637ff12c4ab3bd59028837953, type: 3}
 --- !u!114 &361184786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4881,6 +4884,7 @@ MonoBehaviour:
   recoverAnim: {fileID: 8510189776845874911, guid: 132cbaba3c7381d4da4dfcb58dafd44f, type: 3}
   shieldAnim: {fileID: 8510189776845874911, guid: cc13cdf924e1b90488e2f274fd013fd9, type: 3}
   shieldAnim2: {fileID: 6329140545610595919, guid: 09a1671f5b7701746b7f36cb8e5b61a7, type: 3}
+  wispAnim: {fileID: 8510189776845874911, guid: fa4151bf6cb36144c80afb340585f8be, type: 3}
 --- !u!114 &361184788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5185,10 +5189,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battleInfos:
-  - enemyInfos: 00000000
+  - enemyInfos: 0f000000
     isWeakEnemy: 1
   - enemyInfos: 01000000
-    isWeakEnemy: 1
+    isWeakEnemy: 0
   - enemyInfos: 0000000000000000
     isWeakEnemy: 0
   - enemyInfos: 0100000000000000
@@ -16115,6 +16119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hPCvs: {fileID: 965805918}
+  hpBar: {fileID: 0}
   maxHp: 200
   hp: 0
   shieldHp: 0
@@ -16135,14 +16140,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillPrefabs:
-  - {fileID: 5219999204231547788, guid: 4c5392ef9977e9e4292e0c125f8ee59a, type: 3}
-  - {fileID: 5219999204231547788, guid: 4c5392ef9977e9e4292e0c125f8ee59a, type: 3}
-  - {fileID: 5219999204231547788, guid: 344a851715ec3e449b731e8738ade5b5, type: 3}
-  - {fileID: 5219999204231547788, guid: 344a851715ec3e449b731e8738ade5b5, type: 3}
-  - {fileID: 5219999204231547788, guid: 0059602853cef8342963ab23ba58a6a1, type: 3}
-  - {fileID: 5219999204231547788, guid: 0059602853cef8342963ab23ba58a6a1, type: 3}
-  - {fileID: 5219999204231547788, guid: 83d9fe2125c697546bd00e7b71e0b878, type: 3}
-  - {fileID: 5219999204231547788, guid: e3b69a60961350c4490f2d31e6a1fe32, type: 3}
+  - {fileID: 2288853367069960182, guid: 72da360514b1924469f9a916d176c3ca, type: 3}
+  - {fileID: 2288853367069960182, guid: 72da360514b1924469f9a916d176c3ca, type: 3}
+  - {fileID: 2288853367069960182, guid: 72da360514b1924469f9a916d176c3ca, type: 3}
+  - {fileID: 2288853367069960182, guid: 72da360514b1924469f9a916d176c3ca, type: 3}
+  - {fileID: 2288853367069960182, guid: 72da360514b1924469f9a916d176c3ca, type: 3}
+  - {fileID: 2288853367069960182, guid: 72da360514b1924469f9a916d176c3ca, type: 3}
+  - {fileID: 2288853367069960182, guid: 72da360514b1924469f9a916d176c3ca, type: 3}
+  - {fileID: 2288853367069960182, guid: 72da360514b1924469f9a916d176c3ca, type: 3}
   skills: []
 --- !u!114 &762510364
 MonoBehaviour:
@@ -16225,7 +16230,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 762510361}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.242, z: 0}
+  m_LocalPosition: {x: -2.34, y: 1.98, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

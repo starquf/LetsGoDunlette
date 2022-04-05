@@ -19,11 +19,20 @@ public class Skill_N_Typhoon : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        List<EnemyHealth> enemys = bh.battleUtil.DeepCopyList(bh.enemys);
+        List<LivingEntity> targets = new List<LivingEntity>();
 
-        for (int i = 0; i < enemys.Count; i++)
+        if (target == bh.player)
         {
-            Vector2 attackPos = enemys[i].transform.position;
+            targets.Add(target);
+        }
+        else 
+        {
+            targets = bh.battleUtil.DeepCopyEnemyList(bh.enemys);
+        }
+
+        for (int i = 0; i < targets.Count; i++)
+        {
+            Vector2 attackPos = targets[i].transform.position;
 
             Anim_N_Wind windEffect = PoolManager.GetItem<Anim_N_Wind>();
             windEffect.transform.position = attackPos;
@@ -31,11 +40,11 @@ public class Skill_N_Typhoon : SkillPiece
 
             windEffect.Play();
 
-            enemys[i].GetDamage(Value, currentType);
+            targets[i].GetDamage(Value, currentType);
 
-            if (enemys.Count >= 2)
+            if (targets.Count >= 2)
             {
-                enemys[i].GetDamage(50, currentType);
+                targets[i].GetDamage(50, currentType);
             }
         }
 

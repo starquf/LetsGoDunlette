@@ -25,10 +25,10 @@ public class Skill_W_Tsunami : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        StartCoroutine(Tsunami(onCastEnd));
+        GameManager.Instance.battleHandler.battleUtil.StartCoroutine(Tsunami(target, onCastEnd));
     }
 
-    private IEnumerator Tsunami(Action onCastEnd = null)
+    private IEnumerator Tsunami(LivingEntity target, Action onCastEnd = null)
     {
         int waterCnt = 0;
 
@@ -89,14 +89,23 @@ public class Skill_W_Tsunami : SkillPiece
 
         skillEffect.Play(bh.createTrans.position, () => {
 
-            List<EnemyHealth> enemys = bh.battleUtil.DeepCopyList(bh.enemys);
+            List<LivingEntity> targets = new List<LivingEntity>();
 
-            for (int i = 0; i < enemys.Count; i++)
+            if (target == bh.player)
             {
-                enemys[i].GetDamage(Value + 10 * waterCnt, currentType);
+                targets.Add(target);
+            }
+            else
+            {
+                targets = bh.battleUtil.DeepCopyEnemyList(bh.enemys);
+            }
+
+            for (int i = 0; i < targets.Count; i++)
+            {
+                targets[i].GetDamage(Value + 10 * waterCnt, currentType);
 
                 Anim_W_Splash splashEffect = PoolManager.GetItem<Anim_W_Splash>();
-                splashEffect.transform.position = enemys[i].transform.position;
+                splashEffect.transform.position = targets[i].transform.position;
 
                 GameManager.Instance.cameraHandler.ShakeCamera(1.5f + waterCnt * 0.5f, 0.15f);
 

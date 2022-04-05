@@ -20,13 +20,13 @@ public class Skill_W_Change : SkillPiece
         owner.GetComponent<PlayerHealth>().ChangeShieldToHealth();
 
         Anim_M_Recover recoverEffect = PoolManager.GetItem<Anim_M_Recover>();
-        recoverEffect.transform.position = bh.playerImgTrans.position;
+        recoverEffect.transform.position = owner.transform.position;
         recoverEffect.SetScale(0.5f);
 
         recoverEffect.Play();
 
         Anim_W_Splash splashEffect = PoolManager.GetItem<Anim_W_Splash>();
-        splashEffect.transform.position = bh.playerHpbarTrans.position;
+        splashEffect.transform.position = owner.GetComponent<LivingEntity>().hpBar.transform.position;
         splashEffect.SetScale(0.5f);
 
         splashEffect.Play(() => onCastEnd?.Invoke());
