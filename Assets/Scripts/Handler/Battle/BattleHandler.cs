@@ -75,8 +75,7 @@ public class BattleHandler : MonoBehaviour
     //==================================================
 
     [Header("현재 맵 보스 타입")]
-    BattleInfo _bInfo = null;
-    public EnemyType curMapBossType = EnemyType.NORMAL_SLIME;
+    public BattleInfo _bInfo = null;
     public bool isElite = false;
     public bool isBoss = false;
     private bool isStartBattel = false;
