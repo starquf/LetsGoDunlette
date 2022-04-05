@@ -36,19 +36,19 @@ public class Encounter_016 : RandomEncounter
             case 0:
                 showText = en_End_TextList[0];
                 showImg = en_End_Image[0];
-
+                encounterUIHandler.SetRandomEncounter(encounterIdxList[0]);
                 en_End_Result = $"다음 인카운터가 {encounterUIHandler.randomEncounterList[encounterIdxList[0]].en_Name}로 고정됨";
                 break;
             case 1:
                 showText = en_End_TextList[0];
                 showImg = en_End_Image[0];
-
+                encounterUIHandler.SetRandomEncounter(encounterIdxList[1]);
                 en_End_Result = $"다음 인카운터가 {encounterUIHandler.randomEncounterList[encounterIdxList[1]].en_Name}로 고정됨";
                 break;
             case 2:
                 showText = en_End_TextList[0];
                 showImg = en_End_Image[0];
-
+                encounterUIHandler.SetRandomEncounter(encounterIdxList[2]);
                 en_End_Result = $"다음 인카운터가 {encounterUIHandler.randomEncounterList[encounterIdxList[2]].en_Name}로 고정됨";
                 break;
             default:
