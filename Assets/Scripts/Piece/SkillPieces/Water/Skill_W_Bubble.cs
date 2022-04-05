@@ -10,7 +10,7 @@ public class Skill_W_Bubble : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        bh.battleUtil.StartCoroutine(Bubble(target, onCastEnd));
+        GameManager.Instance.battleHandler.battleUtil.StartCoroutine(Bubble(target, onCastEnd));
     }
 
     private IEnumerator Bubble(LivingEntity target, Action onCastEnd = null)
