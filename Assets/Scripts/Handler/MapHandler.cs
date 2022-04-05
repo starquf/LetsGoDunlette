@@ -276,7 +276,7 @@ public class MapHandler : MonoBehaviour
                         {
                             Debug.LogError("이상한 보스가 설정됨2");
                         }
-                        SetBossIcon(bossIdx);
+                        map[c][r].spriteIdx = 5 + bossIdx;
                         break;
                     case mapNode.MONSTER:
                         map[c][r].spriteIdx = 0;
