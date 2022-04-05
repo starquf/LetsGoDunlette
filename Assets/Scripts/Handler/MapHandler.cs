@@ -230,6 +230,13 @@ public class MapHandler : MonoBehaviour
         MovePlayer(node.depth == 0);
     }
 
+    public void SetBossIcon(int bossIdx)
+    {
+        map[map.Count-1][3].spriteIdx = 5 + bossIdx;
+        Sprite icon = mapIcons[map[map.Count - 1][3].spriteIdx];
+        GetCurNodeTrm(3, map.Count - 1).GetComponent<Image>().sprite = icon;
+    }
+
     public void ShowMap()
     {
         LayoutRebuilder.ForceRebuildLayoutImmediate(Content.GetComponent<RectTransform>());
@@ -269,11 +276,10 @@ public class MapHandler : MonoBehaviour
                         {
                             Debug.LogError("이상한 보스가 설정됨2");
                         }
-                        map[c][r].spriteIdx = 5 + bossIdx;
+                        SetBossIcon(bossIdx);
                         break;
                     case mapNode.MONSTER:
                         map[c][r].spriteIdx = 0;
-                        icon = mapIcons[0];
                         break;
                     case mapNode.EMONSTER:
                         map[c][r].spriteIdx = 1;
