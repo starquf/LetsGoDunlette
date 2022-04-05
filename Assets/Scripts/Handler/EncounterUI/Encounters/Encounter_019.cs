@@ -6,42 +6,48 @@ using UnityEngine.UI;
 
 public class Encounter_019 : RandomEncounter
 {
-    public SkillPiece cheatingPiece;
+    public SkillPiece computerErrorPiece;
     private SkillPiece skill;
+    private Scroll scroll;
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;
         PlayerHealth playerHealth = GameManager.Instance.GetPlayer();
         Image skillImg;
+        RandomEncounterUIHandler randomEncounterUIHandler = encounterInfoHandler.GetComponent<RandomEncounterUIHandler>();
         switch (resultIdx)
         {
             case 0:
+                BattleHandler battleHandler = GameManager.Instance.battleHandler;
+                BattleScrollHandler battleScrollHandler = battleHandler.GetComponent<BattleScrollHandler>();
+                en_End_Result = "스크롤 1개 획득";
                 showText = en_End_TextList[0];
                 showImg = en_End_Image[0];
-                en_End_Result = "골드와 속임수 룰렛 조각 획득";
-                GameManager.Instance.Gold += 10;
 
-                if (cheatingPiece == null)
-                    Debug.LogError("속임수 조각이 안들어있음");
-                Debug.LogWarning("아지타토로 대신 넣어놈");
-                skill = Instantiate(cheatingPiece).GetComponent<SkillPiece>();
-                skill.transform.position = Vector2.zero;
-                skill.transform.rotation = Quaternion.Euler(0, 0, 30f);
-                skillImg = skill.GetComponent<Image>();
-                skillImg.color = new Color(1, 1, 1, 0);
-                skill.transform.SetParent(encounterInfoHandler.transform);
-                skill.transform.localScale = Vector3.one;
-                skillImg.DOFade(1, 0.5f).SetDelay(1f);
+                randomEncounterUIHandler.exitBtn.gameObject.SetActive(false);
+
+                scroll = PoolManager.GetScroll(encounterInfoHandler.GetRandomScrollRewards(1)[0].scrollType);
+                scroll.transform.position = Vector2.zero;
+                Image scrollImg = scroll.GetComponent<Image>();
+                scrollImg.color = new Color(1, 1, 1, 0);
+                scroll.transform.SetParent(encounterInfoHandler.transform);
+                scroll.GetComponent<RectTransform>().sizeDelta = Vector2.one * 400f;
+                scroll.transform.localScale = Vector3.one;
+                scrollImg.DOFade(1, 0.5f).SetDelay(1f);
+
+                battleScrollHandler.GetScroll(scroll, () =>
+                {
+                    randomEncounterUIHandler.exitBtn.gameObject.SetActive(true);
+                }, true);
                 break;
             case 1:
-                showText = en_End_TextList[0];
+                showText = en_End_TextList[1];
                 showImg = en_End_Image[1];
-                en_End_Result = "최대 체력의 5%만큼 피해를 입고 랜덤 룰렛 조각 획득";
-                playerHealth.GetDamage((int)(playerHealth.maxHp * 0.05f));
+                en_End_Result = "전산 오류 조각을 1개 획득";
 
-                SkillPiece piece = encounterInfoHandler.GetRandomSkillRewards(1)[0].GetComponent<SkillPiece>();
-
-                skill = Instantiate(piece).GetComponent<SkillPiece>();
+                if (computerErrorPiece == null)
+                    Debug.LogError("전산오류 조각이 안들어있음");
+                skill = Instantiate(computerErrorPiece).GetComponent<SkillPiece>();
                 skill.transform.position = Vector2.zero;
                 skill.transform.rotation = Quaternion.Euler(0, 0, 30f);
                 skillImg = skill.GetComponent<Image>();
@@ -49,13 +55,6 @@ public class Encounter_019 : RandomEncounter
                 skill.transform.SetParent(encounterInfoHandler.transform);
                 skill.transform.localScale = Vector3.one;
                 skillImg.DOFade(1, 0.5f).SetDelay(1f);
-                break;
-            case 2:
-                showText = en_End_TextList[0];
-                showImg = en_End_Image[2];
-                en_End_Result = "소지 골드의 10%를 잃고 최대 체력의 10%만큼 회복.";
-                GameManager.Instance.Gold = (int)(GameManager.Instance.Gold * 0.9f);
-                playerHealth.Heal((int)(playerHealth.maxHp * 0.1f));
                 break;
             default:
                 break;
@@ -69,20 +68,7 @@ public class Encounter_019 : RandomEncounter
         switch (choiceIdx)
         {
             case 0:
-                DOTween.Sequence()
-                .Append(skill.transform.DOMove(unusedInventoryTrm.position, 0.5f))
-                .Join(skill.transform.DOScale(Vector2.one * 0.1f, 0.5f))
-                .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
-                .OnComplete(() =>
-                {
-                    Inventory owner = battleHandler.player.GetComponent<Inventory>();
-                    skill.gameObject.SetActive(false);
-                    skill.owner = owner;
-                    GameManager.Instance.inventoryHandler.AddSkill(skill);
-                    skill.GetComponent<Image>().color = Color.white;
-
-                    OnExitEncounter?.Invoke(true);
-                });
+                OnExitEncounter?.Invoke(true);
                 break;
             case 1:
                 DOTween.Sequence()
@@ -99,10 +85,6 @@ public class Encounter_019 : RandomEncounter
 
                     OnExitEncounter?.Invoke(true);
                 });
-                OnExitEncounter?.Invoke(true);
-                break;
-            case 2:
-                OnExitEncounter?.Invoke(true);
                 break;
             default:
                 break;
