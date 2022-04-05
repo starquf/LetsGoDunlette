@@ -1,11 +1,14 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class Encounter_011 : RandomEncounter
 {
+    public int battleCntValue = 2;
     public SkillPiece mermaidBlessingPiece;
     private SkillPiece skill;
     private SkillPiece skill2;
@@ -17,11 +20,23 @@ public class Encounter_011 : RandomEncounter
         switch (resultIdx)
         {
             case 0:
+                BattleScrollHandler battleScrollHandler = GameManager.Instance.battleHandler.GetComponent<BattleScrollHandler>();
                 showText = en_End_TextList[0];
                 showImg = en_End_Image[0];
-
-
                 en_End_Result = "물속성 룰렛 조각 1개 및 인어의 축복 조각 획득";
+
+                List<ScrollSlot> scrollList = new List<ScrollSlot>();
+                for (int i = 0; i < battleScrollHandler.slots.Count; i++)
+                {
+                    ScrollSlot scrollSlot = battleScrollHandler.slots[i];
+                    if (scrollSlot.scroll != null)
+                    {
+                        scrollList.Add(scrollSlot);
+                    }
+                }
+                int randIdx = Random.Range(0, scrollList.Count);
+                scrollList[randIdx].RemoveScroll();
+                battleScrollHandler.SortScroll();
 
                 if (mermaidBlessingPiece == null)
                     Debug.LogError("인어의축복 조각이 안들어있음");
@@ -72,7 +87,6 @@ public class Encounter_011 : RandomEncounter
                 showText = en_End_TextList[2];
                 showImg = en_End_Image[2];
                 en_End_Result = "다음 2번의 전투 시작 시, 2턴간 침묵 상태이상 적용";
-                Debug.LogError("미구현");
                 break;
             default:
                 break;
@@ -127,6 +141,24 @@ public class Encounter_011 : RandomEncounter
                 OnExitEncounter?.Invoke(true);
                 break;
             case 2:
+                PlayerHealth playerHealth = GameManager.Instance.GetPlayer();
+                BattleEventHandler battleEventHandler = GameManager.Instance.battleHandler.battleEvent;
+
+                int battlecount = battleCntValue;
+
+                Action onBattleStart = null;
+                onBattleStart = () =>
+                {
+                    battlecount--;
+                    playerHealth.cc.SetCC(CCType.Silence, 2);
+                    if (battlecount <= 0)
+                    {
+                        battleEventHandler.onStartBattle -= onBattleStart;
+                    }
+                };
+
+                battleEventHandler.onStartBattle += onBattleStart;
+
                 OnExitEncounter?.Invoke(true);
                 break;
             default:
@@ -134,4 +166,5 @@ public class Encounter_011 : RandomEncounter
         }
         choiceIdx = -1;
     }
+
 }

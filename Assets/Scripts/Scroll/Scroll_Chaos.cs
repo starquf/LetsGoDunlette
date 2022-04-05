@@ -26,6 +26,8 @@ public class Scroll_Chaos : Scroll
 
         StartCoroutine(bh.battleUtil.ResetRullet(() => 
         {
+            print("Ω√¿€2");
+
             StartCoroutine(bh.CheckPanelty(onEndUse));
         }));
     }

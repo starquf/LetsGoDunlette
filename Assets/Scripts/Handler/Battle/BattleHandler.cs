@@ -35,8 +35,11 @@ public class BattleHandler : MonoBehaviour
     [Header("적을 생성하는 위치")]
     public Transform createTrans;
 
+    // 첫턴 룰렛이 꽉 채워지고 돌아갈 때
     [HideInInspector]
     public bool isBattle = false;
+
+    // 진짜 스타트 함수를 불렀을 때 바로
     [HideInInspector]
     public bool isBattleStart = false;
 
@@ -75,10 +78,10 @@ public class BattleHandler : MonoBehaviour
     //==================================================
 
     [Header("현재 맵 보스 타입")]
-    BattleInfo _bInfo = null;
-    public EnemyType curMapBossType = EnemyType.NORMAL_SLIME;
+    public BattleInfo _bInfo = null;
     public bool isElite = false;
     public bool isBoss = false;
+
     #region WaitSeconds
     private readonly WaitForSeconds oneSecWait = new WaitForSeconds(1f);
     private readonly WaitForSeconds pFiveSecWait = new WaitForSeconds(0.5f);
@@ -170,6 +173,8 @@ public class BattleHandler : MonoBehaviour
         log.hasLine = true;
 
         DebugLogHandler.AddLog(LogType.OnlyText, log);
+
+        battleEvent.OnStartBattle();
     }
 
     private void InitHandler()
@@ -377,9 +382,13 @@ public class BattleHandler : MonoBehaviour
         DebugLogHandler.AddLog(LogType.OnlyText, log);
 
         // 현재 턴에 걸려있는 적의 cc기와 플레이어의 cc기를 하나 줄여준다.
-        ccHandler.DecreaseCC();
         battleEvent.InitNextSkill();
         battleEvent.OnStartTurn();
+
+        if (turnCnt > 1)
+        {
+            ccHandler.DecreaseCC();
+        }
 
         canPause = true;
 
@@ -452,7 +461,6 @@ public class BattleHandler : MonoBehaviour
         yield return StartCoroutine(CheckPanelty());
 
         yield return pOneSecWait;
-        yield return pOneSecWait;
 
         // 다음턴으로
         InitTurn();
@@ -490,7 +498,8 @@ public class BattleHandler : MonoBehaviour
         {
             while (battleUtil.CheckRulletPenalty(boolList[i]))
             {
-                yield return pFiveSecWait;
+                yield return pOneSecWait;
+                yield return pOneSecWait;
 
                 GivePenalty(boolList[i]);
 
@@ -517,6 +526,8 @@ public class BattleHandler : MonoBehaviour
                 yield return StartCoroutine(battleUtil.DrawRulletPieces());
             }
         }
+
+        print("끝");
 
         onEndCheckPanelty?.Invoke();
 
@@ -638,9 +649,10 @@ public class BattleHandler : MonoBehaviour
                 {
                     piece.Cast(player, () =>
                     {
-                        castUIHandler.EndCast(piece);
                         StartCoroutine(EndTurn());
                     });
+
+                    castUIHandler.EndCast(piece);
                 };
 
                 mainRullet.RulletSpeed -= 200f;

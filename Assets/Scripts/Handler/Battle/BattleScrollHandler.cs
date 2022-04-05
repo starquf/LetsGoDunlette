@@ -40,6 +40,8 @@ public class BattleScrollHandler : MonoBehaviour
             slots[a].GetComponent<Button>().onClick.RemoveAllListeners();
             slots[a].GetComponent<Button>().onClick.AddListener(() =>
             {
+                if (Time.timeScale <= 0) return;
+
                 if (!canUse) return;
 
                 if (slots[a].scroll != null || !bh.mainRullet.IsStop)
@@ -152,7 +154,6 @@ public class BattleScrollHandler : MonoBehaviour
         // 여기 까지오면 모든 슬롯이 다 차있는거 선택해서 변경하는거 구현해야됨
         ChangeScroll(scroll, () =>
         {
-            Debug.LogWarning("스크롤 변경 구현안됨..");
             OnComplete?.Invoke();
         });
     }

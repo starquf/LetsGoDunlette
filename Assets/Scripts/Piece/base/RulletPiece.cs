@@ -170,6 +170,11 @@ public abstract class RulletPiece : MonoBehaviour
         this.value += value;
     }
 
+    public void SetValue(int value)
+    {
+        this.value = value;
+    }
+
     public abstract void Cast(LivingEntity target, Action onCastEnd = null);
 
     protected virtual void OnDestroy()

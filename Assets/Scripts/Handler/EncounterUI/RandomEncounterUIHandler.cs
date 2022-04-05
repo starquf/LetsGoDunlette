@@ -57,14 +57,29 @@ public class RandomEncounterUIHandler : MonoBehaviour
         {
             return false;
         }
-        else if (idx == 8) // 스크롤 없을시 발동 x
+        else if (idx == 8 || idx == 10) // 스크롤 없을시 발동 x
         {
             if (!battleScrollHandler.HasScroll())
             {
                 return false;
             }
         }
-        else if(idx == 12)//16으로 바꿔야됨
+        else if(idx == 13)
+        {
+            for (int i = 0; i < battleScrollHandler.slots.Count; i++)
+            {
+                ScrollSlot scrollSlot = battleScrollHandler.slots[i];
+                if (scrollSlot.scroll != null)
+                {
+                    if (scrollSlot.scroll.scrollType == ScrollType.Heal)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        else if(idx == 16)//16으로 바꿔야됨
         {
             for (int i = 0; i < GameManager.Instance.inventoryHandler.unusedSkills.Count; i++)
             {
@@ -83,7 +98,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
         if(encounterIdx < 0)
         {
             int randIdx = -1;
-            //randIdx = 10;
+            //randIdx = 12;
             while (!CanStartEncounter(randIdx))
             {
                 randIdx = Random.Range(0, randomEncounterList.Count);

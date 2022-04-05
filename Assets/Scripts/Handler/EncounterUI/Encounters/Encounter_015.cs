@@ -7,10 +7,31 @@ using UnityEngine.UI;
 public class Encounter_015 : RandomEncounter
 {
     private SkillPiece skill;
+    BattleScrollHandler battleScrollHandler= null;
 
     public override void Init()
     {
-
+        battleScrollHandler = GameManager.Instance.battleHandler.GetComponent<BattleScrollHandler>();
+        int scrollCount = 0;
+        for (int i = 0; i < battleScrollHandler.slots.Count; i++)
+        {
+            ScrollSlot scrollSlot = battleScrollHandler.slots[i];
+            if (scrollSlot.scroll != null)
+            {
+                scrollCount++;
+            }
+        }
+        if(scrollCount<2)
+        {
+            RandomEncounterUIHandler randomEncounterUIHandler = encounterInfoHandler.GetComponent<RandomEncounterUIHandler>();
+            randomEncounterUIHandler.encounterChoiceTxtList[0].transform.parent.GetComponent<Button>().onClick.RemoveAllListeners();
+            randomEncounterUIHandler.encounterChoiceTxtList[0].transform.parent.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
+                textEffect.Play("스크롤이 2개 이상이 아닙니다.");
+                randomEncounterUIHandler.encounterChoiceTxtList[0].transform.parent.GetComponent<Button>().interactable = false;
+            });
+        }
     }
 
     public override void ResultSet(int resultIdx)
@@ -24,6 +45,22 @@ public class Encounter_015 : RandomEncounter
                 showImg = en_End_Image[0];
                 en_End_Result = "가지고 있는 랜덤 스크롤 2개를 잃고, 랜덤 유물 하나 획득";
 
+                List<ScrollSlot> scrollList = new List<ScrollSlot>();
+                for (int i = 0; i < battleScrollHandler.slots.Count; i++)
+                {
+                    ScrollSlot scrollSlot = battleScrollHandler.slots[i];
+                    if (scrollSlot.scroll != null)
+                    {
+                        scrollList.Add(scrollSlot);
+                    }
+                }
+                for (int i = 0; i < 2; i++)
+                {
+                    int randIdx = Random.Range(0, scrollList.Count);
+                    scrollList[randIdx].RemoveScroll();
+                    scrollList.Remove(scrollList[randIdx]);
+                }
+                battleScrollHandler.SortScroll();
 
                 print("유물 미구현");
                 break;

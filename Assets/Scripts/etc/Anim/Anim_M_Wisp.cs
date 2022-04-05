@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Explain : MonoBehaviour
+public class Anim_M_Wisp : AnimObj
 {
-    [TextArea]
-    public string content;
+    
 }

@@ -14,11 +14,12 @@ public class InventoryInfoHandler : MonoBehaviour
     private float startPos;
     private float endPos;
 
-    [Header("움직이는 것들")]
-    public Transform bottomBG;
+    public Canvas upCvs;
+    private string ignoreEft = "IgnoreEffect";
+    private string upUI = "UpUI";
 
-    private float bgStartPos;
-    private float bgEndPos;
+    [Header("움직이는 것들")]
+    public BottomUIHandler bottomBG;
 
     [Header("버튼")]
     public Button invenBtn;
@@ -43,7 +44,8 @@ public class InventoryInfoHandler : MonoBehaviour
 
     [SerializeField] 
     private Text messageText;
-    private string msg = "사용되지 않은 조각";
+    private string unusedMsg = "사용되지 않은 조각";
+    private string usedMsg = "무덤에 있는 조각";
 
     private Action<SkillPiece> onClickPiece = null;
     private ShowInfoRange currentRange = ShowInfoRange.Inventory;
@@ -65,9 +67,6 @@ public class InventoryInfoHandler : MonoBehaviour
         startPos = cg.transform.localPosition.y;
         endPos = cg.transform.localPosition.y - rect.rect.height;
 
-        bgStartPos = bottomBG.localPosition.y;
-        bgEndPos = bottomBG.localPosition.y - 200f;
-
         contentRect = pieceHolderTrm.parent.GetComponent<RectTransform>();
         invenHandler = GameManager.Instance.inventoryHandler;
         bh = GameManager.Instance.battleHandler;
@@ -75,9 +74,14 @@ public class InventoryInfoHandler : MonoBehaviour
         invenBtn.onClick.AddListener(() =>
         {
             if (!isShow)
-                ShowInventoryInfo(msg, ShowInfoRange.Inventory, desPanel.ShowDescription);
+                ShowInventoryInfo(unusedMsg, ShowInfoRange.Inventory, desPanel.ShowDescription);
         });
-        //usedInvenBtn.onClick.AddListener(() => { ShowInfoPanel(true); });
+
+        usedInvenBtn.onClick.AddListener(() => 
+        {
+            if (!isShow)
+                ShowInventoryInfo(usedMsg, ShowInfoRange.Graveyard, desPanel.ShowDescription);
+        });
 
         closeBtn.onClick.AddListener(() =>
         {
@@ -94,11 +98,6 @@ public class InventoryInfoHandler : MonoBehaviour
     {
         messageText.text = msg;
 
-        if (onCloseBtn == null)
-        {
-            onCloseBtn = () => { BattleSetPause(false); };
-        }
-
         this.onClickPiece = onClickPiece;
         this.onCloseBtn = onCloseBtn;
 
@@ -106,8 +105,6 @@ public class InventoryInfoHandler : MonoBehaviour
 
         ShowInfoPanel(true);
         ResetInventoryInfo();
-
-        BattleSetPause(true);
     }
 
     public void CloseInventoryInfo()
@@ -121,14 +118,6 @@ public class InventoryInfoHandler : MonoBehaviour
         {
             highlightTween.Kill();
             highlightTween = highlight.DOFade(0f, 0.33f);
-        }
-    }
-
-    public void BattleSetPause(bool isPause)
-    {
-        if (bh.isBattle)
-        {
-            bh.SetPause(isPause);
         }
     }
 
@@ -194,6 +183,9 @@ public class InventoryInfoHandler : MonoBehaviour
 
     private void SetCGEnable(bool enable)
     {
+        Time.timeScale = enable ? 0f : 1f;
+        upCvs.sortingLayerName = enable ? ignoreEft : upUI;
+
         cg.alpha = 1f;
         cg.blocksRaycasts = enable;
         cg.interactable = enable;
@@ -205,19 +197,19 @@ public class InventoryInfoHandler : MonoBehaviour
     {
         if (enable)
         {
-            cg.transform.DOLocalMoveY(startPos, 0.35f)
-                .SetEase(Ease.OutBack, 0.7f);
+            bottomBG.ShowBottomPanel(false);
 
-            bottomBG.transform.DOLocalMoveY(bgEndPos, 0.33f)
-                .SetEase(Ease.OutQuad);
+            cg.transform.DOLocalMoveY(startPos, 0.35f)
+                .SetEase(Ease.OutBack, 0.7f)
+                .SetUpdate(true);
         }
         else
         {
-            cg.transform.DOLocalMoveY(endPos, 0.22f)
-                .SetEase(Ease.OutCubic);
+            bottomBG.ShowBottomPanel(true);
 
-            bottomBG.transform.DOLocalMoveY(bgStartPos, 0.33f)
-                .SetEase(Ease.OutCubic);
+            cg.transform.DOLocalMoveY(endPos, 0.22f)
+                .SetEase(Ease.OutCubic)
+                .SetUpdate(true);
         }
     }
 }

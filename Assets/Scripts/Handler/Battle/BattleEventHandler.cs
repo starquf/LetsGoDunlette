@@ -20,6 +20,7 @@ public class BattleEventHandler : MonoBehaviour
 {
     private BattleHandler bh;
 
+    public event Action onStartBattle;
     public event Action onStartTurn;
     private event Action<SkillPiece> onCastPiece;
     public event Action onEndTurn;
@@ -34,6 +35,11 @@ public class BattleEventHandler : MonoBehaviour
     private void Start()
     {
         bh = GameManager.Instance.battleHandler;
+    }
+
+    public void OnStartBattle()
+    {
+        onStartBattle?.Invoke();
     }
 
     public void OnStartTurn()

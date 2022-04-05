@@ -9,10 +9,10 @@ public class Skill_N_NaturalHealing : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null) //체력을 40 회복한다.
     {
-        owner.GetComponent<PlayerHealth>().Heal(value);
+        owner.GetComponent<LivingEntity>().Heal(value);
 
         Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
-        effect.transform.position = GameManager.Instance.battleHandler.playerImgTrans.position;
+        effect.transform.position = owner.transform.position;
 
         effect.Play(() =>
         {

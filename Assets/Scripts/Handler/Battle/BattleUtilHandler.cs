@@ -176,7 +176,7 @@ public class BattleUtilHandler : MonoBehaviour
 
         yield return new WaitForSeconds(0.35f);
 
-        onEndReset?.Invoke();
+        onEndReset.Invoke();
 
         yield break;
     }
@@ -248,9 +248,9 @@ public class BattleUtilHandler : MonoBehaviour
         return livingEnemys;
     }
 
-    public List<T> DeepCopyList<T>(List<T> targetList)
+    public List<LivingEntity> DeepCopyEnemyList(List<EnemyHealth> targetList)
     {
-        List<T> list = new List<T>();
+        List<LivingEntity> list = new List<LivingEntity>();
 
         for (int i = 0; i < targetList.Count; i++)
         {

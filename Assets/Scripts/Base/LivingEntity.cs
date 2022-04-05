@@ -7,7 +7,8 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     // 이거 나중에 클래스로 뺴줘요
     public GameObject hPCvs;
 
-    private Image hpBar;
+    [HideInInspector]
+    public Image hpBar;
     private Image hpBarAfterImageBar;
     private Image hpShieldBar;
 

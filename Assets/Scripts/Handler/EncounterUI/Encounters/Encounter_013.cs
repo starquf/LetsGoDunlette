@@ -1,61 +1,104 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class Encounter_013 : RandomEncounter
 {
-    public SkillPiece cheatingPiece;
-    private SkillPiece skill;
+    public int lostGoldValue = 10;
+
+    public SkillPiece GetRamdomSkill()
+    {
+        InventoryHandler inventoryHandler = GameManager.Instance.inventoryHandler;
+        List<SkillPiece> skills = new List<SkillPiece>();
+        for (int i = 0; i < inventoryHandler.unusedSkills.Count; i++)
+        {
+            if (inventoryHandler.unusedSkills[i].isPlayerSkill)
+            {
+                skills.Add(inventoryHandler.unusedSkills[i]);
+            }
+        }
+        for (int i = 0; i < inventoryHandler.usedSkills.Count; i++)
+        {
+            if (inventoryHandler.usedSkills[i].isPlayerSkill)
+            {
+                skills.Add(inventoryHandler.usedSkills[i]);
+            }
+        }
+        int randIdx = Random.Range(0, skills.Count);
+        return skills[randIdx];
+    }
+
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;
         PlayerHealth playerHealth = GameManager.Instance.GetPlayer();
-        Image skillImg;
+        BattleHandler bh = GameManager.Instance.battleHandler;
         switch (resultIdx)
         {
             case 0:
                 showText = en_End_TextList[0];
                 showImg = en_End_Image[0];
-                en_End_Result = "골드와 속임수 룰렛 조각 획득";
-                GameManager.Instance.Gold += 10;
+                en_End_Result = "조건 달성 시 최대 체력의 50 % 만큼 회복 실패시 랜덤 룰렛 조각 삭제와 골드 감소";
 
-                if (cheatingPiece == null)
-                    Debug.LogError("속임수 조각이 안들어있음");
-                Debug.LogWarning("아지타토로 대신 넣어놈");
-                skill = Instantiate(cheatingPiece).GetComponent<SkillPiece>();
-                skill.transform.position = Vector2.zero;
-                skill.transform.rotation = Quaternion.Euler(0, 0, 30f);
-                skillImg = skill.GetComponent<Image>();
-                skillImg.color = new Color(1, 1, 1, 0);
-                skill.transform.SetParent(encounterInfoHandler.transform);
-                skill.transform.localScale = Vector3.one;
-                skillImg.DOFade(1, 0.5f).SetDelay(1f);
+                int turnCnt = 0;
+                Action onEndTurn = null;
+                onEndTurn = () =>
+                {
+                    turnCnt++;
+                    if (turnCnt >= 5)
+                    {
+                        Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
+                        textEffect.Play("위험한 내기 실패!!!");
+                        InventoryHandler inventoryHandler = GameManager.Instance.inventoryHandler;
+                        
+                        SkillPiece sp = GetRamdomSkill();
+                        inventoryHandler.GetSkillFromInventory(sp);
+                        DOTween.Sequence()
+                        .Append(sp.transform.DOMove(Vector2.zero, 0.5f))
+                        .Append(sp.GetComponent<Image>().DOFade(0, 0.5f))
+                        .Join(sp.skillImg.DOFade(0,0.5f))
+                        .OnComplete(() =>
+                        {
+                            Destroy(sp);
+                        });
+                        
+
+                        GameManager.Instance.Gold -= lostGoldValue;
+
+                        bh.battleEvent.onEndTurn -= onEndTurn;
+                    }
+                };
+                bh.battleEvent.onEndTurn += onEndTurn;
+
+                bool isNextBattle = true;
+                Action onBattleStart = null;
+                onBattleStart = () =>
+                {
+                    if (!isNextBattle)
+                    {
+                        Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
+                        textEffect.Play("위험한 내기 성공!!!");
+
+                        playerHealth.Heal((int)(playerHealth.maxHp * 0.5f));
+
+                        bh.battleEvent.onStartBattle -= onBattleStart;
+                        bh.battleEvent.onEndTurn -= onEndTurn;
+                    }
+                    isNextBattle = false;
+                };
+                bh.battleEvent.onStartBattle += onBattleStart;
+
+
                 break;
             case 1:
-                showText = en_End_TextList[0];
+                showText = en_End_TextList[1];
                 showImg = en_End_Image[1];
-                en_End_Result = "최대 체력의 5%만큼 피해를 입고 랜덤 룰렛 조각 획득";
-                playerHealth.GetDamage((int)(playerHealth.maxHp * 0.05f));
+                en_End_Result = "무시했다.";
 
-                SkillPiece piece = encounterInfoHandler.GetRandomSkillRewards(1)[0].GetComponent<SkillPiece>();
-
-                skill = Instantiate(piece).GetComponent<SkillPiece>();
-                skill.transform.position = Vector2.zero;
-                skill.transform.rotation = Quaternion.Euler(0, 0, 30f);
-                skillImg = skill.GetComponent<Image>();
-                skillImg.color = new Color(1, 1, 1, 0);
-                skill.transform.SetParent(encounterInfoHandler.transform);
-                skill.transform.localScale = Vector3.one;
-                skillImg.DOFade(1, 0.5f).SetDelay(1f);
-                break;
-            case 2:
-                showText = en_End_TextList[0];
-                showImg = en_End_Image[2];
-                en_End_Result = "소지 골드의 10%를 잃고 최대 체력의 10%만큼 회복.";
-                GameManager.Instance.Gold = (int)(GameManager.Instance.Gold * 0.9f);
-                playerHealth.Heal((int)(playerHealth.maxHp * 0.1f));
                 break;
             default:
                 break;
@@ -64,44 +107,12 @@ public class Encounter_013 : RandomEncounter
 
     public override void Result()
     {
-        BattleHandler battleHandler = GameManager.Instance.battleHandler;
-        Transform unusedInventoryTrm = GameManager.Instance.inventoryHandler.transform;
         switch (choiceIdx)
         {
             case 0:
-                DOTween.Sequence()
-                .Append(skill.transform.DOMove(unusedInventoryTrm.position, 0.5f))
-                .Join(skill.transform.DOScale(Vector2.one * 0.1f, 0.5f))
-                .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
-                .OnComplete(() =>
-                {
-                    Inventory owner = battleHandler.player.GetComponent<Inventory>();
-                    skill.gameObject.SetActive(false);
-                    skill.owner = owner;
-                    GameManager.Instance.inventoryHandler.AddSkill(skill);
-                    skill.GetComponent<Image>().color = Color.white;
-
-                    OnExitEncounter?.Invoke(true);
-                });
-                break;
-            case 1:
-                DOTween.Sequence()
-                .Append(skill.transform.DOMove(unusedInventoryTrm.position, 0.5f))
-                .Join(skill.transform.DOScale(Vector2.one * 0.1f, 0.5f))
-                .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
-                .OnComplete(() =>
-                {
-                    Inventory owner = battleHandler.player.GetComponent<Inventory>();
-                    skill.gameObject.SetActive(false);
-                    skill.owner = owner;
-                    GameManager.Instance.inventoryHandler.AddSkill(skill);
-                    skill.GetComponent<Image>().color = Color.white;
-
-                    OnExitEncounter?.Invoke(true);
-                });
                 OnExitEncounter?.Invoke(true);
                 break;
-            case 2:
+            case 1:
                 OnExitEncounter?.Invoke(true);
                 break;
             default:

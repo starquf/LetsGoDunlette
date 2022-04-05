@@ -89,9 +89,6 @@ public class Skill_W_FireSuppression : SkillPiece
         skillEffect.SetScale(Vector3.one * (waterCnt*0.3f + 1));
 
         skillEffect.Play(target.transform.position, () => {
-
-            List<EnemyHealth> enemys = bh.battleUtil.DeepCopyList(bh.enemys);
-
             target.GetDamage(Value, currentType);
 
             Anim_W_Splash splashEffect = PoolManager.GetItem<Anim_W_Splash>();
@@ -118,8 +115,6 @@ public class Skill_W_FireSuppression : SkillPiece
             effect.SetScale(Vector3.one);
 
             effect.Play(target.transform.position, () => {
-
-                List<EnemyHealth> enemys = bh.battleUtil.DeepCopyList(bh.enemys);
 
                 target.GetDamage(40, currentType);
 
