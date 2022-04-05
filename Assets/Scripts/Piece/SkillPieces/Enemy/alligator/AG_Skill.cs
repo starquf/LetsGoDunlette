@@ -79,7 +79,7 @@ public class AG_Skill : SkillPiece
 
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
             Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
-            effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
+            effect.transform.position = owner.transform.position;
 
             effect.Play(() =>
             {
