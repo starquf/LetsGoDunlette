@@ -490,8 +490,6 @@ public class BattleHandler : MonoBehaviour
         {
             while (battleUtil.CheckRulletPenalty(boolList[i]))
             {
-                yield return pFiveSecWait;
-
                 GivePenalty(boolList[i]);
 
                 yield return null;
@@ -517,6 +515,8 @@ public class BattleHandler : MonoBehaviour
                 yield return StartCoroutine(battleUtil.DrawRulletPieces());
             }
         }
+
+        print("끝");
 
         onEndCheckPanelty?.Invoke();
 
@@ -638,9 +638,10 @@ public class BattleHandler : MonoBehaviour
                 {
                     piece.Cast(player, () =>
                     {
-                        castUIHandler.EndCast(piece);
                         StartCoroutine(EndTurn());
                     });
+
+                    castUIHandler.EndCast(piece);
                 };
 
                 mainRullet.RulletSpeed -= 200f;

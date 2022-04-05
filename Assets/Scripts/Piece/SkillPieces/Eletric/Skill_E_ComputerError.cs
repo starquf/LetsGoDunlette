@@ -19,22 +19,31 @@ public class Skill_E_ComputerError : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        List<EnemyHealth> enemys = bh.battleUtil.DeepCopyList(bh.enemys);
+        List<LivingEntity> targets = new List<LivingEntity>();
 
-        for (int i = 0; i < enemys.Count; i++)
+        if (target == bh.player)
+        {
+            targets.Add(target);
+        }
+        else
+        {
+            targets = bh.battleUtil.DeepCopyEnemyList(bh.enemys);
+        }
+
+        for (int i = 0; i < targets.Count; i++)
         {
             Anim_E_Static_Stun stunEffect = PoolManager.GetItem<Anim_E_Static_Stun>();
-            stunEffect.transform.position = enemys[i].transform.position;
+            stunEffect.transform.position = targets[i].transform.position;
             stunEffect.SetScale(0.7f);
 
             stunEffect.Play();
 
-            enemys[i].GetDamage(Value, currentType);
+            targets[i].GetDamage(Value, currentType);
 
             LogCon log = new LogCon();
             log.text = $"{Value} 데미지 부여";
             log.selfSpr = skillImg.sprite;
-            log.targetSpr = enemys[i].GetComponent<SpriteRenderer>().sprite;
+            log.targetSpr = targets[i].GetComponent<SpriteRenderer>().sprite;
 
             DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
         }

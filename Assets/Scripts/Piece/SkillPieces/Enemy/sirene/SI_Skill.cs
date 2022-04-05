@@ -74,9 +74,10 @@ public class SI_Skill : SkillPiece
                 continue;
             }
 
-            if (skillPieces[i].PieceType.Equals(PieceType.SKILL))
+            SkillPiece piece = skillPieces[i] as SkillPiece;
+
+            if (piece.isPlayerSkill)
             {
-                SkillPiece piece = skillPieces[i] as SkillPiece;
                 skillPiece.Add(piece);
                 skillPieceIdxDic.Add(piece, i);
             }
@@ -92,24 +93,27 @@ public class SI_Skill : SkillPiece
             Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
             textEffect.SetType(TextUpAnimType.Damage);
             textEffect.transform.position = result.skillImg.transform.position;
-            textEffect.Play($"{result.name} 매혹!");
+            textEffect.Play($"{result.PieceName} 매혹!");
         }
 
-        Vector3 targetPos = target.transform.position;
-        targetPos.y -= 0.7f;
-        targetPos.x += 0.5f;
+        Anim_M_Wisp wispEffect = PoolManager.GetItem<Anim_M_Wisp>();
+        wispEffect.transform.position = result.skillImg.transform.position;
+        wispEffect.SetScale(1.5f);
 
-        Anim_E_LightningRod lightningRodEffect = PoolManager.GetItem<Anim_E_LightningRod>();
-        lightningRodEffect.transform.position = targetPos;
-
-        lightningRodEffect.Play(() =>
+        wispEffect.Play(() =>
         {
-
             if (result != null)
             {
                 battleHandler.battleEvent.OnCastPiece(result);
 
-                result.Cast(battleHandler.player, onCastEnd);
+                Inventory temp = result.owner;
+
+                result.owner = this.owner;
+                result.Cast(battleHandler.player, () => 
+                {
+                    result.owner = temp;
+                    onCastEnd.Invoke(); 
+                });
 
                 battleHandler.battleUtil.SetPieceToGraveyard(skillPieceIdxDic[result]);
             }
