@@ -25,6 +25,8 @@ public class StopSliderHandler : MonoBehaviour
 
         tapBtn.onClick.AddListener(() =>
         {
+            if (Time.timeScale <= 0) return;
+
             if (!isStopped)
             {
                 onStartStop?.Invoke();

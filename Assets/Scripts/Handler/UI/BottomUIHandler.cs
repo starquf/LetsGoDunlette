@@ -2,32 +2,46 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class BottomUIHandler : MonoBehaviour
 {
-    private int curGlod;
-    public Text goldText;
+    private CanvasGroup cg;
 
-    private void Start()
+    private float startPos;
+    private float downPos;
+
+    public bool isShow = true;
+
+    private void Awake()
     {
-        //GameManager.Instance.OnUpdateUI += PlayGetMoneyAnim;
-        //GameManager.Instance.OnUpdateUI += SetGoldUI;
-        //SetGoldUI();
+        cg = GetComponent<CanvasGroup>();
+
+        startPos = transform.localPosition.y;
+        downPos = transform.localPosition.y - 240f;
     }
 
-    public void SetGoldUI()
+    public void ShowBottomPanel(bool enable)
     {
-        //goldText.text = GameManager.Instance.Gold.ToString();
-        curGlod = GameManager.Instance.Gold;
-    }
+        isShow = enable;
+        cg.interactable = enable;
+        cg.blocksRaycasts = enable;
 
-    public void PlayGetMoneyAnim()
-    {
-        int result = GameManager.Instance.Gold - curGlod;
+        if (enable)
+        {
+            transform.DOLocalMoveY(startPos, 0.33f)
+                .SetEase(Ease.OutBack)
+                .SetUpdate(true);
 
-        Anim_TextUp GetMoneyTextEffect = PoolManager.GetItem<Anim_TextUp>();
-        GetMoneyTextEffect.SetType(TextUpAnimType.GetMoney);
-        GetMoneyTextEffect.transform.position = goldText.transform.position;
-        GetMoneyTextEffect.Play(result.ToString());
+            transform.parent.SetAsLastSibling();
+        }
+        else
+        {
+            transform.DOLocalMoveY(downPos, 0.33f)
+                .SetEase(Ease.OutBack)
+                .SetUpdate(true);
+
+            transform.parent.SetAsFirstSibling();
+        }
     }
 }

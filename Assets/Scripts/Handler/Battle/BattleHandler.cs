@@ -35,8 +35,11 @@ public class BattleHandler : MonoBehaviour
     [Header("적을 생성하는 위치")]
     public Transform createTrans;
 
+    // 첫턴 룰렛이 꽉 채워지고 돌아갈 때
     [HideInInspector]
     public bool isBattle = false;
+
+    // 진짜 스타트 함수를 불렀을 때 바로
     [HideInInspector]
     public bool isBattleStart = false;
 
@@ -79,7 +82,7 @@ public class BattleHandler : MonoBehaviour
     public EnemyType curMapBossType = EnemyType.NORMAL_SLIME;
     public bool isElite = false;
     public bool isBoss = false;
-    private bool isStartBattel = false;
+
     #region WaitSeconds
     private readonly WaitForSeconds oneSecWait = new WaitForSeconds(1f);
     private readonly WaitForSeconds pFiveSecWait = new WaitForSeconds(0.5f);
@@ -106,7 +109,6 @@ public class BattleHandler : MonoBehaviour
 
         // 플레이어가 가지고 있는 기본 스킬 생성 일단 테스트로 만들어놈
         player.GetComponent<Inventory>().CreateSkills();
-        battleEvent.onStartBattle += () => isStartBattel = true;
     }
 
     #region StartBattle
@@ -383,13 +385,10 @@ public class BattleHandler : MonoBehaviour
         // 현재 턴에 걸려있는 적의 cc기와 플레이어의 cc기를 하나 줄여준다.
         battleEvent.InitNextSkill();
         battleEvent.OnStartTurn();
-        if (!isBattleStart)
+
+        if (turnCnt > 1)
         {
             ccHandler.DecreaseCC();
-        }
-        else
-        {
-            isBattleStart = false;
         }
 
         canPause = true;
@@ -463,7 +462,6 @@ public class BattleHandler : MonoBehaviour
         yield return StartCoroutine(CheckPanelty());
 
         yield return pOneSecWait;
-        yield return pOneSecWait;
 
         // 다음턴으로
         InitTurn();
@@ -501,6 +499,9 @@ public class BattleHandler : MonoBehaviour
         {
             while (battleUtil.CheckRulletPenalty(boolList[i]))
             {
+                yield return pOneSecWait;
+                yield return pOneSecWait;
+
                 GivePenalty(boolList[i]);
 
                 yield return null;

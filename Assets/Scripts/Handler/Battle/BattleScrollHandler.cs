@@ -40,6 +40,8 @@ public class BattleScrollHandler : MonoBehaviour
             slots[a].GetComponent<Button>().onClick.RemoveAllListeners();
             slots[a].GetComponent<Button>().onClick.AddListener(() =>
             {
+                if (Time.timeScale <= 0) return;
+
                 if (!canUse) return;
 
                 if (slots[a].scroll != null || !bh.mainRullet.IsStop)
