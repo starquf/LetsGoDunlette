@@ -83,7 +83,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
         if(encounterIdx < 0)
         {
             int randIdx = -1;
-            randIdx = 13;
+            //randIdx = 10;
             while (!CanStartEncounter(randIdx))
             {
                 randIdx = Random.Range(0, randomEncounterList.Count);
