@@ -25,7 +25,7 @@ public class Skill_W_FireSuppression : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        StartCoroutine(Tsunami(target, onCastEnd));
+        bh.battleUtil.StartCoroutine(Tsunami(target, onCastEnd));
     }
 
     private IEnumerator Tsunami(LivingEntity target, Action onCastEnd = null)

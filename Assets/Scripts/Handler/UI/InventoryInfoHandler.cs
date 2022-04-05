@@ -11,6 +11,8 @@ public class InventoryInfoHandler : MonoBehaviour
     private RectTransform rect;
     private RectTransform contentRect;
 
+    public CanvasGroup pauseCg;
+
     private float startPos;
     private float endPos;
 
@@ -202,6 +204,9 @@ public class InventoryInfoHandler : MonoBehaviour
             cg.transform.DOLocalMoveY(startPos, 0.35f)
                 .SetEase(Ease.OutBack, 0.7f)
                 .SetUpdate(true);
+
+            pauseCg.DOFade(1f, 0.2f)
+                .SetUpdate(true);
         }
         else
         {
@@ -209,6 +214,9 @@ public class InventoryInfoHandler : MonoBehaviour
 
             cg.transform.DOLocalMoveY(endPos, 0.22f)
                 .SetEase(Ease.OutCubic)
+                .SetUpdate(true);
+
+            pauseCg.DOFade(0f, 0.2f)
                 .SetUpdate(true);
         }
     }
