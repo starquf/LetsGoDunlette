@@ -16,7 +16,7 @@ public class Encounter_016 : RandomEncounter
         for (int i = 0; i < 3; i++)
         {
             int randIdx = -1;
-            while (!encounterUIHandler.CanStartEncounter(randIdx) || (encounterIdxList.Contains(randIdx) || randIdx == 10))// 15·Î ¹Ù²ã¾ßµÊ
+            while (!encounterUIHandler.CanStartEncounter(randIdx) || (encounterIdxList.Contains(randIdx) || randIdx == 11))// 15·Î ¹Ù²ã¾ßµÊ
             {
                 randIdx = Random.Range(0, encounterUIHandler.randomEncounterList.Count);
             }

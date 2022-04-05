@@ -64,7 +64,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
                 return false;
             }
         }
-        else if(idx == 11)//16À¸·Î ¹Ù²ã¾ßµÊ
+        else if(idx == 12)//16À¸·Î ¹Ù²ã¾ßµÊ
         {
             for (int i = 0; i < GameManager.Instance.inventoryHandler.unusedSkills.Count; i++)
             {
@@ -83,7 +83,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
         if(encounterIdx < 0)
         {
             int randIdx = -1;
-            //randIdx = 11;
+            //randIdx = 10;
             while (!CanStartEncounter(randIdx))
             {
                 randIdx = Random.Range(0, randomEncounterList.Count);

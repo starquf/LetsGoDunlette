@@ -6,42 +6,60 @@ using UnityEngine.UI;
 
 public class Encounter_011 : RandomEncounter
 {
-    public SkillPiece cheatingPiece;
+    public SkillPiece mermaidBlessingPiece;
     private SkillPiece skill;
+    private SkillPiece skill2;
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;
         PlayerHealth playerHealth = GameManager.Instance.GetPlayer();
-        Image skillImg;
+        Image skillImg, skill2Img;
         switch (resultIdx)
         {
             case 0:
                 showText = en_End_TextList[0];
                 showImg = en_End_Image[0];
-                en_End_Result = "골드와 속임수 룰렛 조각 획득";
-                GameManager.Instance.Gold += 10;
 
-                if (cheatingPiece == null)
-                    Debug.LogError("속임수 조각이 안들어있음");
-                Debug.LogWarning("아지타토로 대신 넣어놈");
-                skill = Instantiate(cheatingPiece).GetComponent<SkillPiece>();
-                skill.transform.position = Vector2.zero;
+
+                en_End_Result = "물속성 룰렛 조각 1개 및 인어의 축복 조각 획득";
+
+                if (mermaidBlessingPiece == null)
+                    Debug.LogError("인어의축복 조각이 안들어있음");
+                skill = Instantiate(mermaidBlessingPiece).GetComponent<SkillPiece>();
+                skill.transform.position = Vector2.zero+(Vector2.right*1f);
                 skill.transform.rotation = Quaternion.Euler(0, 0, 30f);
                 skillImg = skill.GetComponent<Image>();
                 skillImg.color = new Color(1, 1, 1, 0);
                 skill.transform.SetParent(encounterInfoHandler.transform);
                 skill.transform.localScale = Vector3.one;
+
+
+                SkillPiece piece = null;
+                do
+                {
+                    piece = encounterInfoHandler.GetRandomSkillRewards(1)[0].GetComponent<SkillPiece>();
+                }while (piece.currentType != PatternType.Spade);
+
+                skill2 = Instantiate(piece).GetComponent<SkillPiece>();
+                skill2.transform.position = Vector2.zero + (Vector2.left * 1f);
+                skill2.transform.rotation = Quaternion.Euler(0, 0, 30f);
+                skill2Img = skill2.GetComponent<Image>();
+                skill2Img.color = new Color(1, 1, 1, 0);
+                skill2.transform.SetParent(encounterInfoHandler.transform);
+                skill2.transform.localScale = Vector3.one;
+
                 skillImg.DOFade(1, 0.5f).SetDelay(1f);
+                skill2Img.DOFade(1, 0.5f).SetDelay(1f);
                 break;
             case 1:
-                showText = en_End_TextList[0];
+                showText = en_End_TextList[1];
                 showImg = en_End_Image[1];
-                en_End_Result = "최대 체력의 5%만큼 피해를 입고 랜덤 룰렛 조각 획득";
-                playerHealth.GetDamage((int)(playerHealth.maxHp * 0.05f));
+                en_End_Result = "최대 체력의 12%만큼 피해를 입고 인어의 축복 조각 획득";
+                playerHealth.GetDamage((int)(playerHealth.maxHp * 0.12f));
 
-                SkillPiece piece = encounterInfoHandler.GetRandomSkillRewards(1)[0].GetComponent<SkillPiece>();
 
-                skill = Instantiate(piece).GetComponent<SkillPiece>();
+
+                skill = Instantiate(mermaidBlessingPiece).GetComponent<SkillPiece>();
                 skill.transform.position = Vector2.zero;
                 skill.transform.rotation = Quaternion.Euler(0, 0, 30f);
                 skillImg = skill.GetComponent<Image>();
@@ -51,11 +69,10 @@ public class Encounter_011 : RandomEncounter
                 skillImg.DOFade(1, 0.5f).SetDelay(1f);
                 break;
             case 2:
-                showText = en_End_TextList[0];
+                showText = en_End_TextList[2];
                 showImg = en_End_Image[2];
-                en_End_Result = "소지 골드의 10%를 잃고 최대 체력의 10%만큼 회복.";
-                GameManager.Instance.Gold = (int)(GameManager.Instance.Gold * 0.9f);
-                playerHealth.Heal((int)(playerHealth.maxHp * 0.1f));
+                en_End_Result = "다음 2번의 전투 시작 시, 2턴간 침묵 상태이상 적용";
+                Debug.LogError("미구현");
                 break;
             default:
                 break;
@@ -73,6 +90,9 @@ public class Encounter_011 : RandomEncounter
                 .Append(skill.transform.DOMove(unusedInventoryTrm.position, 0.5f))
                 .Join(skill.transform.DOScale(Vector2.one * 0.1f, 0.5f))
                 .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
+                .Append(skill2.transform.DOMove(unusedInventoryTrm.position, 0.5f))
+                .Join(skill2.transform.DOScale(Vector2.one * 0.1f, 0.5f))
+                .Join(skill2.GetComponent<Image>().DOFade(0f, 0.5f))
                 .OnComplete(() =>
                 {
                     Inventory owner = battleHandler.player.GetComponent<Inventory>();
@@ -80,6 +100,11 @@ public class Encounter_011 : RandomEncounter
                     skill.owner = owner;
                     GameManager.Instance.inventoryHandler.AddSkill(skill);
                     skill.GetComponent<Image>().color = Color.white;
+
+                    skill2.gameObject.SetActive(false);
+                    skill2.owner = owner;
+                    GameManager.Instance.inventoryHandler.AddSkill(skill2);
+                    skill2.GetComponent<Image>().color = Color.white;
 
                     OnExitEncounter?.Invoke(true);
                 });
