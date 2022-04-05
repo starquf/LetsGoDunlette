@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 using Random = UnityEngine.Random;
 
 public class Skill_N_Typhoon : SkillPiece
@@ -20,6 +21,8 @@ public class Skill_N_Typhoon : SkillPiece
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         List<LivingEntity> targets = new List<LivingEntity>();
+
+        EnemyHitEffectUtil.Typhoon(target.gameObject);
 
         if (target == bh.player)
         {

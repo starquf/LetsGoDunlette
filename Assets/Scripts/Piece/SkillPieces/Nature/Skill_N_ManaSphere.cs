@@ -19,7 +19,7 @@ public class Skill_N_ManaSphere : SkillPiece
         //print($"스킬 발동!! 이름 : {PieceName}");
 
         Vector3 targetPos = target.transform.position;
-        Vector3 startPos = owner.transform.position;
+        Vector3 startPos = transform.position;
 
         EffectObj skillEffect = PoolManager.GetItem<EffectObj>();
         skillEffect.transform.position = startPos;
