@@ -27,11 +27,13 @@ public class RandomEncounterUIHandler : MonoBehaviour
     private BattleScrollHandler battleScrollHandler;
 
     private int encounterIdx;
+    private List<int> cantEncounterIdxList;
 
     private void Awake()
     {
         encounterInfoHandler = GetComponent<EncounterInfoHandler>();
         mainPanel = GetComponent<CanvasGroup>();
+        cantEncounterIdxList = new List<int>();
     }
 
     private void Start()
@@ -53,6 +55,13 @@ public class RandomEncounterUIHandler : MonoBehaviour
 
     public bool CanStartEncounter(int idx)
     {
+        for (int i = 0; i < cantEncounterIdxList.Count; i++)
+        {
+            if( cantEncounterIdxList[i] == idx)
+            {
+                return false;
+            }
+        }
         if (idx < 0)
         {
             return false;
@@ -73,6 +82,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
                 {
                     if (scrollSlot.scroll.scrollType == ScrollType.Heal)
                     {
+                        cantEncounterIdxList.Add(13);
                         return true;
                     }
                 }
@@ -98,7 +108,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
         if(encounterIdx < 0)
         {
             int randIdx = -1;
-            //randIdx = 12;
+            randIdx = 13;
             while (!CanStartEncounter(randIdx))
             {
                 randIdx = Random.Range(0, randomEncounterList.Count);
