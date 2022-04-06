@@ -127,6 +127,7 @@ public class BattleHandler : MonoBehaviour
 
         GameManager.Instance.goldUIHandler.ShowGoldUI();
         GetComponent<BattleScrollHandler>().ShowScrollUI();
+        GameManager.Instance.bottomUIHandler.ShowBottomPanel(true);
         //print("전투시작");
         SoundHandler.Instance.PlayBGMSound("Battle_4");
 

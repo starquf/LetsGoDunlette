@@ -8,7 +8,6 @@ public class EncounterHandler : MonoBehaviour
     public ShopEncounterUIHandler shopEncounterUIHandler;
     public RandomEncounterUIHandler randomEncounterUIHandler;
     public RestEncounterUIHandler restEncounterUIHandler;
-    public BottomUIHandler bottomUIHandler;
 
     private BattleHandler bh = null;
 
@@ -74,7 +73,7 @@ public class EncounterHandler : MonoBehaviour
             case mapNode.RandomEncounter:
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
                 randomEncounterUIHandler.StartEvent();
-                bottomUIHandler.ShowBottomPanel(false);
+                GameManager.Instance.bottomUIHandler.ShowBottomPanel(false);
                 break;
         }
     }
@@ -86,6 +85,6 @@ public class EncounterHandler : MonoBehaviour
         bh.GetComponent<BattleScrollHandler>().ShowScrollUI(open:false);
         GameManager.Instance.goldUIHandler.ShowGoldUI(false);
         GameManager.Instance.mapHandler.OpenMapPanel(true);
-        bottomUIHandler.ShowBottomPanel(true);
+        GameManager.Instance.bottomUIHandler.ShowBottomPanel(true);
     }
 }

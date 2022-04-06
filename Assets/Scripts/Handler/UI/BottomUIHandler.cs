@@ -15,6 +15,7 @@ public class BottomUIHandler : MonoBehaviour
 
     private void Awake()
     {
+        GameManager.Instance.bottomUIHandler = this;
         cg = GetComponent<CanvasGroup>();
 
         startPos = transform.localPosition.y;

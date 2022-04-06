@@ -93,6 +93,8 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public BattleFieldHandler battleFieldHandler;
     [HideInInspector]
+    public BottomUIHandler bottomUIHandler;
+    [HideInInspector]
     public GoldUIHandler goldUIHandler;
 
     [HideInInspector]
