@@ -159,7 +159,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
 
                     DOTween.Sequence()
                      .Append(skillImg.DOFade(1, 0.5f))
-                    .Append(skillPiece.transform.DOMove(unusedInventoryTrm.position, 0.3f).SetDelay(0.5f))
+                    .Append(skillPiece.transform.DOMove(unusedInventoryTrm.position, 0.3f).SetDelay(0.3f))
                     .Join(skillPiece.transform.DOScale(Vector2.one * 0.1f, 0.3f))
                     .Join(skillPiece.GetComponent<Image>().DOFade(0f, 0.3f))
                     .OnComplete(() =>

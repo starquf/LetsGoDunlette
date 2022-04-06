@@ -161,7 +161,7 @@ public class BattleScrollHandler : MonoBehaviour
     private void GetAnim(int slotIdx, Scroll scroll, Action OnComplete = null)
     {
         Image scrollImg = scroll.GetComponent<Image>();
-        DOTween.Sequence().Append(scrollImg.DOFade(1, 0.5f)).SetDelay(1f)
+        DOTween.Sequence().Append(scrollImg.DOFade(1, 0.5f)).SetDelay(0.3f)
         .Append(scroll.transform.DOMove(slots[slotIdx].transform.position, 0.3f))
         .Join(scroll.transform.DOScale(Vector2.one * 0.1f, 0.3f))
         .Join(scroll.GetComponent<Image>().DOFade(0f, 0.3f))
