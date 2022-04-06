@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 public class Skill_F_TickTock : SkillPiece
 {
+    public int hitedValue = 40;
     private Action<SkillPiece> onNextTurn = null;
     public Text counterText;
     private int turnCount = 3;
@@ -58,7 +59,7 @@ public class Skill_F_TickTock : SkillPiece
                     effect.SetScale(Random.Range(0.8f, 1f));
 
                     GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.25f, 0.1f);
-                    owner.GetComponent<LivingEntity>().GetDamage(50);
+                    owner.GetComponent<LivingEntity>().GetDamage(hitedValue);
                     effect.Play();
                     bh.mainRullet.PutRulletPieceToGraveYard(pieceIdx);
                 }
