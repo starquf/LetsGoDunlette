@@ -32,6 +32,7 @@ public class BattleTargetSelectHandler : MonoBehaviour
 
         invenInfoHandler.invenBtn.onClick.AddListener(() => canControl = false);
         invenInfoHandler.closeBtn.onClick.AddListener(() => canControl = true);
+        invenInfoHandler.closeImgBtn.onClick.AddListener(() => canControl = true);
 
         mainCam = Camera.main;
         isEnemy = LayerMask.GetMask("Enemy");

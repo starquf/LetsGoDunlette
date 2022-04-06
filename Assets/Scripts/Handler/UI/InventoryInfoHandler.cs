@@ -162,6 +162,7 @@ public class InventoryInfoHandler : MonoBehaviour
 
             PieceInfoUI pieceInfoUI = PoolManager.GetItem<PieceInfoUI>();
             pieceInfoUI.SetSkillIcon(sp.skillImg.sprite);
+            pieceInfoUI.transform.SetParent(pieceHolderTrm);
 
             pieceInfoUI.button.onClick.RemoveAllListeners();
             pieceInfoUI.button.onClick.AddListener(() =>
