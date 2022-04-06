@@ -27,6 +27,7 @@ public class InventoryInfoHandler : MonoBehaviour
     public Button invenBtn;
     public Button usedInvenBtn;
     public Button closeBtn;
+    public Button closeImgBtn;
 
     [Header("조각 홀더 관련")]
     public Transform pieceHolderTrm;
@@ -86,6 +87,11 @@ public class InventoryInfoHandler : MonoBehaviour
         });
 
         closeBtn.onClick.AddListener(() =>
+        {
+            CloseInventoryInfo();
+        });
+
+        closeImgBtn.onClick.AddListener(() =>
         {
             CloseInventoryInfo();
         });

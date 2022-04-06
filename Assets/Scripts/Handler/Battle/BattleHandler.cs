@@ -82,6 +82,9 @@ public class BattleHandler : MonoBehaviour
     public bool isElite = false;
     public bool isBoss = false;
 
+    [Header("UI들")]
+    public BottomUIHandler bottomUI;
+
     #region WaitSeconds
     private readonly WaitForSeconds oneSecWait = new WaitForSeconds(1f);
     private readonly WaitForSeconds pFiveSecWait = new WaitForSeconds(0.5f);
@@ -124,6 +127,8 @@ public class BattleHandler : MonoBehaviour
             return;
         }
         isBattleStart = true;
+
+        bottomUI.ShowBottomPanel(true);
 
         GameManager.Instance.goldUIHandler.ShowGoldUI();
         GetComponent<BattleScrollHandler>().ShowScrollUI();
