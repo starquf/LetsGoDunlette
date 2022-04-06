@@ -23,6 +23,16 @@ public class BattleFieldHandler : MonoBehaviour
         nowFieldType = PatternType.None;
     }
 
+    public bool CheckFieldType(PatternType type)
+    {
+        if(type == FieldType)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     public void SetFieldType(PatternType type)
     {
         switch (type)
