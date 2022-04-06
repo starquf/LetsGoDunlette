@@ -36,14 +36,14 @@ public class GoldUIHandler : MonoBehaviour
     {
         if (skip)
         {
-            thisRectTrm.anchoredPosition = new Vector2(open ? 0f : -150f, thisRectTrm.anchoredPosition.y);
+            thisRectTrm.anchoredPosition = new Vector2(open ? 0f : -230f, thisRectTrm.anchoredPosition.y);
             ShowGoldText(open, true);
         }
         else
         {
             goldUISequence.Kill();
             goldUISequence = DOTween.Sequence()
-                .Append(thisRectTrm.DOAnchorPosX(open ? 0f : -150f, 0.5f))
+                .Append(thisRectTrm.DOAnchorPosX(open ? 0f : -230f, 0.5f))
                 .OnComplete(() =>
                 {
                     ShowGoldText(open);
@@ -77,7 +77,7 @@ public class GoldUIHandler : MonoBehaviour
 
             GetMoneyAnim();
 
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.5f);
 
             ShowGoldUI(false);
         }
