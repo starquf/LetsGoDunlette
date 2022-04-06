@@ -533,8 +533,6 @@ public class BattleHandler : MonoBehaviour
             }
         }
 
-        print("끝");
-
         onEndCheckPanelty?.Invoke();
 
         yield break;
@@ -554,6 +552,9 @@ public class BattleHandler : MonoBehaviour
 
         mainRullet.ResetRulletSpeed();
         battleEvent.ResetAllEvents();
+
+        battleScroll.ShowScrollUI(open: false);
+        GameManager.Instance.goldUIHandler.ShowGoldUI(open: false);
 
         LogCon log = new LogCon();
         log.text = "전투 종료";

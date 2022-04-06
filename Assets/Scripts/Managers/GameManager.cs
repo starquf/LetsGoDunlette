@@ -106,6 +106,10 @@ public class GameManager : MonoBehaviour
 
     public Transform enemyEffectTrm;
 
+    [Header("아이콘들")]
+    public List<Sprite> ccIcons = new List<Sprite>();
+    public List<Sprite> buffIcons = new List<Sprite>();
+
     private int gold = 100;
     public int Gold 
     {

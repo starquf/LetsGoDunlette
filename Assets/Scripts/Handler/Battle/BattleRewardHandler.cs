@@ -8,14 +8,12 @@ using Random = UnityEngine.Random;
 
 public class BattleRewardHandler : MonoBehaviour
 {
-    private List<GameObject> rewards = new List<GameObject>();
+    private List<GameObject> rewardObjs = new List<GameObject>();
 
-    private InventoryHandler inventoryHandler;
+    private InventoryHandler invenHandler;
     private BattleHandler battleHandler;
 
-    public BattleRewardUIHandler battleRewardUIHandler;
-    private bool isWinEffectEnd;
-    private bool isRewardEnd;
+    public BattleRewardUIHandler battleRewardUI;
 
     #region WaitForSeconds
 
@@ -25,18 +23,39 @@ public class BattleRewardHandler : MonoBehaviour
 
     private void Start()
     {
-        inventoryHandler = GameManager.Instance.inventoryHandler;
+        invenHandler = GameManager.Instance.inventoryHandler;
         battleHandler = GameManager.Instance.battleHandler;
+
+        battleRewardUI.getBtn.onClick.AddListener(() =>
+        {
+            GetPiece(battleRewardUI.selectedSkillObj.gameObject);
+
+            battleRewardUI.GetRewardEffect(() =>
+            {
+                battleRewardUI.ResetRewardUI();
+                GameManager.Instance.EndEncounter();
+            });
+        });
+
+        battleRewardUI.skipBtn.onClick.AddListener(() =>
+        {
+            // 전투 끝 알림
+            battleRewardUI.ResetRewardUI();
+            GameManager.Instance.EndEncounter();
+        });
     }
 
-    public void Init(List<GameObject> rewards)
+    public void Init(List<GameObject> rewardObjs)
     {
-        this.rewards = rewards;
+        this.rewardObjs = rewardObjs;
     }
 
     public void GiveReward()
     {
-        StartCoroutine(RewardRoutine());
+        StartCoroutine(ResetInventory(() => 
+        {
+            RewardRoutine();
+        }));
     }
 
     public void ResetRullet(Action action)
@@ -44,136 +63,77 @@ public class BattleRewardHandler : MonoBehaviour
         StartCoroutine(ResetInventory(action));
     }
 
-    public IEnumerator ResetInventory(Action action)
+    public IEnumerator ResetInventory(Action action = null)
     {
-        PutRulletPieceInInventory(); //룰렛 다 인벤토리에 넣고
-        yield return oneSecWait;
-        yield return oneSecWait;
-        inventoryHandler.RemoveAllEnemyPiece(); //적 룰렛 없애고
+        PutRulletPieceInInventory();            //룰렛 다 인벤토리에 넣고
+        invenHandler.RemoveAllEnemyPiece(); //적 스킬 없애고
 
-        action();
+        yield return oneSecWait;
+        yield return oneSecWait;
+
+        action?.Invoke();
+
+        yield break;
     }
 
-    private IEnumerator RewardRoutine()
+    private void RewardRoutine()
     {
-        yield return null;
+        List<SkillPiece> rewards = SetReward(rewardObjs);
 
-        PutRulletPieceInInventory(); //룰렛 다 인벤토리에 넣고
-        yield return oneSecWait;
-        yield return oneSecWait;
-        inventoryHandler.RemoveAllEnemyPiece(); //적 룰렛 없애고
-
-        battleRewardUIHandler.ShowWinEffect(() => { isWinEffectEnd = true; });
-        yield return new WaitUntil(()=>isWinEffectEnd);
-
-        StartCoroutine(CreateReward());
-        yield return new WaitUntil(()=> isRewardEnd); //적 보상을 주고
-
-        // 전투 끝 알림
-        GameManager.Instance.EndEncounter();
-        isRewardEnd = false;
-        isWinEffectEnd = false;
+        battleRewardUI.ShowWinEffect(() =>
+        {
+            battleRewardUI.ShowReward(rewards);
+        });
     }
 
-    private IEnumerator CreateReward()
+    private void GetPiece(GameObject skillObj, Action onEndCreate = null)
     {
-        SkillRullet rullet = battleHandler.mainRullet;
-        Transform rulletParent = rullet.transform.parent; // 룰렛 기존 부모 트랜스폼
-        SkillPiece rewardResult = null;
-        int rewardResultIdx = -1;
+        /*
+        invenHandler.CreateSkill(
+            skillObj, 
+            battleHandler.player.GetComponent<Inventory>(), 
+            battleRewardUI.pieceDesCG.transform.position,
+            () => { 
+                onEndCreate?.Invoke();
+            });
+        */
+        invenHandler.CreateSkill(
+            skillObj,
+            battleHandler.player.GetComponent<Inventory>());
+    }
 
-        rullet.transform.SetParent(battleRewardUIHandler.transform);
-        rullet.transform.SetAsFirstSibling();
-
-        for (int i = 0; i < 6; i++)
+    private List<SkillPiece> SetReward(List<GameObject> rewardObjs, int rewardCnt = 8)
+    {
+        if (rewardObjs.Count < rewardCnt)
         {
-            SkillPiece skill = Instantiate(rewards[Random.Range(0, rewards.Count)], rullet.transform).GetComponent<SkillPiece>();
-            rullet.AddPiece(skill);
+            // 오류
+            return new List<SkillPiece>();
         }
-        rullet.SetRulletSmooth();
 
-        yield return new WaitForSeconds(0.5f);
+        List<SkillPiece> randomRewards = new List<SkillPiece>();
+        List<SkillPiece> result = new List<SkillPiece>();
 
-        rullet.RollRullet(false);
-        yield return new WaitForSeconds(2f);
-
-        bool isRulletStop = false;
-        // 룰렛 멈춰서 결과 받아오는거
-
-        rullet.onResult = (result, pieceIdx) =>
+        for (int i = 0; i < rewardObjs.Count; i++)
         {
-            rullet.HighlightResult();
-
-            rewardResult = result as SkillPiece;
-            rewardResultIdx = pieceIdx;
-            isRulletStop = true;
-        };
-
-        rullet.StopRullet();
-
-        yield return new WaitUntil(() => isRulletStop);
-        List<RulletPiece> rulletPieces = rullet.GetPieces();
-        for (int i = 0; i < 6; i++)
-        {
-            if (i != rewardResultIdx)
-            {
-                Destroy(rulletPieces[i].gameObject);
-            }
-            rullet.SetEmpty(i);
+            randomRewards.Add(rewardObjs[i].GetComponent<SkillPiece>());
         }
-        yield return oneSecWait;
 
-        DOTween.Sequence().Append(rewardResult.transform.DOMove(rullet.transform.position+Vector3.down*0.7f, 0.5f))
-            .Join(rewardResult.transform.DORotate(Quaternion.Euler(0,0,30).eulerAngles, 0.5f))
-            .OnComplete(() =>
-            {
-                rewardResult.transform.SetParent(battleRewardUIHandler.transform);
-                rewardResult.transform.SetAsFirstSibling();
+        for (int i = 0; i < rewardCnt; i++)
+        {
+            int randIdx = Random.Range(0, randomRewards.Count);
 
-                rullet.transform.SetParent(rulletParent);
-                rullet.transform.SetAsFirstSibling();
+            SkillPiece reward = randomRewards[randIdx];
+            result.Add(reward);
 
+            randomRewards.RemoveAt(randIdx);
+        }
 
-                battleRewardUIHandler.SetButton(rewardResult, () =>
-                {
-                    //print("리워드 가져감");
-                    Transform unusedInventoryTrm = GameManager.Instance.inventoryHandler.transform;
-                    DOTween.Sequence().Append(rewardResult.transform.DOMove(unusedInventoryTrm.position, 0.5f))
-                    .Join(rewardResult.transform.DOScale(Vector2.one * 0.1f, 0.5f))
-                    .Join(rewardResult.GetComponent<Image>().DOFade(0f,0.5f))
-                    .OnComplete(()=>
-                    {
-                        Inventory owner = battleHandler.player.GetComponent<Inventory>();
-                        rewardResult.gameObject.SetActive(false);
-                        rewardResult.owner = owner;
-                        GameManager.Instance.inventoryHandler.AddSkill(rewardResult);
-                        rewardResult.GetComponent<Image>().color = Color.white;
-
-                        isRewardEnd = true;
-                    });
-                },()=>
-                {
-                    //print("리워드 버림");
-
-                    DOTween.Sequence().Append(rewardResult.transform.DOMoveX(3f, 0.5f))
-                    .Join(rewardResult.transform.DORotate(Quaternion.Euler(0,0,-60).eulerAngles, 0.5f))
-                    .Join(rewardResult.GetComponent<Image>().DOFade(0f, 0.5f))
-                    .OnComplete(() =>
-                    {
-                        Destroy(rewardResult.gameObject);
-
-
-                        //print("끝");
-                        isRewardEnd = true;
-                    });
-                });
-            })
-        ;
+        return result;
     }
 
     private void PutRulletPieceInInventory() //룰렛을 인벤토리에 다넣으세요.
     {
-        inventoryHandler.CycleSkills(); //무덤 > 인벤
+        invenHandler.CycleSkills(); //무덤 > 인벤
 
         battleHandler.mainRullet.PutAllRulletPieceToInventory(); //룰렛 > 인벤
     }

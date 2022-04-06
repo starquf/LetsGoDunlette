@@ -74,7 +74,7 @@ public class InventoryHandler : MonoBehaviour
         return skill;
     }
 
-    public SkillPiece CreateSkill(GameObject skillPrefab, Inventory owner, Vector3 makePos)
+    public SkillPiece CreateSkill(GameObject skillPrefab, Inventory owner, Vector3 makePos, Action onEndCreate = null)
     {
         SkillPiece skill = Instantiate(skillPrefab, transform).GetComponent<SkillPiece>();
         skill.transform.position = makePos;
@@ -91,6 +91,7 @@ public class InventoryHandler : MonoBehaviour
             .OnComplete(() =>
             {
                 skill.gameObject.SetActive(false);
+                onEndCreate?.Invoke();
             });
 
         AddSkill(skill);
@@ -385,6 +386,18 @@ public class InventoryHandler : MonoBehaviour
         piece.owner.skills.Remove(piece);
 
         Destroy(piece.gameObject);
+        SetCountUI();
+    }
+
+    public void RemoveNull()
+    {
+        unusedSkills.Clear();
+
+        for (int i = 0; i < skills.Count; i++)
+        {
+            unusedSkills.Add(skills[i]);
+        }
+
         SetCountUI();
     }
 
