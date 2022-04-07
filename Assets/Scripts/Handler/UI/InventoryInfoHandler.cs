@@ -202,7 +202,6 @@ public class InventoryInfoHandler : MonoBehaviour
             Time.timeScale = enable ? 0f : 1f;
         }
 
-
         upCvs.sortingLayerName = enable ? ignoreEft : upUI;
 
         cg.alpha = 1f;
@@ -222,8 +221,11 @@ public class InventoryInfoHandler : MonoBehaviour
                 .SetEase(Ease.OutBack, 0.7f)
                 .SetUpdate(true);
 
-            pauseCg.DOFade(1f, 0.2f)
-                .SetUpdate(true);
+            if (stopTime)
+            {
+                pauseCg.DOFade(1f, 0.2f)
+                    .SetUpdate(true);
+            }
         }
         else
         {
