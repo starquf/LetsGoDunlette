@@ -88,7 +88,7 @@ public class Encounter_007 : RandomEncounter
                             });
                         });
                     });
-                }/*, onCancelUse*/);
+                }/*, onCancelUse*/, stopTime:false);
 
                 break;
             case 1:

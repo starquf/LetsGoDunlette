@@ -66,13 +66,13 @@ public class Encounter_017 : RandomEncounter
                         }
                         else
                         {
-                            Debug.Log("tlqkf");
                             Anim_TextUp textAnim = PoolManager.GetItem<Anim_TextUp>();
                             textAnim.SetScale(1f);
+                            textAnim.transform.position = Vector2.up*1.5f;
                             textAnim.Play("전기속성 조각을 선택해 주세요!!");
                         }
                     });
-                }/*, onCancelUse*/);
+                }/*, onCancelUse*/, stopTime: false);
                 break;
             case 1:
                 showText = en_End_TextList[1];

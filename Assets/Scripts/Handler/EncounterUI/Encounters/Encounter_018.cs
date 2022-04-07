@@ -100,6 +100,8 @@ public class Encounter_018 : RandomEncounter
 
                         invenHandler.GetSkillFromInventory(sp);
 
+                        GameManager.Instance.bottomUIHandler.ShowBottomPanel(false);
+
                         sp.transform.SetParent(encounterInfoHandler.transform);
 
                         skill = sp;
@@ -128,7 +130,7 @@ public class Encounter_018 : RandomEncounter
                             });
                         });
                     });
-                }/*, onCancelUse*/);
+                }/*, onCancelUse*/, stopTime: false);
                 break;
             default:
                 break;
