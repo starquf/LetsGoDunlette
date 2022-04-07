@@ -85,16 +85,18 @@ public class Encounter_007 : RandomEncounter
                                 invenInfoHandler.closeBtn.interactable = true;
                                 randomEncounterUIHandler.exitBtn.gameObject.SetActive(true);
                                 //OnExitEncounter?.Invoke(true);
+                                ShowEndEncounter?.Invoke();
                             });
                         });
                     });
-                }/*, onCancelUse*/);
+                }/*, onCancelUse*/, stopTime:false);
 
                 break;
             case 1:
                 showText = en_End_TextList[1];
                 showImg = en_End_Image[1];
                 en_End_Result = "지나간다.";
+                ShowEndEncounter?.Invoke();
                 break;
             default:
                 break;

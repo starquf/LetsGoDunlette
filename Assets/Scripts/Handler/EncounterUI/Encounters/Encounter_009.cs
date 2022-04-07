@@ -47,6 +47,7 @@ public class Encounter_009 : RandomEncounter
             default:
                 break;
         }
+        ShowEndEncounter?.Invoke();
     }
 
     public override void Result()

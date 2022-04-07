@@ -62,6 +62,7 @@ public class Encounter_005 : RandomEncounter
             showImg = en_End_Image[1];
             en_End_Result = "ÆÐ¹è";
         }
+        ShowEndEncounter?.Invoke();
     }
 
     private void GetScroll(Scroll _scroll)

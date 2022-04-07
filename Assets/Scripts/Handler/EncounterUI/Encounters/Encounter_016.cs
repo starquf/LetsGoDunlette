@@ -53,6 +53,7 @@ public class Encounter_016 : RandomEncounter
             default:
                 break;
         }
+        ShowEndEncounter?.Invoke();
     }
 
     public override void Result()
