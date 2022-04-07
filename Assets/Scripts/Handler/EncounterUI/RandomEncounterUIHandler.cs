@@ -43,6 +43,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
         {
             randomEncounterList[i].encounterInfoHandler = this.encounterInfoHandler;
             randomEncounterList[i].OnExitEncounter = EndEvent;
+            randomEncounterList[i].ShowEndEncounter = ShowEndEncounter;
         }
         exitBtn.onClick.AddListener(OnExitBtnClick);
         encounterIdx = -1;
@@ -108,7 +109,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
         if(encounterIdx < 0)
         {
             int randIdx = -1;
-            randIdx = 16;
+            //randIdx = 16;
             while (!CanStartEncounter(randIdx))
             {
                 randIdx = Random.Range(0, randomEncounterList.Count);
@@ -159,17 +160,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
     {
         randomEncounter.ResultSet(choiceIdx);
 
-        encounterImg.DOColor(Color.black, 0.5f);
-        encounterTxt.DOFade(0, 0.5f);
-        ShowPanel(false, enStartPanel, 0.3f, ()=>
-        {
-            encounterTxt.text = randomEncounter.showText;
-            encounterResultTxt.text = randomEncounter.en_End_Result;
-            encounterImg.sprite = randomEncounter.showImg;
-            encounterImg.DOColor(Color.white, 0.3f).SetEase(Ease.InQuad);
-            encounterTxt.DOFade(1, 0.3f).SetEase(Ease.InQuad);
-            ShowPanel(true, enEndPanel);
-        });
+        
     }
 
 
@@ -179,6 +170,21 @@ public class RandomEncounterUIHandler : MonoBehaviour
     }
 
     #endregion
+
+    private void ShowEndEncounter()
+    {
+        encounterImg.DOColor(Color.black, 0.5f);
+        encounterTxt.DOFade(0, 0.5f);
+        ShowPanel(false, enStartPanel, 0.3f, () =>
+        {
+            encounterTxt.text = randomEncounter.showText;
+            encounterResultTxt.text = randomEncounter.en_End_Result;
+            encounterImg.sprite = randomEncounter.showImg;
+            encounterImg.DOColor(Color.white, 0.3f).SetEase(Ease.InQuad);
+            encounterTxt.DOFade(1, 0.3f).SetEase(Ease.InQuad);
+            ShowPanel(true, enEndPanel);
+        });
+    }
 
     private void EndEvent(bool openMap = true)
     {

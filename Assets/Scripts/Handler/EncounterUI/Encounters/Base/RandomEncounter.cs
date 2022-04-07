@@ -7,6 +7,7 @@ public abstract class RandomEncounter : MonoBehaviour
 {
     [HideInInspector]public EncounterInfoHandler encounterInfoHandler;
     [HideInInspector]public Action<bool> OnExitEncounter;
+    [HideInInspector] public Action ShowEndEncounter;
 
     [Header("º±≈√¿¸")]
     public Sprite en_Start_Image;

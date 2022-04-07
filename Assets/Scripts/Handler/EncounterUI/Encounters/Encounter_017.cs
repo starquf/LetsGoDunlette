@@ -74,6 +74,7 @@ public class Encounter_017 : RandomEncounter
                                     GameManager.Instance.Gold += 10;
                                     Debug.LogWarning("일단 유물 없음");
                                 }
+                                ShowEndEncounter?.Invoke();
                             });
                         }
                         else
@@ -90,6 +91,7 @@ public class Encounter_017 : RandomEncounter
                 showText = en_End_TextList[2];
                 showImg = en_End_Image[1];
                 en_End_Result = "무시했다.";
+                ShowEndEncounter?.Invoke();
                 break;
             default:
                 break;
