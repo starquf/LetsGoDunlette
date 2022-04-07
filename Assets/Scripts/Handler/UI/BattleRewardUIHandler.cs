@@ -48,6 +48,8 @@ public class BattleRewardUIHandler : MonoBehaviour
     [HideInInspector]
     public SkillPiece selectedSkillObj;
 
+    private WaitForSeconds pOneSecWait = new WaitForSeconds(0.1f);
+
     private void Awake()
     {
         cg = GetComponent<CanvasGroup>();
@@ -139,31 +141,7 @@ public class BattleRewardUIHandler : MonoBehaviour
 
     public void ShowReward(List<SkillPiece> rewards)
     {
-        List<PieceInfoUI> infoUIs = new List<PieceInfoUI>();
-        selectContext.GetComponentsInChildren(infoUIs);
-
-        for (int i = 0; i < infoUIs.Count; i++)
-        {
-            infoUIs[i].gameObject.SetActive(false);
-        }
-
-        for (int i = 0; i < rewards.Count; i++)
-        {
-            SkillPiece reward = rewards[i];
-
-            PieceInfoUI pieceInfoUI = PoolManager.GetItem<PieceInfoUI>();
-            pieceInfoUI.SetSkillIcon(reward.transform.Find("SkillIcon").GetComponent<Image>().sprite);
-            pieceInfoUI.transform.SetParent(selectContext);
-
-            pieceInfoUI.button.onClick.RemoveAllListeners();
-            pieceInfoUI.button.onClick.AddListener(() =>
-            {
-                selectedSkillObj = reward;
-                ShowDesPanel(reward);
-            });
-
-            pieceInfoUI.transform.SetAsFirstSibling();
-        }
+        StartCoroutine(CreateReward(rewards));
 
         Sequence seq = DOTween.Sequence()
             .Append(rewardText.DOFade(1f, 1f).From(0f).SetEase(Ease.Linear))
@@ -181,6 +159,44 @@ public class BattleRewardUIHandler : MonoBehaviour
              });
         //.Append(selectCG.transform.DOScaleX(1f, 0.25f).From(0.55f));
 
+    }
+
+    private IEnumerator CreateReward(List<SkillPiece> rewards)
+    {
+        List<PieceInfoUI> infoUIs = new List<PieceInfoUI>();
+        selectContext.GetComponentsInChildren(infoUIs);
+
+        for (int i = 0; i < infoUIs.Count; i++)
+        {
+            infoUIs[i].gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < rewards.Count; i++)
+        {
+            SkillPiece reward = rewards[i];
+
+            PieceInfoUI pieceInfoUI = PoolManager.GetItem<PieceInfoUI>();
+            pieceInfoUI.SetSkillIcon(reward.transform.Find("SkillIcon").GetComponent<Image>().sprite);
+
+
+            pieceInfoUI.GetComponent<Image>().DOFade(1f, 0.5f)
+                .From(0f)
+                .SetEase(Ease.Linear);
+
+
+            pieceInfoUI.transform.SetParent(selectContext);
+
+            pieceInfoUI.button.onClick.RemoveAllListeners();
+            pieceInfoUI.button.onClick.AddListener(() =>
+            {
+                selectedSkillObj = reward;
+                ShowDesPanel(reward);
+            });
+
+            //pieceInfoUI.transform.SetAsFirstSibling();
+
+            yield return pOneSecWait;
+        }
     }
 
     public void ShowDesPanel(SkillPiece info)

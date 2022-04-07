@@ -55,6 +55,8 @@ public class InventoryInfoHandler : MonoBehaviour
 
     public Action onCloseBtn = null;
 
+    private bool stopTime = true;
+
     private void Awake()
     {
         PoolManager.CreatePool<PieceInfoUI>(pieceInfoObj, pieceHolderTrm, 5);
@@ -102,8 +104,10 @@ public class InventoryInfoHandler : MonoBehaviour
         cg.alpha = 0f;
     }
 
-    public void ShowInventoryInfo(string msg, ShowInfoRange showRange, Action<SkillPiece> onClickPiece = null, Action onCloseBtn = null)
+    public void ShowInventoryInfo(string msg, ShowInfoRange showRange, Action<SkillPiece> onClickPiece = null, Action onCloseBtn = null, bool stopTime = true)
     {
+        this.stopTime = stopTime;
+
         messageText.text = msg;
 
         this.onClickPiece = onClickPiece;
@@ -163,6 +167,7 @@ public class InventoryInfoHandler : MonoBehaviour
             PieceInfoUI pieceInfoUI = PoolManager.GetItem<PieceInfoUI>();
             pieceInfoUI.SetSkillIcon(sp.skillImg.sprite);
             pieceInfoUI.transform.SetParent(pieceHolderTrm);
+            pieceInfoUI.GetComponent<Image>().color = Color.white;
 
             pieceInfoUI.button.onClick.RemoveAllListeners();
             pieceInfoUI.button.onClick.AddListener(() =>
@@ -192,7 +197,12 @@ public class InventoryInfoHandler : MonoBehaviour
 
     private void SetCGEnable(bool enable)
     {
-        Time.timeScale = enable ? 0f : 1f;
+        if (stopTime)
+        {
+            Time.timeScale = enable ? 0f : 1f;
+        }
+
+
         upCvs.sortingLayerName = enable ? ignoreEft : upUI;
 
         cg.alpha = 1f;
