@@ -17,7 +17,7 @@ public class Skill_C_UnManaSphere : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        Vector3 startPos = owner.transform.position;
+        Vector3 startPos = transform.position;
         Vector3 targetPos = target.transform.position;
 
         Anim_C_SphereCast castAnim = PoolManager.GetItem<Anim_C_SphereCast>();
