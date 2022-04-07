@@ -29,11 +29,10 @@ public class ShopEncounterUIHandler : MonoBehaviour
     [SerializeField] private List<ProductInfo> products;
 
     [Header("랜덤 상점 리스트")]
-    public List<RulletPiece> pieceShopList;
     public List<Scroll> scrollShopList;
 
-    private List<RulletPiece> randomRulletPiece;
-    private List<Scroll> randomScrollPiece;
+    private List<SkillPiece> randomRulletPiece;
+    private List<Scroll> randomScroll;
 
     private void Awake()
     {
@@ -53,9 +52,6 @@ public class ShopEncounterUIHandler : MonoBehaviour
     {
         isSelectPanelEnable = false;
         selectIdx = -1;
-
-        randomRulletPiece = new List<RulletPiece>(pieceShopList);
-        randomScrollPiece = new List<Scroll>(scrollShopList);
 
         InitShop();
         ShowPanel(true);
@@ -77,22 +73,30 @@ public class ShopEncounterUIHandler : MonoBehaviour
     //상점 랜덤으로 만들어줌
     private void InitShop()
     {
+        for (int j = 0; j < GameManager.Instance.skillContainer.playerSkillPrefabs.Count; j++)
+        {
+            randomRulletPiece.Add(GameManager.Instance.skillContainer.playerSkillPrefabs[j].GetComponent<SkillPiece>());
+        }
+        randomScroll = new List<Scroll>(scrollShopList);
+
         for (int i = 0; i < products.Count; i++)
         {
             int idx = i;
             if (idx < 3)
             {
-                RulletPiece rulletPiece = randomRulletPiece[Random.Range(0, randomRulletPiece.Count)];
+                
+                SkillPiece rulletPiece = randomRulletPiece[Random.Range(0, randomRulletPiece.Count)];
                 randomRulletPiece.Remove(rulletPiece);
                 products[idx].SetProduct(ProductType.RulletPiece, null, rulletPiece);
             }
             else
             {
-                Scroll scroll = randomScrollPiece[Random.Range(0, randomScrollPiece.Count)];
-                randomScrollPiece.Remove(scroll);
+                Scroll scroll = randomScroll[Random.Range(0, randomScroll.Count)];
+                randomScroll.Remove(scroll);
                 products[idx].SetProduct(ProductType.Scroll, scroll);
             }
         }
+        randomRulletPiece.Clear();
     }
 
     #region OnButtonClick

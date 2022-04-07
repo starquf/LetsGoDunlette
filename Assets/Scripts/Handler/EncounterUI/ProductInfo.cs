@@ -16,7 +16,7 @@ public class ProductInfo : MonoBehaviour
     [HideInInspector] public string productName, productDes;
     public int price;
 
-    public void SetProduct(ProductType type, Scroll scroll = null, RulletPiece rulletPiece = null)
+    public void SetProduct(ProductType type, Scroll scroll = null, SkillPiece rulletPiece = null)
     {
         productImg.color = Color.white;
         productPriceImg.gameObject.SetActive(true);
@@ -40,7 +40,7 @@ public class ProductInfo : MonoBehaviour
             case ProductType.RulletPiece:
                 this.rulletPiece = rulletPiece;
                 productImg.GetComponent<RectTransform>().sizeDelta = Vector2.one * 320;
-                productImg.sprite = rulletPiece.skillImg.sprite;
+                productImg.sprite = rulletPiece.transform.Find("SkillIcon").GetComponent<Image>().sprite;
                 productName = rulletPiece.PieceName;
                 productDes = rulletPiece.PieceDes;
                 price = 10;
