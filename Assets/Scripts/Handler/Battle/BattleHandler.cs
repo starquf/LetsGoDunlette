@@ -166,6 +166,8 @@ public class BattleHandler : MonoBehaviour
         {
             // 전투가 시작하기 전 인벤토리와 룰렛 정리
             StartCoroutine(InitRullet());
+
+            battleEvent.OnStartBattle();
         });
 
         // 핸들러들 초기화
@@ -179,8 +181,6 @@ public class BattleHandler : MonoBehaviour
         log.hasLine = true;
 
         DebugLogHandler.AddLog(LogType.OnlyText, log);
-
-        battleEvent.OnStartBattle();
     }
 
     private void InitHandler()
