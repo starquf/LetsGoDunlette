@@ -12,9 +12,9 @@ public class BattleRewardUIHandler : MonoBehaviour
 
     [Header("캔버스 그룹들")]
     [SerializeField] private CanvasGroup rewardCG;
-    [SerializeField] private CanvasGroup selectCG;
+    public CanvasGroup selectCG;
     public CanvasGroup pieceDesCG;
-    [SerializeField] private CanvasGroup buttonCG;
+    public CanvasGroup buttonCG;
 
     [Header("버튼들")]
     public Button getBtn;
@@ -36,6 +36,8 @@ public class BattleRewardUIHandler : MonoBehaviour
     public Text cardDesText;
     public Image bookmarkBG;
     public Image bookmarkIcon;
+    public Image maskImg;
+    public Image selectedImg;
 
     private Sequence showSequence;
     private Sequence winShowSequence;
@@ -59,26 +61,6 @@ public class BattleRewardUIHandler : MonoBehaviour
     {
         invenHandler = GameManager.Instance.inventoryHandler;
 
-        /*
-        rewardSkipBtnText.text = "넘기기";
-        rewardBtnText.text = "확인";
-        selectBtn.onClick.AddListener(() =>
-        {
-            AllBtnHandle(false);
-            ShowPanel(selectCardCvsGroup, true);
-        });
-        selectCancelBtn.onClick.AddListener(() =>
-        {
-            rewardBtn.interactable = false;
-            selectCancelBtn.interactable = false;
-            ShowPanel(selectCardCvsGroup, false, ()=> {
-                AllBtnHandle(true);
-                rewardBtn.interactable = true;
-                selectCancelBtn.interactable = true;
-            });
-        });
-        */
-
         startPos = pieceDesCG.transform.position;
         ResetRewardUI();
     }
@@ -93,6 +75,8 @@ public class BattleRewardUIHandler : MonoBehaviour
 
         rewardTextTween.Kill();
         rewardText.color = new Color(1f, 1f, 1f, 0f);
+        selectedImg.gameObject.SetActive(false);
+
         rewardText.transform.localScale = Vector3.one;
 
         getBtn.gameObject.SetActive(false);
@@ -100,6 +84,8 @@ public class BattleRewardUIHandler : MonoBehaviour
         pieceDesCG.transform.position = startPos;
         pieceDesCG.transform.eulerAngles = Vector3.zero;
         pieceDesCG.transform.localScale = Vector3.one;
+
+        maskImg.color = new Color(1f, 1f, 1f, 0f);
     }
 
     public void ShowWinEffect(Action onShowEnd = null)
@@ -190,6 +176,10 @@ public class BattleRewardUIHandler : MonoBehaviour
             pieceInfoUI.button.onClick.AddListener(() =>
             {
                 selectedSkillObj = reward;
+
+                selectedImg.gameObject.SetActive(true);
+                selectedImg.transform.position = pieceInfoUI.transform.position;
+
                 ShowDesPanel(reward);
             });
 
@@ -213,40 +203,46 @@ public class BattleRewardUIHandler : MonoBehaviour
 
     public void GetRewardEffect(Action onEndEffect = null)
     {
-        /*
-        pieceDesCG.transform.DORotate(new Vector3(0f, 0f, 720f), 0.5f, RotateMode.FastBeyond360);
-        pieceDesCG.transform.DOScale(new Vector3(0.3f, 0.3f, 0.3f), 0.5f);
-        pieceDesCG.transform.DOMove(invenHandler.transform.position, 0.5f)
+        Sequence seq = DOTween.Sequence()
+            .Append(maskImg.DOFade(0f, 0.8f).From(1f).SetDelay(0.2f))
+            .InsertCallback(0.2f, () =>
+            {
+                ShowPanel(pieceDesCG, false, skip: true);
+
+                for (int i = 0; i < 10; i++)
+                {
+                    int a = i;
+
+                    EffectObj effect = PoolManager.GetItem<EffectObj>();
+                    effect.SetSprite(invenHandler.effectSprDic[selectedSkillObj.patternType]);
+                    effect.SetColorGradient(invenHandler.effectGradDic[selectedSkillObj.patternType]);
+
+                    effect.transform.position = pieceDesCG.transform.position;
+
+                    effect.transform.DOMove(Random.insideUnitCircle * 1.5f, 0.4f)
+                        .SetRelative();
+
+                    effect.Play(invenHandler.transform.position, () =>
+                    {
+                        if (a == 9)
+                            onEndEffect?.Invoke();
+
+                        effect.EndEffect();
+                    }
+                    , BezierType.Quadratic, delay: 0.4f);
+                }
+            });
+    }
+
+    public void SkipRewardEffect(Action onEndEffect = null)
+    {
+        pieceDesCG.transform.DORotate(new Vector3(0f, 0f, 90f), 0.5f);
+        pieceDesCG.transform.DOLocalMoveY(800f, 0.5f)
+            .SetRelative()
             .OnComplete(() => 
             {
                 onEndEffect?.Invoke();
             });
-        */
-
-        ShowPanel(pieceDesCG, false, skip: true);
-
-        for (int i = 0; i < 10; i++)
-        {
-            int a = i;
-
-            EffectObj effect = PoolManager.GetItem<EffectObj>();
-            effect.SetSprite(invenHandler.effectSprDic[selectedSkillObj.patternType]);
-            effect.SetColorGradient(invenHandler.effectGradDic[selectedSkillObj.patternType]);
-
-            effect.transform.position = pieceDesCG.transform.position;
-
-            effect.transform.DOMove(Random.insideUnitCircle * 1.5f, 0.4f)
-                .SetRelative();
-
-            effect.Play(invenHandler.transform.position, () =>
-            {
-                if (a == 9)
-                    onEndEffect?.Invoke();
-
-                effect.EndEffect();
-            }
-            , BezierType.Quadratic, delay: 0.4f);
-        }
     }
 
     private void ShowPanel(CanvasGroup cvsGroup, bool enable, Action onShowEnd = null, bool skip = false, float dur = 0.5f)
