@@ -14,9 +14,19 @@ public class Encounter_017 : RandomEncounter
         switch (resultIdx)
         {
             case 0:
-                showText = en_End_TextList[0];
-                showImg = en_End_Image[0];
-                en_End_Result = "전기를 통하게 하자 문이 열렸다. 문 안에는 돈과 여러가지 진귀한 물품들이 있었다.";
+                int rand = Random.Range(0, 100);
+                if(rand<60)
+                {
+                    showText = en_End_TextList[0];
+                    showImg = en_End_Image[0];
+                    en_End_Result = "골드와 랜덤한 유물 획득";
+                }
+                else
+                {
+                    showText = en_End_TextList[1];
+                    showImg = en_End_Image[1];
+                    en_End_Result = "아무 소득도 없었다.";
+                }
                 RandomEncounterUIHandler randomEncounterUIHandler = encounterInfoHandler.GetComponent<RandomEncounterUIHandler>();
                 InventoryInfoHandler invenInfoHandler = GameManager.Instance.invenInfoHandler;
                 InventoryHandler invenHandler = GameManager.Instance.inventoryHandler;
@@ -59,9 +69,11 @@ public class Encounter_017 : RandomEncounter
                                 invenInfoHandler.closeBtn.interactable = true;
                                 randomEncounterUIHandler.exitBtn.gameObject.SetActive(true);
 
-
-                                GameManager.Instance.Gold += 10;
-                                Debug.LogWarning("일단 유물 없음");
+                                if (rand < 60)
+                                {
+                                    GameManager.Instance.Gold += 10;
+                                    Debug.LogWarning("일단 유물 없음");
+                                }
                             });
                         }
                         else
@@ -75,7 +87,7 @@ public class Encounter_017 : RandomEncounter
                 }/*, onCancelUse*/, stopTime: false);
                 break;
             case 1:
-                showText = en_End_TextList[1];
+                showText = en_End_TextList[2];
                 showImg = en_End_Image[1];
                 en_End_Result = "무시했다.";
                 break;
