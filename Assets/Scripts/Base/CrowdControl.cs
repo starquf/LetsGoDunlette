@@ -12,10 +12,7 @@ public class CrowdControl : MonoBehaviour
     public GameObject uiObj;
 
     public Dictionary<CCType, CCIndicator> ccUIDic;
-    public List<Sprite> ccIcons = new List<Sprite>();
-
     public Dictionary<BuffType, CCIndicator> buffUIDic;
-    public List<Sprite> buffIcons = new List<Sprite>();
 
     private void Awake()
     {
@@ -24,6 +21,9 @@ public class CrowdControl : MonoBehaviour
 
     private void Start()
     {
+        List<Sprite> ccIcons = GameManager.Instance.ccIcons;
+        List<Sprite> buffIcons = GameManager.Instance.buffIcons;
+
         for (int i = 0; i < ccIcons.Count; i++)
         {
             ccUIDic[(CCType)i].SetImg(ccIcons[i]);

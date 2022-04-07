@@ -20,7 +20,7 @@ public class PieceInfo
 
 public abstract class RulletPiece : MonoBehaviour
 {
-    [SerializeField] protected PatternType patternType = PatternType.None;
+    public PatternType patternType = PatternType.None;
     public PatternType currentType = PatternType.None;
 
     public PieceType PieceType { get; protected set; }

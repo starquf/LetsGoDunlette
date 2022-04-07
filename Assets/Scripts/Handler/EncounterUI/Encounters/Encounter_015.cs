@@ -34,8 +34,24 @@ public class Encounter_015 : RandomEncounter
         }
     }
 
+    public SkillPiece GetRamdomSkill()
+    {
+        InventoryHandler inventoryHandler = GameManager.Instance.inventoryHandler;
+        List<SkillPiece> skills = new List<SkillPiece>();
+        for (int i = 0; i < inventoryHandler.unusedSkills.Count; i++)
+        {
+            if (inventoryHandler.unusedSkills[i].isPlayerSkill)
+            {
+                skills.Add(inventoryHandler.unusedSkills[i]);
+            }
+        }
+        int randIdx = Random.Range(0, skills.Count);
+        return skills[randIdx];
+    }
+
     public override void ResultSet(int resultIdx)
     {
+        InventoryHandler inventoryHandler = GameManager.Instance.inventoryHandler;
         choiceIdx = resultIdx;
         Image skillImg;
         switch (resultIdx)
@@ -62,15 +78,24 @@ public class Encounter_015 : RandomEncounter
                 }
                 battleScrollHandler.SortScroll();
 
-                print("유물 미구현");
+                Debug.LogWarning("유물 미구현");
                 break;
             case 1:
                 showText = en_End_TextList[0];
                 showImg = en_End_Image[1];
-                en_End_Result = "랜덤 유물 한개를 잃고, 현재 돈을 2배로 불린다.";
-                GameManager.Instance.Gold *= 2;
-
-                print("유물 미구현");
+                en_End_Result = "랜덤 룰렛 조각 한개를 잃고, 현재 돈을 2배로 불린다.";
+                SkillPiece sp = GetRamdomSkill();
+                inventoryHandler.GetSkillFromInventory(sp);
+                sp.transform.rotation = Quaternion.Euler(0, 0, 30);
+                DOTween.Sequence()
+                .Append(sp.transform.DOMove(Vector2.zero, 0.5f))
+                .Append(sp.GetComponent<Image>().DOFade(0, 0.5f))
+                .Join(sp.skillImg.DOFade(0, 0.5f))
+                .OnComplete(() =>
+                {
+                    Destroy(sp);
+                    GameManager.Instance.Gold *= 2;
+                });
                 break;
             case 2:
                 showText = en_End_TextList[0];

@@ -42,6 +42,7 @@ public class Encounter_014 : RandomEncounter
                 bh._bInfo.enemyInfos.Add(EnemyType.QUEEN);
                 GameManager.Instance.mapHandler.SetBossIcon(0);
 
+                bh.battleEvent.onStartBattle -= onBattleStart;
                 onBattleStart = () =>
                 {
                     if (bh.isBoss)
@@ -62,6 +63,7 @@ public class Encounter_014 : RandomEncounter
                 bh._bInfo.enemyInfos.Add(EnemyType.REDFOX);
                 GameManager.Instance.mapHandler.SetBossIcon(1);
 
+                bh.battleEvent.onStartBattle -= onBattleStart;
                 onBattleStart = () =>
                 {
                     if (bh.isBoss)

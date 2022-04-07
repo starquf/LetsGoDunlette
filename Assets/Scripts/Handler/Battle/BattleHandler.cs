@@ -166,6 +166,8 @@ public class BattleHandler : MonoBehaviour
         {
             // 전투가 시작하기 전 인벤토리와 룰렛 정리
             StartCoroutine(InitRullet());
+
+            battleEvent.OnStartBattle();
         });
 
         // 핸들러들 초기화
@@ -179,8 +181,6 @@ public class BattleHandler : MonoBehaviour
         log.hasLine = true;
 
         DebugLogHandler.AddLog(LogType.OnlyText, log);
-
-        battleEvent.OnStartBattle();
     }
 
     private void InitHandler()
@@ -533,8 +533,6 @@ public class BattleHandler : MonoBehaviour
             }
         }
 
-        print("끝");
-
         onEndCheckPanelty?.Invoke();
 
         yield break;
@@ -554,6 +552,9 @@ public class BattleHandler : MonoBehaviour
 
         mainRullet.ResetRulletSpeed();
         battleEvent.ResetAllEvents();
+
+        battleScroll.ShowScrollUI(open: false);
+        GameManager.Instance.goldUIHandler.ShowGoldUI(open: false);
 
         LogCon log = new LogCon();
         log.text = "전투 종료";

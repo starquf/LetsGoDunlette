@@ -4,19 +4,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class BattleRewardUIHandler : MonoBehaviour
 {
-    private CanvasGroup allCvsGroup;
-    [SerializeField] private Transform battleWinTextImgTrm;
-    [SerializeField] private CanvasGroup rewardCvsGroup;
-    [SerializeField] private CanvasGroup selectCardCvsGroup;
-    [SerializeField] private Button rewardBtn;
-    [SerializeField] private Button selectCancelBtn;
-    [SerializeField] private Button selectBtn;
-    [SerializeField] private Button rewardSkipBtn;
-    [SerializeField] private Text rewardBtnText;
-    [SerializeField] private Text rewardSkipBtnText;
+    private CanvasGroup cg;
+
+    [Header("캔버스 그룹들")]
+    [SerializeField] private CanvasGroup rewardCG;
+    [SerializeField] private CanvasGroup selectCG;
+    public CanvasGroup pieceDesCG;
+    [SerializeField] private CanvasGroup buttonCG;
+
+    [Header("버튼들")]
+    public Button getBtn;
+    public Button skipBtn;
+
+    [Header("그외")]
+    [SerializeField]
+    private Transform battleWinImgTrans;
+    [SerializeField]
+    private Transform selectContext;
+    [SerializeField]
+    private Text rewardText;
 
     [SerializeField] private List<ParticleSystem> fireworks = new List<ParticleSystem>();
 
@@ -24,17 +34,30 @@ public class BattleRewardUIHandler : MonoBehaviour
     public Image cardBG;
     public Text cardNameText;
     public Text cardDesText;
+    public Image bookmarkBG;
+    public Image bookmarkIcon;
 
     private Sequence showSequence;
     private Sequence winShowSequence;
+    private Tween rewardTextTween;
+
+    private Vector2 startPos;
+
+    private InventoryHandler invenHandler;
+
+    [HideInInspector]
+    public SkillPiece selectedSkillObj;
 
     private void Awake()
     {
-        allCvsGroup = GetComponent<CanvasGroup>();
+        cg = GetComponent<CanvasGroup>();
     }
 
     void Start()
     {
+        invenHandler = GameManager.Instance.inventoryHandler;
+
+        /*
         rewardSkipBtnText.text = "넘기기";
         rewardBtnText.text = "확인";
         selectBtn.onClick.AddListener(() =>
@@ -52,66 +75,45 @@ public class BattleRewardUIHandler : MonoBehaviour
                 selectCancelBtn.interactable = true;
             });
         });
+        */
+
+        startPos = pieceDesCG.transform.position;
+        ResetRewardUI();
     }
 
-    public void SetButton(SkillPiece skillPiece, Action onClickGet, Action onClickSkip)
+    public void ResetRewardUI()
     {
-        cardBG.sprite = skillPiece.cardBG;
-        cardNameText.text = skillPiece.PieceName;
-        cardDesText.text = skillPiece.PieceDes;
+        ShowPanel(cg, false, skip: true);
+        ShowPanel(rewardCG, false, skip: true);
+        ShowPanel(selectCG, false, skip: true);
+        ShowPanel(pieceDesCG, false, skip: true);
+        ShowPanel(buttonCG, false, skip: true);
 
-        rewardBtn.onClick.RemoveAllListeners();
-        rewardSkipBtn.onClick.RemoveAllListeners();
+        rewardTextTween.Kill();
+        rewardText.color = new Color(1f, 1f, 1f, 0f);
+        rewardText.transform.localScale = Vector3.one;
 
-        rewardBtn.onClick.AddListener(() => {
-            rewardBtn.interactable = false;
-            selectCancelBtn.interactable = false;
-            onClickGet();
-            ShowPanel(allCvsGroup, false, ()=> {
-                ShowPanel(rewardCvsGroup, false, null, true);
-                ShowPanel(selectCardCvsGroup, false, null, true);
-                rewardBtn.interactable = true;
-                selectCancelBtn.interactable = true;
-                rewardBtn.gameObject.SetActive(true);
-            });
-            rewardBtn.gameObject.SetActive(false);
-        });
-        rewardSkipBtn.onClick.AddListener(() => {
-            rewardSkipBtn.interactable = false;
-            selectBtn.interactable = false;
-            onClickSkip();
-            ShowPanel(allCvsGroup, false, () => {
-                ShowPanel(rewardCvsGroup, false, null, true);
-                rewardSkipBtn.interactable = true;
-                selectBtn.interactable = true;
-            });
-            AllBtnHandle(false);
-        });
-        AllBtnHandle(true);
-        rewardSkipBtn.gameObject.SetActive(true);
+        getBtn.gameObject.SetActive(false);
+
+        pieceDesCG.transform.position = startPos;
+        pieceDesCG.transform.eulerAngles = Vector3.zero;
+        pieceDesCG.transform.localScale = Vector3.one;
     }
 
-    public void AllBtnHandle(bool open)
+    public void ShowWinEffect(Action onShowEnd = null)
     {
-        rewardSkipBtn.gameObject.SetActive(open);
-        selectBtn.gameObject.SetActive(open);
-    }
-
-    public void ShowWinEffect(Action onShowEnd)
-    {
-        AllBtnHandle(false);
         //float moveX = 0 - battleWinTextImgTrm.transform.position.x;
 
-        Image battleWinTextImg = battleWinTextImgTrm.GetComponent<Image>();
-        battleWinTextImg.color = new Color(1f, 1f, 1f, 0f);
+        Image battleWinImg = battleWinImgTrans.GetComponent<Image>();
+        battleWinImg.color = new Color(1f, 1f, 1f, 0f);
 
-        battleWinTextImgTrm.localPosition = new Vector3(0f, 200f);
+        battleWinImgTrans.localPosition = new Vector3(0f, 200f);
 
-        ShowPanel(allCvsGroup, true, () =>
+        ShowPanel(cg, true, () =>
         {
             winShowSequence = DOTween.Sequence()
                 .AppendInterval(0.15f)
-                .Append(battleWinTextImg.DOFade(1f, 0.8f))
+                .Append(battleWinImg.DOFade(1f, 0.8f))
                 .InsertCallback(0.5f, () => {
                     for (int i = 0; i < fireworks.Count; i++)
                     {
@@ -119,32 +121,138 @@ public class BattleRewardUIHandler : MonoBehaviour
                     }
                 })
                 .AppendInterval(0.6f)
-                .Append(battleWinTextImgTrm.DOLocalMoveY(1150f, 0.8f))
-                .Join(battleWinTextImg.DOFade(0f, 0.5f))
-                .OnComplete(()=> { 
-                    rewardCvsGroup.transform.DOLocalMoveY(1000f, 0.9f).From().SetEase(Ease.OutBounce);
-                    ShowPanel(rewardCvsGroup, true); 
-                    onShowEnd(); 
+                .Append(battleWinImgTrans.DOLocalMoveY(1150f, 0.8f))
+                .Join(battleWinImg.DOFade(0f, 0.5f))
+                .AppendCallback(() => 
+                {
+                    ShowPanel(rewardCG, true);
+                })
+                .Append(rewardCG.transform.DOLocalMoveY(1000f, 0.9f)
+                        .From()
+                        .SetEase(Ease.OutBounce))
+                .AppendCallback(() =>
+                {
+                    onShowEnd?.Invoke();
                 });
         });
     }
 
-    private void ShowPanel(CanvasGroup cvsGroup, bool enable, Action onShowEnd = null, bool skip = false)
+    public void ShowReward(List<SkillPiece> rewards)
     {
-        showSequence.Kill();
+        List<PieceInfoUI> infoUIs = new List<PieceInfoUI>();
+        selectContext.GetComponentsInChildren(infoUIs);
+
+        for (int i = 0; i < infoUIs.Count; i++)
+        {
+            infoUIs[i].gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < rewards.Count; i++)
+        {
+            SkillPiece reward = rewards[i];
+
+            PieceInfoUI pieceInfoUI = PoolManager.GetItem<PieceInfoUI>();
+            pieceInfoUI.SetSkillIcon(reward.transform.Find("SkillIcon").GetComponent<Image>().sprite);
+            pieceInfoUI.transform.SetParent(selectContext);
+
+            pieceInfoUI.button.onClick.RemoveAllListeners();
+            pieceInfoUI.button.onClick.AddListener(() =>
+            {
+                selectedSkillObj = reward;
+                ShowDesPanel(reward);
+            });
+
+            pieceInfoUI.transform.SetAsFirstSibling();
+        }
+
+        Sequence seq = DOTween.Sequence()
+            .Append(rewardText.DOFade(1f, 1f).From(0f).SetEase(Ease.Linear))
+            .InsertCallback(0.16f, () =>
+            {
+                ShowPanel(selectCG, true, dur: 0.8f);
+
+                rewardTextTween = rewardText.transform.DOScale(1.07f, 0.8f)
+                        .SetLoops(-1, LoopType.Yoyo)
+                        .SetEase(Ease.Linear);
+            })
+            .InsertCallback(0.46f, () =>
+             {
+                 ShowPanel(buttonCG, true, dur: 0.8f);
+             });
+        //.Append(selectCG.transform.DOScaleX(1f, 0.25f).From(0.55f));
+
+    }
+
+    public void ShowDesPanel(SkillPiece info)
+    {
+        cardBG.sprite = info.cardBG;
+        cardNameText.text = info.PieceName;
+        cardDesText.text = info.PieceDes;
+        bookmarkBG.sprite = invenHandler.bookmarkSprDic[info.patternType];
+        bookmarkIcon.sprite = invenHandler.effectSprDic[info.patternType];
+
+        ShowPanel(pieceDesCG, true);
+        getBtn.gameObject.SetActive(true);
+    }
+
+    public void GetRewardEffect(Action onEndEffect = null)
+    {
+        /*
+        pieceDesCG.transform.DORotate(new Vector3(0f, 0f, 720f), 0.5f, RotateMode.FastBeyond360);
+        pieceDesCG.transform.DOScale(new Vector3(0.3f, 0.3f, 0.3f), 0.5f);
+        pieceDesCG.transform.DOMove(invenHandler.transform.position, 0.5f)
+            .OnComplete(() => 
+            {
+                onEndEffect?.Invoke();
+            });
+        */
+
+        ShowPanel(pieceDesCG, false, skip: true);
+
+        for (int i = 0; i < 10; i++)
+        {
+            int a = i;
+
+            EffectObj effect = PoolManager.GetItem<EffectObj>();
+            effect.SetSprite(invenHandler.effectSprDic[selectedSkillObj.patternType]);
+            effect.SetColorGradient(invenHandler.effectGradDic[selectedSkillObj.patternType]);
+
+            effect.transform.position = pieceDesCG.transform.position;
+
+            effect.transform.DOMove(Random.insideUnitCircle * 1.5f, 0.4f)
+                .SetRelative();
+
+            effect.Play(invenHandler.transform.position, () =>
+            {
+                if (a == 9)
+                    onEndEffect?.Invoke();
+
+                effect.EndEffect();
+            }
+            , BezierType.Quadratic, delay: 0.4f);
+        }
+    }
+
+    private void ShowPanel(CanvasGroup cvsGroup, bool enable, Action onShowEnd = null, bool skip = false, float dur = 0.5f)
+    {
         if (!skip)
         {
-            showSequence = DOTween.Sequence().Append(cvsGroup.DOFade(enable ? 1 : 0, 0.5f).OnComplete(() => {
-                cvsGroup.interactable = enable;
-                cvsGroup.blocksRaycasts = enable;
-                onShowEnd?.Invoke();
-            }));
+             showSequence = DOTween.Sequence()
+                .Append(cvsGroup.DOFade(enable ? 1 : 0, dur)
+                .OnComplete(() => {
+                    onShowEnd?.Invoke();
+                }));
+
+            cvsGroup.interactable = enable;
+            cvsGroup.blocksRaycasts = enable;
         }
         else
         {
             cvsGroup.alpha = enable ? 1 : 0;
             cvsGroup.interactable = enable;
             cvsGroup.blocksRaycasts = enable;
+
+            onShowEnd?.Invoke();
         }
     }
 }
