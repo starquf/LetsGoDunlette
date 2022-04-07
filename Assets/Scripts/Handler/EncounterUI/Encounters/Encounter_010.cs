@@ -99,7 +99,6 @@ public class Encounter_010 : RandomEncounter
 
                     OnExitEncounter?.Invoke(true);
                 });
-                OnExitEncounter?.Invoke(true);
                 break;
             case 2:
                 OnExitEncounter?.Invoke(true);
