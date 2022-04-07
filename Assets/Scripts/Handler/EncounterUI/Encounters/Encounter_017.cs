@@ -11,7 +11,6 @@ public class Encounter_017 : RandomEncounter
     {
         choiceIdx = resultIdx;
         PlayerHealth playerHealth = GameManager.Instance.GetPlayer();
-        Image skillImg;
         switch (resultIdx)
         {
             case 0:
@@ -25,6 +24,7 @@ public class Encounter_017 : RandomEncounter
                 invenInfoHandler.closeBtn.interactable = false;
                 randomEncounterUIHandler.exitBtn.gameObject.SetActive(false);
 
+                GameManager.Instance.bottomUIHandler.ShowBottomPanel(false);
                 Transform frontPanelTrm = invenInfoHandler.transform.parent;
 
                 //invenInfoHandler.transform.SetParent(encounterInfoHandler.transform);
@@ -45,6 +45,8 @@ public class Encounter_017 : RandomEncounter
 
                             invenHandler.GetSkillFromInventory(sp);
 
+                            GameManager.Instance.bottomUIHandler.ShowBottomPanel(false);
+
                             sp.transform.SetParent(encounterInfoHandler.transform);
 
                             DOTween.Sequence()
@@ -59,11 +61,12 @@ public class Encounter_017 : RandomEncounter
 
 
                                 GameManager.Instance.Gold += 10;
-                                Debug.Log("일단 유물 없음");
+                                Debug.LogWarning("일단 유물 없음");
                             });
                         }
                         else
                         {
+                            Debug.Log("tlqkf");
                             Anim_TextUp textAnim = PoolManager.GetItem<Anim_TextUp>();
                             textAnim.SetScale(1f);
                             textAnim.Play("전기속성 조각을 선택해 주세요!!");

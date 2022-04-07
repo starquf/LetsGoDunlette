@@ -39,6 +39,8 @@ public class Encounter_007 : RandomEncounter
                         invenInfoHandler.onCloseBtn = null;
                         invenInfoHandler.CloseInventoryInfo();
 
+                        GameManager.Instance.bottomUIHandler.ShowBottomPanel(false);
+
                         invenHandler.GetSkillFromInventory(sp);
 
                         sp.transform.SetParent(encounterInfoHandler.transform);
