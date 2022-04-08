@@ -46,7 +46,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         hpBarAfterImageBar = bar.Find("HPAfterImageBar").GetComponent<Image>();
         hpShieldBar = bar.Find("HPShieldBar").GetComponent<Image>();
         hpText = bar.Find("hpText").GetComponent<Text>();
-        damageTrans = hPCvs.transform.Find("DamageEffect").transform;
+        damageTrans = hpBar.transform.Find("DamageEffect").transform;
 
         damageImg = damageTrans.GetComponent<Image>();
         damageColor = damageImg.color;
@@ -226,7 +226,8 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     private void SetDamageEffect()
     {
-        damageTrans.DOScaleX(hp / (float)maxHp, 0.33f);
+        DOTween.To(() => damageImg.fillAmount, x => damageImg.fillAmount = x, (float)hp / curMaxHp, 0.33f);
+        //damageTrans.DOScaleX(hp / (float)maxHp, 0.33f);
 
         damageImg.color = damageColor;
 
