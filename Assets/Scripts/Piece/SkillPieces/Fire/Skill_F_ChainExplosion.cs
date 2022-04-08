@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class Skill_F_ChainExplosion : SkillPiece
 {
-
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
+        SkillEvent eventInfo = null;
         BattleHandler bh = GameManager.Instance.battleHandler;
         //print($"스킬 발동!! 이름 : {PieceName}");
 
@@ -20,16 +20,17 @@ public class Skill_F_ChainExplosion : SkillPiece
             target.GetDamage(Value, currentType);
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
-            Action<SkillPiece> onNextAttack = result => { };
+            Action<SkillPiece, Action> onNextAttack = (result,action) => { };
             int targetHp = target.curHp;
 
-            onNextAttack = result =>
+            onNextAttack = (result,action) =>
             {
+                print("연폭");
                 //print($"현재체력 : {target.curHp}       예전 체력 : {targetHp}");
 
                 if (result.isPlayerSkill && target.curHp < targetHp)
                 {
-                    //print("발동!");
+                    print("발동!");
 
                     target.GetDamage(Value, patternType);
                     GameManager.Instance.cameraHandler.ShakeCamera(1.5f, 0.15f);
@@ -40,12 +41,14 @@ public class Skill_F_ChainExplosion : SkillPiece
                     bonusEffect.Play();
                 }
 
+                action?.Invoke();
                 // 바로 없엘거면 이렇게
-                bh.battleEvent.RemoveNextSkill(onNextAttack);
+                //bh.battleEvent.RemoveEventInfo(eventInfo);
             };
 
             // 이벤트에 추가해주면 됨
-            bh.battleEvent.SetNextSkill(onNextAttack);
+            eventInfo = new SkillEvent(true,2,EventTimeSkill.AfterSkill, onNextAttack);
+            bh.battleEvent.BookEvent(eventInfo);
 
             onCastEnd?.Invoke();
         });

@@ -166,8 +166,7 @@ public class BattleHandler : MonoBehaviour
         {
             // 전투가 시작하기 전 인벤토리와 룰렛 정리
             StartCoroutine(InitRullet());
-
-            battleEvent.OnStartBattle();
+            StartCoroutine(battleEvent.ActionEvent(EventTime.BeginBattle));
         });
 
         // 핸들러들 초기화
@@ -388,8 +387,9 @@ public class BattleHandler : MonoBehaviour
         DebugLogHandler.AddLog(LogType.OnlyText, log);
 
         // 현재 턴에 걸려있는 적의 cc기와 플레이어의 cc기를 하나 줄여준다.
-        battleEvent.InitNextSkill();
-        battleEvent.OnStartTurn();
+        //battleEvent.InitNextSkill();
+
+        StartCoroutine(battleEvent.ActionEvent(EventTime.StartTurn));
 
         if (turnCnt > 1)
         {
@@ -438,10 +438,9 @@ public class BattleHandler : MonoBehaviour
     // 실행이 전부 끝나면 실행되는 코루틴
     private IEnumerator EndTurn()
     {
-        battleEvent.OnEndTurn();
+        yield return StartCoroutine(battleEvent.ActionEvent(EventTime.EndOfTurn));
 
-        // 다음 공격 체크하는 스킬들이 발동되는 타이밍
-        battleEvent.OnNextSkill(result);
+        yield return StartCoroutine(battleEvent.ActionEvent(EventTimeSkill.AfterSkill,result));
 
         yield return pOneSecWait;
 
@@ -615,7 +614,7 @@ public class BattleHandler : MonoBehaviour
                 return;
             }
 
-            battleEvent.OnCastPiece(piece);
+            StartCoroutine(battleEvent.ActionEvent(EventTimeSkill.WithSkill,piece));
 
             Action onShowCast = () => { };
 

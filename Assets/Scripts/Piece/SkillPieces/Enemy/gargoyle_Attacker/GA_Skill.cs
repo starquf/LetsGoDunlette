@@ -3,8 +3,6 @@ using Random = UnityEngine.Random;
 
 public class GA_Skill : SkillPiece
 {
-    private int shieldValue = 0;
-    private Action<SkillPiece> onNextTurn = null;
     protected override void Awake()
     {
         base.Awake();
@@ -26,29 +24,6 @@ public class GA_Skill : SkillPiece
         }
     }
 
-    public override void OnRullet()
-    {
-        BattleHandler bh = GameManager.Instance.battleHandler;
-
-        bh.battleEvent.RemoveNextSkill(onNextTurn);
-
-        onNextTurn = piece =>
-        {
-
-            Anim_M_Shield hitEffect = PoolManager.GetItem<Anim_M_Shield>();
-            hitEffect.transform.position = owner.transform.position;
-
-            hitEffect.Play(() =>
-            {
-            });
-            owner.gameObject.GetComponent<EnemyHealth>().AddShield(shieldValue);
-        };
-
-        bh.battleEvent.SetNextSkill(onNextTurn);
-
-    }
-
-
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         onCastSkill(target, onCastEnd);
@@ -63,16 +38,13 @@ public class GA_Skill : SkillPiece
             Anim_M_Shield hitEffect = PoolManager.GetItem<Anim_M_Shield>();
             hitEffect.transform.position = owner.transform.position;
 
-            shieldValue += 5;
+            owner.GetComponent<GA_Solidification>().shieldValue += 5;
 
             hitEffect.Play(() =>
             {
                 onCastEnd?.Invoke();
             });
         });
-
-
-
     }
 
     private void GA_Press(LivingEntity target, Action onCastEnd = null) //현재 자신의 보호막만큼 플레이어에게 추가 피해를 준다.

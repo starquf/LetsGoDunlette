@@ -6,6 +6,7 @@ using UnityEngine;
 public class Skill_F_Stigmatized : SkillPiece
 {
     private BattleHandler bh = null;
+    SkillEvent eventInfo = null;
 
     protected override void Start()
     {
@@ -21,9 +22,9 @@ public class Skill_F_Stigmatized : SkillPiece
         int turnCnt = 4;
         int targetHp = target.curHp;
 
-        Action<SkillPiece> action = p => { };
+        Action<SkillPiece,Action> action = (p,action) => { };
 
-        action = piece =>
+        action = (piece,action) =>
         {
             //print($"카운트중! 적 예전 체력 : {targetHp}  현재 체력 : {target.curHp}");
             turnCnt--;
@@ -44,13 +45,16 @@ public class Skill_F_Stigmatized : SkillPiece
 
             if (turnCnt <= 0 || target.IsDie)
             {
-                bh.battleEvent.RemoveNextSkill(action);
+                bh.battleEvent.RemoveEventInfo(eventInfo);
             }
 
             targetHp = target.curHp;
+
+            action?.Invoke();
         };
 
-        bh.battleEvent.SetNextSkill(action);
+        eventInfo = new SkillEvent(EventTimeSkill.AfterSkill, action);
+        bh.battleEvent.BookEvent(eventInfo);
 
         target.GetDamage(Value, currentType);
 

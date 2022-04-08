@@ -7,7 +7,8 @@ using UnityEngine;
 public class TA_Attack : SkillPiece
 {
     private int firstValue;
-    private Action<SkillPiece> onNextTurn;
+    private Action<SkillPiece,Action> onNextTurn;
+    SkillEvent eventInfo = null;
 
     protected override void Awake()
     {
@@ -23,9 +24,9 @@ public class TA_Attack : SkillPiece
         base.OnRullet();
         BattleHandler bh = GameManager.Instance.battleHandler;
 
-        bh.battleEvent.RemoveNextSkill(onNextTurn);
+        bh.battleEvent.RemoveEventInfo(eventInfo);
 
-        onNextTurn = piece =>
+        onNextTurn = (piece,action) =>
         {
             if (owner.GetComponent<EnemyHealth>().cc.IsCC(CCType.Heating))
             {
@@ -37,16 +38,19 @@ public class TA_Attack : SkillPiece
             }
 
             pieceDes = StringFormatUtil.GetEnemyAttackString(Value);
+
+            action?.Invoke();
         };
 
-        bh.battleEvent.SetNextSkill(onNextTurn);
+        eventInfo = new SkillEvent(EventTimeSkill.AfterSkill, onNextTurn);
+        bh.battleEvent.BookEvent(eventInfo);
     }
 
     public override void ResetPiece()
     {
         base.ResetPiece();
 
-        GameManager.Instance.battleHandler.battleEvent.RemoveNextSkill(onNextTurn);
+        GameManager.Instance.battleHandler.battleEvent.RemoveEventInfo(eventInfo);
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)

@@ -45,8 +45,9 @@ public class Encounter_013 : RandomEncounter
                 en_End_Result = "조건 달성 시 최대 체력의 50 % 만큼 회복 실패시 랜덤 룰렛 조각 삭제와 골드 감소";
 
                 int turnCnt = 0;
-                Action onEndTurn = null;
-                onEndTurn = () =>
+                Action<Action> onEndTurn = null;
+                NormalEvent eventInfo = null;
+                onEndTurn = action =>
                 {
                     turnCnt++;
                     if (turnCnt >= 5)
@@ -69,14 +70,18 @@ public class Encounter_013 : RandomEncounter
 
                         GameManager.Instance.Gold -= lostGoldValue;
 
-                        bh.battleEvent.onEndTurn -= onEndTurn;
+                        bh.battleEvent.RemoveEventInfo(eventInfo);
                     }
+
+                    action?.Invoke();
                 };
-                bh.battleEvent.onEndTurn += onEndTurn;
+                eventInfo = new NormalEvent(onEndTurn, EventTime.EndOfTurn);
+                bh.battleEvent.BookEvent(eventInfo);
 
                 bool isNextBattle = true;
-                Action onBattleStart = null;
-                onBattleStart = () =>
+                Action<Action> onBattleStart = null;
+                NormalEvent eventInfo1 = null;
+                onBattleStart = action =>
                 {
                     if (!isNextBattle)
                     {
@@ -85,12 +90,14 @@ public class Encounter_013 : RandomEncounter
 
                         playerHealth.Heal((int)(playerHealth.maxHp * 0.5f));
 
-                        bh.battleEvent.onStartBattle -= onBattleStart;
-                        bh.battleEvent.onEndTurn -= onEndTurn;
+                        bh.battleEvent.RemoveEventInfo(eventInfo);
+                        bh.battleEvent.RemoveEventInfo(eventInfo1);
                     }
                     isNextBattle = false;
+                    action?.Invoke();
                 };
-                bh.battleEvent.onStartBattle += onBattleStart;
+                eventInfo1 = new NormalEvent(onBattleStart, EventTime.BeginBattle);
+                bh.battleEvent.BookEvent(eventInfo1);
 
 
                 break;

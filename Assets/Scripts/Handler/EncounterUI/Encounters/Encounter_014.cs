@@ -13,7 +13,7 @@ public class Encounter_014 : RandomEncounter
     {
         BattleHandler bh = GameManager.Instance.battleHandler;
         choiceIdx = resultIdx;
-        Action onBattleStart = null;
+        Action<Action> onBattleStart = null;
         switch (resultIdx)
         {
             case 0:
@@ -41,18 +41,21 @@ public class Encounter_014 : RandomEncounter
                 bh._bInfo.enemyInfos.Clear();
                 bh._bInfo.enemyInfos.Add(EnemyType.QUEEN);
                 GameManager.Instance.mapHandler.SetBossIcon(0);
-
-                bh.battleEvent.onStartBattle -= onBattleStart;
-                onBattleStart = () =>
+                NormalEvent eventInfo = null;
+                onBattleStart = action =>
                 {
                     if (bh.isBoss)
                     {
                         bh.enemys[0].GetDamage(queenGetDamage);
-                        bh.battleEvent.onStartBattle -= onBattleStart;
+                        bh.battleEvent.RemoveEventInfo(eventInfo);
                     }
+
+                    action?.Invoke();
                 };
 
-                bh.battleEvent.onStartBattle += onBattleStart;
+                eventInfo = new NormalEvent(onBattleStart, EventTime.BeginBattle);
+                bh.battleEvent.BookEvent(eventInfo);
+
                 break;
             case 1:
                 showText = en_End_TextList[1];
@@ -62,18 +65,21 @@ public class Encounter_014 : RandomEncounter
                 bh._bInfo.enemyInfos.Clear();
                 bh._bInfo.enemyInfos.Add(EnemyType.REDFOX);
                 GameManager.Instance.mapHandler.SetBossIcon(1);
-
-                bh.battleEvent.onStartBattle -= onBattleStart;
-                onBattleStart = () =>
+                NormalEvent eventInfo1 = null;
+                bh.battleEvent.RemoveEventInfo(eventInfo1);
+                onBattleStart = action =>
                 {
                     if (bh.isBoss)
                     {
                         GameManager.Instance.inventoryHandler.CreateSkill(redfoxSkill.gameObject, bh.enemys[0].GetComponent<Inventory>());
-                        bh.battleEvent.onStartBattle -= onBattleStart;
+                        bh.battleEvent.RemoveEventInfo(eventInfo1);
                     }
+
+                    action?.Invoke();
                 };
 
-                bh.battleEvent.onStartBattle += onBattleStart;
+                eventInfo1 = new NormalEvent(onBattleStart, EventTime.BeginBattle);
+                bh.battleEvent.BookEvent(eventInfo1);
                 break;
             default:
                 break;

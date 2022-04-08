@@ -11,7 +11,6 @@ public class Encounter_017 : RandomEncounter
     {
         choiceIdx = resultIdx;
         PlayerHealth playerHealth = GameManager.Instance.GetPlayer();
-        Image skillImg;
         switch (resultIdx)
         {
             case 0:

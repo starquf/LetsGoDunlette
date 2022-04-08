@@ -13,7 +13,7 @@ public class Encounter_018 : RandomEncounter
     {
         choiceIdx = resultIdx;
         PlayerHealth playerHealth = GameManager.Instance.GetPlayer();
-        Image skillImg, skill2Img;
+        Image skill2Img;
 
         RandomEncounterUIHandler randomEncounterUIHandler = encounterInfoHandler.GetComponent<RandomEncounterUIHandler>();
         InventoryInfoHandler invenInfoHandler = GameManager.Instance.invenInfoHandler;

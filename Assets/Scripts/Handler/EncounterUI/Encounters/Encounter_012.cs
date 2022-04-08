@@ -43,18 +43,23 @@ public class Encounter_012 : RandomEncounter
 
                 int battlecount = battleCntValue;
 
-                Action onBattleStart = null;
-                onBattleStart = () =>
+                NormalEvent eventInfo = null;
+
+                Action<Action> onBattleStart = null;
+                onBattleStart = action =>
                 {
                     battlecount--;
                     playerHealth.Heal(10);
                     if (battlecount <= 0)
                     {
-                        battleEventHandler.onStartBattle -= onBattleStart;
+                        battleEventHandler.RemoveEventInfo(eventInfo);
                     }
+
+                    action?.Invoke();
                 };
 
-                battleEventHandler.onStartBattle += onBattleStart;
+                eventInfo = new NormalEvent(onBattleStart, EventTime.BeginBattle);
+                battleHandler.battleEvent.BookEvent(eventInfo);
 
                 OnExitEncounter?.Invoke(true);
                 break;

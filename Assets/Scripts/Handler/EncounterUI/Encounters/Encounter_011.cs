@@ -141,23 +141,27 @@ public class Encounter_011 : RandomEncounter
                 OnExitEncounter?.Invoke(true);
                 break;
             case 2:
+                NormalEvent eventInfo = null;
                 PlayerHealth playerHealth = GameManager.Instance.GetPlayer();
                 BattleEventHandler battleEventHandler = GameManager.Instance.battleHandler.battleEvent;
 
                 int battlecount = battleCntValue;
 
-                Action onBattleStart = null;
-                onBattleStart = () =>
+                Action<Action> onBattleStart = null;
+                onBattleStart = action =>
                 {
                     battlecount--;
                     playerHealth.cc.SetCC(CCType.Silence, 2);
                     if (battlecount <= 0)
                     {
-                        battleEventHandler.onStartBattle -= onBattleStart;
+                        battleEventHandler.RemoveEventInfo(eventInfo);
                     }
+
+                    action?.Invoke();
                 };
 
-                battleEventHandler.onStartBattle += onBattleStart;
+                eventInfo = new NormalEvent(onBattleStart, EventTime.BeginBattle);
+                battleEventHandler.BookEvent(eventInfo);
 
                 OnExitEncounter?.Invoke(true);
                 break;

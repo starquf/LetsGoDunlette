@@ -3,133 +3,338 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public class BookedEventInfo
+public enum EventTime //노말 이벤트들
 {
-    public int turn;
-    public Action action;
+    StartTurn, //턴 시작 할때
+    EndOfTurn, //턴 끝날때
+    BeginBattle,//배틀 시작할때
+}
 
-    public BookedEventInfo(Action action, int turn = 0)
+public enum EventTimeSkill //스킬 이벤트들
+{
+    WithSkill,//스킬 발동될때
+    AfterSkill//스킬 발동 후
+}
+
+public enum EventTimeEnemy //스킬 이벤트들
+{
+    EnemyCreate, //적이 살았을때
+    EnemyDie //적이죽었을때
+}
+
+[Serializable]
+public abstract class EventInfo
+{
+    public bool actionOnEnd; //삭제될때만 실행되는가 (몇턴후 실행 이런거)
+    public int turn;//0은 삭제할때까지
+
+    public EventInfo()
     {
+        this.actionOnEnd = false;
+        this.turn = 101;
+    }
+
+    public EventInfo(bool actionOnEnd, int turn)
+    {
+        this.actionOnEnd = actionOnEnd;
         this.turn = turn;
+    }
+
+    public abstract void InvokeEvent(Action onEnd);
+    public abstract void InvokeEvent(SkillPiece piece, Action onEnd);
+    public abstract void InvokeEvent(EnemyHealth enemy, Action onEnd);
+    public abstract bool CheckEventType(EventTime eventTime);
+    public abstract bool CheckEventType(EventTimeSkill eventTime);
+    public abstract bool CheckEventType(EventTimeEnemy eventTime);
+
+}
+[Serializable]
+
+public class NormalEvent : EventInfo
+{
+    public Action<Action> action;
+    public EventTime eventTime;
+
+    public NormalEvent(Action<Action> action, EventTime eventTime)
+    {
         this.action = action;
+        this.eventTime = eventTime;
+    }
+    public NormalEvent(bool actionOnEnd, int turn, Action<Action> action, EventTime eventTime) : base(actionOnEnd, turn)
+    {
+        this.action = action;
+        this.eventTime = eventTime;
+    }
+
+    public override bool CheckEventType(EventTime eventTime)
+    {
+        return this.eventTime == eventTime;
+    }
+
+    public override bool CheckEventType(EventTimeSkill eventTime)
+    {
+        return false;
+    }
+
+    public override bool CheckEventType(EventTimeEnemy eventTime)
+    {
+        return false;
+    }
+
+    public override void InvokeEvent(Action onEnd)
+    {
+        action?.Invoke(onEnd);
+    }
+
+    public override void InvokeEvent(SkillPiece piece, Action onEnd)
+    {
+        onEnd?.Invoke();
+    }
+
+    public override void InvokeEvent(EnemyHealth enemy, Action onEnd)
+    {
+        onEnd?.Invoke();
+    }
+}
+[Serializable]
+public class SkillEvent : EventInfo
+{
+    public EventTimeSkill eventTimeSkill;
+    public Action<SkillPiece, Action> action;
+
+    public SkillEvent(EventTimeSkill eventTimeSkill, Action<SkillPiece, Action> action)
+    {
+        this.eventTimeSkill = eventTimeSkill;
+        this.action = action;
+    }
+
+    public SkillEvent(bool actionOnEnd, int turn, EventTimeSkill eventTimeSkill, Action<SkillPiece, Action> action) : base(actionOnEnd, turn)
+    {
+        this.eventTimeSkill = eventTimeSkill;
+        this.action = action;
+    }
+
+    public override bool CheckEventType(EventTime eventTime)
+    {
+        return false;
+    }
+
+    public override bool CheckEventType(EventTimeSkill eventTime)
+    {
+        return eventTimeSkill == eventTime;
+    }
+
+    public override bool CheckEventType(EventTimeEnemy eventTime)
+    {
+        return false;
+    }
+
+    public override void InvokeEvent(SkillPiece piece, Action onEnd)
+    {
+        action?.Invoke(piece, onEnd);
+    }
+
+    public override void InvokeEvent(Action onEnd)
+    {
+        onEnd?.Invoke();
+    }
+
+    public override void InvokeEvent(EnemyHealth enemy, Action onEnd)
+    {
+        onEnd?.Invoke();
+    }
+}
+[Serializable]
+public class EnemyEvent : EventInfo
+{
+    public EventTimeEnemy eventTimeEnemy;
+    public Action<EnemyHealth, Action> action;
+
+    public EnemyEvent(EventTimeEnemy eventTimeEnemy, Action<EnemyHealth, Action> action)
+    {
+        this.eventTimeEnemy = eventTimeEnemy;
+        this.action = action;
+    }
+
+    public EnemyEvent(bool actionOnEnd, int turn, EventTimeEnemy eventTimeEnemy, Action<EnemyHealth, Action> action) : base(actionOnEnd, turn)
+    {
+        this.eventTimeEnemy = eventTimeEnemy;
+        this.action = action;
+    }
+
+    public override bool CheckEventType(EventTime eventTime)
+    {
+        return false;
+    }
+
+    public override bool CheckEventType(EventTimeSkill eventTime)
+    {
+        return false;
+    }
+
+    public override bool CheckEventType(EventTimeEnemy eventTime)
+    {
+        return eventTimeEnemy == eventTime;
+    }
+
+    public override void InvokeEvent(SkillPiece piece, Action onEnd)
+    {
+        onEnd?.Invoke();
+    }
+
+    public override void InvokeEvent(EnemyHealth enemy, Action onEnd)
+    {
+        action?.Invoke(enemy, onEnd);
+
+    }
+
+    public override void InvokeEvent(Action onEnd)
+    {
+        onEnd?.Invoke();
     }
 }
 
+
 public class BattleEventHandler : MonoBehaviour
 {
-    private BattleHandler bh;
+    public List<EventInfo> eventInfoList = new List<EventInfo>();
 
-    public event Action onStartBattle;
-    public event Action onStartTurn;
-    private event Action<SkillPiece> onCastPiece;
-    public event Action onEndTurn;
-
-    private event Action<SkillPiece> onNextSkill;
-    private event Action<SkillPiece> nextSkill;
-
-    private List<BookedEventInfo> eventBookInfos = new List<BookedEventInfo>();
-
-    //public bool isWait = false;
-
-    private void Start()
+    public void BookEvent(EventInfo eventInfo)
     {
-        bh = GameManager.Instance.battleHandler;
+        eventInfoList.Add(eventInfo);
     }
 
-    public void OnStartBattle()
+    public IEnumerator ActionEvent(EventTime eventTime, Action onEnd = null)
     {
-        onStartBattle?.Invoke();
-    }
-
-    public void OnStartTurn()
-    {
-        onStartTurn?.Invoke();
-    }
-
-    public void OnCastPiece(SkillPiece piece)
-    {
-        onCastPiece?.Invoke(piece);
-    }
-
-    public void SetCastPiece(Action<SkillPiece> action)
-    {
-        if (!bh.isBattleStart) return;
-
-        onCastPiece += action;
-    }
-
-    public void RemoveCastPiece(Action<SkillPiece> action)
-    {
-        onCastPiece -= action;
-    }
-
-    public void OnEndTurn()
-    {
-        BookedEvent();
-
-        onEndTurn?.Invoke();
-    }
-
-    public void SetNextSkill(Action<SkillPiece> action)
-    {
-        if (!bh.isBattleStart) return;
-
-        onNextSkill += action;
-    }
-
-    public void RemoveNextSkill(Action<SkillPiece> action)
-    {
-        onNextSkill -= action;
-    }
-
-    public void OnNextSkill(SkillPiece piece)
-    {
-        nextSkill?.Invoke(piece);
-    }
-
-    public void InitNextSkill()
-    {
-        nextSkill = null;
-        nextSkill = onNextSkill;
-    }
-
-    public void BookEvent(BookedEventInfo bookEvent)
-    {
-        eventBookInfos.Add(bookEvent);
-    }
-
-    private void BookedEvent()
-    {
-        for (int i = eventBookInfos.Count - 1; i >= 0; i--)
+        for (int i = eventInfoList.Count - 1; i >= 0; i--)
         {
             int a = i;
-
-            eventBookInfos[a].turn--;
-            if (eventBookInfos[a].turn <= 0)
+            if (eventInfoList[a].CheckEventType(eventTime))
             {
-                Action bookedEvent = eventBookInfos[a].action;
-
-                Action closer = () => { };
-                closer = () => 
+                bool flag = true;
+                eventInfoList[a].turn--;
+                if (eventInfoList[a].actionOnEnd) //마지막만 실행되는거라면
                 {
-                    bookedEvent?.Invoke();
-                    onEndTurn -= closer;
-                };
+                    if (eventInfoList[a].turn <= 0) //삭제될것
+                    {
+                        eventInfoList[a].InvokeEvent(() => flag = false);
+                        while (flag)
+                        {
+                            yield return null;
+                        }
+                        eventInfoList.RemoveAt(a);
+                    }
+                    continue;
+                }
+                else
+                {
 
-                onEndTurn += closer;
-                eventBookInfos.RemoveAt(a);
+                    eventInfoList[a].InvokeEvent(() => flag = false);
+                    while (flag)
+                    {
+                        yield return null;
+                    }
+                    if (eventInfoList[a].turn <= 0) //삭제될것
+                    {
+                        eventInfoList.RemoveAt(a);
+                    }
+                }
             }
         }
+
+        onEnd?.Invoke();
+    }
+
+    public IEnumerator ActionEvent(EventTimeSkill eventTime, SkillPiece piece, Action onEnd = null)
+    {
+        for (int i = eventInfoList.Count - 1; i >= 0; i--)
+        {
+            int a = i;
+            if (eventInfoList[a].CheckEventType(eventTime))
+            {
+                bool flag = true;
+                eventInfoList[a].turn--;
+                if (eventInfoList[a].actionOnEnd) //마지막만 실행되는거라면
+                {
+                    if (eventInfoList[a].turn <= 0) //삭제될것
+                    {
+                        eventInfoList[a].InvokeEvent(piece, () => flag = false);
+                        while (flag)
+                        {
+                            yield return null;
+                        }
+                        eventInfoList.RemoveAt(a);
+                    }
+                    continue;
+                }
+                else
+                {
+
+                    eventInfoList[a].InvokeEvent(piece, () => flag = false);
+                    while (flag)
+                    {
+                        yield return null;
+                    }
+                    if (eventInfoList[a].turn <= 0) //삭제될것
+                    {
+                        eventInfoList.RemoveAt(a);
+                    }
+                }
+            }
+        }
+
+        onEnd?.Invoke();
+        yield break;
+    }
+
+    public IEnumerator ActionEvent(EventTimeEnemy eventTime, EnemyHealth enemy, Action onEnd = null)
+    {
+        for (int i = eventInfoList.Count - 1; i >= 0; i--)
+        {
+            int a = i;
+            if (eventInfoList[a].CheckEventType(eventTime))
+            {
+                bool flag = true;
+                eventInfoList[a].turn--;
+                if (eventInfoList[a].actionOnEnd) //마지막만 실행되는거라면
+                {
+                    if (eventInfoList[a].turn <= 0) //삭제될것
+                    {
+                        eventInfoList[a].InvokeEvent(enemy, () => flag = false);
+                        while (flag)
+                        {
+                            yield return null;
+                        }
+                        eventInfoList.RemoveAt(a);
+                    }
+                    continue;
+                }
+                else
+                {
+
+                    eventInfoList[a].InvokeEvent(enemy, () => flag = false);
+                    while (flag)
+                    {
+                        yield return null;
+                    }
+                    if (eventInfoList[a].turn <= 0) //삭제될것
+                    {
+                        eventInfoList.RemoveAt(a);
+                    }
+                }
+            }
+        }
+
+        onEnd?.Invoke();
+    }
+
+    public void RemoveEventInfo(EventInfo info)
+    {
+        eventInfoList.Remove(info);
     }
 
     public void ResetAllEvents()
     {
-        onStartTurn = null;
-        onCastPiece = null;
-        onEndTurn = null;
-        onNextSkill = null;
-        nextSkill = null;
-        eventBookInfos.Clear();
+        eventInfoList.Clear();
     }
 }
