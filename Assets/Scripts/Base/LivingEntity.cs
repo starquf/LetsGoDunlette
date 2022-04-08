@@ -226,7 +226,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     private void SetDamageEffect()
     {
-        DOTween.To(() => damageImg.fillAmount, x => damageImg.fillAmount = x, (float)hp / curMaxHp, 0.33f);
+        DOTween.To(() => damageImg.fillAmount, x => damageImg.fillAmount = x, ((float)hp + shieldHp) / (hp + shieldHp > maxHp ? hp + shieldHp : maxHp), 0.33f);
         //damageTrans.DOScaleX(hp / (float)maxHp, 0.33f);
 
         damageImg.color = damageColor;
