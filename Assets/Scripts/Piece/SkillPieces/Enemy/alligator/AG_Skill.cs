@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class AG_Skill : SkillPiece
@@ -34,19 +32,23 @@ public class AG_Skill : SkillPiece
 
     private void AG_Diving(LivingEntity target, Action onCastEnd = null) //2턴간 침묵을 받고 아무 데미지도 받지 않는다. 2턴이 지나면 플레이어에게 60만큼 피해를 입힌다.
     {
-        GameManager.Instance.battleHandler.battleEvent.BookEvent(new BookedEventInfo(() =>
-        {
-            SetIndicator(owner.gameObject, "공격").OnEnd(() =>
-            {
-                target.GetDamage(60);
+        Action<Action> onStartBattle = action =>
+                              {
+                                  print("AG");
+                                  SetIndicator(owner.gameObject, "공격").OnEnd(() =>
+                                  {
+                                      target.GetDamage(60);
 
-                Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-                effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
-                effect.Play(() =>
-                {
-                });
-            });
-        }, 3));
+                                      Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
+                                      effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
+                                      effect.Play(() =>
+                                      {
+                                          action?.Invoke();
+                                      });
+                                  });
+                              };
+        NormalEvent eventInfo = new NormalEvent(true, 3, onStartBattle, EventTime.EndOfTurn);
+        GameManager.Instance.battleHandler.battleEvent.BookEvent(eventInfo);
 
         SetIndicator(owner.gameObject, "침묵").OnEnd(() =>
         {

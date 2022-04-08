@@ -8,10 +8,11 @@ using Random = UnityEngine.Random;
 public class Skill_E_Charging : SkillPiece
 {
     private BattleHandler bh = null;
-    private Action<SkillPiece> onCharge = null;
+    private Action<SkillPiece,Action> onCharge = null;
 
     public Text counterText;
     private int attackCount = 1;
+        SkillEvent eventInfo = null;
 
     private readonly WaitForSeconds pOneSecWait = new WaitForSeconds(0.1f);
 
@@ -26,9 +27,8 @@ public class Skill_E_Charging : SkillPiece
 
     public override void OnRullet()
     {
-        GameManager.Instance.battleHandler.battleEvent.RemoveCastPiece(onCharge);
-
-        onCharge = piece =>
+        GameManager.Instance.battleHandler.battleEvent.RemoveEventInfo(eventInfo);
+        onCharge = (piece,action) =>
         {
             if (piece.currentType.Equals(PatternType.Diamonds) && piece != this)
             {
@@ -54,16 +54,18 @@ public class Skill_E_Charging : SkillPiece
                 attackCount++;
                 counterText.text = attackCount.ToString();
             }
+            action?.Invoke();
         };
 
-        GameManager.Instance.battleHandler.battleEvent.SetCastPiece(onCharge);
+        eventInfo = new SkillEvent(EventTimeSkill.WithSkill, onCharge);
+        GameManager.Instance.battleHandler.battleEvent.BookEvent(eventInfo);
     }
 
     public override void ResetPiece()
     {
         base.ResetPiece();
 
-        GameManager.Instance.battleHandler.battleEvent.RemoveCastPiece(onCharge);
+        GameManager.Instance.battleHandler.battleEvent.RemoveEventInfo(eventInfo);
 
         attackCount = 1;
         counterText.text = attackCount.ToString();

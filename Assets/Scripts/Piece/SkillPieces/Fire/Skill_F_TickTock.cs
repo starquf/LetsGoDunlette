@@ -8,11 +8,13 @@ using Random = UnityEngine.Random;
 public class Skill_F_TickTock : SkillPiece
 {
     public int hitedValue = 40;
-    private Action<SkillPiece> onNextTurn = null;
+    private Action<SkillPiece,Action> onNextTurn = null;
     public Text counterText;
     private int turnCount = 3;
 
     private BattleHandler bh = null;
+
+    SkillEvent eventInfo = null;
 
     private readonly WaitForSeconds pOneSecWait = new WaitForSeconds(0.1f);
     private readonly WaitForSeconds pTwoSecWait = new WaitForSeconds(0.2f);
@@ -29,9 +31,9 @@ public class Skill_F_TickTock : SkillPiece
     {
         bh = GameManager.Instance.battleHandler;
 
-        bh.battleEvent.RemoveNextSkill(onNextTurn);
+        bh.battleEvent.RemoveEventInfo(eventInfo);
 
-        onNextTurn = piece =>
+        onNextTurn = (piece,action) =>
         {
             if (piece != this)
             {
@@ -52,7 +54,7 @@ public class Skill_F_TickTock : SkillPiece
                 counterText.text = turnCount.ToString();
                 if (turnCount <= 0)
                 {
-                    bh.battleEvent.RemoveNextSkill(onNextTurn);
+                    bh.battleEvent.RemoveEventInfo(eventInfo);
 
                     Anim_F_ManaSphereHit effect = PoolManager.GetItem<Anim_F_ManaSphereHit>();
                     effect.transform.position = bh.playerImgTrans.position;
@@ -64,18 +66,19 @@ public class Skill_F_TickTock : SkillPiece
                     bh.mainRullet.PutRulletPieceToGraveYard(pieceIdx);
                 }
             }
+
+            action?.Invoke();
         };
 
         turnCount = 3;
 
-        bh.battleEvent.SetNextSkill(onNextTurn);
+        eventInfo = new SkillEvent(EventTimeSkill.AfterSkill, onNextTurn);
+        bh.battleEvent.BookEvent(eventInfo);
     }
 
     public override void ResetPiece()
     {
         base.ResetPiece();
-
-        GameManager.Instance.battleHandler.battleEvent.RemoveNextSkill(onNextTurn);
 
         turnCount = 3;
         counterText.text = turnCount.ToString();
