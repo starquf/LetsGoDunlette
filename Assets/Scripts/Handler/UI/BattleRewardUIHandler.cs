@@ -85,7 +85,10 @@ public class BattleRewardUIHandler : MonoBehaviour
         pieceDesCG.transform.eulerAngles = Vector3.zero;
         pieceDesCG.transform.localScale = Vector3.one;
 
-        maskImg.color = new Color(1f, 1f, 1f, 0f);
+        //maskImg.color = Color.white;
+        print(cardBG.material.GetFloat("_DesolveIntensity"));
+
+        cardBG.material.SetFloat("_DesolveIntensity", -1f);
     }
 
     public void ShowWinEffect(Action onShowEnd = null)
@@ -204,11 +207,13 @@ public class BattleRewardUIHandler : MonoBehaviour
     public void GetRewardEffect(Action onEndEffect = null)
     {
         Sequence seq = DOTween.Sequence()
-            .Append(maskImg.DOFade(0f, 0.8f).From(1f).SetDelay(0.2f))
-            .InsertCallback(0.2f, () =>
+            .Append(DOTween.To(() => cardBG.material.GetFloat("_DesolveIntensity"),
+                        x => cardBG.material.SetFloat("_DesolveIntensity", x)
+                        , 1f
+                        , 1.22f))
+            //.Join(maskImg.DOFade(0f, 0.8f).From(1f).SetDelay(0.2f))
+            .AppendCallback(() =>
             {
-                ShowPanel(pieceDesCG, false, skip: true);
-
                 for (int i = 0; i < 10; i++)
                 {
                     int a = i;
@@ -231,6 +236,8 @@ public class BattleRewardUIHandler : MonoBehaviour
                     }
                     , BezierType.Quadratic, delay: 0.4f);
                 }
+
+                ShowPanel(pieceDesCG, false, skip: true);
             });
     }
 
