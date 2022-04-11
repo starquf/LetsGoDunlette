@@ -34,6 +34,8 @@ public class ShopEncounterUIHandler : MonoBehaviour
     private List<SkillPiece> randomRulletPiece;
     private List<Scroll> randomScroll;
 
+    private List<int> soldIdxList;
+
     private void Awake()
     {
         mainPanel = GetComponent<CanvasGroup>();
@@ -73,6 +75,8 @@ public class ShopEncounterUIHandler : MonoBehaviour
     //상점 랜덤으로 만들어줌
     private void InitShop()
     {
+        SetAllButtonInterval(true);
+        soldIdxList.Clear();
         for (int j = 0; j < GameManager.Instance.skillContainer.playerSkillPrefabs.Count; j++)
         {
             randomRulletPiece.Add(GameManager.Instance.skillContainer.playerSkillPrefabs[j].GetComponent<SkillPiece>());
@@ -97,6 +101,8 @@ public class ShopEncounterUIHandler : MonoBehaviour
             }
         }
         randomRulletPiece.Clear();
+        randomScroll.Clear();
+        SetButtonInterval(purchaseBtn, false);
     }
 
     #region OnButtonClick
@@ -125,7 +131,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
         }
         else
         {
-            SetButtonInterval(false);
+            SetAllButtonInterval(false);
             GameManager.Instance.Gold -= selectProduct.price;
 
 
@@ -141,9 +147,10 @@ public class ShopEncounterUIHandler : MonoBehaviour
                     scroll.transform.localScale = Vector3.one;
 
                     GameManager.Instance.battleHandler.GetComponent<BattleScrollHandler>().GetScroll(scroll, () => {
-                        selectPanel.DOFade(0, 0.5f);
-                        SetProductSold(selectIdx);
-                        SetButtonInterval(true);
+                        selectPanel.DOFade(0, 0.5f).OnComplete(() => {
+                            SetProductSold(selectIdx);
+                            SetAllButtonInterval(true, true);
+                        });
                     }, true);
 
                     break;
@@ -174,9 +181,10 @@ public class ShopEncounterUIHandler : MonoBehaviour
                         GameManager.Instance.inventoryHandler.AddSkill(skillPiece);
                         skillImg.color = Color.white;
 
-                        selectPanel.DOFade(0, 0.5f);
-                        SetProductSold(selectIdx);
-                        SetButtonInterval(true);
+                        selectPanel.DOFade(0, 0.5f).OnComplete(()=> {
+                            SetProductSold(selectIdx);
+                            SetAllButtonInterval(true, true);
+                        });
                     });
                     break;
                 default:
@@ -189,12 +197,18 @@ public class ShopEncounterUIHandler : MonoBehaviour
     // 상점 팔렸을때 
     private void SetProductSold(int selectProductIdx)
     {
+        soldIdxList.Add(selectIdx);
         products[selectIdx].SetProductSold();
         selectIdx = -1;
         products[selectProductIdx].GetComponent<Button>().interactable = false;
     }
 
-    private void SetButtonInterval(bool enable)
+    private void SetButtonInterval(Button btn, bool enalbe)
+    {
+        btn.interactable = enalbe;
+    }
+
+    private void SetAllButtonInterval(bool enable, bool soldIsFalse = false)
     {
         for (int i = 0; i < products.Count; i++)
         {
@@ -203,6 +217,16 @@ public class ShopEncounterUIHandler : MonoBehaviour
         }
         exitBtn.interactable = enable;
         purchaseBtn.interactable = enable;
+
+        if (soldIsFalse)
+        {
+            for (int i = 0; i < soldIdxList.Count; i++)
+            {
+                products[soldIdxList[i]].GetComponent<Button>().interactable = false;
+            }
+            isSelectPanelEnable = false;
+            SetButtonInterval(purchaseBtn, false);
+        }
     }
 
     // 품목 선택시 애니메이션, 보여주기
@@ -215,13 +239,21 @@ public class ShopEncounterUIHandler : MonoBehaviour
                    .Append(selectPanel.DOFade(0, 0.3f).OnComplete(() => {
                        SetSelectPanel(products[selectIdx]);
                    }))
-                   .Append(selectPanel.DOFade(1, 0.3f));
+                   .Append(selectPanel.DOFade(1, 0.3f))
+                   .OnComplete(()=>
+                   {
+                       SetButtonInterval(purchaseBtn, true);
+                   });
         }
         else
         {
             SetSelectPanel(products[selectIdx]);
-            selectPanel.DOFade(1, 0.3f);
-            isSelectPanelEnable = true;
+            selectPanel.DOFade(1, 0.3f)
+            .OnComplete(() =>
+            {
+                isSelectPanelEnable = true;
+                SetButtonInterval(purchaseBtn, true);
+            });
         }
         this.selectIdx = selectIdx;
     }
