@@ -664,6 +664,7 @@ GameObject:
   - component: {fileID: 358043956}
   - component: {fileID: 358043955}
   - component: {fileID: 358043954}
+  - component: {fileID: 358043961}
   m_Layer: 6
   m_Name: saro
   m_TagString: Untagged
@@ -714,14 +715,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ccUITrm: {fileID: 247261924}
   uiObj: {fileID: 4633525893839555858, guid: d59678b5cb46d314ebaec841ffd61e73, type: 3}
-  ccIcons:
-  - {fileID: 5093648005084248228, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
-  - {fileID: 3000169992027213401, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
-  - {fileID: -110612854085794980, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
-  - {fileID: 2271905104619737630, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
-  buffIcons:
-  - {fileID: 6949942483554766801, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
-  - {fileID: 6617641044635203348, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
 --- !u!114 &358043957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -741,10 +734,10 @@ MonoBehaviour:
   shieldHp: 0
   weaknessType: 4
   cc: {fileID: 0}
-  enemyType: 11
+  enemyType: 17
   indicator: {fileID: 0}
   weaknessImg: {fileID: 0}
-  isBoss: 0
+  isBoss: 1
 --- !u!114 &358043958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -830,6 +823,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &358043961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358043953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b419ac8540e975043a1a02862aa51476, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &443397392
 GameObject:
   m_ObjectHideFlags: 0
@@ -843,6 +848,7 @@ GameObject:
   - component: {fileID: 443397395}
   - component: {fileID: 443397394}
   - component: {fileID: 443397393}
+  - component: {fileID: 443397398}
   m_Layer: 5
   m_Name: SA_Skill
   m_TagString: Untagged
@@ -937,6 +943,35 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 700, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &443397398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 443397392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ffc14be045ed57429f5e16eda784067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternType: 5
+  currentType: 0
+  size: 6
+  pieceName: "\uC808\uB2E8"
+  pieceDes: "\uD50C\uB808\uC774\uC5B4\uC5D0\uAC8C 30\uC758 \uD53C\uD574\uB97C \uC785\uD78C\uB2E4."
+  value: 30
+  skillImg: {fileID: 0}
+  pieceIdx: 0
+  cardBG: {fileID: 0}
+  isPlayerSkill: 0
+  isInRullet: 0
+  isDisposable: 0
+  isRandomSkill: 0
+  hasTarget: 1
+  pieceInfo: []
+  owner: {fileID: 0}
+  sacrificed: 0
 --- !u!1 &447449014
 GameObject:
   m_ObjectHideFlags: 0
@@ -1573,14 +1608,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ccUITrm: {fileID: 1317713330}
   uiObj: {fileID: 4633525893839555858, guid: d59678b5cb46d314ebaec841ffd61e73, type: 3}
-  ccIcons:
-  - {fileID: 5093648005084248228, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
-  - {fileID: 3000169992027213401, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
-  - {fileID: -110612854085794980, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
-  - {fileID: 2271905104619737630, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
-  buffIcons:
-  - {fileID: 6949942483554766801, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
-  - {fileID: 6617641044635203348, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
 --- !u!114 &1027966735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2268,14 +2295,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ccUITrm: {fileID: 1435836750}
   uiObj: {fileID: 4633525893839555858, guid: d59678b5cb46d314ebaec841ffd61e73, type: 3}
-  ccIcons:
-  - {fileID: 5093648005084248228, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
-  - {fileID: 3000169992027213401, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
-  - {fileID: -110612854085794980, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
-  - {fileID: 2271905104619737630, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
-  buffIcons:
-  - {fileID: 6949942483554766801, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
-  - {fileID: 6617641044635203348, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
 --- !u!114 &1366539625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3677,14 +3696,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ccUITrm: {fileID: 3598992900283198231}
   uiObj: {fileID: 4633525893839555858, guid: d59678b5cb46d314ebaec841ffd61e73, type: 3}
-  ccIcons:
-  - {fileID: 5093648005084248228, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
-  - {fileID: 3000169992027213401, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
-  - {fileID: -110612854085794980, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
-  - {fileID: 2271905104619737630, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
-  buffIcons:
-  - {fileID: 6949942483554766801, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
-  - {fileID: 6617641044635203348, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
 --- !u!58 &3598992899865073807
 CircleCollider2D:
   m_ObjectHideFlags: 0

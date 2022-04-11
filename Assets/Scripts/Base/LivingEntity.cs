@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -36,6 +37,8 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     [HideInInspector]
     public CrowdControl cc;
+
+    public Action onEnemyDie;
 
     protected virtual void Awake()
     {
@@ -205,6 +208,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
             isDie = true;
 
             Die();
+            onEnemyDie?.Invoke();
         }
 
         Anim_TextUp damageTextEffect = PoolManager.GetItem<Anim_TextUp>();

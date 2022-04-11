@@ -84,8 +84,8 @@ public class EnemyHealth : LivingEntity
 
         ShowDieEffect();
 
-
         GameManager.Instance.inventoryHandler.RemoveAllOwnerPiece(GetComponent<Inventory>());
+        GameManager.Instance.battleHandler.battleEvent.ActionEvent(EventTimeEnemy.EnemyDie,this);
         coll.enabled = false;
 
         bh.enemys.Remove(this);

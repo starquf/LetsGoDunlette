@@ -44,6 +44,7 @@ public class MI_Skill : SkillPiece
             hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
 
             target.GetDamage(bittingDamage, this, owner);
+
             hitEffect.Play(() =>
             {
                 SetIndicator(owner.gameObject, "상처부여").OnEnd(() =>
@@ -53,6 +54,8 @@ public class MI_Skill : SkillPiece
                 });
             });
         });
+
+
     }
 
     private void MI_Bump(LivingEntity target, Action onCastEnd = null)
