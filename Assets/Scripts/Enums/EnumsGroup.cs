@@ -1,11 +1,11 @@
 public enum PatternType
 {
-    None = 0, //무속성
-    Clover = 1, //자연
-    Diamonds = 2, //번개
-    Heart = 3, //불
-    Spade = 4, //물
-    Monster = 5
+    None = 0,     // 무속성
+    Clover = 1,   // 자연
+    Diamonds = 2, // 번개
+    Heart = 3,    // 불
+    Spade = 4,    // 물
+    Monster = 5   // 몬스타
 }
 
 public enum BezierType

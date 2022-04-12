@@ -18,12 +18,12 @@ public class Skill_F_TickTock : SkillPiece
 
     private readonly WaitForSeconds pOneSecWait = new WaitForSeconds(0.1f);
     private readonly WaitForSeconds pTwoSecWait = new WaitForSeconds(0.2f);
+
     protected override void Start()
     {
         base.Start();
 
         bh = GameManager.Instance.battleHandler;
-
         hasTarget = true;
     }   
 
@@ -79,6 +79,8 @@ public class Skill_F_TickTock : SkillPiece
     public override void ResetPiece()
     {
         base.ResetPiece();
+
+        bh = GameManager.Instance.battleHandler;
 
         bh.battleEvent.RemoveEventInfo(eventInfo);
 

@@ -41,9 +41,14 @@ public class AnimObj : MonoBehaviour
 
         onEndAnim?.Invoke();
 
-        transform.localScale = originScale;
-        transform.rotation = originRot;
+        ResetAnim();
 
         gameObject.SetActive(false);
+    }
+
+    protected virtual void ResetAnim()
+    {
+        transform.localScale = originScale;
+        transform.rotation = originRot;
     }
 }

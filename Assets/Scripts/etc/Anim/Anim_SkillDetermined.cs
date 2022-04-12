@@ -4,5 +4,24 @@ using UnityEngine;
 
 public class Anim_SkillDetermined : AnimObj
 {
+    private SpriteRenderer sr;
 
+    protected override void Awake()
+    {
+        base.Awake();
+
+        sr = GetComponent<SpriteRenderer>();
+    }
+
+    public void ChangeColor(Color color)
+    {
+        sr.color = color;
+    }
+
+    protected override void ResetAnim()
+    {
+        base.ResetAnim();
+
+        sr.color = Color.white;
+    }
 }
