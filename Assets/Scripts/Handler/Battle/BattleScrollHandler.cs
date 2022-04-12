@@ -10,6 +10,7 @@ public class BattleScrollHandler : MonoBehaviour
 {
     public RectTransform scrollUI;
     public CanvasGroup chagneScrollPopUp;
+    public ScrollDesUIHandler scrollDesHandler;
 
     public List<ScrollSlot> slots = new List<ScrollSlot>();
 
@@ -18,6 +19,8 @@ public class BattleScrollHandler : MonoBehaviour
     private BattleHandler bh;
 
     private bool canUse = false;
+
+    private string useStr = "사용";
 
 
     private void Start()
@@ -44,10 +47,25 @@ public class BattleScrollHandler : MonoBehaviour
 
                 if (!canUse) return;
 
-                if (slots[a].scroll != null || !bh.mainRullet.IsStop)
+                if (slots[a].scroll != null && !bh.mainRullet.IsStop)
                 {
-                    //print("스크롤 사용");
-                    UseScroll(slots[a], slots[a].scroll);
+                    Scroll scroll = slots[a].scroll;
+
+                    scrollDesHandler.ShowDes(scroll.ScrollName, scroll.ScrollDes, scroll.scrollIcon, useStr,
+                        () =>
+                        {
+                            Time.timeScale = 1f;
+                            UseScroll(slots[a], slots[a].scroll);
+                        },
+
+                        () => 
+                        {
+                            Time.timeScale = 1f;
+                            bh.SetInteract(true);
+                        });
+
+                    Time.timeScale = 0f;
+                    bh.SetInteract(false);
                 }
             });
         }

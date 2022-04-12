@@ -8,17 +8,24 @@ public class AnimObj : MonoBehaviour
     private Animator anim;
 
     private Vector3 originScale;
+    private Quaternion originRot;
 
     protected virtual void Awake()
     {
         anim = GetComponent<Animator>();
 
         originScale = transform.localScale;
+        originRot = transform.rotation;
     }
 
     public void SetScale(float scale)
     {
         transform.localScale = originScale * scale;
+    }
+
+    public void SetRotation(Vector3 rot)
+    {
+        transform.eulerAngles = rot;
     }
 
     public void Play(Action onEndAnim = null)
@@ -35,6 +42,8 @@ public class AnimObj : MonoBehaviour
         onEndAnim?.Invoke();
 
         transform.localScale = originScale;
+        transform.rotation = originRot;
+
         gameObject.SetActive(false);
     }
 }
