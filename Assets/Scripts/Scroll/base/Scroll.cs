@@ -10,7 +10,6 @@ public abstract class Scroll : MonoBehaviour
     [HideInInspector]
     public Sprite scrollIcon;
 
-
     [SerializeField]
     protected string scrollName;
     public string ScrollName => scrollName;
