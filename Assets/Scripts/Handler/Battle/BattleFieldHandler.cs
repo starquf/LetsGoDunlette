@@ -6,7 +6,7 @@ using UnityEngine;
 public class BattleFieldHandler : MonoBehaviour
 {
     public Transform fieldHandlersParent;
-    public List<FieldHandler> fieldHandlers;
+    private List<FieldHandler> fieldHandlers;
 
     public PatternType FieldType
     {
@@ -31,7 +31,7 @@ public class BattleFieldHandler : MonoBehaviour
         }
     }
 
-    /*
+    
     public void Update()
     {
         if(Input.GetKeyDown(KeyCode.Q))
@@ -50,7 +50,7 @@ public class BattleFieldHandler : MonoBehaviour
         {
             ChangeField(PatternType.Spade);
         }
-    }*/
+    }
 
     public void ChangeField(PatternType type)
     {
