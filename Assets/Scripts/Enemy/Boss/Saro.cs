@@ -9,7 +9,7 @@ public class Saro : MonoBehaviour
     public PieceInfo[] pieceInfo;
     void Start()
     {
-        Sacrifice();
+        GetComponent<EnemyHealth>().onInit = Sacrifice;
     }
 
     private void Sacrifice()

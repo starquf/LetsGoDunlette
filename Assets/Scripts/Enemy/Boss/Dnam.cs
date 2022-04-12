@@ -9,13 +9,17 @@ public class Dnam : MonoBehaviour
     public GameObject dnamSkill;
 
     public PieceInfo[] pieceInfo;
+
+    private bool isUpgraded = false;
     void Start()
     {
-        SacrificeInit();
+        GetComponent<EnemyHealth>().onInit = Sacrifice;
     }
 
-    private void SacrificeInit()
+    private void Sacrifice()
     {
+        isUpgraded = false;
+
         BattleHandler battleHandler = GameManager.Instance.battleHandler;
 
         GetComponent<EnemyHealth>().onEnemyDie = () => battleHandler.battleEvent.RemoveEventInfo(enemyEventInfo);
@@ -39,7 +43,9 @@ public class Dnam : MonoBehaviour
 
                         for (int i = 0; i < 3; i++)
                         {
-                            GameManager.Instance.inventoryHandler.CreateSkill(dnamSkill, owner,gameObject.transform.position);
+                            SkillPiece piece = GameManager.Instance.inventoryHandler.CreateSkill(dnamSkill, owner,gameObject.transform.position);
+                            if (isUpgraded)
+                                piece.AddValue(30);
                         }
 
                         Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
@@ -67,6 +73,8 @@ public class Dnam : MonoBehaviour
                         action?.Invoke();
                         return;
                     }
+
+                    isUpgraded = true;
 
                     EnemyIndicator indi = GetComponent<EnemyIndicator>();
                     indi.ShowText("스킬 강화", () => battleHandler.castUIHandler.ShowCasting(pieceInfo[1], () =>
