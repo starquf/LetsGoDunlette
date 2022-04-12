@@ -20,16 +20,20 @@ public class Saro : MonoBehaviour
 
         enemyEvent = (enemy, action) =>
         {
+            print("1");
             if (enemy.GetComponent<EnemyHealth>().enemyType == EnemyType.GAR)
             {
+                print("2");
                 Action<Action> eventAction = action =>
                 {
                     if (GetComponent<EnemyHealth>().IsDie)
                     {
+                        print("3");
                         action?.Invoke();
                         return;
                     }
 
+                    print("4");
                     EnemyIndicator indi = GetComponent<EnemyIndicator>();
                     indi.ShowText("스킬 강화", ()=> battleHandler.castUIHandler.ShowCasting(pieceInfo[0], () =>
                     {

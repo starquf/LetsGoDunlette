@@ -11,10 +11,10 @@ public class Dnam : MonoBehaviour
     public PieceInfo[] pieceInfo;
     void Start()
     {
-        Sacrifice();
+        SacrificeInit();
     }
 
-    private void Sacrifice()
+    private void SacrificeInit()
     {
         BattleHandler battleHandler = GameManager.Instance.battleHandler;
 
