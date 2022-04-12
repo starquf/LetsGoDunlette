@@ -89,8 +89,10 @@ public class EnemyHealth : LivingEntity
 
         GameManager.Instance.inventoryHandler.RemoveAllOwnerPiece(GetComponent<Inventory>());
         StartCoroutine(GameManager.Instance.battleHandler.battleEvent.ActionEvent(EventTimeEnemy.EnemyDie, this));
-        coll.enabled = false;
 
+        onEnemyDie?.Invoke();
+
+        coll.enabled = false;
         bh.enemys.Remove(this);
     }
 

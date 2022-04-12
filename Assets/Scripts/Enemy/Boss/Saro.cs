@@ -16,20 +16,26 @@ public class Saro : MonoBehaviour
     {
         BattleHandler battleHandler = GameManager.Instance.battleHandler;
 
-        battleHandler.battleEvent.RemoveEventInfo(enemyEventInfo);
+        GetComponent<EnemyHealth>().onEnemyDie = () => battleHandler.battleEvent.RemoveEventInfo(enemyEventInfo);
 
         enemyEvent = (enemy, action) =>
         {
-            if (enemy.GetComponent<EnemyHealth>().enemyType == EnemyType.NORMAL_SLIME)
+            if (enemy.GetComponent<EnemyHealth>().enemyType == EnemyType.GAR)
             {
                 Action<Action> eventAction = action =>
                 {
+                    if (GetComponent<EnemyHealth>().curHp <= 0)
+                    {
+                        action?.Invoke();
+                        return;
+                    }
+
                     EnemyIndicator indi = GetComponent<EnemyIndicator>();
-                    indi.ShowText("강화",()=> battleHandler.castUIHandler.ShowCasting(pieceInfo[0], () =>
+                    indi.ShowText("스킬 강화", ()=> battleHandler.castUIHandler.ShowCasting(pieceInfo[0], () =>
                     {
                         foreach (SkillPiece item in GameManager.Instance.inventoryHandler.skills)
                         {
-                            SA_Skill skill = item as SA_Skill;
+                            SR_Skill skill = item as SR_Skill;
                             if (skill != null)
                             {
                                 skill.SR_Sacrifice(() =>
@@ -44,6 +50,37 @@ public class Saro : MonoBehaviour
                 };
 
                 EventInfo enemyEventInfo = new NormalEvent(true,0,eventAction,EventTime.EndOfTurn);
+                battleHandler.battleEvent.BookEvent(enemyEventInfo);
+            }
+
+            if (enemy.GetComponent<EnemyHealth>().enemyType == EnemyType.DNAM)
+            {
+                Action<Action> eventAction = action =>
+                {
+                    if (GetComponent<EnemyHealth>().curHp <= 0)
+                    {
+                        action?.Invoke();
+                        return;
+                    }
+
+                    EnemyIndicator indi = GetComponent<EnemyIndicator>();
+                    indi.ShowText("보호막", () => battleHandler.castUIHandler.ShowCasting(pieceInfo[1], () =>
+                    {
+                        Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
+                        effect.transform.position = gameObject.transform.position;
+
+                        GetComponent<EnemyHealth>().AddShield(300);
+
+                        effect.Play(() =>
+                        {
+                            battleHandler.castUIHandler.ShowPanel(false, false);
+                            indi.HideText();
+                            action?.Invoke();
+                        });
+                    }));
+                };
+
+                EventInfo enemyEventInfo = new NormalEvent(true, 0, eventAction, EventTime.EndOfTurn);
                 battleHandler.battleEvent.BookEvent(enemyEventInfo);
             }
         };

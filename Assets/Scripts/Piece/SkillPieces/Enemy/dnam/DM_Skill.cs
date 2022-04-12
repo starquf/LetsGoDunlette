@@ -1,77 +1,100 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class DM_Skill : SkillPiece
 {
-    [Header("데미지 변수")]
-    public int bittingDamage = 15;
-    public int bumpDamage = 35;
-
+    private Action<SkillPiece, Action> skillEvent;
+    private SkillEvent skillEventInfo = null;
     protected override void Awake()
     {
         base.Awake();
         isPlayerSkill = false;
     }
-
-    public override PieceInfo ChoiceSkill()
+    public override void OnRullet()
     {
-        base.ChoiceSkill();
-        if (Random.Range(0, 100) <= value)
+        base.OnRullet();
+
+        BattleHandler bh = GameManager.Instance.battleHandler;
+        bh.battleEvent.RemoveEventInfo(skillEventInfo);
+
+        skillEvent = (piece, action) =>
         {
-            onCastSkill = MI_Biting;
-            return pieceInfo[0];
-        }
-        else
-        {
-            onCastSkill = MI_Bump;
-            return pieceInfo[1];
-        }
+            pieceDes = string.Format("아군 중 무작위 2명에게 보호막을 {0}부여한다.", Value);
+
+            action?.Invoke();
+        };
+
+        skillEventInfo = new SkillEvent(EventTimeSkill.WithSkill, skillEvent);
+        bh.battleEvent.BookEvent(skillEventInfo);
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        onCastSkill(target, onCastEnd);
+        DM_RapidGrowth(target, onCastEnd);
     }
 
-    private void MI_Biting(LivingEntity target, Action onCastEnd = null)
+    private void DM_RapidGrowth(LivingEntity target, Action onCastEnd = null) //아군 중 무작위 2명에게 보호막을 30부여한다.
     {
-        SetIndicator(owner.gameObject, "공격").OnEnd(() =>
+        SetIndicator(owner.gameObject, "아군 축복").OnEnd(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
-            Anim_M_Bite hitEffect = PoolManager.GetItem<Anim_M_Bite>();
-            hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
+            var enemys = ShuffleList(GameManager.Instance.battleHandler.enemys);
 
-            target.GetDamage(bittingDamage, this, owner);
-            hitEffect.Play(() =>
+            for (int i = 0; i < enemys.Count; i++)
             {
-                SetIndicator(owner.gameObject, "상처부여").OnEnd(() =>
+                if (i > 2) break;
+
+                var health = enemys[i];
+
+                if (health.gameObject != owner.gameObject)
                 {
-                    target.cc.SetCC(CCType.Wound, 5);
-                    onCastEnd?.Invoke();
-                });
-            });
-        });
-    }
+                    health.AddShield(Value);
+                }
+            }
 
-    private void MI_Bump(LivingEntity target, Action onCastEnd = null)
-    {
-        SetIndicator(owner.gameObject, "공격").OnEnd(() =>
-        {
-            GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.7f, 0.15f);
+            Anim_M_Shield effect = PoolManager.GetItem<Anim_M_Shield>();
+            effect.transform.position = owner.transform.position;
 
-            target.GetDamage(bumpDamage, this, owner);
-
-            Anim_M_Bite hitEffect = PoolManager.GetItem<Anim_M_Bite>();
-            hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
-
-            hitEffect.Play(() =>
+            effect.Play(() =>
             {
                 onCastEnd?.Invoke();
             });
         });
     }
 
+    public void DM_Sacrifice(Action onCastEnd = null) // 가르가 죽으면 급속 성장의 보호막이 30만큼 증가한다.
+    {
+        GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
+        Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
+        effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
+
+        AddValue(30);
+
+        effect.Play(() =>
+        {
+            onCastEnd?.Invoke();
+        });
+    }
+
+    private List<T> ShuffleList<T>(List<T> list)
+    {
+        int random1, random2;
+        T temp;
+
+        for (int i = 0; i < list.Count; ++i)
+        {
+            random1 = Random.Range(0, list.Count);
+            random2 = Random.Range(0, list.Count);
+
+            temp = list[random1];
+            list[random1] = list[random2];
+            list[random2] = temp;
+        }
+
+        return list;
+    }
 }
