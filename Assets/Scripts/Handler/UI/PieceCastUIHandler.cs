@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,16 +12,27 @@ public class PieceCastUIHandler : MonoBehaviour
     public Image cardBG;
     public Text cardNameText;
     public Text cardDesText;
+    public Button closeBtn;
 
     private CanvasGroup cvsGroup;
     private Sequence showSequence;
     private Sequence pieceMoveSequence;
+
+    [Header("»ö±òµé")]
+    public List<Color> colors = new List<Color>();
+    private Dictionary<PatternType, Color> colorDic;
 
     void Awake()
     {
         cvsGroup = GetComponent<CanvasGroup>();
 
         ShowPanel(false, true);
+
+        colorDic = new Dictionary<PatternType, Color>();
+        for (int i = 0; i < colors.Count; i++)
+        {
+            colorDic.Add((PatternType)i, colors[i]);
+        }
     }
 
     public void CastSkill(SkillPiece skillPiece, LivingEntity targetTrm, Action onCastEnd = null)
@@ -52,13 +64,14 @@ public class PieceCastUIHandler : MonoBehaviour
         pieceMoveSequence = DOTween.Sequence()
             .Append(skillPiece.transform.DOMove(parent.position, 0.5f))
             .Join(skillPiece.transform.DORotate(Quaternion.Euler(0, 0, 30).eulerAngles, 0.5f))
-            .AppendCallback(() =>
+            .InsertCallback(0.25f, () =>
             {
                 Anim_SkillDetermined effect = PoolManager.GetItem<Anim_SkillDetermined>();
 
                 effect.transform.position = skillPiece.skillImg.transform.position;
                 effect.SetRotation(skillPiece.skillImg.transform.eulerAngles);
                 effect.SetScale(1.1f);
+                effect.ChangeColor(colorDic[skillPiece.patternType]);
 
                 effect.Play();
             })
@@ -69,7 +82,11 @@ public class PieceCastUIHandler : MonoBehaviour
             .OnComplete(() =>
             { //print("ÀÌÆåÆ®³¡³²");
                 skillPiece.gameObject.SetActive(false);
-                onEndEffect();
+
+                SetCloseBtn(() => 
+                {
+                    onEndEffect();
+                });
             });
 
         ShowPanel(true);
@@ -83,7 +100,10 @@ public class PieceCastUIHandler : MonoBehaviour
 
         pieceMoveSequence.Kill();
 
-        onEndEffect();
+        SetCloseBtn(() =>
+        {
+            onEndEffect();
+        });
 
         ShowPanel(true);
     }
@@ -100,12 +120,21 @@ public class PieceCastUIHandler : MonoBehaviour
         });
     }
 
+    public void SetCloseBtn(Action action)
+    {
+        closeBtn.onClick.AddListener(() =>
+        {
+            action.Invoke();
+            closeBtn.onClick.RemoveAllListeners();
+        });
+    }
+
     public void ShowPanel(bool enable, bool skip = false, Action endEvent = null)
     {
         showSequence.Kill();
         if (!skip)
         {
-            showSequence = DOTween.Sequence().Append(cvsGroup.DOFade(enable ? 1 : 0, enable ? 0.2f : 0.5f).OnComplete(() =>
+            showSequence = DOTween.Sequence().Append(cvsGroup.DOFade(enable ? 1 : 0, enable ? 0.2f : 0.3f).OnComplete(() =>
             {
                 cvsGroup.interactable = enable;
                 cvsGroup.blocksRaycasts = enable;
