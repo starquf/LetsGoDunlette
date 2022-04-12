@@ -78,12 +78,16 @@ public class InventoryInfoHandler : MonoBehaviour
 
         invenBtn.onClick.AddListener(() =>
         {
+            if (Time.timeScale <= 0) return;
+
             if (!isShow)
                 ShowInventoryInfo(unusedMsg, ShowInfoRange.Inventory, desPanel.ShowDescription);
         });
 
         usedInvenBtn.onClick.AddListener(() => 
         {
+            if (Time.timeScale <= 0) return;
+
             if (!isShow)
                 ShowInventoryInfo(usedMsg, ShowInfoRange.Graveyard, desPanel.ShowDescription);
         });
