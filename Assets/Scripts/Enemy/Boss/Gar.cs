@@ -4,6 +4,7 @@ using UnityEngine;
 public class Gar : MonoBehaviour
 {
     private Action<EnemyHealth, Action> enemyEvent;
+
     private EnemyEvent enemyEventInfo = null;
 
     public GameObject garSkill;
@@ -11,7 +12,7 @@ public class Gar : MonoBehaviour
     public PieceInfo[] pieceInfo;
     void Start()
     {
-        Sacrifice();
+        GetComponent<EnemyHealth>().onInit = Sacrifice;
     }
 
     private void Sacrifice()

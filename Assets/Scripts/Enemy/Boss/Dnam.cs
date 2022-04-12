@@ -11,10 +11,10 @@ public class Dnam : MonoBehaviour
     public PieceInfo[] pieceInfo;
     void Start()
     {
-        SacrificeInit();
+        GetComponent<EnemyHealth>().onInit = Sacrifice;
     }
 
-    private void SacrificeInit()
+    private void Sacrifice()
     {
         BattleHandler battleHandler = GameManager.Instance.battleHandler;
 

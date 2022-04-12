@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,6 +19,8 @@ public class EnemyHealth : LivingEntity
 
     [Header("보스 여부")]
     public bool isBoss = false;
+
+    public Action onInit = null;
 
     protected override void Awake()
     {
@@ -106,6 +109,8 @@ public class EnemyHealth : LivingEntity
     public override void Init()
     {
         base.Init();
+
+        onInit?.Invoke();
 
         sr.DOFade(1f, 1f)
             .From(0f)
