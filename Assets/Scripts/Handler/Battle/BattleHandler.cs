@@ -392,6 +392,8 @@ public class BattleHandler : MonoBehaviour
     {
         // 위치 초기화
         SetEnemyPosition();
+        SetSize();
+
         HideEnemyIndicator();
 
         // 버튼 초기화
