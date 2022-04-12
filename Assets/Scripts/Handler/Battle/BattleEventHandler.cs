@@ -323,6 +323,8 @@ public class BattleEventHandler : MonoBehaviour
 
     public void RemoveEventInfo(EventInfo info)
     {
+        if (info == null) return;
+
         eventInfoList.Remove(info);
     }
 
