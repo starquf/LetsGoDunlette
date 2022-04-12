@@ -301,10 +301,6 @@ public class BattleEventHandler : MonoBehaviour
                     if (eventInfoList[a].turn <= 0) //삭제될것
                     {
                         eventInfoList[a].InvokeEvent(enemy, () => flag = false);
-                        while (flag)
-                        {
-                            yield return null;
-                        }
                         eventInfoList.RemoveAt(a);
                     }
                     continue;
@@ -313,10 +309,6 @@ public class BattleEventHandler : MonoBehaviour
                 {
 
                     eventInfoList[a].InvokeEvent(enemy, () => flag = false);
-                    while (flag)
-                    {
-                        yield return null;
-                    }
                     if (eventInfoList[a].turn <= 0) //삭제될것
                     {
                         eventInfoList.RemoveAt(a);
@@ -326,6 +318,7 @@ public class BattleEventHandler : MonoBehaviour
         }
 
         onEnd?.Invoke();
+        yield return null;
     }
 
     public void RemoveEventInfo(EventInfo info)

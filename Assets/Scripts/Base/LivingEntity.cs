@@ -218,7 +218,6 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
             isDie = true;
 
             Die();
-            onEnemyDie?.Invoke();
         }
 
         Anim_TextUp damageTextEffect = PoolManager.GetItem<Anim_TextUp>();
@@ -360,6 +359,11 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     public int GetShieldHp()
     {
         return shieldHp;
+    }
+
+    public float GetHpRatio()
+    {
+        return ((float)hp / maxHp) * 100;
     }
     protected abstract void Die();
 }

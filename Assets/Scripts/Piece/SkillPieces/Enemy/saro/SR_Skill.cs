@@ -1,6 +1,6 @@
 using System;
 
-public class SA_Skill : SkillPiece
+public class SR_Skill : SkillPiece
 {
     private Action<SkillPiece, Action> skillEvent;
     private SkillEvent skillEventInfo = null;

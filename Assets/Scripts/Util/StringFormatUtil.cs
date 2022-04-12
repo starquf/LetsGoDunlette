@@ -9,4 +9,5 @@ public class StringFormatUtil : MonoBehaviour
     {
         return string.Format(enemyAttackString, value);
     }
+
 }
