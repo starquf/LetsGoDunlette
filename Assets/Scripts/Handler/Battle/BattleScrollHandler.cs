@@ -64,7 +64,7 @@ public class BattleScrollHandler : MonoBehaviour
                             bh.SetInteract(true);
                         });
 
-                    Time.timeScale = 0.3f;
+                    Time.timeScale = 0f;
                     bh.SetInteract(false);
                 }
             });

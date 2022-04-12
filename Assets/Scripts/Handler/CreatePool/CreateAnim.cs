@@ -6,6 +6,7 @@ public class CreateAnim : MonoBehaviour
 {
     [Header("기본 이펙트")]
     public GameObject TextUpAnim;
+    public GameObject skillDeterminedAnim;
 
     [Header("일반 속성")]
     public GameObject contractAnim;
@@ -57,6 +58,7 @@ public class CreateAnim : MonoBehaviour
     {
         // ===========================================================================  기본 이펙트
         PoolManager.CreatePool<Anim_TextUp>(TextUpAnim, this.transform, 5);
+        PoolManager.CreatePool<Anim_SkillDetermined>(skillDeterminedAnim, this.transform, 1);
 
         // ===========================================================================  일반 속성
         PoolManager.CreatePool<Anim_Contract>(contractAnim, this.transform, 1);
