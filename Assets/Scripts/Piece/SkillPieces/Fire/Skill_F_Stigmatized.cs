@@ -17,17 +17,26 @@ public class Skill_F_Stigmatized : SkillPiece
         hasTarget = true;
     }
 
+    public override void OnRullet()
+    {
+        base.OnRullet();
+    }
+
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        int turnCnt = 4;
         int targetHp = target.curHp;
 
         Action<SkillPiece,Action> action = (p,action) => { };
 
         action = (piece,action) =>
         {
+            if (target.IsDie)
+            {
+                bh.battleEvent.RemoveEventInfo(eventInfo);
+                action?.Invoke();
+                return;
+            }
             //print($"카운트중! 적 예전 체력 : {targetHp}  현재 체력 : {target.curHp}");
-            turnCnt--;
 
             if (piece.currentType.Equals(PatternType.Heart) && target.curHp < targetHp)
             {
@@ -36,17 +45,15 @@ public class Skill_F_Stigmatized : SkillPiece
                 Anim_F_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_F_ManaSphereHit>();
                 hitEffect.transform.position = target.transform.position + Vector3.down * 0.2f;
                 hitEffect.SetScale(0.7f);
-                hitEffect.Play();
-
+                hitEffect.Play(() =>
+                {
+                    action?.Invoke();
+                });
                 GameManager.Instance.cameraHandler.ShakeCamera(1.5f, 0.15f);
 
                 target.GetDamage(30, patternType);
             }
 
-            if (turnCnt <= 0 || target.IsDie)
-            {
-                bh.battleEvent.RemoveEventInfo(eventInfo);
-            }
 
             targetHp = target.curHp;
 
