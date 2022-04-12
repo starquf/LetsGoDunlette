@@ -220,6 +220,7 @@ public class BattleHandler : MonoBehaviour
         // 보스면 가운데와 바꿔줘야된다 
         SortBoss();
         SetEnemyPosition();
+        SetSize();
 
         // 스킬 생성
         StartCoroutine(CreateEnemySkill(createdEnemy, onCreateEnd));
@@ -238,6 +239,24 @@ public class BattleHandler : MonoBehaviour
 
                 enemys[idx] = enemys[i];
                 enemys[i] = temp;
+            }
+        }
+    }
+
+    private void SetSize()
+    {
+        if (enemys.Count >= 3)
+        {
+            for (int i = 0; i < enemys.Count; i++)
+            {
+                if (i == 0 || i == enemys.Count - 1)
+                {
+                    enemys[i].SetScale(0.6f);
+                }
+                else
+                {
+                    enemys[i].SetScale(1f);
+                }
             }
         }
     }

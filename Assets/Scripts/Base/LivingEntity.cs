@@ -38,6 +38,9 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     [HideInInspector]
     public CrowdControl cc;
 
+    [HideInInspector]
+    public Vector3 originSize;
+
     public Action onEnemyDie;
 
     protected virtual void Awake()
@@ -54,6 +57,8 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         damageImg = damageTrans.GetComponent<Image>();
         damageColor = damageImg.color;
         damageColor = new Color(damageColor.r, damageColor.g, damageColor.b, 1f);
+
+        originSize = transform.localScale;
     }
 
     protected virtual void Start()
@@ -64,6 +69,11 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         SetHPBar();
 
         bh = GameManager.Instance.battleHandler;
+    }
+
+    public virtual void SetScale(float percent)
+    {
+        transform.DOScale(originSize * percent, 0.3f);
     }
 
     public virtual void GetDamage(int damage)
