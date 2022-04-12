@@ -2,12 +2,9 @@ using System;
 
 public class SA_Skill : SkillPiece
 {
-    public bool sacrificed = false;
     private Action<SkillPiece, Action> skillEvent;
     private SkillEvent skillEventInfo = null;
 
-    private Action<EnemyHealth, Action> enemyEvent;
-    private EnemyEvent enemyEventInfo = null;
     protected override void Awake()
     {
         base.Awake();
@@ -28,7 +25,7 @@ public class SA_Skill : SkillPiece
             action?.Invoke();
         };
 
-        skillEventInfo = new SkillEvent(EventTimeSkill.AfterSkill, skillEvent);
+        skillEventInfo = new SkillEvent(EventTimeSkill.WithSkill, skillEvent);
         bh.battleEvent.BookEvent(skillEventInfo);
     }
 
@@ -55,51 +52,23 @@ public class SA_Skill : SkillPiece
         });
     }
 
-    private void Sacrifice()
+    public void SR_Sacrifice(Action onCastEnd = null) // 플레이어에게 30의 피해를 입힌다. //가르가 죽으면 절단의 데미지가 30만큼 증가한다.
     {
-        BattleHandler battleHandler = GameManager.Instance.battleHandler;
+        GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
-        battleHandler.battleEvent.RemoveEventInfo(enemyEventInfo);
+        Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
+        effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
 
-        enemyEvent = (enemy, action) =>
+        AddValue(30);
+
+        effect.Play(() =>
         {
-            SkillPiece result = this;
-
-            result.HighlightColor(0.4f);
-
-            Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-            textEffect.SetType(TextUpAnimType.Damage);
-            textEffect.transform.position = result.skillImg.transform.position;
-            textEffect.Play($"{result.PieceName} 발동!");
-
-            Anim_M_Wisp wispEffect = PoolManager.GetItem<Anim_M_Wisp>();
-            wispEffect.transform.position = result.skillImg.transform.position;
-            wispEffect.SetScale(1.5f);
-
-            wispEffect.Play(() =>
-            {
-                if (result != null)
-                {
-                    StartCoroutine(battleHandler.battleEvent.ActionEvent(EventTimeSkill.WithSkill, result));
-
-                    Inventory temp = result.owner;
-
-                    result.owner = this.owner;
-                    result.Cast(battleHandler.player, () =>
-                    {
-                        result.owner = temp;
-                        action.Invoke();
-                    });
-                }
-                else
-                {
-                    action?.Invoke();
-                }
-            });
-        };
-
-        enemyEventInfo = new EnemyEvent(EventTimeEnemy.EnemyDie, enemyEvent);
-        battleHandler.battleEvent.BookEvent(enemyEventInfo);
+            onCastEnd?.Invoke();
+        });
     }
+
+
+
+
 
 }

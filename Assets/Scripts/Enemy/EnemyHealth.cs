@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using DG.Tweening;
+using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
-using System;
 
 public class EnemyHealth : LivingEntity
 {
@@ -33,8 +31,10 @@ public class EnemyHealth : LivingEntity
 
     protected override void Start()
     {
-        if(weaknessImg != null)
+        if (weaknessImg != null)
+        {
             weaknessImg.sprite = GameManager.Instance.inventoryHandler.effectSprDic[weaknessType];
+        }
 
         base.Start();
     }
@@ -46,7 +46,7 @@ public class EnemyHealth : LivingEntity
         sr.color = Color.red;
         sr.DOColor(Color.white, 0.35f);
 
-        if(!IsDie)
+        if (!IsDie)
         {
             StartCoroutine(UnBeatTime());
         }
@@ -59,10 +59,13 @@ public class EnemyHealth : LivingEntity
         {
             //Alpha Effect
             if (countTime % 2 == 0)
+            {
                 sr.color = new Color32(255, 255, 255, 20);
+            }
             else
-
+            {
                 sr.color = new Color32(255, 255, 255, 200);
+            }
             //Wait Update Frame
             yield return new WaitForSeconds(0.1f);
             countTime++;
@@ -85,7 +88,7 @@ public class EnemyHealth : LivingEntity
         ShowDieEffect();
 
         GameManager.Instance.inventoryHandler.RemoveAllOwnerPiece(GetComponent<Inventory>());
-        GameManager.Instance.battleHandler.battleEvent.ActionEvent(EventTimeEnemy.EnemyDie,this);
+        StartCoroutine(GameManager.Instance.battleHandler.battleEvent.ActionEvent(EventTimeEnemy.EnemyDie, this));
         coll.enabled = false;
 
         bh.enemys.Remove(this);

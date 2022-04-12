@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using DG.Tweening;
 using System;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class PieceCastUIHandler : MonoBehaviour
 {
@@ -32,7 +30,7 @@ public class PieceCastUIHandler : MonoBehaviour
 
     public void ShowCasting(SkillPiece skillPiece, Action onEndEffect)
     {
-        if(skillPiece.isRandomSkill)
+        if (skillPiece.isRandomSkill)
         {
             PieceInfo info = skillPiece.ChoiceSkill();
             cardBG.sprite = skillPiece.cardBG;
@@ -58,15 +56,31 @@ public class PieceCastUIHandler : MonoBehaviour
             .AppendInterval(0.3f)
             .Append(skillPiece.GetComponent<Image>().DOFade(0, 0.3f))
             .Join(skillPiece.skillImg.DOFade(0, 0.3f))
-            .OnComplete(() => { //print("ÀÌÆåÆ®³¡³²");
-                                onEndEffect(); });
+            .OnComplete(() =>
+            { //print("ÀÌÆåÆ®³¡³²");
+                onEndEffect();
+            });
+
+        ShowPanel(true);
+    }
+
+    public void ShowCasting(PieceInfo info, Action onEndEffect)
+    {
+        cardBG.sprite = info.cardBG;
+        cardNameText.text = info.PieceName;
+        cardDesText.text = info.PieceDes;
+
+        pieceMoveSequence.Kill();
+
+        onEndEffect();
 
         ShowPanel(true);
     }
 
     public void EndCast(SkillPiece skillPiece)
     {
-        ShowPanel(false,false, () => {
+        ShowPanel(false, false, () =>
+        {
             if (skillPiece != null)
             {
                 skillPiece.GetComponent<Image>().color = Color.white;
@@ -80,7 +94,8 @@ public class PieceCastUIHandler : MonoBehaviour
         showSequence.Kill();
         if (!skip)
         {
-            showSequence = DOTween.Sequence().Append(cvsGroup.DOFade(enable ? 1 : 0, enable ? 0.2f:0.5f).OnComplete(() => {
+            showSequence = DOTween.Sequence().Append(cvsGroup.DOFade(enable ? 1 : 0, enable ? 0.2f : 0.5f).OnComplete(() =>
+            {
                 cvsGroup.interactable = enable;
                 cvsGroup.blocksRaycasts = enable;
                 endEvent?.Invoke();
