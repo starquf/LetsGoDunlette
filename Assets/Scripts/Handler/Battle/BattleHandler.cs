@@ -251,12 +251,19 @@ public class BattleHandler : MonoBehaviour
             {
                 if (i == 0 || i == enemys.Count - 1)
                 {
-                    enemys[i].SetScale(0.6f);
+                    enemys[i].SetScale(0.75f);
                 }
                 else
                 {
                     enemys[i].SetScale(1f);
                 }
+            }
+        }
+        else 
+        {
+            for (int i = 0; i < enemys.Count; i++)
+            {
+                enemys[i].SetScale(1f);
             }
         }
     }
