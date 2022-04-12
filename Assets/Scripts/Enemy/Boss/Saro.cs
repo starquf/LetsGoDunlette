@@ -24,7 +24,7 @@ public class Saro : MonoBehaviour
             {
                 Action<Action> eventAction = action =>
                 {
-                    if (GetComponent<EnemyHealth>().curHp <= 0)
+                    if (GetComponent<EnemyHealth>().IsDie)
                     {
                         action?.Invoke();
                         return;
@@ -57,7 +57,7 @@ public class Saro : MonoBehaviour
             {
                 Action<Action> eventAction = action =>
                 {
-                    if (GetComponent<EnemyHealth>().curHp <= 0)
+                    if (GetComponent<EnemyHealth>().IsDie)
                     {
                         action?.Invoke();
                         return;

@@ -26,7 +26,7 @@ public class Gar : MonoBehaviour
             {
                 Action<Action> eventAction = action =>
                 {
-                    if (GetComponent<EnemyHealth>().curHp <= 0)
+                    if (GetComponent<EnemyHealth>().IsDie)
                     {
                         action?.Invoke();
                         return;
@@ -60,7 +60,7 @@ public class Gar : MonoBehaviour
 
             if (enemy.GetComponent<EnemyHealth>().enemyType == EnemyType.DNAM) //µç¾ÏÀÌ Á×À¸¸é º¸È£¸·À» 300 È¹µæÇÑ´Ù.
             {
-                if (GetComponent<EnemyHealth>().curHp <= 0)
+                if (GetComponent<EnemyHealth>().IsDie)
                 {
                     action?.Invoke();
                     return;

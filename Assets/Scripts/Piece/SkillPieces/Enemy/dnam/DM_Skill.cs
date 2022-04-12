@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class DM_Skill : SkillPiece
@@ -41,18 +40,21 @@ public class DM_Skill : SkillPiece
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
-            var enemys = ShuffleList(GameManager.Instance.battleHandler.enemys);
+            BattleHandler bh = GameManager.Instance.battleHandler;
+
+            var enemys = bh.battleUtil.DeepCopyEnemyList(bh.enemys);
+            enemys = ShuffleList(enemys);
+
 
             for (int i = 0; i < enemys.Count; i++)
             {
-                if (i > 2) break;
+                if (i >= 2)
+                {
+                    break;
+                }
 
                 var health = enemys[i];
-
-                if (health.gameObject != owner.gameObject)
-                {
-                    health.AddShield(Value);
-                }
+                health.AddShield(Value);
             }
 
             Anim_M_Shield effect = PoolManager.GetItem<Anim_M_Shield>();
