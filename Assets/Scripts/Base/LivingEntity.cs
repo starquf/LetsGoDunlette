@@ -40,9 +40,6 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     [HideInInspector]
     public Vector3 originSize;
-
-    public Action onEnemyDie;
-
     protected virtual void Awake()
     {
         cc = GetComponent<CrowdControl>();
