@@ -66,6 +66,20 @@ public class CreateAnim : MonoBehaviour
     public GameObject etcSkillEffect04;
     public GameObject etcSkillEffect05;
     public GameObject etcSkillEffect06;
+    [Header("Fire Variety Effects")]
+    public GameObject fireEffect01;
+    public GameObject fireEffect02;
+    public GameObject fireEffect03;
+    public GameObject fireEffect04;
+    [Header("Elec Variety Effects")]
+    public GameObject elecEffect01;
+    public GameObject elecEffect02;
+    public GameObject elecEffect03;
+    public GameObject elecEffect04;
+    public GameObject elecEffect05;
+    public GameObject elecEffect06;
+    public GameObject elecEffect07;
+
 
     private void Awake()
     {
