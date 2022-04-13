@@ -26,18 +26,19 @@ public class Skill_F_Stigmatized : SkillPiece
     {
         target.GetDamage(Value, currentType);
 
+        GameManager.Instance.battleFieldHandler.SetFieldType(PatternType.Heart);
+
+        Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
+        textEffect.SetType(TextUpAnimType.Damage);
+        textEffect.transform.position = target.transform.position;
+        textEffect.SetScale(0.7f);
+        textEffect.Play("필드변경!");
+
         Anim_F_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_F_ManaSphereHit>();
         hitEffect.transform.position = target.transform.position;
         hitEffect.SetScale(0.7f);
         hitEffect.Play(() =>
         {
-            GameManager.Instance.battleFieldHandler.SetFieldType(PatternType.Heart);
-            Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-            textEffect.SetType(TextUpAnimType.Damage);
-            textEffect.transform.position = target.transform.position;
-            textEffect.SetScale(0.7f);
-            textEffect.Play("필드변경!");
-
             onCastEnd?.Invoke();
         });
     }
