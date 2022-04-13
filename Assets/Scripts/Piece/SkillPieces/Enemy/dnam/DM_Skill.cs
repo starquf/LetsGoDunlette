@@ -48,19 +48,23 @@ public class DM_Skill : SkillPiece
 
             for (int i = 0; i < enemys.Count; i++)
             {
-                if (i >= 2)
+                if (i > 1)
                 {
                     break;
                 }
                 LivingEntity health = enemys[i];
 
-                SetIndicator(health.gameObject, "½¯µå").OnEnd(() =>
-                {
-                    Anim_SkillEffect01 sheldEffect = PoolManager.GetItem<Anim_SkillEffect01>();
-                    sheldEffect.SetScale(2);
-                    sheldEffect.Play();
-                    health.AddShield(Value);
-                });
+                Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
+                textEffect.SetType(TextUpAnimType.Damage);
+                textEffect.transform.position = health.transform.position;
+                textEffect.SetScale(0.7f);
+                textEffect.Play("½¯µå!");
+
+                Anim_SkillEffect01 sheldEffect = PoolManager.GetItem<Anim_SkillEffect01>();
+                sheldEffect.transform.position = health.transform.position;
+                sheldEffect.SetScale(1);
+                sheldEffect.Play();
+                health.AddShield(Value);
             }
 
             Anim_M_Shield effect = PoolManager.GetItem<Anim_M_Shield>();
