@@ -12,6 +12,8 @@ public class E_FieldHandler : FieldHandler
     private void Awake()
     {
         redTransColor = redTransSpr.color;
+
+        fieldType = PatternType.Diamonds;
     }
     public override void DisableField(bool skip = false)
     {

@@ -12,6 +12,8 @@ public class W_FieldHandler : FieldHandler
     private void Awake()
     {
         redTransColor = redTransSpr.color;
+
+        fieldType = PatternType.Spade;
     }
     public override void DisableField(bool skip = false)
     {

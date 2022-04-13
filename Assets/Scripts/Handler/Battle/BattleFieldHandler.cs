@@ -6,7 +6,8 @@ using UnityEngine;
 public class BattleFieldHandler : MonoBehaviour
 {
     public Transform fieldHandlersParent;
-    private List<FieldHandler> fieldHandlers;
+
+    private Dictionary<PatternType, FieldHandler> fieldDic;
 
     public PatternType FieldType
     {
@@ -18,67 +19,35 @@ public class BattleFieldHandler : MonoBehaviour
     public void Awake()
     {
         GameManager.Instance.battleFieldHandler = this;
+
     }
 
     public void Start()
     {
         nowFieldType = PatternType.None;
-        fieldHandlers = new List<FieldHandler>();
-        fieldHandlers.AddRange(fieldHandlersParent.GetComponentsInChildren<FieldHandler>());
-        for (int i = 0; i < fieldHandlers.Count; i++)
-        {
-            fieldHandlers[i].DisableField(true);
-        }
-    }
 
-    
-    public void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Q))
+        fieldDic = new Dictionary<PatternType, FieldHandler>();
+        for (int i = 0; i < fieldHandlersParent.childCount; i++)
         {
-            ChangeField(PatternType.Clover);
+            FieldHandler field = fieldHandlersParent.GetChild(i).GetComponent<FieldHandler>();
+
+            fieldDic.Add(field.fieldType, field);
         }
-        if (Input.GetKeyDown(KeyCode.W))
+
+        foreach(FieldHandler fieldHandler in fieldDic.Values)
         {
-            ChangeField(PatternType.Diamonds);
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            ChangeField(PatternType.Heart);
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ChangeField(PatternType.Spade);
+            fieldHandler.DisableField(true);
         }
     }
 
     public void ChangeField(PatternType type)
     {
-        for (int i = 0; i < fieldHandlers.Count; i++)
+        foreach (FieldHandler fieldHandler in fieldDic.Values)
         {
-            fieldHandlers[i].DisableField();
+            fieldHandler.DisableField();
         }
-        switch (type)
-        {
-            case PatternType.None:
-                break;
-            case PatternType.Clover:
-                fieldHandlers.Find(x => x.GetComponent<N_FieldHandler>() != null).EnableField();
-                break;
-            case PatternType.Diamonds:
-                fieldHandlers.Find(x => x.GetComponent<E_FieldHandler>() != null).EnableField();
-                break;
-            case PatternType.Heart:
-                fieldHandlers.Find(x => x.GetComponent<F_FieldHandler>() != null).EnableField();
-                break;
-            case PatternType.Spade:
-                fieldHandlers.Find(x => x.GetComponent<W_FieldHandler>() != null).EnableField();
-                break;
-            case PatternType.Monster:
-                break;
-            default:
-                break;
-        }
+
+        fieldDic[type].EnableField();
     }
 
     public bool CheckFieldType(PatternType type)

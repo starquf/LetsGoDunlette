@@ -79,7 +79,7 @@ public class Skill_E_LightningRod : SkillPiece
             // 번개 속성이 존재한다면
             if (result != null)
             {
-                StartCoroutine(battleHandler.battleEvent.ActionEvent(EventTimeSkill.WithSkill, result));
+                battleHandler.battleEvent.StartActionEvent(EventTimeSkill.WithSkill, result);
 
                 LogCon log = new LogCon();
                 log.text = $"스킬 발동";

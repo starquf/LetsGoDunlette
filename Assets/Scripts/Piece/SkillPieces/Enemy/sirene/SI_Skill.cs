@@ -104,7 +104,7 @@ public class SI_Skill : SkillPiece
         {
             if (result != null)
             {
-                battleHandler.battleUtil.StartCoroutine(battleHandler.battleEvent.ActionEvent(EventTimeSkill.WithSkill, result));
+                battleHandler.battleEvent.StartActionEvent(EventTimeSkill.WithSkill, result);
 
                 Inventory temp = result.owner;
 
