@@ -55,7 +55,7 @@ public class DM_Skill : SkillPiece
                 LivingEntity health = enemys[i];
 
                 Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-                textEffect.SetType(TextUpAnimType.Damage);
+                textEffect.SetType(TextUpAnimType.Fixed);
                 textEffect.transform.position = health.transform.position;
                 textEffect.SetScale(0.7f);
                 textEffect.Play("½¯µå!");

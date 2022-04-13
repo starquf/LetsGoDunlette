@@ -28,9 +28,8 @@ public class GR_Skill : SkillPiece
             {
                 if(Random.Range(0, 100) < 40)
                 {
-
                     Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-                    textEffect.SetType(TextUpAnimType.Damage);
+                    textEffect.SetType(TextUpAnimType.Fixed);
                     textEffect.transform.position = target.transform.position;
                     textEffect.SetScale(0.7f);
                     textEffect.Play("±âÀý!");
