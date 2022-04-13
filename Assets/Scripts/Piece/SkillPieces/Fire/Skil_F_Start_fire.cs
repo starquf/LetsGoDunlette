@@ -34,7 +34,7 @@ public class Skil_F_Start_fire : SkillPiece
 
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
-            if(GameManager.Instance.battleFieldHandler.CheckFieldType(PatternType.Spade))
+            if(GameManager.Instance.battleHandler.fieldHandler.CheckFieldType(PatternType.Spade))
             {
                 target.GetDamage(Value / 2, currentType);
             }

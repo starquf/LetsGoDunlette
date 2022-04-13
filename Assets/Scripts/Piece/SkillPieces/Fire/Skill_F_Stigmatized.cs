@@ -26,10 +26,10 @@ public class Skill_F_Stigmatized : SkillPiece
     {
         target.GetDamage(Value, currentType);
 
-        GameManager.Instance.battleFieldHandler.SetFieldType(PatternType.Heart);
+        GameManager.Instance.battleHandler.fieldHandler.SetFieldType(PatternType.Heart);
 
         Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-        textEffect.SetType(TextUpAnimType.Damage);
+        textEffect.SetType(TextUpAnimType.Up);
         textEffect.transform.position = target.transform.position;
         textEffect.SetScale(0.7f);
         textEffect.Play("필드변경!");

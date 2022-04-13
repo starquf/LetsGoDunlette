@@ -83,7 +83,7 @@ public class Skill_E_ComputerError : SkillPiece
             Vector3 effectPos = pieces[pieceIdx].skillImg.transform.position;
 
             Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-            textEffect.SetType(TextUpAnimType.Damage);
+            textEffect.SetType(TextUpAnimType.Up);
             textEffect.transform.position = effectPos;
             textEffect.SetScale(0.8f);
             textEffect.Play("전산오류 효과발동!");

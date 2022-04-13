@@ -32,7 +32,7 @@ public class Skill_F_DrawingWires : SkillPiece
             hitEffect.SetScale(0.7f);
 
             Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-            textEffect.SetType(TextUpAnimType.Damage);
+            textEffect.SetType(TextUpAnimType.Up);
             textEffect.transform.position = nextPiece.skillImg.transform.position;
             textEffect.SetScale(0.8f);
             textEffect.Play("도화선 효과발동!");
@@ -76,7 +76,7 @@ public class Skill_F_DrawingWires : SkillPiece
             hitEffect.SetScale(0.7f);
 
             Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-            textEffect.SetType(TextUpAnimType.Damage);
+            textEffect.SetType(TextUpAnimType.Up);
             textEffect.transform.position = prevPiece.skillImg.transform.position;
             textEffect.SetScale(0.7f);
             textEffect.Play("도화선 효과발동!");

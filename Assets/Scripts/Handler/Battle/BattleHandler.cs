@@ -25,6 +25,8 @@ public class BattleHandler : MonoBehaviour
     public BattleUtilHandler battleUtil;
     [HideInInspector]
     public BattleEventHandler battleEvent;
+    [HideInInspector]
+    public BattleFieldHandler fieldHandler;
 
     private InventoryHandler inventory;
 
@@ -103,6 +105,7 @@ public class BattleHandler : MonoBehaviour
         battleUtil = GetComponent<BattleUtilHandler>();
         battleScroll = GetComponent<BattleScrollHandler>();
         battleEvent = GetComponent<BattleEventHandler>();
+        fieldHandler = GetComponent<BattleFieldHandler>();
     }
 
     private void Start()
@@ -422,6 +425,7 @@ public class BattleHandler : MonoBehaviour
         if (turnCnt > 1)
         {
             ccHandler.DecreaseCC();
+            fieldHandler.DecreaseTurn();
         }
 
         canPause = true;
@@ -579,6 +583,7 @@ public class BattleHandler : MonoBehaviour
 
         mainRullet.ResetRulletSpeed();
         battleEvent.ResetAllEvents();
+        fieldHandler.SetFieldType(PatternType.None);
 
         battleScroll.ShowScrollUI(open: false);
         GameManager.Instance.goldUIHandler.ShowGoldUI(open: false);
@@ -634,7 +639,7 @@ public class BattleHandler : MonoBehaviour
             if (piece.owner.GetComponent<LivingEntity>().cc.ccDic[CCType.Silence] > 0)
             {
                 Anim_TextUp silenceTextEffect = PoolManager.GetItem<Anim_TextUp>();
-                silenceTextEffect.SetType(TextUpAnimType.Damage);
+                silenceTextEffect.SetType(TextUpAnimType.Up);
                 silenceTextEffect.transform.position = piece.skillImg.transform.position;
                 silenceTextEffect.Play("침묵됨!");
 

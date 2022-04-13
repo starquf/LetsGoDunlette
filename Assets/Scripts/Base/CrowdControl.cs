@@ -95,6 +95,10 @@ public class CrowdControl : MonoBehaviour
             case CCType.Invincibility:
                 messege = "무적상태!";
                 break;
+
+            case CCType.Fascinate:
+                messege = "매혹됨!";
+                break;
         }
 
         // 만약 0보다 작아졌다면
@@ -106,7 +110,7 @@ public class CrowdControl : MonoBehaviour
         else
         {
             Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-            textEffect.SetType(TextUpAnimType.Damage);
+            textEffect.SetType(TextUpAnimType.Fixed);
             textEffect.transform.position = ccUIDic[cc].transform.position;
             textEffect.Play(messege);
         }

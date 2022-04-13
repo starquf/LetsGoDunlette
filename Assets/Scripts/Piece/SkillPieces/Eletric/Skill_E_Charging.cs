@@ -33,7 +33,7 @@ public class Skill_E_Charging : SkillPiece
             if (piece.currentType.Equals(PatternType.Diamonds) && piece != this)
             {
                 Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-                textEffect.SetType(TextUpAnimType.Damage);
+                textEffect.SetType(TextUpAnimType.Up);
                 textEffect.transform.position = skillImg.transform.position;
                 textEffect.SetScale(0.8f);
                 textEffect.Play("ÃæÀüµÊ!");

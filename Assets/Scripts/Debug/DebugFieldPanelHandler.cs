@@ -16,7 +16,7 @@ public class DebugFieldPanelHandler : MonoBehaviour, IDebugPanel
 
     public void Init()
     {
-        bf = GameManager.Instance.battleFieldHandler;
+        bf = GameManager.Instance.battleHandler.fieldHandler;
 
         fieldDic = new Dictionary<PatternType, string>();
 

@@ -34,7 +34,7 @@ public class Skill_N_Drain : SkillPiece
         target.GetDamage(value, currentType);
 
         Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-        textEffect.SetType(TextUpAnimType.Damage);
+        textEffect.SetType(TextUpAnimType.Up);
         textEffect.transform.position = target.transform.position;
         textEffect.Play("Èí¼ö!");
 

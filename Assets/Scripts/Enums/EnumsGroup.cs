@@ -39,8 +39,9 @@ public enum BuffType
 
 public enum TextUpAnimType
 {
-    Damage = 0,
-    GetMoney = 1,
+    Fixed = 0,
+    Up = 1,
+    Volcano = 2
 }
 
 public enum EncounterType
