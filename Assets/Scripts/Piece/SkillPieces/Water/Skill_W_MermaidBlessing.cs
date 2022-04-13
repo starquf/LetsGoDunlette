@@ -16,7 +16,7 @@ public class Skill_W_MermaidBlessing : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        StartCoroutine(Blessing(target, onCastEnd));
+        GameManager.Instance.battleHandler.battleUtil.StartCoroutine(Blessing(target, onCastEnd));
     }
 
     private IEnumerator Blessing(LivingEntity target, Action onCastEnd = null)
