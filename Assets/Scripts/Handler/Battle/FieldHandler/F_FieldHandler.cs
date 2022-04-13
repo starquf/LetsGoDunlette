@@ -6,7 +6,7 @@ using DG.Tweening;
 public class F_FieldHandler : FieldHandler
 {
     [SerializeField]
-    private GameObject DistortionEffectObj;
+    private SpriteRenderer DistortionEffectSpr;
     [SerializeField]
     private SpriteRenderer redTransSpr;
 
@@ -23,13 +23,13 @@ public class F_FieldHandler : FieldHandler
         if(skip)
         {
             redTransSpr.color = new Color(redTransColor.r, redTransColor.g, redTransColor.b, 0);
-            DistortionEffectObj.SetActive(false);
+            DistortionEffectSpr.color = new Color(DistortionEffectSpr.color.r, DistortionEffectSpr.color.g, DistortionEffectSpr.color.b, 0);
         }
         else
         {
             redTransSpr.DOKill();
             redTransSpr.DOFade(0, 0.5f);
-            DistortionEffectObj.SetActive(false);
+            DistortionEffectSpr.DOFade(0, 0.5f);
         }
     }
 
@@ -39,13 +39,13 @@ public class F_FieldHandler : FieldHandler
         if (skip)
         {
             redTransSpr.color = redTransColor;
-            DistortionEffectObj.SetActive(true);
+            DistortionEffectSpr.color = Color.white;
         }
         else
         {
             redTransSpr.DOKill();
             redTransSpr.DOFade(redTransColor.a, 0.5f);
-            DistortionEffectObj.SetActive(true);
+            DistortionEffectSpr.DOFade(1, 0.5f);
         }
     }
 }
