@@ -18,7 +18,7 @@ public class GR_Attack : SkillPiece
         {
             target.GetDamage(Value, this, owner);
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
-            Anim_M_Bite hitEffect = PoolManager.GetItem<Anim_M_Bite>();
+            Anim_C_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_C_ManaSphereHit>();
             hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
 
             hitEffect.Play(() =>

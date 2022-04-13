@@ -42,7 +42,7 @@ public class DM_Skill : SkillPiece
 
             BattleHandler bh = GameManager.Instance.battleHandler;
 
-            var enemys = bh.battleUtil.DeepCopyEnemyList(bh.enemys);
+            List<LivingEntity> enemys = bh.battleUtil.DeepCopyEnemyList(bh.enemys);
             enemys = ShuffleList(enemys);
 
 
@@ -52,9 +52,15 @@ public class DM_Skill : SkillPiece
                 {
                     break;
                 }
+                LivingEntity health = enemys[i];
 
-                var health = enemys[i];
-                health.AddShield(Value);
+                SetIndicator(health.gameObject, "½¯µå").OnEnd(() =>
+                {
+                    Anim_SkillEffect01 sheldEffect = PoolManager.GetItem<Anim_SkillEffect01>();
+                    sheldEffect.SetScale(2);
+                    sheldEffect.Play();
+                    health.AddShield(Value);
+                });
             }
 
             Anim_M_Shield effect = PoolManager.GetItem<Anim_M_Shield>();

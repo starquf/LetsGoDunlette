@@ -18,7 +18,7 @@ public class DM_Attack : SkillPiece
         {
             target.GetDamage(Value, this, owner);
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
-            Anim_M_Bite hitEffect = PoolManager.GetItem<Anim_M_Bite>();
+            Anim_M_Sword hitEffect = PoolManager.GetItem<Anim_M_Sword>();
             hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
 
             hitEffect.Play(() =>
