@@ -254,6 +254,13 @@ public class BattleEventHandler : MonoBehaviour
             {
                 bool flag = true;
                 eventInfoList[a].turn--;
+
+                if (eventInfoList[a] == null)
+                {
+                    eventInfoList.RemoveAt(a);
+                    continue;
+                }
+
                 if (eventInfoList[a].actionOnEnd) //마지막만 실행되는거라면
                 {
                     if (eventInfoList[a].turn <= 0) //삭제될것
@@ -269,7 +276,6 @@ public class BattleEventHandler : MonoBehaviour
                 }
                 else
                 {
-
                     eventInfoList[a].InvokeEvent(piece, () => flag = false);
                     while (flag)
                     {
@@ -284,6 +290,9 @@ public class BattleEventHandler : MonoBehaviour
         }
 
         onEnd?.Invoke();
+
+
+
         yield break;
     }
 

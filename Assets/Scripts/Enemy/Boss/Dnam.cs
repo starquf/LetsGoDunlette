@@ -5,24 +5,13 @@ public class Dnam : MonoBehaviour
 {
     private Action<EnemyHealth, Action> enemyEvent;
     private EnemyEvent enemyEventInfo = null;
-
     public GameObject dnamSkill;
-
     public PieceInfo[] pieceInfo;
-
     private bool isUpgraded = false;
-    void Start()
-    {
-        GetComponent<EnemyHealth>().onInit = Sacrifice;
-    }
-
-    private void Sacrifice()
+    public void Sacrifice()
     {
         isUpgraded = false;
-
         BattleHandler battleHandler = GameManager.Instance.battleHandler;
-
-        GetComponent<EnemyHealth>().onEnemyDie = () => battleHandler.battleEvent.RemoveEventInfo(enemyEventInfo);
 
         enemyEvent = (enemy, action) =>
         {

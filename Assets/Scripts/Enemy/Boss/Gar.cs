@@ -4,22 +4,12 @@ using UnityEngine;
 public class Gar : MonoBehaviour
 {
     private Action<EnemyHealth, Action> enemyEvent;
-
     private EnemyEvent enemyEventInfo = null;
-
     public GameObject garSkill;
-
     public PieceInfo[] pieceInfo;
-    void Start()
-    {
-        GetComponent<EnemyHealth>().onInit = Sacrifice;
-    }
-
-    private void Sacrifice()
+    public void Sacrifice()
     {
         BattleHandler battleHandler = GameManager.Instance.battleHandler;
-
-        GetComponent<EnemyHealth>().onEnemyDie = () => battleHandler.battleEvent.RemoveEventInfo(enemyEventInfo);
 
         enemyEvent = (enemy, action) =>
         {

@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class EnemyHealth : LivingEntity
@@ -20,7 +21,7 @@ public class EnemyHealth : LivingEntity
     [Header("보스 여부")]
     public bool isBoss = false;
 
-    public Action onInit = null;
+    public UnityEvent onInit = null;
 
     protected override void Awake()
     {
@@ -92,8 +93,6 @@ public class EnemyHealth : LivingEntity
 
         GameManager.Instance.inventoryHandler.RemoveAllOwnerPiece(GetComponent<Inventory>());
         StartCoroutine(GameManager.Instance.battleHandler.battleEvent.ActionEvent(EventTimeEnemy.EnemyDie, this));
-
-        onEnemyDie?.Invoke();
 
         coll.enabled = false;
         bh.enemys.Remove(this);

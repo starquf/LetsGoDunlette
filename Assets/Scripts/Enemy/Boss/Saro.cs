@@ -5,19 +5,12 @@ public class Saro : MonoBehaviour
 {
     private Action<EnemyHealth, Action> enemyEvent;
     private EnemyEvent enemyEventInfo = null;
-
     public PieceInfo[] pieceInfo;
-    void Start()
-    {
-        GetComponent<EnemyHealth>().onInit = Sacrifice;
-    }
 
-    private void Sacrifice()
+    public void Sacrifice()
     {
         BattleHandler battleHandler = GameManager.Instance.battleHandler;
-
-        GetComponent<EnemyHealth>().onEnemyDie = () => battleHandler.battleEvent.RemoveEventInfo(enemyEventInfo);
-
+        print("12123");
         enemyEvent = (enemy, action) =>
         {
             print("1");

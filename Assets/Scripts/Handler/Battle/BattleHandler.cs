@@ -466,10 +466,10 @@ public class BattleHandler : MonoBehaviour
     // 실행이 전부 끝나면 실행되는 코루틴
     private IEnumerator EndTurn()
     {
+
         yield return StartCoroutine(battleEvent.ActionEvent(EventTimeSkill.AfterSkill,result));
 
         yield return StartCoroutine(battleEvent.ActionEvent(EventTime.EndOfTurn));
-
         yield return pOneSecWait;
 
         // 기절 체크
