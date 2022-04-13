@@ -42,18 +42,28 @@ public class DM_Skill : SkillPiece
 
             BattleHandler bh = GameManager.Instance.battleHandler;
 
-            var enemys = bh.battleUtil.DeepCopyEnemyList(bh.enemys);
+            List<LivingEntity> enemys = bh.battleUtil.DeepCopyEnemyList(bh.enemys);
             enemys = ShuffleList(enemys);
 
 
             for (int i = 0; i < enemys.Count; i++)
             {
-                if (i >= 2)
+                if (i > 1)
                 {
                     break;
                 }
+                LivingEntity health = enemys[i];
 
-                var health = enemys[i];
+                Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
+                textEffect.SetType(TextUpAnimType.Damage);
+                textEffect.transform.position = health.transform.position;
+                textEffect.SetScale(0.7f);
+                textEffect.Play("½¯µå!");
+
+                Anim_SkillEffect01 sheldEffect = PoolManager.GetItem<Anim_SkillEffect01>();
+                sheldEffect.transform.position = health.transform.position;
+                sheldEffect.SetScale(1);
+                sheldEffect.Play();
                 health.AddShield(Value);
             }
 

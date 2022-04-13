@@ -21,14 +21,21 @@ public class GR_Skill : SkillPiece
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
-            Anim_M_Bite hitEffect = PoolManager.GetItem<Anim_M_Bite>();
-            hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
+            Anim_BuffEffect03 hitEffect = PoolManager.GetItem<Anim_BuffEffect03>();
+            hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(1.5f);
 
             if(owner.GetComponent<EnemyHealth>().GetHpRatio() >= 50)
             {
                 if(Random.Range(0, 100) < 40)
                 {
-                    target.cc.SetCC(CCType.Stun,1);
+
+                    Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
+                    textEffect.SetType(TextUpAnimType.Damage);
+                    textEffect.transform.position = target.transform.position;
+                    textEffect.SetScale(0.7f);
+                    textEffect.Play("±âÀý!");
+
+                    target.cc.SetCC(CCType.Stun, 1);
                 }
             }
 

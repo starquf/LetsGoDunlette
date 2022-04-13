@@ -66,6 +66,20 @@ public class CreateAnim : MonoBehaviour
     public GameObject etcSkillEffect04;
     public GameObject etcSkillEffect05;
     public GameObject etcSkillEffect06;
+    [Header("Fire Variety Effects")]
+    public GameObject fireEffect01;
+    public GameObject fireEffect02;
+    public GameObject fireEffect03;
+    public GameObject fireEffect04;
+    [Header("Elec Variety Effects")]
+    public GameObject elecEffect01;
+    public GameObject elecEffect02;
+    public GameObject elecEffect03;
+    public GameObject elecEffect04;
+    public GameObject elecEffect05;
+    public GameObject elecEffect06;
+    public GameObject elecEffect07;
+
 
     private void Awake()
     {
@@ -118,5 +132,36 @@ public class CreateAnim : MonoBehaviour
         PoolManager.CreatePool<Anim_M_Recover>(recoverAnim, this.transform, 1);
         PoolManager.CreatePool<Anim_M_Shield>(shieldAnim, this.transform, 1);
         PoolManager.CreatePool<Anim_M_Wisp>(wispAnim, this.transform, 1);
+
+        // ===================================================================
+        PoolManager.CreatePool<Anim_BuffEffect01>(buffEffect01, this.transform, 1);
+        PoolManager.CreatePool<Anim_BuffEffect02>(buffEffect02, this.transform, 1);
+        PoolManager.CreatePool<Anim_BuffEffect03>(buffEffect03, this.transform, 1);
+        PoolManager.CreatePool<Anim_BuffEffect04>(buffEffect04, this.transform, 1);
+
+        PoolManager.CreatePool<Anim_WaterIce01>(waterIceEffect01, this.transform, 1);
+        PoolManager.CreatePool<Anim_WaterIce02>(waterIceEffect02, this.transform, 1);
+        PoolManager.CreatePool<Anim_WaterIce03>(waterIceEffect03, this.transform, 1);
+        PoolManager.CreatePool<Anim_WaterIce04>(waterIceEffect04, this.transform, 1);
+
+        PoolManager.CreatePool<Anim_SkillEffect01>(etcSkillEffect01, this.transform, 1);
+        PoolManager.CreatePool<Anim_SkillEffect02>(etcSkillEffect02, this.transform, 1);
+        PoolManager.CreatePool<Anim_SkillEffect03>(etcSkillEffect03, this.transform, 1);
+        PoolManager.CreatePool<Anim_SkillEffect04>(etcSkillEffect04, this.transform, 1);
+        PoolManager.CreatePool<Anim_SkillEffect05>(etcSkillEffect05, this.transform, 1);
+        PoolManager.CreatePool<Anim_SkillEffect06>(etcSkillEffect06, this.transform, 1);
+
+        PoolManager.CreatePool<Anim_FireEffect01>(fireEffect01, this.transform, 1);
+        PoolManager.CreatePool<Anim_FireEffect02>(fireEffect02, this.transform, 1);
+        PoolManager.CreatePool<Anim_FireEffect03>(fireEffect03, this.transform, 1);
+        PoolManager.CreatePool<Anim_FireEffect04>(fireEffect04, this.transform, 1);
+
+        PoolManager.CreatePool<Anim_ElecEffect01>(elecEffect01, this.transform, 1);
+        PoolManager.CreatePool<Anim_ElecEffect02>(elecEffect02, this.transform, 1);
+        PoolManager.CreatePool<Anim_ElecEffect03>(elecEffect03, this.transform, 1);
+        PoolManager.CreatePool<Anim_ElecEffect04>(elecEffect04, this.transform, 1);
+        PoolManager.CreatePool<Anim_ElecEffect05>(elecEffect05, this.transform, 1);
+        PoolManager.CreatePool<Anim_ElecEffect06>(elecEffect06, this.transform, 1);
+        PoolManager.CreatePool<Anim_ElecEffect07>(elecEffect07, this.transform, 1);
     }
 }
