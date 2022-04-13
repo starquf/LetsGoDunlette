@@ -53,6 +53,12 @@ public class CreateAnim : MonoBehaviour
     public GameObject buffEffect01;
     public GameObject buffEffect02;
     public GameObject buffEffect03;
+    public GameObject buffEffect04;
+    [Header("WaterIce Variety Effects")]
+    public GameObject waterIceEffect01;
+    public GameObject waterIceEffect02;
+    public GameObject waterIceEffect03;
+    public GameObject waterIceEffect04;
 
     private void Awake()
     {
