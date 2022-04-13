@@ -59,6 +59,13 @@ public class CreateAnim : MonoBehaviour
     public GameObject waterIceEffect02;
     public GameObject waterIceEffect03;
     public GameObject waterIceEffect04;
+    [Header("Etc Variety Effects")]
+    public GameObject etcSkillEffect01;
+    public GameObject etcSkillEffect02;
+    public GameObject etcSkillEffect03;
+    public GameObject etcSkillEffect04;
+    public GameObject etcSkillEffect05;
+    public GameObject etcSkillEffect06;
 
     private void Awake()
     {
