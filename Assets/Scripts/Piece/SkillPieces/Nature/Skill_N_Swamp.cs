@@ -30,7 +30,7 @@ public class Skill_N_Swamp : SkillPiece
         target.GetDamage(value);
 
         Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-        textEffect.SetType(TextUpAnimType.Damage);
+        textEffect.SetType(TextUpAnimType.Up);
         textEffect.transform.position = target.transform.position;
         textEffect.Play("Èí¼ö!");
 

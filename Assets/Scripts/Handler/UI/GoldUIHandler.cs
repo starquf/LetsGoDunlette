@@ -87,7 +87,7 @@ public class GoldUIHandler : MonoBehaviour
     {
         int curGold = GameManager.Instance.Gold;
         Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-        textEffect.SetType(TextUpAnimType.GetMoney);
+        textEffect.SetType(TextUpAnimType.Up);
         textEffect.transform.position = goldText.transform.position;
         textEffect.Play((curGold - prevGold).ToString());
 

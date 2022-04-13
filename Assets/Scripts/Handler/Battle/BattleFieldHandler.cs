@@ -16,11 +16,7 @@ public class BattleFieldHandler : MonoBehaviour
     //필드속성을 저장함 기본은 무속성
     private PatternType nowFieldType = PatternType.None;
 
-    public void Awake()
-    {
-        GameManager.Instance.battleFieldHandler = this;
-
-    }
+    private int currentTurn = 0;
 
     public void Start()
     {
@@ -40,14 +36,19 @@ public class BattleFieldHandler : MonoBehaviour
         }
     }
 
-    public void ChangeField(PatternType type)
+    private void ChangeField(PatternType type)
     {
         foreach (FieldHandler fieldHandler in fieldDic.Values)
         {
             fieldHandler.DisableField();
         }
 
-        fieldDic[type].EnableField();
+        if (fieldDic.TryGetValue(type, out FieldHandler field))
+        {
+            field.EnableField();
+
+            currentTurn = 5;
+        }
     }
 
     public bool CheckFieldType(PatternType type)
@@ -60,11 +61,43 @@ public class BattleFieldHandler : MonoBehaviour
         return false;
     }
 
+    public void DecreaseTurn()
+    {
+        currentTurn--;
+
+        if (currentTurn <= 0)
+        {
+            currentTurn = 0;
+            SetFieldType(PatternType.None);
+        }
+    }
+
+    public void IncreaseTurn(int turn)
+    {
+        if (nowFieldType != PatternType.None)
+        {
+            currentTurn += turn;
+        }
+    }
+
     public void SetFieldType(PatternType type)
     {
         if (type == PatternType.Monster)
-            Debug.LogError("몬스터 타입의 필드는 없습니다");
+            return;
+
+        if (type.Equals(PatternType.None))
+        {
+            if (!nowFieldType.Equals(PatternType.None))
+            {
+                fieldDic[nowFieldType].DisableField();
+                currentTurn = 0;
+            }
+
+            return;
+        }
+
+        ChangeField(type);
+
         nowFieldType = type;
-        ChangeField(nowFieldType);
     }
 }

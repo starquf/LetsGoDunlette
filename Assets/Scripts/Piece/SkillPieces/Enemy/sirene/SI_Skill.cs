@@ -91,7 +91,7 @@ public class SI_Skill : SkillPiece
             result.HighlightColor(0.4f);
 
             Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-            textEffect.SetType(TextUpAnimType.Damage);
+            textEffect.SetType(TextUpAnimType.Up);
             textEffect.transform.position = result.skillImg.transform.position;
             textEffect.Play($"{result.PieceName} ∏≈»§!");
         }

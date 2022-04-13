@@ -91,8 +91,6 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public SkillPrefabContainer skillContainer;
     [HideInInspector]
-    public BattleFieldHandler battleFieldHandler;
-    [HideInInspector]
     public BottomUIHandler bottomUIHandler;
     [HideInInspector]
     public GoldUIHandler goldUIHandler;

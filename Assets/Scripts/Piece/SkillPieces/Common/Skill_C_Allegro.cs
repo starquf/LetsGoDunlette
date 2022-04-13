@@ -19,7 +19,7 @@ public class Skill_C_Allegro : SkillPiece
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-        textEffect.SetType(TextUpAnimType.Damage);
+        textEffect.SetType(TextUpAnimType.Up);
         textEffect.transform.position = bh.mainRullet.transform.position;
         textEffect.Play("∑Í∑ø º”µµ ¡ı∞°!");
 

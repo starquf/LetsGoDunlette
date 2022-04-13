@@ -10,9 +10,9 @@ public class Skil_F_Start_fire : SkillPiece
         base.Start();
     }
 
-    public override void Cast(LivingEntity target, Action onCastEnd = null) //Àû¿¡°Ô 80ÀÇ ÇÇÇØ¸¦ ÀÔÈù´Ù. //¹° ÇÊµå°¡ ±ò·ÁÀÖ´Â »óÅÂ¶ó¸é µ¥¹ÌÁö°¡ ¹İÀ¸·Î °¨¼ÒÇÑ´Ù.
+    public override void Cast(LivingEntity target, Action onCastEnd = null) //ì ì—ê²Œ 80ì˜ í”¼í•´ë¥¼ ì…íŒë‹¤. //ë¬¼ í•„ë“œê°€ ê¹”ë ¤ìˆëŠ” ìƒíƒœë¼ë©´ ë°ë¯¸ì§€ê°€ ë°˜ìœ¼ë¡œ ê°ì†Œí•œë‹¤.
     {
-        //print($"½ºÅ³ ¹ßµ¿!! ÀÌ¸§ : {PieceName}");
+        //print($"ìŠ¤í‚¬ ë°œë™!! ì´ë¦„ : {PieceName}");
 
         Vector3 targetPos = target.transform.position;
 
@@ -21,7 +21,7 @@ public class Skil_F_Start_fire : SkillPiece
 
         GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
-        if(GameManager.Instance.battleFieldHandler.CheckFieldType(PatternType.Spade))
+        if(GameManager.Instance.battleHandler.fieldHandler.CheckFieldType(PatternType.Spade))
         {
             target.GetDamage(Value / 2, currentType);
         }
