@@ -6,6 +6,10 @@ using DG.Tweening;
 public abstract class FieldHandler : MonoBehaviour
 {
     public List<ParticleSystem> particles;
+
+    [HideInInspector]
+    public PatternType fieldType;
+
     public virtual void EnableField(bool skip = false)
     {
         for (int i = 0; i < particles.Count; i++)

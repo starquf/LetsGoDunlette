@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class N_FieldHandler : FieldHandler
 {
+    private void Awake()
+    {
+        fieldType = PatternType.Clover;
+    }
+
     public override void DisableField(bool skip = false)
     {
         base.DisableField();

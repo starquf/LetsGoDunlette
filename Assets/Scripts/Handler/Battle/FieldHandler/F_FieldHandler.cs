@@ -15,6 +15,8 @@ public class F_FieldHandler : FieldHandler
     private void Awake()
     {
         redTransColor = redTransSpr.color;
+
+        fieldType = PatternType.Heart;
     }
 
     public override void DisableField(bool skip = false)

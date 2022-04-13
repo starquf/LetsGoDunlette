@@ -330,6 +330,21 @@ public class BattleEventHandler : MonoBehaviour
         yield return null;
     }
 
+    public void StartActionEvent(EventTime eventTime, Action onEnd = null)
+    {
+        StartCoroutine(ActionEvent(eventTime, onEnd));
+    }
+
+    public void StartActionEvent(EventTimeSkill eventTime, SkillPiece piece, Action onEnd = null)
+    {
+        StartCoroutine(ActionEvent(eventTime, piece, onEnd));
+    }
+
+    public void StartActionEvent(EventTimeEnemy eventTime, EnemyHealth enemy, Action onEnd = null)
+    {
+        StartCoroutine(ActionEvent(eventTime, enemy, onEnd));
+    }
+
     public void RemoveEventInfo(EventInfo info)
     {
         if (info == null) return;
