@@ -34,7 +34,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
     private List<SkillPiece> randomRulletPiece;
     private List<Scroll> randomScroll;
 
-    private List<int> soldIdxList;
+    private List<int> soldIdxList = new List<int>();
 
     private void Awake()
     {
