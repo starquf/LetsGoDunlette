@@ -54,8 +54,6 @@ public class Skill_F_TickTock : SkillPiece
                 counterText.text = turnCount.ToString();
                 if (turnCount <= 0)
                 {
-                    bh.battleEvent.RemoveEventInfo(eventInfo);
-
                     Anim_F_ManaSphereHit effect = PoolManager.GetItem<Anim_F_ManaSphereHit>();
                     effect.transform.position = bh.playerImgTrans.position;
                     effect.SetScale(Random.Range(0.8f, 1f));
@@ -72,7 +70,7 @@ public class Skill_F_TickTock : SkillPiece
 
         turnCount = 3;
 
-        eventInfo = new SkillEvent(EventTimeSkill.AfterSkill, onNextTurn);
+        eventInfo = new SkillEvent(false,3,EventTimeSkill.AfterSkill, onNextTurn);
         bh.battleEvent.BookEvent(eventInfo);
     }
 
