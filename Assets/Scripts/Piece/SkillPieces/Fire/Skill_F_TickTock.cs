@@ -67,8 +67,6 @@ public class Skill_F_TickTock : SkillPiece
                     effect.Play();
 
                     action?.Invoke();
-                    bh.battleEvent.RemoveEventInfo(eventInfo);
-
                     bh.mainRullet.PutRulletPieceToGraveYard(pieceIdx);
                 }
             }
@@ -76,7 +74,7 @@ public class Skill_F_TickTock : SkillPiece
             action?.Invoke();
         };
         turnCount = 3;
-        eventInfo = new SkillEvent(false,3,EventTimeSkill.AfterSkill, onNextTurn);
+        eventInfo = new SkillEvent(EventTimeSkill.AfterSkill, onNextTurn);
         bh.battleEvent.BookEvent(eventInfo);
     }
 

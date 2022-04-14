@@ -217,26 +217,29 @@ public class BattleEventHandler : MonoBehaviour
                 {
                     if (eventInfoList[a].turn <= 0) //삭제될것
                     {
-                        eventInfoList[a].InvokeEvent(() => flag = false);
+                        EventInfo nowInfo = eventInfoList[a];
+                        eventInfoList.RemoveAt(a);
+                        nowInfo.InvokeEvent(() => flag = false);
                         while (flag)
                         {
                             yield return null;
                         }
-                        eventInfoList.RemoveAt(a);
                     }
                     continue;
                 }
                 else
                 {
+                    EventInfo nowInfo = eventInfoList[a];
 
-                    eventInfoList[a].InvokeEvent(() => flag = false);
-                    while (flag)
-                    {
-                        yield return null;
-                    }
                     if (eventInfoList[a].turn <= 0) //삭제될것
                     {
                         eventInfoList.RemoveAt(a);
+                    }
+
+                    nowInfo.InvokeEvent(() => flag = false);
+                    while (flag)
+                    {
+                        yield return null;
                     }
                 }
             }
@@ -260,38 +263,40 @@ public class BattleEventHandler : MonoBehaviour
                     eventInfoList.RemoveAt(a);
                     continue;
                 }
-
                 if (eventInfoList[a].actionOnEnd) //마지막만 실행되는거라면
                 {
                     if (eventInfoList[a].turn <= 0) //삭제될것
                     {
-                        eventInfoList[a].InvokeEvent(piece, () => flag = false);
+                        EventInfo nowInfo = eventInfoList[a];
+                        eventInfoList.RemoveAt(a);
+                        nowInfo.InvokeEvent(piece, () => flag = false);
                         while (flag)
                         {
                             yield return null;
                         }
-                        eventInfoList.RemoveAt(a);
                     }
                     continue;
                 }
                 else
                 {
-                    eventInfoList[a].InvokeEvent(piece, () => flag = false);
-                    while (flag)
-                    {
-                        yield return null;
-                    }
+                    EventInfo nowInfo = eventInfoList[a];
+
                     if (eventInfoList[a].turn <= 0) //삭제될것
                     {
                         eventInfoList.RemoveAt(a);
+                    }
+
+                    nowInfo.InvokeEvent(piece, () => flag = false);
+
+                    while (flag)
+                    {
+                        yield return null;
                     }
                 }
             }
         }
 
         onEnd?.Invoke();
-
-
 
         yield break;
     }
@@ -309,19 +314,22 @@ public class BattleEventHandler : MonoBehaviour
                 {
                     if (eventInfoList[a].turn <= 0) //삭제될것
                     {
-                        eventInfoList[a].InvokeEvent(enemy, () => flag = false);
+                        EventInfo nowInfo = eventInfoList[a];
                         eventInfoList.RemoveAt(a);
+                        nowInfo.InvokeEvent(enemy, () => flag = false);
                     }
                     continue;
                 }
                 else
                 {
+                    EventInfo nowInfo = eventInfoList[a];
 
-                    eventInfoList[a].InvokeEvent(enemy, () => flag = false);
                     if (eventInfoList[a].turn <= 0) //삭제될것
                     {
                         eventInfoList.RemoveAt(a);
                     }
+
+                    nowInfo.InvokeEvent(enemy, () => flag = false);
                 }
             }
         }
@@ -347,7 +355,10 @@ public class BattleEventHandler : MonoBehaviour
 
     public void RemoveEventInfo(EventInfo info)
     {
-        if (info == null) return;
+        if (info == null)
+        {
+            return;
+        }
 
         eventInfoList.Remove(info);
     }

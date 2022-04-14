@@ -88,7 +88,7 @@ public class Skill_E_LightningRod : SkillPiece
 
                 DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
 
-                result.Cast(target, onCastEnd);
+                result.Cast(target,onCastEnd);
 
                 battleHandler.battleUtil.SetPieceToGraveyard(lightningSkillIdxDic[result]);
 
