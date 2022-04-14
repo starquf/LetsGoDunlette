@@ -80,7 +80,7 @@ public class Skill_F_TickTock : SkillPiece
 
         bh = GameManager.Instance.battleHandler;
 
-        bh.battleEvent.RemoveEventInfo(eventInfo);
+        //bh.battleEvent.RemoveEventInfo(eventInfo);
 
         turnCount = 3;
         counterText.text = turnCount.ToString();
