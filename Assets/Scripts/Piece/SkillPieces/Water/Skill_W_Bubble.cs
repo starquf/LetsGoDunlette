@@ -17,7 +17,8 @@ public class Skill_W_Bubble : SkillPiece
     {
         //print($"스킬 발동!! 이름 : {PieceName}");
         bh = GameManager.Instance.battleHandler;
-        target = bh.player;
+
+        LivingEntity t = owner.GetComponent<LivingEntity>();
 
         int rand = Random.Range(5, 8);
         float time = 0.2f;
@@ -25,20 +26,21 @@ public class Skill_W_Bubble : SkillPiece
         {
             int a = i;
             Anim_W_Bubble effect = PoolManager.GetItem<Anim_W_Bubble>();
-            effect.transform.position = bh.playerImgTrans.position + (Vector3)(Vector2.up*Random.Range(-0.3f,0.3f) + Vector2.right*Random.Range(-0.3f, 0.3f));
+            effect.transform.position = t.transform.position + (Vector3)(Vector2.up*Random.Range(-0.3f,0.3f) + Vector2.right*Random.Range(-0.3f, 0.3f));
             effect.SetScale(0.5f);
 
             effect.Play(() => {
 
                 if(a == rand-1)
                 {
-                    target.AddShield(Value);
+                    t.AddShield(Value);
                     Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-                    textEffect.SetType(TextUpAnimType.Damage);
-                    textEffect.transform.position = target.transform.position;
+                    textEffect.SetType(TextUpAnimType.Up);
+                    textEffect.transform.position = t.transform.position;
                     textEffect.Play("쉴드!");
+
                     Anim_Shield effect = PoolManager.GetItem<Anim_Shield>();
-                    effect.transform.position = bh.playerImgTrans.position;
+                    effect.transform.position = t.transform.position;
                     effect.SetScale(0.8f);
                     effect.Play(() =>
                     {

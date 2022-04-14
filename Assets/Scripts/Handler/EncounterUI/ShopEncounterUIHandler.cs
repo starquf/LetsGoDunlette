@@ -124,7 +124,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
         if (GameManager.Instance.Gold < selectProduct.price)
         {
             Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-            textEffect.SetType(TextUpAnimType.Damage);
+            textEffect.SetType(TextUpAnimType.Fixed);
             textEffect.transform.position = Vector3.zero;
             textEffect.Play("골드가 부족합니다!");
             return;

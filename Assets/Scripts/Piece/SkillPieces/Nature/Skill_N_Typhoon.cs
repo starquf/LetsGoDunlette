@@ -62,7 +62,7 @@ public class Skill_N_Typhoon : SkillPiece
         Vector2 effectPos = bh.mainRullet.transform.position;
 
         Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-        textEffect.SetType(TextUpAnimType.Damage);
+        textEffect.SetType(TextUpAnimType.Up);
         textEffect.transform.position = effectPos;
         textEffect.SetScale(0.8f);
         textEffect.Play("태풍 효과발동!");

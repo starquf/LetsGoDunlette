@@ -38,7 +38,7 @@ public class Skill_F_TickTock : SkillPiece
             if (piece != this)
             {
                 Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-                textEffect.SetType(TextUpAnimType.Damage);
+                textEffect.SetType(TextUpAnimType.Fixed);
                 textEffect.transform.position = skillImg.transform.position;
                 textEffect.SetScale(0.8f);
                 textEffect.Play("Â°±ïÂ°±ï!");

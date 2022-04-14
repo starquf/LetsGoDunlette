@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class AnimObj : MonoBehaviour
 {
-    private Animator anim;
+    protected Animator anim;
 
-    private Vector3 originScale;
-    private Quaternion originRot;
+    protected Vector3 originScale;
+    protected Quaternion originRot;
 
     protected virtual void Awake()
     {
@@ -28,12 +28,12 @@ public class AnimObj : MonoBehaviour
         transform.eulerAngles = rot;
     }
 
-    public void Play(Action onEndAnim = null)
+    public virtual void Play(Action onEndAnim = null)
     {
         StartCoroutine(WaitAnim(onEndAnim));
     }
 
-    private IEnumerator WaitAnim(Action onEndAnim)
+    protected virtual IEnumerator WaitAnim(Action onEndAnim)
     {
         float time = anim.GetCurrentAnimatorStateInfo(0).length;
 

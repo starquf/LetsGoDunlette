@@ -60,7 +60,7 @@ public class Skill_E_AdjustableCurrent : SkillPiece
                         DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
 
                         Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-                        textEffect.SetType(TextUpAnimType.Damage);
+                        textEffect.SetType(TextUpAnimType.Up);
                         textEffect.transform.position = target.transform.position;
                         textEffect.SetScale(0.7f);
                         textEffect.Play("기절 확률 증가!");

@@ -123,7 +123,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         }
 
         Anim_TextUp damageTextEffect = PoolManager.GetItem<Anim_TextUp>();
-        damageTextEffect.SetType(TextUpAnimType.Damage);
+        damageTextEffect.SetType(TextUpAnimType.Volcano);
         damageTextEffect.transform.position = transform.position;
         damageTextEffect.Play(damage.ToString());
 
@@ -185,7 +185,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
                 sr.sortingOrder = 1;
             });
 
-        if(skillPiece.currentType == GameManager.Instance.battleFieldHandler.FieldType)
+        if(skillPiece.currentType == GameManager.Instance.battleHandler.fieldHandler.FieldType)
         {
             damage += 20;
         }
@@ -218,7 +218,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         }
 
         Anim_TextUp damageTextEffect = PoolManager.GetItem<Anim_TextUp>();
-        damageTextEffect.SetType(TextUpAnimType.Damage);
+        damageTextEffect.SetType(TextUpAnimType.Volcano);
         damageTextEffect.transform.position = transform.position;
         damageTextEffect.Play(damage.ToString());
 
