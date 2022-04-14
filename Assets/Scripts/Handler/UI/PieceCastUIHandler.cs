@@ -20,7 +20,7 @@ public class PieceCastUIHandler : MonoBehaviour
 
     [Header("»ö±òµé")]
     public List<Color> colors = new List<Color>();
-    private Dictionary<PatternType, Color> colorDic;
+    public Dictionary<PatternType, Color> colorDic;
 
     void Awake()
     {

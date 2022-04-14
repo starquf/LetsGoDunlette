@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BattleHandler : MonoBehaviour
 {
@@ -86,6 +87,7 @@ public class BattleHandler : MonoBehaviour
 
     [Header("UI들")]
     public BottomUIHandler bottomUI;
+    public Image bg;
 
     #region WaitSeconds
     private readonly WaitForSeconds oneSecWait = new WaitForSeconds(1f);
@@ -163,6 +165,8 @@ public class BattleHandler : MonoBehaviour
             //print("적 가져옴");
             battleInfo = battleInfoHandler.GetRandomBattleInfo();
         }
+
+        bg.sprite = battleInfo.bg;
 
         // 적 생성
         CreateEnemy(battleInfo.enemyInfos, () =>

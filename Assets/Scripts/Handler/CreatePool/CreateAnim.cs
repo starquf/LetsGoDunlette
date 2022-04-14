@@ -4,28 +4,29 @@ using UnityEngine;
 
 public class CreateAnim : MonoBehaviour
 {
-    [Header("???? ??????")]
+    [Header("UI Anim")]
     public GameObject TextUpAnim;
     public GameObject skillDeterminedAnim;
+    public GameObject rewardDeterminedAnim;
 
-    [Header("???? ????")]
+    [Header("Common Anim")]
     public GameObject contractAnim;
     public GameObject c_sphereCastAnim;
     public GameObject c_ManaSphereHitAnim;
 
-    [Header("???? ????")]
+    [Header("Electric Anim")]
     public GameObject e_ManaSphereHitAnim;
     public GameObject lightningRodAnim;
     public GameObject staticAnim;
     public GameObject staticStunAnim;
 
-    [Header("???? ????")]
+    [Header("Nature Anim")]
     public GameObject n_DrainAnim;
     public GameObject n_ManaSphereHitAnim;
     public GameObject posionCloudAnim;
     public GameObject windAnim;
 
-    [Header("?? ????")]
+    [Header("Water Anim")]
     public GameObject w_ManaSphereHitAnim;
     public GameObject w_Bubble;
     public GameObject boatFareAnim;
@@ -33,13 +34,13 @@ public class CreateAnim : MonoBehaviour
     public GameObject splashAnim;
     public GameObject splash1Anim;
 
-    [Header("?? ????")]
+    [Header("Fire Anim")]
     public GameObject f_ManaSphereHitAnim;
     public GameObject arsonAnim;
     public GameObject chainExplosionAnim;
     public GameObject chainExplosionBonusAnim;
 
-    [Header("?? ????")]
+    [Header("Enemy Anim")]
     public GameObject buttAnim;
     public GameObject swordAnim;
     public GameObject biteAnim;
@@ -91,6 +92,7 @@ public class CreateAnim : MonoBehaviour
         // ===========================================================================  ???? ??????
         PoolManager.CreatePool<Anim_TextUp>(TextUpAnim, this.transform, 5);
         PoolManager.CreatePool<Anim_SkillDetermined>(skillDeterminedAnim, this.transform, 1);
+        PoolManager.CreatePool<Anim_RewardDetermined>(rewardDeterminedAnim, this.transform, 1);
 
         // ===========================================================================  ???? ????
         PoolManager.CreatePool<Anim_Contract>(contractAnim, this.transform, 1);

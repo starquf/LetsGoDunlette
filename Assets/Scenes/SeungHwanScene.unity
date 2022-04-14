@@ -265,7 +265,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: f46d278c5e280ec4aa3d77a0af32eaba, type: 3}
+    m_Font: {fileID: 12800000, guid: 6db0651b200bd48ffb28bfc19066c109, type: 3}
     m_FontSize: 80
     m_FontStyle: 0
     m_BestFit: 1
@@ -15548,6 +15548,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TextUpAnim: {fileID: 1070165320186961419, guid: 5263454723b8ebe46a853f2f3714cf6d, type: 3}
   skillDeterminedAnim: {fileID: 2211729835089425618, guid: d62862f9875a43c459a5dbc39df4ae39, type: 3}
+  rewardDeterminedAnim: {fileID: 2211729835089425618, guid: d5ce3d7537a45da40a7ff75347951ca7, type: 3}
   contractAnim: {fileID: 8510189776845874911, guid: cca5706bce483854799437006098d19e, type: 3}
   c_sphereCastAnim: {fileID: 8510189776845874911, guid: 6bd932c65e0f89f4c923c8c478dcfaae, type: 3}
   c_ManaSphereHitAnim: {fileID: 8510189776845874911, guid: 9d704ef756c96c048bd5e4a0bdc46067, type: 3}
@@ -15896,9 +15897,11 @@ MonoBehaviour:
   _bInfo:
     enemyInfos: 
     isWeakEnemy: 0
+    bg: {fileID: 0}
   isElite: 0
   isBoss: 0
   bottomUI: {fileID: 421243461}
+  bg: {fileID: 1447011947}
 --- !u!114 &377361829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15911,33 +15914,61 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 648c53fe7afce474385833ca117d6fa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battleInfos:
-  - enemyInfos: 0f000000
-    isWeakEnemy: 1
-  - enemyInfos: 01000000
-    isWeakEnemy: 0
-  - enemyInfos: 0000000000000000
-    isWeakEnemy: 0
-  - enemyInfos: 0100000000000000
-    isWeakEnemy: 0
-  - enemyInfos: 0100000001000000
-    isWeakEnemy: 0
-  - enemyInfos: 02000000
-    isWeakEnemy: 0
-  - enemyInfos: 03000000
-    isWeakEnemy: 0
-  bossInfos:
-  - enemyInfos: 04000000
-    isWeakEnemy: 0
-  - enemyInfos: 0d000000
-    isWeakEnemy: 0
-  eliteInfos:
-  - enemyInfos: 0b000000
-    isWeakEnemy: 0
-  - enemyInfos: 0c000000
-    isWeakEnemy: 0
-  - enemyInfos: 0300000003000000
-    isWeakEnemy: 0
+  stages:
+  - normalInfos:
+    - enemyInfos: 00000000
+      isWeakEnemy: 1
+      bg: {fileID: 21300000, guid: d1970c2fbdc1e4c4fbb9cc48fcf1d951, type: 3}
+    - enemyInfos: 01000000
+      isWeakEnemy: 1
+      bg: {fileID: 21300000, guid: d1970c2fbdc1e4c4fbb9cc48fcf1d951, type: 3}
+    - enemyInfos: 0000000000000000
+      isWeakEnemy: 0
+      bg: {fileID: 21300000, guid: d1970c2fbdc1e4c4fbb9cc48fcf1d951, type: 3}
+    - enemyInfos: 0100000001000000
+      isWeakEnemy: 0
+      bg: {fileID: 21300000, guid: d1970c2fbdc1e4c4fbb9cc48fcf1d951, type: 3}
+    - enemyInfos: 0000000001000000
+      isWeakEnemy: 0
+      bg: {fileID: 21300000, guid: d1970c2fbdc1e4c4fbb9cc48fcf1d951, type: 3}
+    - enemyInfos: 02000000
+      isWeakEnemy: 0
+      bg: {fileID: 21300000, guid: d1970c2fbdc1e4c4fbb9cc48fcf1d951, type: 3}
+    - enemyInfos: 03000000
+      isWeakEnemy: 0
+      bg: {fileID: 21300000, guid: d1970c2fbdc1e4c4fbb9cc48fcf1d951, type: 3}
+    eliteInfos:
+    - enemyInfos: 0300000003000000
+      isWeakEnemy: 0
+      bg: {fileID: 21300000, guid: d1970c2fbdc1e4c4fbb9cc48fcf1d951, type: 3}
+    - enemyInfos: 0b000000
+      isWeakEnemy: 0
+      bg: {fileID: 21300000, guid: d1970c2fbdc1e4c4fbb9cc48fcf1d951, type: 3}
+    - enemyInfos: 0c000000
+      isWeakEnemy: 0
+      bg: {fileID: 21300000, guid: d1970c2fbdc1e4c4fbb9cc48fcf1d951, type: 3}
+    bossInfos:
+    - enemyInfos: 04000000
+      isWeakEnemy: 0
+      bg: {fileID: 21300000, guid: d1970c2fbdc1e4c4fbb9cc48fcf1d951, type: 3}
+    - enemyInfos: 0d000000
+      isWeakEnemy: 0
+      bg: {fileID: 21300000, guid: d1970c2fbdc1e4c4fbb9cc48fcf1d951, type: 3}
+  - normalInfos:
+    - enemyInfos: 00000000
+      isWeakEnemy: 0
+      bg: {fileID: 0}
+    eliteInfos:
+    - enemyInfos: 00000000
+      isWeakEnemy: 0
+      bg: {fileID: 0}
+    bossInfos:
+    - enemyInfos: 10000000
+      isWeakEnemy: 0
+      bg: {fileID: 0}
+    - enemyInfos: 130000001100000012000000
+      isWeakEnemy: 0
+      bg: {fileID: 0}
 --- !u!1001 &378990982
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -70913,7 +70944,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: f46d278c5e280ec4aa3d77a0af32eaba, type: 3}
+    m_Font: {fileID: 12800000, guid: 6db0651b200bd48ffb28bfc19066c109, type: 3}
     m_FontSize: 80
     m_FontStyle: 0
     m_BestFit: 1
@@ -72266,7 +72297,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: f46d278c5e280ec4aa3d77a0af32eaba, type: 3}
+    m_Font: {fileID: 12800000, guid: 6b26e9d1465804816975fb9ca47cb82f, type: 3}
     m_FontSize: 75
     m_FontStyle: 0
     m_BestFit: 0
@@ -83598,8 +83629,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 30.440002}
-  m_SizeDelta: {x: -79.88, y: 192.48}
+  m_AnchoredPosition: {x: -0.2899933, y: 30.440002}
+  m_SizeDelta: {x: -99.69, y: 200.1}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1307007396
 MonoBehaviour:
@@ -83622,7 +83653,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 29b5434bb5c126a41a0a0e554a95e383, type: 3}
+    m_Font: {fileID: 12800000, guid: 6db0651b200bd48ffb28bfc19066c109, type: 3}
     m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 1
@@ -83633,7 +83664,7 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 1
+    m_LineSpacing: 1.2
   m_Text: "\uC2A4\uD0AC \uC124\uBA85\uC785\uB2C8\uB2E4. \n\uC801\uC5D0\uAC8C 45\uC758
     \uD53C\uD574\uB97C \uC785\uD799\uB2C8\uB2E4.\uC548\uB155 \uD2F0\uB77C\uB178 \uC548\uB155
     \uD2F0\uB77C\uB178 \uC548\uB155 \uD2F0\uB77C\uB178 \uC601\uC6D0\uD788 \uD568\uAED8
@@ -90026,8 +90057,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 243.87}
-  m_SizeDelta: {x: -79.88, y: 87.14}
+  m_AnchoredPosition: {x: -0.2900238, y: 261.4}
+  m_SizeDelta: {x: -99.69, y: 69.61}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1443679777
 MonoBehaviour:
@@ -90050,7 +90081,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: f46d278c5e280ec4aa3d77a0af32eaba, type: 3}
+    m_Font: {fileID: 12800000, guid: 6b26e9d1465804816975fb9ca47cb82f, type: 3}
     m_FontSize: 60
     m_FontStyle: 0
     m_BestFit: 1

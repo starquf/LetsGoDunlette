@@ -46,6 +46,7 @@ public class BattleRewardUIHandler : MonoBehaviour
     private Vector2 startPos;
 
     private InventoryHandler invenHandler;
+    private BattleHandler bh;
 
     [HideInInspector]
     public SkillPiece selectedSkillObj;
@@ -60,6 +61,7 @@ public class BattleRewardUIHandler : MonoBehaviour
     void Start()
     {
         invenHandler = GameManager.Instance.inventoryHandler;
+        bh = GameManager.Instance.battleHandler;
 
         startPos = pieceDesCG.transform.position;
         ResetRewardUI();
@@ -84,6 +86,12 @@ public class BattleRewardUIHandler : MonoBehaviour
         pieceDesCG.transform.position = startPos;
         pieceDesCG.transform.eulerAngles = Vector3.zero;
         pieceDesCG.transform.localScale = Vector3.one;
+
+        cardBG.color = Color.white;
+        cardNameText.color = Color.white;
+        cardDesText.color = Color.white;
+        bookmarkBG.color = Color.white;
+        bookmarkIcon.color = Color.white;
 
         //maskImg.color = Color.white;
         print(cardBG.material.GetFloat("_DesolveIntensity"));
@@ -206,12 +214,23 @@ public class BattleRewardUIHandler : MonoBehaviour
 
     public void GetRewardEffect(Action onEndEffect = null)
     {
+        Anim_RewardDetermined rewardEffect = PoolManager.GetItem<Anim_RewardDetermined>();
+        rewardEffect.SetScale(1.5f);
+        //rewardEffect.ChangeColor(bh.castUIHandler.colorDic[selectedSkillObj.patternType]);
+        rewardEffect.transform.position = cardBG.transform.position;
+
+        rewardEffect.Play();
+
         Sequence seq = DOTween.Sequence()
+            .AppendInterval(0.25f)
             .Append(DOTween.To(() => cardBG.material.GetFloat("_DesolveIntensity"),
                         x => cardBG.material.SetFloat("_DesolveIntensity", x)
                         , 1f
-                        , 1.22f))
-            //.Join(maskImg.DOFade(0f, 0.8f).From(1f).SetDelay(0.2f))
+                        , 1f))
+            .Join(cardNameText.DOFade(0f, 0.9f))
+            .Join(cardDesText.DOFade(0f, 0.9f))
+            .Join(bookmarkBG.DOFade(0f, 0.9f))
+            .Join(bookmarkIcon.DOFade(0f, 0.9f))
             .AppendCallback(() =>
             {
                 for (int i = 0; i < 10; i++)

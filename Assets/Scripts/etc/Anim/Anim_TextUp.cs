@@ -61,7 +61,7 @@ public class Anim_TextUp : AnimObj
 
             case TextUpAnimType.Up:
                 {
-                    textValue.transform.DOLocalMoveY(transform.localPosition.y + 300f, time / 2f);
+                    textValue.transform.DOLocalMoveY(transform.localPosition.y + 250f, time / 2f);
 
                     while (timer < time)
                     {
@@ -76,13 +76,13 @@ public class Anim_TextUp : AnimObj
                 {
                     Vector3 startPos = transform.position;
                     Vector3 endPos = transform.position + Vector3.down + (Vector3.right * Random.Range(-1f, 1f));
-                    float height = Random.Range(1.3f, 1.5f);
+                    float height = Random.Range(1.1f, 1.3f);
 
                     while (timer < time)
                     {
                         timer += Time.deltaTime;
 
-                        Vector3 tempPos = Parabola(startPos, endPos, height, timer * 1.2f);
+                        Vector3 tempPos = Parabola(startPos, endPos, height, timer * 1.32f);
                         transform.position = tempPos;
 
                         yield return null;

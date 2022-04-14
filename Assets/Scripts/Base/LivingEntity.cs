@@ -125,6 +125,8 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         Anim_TextUp damageTextEffect = PoolManager.GetItem<Anim_TextUp>();
         damageTextEffect.SetType(TextUpAnimType.Volcano);
         damageTextEffect.transform.position = transform.position;
+        damageTextEffect.SetScale(0.9f + (damage / 200f));
+
         damageTextEffect.Play(damage.ToString());
 
         SetDamageEffect();
