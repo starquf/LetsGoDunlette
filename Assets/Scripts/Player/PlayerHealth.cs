@@ -14,7 +14,7 @@ public class PlayerHealth : LivingEntity
         //print("³ª Á×À½!");
     }
 
-    public override void GetDamage(int damage)
+    public override void GetDamage(int damage, bool isCritical = false)
     {
         base.GetDamage(damage);
 

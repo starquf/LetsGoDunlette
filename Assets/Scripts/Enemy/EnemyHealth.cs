@@ -43,9 +43,9 @@ public class EnemyHealth : LivingEntity
         base.Start();
     }
 
-    public override void GetDamage(int damage)
+    public override void GetDamage(int damage, bool isCritical = false)
     {
-        base.GetDamage(damage);
+        base.GetDamage(damage, isCritical);
 
         sr.color = Color.red;
         sr.DOColor(Color.white, 0.35f);

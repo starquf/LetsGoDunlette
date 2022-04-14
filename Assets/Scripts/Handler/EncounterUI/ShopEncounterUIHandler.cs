@@ -26,13 +26,13 @@ public class ShopEncounterUIHandler : MonoBehaviour
     private bool isSelectPanelEnable;
     private int selectIdx;
 
-    [SerializeField] private List<ProductInfo> products;
+    [SerializeField] private List<ProductInfo> products = new List<ProductInfo>();
 
     [Header("랜덤 상점 리스트")]
-    public List<Scroll> scrollShopList;
+    public List<Scroll> scrollShopList = new List<Scroll>();
 
-    private List<SkillPiece> randomRulletPiece;
-    private List<Scroll> randomScroll;
+    private List<SkillPiece> randomRulletPiece = new List<SkillPiece>();
+    private List<Scroll> randomScroll = new List<Scroll>();
 
     private List<int> soldIdxList = new List<int>();
 
@@ -146,7 +146,8 @@ public class ShopEncounterUIHandler : MonoBehaviour
                     scroll.transform.position = selectProductImg.transform.position;
                     scroll.transform.localScale = Vector3.one;
 
-                    GameManager.Instance.battleHandler.GetComponent<BattleScrollHandler>().GetScroll(scroll, () => {
+                    GameManager.Instance.battleHandler.GetComponent<BattleScrollHandler>()
+                        .GetScroll(scroll, () => {
                         selectPanel.DOFade(0, 0.5f).OnComplete(() => {
                             SetProductSold(selectIdx);
                             SetAllButtonInterval(true, true);
@@ -276,13 +277,13 @@ public class ShopEncounterUIHandler : MonoBehaviour
         GameManager.Instance.EndEncounter();
     }
 
-    public void ShowPanel(bool enable , Action onComplecteEvent = null)
+    public void ShowPanel(bool enable, Action onComplecteEvent = null)
     {
         mainPanel.DOFade(enable ? 1 : 0, 0.5f)
-            .OnComplete(()=> {
-                mainPanel.blocksRaycasts = enable;
-                mainPanel.interactable = enable;
-                onComplecteEvent?.Invoke();
+        .OnComplete(()=> {
+            mainPanel.blocksRaycasts = enable;
+            mainPanel.interactable = enable;
+            onComplecteEvent?.Invoke();
         });
     }
 }

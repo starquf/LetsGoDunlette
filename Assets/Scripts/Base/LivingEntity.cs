@@ -73,7 +73,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         transform.DOScale(originSize * percent, 0.3f);
     }
 
-    public virtual void GetDamage(int damage)
+    public virtual void GetDamage(int damage, bool isCritical = false)
     {
         if (isDie)
         {
@@ -127,6 +127,19 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         damageTextEffect.transform.position = transform.position;
         damageTextEffect.SetScale(0.9f + (damage / 200f));
 
+        if (isCritical)
+        {
+            damageTextEffect.SetTextColor(Color.red);
+
+            Anim_TextUp criticalEffect = PoolManager.GetItem<Anim_TextUp>();
+            criticalEffect.SetType(TextUpAnimType.Volcano);
+            criticalEffect.transform.position = transform.position;
+            criticalEffect.SetScale(0.9f);
+            criticalEffect.SetTextColor(Color.red);
+
+            criticalEffect.Play("약점!");
+        }
+
         damageTextEffect.Play(damage.ToString());
 
         SetDamageEffect();
@@ -156,9 +169,15 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     public virtual void GetDamage(int damage, PatternType damageType)
     {
+        if (damageType.Equals(GameManager.Instance.battleHandler.fieldHandler.FieldType))
+        {
+            damage += 20;
+        }
+
         if (weaknessType.Equals(damageType) && !weaknessType.Equals(PatternType.None))
         {
-            GetDamage((int)(damage * 1.5f));
+            print("약점 적용!!");
+            GetDamage((int)(damage * 1.5f), true);
         }
         else
         {
@@ -166,7 +185,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         }
     }
 
-    public virtual void GetDamage(int damage, SkillPiece skillPiece,Inventory owner) // 적이 사용 전용
+    public virtual void GetDamage(int damage, SkillPiece skillPiece, Inventory owner) // 적이 사용 전용
     {
         Vector3 size = owner.transform.localScale;
         SpriteRenderer sr = owner.GetComponent<SpriteRenderer>();

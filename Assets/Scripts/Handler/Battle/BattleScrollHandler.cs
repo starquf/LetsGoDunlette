@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 public class BattleScrollHandler : MonoBehaviour
 {
     public RectTransform scrollUI;
-    public CanvasGroup chagneScrollPopUp;
+    //public CanvasGroup chagneScrollPopUp;
     public ScrollDesUIHandler scrollDesHandler;
 
     public List<ScrollSlot> slots = new List<ScrollSlot>();
@@ -88,7 +88,7 @@ public class BattleScrollHandler : MonoBehaviour
             }
             if(isChangeScroll)
             {
-                chagneScrollPopUp.DOFade(open?1f:0f, 0.5f);
+                //chagneScrollPopUp.DOFade(open?1f:0f, 0.5f);
             }
             scrollUISequence = DOTween.Sequence()
                 .Append(scrollUI.DOAnchorPosX(open ? 0f : -150f, 0.5f))
