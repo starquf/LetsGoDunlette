@@ -65,10 +65,11 @@ public class Skill_F_TickTock : SkillPiece
                     GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.25f, 0.1f);
                     owner.GetComponent<LivingEntity>().GetDamage(hitedValue);
                     effect.Play();
-                    bh.mainRullet.PutRulletPieceToGraveYard(pieceIdx);
 
                     action?.Invoke();
                     bh.battleEvent.RemoveEventInfo(eventInfo);
+
+                    bh.mainRullet.PutRulletPieceToGraveYard(pieceIdx);
                 }
             }
 
@@ -84,6 +85,7 @@ public class Skill_F_TickTock : SkillPiece
         base.ResetPiece();
 
         bh = GameManager.Instance.battleHandler;
+        bh.battleEvent.RemoveEventInfo(eventInfo);
 
         turnCount = 3;
         counterText.text = turnCount.ToString();
@@ -91,7 +93,6 @@ public class Skill_F_TickTock : SkillPiece
     
     public override void Cast(LivingEntity target, Action onCastEnd = null) //룰렛에 들어온 뒤 사용되지 않은채로 3턴이 지나면 자신에게 60의 데미지를 준 뒤 무덤으로 이동한다.
     {
-        bh.battleEvent.RemoveEventInfo(eventInfo);
 
         target.GetDamage(value, currentType);
 
