@@ -129,13 +129,15 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
         if (isCritical)
         {
-            damageTextEffect.SetTextColor(Color.red);
+            Color32 criColor = new Color32(255, 220, 0, 255);
+
+            damageTextEffect.SetTextColor(criColor);
 
             Anim_TextUp criticalEffect = PoolManager.GetItem<Anim_TextUp>();
-            criticalEffect.SetType(TextUpAnimType.Volcano);
+            criticalEffect.SetType(TextUpAnimType.Fixed);
             criticalEffect.transform.position = transform.position;
-            criticalEffect.SetScale(0.9f);
-            criticalEffect.SetTextColor(Color.red);
+            criticalEffect.SetScale(0.8f);
+            criticalEffect.SetTextColor(criColor);
 
             criticalEffect.Play("æ‡¡°!");
         }

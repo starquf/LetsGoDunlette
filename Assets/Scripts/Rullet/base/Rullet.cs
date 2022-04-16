@@ -47,6 +47,7 @@ public abstract class Rullet : MonoBehaviour
     //public Transform pinTrans;
     public Text speedText;
     public Image timerFillAmount;
+    public Gradient timerGradient;
 
     protected float currentTime;
     protected float currentResetTime;
@@ -56,6 +57,8 @@ public abstract class Rullet : MonoBehaviour
 
     protected virtual void Start()
     {
+        timerFillAmount.color = timerGradient.Evaluate(0);
+
         ResetRulletSpeed();
         SetRullet();
     }
@@ -264,7 +267,7 @@ public abstract class Rullet : MonoBehaviour
             timerFillAmount.fillAmount = counter;
             //255 -> 0
             //    237 -> 0
-            timerFillAmount.color = new Color(1, counter, counter);
+            timerFillAmount.color = timerGradient.Evaluate(1 - counter);
 
             yield return null;
         }
@@ -281,7 +284,7 @@ public abstract class Rullet : MonoBehaviour
             currentTime -= currentResetTime / (0.25f / Time.deltaTime);
             counter = Mathf.Clamp(currentTime / GetTime(), 0f, 1f);
             timerFillAmount.fillAmount = counter;
-            timerFillAmount.color = new Color(1, counter, counter);
+            timerFillAmount.color = timerGradient.Evaluate(1 - counter);
 
             yield return null;
         }
