@@ -48,6 +48,7 @@ public abstract class Rullet : MonoBehaviour
     public Text speedText;
     public Image timerFillAmount;
     public Gradient timerGradient;
+    public List<ParticleSystem> particles = new List<ParticleSystem>();
 
     protected float currentTime;
     protected float currentResetTime;
@@ -61,6 +62,7 @@ public abstract class Rullet : MonoBehaviour
 
         ResetRulletSpeed();
         SetRullet();
+        SetParticle(false);
     }
 
     public virtual void ResetRulletSize()
@@ -168,6 +170,7 @@ public abstract class Rullet : MonoBehaviour
         timerFillAmount.fillAmount = 10;
 
         rollCor = StartCoroutine(Roll());
+        SetParticle(true);
 
         if (hasTimer)
         {
@@ -183,6 +186,21 @@ public abstract class Rullet : MonoBehaviour
         return 10 - (rulletSpeed / 180f);
     }
 
+    private void SetParticle(bool enable)
+    {
+        for (int i = 0; i < particles.Count; i++)
+        {
+            if (enable)
+            {
+                particles[i].Play();
+            }
+            else
+            {
+                particles[i].Stop();
+            }
+        }
+    }
+
     public virtual void PauseRullet()
     {
         if (!isRoll) return;    // 돌아가지 않는 상태거나
@@ -194,6 +212,8 @@ public abstract class Rullet : MonoBehaviour
         if(timeCor != null)
             StopCoroutine(timeCor);
 
+        SetParticle(false);
+
         isPaused = true;
         isRoll = false;
     }
@@ -201,6 +221,8 @@ public abstract class Rullet : MonoBehaviour
     public void StopRullet()
     {
         isStop = true;
+
+        SetParticle(false);
 
         if (timeCor != null)
             StopCoroutine(timeCor);
@@ -216,6 +238,8 @@ public abstract class Rullet : MonoBehaviour
 
         if (timeCor != null)
             StopCoroutine(timeCor);
+
+        SetParticle(false);
 
         isStop = false;
         isRoll = false;
