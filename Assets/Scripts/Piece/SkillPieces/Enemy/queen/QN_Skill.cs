@@ -71,6 +71,8 @@ public class QN_Skill : SkillPiece
             }
         }
 
+        owner.GetComponent<LivingEntity>().AddShield(10);
+
         Anim_M_Shield effect = PoolManager.GetItem<Anim_M_Shield>();
         effect.transform.position = owner.transform.position;
 
@@ -78,7 +80,6 @@ public class QN_Skill : SkillPiece
         {
             onCastEnd?.Invoke();
         });
-
     }
 
 

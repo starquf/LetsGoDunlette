@@ -40,6 +40,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     [HideInInspector]
     public Vector3 originSize;
+
     protected virtual void Awake()
     {
         cc = GetComponent<CrowdControl>();
@@ -171,7 +172,9 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     public virtual void GetDamage(int damage, PatternType damageType)
     {
-        if (damageType.Equals(GameManager.Instance.battleHandler.fieldHandler.FieldType))
+        BattleFieldHandler fh = GameManager.Instance.battleHandler.fieldHandler;
+
+        if (fh.FieldType != PatternType.None && damageType.Equals(fh.FieldType))
         {
             damage += 20;
         }

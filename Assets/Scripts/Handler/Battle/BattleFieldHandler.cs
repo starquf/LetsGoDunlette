@@ -90,6 +90,8 @@ public class BattleFieldHandler : MonoBehaviour
             if (!nowFieldType.Equals(PatternType.None))
             {
                 fieldDic[nowFieldType].DisableField();
+                nowFieldType = type;
+
                 currentTurn = 0;
             }
 

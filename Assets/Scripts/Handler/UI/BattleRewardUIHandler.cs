@@ -63,7 +63,7 @@ public class BattleRewardUIHandler : MonoBehaviour
         invenHandler = GameManager.Instance.inventoryHandler;
         bh = GameManager.Instance.battleHandler;
 
-        startPos = pieceDesCG.transform.position;
+        startPos = pieceDesCG.transform.localPosition;
         ResetRewardUI();
     }
 
@@ -83,7 +83,7 @@ public class BattleRewardUIHandler : MonoBehaviour
 
         getBtn.gameObject.SetActive(false);
 
-        pieceDesCG.transform.position = startPos;
+        pieceDesCG.transform.localPosition = startPos;
         pieceDesCG.transform.eulerAngles = Vector3.zero;
         pieceDesCG.transform.localScale = Vector3.one;
 
