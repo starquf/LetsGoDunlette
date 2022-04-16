@@ -110,6 +110,9 @@ public class PieceCastUIHandler : MonoBehaviour
 
     public void EndCast(SkillPiece skillPiece)
     {
+        pieceMoveSequence.Kill();
+        skillPiece.gameObject.SetActive(false);
+
         ShowPanel(false, false, () =>
         {
             if (skillPiece != null)
@@ -124,8 +127,8 @@ public class PieceCastUIHandler : MonoBehaviour
     {
         closeBtn.onClick.AddListener(() =>
         {
-            action.Invoke();
             closeBtn.onClick.RemoveAllListeners();
+            action.Invoke();
         });
     }
 
