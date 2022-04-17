@@ -31,6 +31,8 @@ public class Scroll_Memorie : Scroll
 
         bh.mainRullet.PauseRullet();
 
+        invenInfoHandler.ShowHighlight(msg_2);
+
         invenInfoHandler.ShowInventoryInfo(msg_1, ShowInfoRange.Graveyard, sp =>
         {
             invenInfoHandler.desPanel.ShowDescription(sp);
@@ -49,8 +51,6 @@ public class Scroll_Memorie : Scroll
                     onEndUse?.Invoke();
                 });
             });
-        }, onCancelUse);
-
-        invenInfoHandler.ShowHighlight(msg_2);
+        }, onCancelUse, true);
     }
 }
