@@ -196,7 +196,8 @@ public class InventoryInfoHandler : MonoBehaviour
         highlightText.text = message;
 
         highlightTween.Kill();
-        highlightTween = highlight.DOFade(1f, 0.33f);
+        highlightTween = highlight.DOFade(1f, 0.33f)
+            .SetUpdate(true);
     }
 
     private void SetCGEnable(bool enable)
