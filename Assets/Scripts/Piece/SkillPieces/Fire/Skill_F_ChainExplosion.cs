@@ -30,8 +30,6 @@ public class Skill_F_ChainExplosion : SkillPiece
 
                 if (result.isPlayerSkill && target.curHp < targetHp)
                 {
-                    print("¹ßµ¿!");
-
                     target.GetDamage(Value, patternType);
                     GameManager.Instance.cameraHandler.ShakeCamera(1.5f, 0.15f);
 
