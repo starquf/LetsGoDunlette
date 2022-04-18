@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,6 +26,9 @@ public class BattleTargetSelectHandler : MonoBehaviour
     private Action<EnemyHealth> onEndSelect;
 
     private LayerMask isEnemy;
+
+    public SkipUIPanelHandler skipUI;
+    private Sequence dragSeq;
 
     private void Start()
     {
