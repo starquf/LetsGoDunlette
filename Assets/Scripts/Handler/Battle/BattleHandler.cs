@@ -108,6 +108,8 @@ public class BattleHandler : MonoBehaviour
         battleScroll = GetComponent<BattleScrollHandler>();
         battleEvent = GetComponent<BattleEventHandler>();
         fieldHandler = GetComponent<BattleFieldHandler>();
+
+        GameManager.Instance.SetResolution();
     }
 
     private void Start()

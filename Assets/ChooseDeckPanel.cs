@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class ChooseDeckPanel : MonoBehaviour
 {
-    public List<Button> buttons;
+    public List<Button> buttons = new List<Button>();
     public Button confirmButton;
 
     public Text desText;
@@ -24,7 +24,7 @@ public class ChooseDeckPanel : MonoBehaviour
 
         canClick = true;
 
-        confirmButton.onClick.AddListener(() => SceneManager.LoadScene(1));
+        confirmButton.onClick.AddListener(() => GameManager.Instance.LoadScene(1));
     }
 
     private void OnClickButton(int num)
@@ -50,22 +50,26 @@ public class ChooseDeckPanel : MonoBehaviour
         switch (num)
         {
             case 0:
-                des = "불로 이루어진 조합입니다. 한 번에 적에게 큰 피해를 입힐 수 있습니다.";
+                des = "기본 조합입니다. 플레이하면서 원하는 조합을 맞춰보세요!";
                 break;
+
             case 1:
-                des = "물로 이루어진 조합입니다. 안정적으로 플레이 할수있습니다.";
+                des = "불 속성으로 이루어진 조합입니다. 적에게 한 번에 큰 피해를 입힐 수 있습니다.";
                 break;
+
             case 2:
-                des = "자연으로 이루어진 조합입니다. 다양한 방식으로 공격할 수 있습니다.";
+                des = "물 속성으로 이루어진 조합입니다. 안정적으로 플레이 할수있습니다.";
                 break;
+
             case 3:
-                des = "번개로 이루어진 조합입니다. 한 번에 역전할 수 있습니다.";
+                des = "번개 속성으로 이루어진 조합입니다. 스킬간의 연계가 자주 발생합니다.";
                 break;
+
             default:
                 break;
         }
         desText.DOText(des, 1f).OnComplete(() => canClick = true);
 
-        FindObjectOfType<StoreIndex>().index = num;
+        GameManager.Instance.deckIdx = num;
     }
 }

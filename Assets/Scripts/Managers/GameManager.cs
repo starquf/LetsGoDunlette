@@ -1,7 +1,9 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -45,7 +47,7 @@ public class GameManager : MonoBehaviour
         SetResolution();
     }
 
-    private void SetResolution()
+    public void SetResolution()
     {
         int setWidth = 1440; // 사용자 설정 너비
         int setHeight = 2560; // 사용자 설정 높이
@@ -138,6 +140,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    #region TEST
+    public int deckIdx = -1;
+
+    #endregion
+
     public PlayerHealth GetPlayer() //플레이어를 가져옵니다.
     {
         return battleHandler.player;
@@ -167,4 +174,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void LoadScene(int sceneIdx)
+    {
+        DOTween.KillAll();
+
+        SceneManager.LoadScene(sceneIdx);
+    }
 }

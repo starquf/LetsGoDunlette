@@ -188,6 +188,7 @@ MonoBehaviour:
   - {fileID: 6949942483554766801, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
   - {fileID: 5093648005084248228, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
   curEncounter: 0
+  deckIdx: -1
 --- !u!4 &27854044
 Transform:
   m_ObjectHideFlags: 0
@@ -200,7 +201,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &90816257
 GameObject:
@@ -561,7 +562,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 6960728830346886067, guid: db6531baeb620044c8662975aec692c9, type: 3}
+  m_Sprite: {fileID: 6007819940767646187, guid: db6531baeb620044c8662975aec692c9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1303,7 +1304,7 @@ RectTransform:
   - {fileID: 560480429}
   - {fileID: 1935000842}
   m_Father: {fileID: 1505724410}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1442,7 +1443,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.121568635, g: 0.37254903, b: 0.19607845, a: 1}
+  m_Color: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1467,50 +1468,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1253431075}
   m_CullTransparentMesh: 1
---- !u!1 &1301206757
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1301206759}
-  - component: {fileID: 1301206758}
-  m_Layer: 0
-  m_Name: Communications
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1301206758
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1301206757}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f5d4b02127d90741ac23a32c04d3a95, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  index: -1
---- !u!4 &1301206759
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1301206757}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1313936510
 GameObject:
   m_ObjectHideFlags: 0
@@ -1575,7 +1532,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1384155058
 GameObject:
@@ -1851,9 +1808,9 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1683977509}
   - {fileID: 1165879999}
   - {fileID: 1985667234}
-  - {fileID: 1683977509}
   - {fileID: 986272510}
   m_Father: {fileID: 176086311}
   m_RootOrder: 1
@@ -2180,7 +2137,7 @@ RectTransform:
   - {fileID: 1977865332}
   - {fileID: 1637277589}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2371,9 +2328,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttons:
+  - {fileID: 1683977510}
   - {fileID: 1165880000}
   - {fileID: 1985667235}
-  - {fileID: 1683977510}
   - {fileID: 986272511}
   confirmButton: {fileID: 1544206713}
   desText: {fileID: 1498853010}
@@ -2390,7 +2347,7 @@ GameObject:
   - component: {fileID: 1683977511}
   - component: {fileID: 1683977510}
   m_Layer: 5
-  m_Name: NatureButton
+  m_Name: NoneButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2411,7 +2368,7 @@ RectTransform:
   - {fileID: 1985293440}
   - {fileID: 1253431076}
   m_Father: {fileID: 1505724410}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3240,7 +3197,7 @@ RectTransform:
   - {fileID: 498393002}
   - {fileID: 341352069}
   m_Father: {fileID: 1505724410}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

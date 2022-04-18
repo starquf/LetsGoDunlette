@@ -184,7 +184,6 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         if (weaknessType.Equals(damageType) && !weaknessType.Equals(PatternType.None))
         {
             damageBuff += 0.5f;
-            print("약점 적용!!");
             GetDamage((int)(damage * damageBuff), true);
         }
         else
