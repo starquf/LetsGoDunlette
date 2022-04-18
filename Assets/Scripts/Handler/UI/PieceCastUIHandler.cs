@@ -92,12 +92,7 @@ public class PieceCastUIHandler : MonoBehaviour
 
                 timeCor = StartCoroutine(CastWait(onEndEffect));
 
-                skipSeq = DOTween.Sequence()
-                    .AppendInterval(1f)
-                    .AppendCallback(() =>
-                    {
-                        skipUI.ShowSkipUI();
-                    });
+                ShowSkipText();
 
                 SetCloseBtn(() => 
                 {
@@ -121,12 +116,7 @@ public class PieceCastUIHandler : MonoBehaviour
 
         timeCor = StartCoroutine(CastWait(onEndEffect));
 
-        skipSeq = DOTween.Sequence()
-                    .AppendInterval(1f)
-                    .AppendCallback(() =>
-                    {
-                        skipUI.ShowSkipUI();
-                    });
+        ShowSkipText();
 
         SetCloseBtn(() =>
         {
@@ -137,6 +127,16 @@ public class PieceCastUIHandler : MonoBehaviour
         });
 
         ShowPanel(true);
+    }
+
+    private void ShowSkipText()
+    {
+        skipSeq = DOTween.Sequence()
+                    .AppendInterval(0.5f)
+                    .AppendCallback(() =>
+                    {
+                        skipUI.ShowSkipUI();
+                    });
     }
 
     public void EndCast(SkillPiece skillPiece)

@@ -174,19 +174,22 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     {
         BattleFieldHandler fh = GameManager.Instance.battleHandler.fieldHandler;
 
+        float damageBuff = 1f;
+
         if (fh.FieldType != PatternType.None && damageType.Equals(fh.FieldType))
         {
-            damage += 20;
+            damageBuff += 0.5f;
         }
 
         if (weaknessType.Equals(damageType) && !weaknessType.Equals(PatternType.None))
         {
+            damageBuff += 0.5f;
             print("약점 적용!!");
-            GetDamage((int)(damage * 1.5f), true);
+            GetDamage((int)(damage * damageBuff), true);
         }
         else
         {
-            GetDamage(damage);
+            GetDamage((int)(damage * damageBuff));
         }
     }
 

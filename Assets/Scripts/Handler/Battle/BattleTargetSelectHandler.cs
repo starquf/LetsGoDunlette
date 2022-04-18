@@ -57,6 +57,9 @@ public class BattleTargetSelectHandler : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
+            dragSeq.Kill();
+            skipUI.SetPanel(false);
+
             touchPos = mainCam.ScreenToWorldPoint(Input.mousePosition);
             touchPos.z = 0f;
 
@@ -68,6 +71,7 @@ public class BattleTargetSelectHandler : MonoBehaviour
             // 스킬을 잡았다면
             if (dir.sqrMagnitude < detectDistance * detectDistance)
             {
+
                 lr.SetPosition(0, detectPos);
                 lr.SetPosition(1, detectPos);
 
@@ -82,6 +86,8 @@ public class BattleTargetSelectHandler : MonoBehaviour
     public void SelectTarget(Action<EnemyHealth> onEndSelect)
     {
         isSelect = true;
+
+        ShowDrag();
 
         this.onEndSelect = onEndSelect;
     }
@@ -123,6 +129,13 @@ public class BattleTargetSelectHandler : MonoBehaviour
                 {
                     SetTarget(enemy);
                 }
+                else
+                {
+                    dragSeq.Kill();
+                    skipUI.SetPanel(false);
+
+                    ShowDrag();
+                }
 
                 lr.SetPosition(0, Vector3.zero);
                 lr.SetPosition(1, Vector3.zero);
@@ -133,6 +146,16 @@ public class BattleTargetSelectHandler : MonoBehaviour
                 break;
             }
         }
+    }
+
+    private void ShowDrag()
+    {
+        dragSeq = DOTween.Sequence()
+                        .AppendInterval(1.2f)
+                        .AppendCallback(() =>
+                        {
+                            skipUI.ShowDragUI();
+                        });
     }
 
     private void SetArrowPos()
