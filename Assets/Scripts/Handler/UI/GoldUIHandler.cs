@@ -42,12 +42,13 @@ public class GoldUIHandler : MonoBehaviour
         else
         {
             goldUISequence.Kill();
+
             goldUISequence = DOTween.Sequence()
-                .Append(thisRectTrm.DOAnchorPosX(open ? 0f : -230f, 0.5f))
-                .OnComplete(() =>
-                {
+            .Append(thisRectTrm.DOAnchorPosX(open ? 0f : -230f, 0.5f))
+            .OnComplete(() =>
+            {
                     ShowGoldText(open);
-                });
+            });
         }
     }
 
@@ -71,15 +72,21 @@ public class GoldUIHandler : MonoBehaviour
         }
         else
         {
-            ShowGoldUI();
 
+            if (GameManager.Instance.curEncounter != mapNode.SHOP)
+            {
+                ShowGoldUI();
+            }
             yield return new WaitForSeconds(0.5f);
 
             GetMoneyAnim();
 
             yield return new WaitForSeconds(0.5f);
 
-            ShowGoldUI(false);
+            if (GameManager.Instance.curEncounter != mapNode.SHOP)
+            {
+                ShowGoldUI(false);
+            }
         }
     }
 
