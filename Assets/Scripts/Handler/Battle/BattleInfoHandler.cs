@@ -30,8 +30,6 @@ public class BattleInfoHandler : MonoBehaviour
 {
     [Header("스테이지 정보들")]
     public List<StageInfo> stages = new List<StageInfo>();
-
-    private int currentStage = 0;
     private int counter = 0;
 
     public BattleInfo GetRandomBattleInfo()
@@ -40,13 +38,13 @@ public class BattleInfoHandler : MonoBehaviour
 
         if (counter > 2)
         {
-            int randIdx = Random.Range(0, stages[currentStage].normalInfos.Count);
+            int randIdx = Random.Range(0, stages[GameManager.Instance.StageIdx].normalInfos.Count);
 
-            return stages[currentStage].normalInfos[randIdx];
+            return stages[GameManager.Instance.StageIdx].normalInfos[randIdx];
         }
         else
         {
-            List<BattleInfo> weakInfos = stages[currentStage].normalInfos.Where(x => x.isWeakEnemy).ToList();
+            List<BattleInfo> weakInfos = stages[GameManager.Instance.StageIdx].normalInfos.Where(x => x.isWeakEnemy).ToList();
 
             int randIdx = Random.Range(0, weakInfos.Count);
 
@@ -58,20 +56,20 @@ public class BattleInfoHandler : MonoBehaviour
 
     public BattleInfo GetRandomBossInfo()
     {
-        int randIdx = Random.Range(0, stages[currentStage].bossInfos.Count);
+        int randIdx = Random.Range(0, stages[GameManager.Instance.StageIdx].bossInfos.Count);
 
-        return stages[currentStage].bossInfos[randIdx];
+        return stages[GameManager.Instance.StageIdx].bossInfos[randIdx];
     }
 
     public BattleInfo GetRandomEliteInfo()
     {
-        int randIdx = Random.Range(0, stages[currentStage].eliteInfos.Count);
+        int randIdx = Random.Range(0, stages[GameManager.Instance.StageIdx].eliteInfos.Count);
 
-        return stages[currentStage].eliteInfos[randIdx];
+        return stages[GameManager.Instance.StageIdx].eliteInfos[randIdx];
     }
 
     public void SetStage(int stage)
     {
-        currentStage = stage - 1;
+        GameManager.Instance.StageIdx = stage - 1;
     }
 }

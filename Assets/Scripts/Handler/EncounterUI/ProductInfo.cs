@@ -30,7 +30,7 @@ public class ProductInfo : MonoBehaviour
         {
             case ProductType.Scroll:
                 this.scroll = scroll;
-                productImg.GetComponent<RectTransform>().sizeDelta = Vector2.one*250;
+                productImg.GetComponent<RectTransform>().sizeDelta = Vector2.one*200;
                 productImg.sprite = scroll.GetComponent<Image>().sprite;
                 productName = scroll.ScrollName;
                 productDes = scroll.ScrollDes;
@@ -39,7 +39,7 @@ public class ProductInfo : MonoBehaviour
                 break;
             case ProductType.RulletPiece:
                 this.rulletPiece = rulletPiece;
-                productImg.GetComponent<RectTransform>().sizeDelta = Vector2.one * 320;
+                productImg.GetComponent<RectTransform>().sizeDelta = Vector2.one * 250;
                 productImg.sprite = rulletPiece.transform.Find("SkillIcon").GetComponent<Image>().sprite;
                 productName = rulletPiece.PieceName;
                 productDes = rulletPiece.PieceDes;

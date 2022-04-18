@@ -34,6 +34,7 @@ public class EncounterHandler : MonoBehaviour
     {
         if (isEncounterPlaying) return;
         isEncounterPlaying = true;
+        GameManager.Instance.curEncounter = type;
         GameManager.Instance.mapHandler.OpenMapPanel(false);
         CheckEncounter(type);
     }

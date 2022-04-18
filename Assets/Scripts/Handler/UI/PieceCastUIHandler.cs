@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,6 +22,12 @@ public class PieceCastUIHandler : MonoBehaviour
     [Header("»ö±òµé")]
     public List<Color> colors = new List<Color>();
     public Dictionary<PatternType, Color> colorDic;
+
+    private Coroutine timeCor;
+    private readonly WaitForSeconds fiveSecWait = new WaitForSeconds(5f);
+
+    private Sequence skipSeq;
+    public SkipUIPanelHandler skipUI;
 
     void Awake()
     {
@@ -83,8 +90,20 @@ public class PieceCastUIHandler : MonoBehaviour
             { //print("ÀÌÆåÆ®³¡³²");
                 skillPiece.gameObject.SetActive(false);
 
+                timeCor = StartCoroutine(CastWait(onEndEffect));
+
+                skipSeq = DOTween.Sequence()
+                    .AppendInterval(1f)
+                    .AppendCallback(() =>
+                    {
+                        skipUI.ShowSkipUI();
+                    });
+
                 SetCloseBtn(() => 
                 {
+                    if (timeCor != null)
+                        StopCoroutine(timeCor);
+
                     onEndEffect();
                 });
             });
@@ -100,8 +119,20 @@ public class PieceCastUIHandler : MonoBehaviour
 
         pieceMoveSequence.Kill();
 
+        timeCor = StartCoroutine(CastWait(onEndEffect));
+
+        skipSeq = DOTween.Sequence()
+                    .AppendInterval(1f)
+                    .AppendCallback(() =>
+                    {
+                        skipUI.ShowSkipUI();
+                    });
+
         SetCloseBtn(() =>
         {
+            if (timeCor != null)
+                StopCoroutine(timeCor);
+
             onEndEffect();
         });
 
@@ -123,6 +154,14 @@ public class PieceCastUIHandler : MonoBehaviour
         });
     }
 
+    private IEnumerator CastWait(Action onEndEffect)
+    {
+        yield return fiveSecWait;
+
+        closeBtn.onClick.RemoveAllListeners();
+        onEndEffect?.Invoke();
+    }
+
     public void SetCloseBtn(Action action)
     {
         closeBtn.onClick.AddListener(() =>
@@ -137,6 +176,9 @@ public class PieceCastUIHandler : MonoBehaviour
         showSequence.Kill();
         if (!skip)
         {
+            skipSeq.Kill();
+            skipUI.SetPanel(false);
+
             showSequence = DOTween.Sequence().Append(cvsGroup.DOFade(enable ? 1 : 0, enable ? 0.2f : 0.3f).OnComplete(() =>
             {
                 cvsGroup.interactable = enable;
@@ -149,6 +191,10 @@ public class PieceCastUIHandler : MonoBehaviour
             cvsGroup.alpha = enable ? 1 : 0;
             cvsGroup.interactable = enable;
             cvsGroup.blocksRaycasts = enable;
+
+            skipSeq.Kill();
+            skipUI.SetPanel(false);
+
             endEvent?.Invoke();
         }
     }

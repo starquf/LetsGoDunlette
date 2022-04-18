@@ -108,6 +108,21 @@ public class GameManager : MonoBehaviour
     public List<Sprite> ccIcons = new List<Sprite>();
     public List<Sprite> buffIcons = new List<Sprite>();
 
+    public mapNode curEncounter = mapNode.NONE;
+
+    private int stageIdx = 0;
+    public int StageIdx
+    {
+        get
+        {
+            return stageIdx;
+        }
+        set
+        {
+            stageIdx = value;
+        }
+    }
+
     private int gold = 100;
     public int Gold 
     {

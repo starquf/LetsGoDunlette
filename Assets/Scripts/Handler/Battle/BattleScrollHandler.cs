@@ -9,7 +9,8 @@ using Random = UnityEngine.Random;
 public class BattleScrollHandler : MonoBehaviour
 {
     public RectTransform scrollUI;
-    //public CanvasGroup chagneScrollPopUp;
+    public CanvasGroup blackPanel;
+    public CanvasGroup chagneScrollPopUp;
     public ScrollDesUIHandler scrollDesHandler;
 
     public List<ScrollSlot> slots = new List<ScrollSlot>();
@@ -71,6 +72,12 @@ public class BattleScrollHandler : MonoBehaviour
         }
     }
 
+    public void ShowChangeScrollPopUp(bool open = true, Action onComplete = null)
+    {
+        blackPanel.DOFade(open ? 1f : 0f, 0.5f);
+        chagneScrollPopUp.DOFade(open?1f:0f, 0.5f).OnComplete(()=>onComplete?.Invoke());
+    }
+
     public void ShowScrollUI(bool isChangeScroll = false, bool open = true, bool skip = false)
     {
         scrollUISequence.Kill();
@@ -88,7 +95,7 @@ public class BattleScrollHandler : MonoBehaviour
             }
             if(isChangeScroll)
             {
-                //chagneScrollPopUp.DOFade(open?1f:0f, 0.5f);
+                ShowChangeScrollPopUp(open);
             }
             scrollUISequence = DOTween.Sequence()
                 .Append(scrollUI.DOAnchorPosX(open ? 0f : -150f, 0.5f))
@@ -157,7 +164,10 @@ public class BattleScrollHandler : MonoBehaviour
                 }
                 else
                 {
-                    ShowScrollUI();
+                    if (GameManager.Instance.curEncounter != mapNode.SHOP)
+                    {
+                        ShowScrollUI();
+                    }
                     SetInteract(false);
                     GetAnim(a, scroll, () => {
                         SetScroll(scrollSlot, scroll);
@@ -193,7 +203,15 @@ public class BattleScrollHandler : MonoBehaviour
 
     private void ChangeScroll(Scroll scroll, Action OnChanged = null)
     {
-        ShowScrollUI(isChangeScroll: true);
+        if (GameManager.Instance.curEncounter != mapNode.SHOP)
+        {
+            ShowScrollUI(isChangeScroll: true);
+        }
+        else
+        {
+            ShowChangeScrollPopUp(true,()=> SetInteract(true));
+            //SetInteract(true);
+        }
         for (int i = 0; i < slots.Count; i++)
         {
             int a = i;
@@ -207,7 +225,11 @@ public class BattleScrollHandler : MonoBehaviour
                     SetInteract(false);
                     GetAnim(a, scroll, () => {
                         ChangeScrollData(a, scroll);
-                        ShowScrollUI(true, open: false);
+                        if (GameManager.Instance.curEncounter != mapNode.SHOP)
+                        {
+                            ShowScrollUI(true, open: false);
+                        }
+                        ShowChangeScrollPopUp(false);
 
                         InitSlot();
                         OnChanged?.Invoke();
