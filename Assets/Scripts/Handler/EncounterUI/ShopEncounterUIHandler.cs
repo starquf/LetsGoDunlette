@@ -36,6 +36,9 @@ public class ShopEncounterUIHandler : MonoBehaviour
 
     private List<int> soldIdxList = new List<int>();
 
+    private GoldUIHandler goldUIHandler;
+    private BattleScrollHandler battleScrollHandler;
+
     private void Awake()
     {
         mainPanel = GetComponent<CanvasGroup>();
@@ -43,6 +46,9 @@ public class ShopEncounterUIHandler : MonoBehaviour
 
     public void Start()
     {
+        goldUIHandler = GameManager.Instance.goldUIHandler;
+        battleScrollHandler = GameManager.Instance.battleHandler.battleScroll;
+
         exitBtn.onClick.AddListener(OnExitBtnClick);
         purchaseBtn.onClick.AddListener(OnPurchaseBtnClick);
 
@@ -52,6 +58,8 @@ public class ShopEncounterUIHandler : MonoBehaviour
     //상점 열렸을때 호출
     public void StartEvent()
     {
+        goldUIHandler.ShowGoldUI(true);
+        battleScrollHandler.ShowScrollUI(open: true);
         isSelectPanelEnable = false;
         selectIdx = -1;
 
@@ -142,8 +150,8 @@ public class ShopEncounterUIHandler : MonoBehaviour
                     Image scrollImg = scroll.GetComponent<Image>();
                     scrollImg.color = new Color(1, 1, 1, 0);
                     scroll.transform.SetParent(this.transform);
-                    scroll.GetComponent<RectTransform>().sizeDelta = Vector2.one * 400f;
-                    scroll.transform.position = selectProductImg.transform.position;
+                    scroll.GetComponent<RectTransform>().sizeDelta = Vector2.one * 300f;
+                    scroll.transform.position = selectProductImg.transform.position+Vector3.down;
                     scroll.transform.localScale = Vector3.one;
 
                     GameManager.Instance.battleHandler.GetComponent<BattleScrollHandler>()
@@ -274,6 +282,8 @@ public class ShopEncounterUIHandler : MonoBehaviour
             selectPanel.alpha = 0;
         });
 
+        goldUIHandler.ShowGoldUI(false);
+        battleScrollHandler.ShowScrollUI(open: false);
         GameManager.Instance.EndEncounter();
     }
 

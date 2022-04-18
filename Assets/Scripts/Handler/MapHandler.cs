@@ -118,11 +118,13 @@ public class MapHandler : MonoBehaviour
     
     public void GameOverProto()
     {
+        GameManager.Instance.StageIdx = 0;
         gameOverPanelHandler.GameOverEffect();
     }
 
     public IEnumerator ResetMap()
     {
+        GameManager.Instance.StageIdx++;
         yield return new WaitForSeconds(1f);
         curPlayerPosIcon.SetParent(Content.transform.parent);
         ResetNodeLine();
@@ -161,8 +163,8 @@ public class MapHandler : MonoBehaviour
         {
             // 라인랜더러 투명화
             LineRenderer lr = GetCurNodeTrm(node.idx, node.depth).GetChild(i).GetComponent<LineRenderer>();
-            lr.startColor = new Color(1, 1, 1, 1f);
-            lr.endColor = new Color(1, 1, 1, 1f);
+            lr.startColor = new Color(lr.startColor.r, lr.startColor.g, lr.startColor.b, 1f);
+            lr.endColor = new Color(lr.endColor.r, lr.endColor.g, lr.endColor.b, 1f);
             //lr.material.SetColor("_Color", Color.white);
 
             OnAbleMapNode(node.pointNodeList[i]);
@@ -180,8 +182,8 @@ public class MapHandler : MonoBehaviour
         {
             // 라인랜더러 투명화
             LineRenderer lr = GetCurNodeTrm(node.idx, node.depth).GetChild(i).GetComponent<LineRenderer>();
-            lr.startColor = new Color(1, 1, 1, 0.3f);
-            lr.endColor = new Color(1, 1, 1, 0.3f);
+            lr.startColor = new Color(lr.startColor.r, lr.startColor.g, lr.startColor.b, 0.3f);
+            lr.endColor = new Color(lr.endColor.r, lr.endColor.g, lr.endColor.b, 0.3f);
             //lr.material.SetColor("_Color", new Color(1, 1, 1, 0.3f));
 
             OnDisableMapNode(node.pointNodeList[i]);
