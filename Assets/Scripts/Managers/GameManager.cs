@@ -102,6 +102,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public event Action OnResetGame;
 
+    [HideInInspector]
     public Transform enemyEffectTrm;
 
     [Header("아이콘들")]
