@@ -46,7 +46,7 @@ public class MapHandler : MonoBehaviour
     {
         GameManager.Instance.OnResetGame += ()=> {
             GameOverProto();
-            StartCoroutine(ResetMap());
+            //StartCoroutine(ResetMap());
         };
         ShowMap();
         OnSelectNode(map[0][3]);

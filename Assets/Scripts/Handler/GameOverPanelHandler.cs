@@ -25,9 +25,14 @@ public class GameOverPanelHandler : MonoBehaviour
             .OnComplete(() =>
             {
                 //print("¿Ã∞≈ø÷ æ»µ ");
+                /*
                 GameManager.Instance.mapHandler.OpenMapPanel(true);
                 ShowPanel(false, null, true);
-                gameOverImg.color = new Color(1f, 1f, 1f, 0f);
+                gameOverImg.color = new Color(1f, 1f, 1f, 0f);*/
+
+                GameManager.Instance.StageIdx = 0;
+                GameManager.Instance.isLastBattle = false;
+                GameManager.Instance.LoadScene(0);
             });
         });
     }
