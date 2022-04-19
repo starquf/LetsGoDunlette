@@ -87,7 +87,7 @@ public class BattleRewardHandler : MonoBehaviour
 
     private void RewardRoutine()
     {
-        List<SkillPiece> rewards = SetReward(rewardObjs, 6);
+        List<SkillPiece> rewards = SetReward(rewardObjs, 3);
 
         battleRewardUI.ShowWinEffect(() =>
         {
