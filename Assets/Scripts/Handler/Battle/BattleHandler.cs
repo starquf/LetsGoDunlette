@@ -605,9 +605,9 @@ public class BattleHandler : MonoBehaviour
             enemys.Clear();
             if(GameManager.Instance.isLastBattle)
             {
-                if (Time.timeScale == 0) Time.timeScale = 1;
+                //if (Time.timeScale == 0) Time.timeScale = 1;
                 GameManager.Instance.isLastBattle = false;
-                GameManager.Instance.LoadScene(0);
+                GameManager.Instance.tbcHandler.StartEvent(()=>GameManager.Instance.LoadScene(0), "메인화면으로 돌아갑니다");
             }
             else
             {
