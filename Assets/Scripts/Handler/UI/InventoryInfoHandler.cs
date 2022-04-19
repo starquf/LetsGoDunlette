@@ -94,12 +94,14 @@ public class InventoryInfoHandler : MonoBehaviour
 
         closeBtn.onClick.AddListener(() =>
         {
-            CloseInventoryInfo();
+            if(GameManager.Instance.curEncounter != mapNode.RandomEncounter)
+                CloseInventoryInfo();
         });
 
         closeImgBtn.onClick.AddListener(() =>
         {
-            CloseInventoryInfo();
+            if (GameManager.Instance.curEncounter != mapNode.RandomEncounter)
+                CloseInventoryInfo();
         });
 
         invenHandler.onUpdateInfo += ResetInventoryInfo;
