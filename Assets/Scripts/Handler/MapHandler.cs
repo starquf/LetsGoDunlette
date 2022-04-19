@@ -46,7 +46,7 @@ public class MapHandler : MonoBehaviour
     {
         GameManager.Instance.OnResetGame += ()=> {
             GameOverProto();
-            StartCoroutine(ResetMap());
+            //StartCoroutine(ResetMap());
         };
         ShowMap();
         OnSelectNode(map[0][3]);
@@ -257,7 +257,7 @@ public class MapHandler : MonoBehaviour
 
     public void SetBossIcon(int bossIdx)
     {
-        map[map.Count-1][3].spriteIdx = 5 + bossIdx;
+        map[map.Count-1][3].spriteIdx = 6 + bossIdx;
         Sprite icon = mapIcons[map[map.Count - 1][3].spriteIdx];
         GetCurNodeTrm(3, map.Count - 1).GetComponent<Image>().sprite = icon;
     }
@@ -294,14 +294,14 @@ public class MapHandler : MonoBehaviour
                         map[c][r].spriteIdx = 0;
                         break;
                     case mapNode.BOSS:
-                        GetCurNodeTrm(r, c).localScale =  Vector2.one *2f;
+                        GetCurNodeTrm(r, c).localScale =  Vector2.one *1.5f;
                         int bossIdx = -1;
                         bossIdx = GameManager.Instance.battleHandler.SetRandomBoss();
                         if(bossIdx < 0)
                         {
                             Debug.LogError("이상한 보스가 설정됨2");
                         }
-                        map[c][r].spriteIdx = 5 + bossIdx;
+                        map[c][r].spriteIdx = 5;
                         break;
                     case mapNode.MONSTER:
                         map[c][r].spriteIdx = 0;
