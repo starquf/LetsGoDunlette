@@ -6,12 +6,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
+[Serializable]
+public class StageRandomEncounter
+{
+    public List<int> RandomEncounterIdx;
+}
+
 public class RandomEncounterUIHandler : MonoBehaviour
 {
     private EncounterInfoHandler encounterInfoHandler;
 
     [Header("인카운터 데이터들")]
     public List<RandomEncounter> randomEncounterList;
+    public List<StageRandomEncounter> stage;
 
     private CanvasGroup mainPanel;
     public CanvasGroup enStartPanel;
@@ -112,7 +119,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
             //randIdx = 16;
             while (!CanStartEncounter(randIdx))
             {
-                randIdx = Random.Range(0, randomEncounterList.Count);
+                randIdx = stage[GameManager.Instance.StageIdx].RandomEncounterIdx[Random.Range(0, stage[GameManager.Instance.StageIdx].RandomEncounterIdx.Count)];
             }
             randomEncounter = randomEncounterList[randIdx];
         }
