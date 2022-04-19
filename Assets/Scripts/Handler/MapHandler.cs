@@ -257,7 +257,7 @@ public class MapHandler : MonoBehaviour
 
     public void SetBossIcon(int bossIdx)
     {
-        map[map.Count-1][3].spriteIdx = 5 + bossIdx;
+        map[map.Count-1][3].spriteIdx = 6 + bossIdx;
         Sprite icon = mapIcons[map[map.Count - 1][3].spriteIdx];
         GetCurNodeTrm(3, map.Count - 1).GetComponent<Image>().sprite = icon;
     }
@@ -301,7 +301,7 @@ public class MapHandler : MonoBehaviour
                         {
                             Debug.LogError("이상한 보스가 설정됨2");
                         }
-                        map[c][r].spriteIdx = 5 + bossIdx;
+                        map[c][r].spriteIdx = 5;
                         break;
                     case mapNode.MONSTER:
                         map[c][r].spriteIdx = 0;
