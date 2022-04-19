@@ -182,13 +182,23 @@ public class GameManager : MonoBehaviour
 
     public void LoadScene(int sceneIdx)
     {
+        ResetScene();
+        SceneManager.LoadScene(sceneIdx);
+    }
+
+    public void LoadScene(string sceneName)
+    {
+        ResetScene();
+        SceneManager.LoadScene(sceneName);
+    }
+
+    public void ResetScene()
+    {
         DOTween.KillAll();
         PoolManager.ResetPool();
 
         OnUpdateUI = null;
         OnEndEncounter = null;
         OnResetGame = null;
-
-        SceneManager.LoadScene(sceneIdx);
     }
 }
