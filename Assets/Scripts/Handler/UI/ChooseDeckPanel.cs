@@ -24,6 +24,7 @@ public class ChooseDeckPanel : MonoBehaviour
 
         canClick = true;
 
+        confirmButton.gameObject.SetActive(false);
         confirmButton.onClick.AddListener(() => LoadingSceneHandler.LoadScene("SeungHwanScene"));
     }
 
@@ -32,6 +33,8 @@ public class ChooseDeckPanel : MonoBehaviour
         if(!canClick) return;
 
         canClick = false;
+
+        confirmButton.gameObject.SetActive(true);
 
         for (int i = 0; i < buttons.Count; i++)
         {
