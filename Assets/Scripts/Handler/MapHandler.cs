@@ -215,6 +215,7 @@ public class MapHandler : MonoBehaviour
 
     public void OnSelectNode(Node node)
     {
+        mapUIs.GetComponent<CanvasGroup>().interactable = false;
         if (node.depth>0)
         {
             int depth = node.depth;
