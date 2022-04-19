@@ -18,6 +18,8 @@ public class MainUIHandler : MonoBehaviour
 
     private void Start()
     {
+        GameManager.Instance.SetResolution();
+
         button = GetComponent<Button>();
         button.onClick.AddListener(OnClickButton);
 

@@ -17,6 +17,8 @@ public class LoadingSceneHandler : MonoBehaviour
 
     public void Start()
     {
+        GameManager.Instance.SetResolution();
+
         StartCoroutine(LoadScene());
     }
 
