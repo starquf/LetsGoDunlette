@@ -294,7 +294,7 @@ public class MapHandler : MonoBehaviour
                         map[c][r].spriteIdx = 0;
                         break;
                     case mapNode.BOSS:
-                        GetCurNodeTrm(r, c).localScale =  Vector2.one *2f;
+                        GetCurNodeTrm(r, c).localScale =  Vector2.one *1.5f;
                         int bossIdx = -1;
                         bossIdx = GameManager.Instance.battleHandler.SetRandomBoss();
                         if(bossIdx < 0)
