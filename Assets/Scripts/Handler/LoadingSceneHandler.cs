@@ -11,9 +11,8 @@ public class LoadingSceneHandler : MonoBehaviour
 
     public static void LoadScene(string sceneName)
     {
-        DG.Tweening.DOTween.CompleteAll();
         nextScene = sceneName;
-        SceneManager.LoadScene("LoadingScene");
+        GameManager.Instance.LoadScene("LoadingScene");
     }
 
     public void Start()
