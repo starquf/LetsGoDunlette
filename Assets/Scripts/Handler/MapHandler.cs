@@ -99,7 +99,6 @@ public class MapHandler : MonoBehaviour
             //아래 디버그용
             if (curNode.depth == mapCreater.mapCols - 1)
             {
-                print(GameManager.Instance.StageIdx + ", " + lastStageIdx);
                 if(GameManager.Instance.StageIdx == lastStageIdx)
                 {
                     GameManager.Instance.isLastBattle = true;
@@ -123,7 +122,6 @@ public class MapHandler : MonoBehaviour
                     //아래 디버그용
                     if (curNode.depth == mapCreater.mapCols - 1)
                     {
-                        print(GameManager.Instance.StageIdx + ", " + lastStageIdx);
                         if (GameManager.Instance.StageIdx == lastStageIdx)
                         {
                             GameManager.Instance.isLastBattle = true;
