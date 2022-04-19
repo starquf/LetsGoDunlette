@@ -603,7 +603,16 @@ public class BattleHandler : MonoBehaviour
         if (isWin)
         {
             enemys.Clear();
-            battleRewardHandler.GiveReward();
+            if(GameManager.Instance.isLastBattle)
+            {
+                if (Time.timeScale == 0) Time.timeScale = 1;
+                GameManager.Instance.isLastBattle = false;
+                GameManager.Instance.LoadScene(0);
+            }
+            else
+            {
+                battleRewardHandler.GiveReward();
+            }
         }
         else
         {
@@ -614,7 +623,6 @@ public class BattleHandler : MonoBehaviour
                     enemys[i].gameObject.SetActive(false);
                 }
                 enemys.Clear();
-                GameManager.Instance.mapHandler.GameOverProto();
                 GameManager.Instance.ResetGame();
                 player.Init();
             });

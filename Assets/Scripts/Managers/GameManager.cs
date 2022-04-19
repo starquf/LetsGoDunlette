@@ -114,6 +114,10 @@ public class GameManager : MonoBehaviour
     public mapNode curEncounter = mapNode.NONE;
 
     private int stageIdx = 0;
+
+    [HideInInspector]
+    public bool isLastBattle = false;
+
     public int StageIdx
     {
         get
