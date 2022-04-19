@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EncounterHandler : MonoBehaviour
 {
+    public Image swapBlackPanel;
     public ShopEncounterUIHandler shopEncounterUIHandler;
     public RandomEncounterUIHandler randomEncounterUIHandler;
     public RestEncounterUIHandler restEncounterUIHandler;
@@ -32,6 +34,7 @@ public class EncounterHandler : MonoBehaviour
     public void StartEncounter(mapNode type)
     {
         if (isEncounterPlaying) return;
+        swapBlackPanel.color = Color.black;
         isEncounterPlaying = true;
         GameManager.Instance.curEncounter = type;
         GameManager.Instance.mapHandler.OpenMapPanel(false);
@@ -53,14 +56,17 @@ public class EncounterHandler : MonoBehaviour
             case mapNode.BOSS:
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
                 bh.StartBattle(isBoss : true);
+                swapBlackPanel.color = Color.clear;
                 break;
             case mapNode.EMONSTER:
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
                 bh.StartBattle(isElite: true);
+                swapBlackPanel.color = Color.clear;
                 break;
             case mapNode.MONSTER:
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
                 bh.StartBattle();
+                swapBlackPanel.color = Color.clear;
                 //randomEncounterUIHandler.StartEvent();
                 break;
             case mapNode.SHOP:
