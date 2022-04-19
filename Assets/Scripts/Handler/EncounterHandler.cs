@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EncounterHandler : MonoBehaviour
 {
-    public ToBeContinueHandler tbHandler;
     public ShopEncounterUIHandler shopEncounterUIHandler;
     public RandomEncounterUIHandler randomEncounterUIHandler;
     public RestEncounterUIHandler restEncounterUIHandler;
@@ -46,7 +45,8 @@ public class EncounterHandler : MonoBehaviour
             case mapNode.NONE:
                 ///print("???");
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
-                tbHandler.StartEvent();
+                //tbHandler.StartEvent();
+                Debug.LogError("잘못된 인카운터가 실행됨");
                 break;
             case mapNode.START:
                 break;

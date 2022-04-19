@@ -603,7 +603,16 @@ public class BattleHandler : MonoBehaviour
         if (isWin)
         {
             enemys.Clear();
-            battleRewardHandler.GiveReward();
+            if(GameManager.Instance.isLastBattle)
+            {
+                GameManager.Instance.StageIdx = 0;
+                GameManager.Instance.isLastBattle = false;
+                GameManager.Instance.tbcHandler.StartEvent(()=>GameManager.Instance.LoadScene(0), "메인화면으로 돌아갑니다");
+            }
+            else
+            {
+                battleRewardHandler.GiveReward();
+            }
         }
         else
         {
@@ -614,7 +623,6 @@ public class BattleHandler : MonoBehaviour
                     enemys[i].gameObject.SetActive(false);
                 }
                 enemys.Clear();
-                GameManager.Instance.mapHandler.GameOverProto();
                 GameManager.Instance.ResetGame();
                 player.Init();
             });

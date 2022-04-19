@@ -7,16 +7,23 @@ using System;
 
 public class ToBeContinueHandler : MonoBehaviour
 {
-    public CanvasGroup panel;
+    private CanvasGroup panel;
     public Text timerText;
+
+    private Action onEndToBeContinue;
+    private string endActionString;
 
     private void Awake()
     {
-        ShowPanel(false);
+        GameManager.Instance.tbcHandler = this;
+        panel = GetComponent<CanvasGroup>();
+        ShowPanel(false, true);
     }
 
-    public void StartEvent()
+    public void StartEvent(Action onEndToBeContinue, string str)
     {
+        this.onEndToBeContinue = onEndToBeContinue;
+        this.endActionString = str;
         ShowPanel(true);
 
         StartCoroutine(Timer());
@@ -26,7 +33,7 @@ public class ToBeContinueHandler : MonoBehaviour
     {
         for (int i = 5; i > 0; i--)
         {
-            timerText.text = $"{i}초후에 맵으로 돌아갑니다...";
+            timerText.text = $"{i}초후에 {endActionString}...";
             yield return new WaitForSeconds(1f);
         }
 
@@ -35,20 +42,23 @@ public class ToBeContinueHandler : MonoBehaviour
 
     private void EndEvent()
     {
-        ShowPanel(false);
-
-        GameManager.Instance.EndEncounter();
+        ShowPanel(false, onComplete : ()=> {
+            onEndToBeContinue?.Invoke();
+            this.onEndToBeContinue = null;
+            this.endActionString = null;
+        });
     }
 
-    private void ShowPanel(bool enable)
+    private void ShowPanel(bool enable, bool skip = false, Action onComplete = null)
     {
-        if (enable)
+        if(skip)
         {
-            panel.DOFade(1f, 0.5f);
+            panel.alpha = enable ? 1f : 0f;
+            onComplete?.Invoke();
         }
         else
         {
-            panel.alpha = 0f;
+            panel.DOFade(enable?1f:0f, 0.5f).OnComplete(()=>onComplete?.Invoke());
         }
 
         panel.blocksRaycasts = enable;

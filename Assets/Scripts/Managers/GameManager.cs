@@ -96,6 +96,8 @@ public class GameManager : MonoBehaviour
     public BottomUIHandler bottomUIHandler;
     [HideInInspector]
     public GoldUIHandler goldUIHandler;
+    [HideInInspector]
+    public ToBeContinueHandler tbcHandler;
 
     [HideInInspector]
     public event Action OnUpdateUI;
@@ -114,6 +116,10 @@ public class GameManager : MonoBehaviour
     public mapNode curEncounter = mapNode.NONE;
 
     private int stageIdx = 0;
+
+    [HideInInspector]
+    public bool isLastBattle = false;
+
     public int StageIdx
     {
         get
@@ -177,6 +183,11 @@ public class GameManager : MonoBehaviour
     public void LoadScene(int sceneIdx)
     {
         DOTween.KillAll();
+        PoolManager.ResetPool();
+
+        OnUpdateUI = null;
+        OnEndEncounter = null;
+        OnResetGame = null;
 
         SceneManager.LoadScene(sceneIdx);
     }

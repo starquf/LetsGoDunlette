@@ -31,6 +31,8 @@ public class MapHandler : MonoBehaviour
     public Material LineMat;
     public Material SelectedLineMat;
 
+    public int lastStageIdx = 0;
+
     //--------게임오버 임시구현-----------
     public GameOverPanelHandler gameOverPanelHandler;
 
@@ -42,7 +44,10 @@ public class MapHandler : MonoBehaviour
 
     void Start()
     {
-        GameManager.Instance.OnResetGame += ()=> StartCoroutine(ResetMap());
+        GameManager.Instance.OnResetGame += ()=> {
+            GameOverProto();
+            StartCoroutine(ResetMap());
+        };
         ShowMap();
         OnSelectNode(map[0][3]);
     }
@@ -94,7 +99,14 @@ public class MapHandler : MonoBehaviour
             //아래 디버그용
             if (curNode.depth == mapCreater.mapCols - 1)
             {
-                StartCoroutine(ResetMap());
+                if(GameManager.Instance.StageIdx == lastStageIdx)
+                {
+                    GameManager.Instance.isLastBattle = true;
+                }
+                else
+                {
+                    StartCoroutine(ResetMap());
+                }
             }
         }
         else
@@ -110,7 +122,14 @@ public class MapHandler : MonoBehaviour
                     //아래 디버그용
                     if (curNode.depth == mapCreater.mapCols - 1)
                     {
-                        StartCoroutine(ResetMap());
+                        if (GameManager.Instance.StageIdx == lastStageIdx)
+                        {
+                            GameManager.Instance.isLastBattle = true;
+                        }
+                        else
+                        {
+                            StartCoroutine(ResetMap());
+                        }
                     }
                 });
         }
@@ -118,6 +137,10 @@ public class MapHandler : MonoBehaviour
     
     public void GameOverProto()
     {
+        if (GameManager.Instance.isLastBattle)
+        {
+            GameManager.Instance.isLastBattle = false;
+        }
         GameManager.Instance.StageIdx = 0;
         gameOverPanelHandler.GameOverEffect();
     }
