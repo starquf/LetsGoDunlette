@@ -34,6 +34,8 @@ public class MainUIHandler : MonoBehaviour
 
     private void OnClickButton()
     {
+        button.interactable = false;
+
         titleImage.DOAnchorPosY(1300, 0.5f)
             .SetEase(Ease.InBack);
 

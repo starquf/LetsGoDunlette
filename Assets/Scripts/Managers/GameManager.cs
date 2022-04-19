@@ -42,15 +42,15 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
 
         Application.targetFrameRate = 60;
-        Screen.SetResolution(1440, 2560, true);
+        Screen.SetResolution(1080, 1920, true);
 
         SetResolution();
     }
 
     public void SetResolution()
     {
-        int setWidth = 1440; // 사용자 설정 너비
-        int setHeight = 2560; // 사용자 설정 높이
+        int setWidth = 1080; // 사용자 설정 너비
+        int setHeight = 1920; // 사용자 설정 높이
 
         int deviceWidth = Screen.width; // 기기 너비 저장
         int deviceHeight = Screen.height; // 기기 높이 저장
