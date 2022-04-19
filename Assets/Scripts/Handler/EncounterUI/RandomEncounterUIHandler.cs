@@ -109,7 +109,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
         if(encounterIdx < 0)
         {
             int randIdx = -1;
-            //randIdx = 16;
+            randIdx = 16;
             while (!CanStartEncounter(randIdx))
             {
                 randIdx = Random.Range(0, randomEncounterList.Count);
@@ -148,10 +148,19 @@ public class RandomEncounterUIHandler : MonoBehaviour
         randomEncounter.Init();
     }
 
+    public void InteratableButton(bool enable)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            encounterChoiceTxtList[i].transform.parent.GetComponent<Button>().interactable = enable;
+        }
+    }
+
     public void StartEvent()
     {
         InitEncounter();
         ShowPanel(true);
+        InteratableButton(true);
     }
 
     #region OnButtonClick
@@ -159,8 +168,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
     private void OnChoiceBtnClick(int choiceIdx)
     {
         randomEncounter.ResultSet(choiceIdx);
-
-        
+        InteratableButton(false);
     }
 
 
