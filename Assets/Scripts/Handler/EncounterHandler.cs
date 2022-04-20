@@ -89,6 +89,7 @@ public class EncounterHandler : MonoBehaviour
     {
         if (!isEncounterPlaying) return;
         isEncounterPlaying = false;
+        GameManager.Instance.curEncounter = mapNode.NONE;
         bh.GetComponent<BattleScrollHandler>().ShowScrollUI(open:false);
         GameManager.Instance.goldUIHandler.ShowGoldUI(false);
         GameManager.Instance.mapHandler.OpenMapPanel(true);
