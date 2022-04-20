@@ -1,2 +1,2 @@
-# LetsGoBSS
-BSS 개발 프로젝트 가보자 BSS
+# 던렛 DUNLET
+룰렛을 이용한 로그라이크 덱 빌딩 게임
