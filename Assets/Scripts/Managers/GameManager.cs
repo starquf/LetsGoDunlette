@@ -98,6 +98,9 @@ public class GameManager : MonoBehaviour
     public GoldUIHandler goldUIHandler;
     [HideInInspector]
     public ToBeContinueHandler tbcHandler;
+    [HideInInspector]
+    public EncounterHandler encounterHandler;
+
 
     [HideInInspector]
     public event Action OnUpdateUI;

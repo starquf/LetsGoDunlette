@@ -16,6 +16,7 @@ public class EncounterHandler : MonoBehaviour
 
     private void Awake()
     {
+        GameManager.Instance.encounterHandler = this;
         isEncounterPlaying = false;
     }
 
@@ -34,11 +35,16 @@ public class EncounterHandler : MonoBehaviour
     public void StartEncounter(mapNode type)
     {
         if (isEncounterPlaying) return;
-        swapBlackPanel.color = Color.black;
+        ShowBlackPanel(true);
         isEncounterPlaying = true;
         GameManager.Instance.curEncounter = type;
         GameManager.Instance.mapHandler.OpenMapPanel(false);
         CheckEncounter(type);
+    }
+
+    public void ShowBlackPanel(bool enable)
+    {
+        swapBlackPanel.color = enable ? Color.black : Color.clear;
     }
 
     private void CheckEncounter(mapNode type)
@@ -56,17 +62,14 @@ public class EncounterHandler : MonoBehaviour
             case mapNode.BOSS:
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
                 bh.StartBattle(isBoss : true);
-                swapBlackPanel.color = Color.clear;
                 break;
             case mapNode.EMONSTER:
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
                 bh.StartBattle(isElite: true);
-                swapBlackPanel.color = Color.clear;
                 break;
             case mapNode.MONSTER:
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
                 bh.StartBattle();
-                swapBlackPanel.color = Color.clear;
                 //randomEncounterUIHandler.StartEvent();
                 break;
             case mapNode.SHOP:

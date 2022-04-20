@@ -134,6 +134,7 @@ public class BattleHandler : MonoBehaviour
             return;
         }
         isBattleStart = true;
+        GameManager.Instance.encounterHandler.ShowBlackPanel(false);
 
         bottomUI.ShowBottomPanel(true);
 

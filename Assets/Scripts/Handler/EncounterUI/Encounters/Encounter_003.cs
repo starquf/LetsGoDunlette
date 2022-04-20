@@ -5,6 +5,7 @@ using UnityEngine;
 public class Encounter_003 : RandomEncounter
 {
     public int getGoldValue = 10;
+    public Sprite ballteBg;
 
     public override void ResultSet(int resultIdx)
     {
@@ -47,7 +48,8 @@ public class Encounter_003 : RandomEncounter
                 BattleInfo bInfo = new BattleInfo();
                 bInfo.enemyInfos = new List<EnemyType>() { EnemyType.MIMIC };
                 bInfo.isWeakEnemy = false;
-                
+                bInfo.bg = ballteBg;
+
                 GameManager.Instance.battleHandler.StartBattle(bInfo : bInfo);
                 OnExitEncounter?.Invoke(false);
                 break;

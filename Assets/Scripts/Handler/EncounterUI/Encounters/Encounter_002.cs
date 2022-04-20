@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Encounter_002 : RandomEncounter
 {
-
+    public Sprite ballteBg;
     public int lostGoldValue = 10;
 
     public override void Init()
@@ -40,6 +40,7 @@ public class Encounter_002 : RandomEncounter
                 BattleInfo bInfo = new BattleInfo();
                 bInfo.enemyInfos = new List<EnemyType>() { EnemyType.KOBOLD };
                 bInfo.isWeakEnemy = false;
+                bInfo.bg = ballteBg;
 
                 GameManager.Instance.battleHandler.StartBattle(bInfo:bInfo);
                 OnExitEncounter?.Invoke(false);
