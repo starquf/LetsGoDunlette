@@ -142,7 +142,7 @@ public class MapTest : MonoBehaviour
                     MovePlayer(btn.transform, () =>
                     {
                         willMoveMap.StartMap();
-                willMoveMap.SetBtnInteractable(false);
+                        willMoveMap.SetBtnInteractable(false);
                         updateapList[0].SetBtnInteractable(true);
                     }, true);
                 });
