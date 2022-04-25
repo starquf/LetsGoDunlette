@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class EncounterHandler : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class EncounterHandler : MonoBehaviour
     public ShopEncounterUIHandler shopEncounterUIHandler;
     public RandomEncounterUIHandler randomEncounterUIHandler;
     public RestEncounterUIHandler restEncounterUIHandler;
+
+    public CanvasGroup fadeBGCvs;
 
     private BattleHandler bh = null;
 
@@ -38,8 +41,16 @@ public class EncounterHandler : MonoBehaviour
         ShowBlackPanel(true);
         isEncounterPlaying = true;
         GameManager.Instance.curEncounter = type;
-        GameManager.Instance.mapHandler.OpenMapPanel(false);
-        CheckEncounter(type);
+
+        Sequence mapChangeSeq = DOTween.Sequence()
+            .Append(fadeBGCvs.DOFade(1f, 0.7f).SetEase(Ease.Linear))
+            .AppendCallback(() =>
+            {
+                GameManager.Instance.mapHandler.OpenMapPanel(false);
+                CheckEncounter(type);
+            })
+            .Append(fadeBGCvs.DOFade(0f, 0.7f).SetEase(Ease.Linear))
+            .SetUpdate(true);
     }
 
     public void ShowBlackPanel(bool enable)
