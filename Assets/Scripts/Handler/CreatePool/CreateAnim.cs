@@ -81,6 +81,10 @@ public class CreateAnim : MonoBehaviour
     public GameObject elecEffect06;
     public GameObject elecEffect07;
 
+    [Header("CC Effects ")]
+    public GameObject stunEffect;
+    public GameObject slientEffect;
+
 
     private void Awake()
     {
@@ -165,5 +169,8 @@ public class CreateAnim : MonoBehaviour
         PoolManager.CreatePool<Anim_ElecEffect05>(elecEffect05, this.transform, 1);
         PoolManager.CreatePool<Anim_ElecEffect06>(elecEffect06, this.transform, 1);
         PoolManager.CreatePool<Anim_ElecEffect07>(elecEffect07, this.transform, 1);
+
+        PoolManager.CreatePool<Anim_StunEffect>(stunEffect, this.transform, 1);
+        PoolManager.CreatePool<Anim_SlientEffect>(slientEffect, this.transform, 1);
     }
 }
