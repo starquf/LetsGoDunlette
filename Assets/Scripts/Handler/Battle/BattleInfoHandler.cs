@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-
+using System.Text.RegularExpressions;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class BattleInfo
@@ -11,6 +12,13 @@ public class BattleInfo
 
     public bool isWeakEnemy;
     public Sprite bg;
+    public BattleInfo() { }
+    public BattleInfo(List<EnemyType> enemyInfos, bool isWeakEnemy, Sprite bg)
+    {
+        this.enemyInfos = enemyInfos;
+        this.isWeakEnemy = isWeakEnemy;
+        this.bg = bg;
+    }
 }
 
 [System.Serializable]
@@ -29,8 +37,100 @@ public class StageInfo
 public class BattleInfoHandler : MonoBehaviour
 {
     [Header("스테이지 정보들")]
-    public List<StageInfo> stages = new List<StageInfo>();
+    [SerializeField]
+    private List<StageInfo> stages = new List<StageInfo>();
     private int counter = 0;
+
+    void Awake()
+    {
+        LoadStageData();
+    }
+
+    private void LoadStageData()
+    {
+        List<Dictionary<string, object>> data = CSVReader.Read("StageCSV/Stage1");
+
+        StageInfo stage = new StageInfo();
+
+        for (var i = 0; i < data.Count; i++)
+        {
+            print("name " + data[i]["EnemyName"] + " " +
+                   "age " + data[i]["Type"] + " " +
+                   "speed " + data[i]["BG"]);
+
+            List<EnemyType> enemyInfos = new List<EnemyType>();
+            bool isWeek = false;
+
+            string name = (string)data[i]["EnemyName"];
+
+            if (name.Contains(','))
+            {
+                var enemys = Regex.Split(name, ",");
+
+                for (int j = 0; j < enemys.Length; j++)
+                {
+                    EnemyType type;
+                    bool check = System.Enum.TryParse(enemys[j], out type);
+                    if(check)
+                    {
+                        enemyInfos.Add(type);
+                    }
+                    else
+                    {
+                        print($"{enemys[j]} 찾을수 없습니다. 엑셀 시트를 확인해주세요. (보통은 기획자 문제입니다.) ");
+                    }
+                }
+            }
+            else
+            {
+                EnemyType type;
+                bool check = System.Enum.TryParse(name, out type);
+                if (check)
+                {
+                    enemyInfos.Add(type);
+                }
+                else
+                {
+                    print($"{name} 찾을수 없습니다. 엑셀 시트를 확인해주세요. (보통은 기획자 문제입니다.) ");
+                }
+            }
+
+            if ((string)data[i]["Type"] == "Week")
+            {
+                isWeek = true;
+            }
+
+            string path = "Sprite/stageBackground/" + (string)data[i]["BG"];
+            Sprite bg = Resources.Load<Sprite>(path);
+
+            if(bg.Equals(null))
+            {
+                print($"{path} 를 찾을수 없습니다. 엑셀 시트를 확인해주세요. (보통은 기획자 문제입니다.)");
+                return;
+            }
+
+            BattleInfo info = new BattleInfo(enemyInfos, isWeek, bg);
+
+            switch ((string)data[i]["Type"])
+            {
+                case "Week":
+                case "Normal":
+                    stage.normalInfos.Add(info);
+                    break;
+                case "Elite":
+                    stage.eliteInfos.Add(info);
+                    break;
+                case "Boss":
+                    stage.bossInfos.Add(info);
+                    break;
+                default:
+                    print($"{(string)data[i]["Type"]} 잘못된 타입을 입력하셨습니다. 엑셀 시트를 확인해주세요. (보통은 기획자 문제입니다.) ");
+                    return;
+            }
+        }
+
+        stages.Add(stage);
+    }
 
     public BattleInfo GetRandomBattleInfo()
     {
