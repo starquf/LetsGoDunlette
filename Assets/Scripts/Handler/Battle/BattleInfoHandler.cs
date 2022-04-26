@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System.Text.RegularExpressions;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class BattleInfo
@@ -42,7 +43,11 @@ public class BattleInfoHandler : MonoBehaviour
 
     void Awake()
     {
+        LoadStageData();
+    }
 
+    private void LoadStageData()
+    {
         List<Dictionary<string, object>> data = CSVReader.Read("StageCSV/Stage1");
 
         StageInfo stage = new StageInfo();
@@ -56,10 +61,9 @@ public class BattleInfoHandler : MonoBehaviour
             List<EnemyType> enemyInfos = new List<EnemyType>();
             bool isWeek = false;
 
-
             string name = (string)data[i]["EnemyName"];
 
-            if(name.Contains(','))
+            if (name.Contains(','))
             {
                 var enemys = Regex.Split(name, ",");
 
@@ -75,12 +79,18 @@ public class BattleInfoHandler : MonoBehaviour
                 enemyInfos.Add(type);
             }
 
-            if((string)data[i]["Type"] == "Week")
+            if ((string)data[i]["Type"] == "Week")
             {
                 isWeek = true;
             }
 
-            BattleInfo info = new BattleInfo(enemyInfos, isWeek, null);
+            string path = "Sprite/stageBackground/" + (string)data[i]["BG"];
+
+            Sprite bg = Resources.Load<Sprite>(path);
+
+            print(path);
+
+            BattleInfo info = new BattleInfo(enemyInfos, isWeek, bg);
 
             switch ((string)data[i]["Type"])
             {
@@ -100,7 +110,6 @@ public class BattleInfoHandler : MonoBehaviour
         }
 
         stages.Add(stage);
-
     }
 
     public BattleInfo GetRandomBattleInfo()
