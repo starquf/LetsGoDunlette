@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class BattleHandler : MonoBehaviour
 {
@@ -88,6 +89,8 @@ public class BattleHandler : MonoBehaviour
     [Header("UI들")]
     public BottomUIHandler bottomUI;
     public Image bg;
+
+    public BattleFadeUIHandler battleFade;
 
     #region WaitSeconds
     private readonly WaitForSeconds oneSecWait = new WaitForSeconds(1f);
@@ -174,9 +177,12 @@ public class BattleHandler : MonoBehaviour
         // 적 생성
         CreateEnemy(battleInfo.enemyInfos, () =>
         {
-            // 전투가 시작하기 전 인벤토리와 룰렛 정리
-            StartCoroutine(InitRullet());
-            StartCoroutine(battleEvent.ActionEvent(EventTime.BeginBattle));
+            battleFade.ShowEffect(() =>
+            {
+                // 전투가 시작하기 전 인벤토리와 룰렛 정리
+                StartCoroutine(InitRullet());
+                StartCoroutine(battleEvent.ActionEvent(EventTime.BeginBattle));
+            });
         });
 
         // 핸들러들 초기화
