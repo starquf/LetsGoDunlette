@@ -19,7 +19,7 @@ public class Skill_E_AdjustableCurrent : SkillPiece
     protected override void Start()
     {
         base.Start();
-        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[PatternType.Diamonds];
+        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[ElementalType.Electric];
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)

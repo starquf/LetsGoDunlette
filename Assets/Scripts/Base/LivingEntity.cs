@@ -28,12 +28,21 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     [SerializeField] protected int hp;
     [SerializeField] protected int shieldHp = 0;
 
+    [SerializeField] protected int attackPower;
+    public int AttackPower 
+    {
+        get 
+        {
+            return attackPower;
+        } 
+    }
+
     protected bool isDie = false;
     public bool IsDie => isDie;
 
     protected BattleHandler bh;
 
-    public PatternType weaknessType;
+    public ElementalType weaknessType;
 
     [HideInInspector]
     public CrowdControl cc;
@@ -170,18 +179,18 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         SetHPBar();
     }
 
-    public virtual void GetDamage(int damage, PatternType damageType)
+    public virtual void GetDamage(int damage, ElementalType damageType)
     {
         BattleFieldHandler fh = GameManager.Instance.battleHandler.fieldHandler;
 
         float damageBuff = 1f;
 
-        if (fh.FieldType != PatternType.None && damageType.Equals(fh.FieldType))
+        if (fh.FieldType != ElementalType.None && damageType.Equals(fh.FieldType))
         {
             damageBuff += 0.5f;
         }
 
-        if (weaknessType.Equals(damageType) && !weaknessType.Equals(PatternType.None))
+        if (weaknessType.Equals(damageType) && !weaknessType.Equals(ElementalType.None))
         {
             damageBuff += 0.5f;
             GetDamage((int)(damage * damageBuff), true);

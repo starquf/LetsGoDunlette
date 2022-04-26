@@ -26,7 +26,7 @@ public class Skill_F_Stigmatized : SkillPiece
     {
         target.GetDamage(Value, currentType);
 
-        GameManager.Instance.battleHandler.fieldHandler.SetFieldType(PatternType.Heart);
+        GameManager.Instance.battleHandler.fieldHandler.SetFieldType(ElementalType.Fire);
 
         Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
         textEffect.SetType(TextUpAnimType.Up);

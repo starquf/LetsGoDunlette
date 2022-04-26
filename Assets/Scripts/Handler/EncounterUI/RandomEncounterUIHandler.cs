@@ -101,7 +101,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
         {
             for (int i = 0; i < GameManager.Instance.inventoryHandler.unusedSkills.Count; i++)
             {
-                if(GameManager.Instance.inventoryHandler.unusedSkills[i].currentType == PatternType.Diamonds)
+                if(GameManager.Instance.inventoryHandler.unusedSkills[i].currentType == ElementalType.Electric)
                 {
                     return true;
                 }

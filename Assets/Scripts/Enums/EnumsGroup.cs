@@ -1,10 +1,10 @@
-public enum PatternType
+public enum ElementalType
 {
     None = 0,     // 무속성
-    Clover = 1,   // 자연
-    Diamonds = 2, // 번개
-    Heart = 3,    // 불
-    Spade = 4,    // 물
+    Nature = 1,   // 자연
+    Electric = 2, // 번개
+    Fire = 3,    // 불
+    Water = 4,    // 물
     Monster = 5   // 몬스타
 }
 
@@ -93,4 +93,17 @@ public enum EnemyType
     SARO,
     GAR,
     DNAM
+}
+
+public enum DesIconType
+{
+    None = 0,
+    Attack = 1,
+    Stun = 2,          // 기절
+    Silence = 3,       // 침묵
+    Exhausted = 4,     // 피곤함
+    Wound = 5,         // 상처
+    Invincibility = 6, // 무적
+    Fascinate,         // 매혹 (세이렌 전용)
+    Heating            // 신체 가열 (타로스 전용)
 }

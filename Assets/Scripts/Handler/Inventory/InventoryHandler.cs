@@ -23,10 +23,10 @@ public class InventoryHandler : MonoBehaviour
     [SerializeField] private List<Sprite> bookmarkSprites = new List<Sprite>();
     [SerializeField] private List<Sprite> pieceBGSprites = new List<Sprite>();
 
-    public Dictionary<PatternType, Sprite> effectSprDic;
-    public Dictionary<PatternType, Gradient> effectGradDic;
-    public Dictionary<PatternType, Sprite> bookmarkSprDic;
-    public Dictionary<PatternType, Sprite> pieceBGSprDic;
+    public Dictionary<ElementalType, Sprite> effectSprDic;
+    public Dictionary<ElementalType, Gradient> effectGradDic;
+    public Dictionary<ElementalType, Sprite> bookmarkSprDic;
+    public Dictionary<ElementalType, Sprite> pieceBGSprDic;
 
     private Tween unusedOpenTween;
     private Tween usedOpenTween;
@@ -39,17 +39,17 @@ public class InventoryHandler : MonoBehaviour
 
         //AddDefaultSkill();
 
-        effectSprDic = new Dictionary<PatternType, Sprite>();
-        effectGradDic = new Dictionary<PatternType, Gradient>();
-        bookmarkSprDic = new Dictionary<PatternType, Sprite>();
-        pieceBGSprDic = new Dictionary<PatternType, Sprite>();
+        effectSprDic = new Dictionary<ElementalType, Sprite>();
+        effectGradDic = new Dictionary<ElementalType, Gradient>();
+        bookmarkSprDic = new Dictionary<ElementalType, Sprite>();
+        pieceBGSprDic = new Dictionary<ElementalType, Sprite>();
 
         for (int i = 0; i < 6; i++)
         {
-            effectSprDic.Add((PatternType)i, effectSprites[i]);
-            effectGradDic.Add((PatternType)i, effectGradients[i]);
-            bookmarkSprDic.Add((PatternType)i, bookmarkSprites[i]);
-            pieceBGSprDic.Add((PatternType)i, pieceBGSprites[i]);
+            effectSprDic.Add((ElementalType)i, effectSprites[i]);
+            effectGradDic.Add((ElementalType)i, effectGradients[i]);
+            bookmarkSprDic.Add((ElementalType)i, bookmarkSprites[i]);
+            pieceBGSprDic.Add((ElementalType)i, pieceBGSprites[i]);
         }
     }
 

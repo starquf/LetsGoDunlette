@@ -11,7 +11,23 @@ public class Skill_E_ManaSphere : SkillPiece
     protected override void Start()
     {
         base.Start();
-        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[PatternType.Diamonds];
+        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[ElementalType.Electric];
+    }
+
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        base.GetDesIconInfo();
+
+        desInfos[0].SetInfo(DesIconType.Attack, GetDamageCalc().ToString());
+
+        return desInfos;
+    }
+
+    private int GetDamageCalc()
+    {
+        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.4f);
+
+        return attack;
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
@@ -32,10 +48,10 @@ public class Skill_E_ManaSphere : SkillPiece
             hitEffect.transform.position = targetPos;
 
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-            target.GetDamage(Value, currentType);
+            target.GetDamage(GetDamageCalc(), currentType);
 
             LogCon log = new LogCon();
-            log.text = $"{Value} 데미지 부여";
+            log.text = $"{GetDamageCalc()} 데미지 부여";
             log.selfSpr = skillImg.sprite;
             log.targetSpr = target.GetComponent<SpriteRenderer>().sprite;
 

@@ -25,7 +25,7 @@ public class Skill_F_DrawingWires : SkillPiece
         int nextIdx = GetNearbyIdx(pieces.Count);
         RulletPiece nextPiece = pieces[nextIdx];
 
-        if (nextPiece != null && nextPiece.currentType.Equals(PatternType.Heart))
+        if (nextPiece != null && nextPiece.currentType.Equals(ElementalType.Fire))
         {
             Anim_F_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_F_ManaSphereHit>();
             hitEffect.transform.position = nextPiece.skillImg.transform.position;
@@ -69,7 +69,7 @@ public class Skill_F_DrawingWires : SkillPiece
         int prevIdx = GetNearbyIdx(pieces.Count, false);
         RulletPiece prevPiece = pieces[prevIdx];
 
-        if (prevPiece != null && prevPiece.currentType.Equals(PatternType.Heart))
+        if (prevPiece != null && prevPiece.currentType.Equals(ElementalType.Fire))
         {
             Anim_F_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_F_ManaSphereHit>();
             hitEffect.transform.position = prevPiece.skillImg.transform.position;

@@ -13,7 +13,7 @@ public class W_FieldHandler : FieldHandler
     {
         redTransColor = redTransSpr.color;
 
-        fieldType = PatternType.Spade;
+        fieldType = ElementalType.Water;
     }
     public override void DisableField(bool skip = false)
     {

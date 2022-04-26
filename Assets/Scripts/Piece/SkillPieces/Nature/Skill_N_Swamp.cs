@@ -14,7 +14,7 @@ public class Skill_N_Swamp : SkillPiece
     {
         base.Start();
 
-        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[PatternType.Clover];
+        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[ElementalType.Nature];
 
         hasTarget = true;
     }

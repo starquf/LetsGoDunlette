@@ -17,7 +17,7 @@ public class Skill_N_Drain : SkillPiece
     {
         base.Start();
 
-        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[PatternType.Clover];
+        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[ElementalType.Nature];
 
         hasTarget = true;
     }

@@ -25,9 +25,9 @@ public class BattleFadeUIHandler : MonoBehaviour
 
         Sequence startSeq = DOTween.Sequence()
                 .Append(cvs.DOFade(1f, 0.39f).SetEase(Ease.Linear))
-                .Append(startText.DOLocalMoveX(0f, 0.7f).SetEase(Ease.OutSine))
+                .Append(startText.DOLocalMoveX(0f, 0.45f).SetEase(Ease.OutSine))
                 //.AppendInterval(0.1f)
-                .Append(startText.DOLocalMoveX(-900f, 0.5f).SetEase(Ease.InQuad))
+                .Append(startText.DOLocalMoveX(-900f, 0.3f).SetEase(Ease.InQuad))
                 .AppendCallback(() =>
                 {
                     onEndShow?.Invoke();

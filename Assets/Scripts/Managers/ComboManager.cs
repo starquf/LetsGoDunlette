@@ -54,7 +54,7 @@ public class ComboManager : MonoBehaviour
         int combo = 0;
 
         // 이전 거의 타입
-        PatternType previousType = PatternType.None;
+        ElementalType previousType = ElementalType.None;
         
         // 큐를 리스트로 변환하는 거
         List<ComboSlot> comboTempList = new List<ComboSlot>();

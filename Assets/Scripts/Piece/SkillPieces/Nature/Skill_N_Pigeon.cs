@@ -15,7 +15,7 @@ public class Skill_N_Pigeon : SkillPiece
     protected override void Start()
     {
         base.Start();
-        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[PatternType.Clover];
+        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[ElementalType.Nature];
 
         bh = GameManager.Instance.battleHandler;
     }

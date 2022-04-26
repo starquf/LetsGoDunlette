@@ -17,10 +17,26 @@ public class Skill_W_Tsunami : SkillPiece
     {
         base.Start();
 
-        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[PatternType.Spade];
+        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[ElementalType.Water];
         bh = GameManager.Instance.battleHandler;
 
         hasTarget = false;
+    }
+
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        base.GetDesIconInfo();
+
+        desInfos[0].SetInfo(DesIconType.Attack, GetDamageCalc().ToString());
+
+        return desInfos;
+    }
+
+    private int GetDamageCalc()
+    {
+        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.4f);
+
+        return attack;
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
@@ -43,7 +59,7 @@ public class Skill_W_Tsunami : SkillPiece
 
             if (skillPieces[i].PieceType.Equals(PieceType.SKILL))
             {
-                if (skillPieces[i].currentType.Equals(PatternType.Spade) && skillPieces[i] != this)
+                if (skillPieces[i].currentType.Equals(ElementalType.Water) && skillPieces[i] != this)
                 {
                     Vector3 skillPos = skillPieces[i].skillImg.transform.position;
                     int a = i;
@@ -102,7 +118,7 @@ public class Skill_W_Tsunami : SkillPiece
 
             for (int i = 0; i < targets.Count; i++)
             {
-                targets[i].GetDamage(Value + 10 * waterCnt, currentType);
+                targets[i].GetDamage(GetDamageCalc() + (2 * waterCnt), currentType);
 
                 Anim_W_Splash splashEffect = PoolManager.GetItem<Anim_W_Splash>();
                 splashEffect.transform.position = targets[i].transform.position;

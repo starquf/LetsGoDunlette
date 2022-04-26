@@ -13,6 +13,22 @@ public class Skill_W_Bubble : SkillPiece
         GameManager.Instance.battleHandler.battleUtil.StartCoroutine(Bubble(target, onCastEnd));
     }
 
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        base.GetDesIconInfo();
+
+        desInfos[0].SetInfo(DesIconType.Attack, GetDamageCalc().ToString());
+
+        return desInfos;
+    }
+
+    private int GetDamageCalc()
+    {
+        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.4f);
+
+        return attack;
+    }
+
     private IEnumerator Bubble(LivingEntity target, Action onCastEnd = null)
     {
         //print($"스킬 발동!! 이름 : {PieceName}");

@@ -42,7 +42,7 @@ public class Skill_W_MermaidBlessing : SkillPiece
 
             if (skillPieces[i].PieceType.Equals(PieceType.SKILL))
             {
-                if (skillPieces[i].currentType != PatternType.Spade && (skillPieces[i] as SkillPiece).isPlayerSkill)
+                if (skillPieces[i].currentType != ElementalType.Water && (skillPieces[i] as SkillPiece).isPlayerSkill)
                 {
                     int a = i;
 
@@ -50,7 +50,7 @@ public class Skill_W_MermaidBlessing : SkillPiece
                     splashEffect.transform.position = skillPieces[a].skillImg.transform.position;
                     splashEffect.SetScale(0.5f);
 
-                    skillPieces[a].ChangeType(PatternType.Spade);
+                    skillPieces[a].ChangeType(ElementalType.Water);
                     skillPieces[a].HighlightColor(0.4f);
 
                     splashEffect.Play();

@@ -8,7 +8,7 @@ public abstract class FieldHandler : MonoBehaviour
     public List<ParticleSystem> particles;
 
     [HideInInspector]
-    public PatternType fieldType;
+    public ElementalType fieldType;
 
     public virtual void EnableField(bool skip = false)
     {
