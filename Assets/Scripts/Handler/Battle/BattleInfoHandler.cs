@@ -69,14 +69,30 @@ public class BattleInfoHandler : MonoBehaviour
 
                 for (int j = 0; j < enemys.Length; j++)
                 {
-                    EnemyType type = (EnemyType)System.Enum.Parse(typeof(EnemyType), enemys[j]);
-                    enemyInfos.Add(type);
+                    EnemyType type;
+                    bool check = System.Enum.TryParse(enemys[j], out type);
+                    if(check)
+                    {
+                        enemyInfos.Add(type);
+                    }
+                    else
+                    {
+                        print($"{enemys[j]} 찾을수 없습니다. 엑셀 시트를 확인해주세요. (보통은 기획자 문제입니다.) ");
+                    }
                 }
             }
             else
             {
-                EnemyType type = (EnemyType)System.Enum.Parse(typeof(EnemyType), name);
-                enemyInfos.Add(type);
+                EnemyType type;
+                bool check = System.Enum.TryParse(name, out type);
+                if (check)
+                {
+                    enemyInfos.Add(type);
+                }
+                else
+                {
+                    print($"{name} 찾을수 없습니다. 엑셀 시트를 확인해주세요. (보통은 기획자 문제입니다.) ");
+                }
             }
 
             if ((string)data[i]["Type"] == "Week")
@@ -85,10 +101,13 @@ public class BattleInfoHandler : MonoBehaviour
             }
 
             string path = "Sprite/stageBackground/" + (string)data[i]["BG"];
-
             Sprite bg = Resources.Load<Sprite>(path);
 
-            print(path);
+            if(bg.Equals(null))
+            {
+                print($"{path} 를 찾을수 없습니다. 엑셀 시트를 확인해주세요. (보통은 기획자 문제입니다.)");
+                return;
+            }
 
             BattleInfo info = new BattleInfo(enemyInfos, isWeek, bg);
 
@@ -105,7 +124,8 @@ public class BattleInfoHandler : MonoBehaviour
                     stage.bossInfos.Add(info);
                     break;
                 default:
-                    break;
+                    print($"{(string)data[i]["Type"]} 잘못된 타입을 입력하셨습니다. 엑셀 시트를 확인해주세요. (보통은 기획자 문제입니다.) ");
+                    return;
             }
         }
 
