@@ -51,7 +51,8 @@ public class EncounterHandler : MonoBehaviour
         GameManager.Instance.curEncounter = type;
 
         Sequence mapChangeSeq = DOTween.Sequence()
-            .Append(fadeBGCvs.DOFade(1f, 0.5f).SetEase(Ease.InBack))
+            .AppendInterval(0.37f)
+            .Append(fadeBGCvs.DOFade(1f, 0.5f).SetEase(Ease.Linear))
             .AppendCallback(() =>
             {
                 GameManager.Instance.mapManager.OpenMap(false, 0.1f);
@@ -95,9 +96,6 @@ public class EncounterHandler : MonoBehaviour
                 break;
             case mapNode.MONSTER:
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
-                Cinemachine.CinemachineBrain brain = Camera.main.GetComponent<Cinemachine.CinemachineBrain>();
-                print(brain.ActiveVirtualCamera.Name);
-
                 bh.StartBattle();
                 //randomEncounterUIHandler.StartEvent();
                 break;
@@ -124,7 +122,15 @@ public class EncounterHandler : MonoBehaviour
         GameManager.Instance.curEncounter = mapNode.NONE;
         bh.GetComponent<BattleScrollHandler>().ShowScrollUI(open:false);
         GameManager.Instance.goldUIHandler.ShowGoldUI(false);
-        GameManager.Instance.mapManager.OpenMap(true);
         GameManager.Instance.bottomUIHandler.ShowBottomPanel(true);
+
+        Sequence mapChangeSeq = DOTween.Sequence()
+            .Append(fadeBGCvs.DOFade(1f, 0.5f).SetEase(Ease.Linear))
+            .AppendCallback(() =>
+            {
+                GameManager.Instance.mapManager.OpenMap(true);
+            })
+            .Append(fadeBGCvs.DOFade(0f, 0.7f).SetEase(Ease.Linear))
+            .SetUpdate(true);
     }
 }
