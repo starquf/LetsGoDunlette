@@ -1,3 +1,4 @@
+using Cinemachine;
 using DG.Tweening;
 using System;
 using System.Collections;
@@ -91,6 +92,8 @@ public class BattleHandler : MonoBehaviour
 
     public BattleFadeUIHandler battleFade;
 
+    public CinemachineVirtualCamera cvCam;
+
     #region WaitSeconds
     private readonly WaitForSeconds oneSecWait = new WaitForSeconds(1f);
     private readonly WaitForSeconds pFiveSecWait = new WaitForSeconds(0.5f);
@@ -174,10 +177,6 @@ public class BattleHandler : MonoBehaviour
         // 적 생성
         CreateEnemy(battleInfo.enemyInfos, () =>
         {
-            // 위치 초기화
-            SetEnemyPosition();
-            SetSize();
-
             // 전투가 시작하기 전 인벤토리와 룰렛 정리
             StartCoroutine(InitRullet());
             StartCoroutine(battleEvent.ActionEvent(EventTime.BeginBattle));

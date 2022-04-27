@@ -117,9 +117,9 @@ public class MapManager : MonoBehaviour
         else
         {
             SetAllInteracteble(false);
+            playerFollowCam.gameObject.SetActive(false);
             OpenMapPanel(false, time: time, OnComplete: () =>
             {
-                playerFollowCam.gameObject.SetActive(false);
                 ZoomCamera(5, true);
             });
         }
