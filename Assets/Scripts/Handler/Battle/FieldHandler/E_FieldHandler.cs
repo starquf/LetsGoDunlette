@@ -13,7 +13,7 @@ public class E_FieldHandler : FieldHandler
     {
         redTransColor = redTransSpr.color;
 
-        fieldType = PatternType.Diamonds;
+        fieldType = ElementalType.Electric;
     }
     public override void DisableField(bool skip = false)
     {

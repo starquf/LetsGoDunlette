@@ -17,7 +17,7 @@ public class Skill_W_FireSuppression : SkillPiece
     {
         base.Start();
 
-        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[PatternType.Spade];
+        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[ElementalType.Water];
         bh = GameManager.Instance.battleHandler;
 
         hasTarget = true;
@@ -43,7 +43,7 @@ public class Skill_W_FireSuppression : SkillPiece
 
             if (skillPieces[i].PieceType.Equals(PieceType.SKILL))
             {
-                if (skillPieces[i].currentType.Equals(PatternType.Heart) && skillPieces[i] != this)
+                if (skillPieces[i].currentType.Equals(ElementalType.Fire) && skillPieces[i] != this)
                 {
                     Vector3 skillPos = skillPieces[i].skillImg.transform.position;
                     int a = i;

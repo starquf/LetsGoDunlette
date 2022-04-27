@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
 public class BattleHandler : MonoBehaviour
 {
@@ -174,6 +173,9 @@ public class BattleHandler : MonoBehaviour
 
         bg.sprite = battleInfo.bg;
 
+
+        battleFade.ShowEffect();
+
         // 적 생성
         CreateEnemy(battleInfo.enemyInfos, () =>
         {
@@ -181,12 +183,9 @@ public class BattleHandler : MonoBehaviour
             SetEnemyPosition();
             SetSize();
 
-            battleFade.ShowEffect(() =>
-            {
-                // 전투가 시작하기 전 인벤토리와 룰렛 정리
-                StartCoroutine(InitRullet());
-                StartCoroutine(battleEvent.ActionEvent(EventTime.BeginBattle));
-            });
+            // 전투가 시작하기 전 인벤토리와 룰렛 정리
+            StartCoroutine(InitRullet());
+            StartCoroutine(battleEvent.ActionEvent(EventTime.BeginBattle));
         });
 
         // 핸들러들 초기화
@@ -600,7 +599,7 @@ public class BattleHandler : MonoBehaviour
 
         mainRullet.ResetRulletSpeed();
         battleEvent.ResetAllEvents();
-        fieldHandler.SetFieldType(PatternType.None);
+        fieldHandler.SetFieldType(ElementalType.None);
 
         battleScroll.ShowScrollUI(open: false);
         GameManager.Instance.goldUIHandler.ShowGoldUI(open: false);

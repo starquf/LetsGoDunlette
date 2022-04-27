@@ -12,7 +12,23 @@ public class Skill_F_ManaSphere : SkillPiece
     protected override void Start()
     {
         base.Start();
-        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[PatternType.Heart];
+        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[ElementalType.Fire];
+    }
+
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        base.GetDesIconInfo();
+
+        desInfos[0].SetInfo(DesIconType.Attack, GetDamageCalc().ToString());
+
+        return desInfos;
+    }
+
+    private int GetDamageCalc()
+    {
+        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.4f);
+
+        return attack;
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
@@ -33,7 +49,7 @@ public class Skill_F_ManaSphere : SkillPiece
             hitEffect.transform.position = targetPos;
 
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-            target.GetDamage(Value, currentType);
+            target.GetDamage(GetDamageCalc(), currentType);
             onCastEnd?.Invoke();
 
             hitEffect.Play();

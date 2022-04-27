@@ -6,7 +6,7 @@ public class N_FieldHandler : FieldHandler
 {
     private void Awake()
     {
-        fieldType = PatternType.Clover;
+        fieldType = ElementalType.Nature;
     }
 
     public override void DisableField(bool skip = false)

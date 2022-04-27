@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,8 +12,10 @@ public class PieceCastUIHandler : MonoBehaviour
 
     [Header("Ä«µå UI")]
     public Image cardBG;
-    public Text cardNameText;
-    public Text cardDesText;
+    public TextMeshProUGUI cardNameText;
+    public TextMeshProUGUI cardDesText;
+    public Transform skillIconTrans;
+
     public Button closeBtn;
 
     private CanvasGroup cvsGroup;
@@ -21,7 +24,9 @@ public class PieceCastUIHandler : MonoBehaviour
 
     [Header("»ö±òµé")]
     public List<Color> colors = new List<Color>();
-    public Dictionary<PatternType, Color> colorDic;
+    public Dictionary<ElementalType, Color> colorDic;
+
+    private List<SkillDesIcon> desIcons;
 
     private Coroutine timeCor;
     private readonly WaitForSeconds fiveSecWait = new WaitForSeconds(5f);
@@ -33,12 +38,14 @@ public class PieceCastUIHandler : MonoBehaviour
     {
         cvsGroup = GetComponent<CanvasGroup>();
 
+        skillIconTrans.GetComponentsInChildren(desIcons);
+
         ShowPanel(false, true);
 
-        colorDic = new Dictionary<PatternType, Color>();
+        colorDic = new Dictionary<ElementalType, Color>();
         for (int i = 0; i < colors.Count; i++)
         {
-            colorDic.Add((PatternType)i, colors[i]);
+            colorDic.Add((ElementalType)i, colors[i]);
         }
     }
 
@@ -62,6 +69,18 @@ public class PieceCastUIHandler : MonoBehaviour
             cardNameText.text = skillPiece.PieceName;
             cardDesText.text = skillPiece.PieceDes;
         }
+
+        if (skillPiece.PieceDes.Equals(""))
+        {
+            cardDesText.gameObject.SetActive(false);
+        }
+        else
+        {
+            cardDesText.gameObject.SetActive(true);
+        }
+
+        List<DesIconInfo> desInfos = skillPiece.GetDesIconInfo();
+        ShowDesIcon(desInfos, skillPiece);
 
         pieceMoveSequence.Kill();
 
@@ -104,6 +123,39 @@ public class PieceCastUIHandler : MonoBehaviour
             });
 
         ShowPanel(true);
+    }
+
+    private void ShowDesIcon(List<DesIconInfo> desInfos, SkillPiece skillPiece)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            DesIconType type = desInfos[i].iconType;
+
+            if (type.Equals(DesIconType.None))
+            {
+                desIcons[i].gameObject.SetActive(false);
+                continue;
+            }
+            else
+            {
+                desIcons[i].gameObject.SetActive(true);
+            }
+
+            Sprite icon = null;
+
+            switch (type)
+            {
+                case DesIconType.Attack:
+                    icon = GameManager.Instance.inventoryHandler.effectSprDic[skillPiece.currentType];
+                    break;
+
+                default:
+                    icon = null;
+                    break;
+            }
+
+            desIcons[i].SetIcon(icon, desInfos[i].value);
+        }
     }
 
     public void ShowCasting(PieceInfo info, Action onEndEffect)

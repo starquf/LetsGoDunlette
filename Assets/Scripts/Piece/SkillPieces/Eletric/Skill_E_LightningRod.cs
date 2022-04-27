@@ -13,7 +13,7 @@ public class Skill_E_LightningRod : SkillPiece
     protected override void Start()
     {
         base.Start();
-        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[PatternType.Diamonds];
+        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[ElementalType.Electric];
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
@@ -34,7 +34,7 @@ public class Skill_E_LightningRod : SkillPiece
 
             if(skillPieces[i].PieceType.Equals(PieceType.SKILL))
             {
-                if(skillPieces[i].currentType.Equals(PatternType.Diamonds) && skillPieces[i] != this)
+                if(skillPieces[i].currentType.Equals(ElementalType.Electric) && skillPieces[i] != this)
                 {
                     SkillPiece piece = skillPieces[i] as SkillPiece;
                     lightningSkillPieces.Add(piece);

@@ -30,7 +30,7 @@ public class Skill_E_Charging : SkillPiece
         GameManager.Instance.battleHandler.battleEvent.RemoveEventInfo(eventInfo);
         onCharge = (piece,action) =>
         {
-            if (piece.currentType.Equals(PatternType.Diamonds) && piece != this)
+            if (piece.currentType.Equals(ElementalType.Electric) && piece != this)
             {
                 Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
                 textEffect.SetType(TextUpAnimType.Up);

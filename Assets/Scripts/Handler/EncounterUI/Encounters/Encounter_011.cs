@@ -53,7 +53,7 @@ public class Encounter_011 : RandomEncounter
                 do
                 {
                     piece = encounterInfoHandler.GetRandomSkillRewards(1)[0].GetComponent<SkillPiece>();
-                }while (piece.currentType != PatternType.Spade);
+                }while (piece.currentType != ElementalType.Water);
 
                 skill2 = Instantiate(piece).GetComponent<SkillPiece>();
                 skill2.transform.position = Vector2.zero + (Vector2.left * 1f);

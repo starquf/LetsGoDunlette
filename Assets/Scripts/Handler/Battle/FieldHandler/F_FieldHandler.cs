@@ -16,7 +16,7 @@ public class F_FieldHandler : FieldHandler
     {
         redTransColor = redTransSpr.color;
 
-        fieldType = PatternType.Heart;
+        fieldType = ElementalType.Fire;
     }
 
     public override void DisableField(bool skip = false)

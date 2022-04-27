@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SkillPiece : RulletPiece
@@ -14,6 +15,7 @@ public class SkillPiece : RulletPiece
     public PieceInfo[] pieceInfo;
     protected Action<LivingEntity, Action> onCastSkill;
 
+    protected List<DesIconInfo> desInfos = new List<DesIconInfo>();
 
     [HideInInspector]
     public Inventory owner;
@@ -23,6 +25,11 @@ public class SkillPiece : RulletPiece
         base.Awake();
 
         PieceType = PieceType.SKILL;
+
+        for (int i = 0; i < 3; i++)
+        {
+            desInfos.Add(new DesIconInfo());
+        }
     }
 
     public virtual PieceInfo ChoiceSkill()
@@ -34,6 +41,24 @@ public class SkillPiece : RulletPiece
     public override void Cast(LivingEntity targetTrm, Action onCastEnd = null)
     {
 
+    }
+
+    public virtual string GetPieceDes()
+    {
+        string des = PieceDes;
+        des.Replace("{ownerDmg}", owner.GetComponent<LivingEntity>().AttackPower.ToString());
+
+        return PieceDes;
+    }
+
+    public virtual List<DesIconInfo> GetDesIconInfo()
+    {
+        for (int i = 0; i < desInfos.Count; i++)
+        {
+            desInfos[i].iconType = DesIconType.None;
+        }
+
+        return desInfos;
     }
 
     public virtual bool CheckSilence()

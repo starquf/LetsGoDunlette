@@ -7,22 +7,22 @@ public class BattleFieldHandler : MonoBehaviour
 {
     public Transform fieldHandlersParent;
 
-    private Dictionary<PatternType, FieldHandler> fieldDic;
+    private Dictionary<ElementalType, FieldHandler> fieldDic;
 
-    public PatternType FieldType
+    public ElementalType FieldType
     {
         get { return nowFieldType; }
     }
     //필드속성을 저장함 기본은 무속성
-    private PatternType nowFieldType = PatternType.None;
+    private ElementalType nowFieldType = ElementalType.None;
 
     private int currentTurn = 0;
 
     public void Start()
     {
-        nowFieldType = PatternType.None;
+        nowFieldType = ElementalType.None;
 
-        fieldDic = new Dictionary<PatternType, FieldHandler>();
+        fieldDic = new Dictionary<ElementalType, FieldHandler>();
         for (int i = 0; i < fieldHandlersParent.childCount; i++)
         {
             FieldHandler field = fieldHandlersParent.GetChild(i).GetComponent<FieldHandler>();
@@ -36,7 +36,7 @@ public class BattleFieldHandler : MonoBehaviour
         }
     }
 
-    private void ChangeField(PatternType type)
+    private void ChangeField(ElementalType type)
     {
         foreach (FieldHandler fieldHandler in fieldDic.Values)
         {
@@ -51,7 +51,7 @@ public class BattleFieldHandler : MonoBehaviour
         }
     }
 
-    public bool CheckFieldType(PatternType type)
+    public bool CheckFieldType(ElementalType type)
     {
         if(type == FieldType)
         {
@@ -68,26 +68,26 @@ public class BattleFieldHandler : MonoBehaviour
         if (currentTurn <= 0)
         {
             currentTurn = 0;
-            SetFieldType(PatternType.None);
+            SetFieldType(ElementalType.None);
         }
     }
 
     public void IncreaseTurn(int turn)
     {
-        if (nowFieldType != PatternType.None)
+        if (nowFieldType != ElementalType.None)
         {
             currentTurn += turn;
         }
     }
 
-    public void SetFieldType(PatternType type)
+    public void SetFieldType(ElementalType type)
     {
-        if (type == PatternType.Monster)
+        if (type == ElementalType.Monster)
             return;
 
-        if (type.Equals(PatternType.None))
+        if (type.Equals(ElementalType.None))
         {
-            if (!nowFieldType.Equals(PatternType.None))
+            if (!nowFieldType.Equals(ElementalType.None))
             {
                 fieldDic[nowFieldType].DisableField();
                 nowFieldType = type;

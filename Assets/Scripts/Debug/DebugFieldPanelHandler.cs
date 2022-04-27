@@ -12,20 +12,20 @@ public class DebugFieldPanelHandler : MonoBehaviour, IDebugPanel
     public Dropdown fieldDropdown;
     public Button fieldSetBtn;
 
-    private Dictionary<PatternType, string> fieldDic;
+    private Dictionary<ElementalType, string> fieldDic;
 
     public void Init()
     {
         bf = GameManager.Instance.battleHandler.fieldHandler;
 
-        fieldDic = new Dictionary<PatternType, string>();
+        fieldDic = new Dictionary<ElementalType, string>();
 
         #region 열지 마시오
-        fieldDic[PatternType.None] = "필드 없음";
-        fieldDic[PatternType.Spade] = "물 필드";
-        fieldDic[PatternType.Diamonds] = "번개 필드";
-        fieldDic[PatternType.Heart] = "불 필드";
-        fieldDic[PatternType.Clover] = "자연 필드";
+        fieldDic[ElementalType.None] = "필드 없음";
+        fieldDic[ElementalType.Water] = "물 필드";
+        fieldDic[ElementalType.Electric] = "번개 필드";
+        fieldDic[ElementalType.Fire] = "불 필드";
+        fieldDic[ElementalType.Nature] = "자연 필드";
         #endregion
 
         InitFieldOptions();
@@ -36,7 +36,7 @@ public class DebugFieldPanelHandler : MonoBehaviour, IDebugPanel
     {
         fieldDropdown.options.Clear();
 
-        foreach (PatternType pattern in fieldDic.Keys)
+        foreach (ElementalType pattern in fieldDic.Keys)
         {
             Dropdown.OptionData op = new Dropdown.OptionData();
             op.text = fieldDic[pattern];
@@ -51,7 +51,7 @@ public class DebugFieldPanelHandler : MonoBehaviour, IDebugPanel
 
     private void SetField()
     {
-        foreach (PatternType pattern in fieldDic.Keys)
+        foreach (ElementalType pattern in fieldDic.Keys)
         {
             if (fieldDic[pattern].Equals(fieldDropdown.captionText.text))
             {

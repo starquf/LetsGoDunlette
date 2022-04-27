@@ -12,7 +12,23 @@ public class Skill_C_UnManaSphere : SkillPiece
     protected override void Start()
     {
         base.Start();
-        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[PatternType.None];
+        effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[ElementalType.None];
+    }
+
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        base.GetDesIconInfo();
+
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc().ToString()}");
+
+        return desInfos;
+    }
+
+    private int GetDamageCalc()
+    {
+        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.6f);
+
+        return attack;
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
@@ -25,7 +41,7 @@ public class Skill_C_UnManaSphere : SkillPiece
 
         castAnim.Play(() =>
         {
-            int damage = Value / 2;
+            int damage = GetDamageCalc();
 
             int rand = Random.Range(0, 100);
 
@@ -44,8 +60,6 @@ public class Skill_C_UnManaSphere : SkillPiece
                     GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
                     //print($"데미지 발동 : {damage}");
-                    target.GetDamage(Value / 2, currentType);
-
                     Anim_C_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_C_ManaSphereHit>();
                     hitEffect.transform.position = targetPos;
 
@@ -55,9 +69,11 @@ public class Skill_C_UnManaSphere : SkillPiece
 
                     if (a == 1)
                     {
+                        target.GetDamage(damage, currentType);
+
                         if (!CheckSilence() && rand < 35)
                         {
-                            owner.GetComponent<LivingEntity>().cc.SetCC(CCType.Silence, 3);
+                            owner.GetComponent<LivingEntity>().cc.SetCC(CCType.Silence, 2);
                         }
 
                         onCastEnd?.Invoke();
@@ -65,7 +81,7 @@ public class Skill_C_UnManaSphere : SkillPiece
 
                     effect.EndEffect();
 
-                }, BezierType.Quadratic, isRotate: true, delay: i * 0.15f, playSpeed: 1.7f);
+                }, BezierType.Quadratic, isRotate: true, playSpeed: 1.7f);
             }
         });
     }

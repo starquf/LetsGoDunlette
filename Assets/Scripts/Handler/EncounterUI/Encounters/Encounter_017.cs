@@ -48,7 +48,7 @@ public class Encounter_017 : RandomEncounter
                     {
                         invenInfoHandler.desPanel.ShowPanel(false);
 
-                        if(sp.currentType == PatternType.Diamonds)
+                        if(sp.currentType == ElementalType.Electric)
                         {
                             invenInfoHandler.onCloseBtn = null;
                             invenInfoHandler.CloseInventoryInfo();

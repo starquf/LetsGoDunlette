@@ -19,10 +19,23 @@ public class PieceInfo
     }
 }
 
+[Serializable]
+public class DesIconInfo
+{
+    public DesIconType iconType = DesIconType.None;
+    public string value;
+
+    public void SetInfo(DesIconType type, string msg)
+    {
+        iconType = type;
+        value = msg;
+    }
+}
+
 public abstract class RulletPiece : MonoBehaviour
 {
-    public PatternType patternType = PatternType.None;
-    public PatternType currentType = PatternType.None;
+    public ElementalType patternType = ElementalType.None;
+    public ElementalType currentType = ElementalType.None;
 
     public PieceType PieceType { get; protected set; }
 
@@ -99,7 +112,7 @@ public abstract class RulletPiece : MonoBehaviour
         this.size = Mathf.Clamp(size, 0, 36);
     }
 
-    public virtual void ChangeType(PatternType type)
+    public virtual void ChangeType(ElementalType type)
     {
         if (currentType != type)
         {
