@@ -30,7 +30,7 @@ public class EncounterHandler : MonoBehaviour
         bh = GameManager.Instance.battleHandler;
         bh.GetComponent<BattleScrollHandler>().ShowScrollUI(open: false,skip: true);
         GameManager.Instance.goldUIHandler.ShowGoldUI(false, true);
-        GameManager.Instance.mapHandler.OpenMapPanel(true, true);
+        GameManager.Instance.mapManager.OpenMap(true, first:true);
         //StartEncounter(mapNode.MONSTER);
     }
 
@@ -43,10 +43,10 @@ public class EncounterHandler : MonoBehaviour
         GameManager.Instance.curEncounter = type;
 
         Sequence mapChangeSeq = DOTween.Sequence()
-            .Append(fadeBGCvs.DOFade(1f, 0.7f).SetEase(Ease.Linear))
+            .Append(fadeBGCvs.DOFade(1f, 0.5f).SetEase(Ease.InBack))
             .AppendCallback(() =>
             {
-                GameManager.Instance.mapHandler.OpenMapPanel(false);
+                GameManager.Instance.mapManager.OpenMap(false, 0.1f);
                 CheckEncounter(type);
             })
             .Append(fadeBGCvs.DOFade(0f, 0.7f).SetEase(Ease.Linear))
@@ -106,7 +106,7 @@ public class EncounterHandler : MonoBehaviour
         GameManager.Instance.curEncounter = mapNode.NONE;
         bh.GetComponent<BattleScrollHandler>().ShowScrollUI(open:false);
         GameManager.Instance.goldUIHandler.ShowGoldUI(false);
-        GameManager.Instance.mapHandler.OpenMapPanel(true);
+        GameManager.Instance.mapManager.OpenMap(true);
         GameManager.Instance.bottomUIHandler.ShowBottomPanel(true);
     }
 }
