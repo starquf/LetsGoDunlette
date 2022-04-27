@@ -17,6 +17,22 @@ public class Skill_E_ComputerError : SkillPiece
         bh = GameManager.Instance.battleHandler;
     }
 
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        base.GetDesIconInfo();
+
+        desInfos[0].SetInfo(DesIconType.Attack, GetDamageCalc().ToString());
+
+        return desInfos;
+    }
+
+    private int GetDamageCalc()
+    {
+        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.3f);
+
+        return attack;
+    }
+
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         List<LivingEntity> targets = new List<LivingEntity>();
@@ -30,6 +46,8 @@ public class Skill_E_ComputerError : SkillPiece
             targets = bh.battleUtil.DeepCopyEnemyList(bh.enemys);
         }
 
+        int damage = GetDamageCalc();
+
         for (int i = 0; i < targets.Count; i++)
         {
             Anim_E_Static_Stun stunEffect = PoolManager.GetItem<Anim_E_Static_Stun>();
@@ -38,10 +56,10 @@ public class Skill_E_ComputerError : SkillPiece
 
             stunEffect.Play();
 
-            targets[i].GetDamage(Value, currentType);
+            targets[i].GetDamage(damage, currentType);
 
             LogCon log = new LogCon();
-            log.text = $"{Value} 데미지 부여";
+            log.text = $"{damage} 데미지 부여";
             log.selfSpr = skillImg.sprite;
             log.targetSpr = targets[i].GetComponent<SpriteRenderer>().sprite;
 

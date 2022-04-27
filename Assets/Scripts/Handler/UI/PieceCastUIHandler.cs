@@ -149,6 +149,10 @@ public class PieceCastUIHandler : MonoBehaviour
                     icon = GameManager.Instance.inventoryHandler.effectSprDic[skillPiece.currentType];
                     break;
 
+                case DesIconType.Stun:
+                    icon = GameManager.Instance.ccIcons[0];
+                    break;
+
                 default:
                     icon = null;
                     break;

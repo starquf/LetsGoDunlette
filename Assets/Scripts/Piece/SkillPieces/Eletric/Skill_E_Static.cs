@@ -13,6 +13,23 @@ public class Skill_E_Static : SkillPiece
     [Header("기절 확률")]
     public int stunPercent;
 
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        base.GetDesIconInfo();
+
+        desInfos[0].SetInfo(DesIconType.Attack, GetDamageCalc().ToString());
+        desInfos[1].SetInfo(DesIconType.Stun, $"{stunPercent.ToString()}%");
+
+        return desInfos;
+    }
+
+    private int GetDamageCalc()
+    {
+        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.2f);
+
+        return attack;
+    }
+
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         BattleHandler bh = GameManager.Instance.battleHandler;
@@ -25,10 +42,13 @@ public class Skill_E_Static : SkillPiece
         staticEffect.transform.position = targetPos;
 
         staticEffect.Play(() => {
-            target.GetDamage(Value, currentType);
+
+            int damage = GetDamageCalc();
+
+            target.GetDamage(GetDamageCalc(), currentType);
 
             LogCon log = new LogCon();
-            log.text = $"{Value} 데미지 부여";
+            log.text = $"{GetDamageCalc()} 데미지 부여";
             log.selfSpr = skillImg.sprite;
             log.targetSpr = target.GetComponent<SpriteRenderer>().sprite;
 

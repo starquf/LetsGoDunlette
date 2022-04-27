@@ -22,6 +22,23 @@ public class Skill_E_AdjustableCurrent : SkillPiece
         effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[ElementalType.Electric];
     }
 
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        base.GetDesIconInfo();
+
+        desInfos[0].SetInfo(DesIconType.Attack, GetDamageCalc().ToString());
+        desInfos[1].SetInfo(DesIconType.Stun, $"{percentage.ToString()}%");
+
+        return desInfos;
+    }
+
+    private int GetDamageCalc()
+    {
+        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.3f - 1);
+
+        return attack;
+    }
+
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         Vector3 startPos = skillImg.transform.position;
@@ -81,10 +98,12 @@ public class Skill_E_AdjustableCurrent : SkillPiece
                         percentText.text = $"{percentage.ToString()}%";
                     }
 
-                    target.GetDamage(Value, currentType);
+                    int damage = GetDamageCalc();
+
+                    target.GetDamage(GetDamageCalc(), currentType);
 
                     LogCon log2 = new LogCon();
-                    log2.text = $"{Value} 데미지 부여";
+                    log2.text = $"{GetDamageCalc()} 데미지 부여";
                     log2.selfSpr = skillImg.sprite;
                     log2.targetSpr = target.GetComponent<SpriteRenderer>().sprite;
 

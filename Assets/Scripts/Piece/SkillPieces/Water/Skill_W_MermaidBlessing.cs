@@ -14,6 +14,22 @@ public class Skill_W_MermaidBlessing : SkillPiece
         hasTarget = true;
     }
 
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        base.GetDesIconInfo();
+
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc().ToString()}");
+
+        return desInfos;
+    }
+
+    private int GetDamageCalc()
+    {
+        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.3f);
+
+        return attack;
+    }
+
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         GameManager.Instance.battleHandler.battleUtil.StartCoroutine(Blessing(target, onCastEnd));
@@ -32,7 +48,7 @@ public class Skill_W_MermaidBlessing : SkillPiece
 
         splashEffect1.Play();
 
-        target.GetDamage(Value, currentType);
+        target.GetDamage(GetDamageCalc(), currentType);
 
         yield return pTwoSecWait;
 

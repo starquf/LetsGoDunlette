@@ -15,6 +15,22 @@ public class Skill_F_DrawingWires : SkillPiece
         bh = GameManager.Instance.battleHandler;
     }
 
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        base.GetDesIconInfo();
+
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc().ToString()}");
+
+        return desInfos;
+    }
+
+    private int GetDamageCalc()
+    {
+        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.3f);
+
+        return attack;
+    }
+
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         Rullet rullet = bh.mainRullet;
@@ -58,7 +74,7 @@ public class Skill_F_DrawingWires : SkillPiece
 
         hit.Play();
 
-        target.GetDamage(Value, currentType);
+        target.GetDamage(GetDamageCalc(), currentType);
         GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
     }
 

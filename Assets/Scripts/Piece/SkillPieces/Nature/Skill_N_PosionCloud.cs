@@ -6,7 +6,14 @@ using UnityEngine;
 
 public class Skill_N_PosionCloud : SkillPiece
 {
-    public GameObject posionCloudEffectPrefab;
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        base.GetDesIconInfo();
+
+        desInfos[1].SetInfo(DesIconType.Wound, "2");
+
+        return desInfos;
+    }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
@@ -22,9 +29,6 @@ public class Skill_N_PosionCloud : SkillPiece
             onCastEnd?.Invoke();
         });
 
-        if (!CheckSilence())
-        {
-            target.cc.SetCC(CCType.Wound, 4);
-        }
+        target.cc.SetCC(CCType.Wound, 2);
     }
 }

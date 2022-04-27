@@ -20,12 +20,31 @@ public class Skill_N_Pigeon : SkillPiece
         bh = GameManager.Instance.battleHandler;
     }
 
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        base.GetDesIconInfo();
+
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc().ToString()}x5");
+        desInfos[1].SetInfo(DesIconType.Silence, "2");
+
+        return desInfos;
+    }
+
+    private int GetDamageCalc()
+    {
+        int attack = Mathf.Clamp(((int)(owner.GetComponent<LivingEntity>().AttackPower * 0.2f + 2) / 5), 1, int.MaxValue);
+
+        return attack;
+    }
+
     public override void Cast(LivingEntity target, Action onCastEnd = null) //적에게 60피해를 입힌다.		침묵	-	적에게 2턴간 침묵을 부여한다.
     {
         Vector3 targetPos = target.transform.position;
         Vector3 startPos = bh.bottomPos.position;
 
-        for (int i = 0; i < 10; i++)
+        int damage = GetDamageCalc();
+
+        for (int i = 0; i < 5; i++)
         {
             int a = i;
 
@@ -43,12 +62,12 @@ public class Skill_N_Pigeon : SkillPiece
                 hitEffect.SetScale(0.5f);
                 hitEffect.transform.position = targetPos;
 
-                target.GetDamage(value / 10, currentType);
+                target.GetDamage(damage, currentType);
 
                 GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
                 hitEffect.Play();
 
-                if (a >= 9)
+                if (a >= 4)
                 {
                     target.cc.SetCC(CCType.Silence, 3);
                     onCastEnd?.Invoke();

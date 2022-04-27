@@ -5,6 +5,22 @@ using UnityEngine;
 
 public class Skill_F_ChainExplosion : SkillPiece
 {
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        base.GetDesIconInfo();
+
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc().ToString()}");
+
+        return desInfos;
+    }
+
+    private int GetDamageCalc()
+    {
+        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.7f);
+
+        return attack;
+    }
+
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         SkillEvent eventInfo = null;
@@ -16,8 +32,10 @@ public class Skill_F_ChainExplosion : SkillPiece
         Anim_F_ChainExplosion staticEffect = PoolManager.GetItem<Anim_F_ChainExplosion>();
         staticEffect.transform.position = targetPos;
 
+        int damage = GetDamageCalc();
+
         staticEffect.Play(() => {
-            target.GetDamage(Value, currentType);
+            target.GetDamage(damage, currentType);
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
             Action<SkillPiece, Action> onNextAttack = (result,action) => { };
@@ -25,12 +43,11 @@ public class Skill_F_ChainExplosion : SkillPiece
 
             onNextAttack = (result,action) =>
             {
-                print("연폭");
                 //print($"현재체력 : {target.curHp}       예전 체력 : {targetHp}");
 
                 if (result.isPlayerSkill && target.curHp < targetHp)
                 {
-                    target.GetDamage(Value, patternType);
+                    target.GetDamage(5, patternType);
                     GameManager.Instance.cameraHandler.ShakeCamera(1.5f, 0.15f);
 
                     Anim_F_ChainExplosionBonus bonusEffect = PoolManager.GetItem<Anim_F_ChainExplosionBonus>();
@@ -45,7 +62,7 @@ public class Skill_F_ChainExplosion : SkillPiece
             };
 
             // 이벤트에 추가해주면 됨
-            eventInfo = new SkillEvent(true,2,EventTimeSkill.AfterSkill, onNextAttack);
+            eventInfo = new SkillEvent(true, 2, EventTimeSkill.AfterSkill, onNextAttack);
             bh.battleEvent.BookEvent(eventInfo);
 
             onCastEnd?.Invoke();

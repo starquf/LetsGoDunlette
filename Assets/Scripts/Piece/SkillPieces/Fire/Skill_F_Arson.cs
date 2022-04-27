@@ -5,6 +5,21 @@ using UnityEngine;
 
 public class Skill_F_Arson : SkillPiece
 {
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        base.GetDesIconInfo();
+
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc().ToString()}");
+
+        return desInfos;
+    }
+
+    private int GetDamageCalc()
+    {
+        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.5f);
+
+        return attack;
+    }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
@@ -17,7 +32,7 @@ public class Skill_F_Arson : SkillPiece
         fireEffect.transform.position = targetPos;
 
         fireEffect.Play(() => {
-            target.GetDamage(Value, currentType);
+            target.GetDamage(GetDamageCalc(), currentType);
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
             onCastEnd?.Invoke();
