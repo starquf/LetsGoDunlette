@@ -7,21 +7,13 @@ using Random = UnityEngine.Random;
 
 public class MapGenerator : MonoBehaviour
 {
+    public MapManager mapManager;
+
     [SerializeField] GameObject tile;
     [SerializeField] int gridHeight = 10;
-    [SerializeField] int gridWidth = 10;
+    public int gridWidth = 10;
     [SerializeField] float tileSize = 1f;
     [SerializeField] float realTileSize = 1f;
-
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
 
     Map GenerateTile(int x, int y)
     {
@@ -37,12 +29,16 @@ public class MapGenerator : MonoBehaviour
         newTile.transform.position = new Vector2(posX, posY);
         rectTransform.localPosition = new Vector3(rectTransform.localPosition.x, rectTransform.localPosition.y, 0f);
 
-        GameManager.Instance.mapManager.tiles.Add(newTile);
+        newTile.name = $"{x}, {y}";
+
+        newTile.InitMap(mapManager);
+
+        GameManager.Instance.mapManager.tiles.Add(new Vector2(x, y), newTile);
 
         return newTile;
     }
 
-    public void GenerateGrid()
+    public void GenerateGrid(Action onEndGenerate = null)
     {
         for (int x = gridWidth - 1; x >= 0; x--)
         {
@@ -52,13 +48,11 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-        Transform startTrm = GenerateTile(0, 4).transform;
+        Map startMap = GenerateTile(-1, gridWidth-1);
+        Transform startTrm = startMap.transform;
         RectTransform rectTransform = startTrm.GetComponent<RectTransform>();
 
-        startTrm.position = new Vector2(startTrm.position.x, startTrm.position.y - (tileSize * realTileSize));
-        rectTransform.localPosition = new Vector3(rectTransform.localPosition.x, rectTransform.localPosition.y, 0f);
-
-        GameManager.Instance.mapManager.SetPlayerPos(startTrm);
+        onEndGenerate?.Invoke();
     }
 
 }
