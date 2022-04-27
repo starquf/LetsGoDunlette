@@ -25,6 +25,22 @@ public class Skill_E_Charging : SkillPiece
         hasTarget = false;
     }
 
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        base.GetDesIconInfo();
+
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc().ToString()}x{attackCount}");
+
+        return desInfos;
+    }
+
+    private int GetDamageCalc()
+    {
+        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.2f + 1);
+
+        return attack;
+    }
+
     public override void OnRullet()
     {
         GameManager.Instance.battleHandler.battleEvent.RemoveEventInfo(eventInfo);
@@ -97,14 +113,16 @@ public class Skill_E_Charging : SkillPiece
 
         int atkCnt = attackCount;
 
+        int damage = GetDamageCalc();
+
         for (int i = 0; i < atkCnt; i++)
         {
             LivingEntity enemy = targets[Random.Range(0, targets.Count)];
 
-            enemy.GetDamage(Value, currentType);
+            enemy.GetDamage(GetDamageCalc(), currentType);
 
             LogCon log = new LogCon();
-            log.text = $"{Value} 데미지 부여";
+            log.text = $"{GetDamageCalc()} 데미지 부여";
             log.selfSpr = skillImg.sprite;
             log.targetSpr = enemy.GetComponent<SpriteRenderer>().sprite;
 

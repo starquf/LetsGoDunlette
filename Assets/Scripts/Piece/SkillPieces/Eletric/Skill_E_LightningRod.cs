@@ -16,10 +16,25 @@ public class Skill_E_LightningRod : SkillPiece
         effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[ElementalType.Electric];
     }
 
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        base.GetDesIconInfo();
+
+        desInfos[0].SetInfo(DesIconType.Attack, GetDamageCalc().ToString());
+
+        return desInfos;
+    }
+
+    private int GetDamageCalc()
+    {
+        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.1f + 1);
+
+        return attack;
+    }
+
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         //print($"스킬 발동!! 이름 : {PieceName}");
-
         BattleHandler battleHandler = GameManager.Instance.battleHandler;
 
         Rullet rullet = battleHandler.mainRullet;
@@ -105,10 +120,12 @@ public class Skill_E_LightningRod : SkillPiece
             }
         });
 
-        target.GetDamage(Value, currentType);
+        int damage = GetDamageCalc();
+
+        target.GetDamage(damage, currentType);
 
         LogCon log = new LogCon();
-        log.text = $"{Value} 데미지 부여";
+        log.text = $"{damage} 데미지 부여";
         log.selfSpr = skillImg.sprite;
         log.targetSpr = target.GetComponent<SpriteRenderer>().sprite;
 

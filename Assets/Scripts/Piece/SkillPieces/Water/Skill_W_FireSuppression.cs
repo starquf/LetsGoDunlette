@@ -23,12 +23,28 @@ public class Skill_W_FireSuppression : SkillPiece
         hasTarget = true;
     }
 
-    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    public override List<DesIconInfo> GetDesIconInfo()
     {
-        bh.battleUtil.StartCoroutine(Tsunami(target, onCastEnd));
+        base.GetDesIconInfo();
+
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc().ToString()}");
+
+        return desInfos;
     }
 
-    private IEnumerator Tsunami(LivingEntity target, Action onCastEnd = null)
+    private int GetDamageCalc()
+    {
+        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.6f);
+
+        return attack;
+    }
+
+    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    {
+        bh.battleUtil.StartCoroutine(FireSuppression(target, onCastEnd));
+    }
+
+    private IEnumerator FireSuppression(LivingEntity target, Action onCastEnd = null)
     {
         int waterCnt = 0;
 
@@ -88,8 +104,10 @@ public class Skill_W_FireSuppression : SkillPiece
         skillEffect.SetColorGradient(effectGradient);
         skillEffect.SetScale(Vector3.one * (waterCnt*0.3f + 1));
 
+        int damage = GetDamageCalc();
+
         skillEffect.Play(target.transform.position, () => {
-            target.GetDamage(Value, currentType);
+            target.GetDamage(damage, currentType);
 
             Anim_W_Splash splashEffect = PoolManager.GetItem<Anim_W_Splash>();
             splashEffect.transform.position = target.transform.position;
@@ -104,6 +122,7 @@ public class Skill_W_FireSuppression : SkillPiece
             }
             skillEffect.EndEffect();
         }, BezierType.Linear, isRotate: true, playSpeed: 2f);
+
         for (int i = 0; i < waterCnt; i++)
         {
             yield return new WaitForSeconds(0.1f);
@@ -116,7 +135,7 @@ public class Skill_W_FireSuppression : SkillPiece
 
             effect.Play(target.transform.position, () => {
 
-                target.GetDamage(40, currentType);
+                target.GetDamage(2, patternType);
 
                 Anim_W_Splash1 splashEffect = PoolManager.GetItem<Anim_W_Splash1>();
                 splashEffect.transform.position = target.transform.position;

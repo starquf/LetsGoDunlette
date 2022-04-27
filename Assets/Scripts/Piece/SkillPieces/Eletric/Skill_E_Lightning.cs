@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -13,12 +14,31 @@ public class Skill_E_Lightning : SkillPiece
         bh = GameManager.Instance.battleHandler;
     }
 
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        base.GetDesIconInfo();
+
+        desInfos[0].SetInfo(DesIconType.Attack, GetDamageCalc().ToString());
+        desInfos[1].SetInfo(DesIconType.Stun, "70%");
+
+        return desInfos;
+    }
+
+    private int GetDamageCalc()
+    {
+        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.3f + 2);
+
+        return attack;
+    }
+
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        target.GetDamage(value, currentType);
+        int damage = GetDamageCalc();
+
+        target.GetDamage(damage, currentType);
 
         LogCon log = new LogCon();
-        log.text = $"{Value} 데미지 부여";
+        log.text = $"{damage} 데미지 부여";
         log.selfSpr = skillImg.sprite;
         log.targetSpr = target.GetComponent<SpriteRenderer>().sprite;
 

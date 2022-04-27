@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine.UI;
+using System.IO;
 
 [System.Serializable]
 public class BattleInfo
@@ -48,88 +49,94 @@ public class BattleInfoHandler : MonoBehaviour
 
     private void LoadStageData()
     {
-        List<Dictionary<string, object>> data = CSVReader.Read("StageCSV/Stage1");
-
-        StageInfo stage = new StageInfo();
-
-        for (var i = 0; i < data.Count; i++)
+        int k = 1;
+        while (Resources.Load<TextAsset>($"StageCSV/Stage{k}") != null)
         {
-            print("name " + data[i]["EnemyName"] + " " +
-                   "age " + data[i]["Type"] + " " +
-                   "speed " + data[i]["BG"]);
+            List<Dictionary<string, object>> data = CSVReader.Read($"StageCSV/Stage{k}");
+            StageInfo stage = new StageInfo();
 
-            List<EnemyType> enemyInfos = new List<EnemyType>();
-            bool isWeek = false;
-
-            string name = (string)data[i]["EnemyName"];
-
-            if (name.Contains(','))
+            for (var i = 0; i < data.Count; i++)
             {
-                var enemys = Regex.Split(name, ",");
+                print("name " + data[i]["EnemyName"] + " " +
+                       "age " + data[i]["Type"] + " " +
+                       "speed " + data[i]["BG"]);
 
-                for (int j = 0; j < enemys.Length; j++)
+                List<EnemyType> enemyInfos = new List<EnemyType>();
+                bool isWeek = false;
+
+                string name = (string)data[i]["EnemyName"];
+
+                if (name.Contains(','))
+                {
+                    var enemys = Regex.Split(name, ",");
+
+                    for (int j = 0; j < enemys.Length; j++)
+                    {
+                        EnemyType type;
+                        bool check = System.Enum.TryParse(enemys[j], out type);
+                        if (check)
+                        {
+                            enemyInfos.Add(type);
+                        }
+                        else
+                        {
+                            print($"{enemys[j]} 찾을수 없습니다. 엑셀 시트를 확인해주세요. (보통은 기획자 문제입니다.) ");
+                        }
+                    }
+                }
+                else
                 {
                     EnemyType type;
-                    bool check = System.Enum.TryParse(enemys[j], out type);
-                    if(check)
+                    bool check = System.Enum.TryParse(name, out type);
+                    if (check)
                     {
                         enemyInfos.Add(type);
                     }
                     else
                     {
-                        print($"{enemys[j]} 찾을수 없습니다. 엑셀 시트를 확인해주세요. (보통은 기획자 문제입니다.) ");
+                        print($"{name} 찾을수 없습니다. 엑셀 시트를 확인해주세요. (보통은 기획자 문제입니다.) ");
                     }
                 }
-            }
-            else
-            {
-                EnemyType type;
-                bool check = System.Enum.TryParse(name, out type);
-                if (check)
+
+                if ((string)data[i]["Type"] == "Week")
                 {
-                    enemyInfos.Add(type);
+                    isWeek = true;
                 }
-                else
+
+                string path = "Sprite/stageBackground/" + (string)data[i]["BG"];
+                Sprite bg = Resources.Load<Sprite>(path);
+
+                if (bg.Equals(null))
                 {
-                    print($"{name} 찾을수 없습니다. 엑셀 시트를 확인해주세요. (보통은 기획자 문제입니다.) ");
-                }
-            }
-
-            if ((string)data[i]["Type"] == "Week")
-            {
-                isWeek = true;
-            }
-
-            string path = "Sprite/stageBackground/" + (string)data[i]["BG"];
-            Sprite bg = Resources.Load<Sprite>(path);
-
-            if(bg.Equals(null))
-            {
-                print($"{path} 를 찾을수 없습니다. 엑셀 시트를 확인해주세요. (보통은 기획자 문제입니다.)");
-                return;
-            }
-
-            BattleInfo info = new BattleInfo(enemyInfos, isWeek, bg);
-
-            switch ((string)data[i]["Type"])
-            {
-                case "Week":
-                case "Normal":
-                    stage.normalInfos.Add(info);
-                    break;
-                case "Elite":
-                    stage.eliteInfos.Add(info);
-                    break;
-                case "Boss":
-                    stage.bossInfos.Add(info);
-                    break;
-                default:
-                    print($"{(string)data[i]["Type"]} 잘못된 타입을 입력하셨습니다. 엑셀 시트를 확인해주세요. (보통은 기획자 문제입니다.) ");
+                    print($"{path} 를 찾을수 없습니다. 엑셀 시트를 확인해주세요. (보통은 기획자 문제입니다.)");
                     return;
+                }
+
+                BattleInfo info = new BattleInfo(enemyInfos, isWeek, bg);
+
+                switch ((string)data[i]["Type"])
+                {
+                    case "Week":
+                    case "Normal":
+                        stage.normalInfos.Add(info);
+                        break;
+                    case "Elite":
+                        stage.eliteInfos.Add(info);
+                        break;
+                    case "Boss":
+                        stage.bossInfos.Add(info);
+                        break;
+                    default:
+                        print($"{(string)data[i]["Type"]} 잘못된 타입을 입력하셨습니다. 엑셀 시트를 확인해주세요. (보통은 기획자 문제입니다.) ");
+                        return;
+                }
             }
+
+            stages.Add(stage);
+            k++;
         }
 
-        stages.Add(stage);
+        
     }
 
     public BattleInfo GetRandomBattleInfo()

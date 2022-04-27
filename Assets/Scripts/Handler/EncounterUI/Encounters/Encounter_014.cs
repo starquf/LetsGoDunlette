@@ -38,9 +38,11 @@ public class Encounter_014 : RandomEncounter
                 battleScrollHandler.slots[idx].RemoveScroll();
                 battleScrollHandler.SortScroll();
 
-                bh._bInfo.enemyInfos.Clear();
-                bh._bInfo.enemyInfos.Add(EnemyType.QUEEN);
-                GameManager.Instance.mapHandler.SetBossIcon(0);
+                bh._bossInfo.enemyInfos.Clear();
+                bh._bossInfo.enemyInfos.Add(EnemyType.QUEEN);
+                //GameManager.Instance.mapHandler.SetBossIcon(0);
+                Debug.LogError("보스 맵 아이콘 변경해줘야됨");
+
                 NormalEvent eventInfo = null;
                 onBattleStart = action =>
                 {
@@ -62,9 +64,10 @@ public class Encounter_014 : RandomEncounter
                 showImg = en_End_Image[1];
                 en_End_Result = "보스가 여우로 고정된다. 여우의 스킬 룰렛 조각이 1개 추가 된다.";
 
-                bh._bInfo.enemyInfos.Clear();
-                bh._bInfo.enemyInfos.Add(EnemyType.REDFOX);
-                GameManager.Instance.mapHandler.SetBossIcon(1);
+                bh._bossInfo.enemyInfos.Clear();
+                bh._bossInfo.enemyInfos.Add(EnemyType.REDFOX);
+                //GameManager.Instance.mapHandler.SetBossIcon(0);
+                Debug.LogError("보스 맵 아이콘 변경해줘야됨");
                 NormalEvent eventInfo1 = null;
                 bh.battleEvent.RemoveEventInfo(eventInfo1);
                 onBattleStart = action =>
