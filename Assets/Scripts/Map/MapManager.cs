@@ -51,6 +51,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] int defaultBossCount;
     [SerializeField] List<mapNode> canNotLinkMapType = new List<mapNode>();
     [SerializeField] SerializableDictionary<mapNode, int> fixedMapTypeCount = new SerializableDictionary<mapNode, int>();
+    [SerializeField] SerializableDictionary<Vector2, mapNode> fixedPosMapType = new SerializableDictionary<Vector2, mapNode>();
 
 
 
@@ -104,9 +105,9 @@ public class MapManager : MonoBehaviour
     {
         CinemachineBrain cB = Camera.main.GetComponent<CinemachineBrain>();
         cB.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
+        blockPanel.raycastTarget = false;
         if (enable)
         {
-            blockPanel.raycastTarget = false;
             SetAllInteracteble(false);
             ZoomCamera(5, true);
             playerFollowCam.gameObject.SetActive(true);
@@ -224,6 +225,14 @@ public class MapManager : MonoBehaviour
     public void CanNotMoveGameOverDirection()
     {
         BreakMap(curMap);
+        DOTween.Sequence()
+            .AppendInterval(0.3f)
+            .Append(playerTrm.DOMoveY(playerTrm.position.y - 0.5f, 0.7f).SetEase(Ease.InBack))
+            .OnComplete(()=>
+            {
+                //ToDO 게임 오버
+
+            });
     }
 
     // 현제 맵에서 연결된 맵이 있는지 확인
@@ -255,9 +264,8 @@ public class MapManager : MonoBehaviour
             DOTween.Sequence()
                 .Append(bossCountTxt.DOText(bossCount.ToString(), 0.5f))
                 .Append(playerTrm.DORotate(new Vector3(playerTrm.rotation.x, playerTrm.rotation.y - 360f * 10, playerTrm.rotation.z), 1.3f).SetEase(Ease.OutCubic))
-                .AppendInterval(0.3f)
-                .Append(playerTrm.DORotate((Quaternion.AngleAxis(angle-90, Vector3.forward).eulerAngles), 1f).SetEase(Ease.OutCubic))
-                .Join(playerTrm.DOMove(bossCloudPos, 1f).SetEase(Ease.OutCubic))
+                .Join(playerTrm.DOMove(bossCloudPos, 1f).SetDelay(0.3f).SetEase(Ease.OutCubic))
+                .Join(playerTrm.DORotateQuaternion(Quaternion.AngleAxis(angle-90, Vector3.forward), 1f).SetDelay(0.3f).SetEase(Ease.OutCubic))
                 .OnComplete(() =>
                 {
                     StartMap(mapNode.BOSS);
@@ -339,10 +347,17 @@ public class MapManager : MonoBehaviour
     // 모든 맵에 타입 세팅
     public void SetMapType()
     {
+        List<Vector2> fixedPosMapList = fixedPosMapType.Keys.ToList();
+        for (int i = 0; i < fixedPosMapList.Count; i++)
+        {
+            tiles[fixedPosMapList[i]].MapType = fixedPosMapType[fixedPosMapList[i]];
+        }
         //TODO 고정 갯수 맵 타입 생성
         List<Map> mapList = tiles.Values.ToList();
         for (int i = 0; i < mapList.Count; i++)
         {
+            if (mapList[i].MapType != mapNode.NONE) continue;
+
             Vector2 mapPos = GetTilesKeyToValue(mapList[i]);
             if (mapPos.Equals(new Vector2(-1f, 4f)) || mapPos.Equals(new Vector2(0f, 4f)))
             {
