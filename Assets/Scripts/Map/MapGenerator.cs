@@ -10,8 +10,8 @@ public class MapGenerator : MonoBehaviour
     public MapManager mapManager;
 
     [SerializeField] GameObject tile;
-    [SerializeField] int gridHeight = 10;
-    public int gridWidth = 10;
+    private int gridHeight;
+    private int gridWidth;
     [SerializeField] float tileSize = 1f;
     [SerializeField] float realTileSize = 1f;
 
@@ -38,8 +38,11 @@ public class MapGenerator : MonoBehaviour
         return newTile;
     }
 
-    public void GenerateGrid(Action onEndGenerate = null)
+    public void GenerateGrid(int gridHeight, int gridWidth, Action onEndGenerate = null)
     {
+        this.gridHeight = gridHeight;
+        this.gridWidth = gridWidth;
+
         for (int x = gridWidth - 1; x >= 0; x--)
         {
             for (int y = 0; y < gridHeight; y++)
@@ -48,7 +51,7 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-        Map startMap = GenerateTile(-1, gridWidth-1);
+        Map startMap = GenerateTile(-1, gridHeight - 1);
         Transform startTrm = startMap.transform;
         RectTransform rectTransform = startTrm.GetComponent<RectTransform>();
 

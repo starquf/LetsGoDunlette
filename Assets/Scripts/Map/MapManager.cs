@@ -53,7 +53,10 @@ public class MapManager : MonoBehaviour
     [SerializeField] SerializableDictionary<mapNode, int> fixedMapTypeCount = new SerializableDictionary<mapNode, int>();
     [SerializeField] SerializableDictionary<Vector2, mapNode> fixedPosMapType = new SerializableDictionary<Vector2, mapNode>();
 
-
+    [SerializeField] int gridWidth = 5;
+    [SerializeField] int gridHeight = 5;
+    [SerializeField] int minLinkedMap = 3;
+    [SerializeField] int maxDestroyCount = 5;
 
     private EncounterHandler encounterHandler;
 
@@ -67,7 +70,7 @@ public class MapManager : MonoBehaviour
     void Start()
     {
         encounterHandler = GameManager.Instance.encounterHandler;
-        mapGenerator.GenerateGrid(OnGenerateMap);
+        mapGenerator.GenerateGrid(gridHeight, gridWidth, OnGenerateMap);
     }
 
     // 맵 시작
@@ -88,6 +91,7 @@ public class MapManager : MonoBehaviour
     public void OnGenerateMap()
     {
         LinkMap();
+        RandomDestroyMap();
         SetMapType();
         InitMap();
     }
@@ -98,6 +102,88 @@ public class MapManager : MonoBehaviour
         curMap = null;
         bossCount = defaultBossCount;
         bossCountTxt.text = bossCount.ToString();
+    }
+
+    // 맵 구조 변경
+    public void RandomDestroyMap()
+    {
+        int count = maxDestroyCount;
+        List<Map> mapList = tiles.Values.ToList();
+
+        List<Vector2> fixedPosMapList = fixedPosMapType.Keys.ToList();
+        for (int i = 0; i < fixedPosMapList.Count; i++)
+        {
+            mapList.Remove(tiles[fixedPosMapList[i]]);
+        }
+
+        int mapCount = mapList.Count;
+        for (int i = 0; i < mapCount && count > 0; i++)
+        {
+            Map map = mapList[Random.Range(0, mapList.Count)];
+            mapList.Remove(map);
+            if (GetTilesKeyToValue(map) != new Vector2(0, gridHeight - 1) && GetTilesKeyToValue(map) != new Vector2(-1, gridHeight - 1) && map.linkedMoveAbleMap.Count > minLinkedMap)
+            {
+                bool canDestroy = CheckCanDestroy(map);
+                if (canDestroy)
+                {
+                    count--;
+                    DestroyMap(map);
+                    Destroy(map.gameObject);
+                }
+            }
+        }
+    }
+    // -1, 4에 연결되어있어야됨
+    public bool CheckCanDestroy(Map map)
+    {
+        if(!CheckDestroyLinkMap(map, map.linkedMoveAbleMap))
+            return false;
+        for (int i = 0; i < map.linkedMoveAbleMap.Count; i++)
+        {
+            Map linkedMap = map.linkedMoveAbleMap[i];
+            if (!IsLinkedAllNode(linkedMap, new List<Map>() { map }))
+                return false;
+        }
+        return true;
+    }
+
+    private bool CheckDestroyLinkMap(Map map, List<Map> firstLinkedMapList)
+    {
+        for (int j = 0; j < map.linkedMoveAbleMap.Count; j++)
+        {
+            Map linkedMap = map.linkedMoveAbleMap[j];
+            if ((firstLinkedMapList.Contains(linkedMap) ? linkedMap.linkedMoveAbleMap.Count - 1 : linkedMap.linkedMoveAbleMap.Count) <= minLinkedMap)
+            {
+                print("이거 부수면 좆됨");
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        return true;
+    }
+
+    private bool IsLinkedAllNode(Map map, List<Map> checkedMapList)
+    {
+        for (int j = 0; j < map.linkedMoveAbleMap.Count; j++)
+        {
+            Map linkedMap = map.linkedMoveAbleMap[j];
+            if (!checkedMapList.Contains(linkedMap))
+            {
+                checkedMapList.Add(linkedMap);
+                if (linkedMap == tiles[new Vector2(0, gridHeight-1)])
+                {
+                    print("모든 노드와 연결되어있음");
+                    return true;
+                }
+                if (IsLinkedAllNode(linkedMap, checkedMapList))
+                    return true;
+            }
+        }
+        print("모든 노드와 연결되어있지 않음");
+        return false;
     }
 
     // 맵 열어주고 줌하는 연출
@@ -113,7 +199,7 @@ public class MapManager : MonoBehaviour
             playerFollowCam.gameObject.SetActive(true);
             if (first)
             {
-                SetPlayerStartPos(tiles[new Vector2(-1, mapGenerator.gridWidth - 1)]);
+                SetPlayerStartPos(tiles[new Vector2(-1, gridHeight - 1)]);
             }
             OpenMapPanel(true, first, time: time, OnComplete: () =>
             {
@@ -203,7 +289,7 @@ public class MapManager : MonoBehaviour
 
         if(first) // 맨처음 부셔지는 맵 연출
         {
-            MovePlayer(tiles[new Vector2(0, mapGenerator.gridWidth-1)], ()=>
+            MovePlayer(tiles[new Vector2(0, gridHeight-1)], ()=>
             {
                 onEndDirection?.Invoke();
             });
@@ -361,7 +447,7 @@ public class MapManager : MonoBehaviour
             if (mapList[i].MapType != mapNode.NONE) continue;
 
             Vector2 mapPos = GetTilesKeyToValue(mapList[i]);
-            if (mapPos.Equals(new Vector2(-1f, 4f)) || mapPos.Equals(new Vector2(0f, 4f)))
+            if (mapPos.Equals(new Vector2(-1f, gridHeight - 1)) || mapPos.Equals(new Vector2(0f, gridHeight - 1)))
             {
                 mapList[i].MapType = mapNode.NONE;
             }
@@ -442,19 +528,25 @@ public class MapManager : MonoBehaviour
         return tiles.FirstOrDefault(x => x.Value == value).Key;
     }
 
-    // 맵 부셔지는 연출
-    public void BreakMap(Map map, bool createImg = true)
+    // 맵과 연결되있는 리스트에서 다빼줌 tiles에서도 빼줌
+    private void DestroyMap(Map map)
     {
-        if (map == null)
-            return;
-        map.SetInteracteble(false);
         for (int i = 0; i < map.linkedMoveAbleMap.Count; i++)
         {
             map.linkedMoveAbleMap[i].linkedMoveAbleMap.Remove(map);
         }
         Vector2 mapKey = GetTilesKeyToValue(map);
         tiles.Remove(mapKey);
+        fixedPosMapType.Remove(mapKey);
+    }
 
+    // 맵 부셔지는 연출
+    public void BreakMap(Map map, bool createImg = true)
+    {
+        if (map == null)
+            return;
+        map.SetInteracteble(false);
+        DestroyMap(map);
         Vector2 mapPosition = map.transform.position;
 
         DOTween.Sequence()
