@@ -7,34 +7,76 @@ public class AnimObj : MonoBehaviour
 {
     protected Animator anim;
 
+    protected AnimatorOverrideController aoc;
+
     protected Vector3 originScale;
     protected Quaternion originRot;
+    protected Color originColor;
+
+    protected SpriteRenderer sr;
+
+    protected int playTrigger;
 
     protected virtual void Awake()
     {
         anim = GetComponent<Animator>();
+        sr = GetComponent<SpriteRenderer>();
 
-        originScale = transform.localScale;
-        originRot = transform.rotation;
+        InitAnim();
+
+        originRot = Quaternion.identity;
+        originScale = Vector3.one;
+        originColor = Color.white;
     }
 
-    public void SetScale(float scale)
+    public virtual void InitAnim()
+    {
+        AnimatorOverrideController aoc = new AnimatorOverrideController();
+        aoc.runtimeAnimatorController = anim.runtimeAnimatorController;
+
+        anim.runtimeAnimatorController = aoc;
+
+        this.aoc = aoc;
+
+        playTrigger = Animator.StringToHash("Play");
+    }
+
+    public AnimObj SetScale(float scale)
     {
         transform.localScale = originScale * scale;
+
+        return this;
     }
 
-    public void SetRotation(Vector3 rot)
+    public AnimObj SetRotation(Vector3 rot)
     {
         transform.eulerAngles = rot;
+
+        return this;
+    }
+
+    public AnimObj SetPosition(Vector3 pos)
+    {
+        transform.position = pos;
+
+        return this;
     }
 
     public virtual void Play(Action onEndAnim = null)
     {
-        StartCoroutine(WaitAnim(onEndAnim));
+        anim.SetTrigger(playTrigger);
+        StartCoroutine(PlayAnim(onEndAnim));
     }
 
-    protected virtual IEnumerator WaitAnim(Action onEndAnim)
+    public void SetAnim(AnimationClip clip)
     {
+        aoc["Play"] = clip;
+    }
+
+    protected virtual IEnumerator PlayAnim(Action onEndAnim)
+    {
+        yield return null;
+
         float time = anim.GetCurrentAnimatorStateInfo(0).length;
 
         yield return new WaitForSeconds(time);
@@ -50,5 +92,6 @@ public class AnimObj : MonoBehaviour
     {
         transform.localScale = originScale;
         transform.rotation = originRot;
+        sr.color = originColor;
     }
 }

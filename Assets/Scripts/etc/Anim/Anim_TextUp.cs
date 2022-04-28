@@ -11,8 +11,6 @@ public class Anim_TextUp : AnimObj
     public Text textValue;
     private TextUpAnimType currentType = TextUpAnimType.Up;
 
-    private Color originColor;
-
     protected override void Awake()
     {
         base.Awake();
@@ -36,8 +34,10 @@ public class Anim_TextUp : AnimObj
         base.Play();
     }
 
-    protected override IEnumerator WaitAnim(Action onEndAnim)
+    protected override IEnumerator PlayAnim(Action onEndAnim)
     {
+        yield return null;
+
         float time = anim.GetCurrentAnimatorStateInfo(0).length;
         float timer = 0;
 

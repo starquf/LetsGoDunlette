@@ -107,3 +107,41 @@ public enum DesIconType
     Fascinate,         // 매혹 (세이렌 전용)
     Heating            // 신체 가열 (타로스 전용)
 }
+
+public enum AnimName
+{
+    C_SphereCast,
+    C_ManaSphereHit,
+    E_ManaSphereHit,
+    E_LightningRod,
+    E_Static,
+    E_Static_Stun,
+    N_Drain,
+    N_ManaSphereHit,
+    N_PoisionCloud,
+    N_Wind,
+    W_ManaSphereHit,
+    W_Bubble,
+    W_BoatFare,
+    W_BoatFareBonusMoney,
+    W_Splash01,
+    W_Splash02,
+    F_ManaSphereHit,
+    F_Arson,
+    F_ChainExplosion,
+    F_ChainExplosionBonus,
+    M_Butt,
+    M_Sword,
+    M_Bite,
+    M_Scratch,
+    M_Shield,
+    M_Wisp,
+    BuffEffect01,
+    BuffEffect02,
+    BuffEffect03,
+    BuffEffect04,
+    StunEffect,
+    SlientEffect,
+    UI_SkillDetermined,
+    UI_RewardDetermined
+}
