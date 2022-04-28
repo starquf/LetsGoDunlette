@@ -44,7 +44,7 @@ public class MI_Biting : SkillPiece
         }
 
         target.GetDamage(Value, this, owner);
-        target.cc.SetCC(CCType.Wound,5);
+        target.cc.SetCC(CCType.Wound,5, true);
 
         owner.GetComponent<EnemyIndicator>().ShowText("상처 부여");
 

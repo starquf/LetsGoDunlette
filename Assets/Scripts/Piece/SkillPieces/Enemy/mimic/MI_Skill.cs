@@ -49,7 +49,7 @@ public class MI_Skill : SkillPiece
             {
                 SetIndicator(owner.gameObject, "상처부여").OnEnd(() =>
                 {
-                    target.cc.SetCC(CCType.Wound, 5);
+                    target.cc.SetCC(CCType.Wound, 5, true);
                     onCastEnd?.Invoke();
                 });
             });

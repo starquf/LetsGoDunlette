@@ -69,11 +69,18 @@ public class CrowdControl : MonoBehaviour
     }
 
     // ================================================================ 군중제어
-    public void SetCC(CCType cc, int turn)
+    public void SetCC(CCType cc, int turn,bool isAdd = false)
     {
-        ccDic[cc] = turn;
+        if(isAdd)
+        {
+            ccDic[cc] += turn;
+        }
+        else
+        {
+            ccDic[cc] = turn;
+        }
 
-        ccUIDic[cc].SetText(turn);
+        ccUIDic[cc].SetText(ccDic[cc]);
         ccUIDic[cc].gameObject.SetActive(true);
 
         string messege = "";
@@ -102,7 +109,7 @@ public class CrowdControl : MonoBehaviour
         }
 
         // 만약 0보다 작아졌다면
-        if (turn <= 0)
+        if (ccDic[cc] <= 0)
         {
             ccDic[cc] = 0;
             ccUIDic[cc].gameObject.SetActive(false);

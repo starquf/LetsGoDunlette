@@ -210,7 +210,7 @@ public class MapManager : MonoBehaviour
         }
         else // 보스 카운팅 연출, 연결된 맵 없을시 떨어지면서 죽어야됨
         {
-            if(CheckHasLinckedMap() && false)
+            if(CheckHasLinckedMap())
             {
                 BossCountDirection(onEndDirection);
             }
@@ -229,10 +229,11 @@ public class MapManager : MonoBehaviour
         DOTween.Sequence()
             .AppendInterval(0.3f)
             .Append(playerTrm.DOMoveY(playerTrm.position.y - 5f, 1f).SetEase(Ease.InBack))
+            .Join(playerTrm.GetComponent<Image>().DOFade(0, 1f).SetEase(Ease.InBack))
             .OnComplete(()=>
             {
                 //ToDO 게임 오버
-
+                GameManager.Instance.ResetGame();
             });
     }
 
