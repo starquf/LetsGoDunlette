@@ -89,7 +89,7 @@ public class Map : MonoBehaviour
                 mapManager.MovePlayer(this,
                     ()=>
                     {
-                        mapManager.ZoomCamera(0.1f, time: 0.5f, ease: Ease.InBack, onComplete: () =>
+                        mapManager.ZoomCamera(0.1f, time: 0.87f, ease: Ease.InBack, onComplete: () =>
                         {
                             SetIcon(null);
                         });

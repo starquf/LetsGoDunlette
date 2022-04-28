@@ -24,10 +24,10 @@ public class BattleFadeUIHandler : MonoBehaviour
         startText.localPosition = new Vector3(900f, startText.localPosition.y, 0f);
 
         Sequence startSeq = DOTween.Sequence()
-                .Append(cvs.DOFade(1f, 0.39f).SetEase(Ease.Linear))
-                .Append(startText.DOLocalMoveX(0f, 0.45f).SetEase(Ease.OutSine))
+                .Append(cvs.DOFade(1f, 0.45f).SetEase(Ease.Linear))
+                .Append(startText.DOLocalMoveX(0f, 0.47f).SetEase(Ease.OutSine))
                 //.AppendInterval(0.1f)
-                .Append(startText.DOLocalMoveX(-900f, 0.3f).SetEase(Ease.InQuad))
+                .Append(startText.DOLocalMoveX(-900f, 0.35f).SetEase(Ease.InQuad))
                 .AppendCallback(() =>
                 {
                     onEndShow?.Invoke();

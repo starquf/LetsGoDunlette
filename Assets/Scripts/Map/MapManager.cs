@@ -108,18 +108,18 @@ public class MapManager : MonoBehaviour
             }
             OpenMapPanel(true, first, time: time, OnComplete: () =>
             {
-                PlayDirection(() =>
+                StartCoroutine(PlayDirection(() =>
                 {
-                    ZoomCamera(2);
-                }, first);
+                    ZoomCamera(3, time:0.65f, ease:Ease.OutQuad);
+                }, first));
             });
         }
         else
         {
             SetAllInteracteble(false);
+            playerFollowCam.gameObject.SetActive(false);
             OpenMapPanel(false, time: time, OnComplete: () =>
             {
-                playerFollowCam.gameObject.SetActive(false);
                 ZoomCamera(5, true);
             });
         }
@@ -175,7 +175,7 @@ public class MapManager : MonoBehaviour
     // 플레이어 이동 연출
     public void MovePlayer(Map map, Action onComplete = null)
     {
-        playerTrm.DOJump(map.transform.position, 0.5f, 1, 0.5f).SetEase(Ease.OutCubic).SetDelay(0.5f).OnComplete(() =>
+        playerTrm.DOJump(map.transform.position, 0.35f, 1, 0.35f).SetEase(Ease.OutQuad).SetDelay(0.5f).OnComplete(() =>
         {
             BreakMap(curMap);
             curMap = map;
@@ -185,8 +185,11 @@ public class MapManager : MonoBehaviour
     }
 
     // 맵열리고 줌 되기 전에 해야될 연출
-    public void PlayDirection(Action onEndDirection, bool first = false)
+    public IEnumerator PlayDirection(Action onEndDirection, bool first = false)
     {
+        //yield return new WaitForSeconds(0.23f);
+        yield return null;
+
         if(first) // 맨처음 부셔지는 맵 연출
         {
             MovePlayer(tiles[new Vector2(0, mapGenerator.gridWidth-1)], ()=>
@@ -419,7 +422,7 @@ public class MapManager : MonoBehaviour
 
         DOTween.Sequence()
             .Append(map.GetComponent<Image>().DOFade(0, 0.5f))
-            .Join(map.transform.DOMoveY(map.transform.position.y - 3f, 0.5f))
+            .Join(map.transform.DOMoveY(map.transform.position.y - 0.5f, 0.5f))
             .OnComplete(() =>
             {
                 RectTransform rect = Instantiate(brokenTile, mapPosition, Quaternion.identity, mapGenerator.transform).GetComponent<RectTransform>();
