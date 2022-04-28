@@ -17,6 +17,19 @@ public class GameOverPanelHandler : MonoBehaviour
         cvsGroup = GetComponent<CanvasGroup>();
     }
 
+    private void Start()
+    {
+        GameManager.Instance.OnResetGame += () =>
+        {
+            if (GameManager.Instance.isLastBattle)
+            {
+                GameManager.Instance.isLastBattle = false;
+            }
+            GameManager.Instance.StageIdx = 0;
+            GameOverEffect();
+        };
+    }
+
     public void GameOverEffect()
     {
         ShowPanel(true, () =>
