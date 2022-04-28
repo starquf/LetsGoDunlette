@@ -115,8 +115,6 @@ public class BattleHandler : MonoBehaviour
         fieldHandler = GetComponent<BattleFieldHandler>();
 
         GameManager.Instance.SetResolution();
-
-        _bossInfo = null;
     }
 
     private void Start()
@@ -157,7 +155,7 @@ public class BattleHandler : MonoBehaviour
         }
         else if (isBoss)
         {
-            battleInfo = _bossInfo == null ? battleInfoHandler.GetRandomBossInfo() : _bossInfo;
+            battleInfo = _bossInfo.enemyInfos.Count > 0 ? _bossInfo : battleInfoHandler.GetRandomBossInfo();
         }
         else if (isElite)
         {

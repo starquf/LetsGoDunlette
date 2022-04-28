@@ -27,6 +27,8 @@ public class MapManager : MonoBehaviour
     Sequence mapOpenSequence;
     Tween zoomTween;
 
+    private Vector2 defaultBossCloudPos;
+
     [HideInInspector] public Dictionary<Vector2, Map> tiles;
     private Map curMap;
     private int bossCount;
@@ -35,7 +37,10 @@ public class MapManager : MonoBehaviour
     [SerializeField] MapGenerator mapGenerator;
     [SerializeField] CanvasGroup mapCvsGroup;
     [SerializeField] CanvasGroup mapBGCvsGroup;
+    [SerializeField] Image blockPanel;
+    [SerializeField] Transform bossCloudTrm;
     [SerializeField] Transform playerTrm;
+    [SerializeField] Transform playerUpTrm;
     [SerializeField] CinemachineVirtualCamera playerFollowCam;
     [SerializeField] Text bossCountTxt;
 
@@ -55,6 +60,7 @@ public class MapManager : MonoBehaviour
     {
         GameManager.Instance.mapManager = this;
         tiles = new Dictionary<Vector2, Map>();
+        defaultBossCloudPos = bossCloudTrm.position;
     }
 
     void Start()
@@ -96,9 +102,11 @@ public class MapManager : MonoBehaviour
     // 맵 열어주고 줌하는 연출
     public void OpenMap(bool enable, float time = 0.5f, bool first = false)
     {
-        //playerFollowCam.State cameraState
+        CinemachineBrain cB = Camera.main.GetComponent<CinemachineBrain>();
+        cB.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
         if (enable)
         {
+            blockPanel.raycastTarget = false;
             SetAllInteracteble(false);
             ZoomCamera(5, true);
             playerFollowCam.gameObject.SetActive(true);
@@ -166,10 +174,10 @@ public class MapManager : MonoBehaviour
                 }
             }
         }
-        //if (open)
-        //{
-        //    SoundHandler.Instance.PlayBGMSound("Battle_2");
-        //}
+        if (open)
+        {
+            SoundHandler.Instance.PlayBGMSound("Battle_2");
+        }
     }
 
     // 플레이어 이동 연출
@@ -187,13 +195,15 @@ public class MapManager : MonoBehaviour
     // 맵열리고 줌 되기 전에 해야될 연출
     public IEnumerator PlayDirection(Action onEndDirection, bool first = false)
     {
-        //yield return new WaitForSeconds(0.23f);
-        yield return null;
+        blockPanel.raycastTarget = true;
+        yield return new WaitForSeconds(0.7f);
+        //yield return null;
 
         if(first) // 맨처음 부셔지는 맵 연출
         {
             MovePlayer(tiles[new Vector2(0, mapGenerator.gridWidth-1)], ()=>
             {
+                blockPanel.raycastTarget = false;
                 onEndDirection?.Invoke();
             });
         }
@@ -222,9 +232,10 @@ public class MapManager : MonoBehaviour
         return curMap.linkedMoveAbleMap.Count > 0;
     }
 
+    // 보스 카운팅 연출 및 보스 올라가는 연출
     public void BossCountDirection(Action onEndDirection)
     {
-        if(bossCount-- > 0)
+        if(--bossCount > 0)
         {
             DOTween.Sequence()
                 .Append(bossCountTxt.DOText(bossCount.ToString(), 0.5f))
@@ -235,9 +246,18 @@ public class MapManager : MonoBehaviour
         }
         else
         {
+            CinemachineBrain cB = Camera.main.GetComponent<CinemachineBrain>();
+            cB.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.EaseInOut;
+            playerFollowCam.gameObject.SetActive(false);
+            Vector2 bossCloudPos = new Vector2(0, bossCloudTrm.position.y);
+            Vector2 dir = bossCloudPos - (Vector2)playerTrm.position;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             DOTween.Sequence()
-                .Append(playerTrm.DORotate(new Vector3(playerTrm.rotation.x, playerTrm.rotation.y-360f*10, playerTrm.rotation.z), 1.3f).SetEase(Ease.OutCubic))
-                .Join(playerTrm.DOMoveY(playerTrm.position.y + 8f, 1f).SetEase(Ease.OutCubic).SetDelay(0.3f))
+                .Append(bossCountTxt.DOText(bossCount.ToString(), 0.5f))
+                .Append(playerTrm.DORotate(new Vector3(playerTrm.rotation.x, playerTrm.rotation.y - 360f * 10, playerTrm.rotation.z), 1.3f).SetEase(Ease.OutCubic))
+                .AppendInterval(0.3f)
+                .Append(playerTrm.DORotate((Quaternion.AngleAxis(angle-90, Vector3.forward).eulerAngles), 1f).SetEase(Ease.OutCubic))
+                .Join(playerTrm.DOMove(bossCloudPos, 1f).SetEase(Ease.OutCubic))
                 .OnComplete(() =>
                 {
                     StartMap(mapNode.BOSS);
@@ -426,7 +446,10 @@ public class MapManager : MonoBehaviour
             .OnComplete(() =>
             {
                 RectTransform rect = Instantiate(brokenTile, mapPosition, Quaternion.identity, mapGenerator.transform).GetComponent<RectTransform>();
+                Image img = rect.GetComponent<Image>();
                 rect.anchoredPosition = new Vector3(rect.anchoredPosition.x, rect.anchoredPosition.y, 0f);
+                img.color = new Color(1, 1, 1, 0);
+                img.DOFade(1, 0.5f);
                 Destroy(map.gameObject);
             });
     }
@@ -434,6 +457,9 @@ public class MapManager : MonoBehaviour
     // 카메라 줌되는 연출
     public void ZoomCamera(float orthographicSize, bool skip = false, float time = 0.5f, Ease ease = Ease.Unset, Action onComplete = null)
     {
+
+        playerFollowCam.Follow = orthographicSize >= 5 ?  playerUpTrm : playerTrm;
+        MoveBossCloud(orthographicSize, time, ease, skip);
         if (!skip)
         {
             zoomTween.Kill();
@@ -447,6 +473,22 @@ public class MapManager : MonoBehaviour
         {
             playerFollowCam.m_Lens.OrthographicSize = orthographicSize;
             onComplete?.Invoke();
+        }
+    }
+
+    // 카메라 줌에 따라 움직이는 보스 구름
+    public void MoveBossCloud(float zoomSize, float time, Ease ease, bool skip)
+    {
+        float movePower = zoomSize >= 5 ? 0: 5;
+        if(!skip)
+        {
+            DOTween.Sequence()
+                .Append(bossCloudTrm.DOMoveY(defaultBossCloudPos.y + movePower, time).SetEase(ease))
+                ;
+        }
+        else
+        {
+            bossCloudTrm.position = new Vector3(bossCloudTrm.position.x, defaultBossCloudPos.y + movePower, bossCloudTrm.position.z);
         }
     }
 }
