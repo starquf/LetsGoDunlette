@@ -119,6 +119,7 @@ public class MapManager : MonoBehaviour
             {
                 StartCoroutine(PlayDirection(() =>
                 {
+                    blockPanel.raycastTarget = false;
                     ZoomCamera(3, time:0.65f, ease:Ease.OutQuad);
                 }, first));
             });
@@ -204,13 +205,12 @@ public class MapManager : MonoBehaviour
         {
             MovePlayer(tiles[new Vector2(0, mapGenerator.gridWidth-1)], ()=>
             {
-                blockPanel.raycastTarget = false;
                 onEndDirection?.Invoke();
             });
         }
         else // 보스 카운팅 연출, 연결된 맵 없을시 떨어지면서 죽어야됨
         {
-            if(CheckHasLinckedMap())
+            if(CheckHasLinckedMap() && false)
             {
                 BossCountDirection(onEndDirection);
             }
@@ -224,10 +224,11 @@ public class MapManager : MonoBehaviour
     // 이동할 맵이 없으면 떨어져 죽는 연출
     public void CanNotMoveGameOverDirection()
     {
-        BreakMap(curMap);
+        ZoomCamera(3, time: 0.65f, ease: Ease.OutQuad);
+        BreakMap(curMap, false);
         DOTween.Sequence()
             .AppendInterval(0.3f)
-            .Append(playerTrm.DOMoveY(playerTrm.position.y - 0.5f, 0.7f).SetEase(Ease.InBack))
+            .Append(playerTrm.DOMoveY(playerTrm.position.y - 5f, 1f).SetEase(Ease.InBack))
             .OnComplete(()=>
             {
                 //ToDO 게임 오버
@@ -441,7 +442,7 @@ public class MapManager : MonoBehaviour
     }
 
     // 맵 부셔지는 연출
-    public void BreakMap(Map map)
+    public void BreakMap(Map map, bool createImg = true)
     {
         if (map == null)
             return;
@@ -460,11 +461,14 @@ public class MapManager : MonoBehaviour
             .Join(map.transform.DOMoveY(map.transform.position.y - 0.5f, 0.5f))
             .OnComplete(() =>
             {
-                RectTransform rect = Instantiate(brokenTile, mapPosition, Quaternion.identity, mapGenerator.transform).GetComponent<RectTransform>();
-                Image img = rect.GetComponent<Image>();
-                rect.anchoredPosition = new Vector3(rect.anchoredPosition.x, rect.anchoredPosition.y, 0f);
-                img.color = new Color(1, 1, 1, 0);
-                img.DOFade(1, 0.5f);
+                if(createImg)
+                {
+                    RectTransform rect = Instantiate(brokenTile, mapPosition, Quaternion.identity, mapGenerator.transform).GetComponent<RectTransform>();
+                    Image img = rect.GetComponent<Image>();
+                    rect.anchoredPosition = new Vector3(rect.anchoredPosition.x, rect.anchoredPosition.y, 0f);
+                    img.color = new Color(1, 1, 1, 0);
+                    img.DOFade(1, 0.5f);
+                }
                 Destroy(map.gameObject);
             });
     }
