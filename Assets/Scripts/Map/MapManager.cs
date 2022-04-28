@@ -119,6 +119,7 @@ public class MapManager : MonoBehaviour
             {
                 StartCoroutine(PlayDirection(() =>
                 {
+                    blockPanel.raycastTarget = false;
                     ZoomCamera(3, time:0.65f, ease:Ease.OutQuad);
                 }, first));
             });
@@ -204,7 +205,6 @@ public class MapManager : MonoBehaviour
         {
             MovePlayer(tiles[new Vector2(0, mapGenerator.gridWidth-1)], ()=>
             {
-                blockPanel.raycastTarget = false;
                 onEndDirection?.Invoke();
             });
         }
@@ -224,10 +224,10 @@ public class MapManager : MonoBehaviour
     // ÀÌµ¿ÇÒ ¸ÊÀÌ ¾øÀ¸¸é ¶³¾îÁ® Á×´Â ¿¬Ãâ
     public void CanNotMoveGameOverDirection()
     {
-        BreakMap(curMap);
+        BreakMap(curMap, false);
         DOTween.Sequence()
             .AppendInterval(0.3f)
-            .Append(playerTrm.DOMoveY(playerTrm.position.y - 0.5f, 0.7f).SetEase(Ease.InBack))
+            .Append(playerTrm.DOMoveY(playerTrm.position.y - 1f, 0.7f).SetEase(Ease.InBack))
             .OnComplete(()=>
             {
                 //ToDO °ÔÀÓ ¿À¹ö
@@ -441,7 +441,7 @@ public class MapManager : MonoBehaviour
     }
 
     // ¸Ê ºÎ¼ÅÁö´Â ¿¬Ãâ
-    public void BreakMap(Map map)
+    public void BreakMap(Map map, bool createImg = true)
     {
         if (map == null)
             return;
@@ -460,11 +460,14 @@ public class MapManager : MonoBehaviour
             .Join(map.transform.DOMoveY(map.transform.position.y - 0.5f, 0.5f))
             .OnComplete(() =>
             {
-                RectTransform rect = Instantiate(brokenTile, mapPosition, Quaternion.identity, mapGenerator.transform).GetComponent<RectTransform>();
-                Image img = rect.GetComponent<Image>();
-                rect.anchoredPosition = new Vector3(rect.anchoredPosition.x, rect.anchoredPosition.y, 0f);
-                img.color = new Color(1, 1, 1, 0);
-                img.DOFade(1, 0.5f);
+                if(createImg)
+                {
+                    RectTransform rect = Instantiate(brokenTile, mapPosition, Quaternion.identity, mapGenerator.transform).GetComponent<RectTransform>();
+                    Image img = rect.GetComponent<Image>();
+                    rect.anchoredPosition = new Vector3(rect.anchoredPosition.x, rect.anchoredPosition.y, 0f);
+                    img.color = new Color(1, 1, 1, 0);
+                    img.DOFade(1, 0.5f);
+                }
                 Destroy(map.gameObject);
             });
     }
