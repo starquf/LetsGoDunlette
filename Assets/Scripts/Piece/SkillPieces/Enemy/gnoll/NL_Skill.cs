@@ -45,7 +45,7 @@ public class NL_Skill : SkillPiece
             {
                 SetIndicator(owner.gameObject, "상처부여").OnEnd(() =>
                 {
-                    target.cc.SetCC(CCType.Wound, 2);
+                    target.cc.SetCC(CCType.Wound, 2, true);
                     onCastEnd?.Invoke();
                 });
             });

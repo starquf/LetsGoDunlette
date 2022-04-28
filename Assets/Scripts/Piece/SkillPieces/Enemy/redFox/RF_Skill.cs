@@ -59,7 +59,7 @@ public class RF_Skill : SkillPiece
                 {
                     SetIndicator(owner.gameObject, "상처 부여").OnEnd(() =>
                     {
-                        target.cc.SetCC(CCType.Wound, 3);
+                        target.cc.SetCC(CCType.Wound, 3,true);
                         Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
                         effect.transform.position = bh.playerImgTrans.position;
                         effect.Play(() =>

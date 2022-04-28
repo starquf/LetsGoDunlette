@@ -29,6 +29,6 @@ public class Skill_N_PosionCloud : SkillPiece
             onCastEnd?.Invoke();
         });
 
-        target.cc.SetCC(CCType.Wound, 2);
+        target.cc.SetCC(CCType.Wound, 2, true);
     }
 }
