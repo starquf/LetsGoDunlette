@@ -15,6 +15,7 @@ public class PieceCastUIHandler : MonoBehaviour
     public TextMeshProUGUI cardNameText;
     public TextMeshProUGUI cardDesText;
     public Transform skillIconTrans;
+    public Image strokeImg;
 
     public Button closeBtn;
 
@@ -26,7 +27,7 @@ public class PieceCastUIHandler : MonoBehaviour
     public List<Color> colors = new List<Color>();
     public Dictionary<ElementalType, Color> colorDic;
 
-    private List<SkillDesIcon> desIcons;
+    private List<SkillDesIcon> desIcons = new List<SkillDesIcon>();
 
     private Coroutine timeCor;
     private readonly WaitForSeconds fiveSecWait = new WaitForSeconds(5f);
@@ -81,6 +82,8 @@ public class PieceCastUIHandler : MonoBehaviour
 
         List<DesIconInfo> desInfos = skillPiece.GetDesIconInfo();
         ShowDesIcon(desInfos, skillPiece);
+
+        strokeImg.sprite = GameManager.Instance.inventoryHandler.pieceBGStrokeSprDic[skillPiece.currentType];
 
         pieceMoveSequence.Kill();
 

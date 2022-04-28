@@ -22,11 +22,13 @@ public class InventoryHandler : MonoBehaviour
     [SerializeField] private List<Gradient> effectGradients = new List<Gradient>();
     [SerializeField] private List<Sprite> bookmarkSprites = new List<Sprite>();
     [SerializeField] private List<Sprite> pieceBGSprites = new List<Sprite>();
+    [SerializeField] private List<Sprite> pieceBGStrokeSprites = new List<Sprite>();
 
     public Dictionary<ElementalType, Sprite> effectSprDic;
     public Dictionary<ElementalType, Gradient> effectGradDic;
     public Dictionary<ElementalType, Sprite> bookmarkSprDic;
     public Dictionary<ElementalType, Sprite> pieceBGSprDic;
+    public Dictionary<ElementalType, Sprite> pieceBGStrokeSprDic;
 
     private Tween unusedOpenTween;
     private Tween usedOpenTween;
@@ -43,6 +45,7 @@ public class InventoryHandler : MonoBehaviour
         effectGradDic = new Dictionary<ElementalType, Gradient>();
         bookmarkSprDic = new Dictionary<ElementalType, Sprite>();
         pieceBGSprDic = new Dictionary<ElementalType, Sprite>();
+        pieceBGStrokeSprDic = new Dictionary<ElementalType, Sprite>();
 
         for (int i = 0; i < 6; i++)
         {
@@ -50,6 +53,7 @@ public class InventoryHandler : MonoBehaviour
             effectGradDic.Add((ElementalType)i, effectGradients[i]);
             bookmarkSprDic.Add((ElementalType)i, bookmarkSprites[i]);
             pieceBGSprDic.Add((ElementalType)i, pieceBGSprites[i]);
+            pieceBGStrokeSprDic.Add((ElementalType)i, pieceBGStrokeSprites[i]);
         }
     }
 

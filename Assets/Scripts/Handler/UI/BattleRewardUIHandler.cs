@@ -41,7 +41,7 @@ public class BattleRewardUIHandler : MonoBehaviour
     public Image maskImg;
     public Image selectedImg;
 
-    private List<SkillDesIcon> desIcons;
+    private List<SkillDesIcon> desIcons = new List<SkillDesIcon>();
 
     private Sequence showSequence;
     private Sequence winShowSequence;

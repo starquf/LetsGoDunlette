@@ -54,6 +54,12 @@ public class Skill_F_ChainExplosion : SkillPiece
                     bonusEffect.transform.position = targetPos;
 
                     bonusEffect.Play();
+
+                    Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
+                    textEffect.SetType(TextUpAnimType.Fixed);
+                    textEffect.transform.position = target.transform.position;
+                    textEffect.SetScale(0.8f);
+                    textEffect.Play("¿¬¼âÆø¹ß È¿°ú ¹ßµ¿!");
                 }
 
                 action?.Invoke();
