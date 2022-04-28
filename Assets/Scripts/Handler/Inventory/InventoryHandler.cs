@@ -66,10 +66,8 @@ public class InventoryHandler : MonoBehaviour
     {
         SkillPiece skill = Instantiate(skillPrefab, transform).GetComponent<SkillPiece>();
         skill.gameObject.SetActive(false);
-        skill.owner = owner;
 
-        owner.skills.Add(skill);
-        AddSkill(skill);
+        AddSkill(skill, owner);
 
         return skill;
     }
@@ -78,8 +76,6 @@ public class InventoryHandler : MonoBehaviour
     {
         SkillPiece skill = Instantiate(skillPrefab, transform).GetComponent<SkillPiece>();
         skill.transform.position = makePos;
-        skill.owner = owner;
-        owner.skills.Add(skill);
 
         skill.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
 
@@ -94,14 +90,18 @@ public class InventoryHandler : MonoBehaviour
                 onEndCreate?.Invoke();
             });
 
-        AddSkill(skill);
+        AddSkill(skill, owner);
 
         return skill;
     }
 
-    public void AddSkill(SkillPiece skill)
+    public void AddSkill(SkillPiece skill, Inventory owner)
     {
+        skill.gameObject.SetActive(false);
+
         skill.transform.SetParent(transform);
+        skill.owner = owner;
+        owner.skills.Add(skill);
 
         skills.Add(skill);
         unusedSkills.Add(skill);

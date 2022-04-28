@@ -111,14 +111,11 @@ public class Encounter_011 : RandomEncounter
                 .OnComplete(() =>
                 {
                     Inventory owner = battleHandler.player.GetComponent<Inventory>();
-                    skill.gameObject.SetActive(false);
-                    skill.owner = owner;
-                    GameManager.Instance.inventoryHandler.AddSkill(skill);
+
+                    GameManager.Instance.inventoryHandler.AddSkill(skill, owner);
                     skill.GetComponent<Image>().color = Color.white;
 
-                    skill2.gameObject.SetActive(false);
-                    skill2.owner = owner;
-                    GameManager.Instance.inventoryHandler.AddSkill(skill2);
+                    GameManager.Instance.inventoryHandler.AddSkill(skill2, owner);
                     skill2.GetComponent<Image>().color = Color.white;
 
                     OnExitEncounter?.Invoke(true);
@@ -132,9 +129,8 @@ public class Encounter_011 : RandomEncounter
                 .OnComplete(() =>
                 {
                     Inventory owner = battleHandler.player.GetComponent<Inventory>();
-                    skill.gameObject.SetActive(false);
-                    skill.owner = owner;
-                    GameManager.Instance.inventoryHandler.AddSkill(skill);
+
+                    GameManager.Instance.inventoryHandler.AddSkill(skill, owner);
                     skill.GetComponent<Image>().color = Color.white;
 
                     OnExitEncounter?.Invoke(true);

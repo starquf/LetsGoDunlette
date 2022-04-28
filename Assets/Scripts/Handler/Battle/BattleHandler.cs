@@ -196,7 +196,7 @@ public class BattleHandler : MonoBehaviour
     private void InitHandler()
     {
         battleRewardHandler.Init(GameManager.Instance.skillContainer.playerSkillPrefabs);
-        battleUtil.Init(inventory, mainRullet);
+        battleUtil.Init(inventory, mainRullet, this);
     }
 
     public void CreateEnemy(List<EnemyType> enemyInfos, Action onCreateEnd) //다중생성

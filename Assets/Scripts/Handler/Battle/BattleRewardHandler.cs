@@ -31,7 +31,8 @@ public class BattleRewardHandler : MonoBehaviour
             battleRewardUI.selectCG.interactable = false;
             battleRewardUI.buttonCG.interactable = false;
 
-            GetPiece(battleRewardUI.selectedSkillObj.gameObject);
+            GetPiece(battleRewardUI.selectedSkillObj);
+            RemovePiece(battleRewardUI.selectedSkillObj);
 
             battleRewardUI.GetRewardEffect(() =>
             {
@@ -44,6 +45,8 @@ public class BattleRewardHandler : MonoBehaviour
         {
             battleRewardUI.selectCG.interactable = false;
             battleRewardUI.buttonCG.interactable = false;
+
+            RemovePiece(null);
 
             // 전투 끝 알림
             battleRewardUI.SkipRewardEffect(() =>
@@ -95,20 +98,26 @@ public class BattleRewardHandler : MonoBehaviour
         });
     }
 
-    private void GetPiece(GameObject skillObj, Action onEndCreate = null)
+    private void GetPiece(SkillPiece skill, Action onEndCreate = null)
     {
-        /*
-        invenHandler.CreateSkill(
-            skillObj, 
-            battleHandler.player.GetComponent<Inventory>(), 
-            battleRewardUI.pieceDesCG.transform.position,
-            () => { 
-                onEndCreate?.Invoke();
-            });
-        */
-        invenHandler.CreateSkill(
-            skillObj,
+        invenHandler.AddSkill(
+            skill,
             battleHandler.player.GetComponent<Inventory>());
+    }
+
+    private void RemovePiece(SkillPiece selected)
+    {
+        for (int i = battleRewardUI.createdReward.Count - 1; i >= 0; i--)
+        {
+            SkillPiece skill = battleRewardUI.createdReward[i];
+
+            if (skill != selected)
+            {
+                Destroy(skill.gameObject);
+            }
+        }
+
+        battleRewardUI.createdReward.Clear();
     }
 
     private List<SkillPiece> SetReward(List<GameObject> rewardObjs, int rewardCnt = 8)

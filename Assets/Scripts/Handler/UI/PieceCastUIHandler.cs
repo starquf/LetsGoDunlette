@@ -141,22 +141,7 @@ public class PieceCastUIHandler : MonoBehaviour
                 desIcons[i].gameObject.SetActive(true);
             }
 
-            Sprite icon = null;
-
-            switch (type)
-            {
-                case DesIconType.Attack:
-                    icon = GameManager.Instance.inventoryHandler.effectSprDic[skillPiece.currentType];
-                    break;
-
-                case DesIconType.Stun:
-                    icon = GameManager.Instance.ccIcons[0];
-                    break;
-
-                default:
-                    icon = null;
-                    break;
-            }
+            Sprite icon = GameManager.Instance.battleHandler.battleUtil.GetDesIcon(skillPiece, type);
 
             desIcons[i].SetIcon(icon, desInfos[i].value);
         }

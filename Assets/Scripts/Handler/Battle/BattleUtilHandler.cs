@@ -5,13 +5,15 @@ using UnityEngine;
 
 public class BattleUtilHandler : MonoBehaviour
 {
+    private BattleHandler bh;
     private InventoryHandler inventory;
     private SkillRullet mainRullet;
 
-    public void Init(InventoryHandler inven, SkillRullet rullet)
+    public void Init(InventoryHandler inven, SkillRullet rullet, BattleHandler battleHandler)
     {
         inventory = inven;
         mainRullet = rullet;
+        bh = battleHandler;
     }
 
     public bool CheckRulletPenalty(bool isPlayerPiece)
@@ -190,12 +192,12 @@ public class BattleUtilHandler : MonoBehaviour
     {
         if (piece == null) return;
 
-        GameManager.Instance.inventoryHandler.SetUseSkill(piece);
+        inventory.SetUseSkill(piece);
     }
 
     public void SetPieceToInventory(SkillPiece piece)
     {
-        GameManager.Instance.inventoryHandler.SetUnUseSkill(piece);
+        inventory.SetUnUseSkill(piece);
     }
 
     public void SetRulletEmpty(int pieceIdx)
@@ -258,5 +260,27 @@ public class BattleUtilHandler : MonoBehaviour
         }
 
         return list;
+    }
+
+    public Sprite GetDesIcon(SkillPiece skillPiece, DesIconType type)
+    {
+        Sprite icon = null;
+
+        switch (type)
+        {
+            case DesIconType.Attack:
+                icon = inventory.effectSprDic[skillPiece.currentType];
+                break;
+
+            case DesIconType.Stun:
+                icon = GameManager.Instance.ccIcons[0];
+                break;
+
+            default:
+                icon = null;
+                break;
+        }
+
+        return icon;
     }
 }
