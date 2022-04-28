@@ -16,8 +16,9 @@ public class PieceDesUIHandler : MonoBehaviour
     public Transform skillIconTrans;
     public Image bookmarkImg;
     public Image bookmarkBGImg;
+    public Image strokeImg;
 
-    private List<SkillDesIcon> desIcons;
+    private List<SkillDesIcon> desIcons = new List<SkillDesIcon>();
 
     [Space(10f)]
     public Button closeBtn;
