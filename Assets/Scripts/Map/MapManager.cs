@@ -210,7 +210,7 @@ public class MapManager : MonoBehaviour
         }
         else // 보스 카운팅 연출, 연결된 맵 없을시 떨어지면서 죽어야됨
         {
-            if(CheckHasLinckedMap())
+            if(CheckHasLinckedMap() && false)
             {
                 BossCountDirection(onEndDirection);
             }
@@ -224,10 +224,11 @@ public class MapManager : MonoBehaviour
     // 이동할 맵이 없으면 떨어져 죽는 연출
     public void CanNotMoveGameOverDirection()
     {
+        ZoomCamera(3, time: 0.65f, ease: Ease.OutQuad);
         BreakMap(curMap, false);
         DOTween.Sequence()
             .AppendInterval(0.3f)
-            .Append(playerTrm.DOMoveY(playerTrm.position.y - 1f, 0.7f).SetEase(Ease.InBack))
+            .Append(playerTrm.DOMoveY(playerTrm.position.y - 5f, 1f).SetEase(Ease.InBack))
             .OnComplete(()=>
             {
                 //ToDO 게임 오버
