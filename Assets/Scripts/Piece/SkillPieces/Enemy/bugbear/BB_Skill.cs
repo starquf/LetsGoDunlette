@@ -47,12 +47,13 @@ public class BB_Skill : SkillPiece
                     {
                         target.GetDamage(20);
 
-                        Anim_M_Butt effect = PoolManager.GetItem<Anim_M_Butt>();
-                        effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
-                        effect.Play(() =>
-                        {
-                            onCastEnd?.Invoke();
-                        });
+                        animHandler.GetAnim(AnimName.M_Butt)
+                            .SetPosition(GameManager.Instance.enemyEffectTrm.position)
+                            .SetScale(2f)
+                            .Play(() =>
+                            {
+                                onCastEnd?.Invoke();
+                            });
                     });
                 });
             });
@@ -63,12 +64,13 @@ public class BB_Skill : SkillPiece
             {
                 target.GetDamage(20);
 
-                Anim_M_Butt effect = PoolManager.GetItem<Anim_M_Butt>();
-                effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
-                effect.Play(() =>
-                {
-                    onCastEnd?.Invoke();
-                });
+                animHandler.GetAnim(AnimName.M_Butt)
+                            .SetPosition(GameManager.Instance.enemyEffectTrm.position)
+                            .SetScale(2f)
+                            .Play(() =>
+                            {
+                                onCastEnd?.Invoke();
+                            });
             });
         }
     }
@@ -79,9 +81,10 @@ public class BB_Skill : SkillPiece
         {
             target.GetDamage(60);
 
-            Anim_M_Butt effect = PoolManager.GetItem<Anim_M_Butt>();
-            effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
-            effect.Play(() =>
+            animHandler.GetAnim(AnimName.M_Butt)
+            .SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            .SetScale(2f)
+            .Play(() =>
             {
                 SetIndicator(owner.gameObject, "±âÀý").OnEnd(() =>
                 {

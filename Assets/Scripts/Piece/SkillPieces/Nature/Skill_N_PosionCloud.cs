@@ -22,12 +22,12 @@ public class Skill_N_PosionCloud : SkillPiece
         BattleHandler bh = GameManager.Instance.battleHandler;
         Vector3 targetPos = target.transform.position;
 
-        Anim_N_PosionCloud posionCloudEffect = PoolManager.GetItem<Anim_N_PosionCloud>();
-        posionCloudEffect.transform.position = targetPos;
-
-        posionCloudEffect.Play(() => {
-            onCastEnd?.Invoke();
-        });
+        animHandler.GetAnim(AnimName.N_PoisionCloud)
+                .SetPosition(targetPos)
+                .Play(() => 
+                {
+                    onCastEnd?.Invoke();
+                });
 
         target.cc.SetCC(CCType.Wound, 2, true);
     }

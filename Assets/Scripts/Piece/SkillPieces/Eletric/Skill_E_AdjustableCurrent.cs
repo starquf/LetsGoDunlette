@@ -56,16 +56,15 @@ public class Skill_E_AdjustableCurrent : SkillPiece
             {
                 skillEffect.Play(targetPos, () =>
                 {
-                    Anim_E_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_E_ManaSphereHit>();
-                    hitEffect.transform.position = targetPos;
-                    hitEffect.Play();
+                    animHandler.GetAnim(AnimName.E_ManaSphereHit)
+                    .SetPosition(targetPos)
+                    .Play();
 
                     if (Random.Range(0, 100) < percentage)
                     {
-                        Anim_E_Static_Stun stunEffect = PoolManager.GetItem<Anim_E_Static_Stun>();
-                        stunEffect.transform.position = targetPos;
-
-                        stunEffect.Play();
+                        animHandler.GetAnim(AnimName.E_Static_Stun)
+                        .SetPosition(targetPos)
+                        .Play();
 
                         target.cc.SetCC(CCType.Stun, 1);
 
@@ -76,11 +75,11 @@ public class Skill_E_AdjustableCurrent : SkillPiece
 
                         DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
 
-                        Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-                        textEffect.SetType(TextUpAnimType.Up);
-                        textEffect.transform.position = target.transform.position;
-                        textEffect.SetScale(0.7f);
-                        textEffect.Play("기절 확률 증가!");
+                        animHandler.GetTextAnim()
+                        .SetType(TextUpAnimType.Up)
+                        .SetScale(0.7f)
+                        .SetPosition(target.transform.position)
+                        .Play("기절 확률 증가!");
 
                         log = new LogCon();
                         log.text = $"확률 증가";

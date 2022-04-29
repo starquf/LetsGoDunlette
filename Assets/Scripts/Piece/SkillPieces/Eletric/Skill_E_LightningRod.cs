@@ -86,39 +86,39 @@ public class Skill_E_LightningRod : SkillPiece
         targetPos.y -= 0.7f;
         targetPos.x += 0.5f;
 
-        Anim_E_LightningRod lightningRodEffect = PoolManager.GetItem<Anim_E_LightningRod>();
-        lightningRodEffect.transform.position = targetPos;
-
-        lightningRodEffect.Play(() => {
-
-            // 번개 속성이 존재한다면
-            if (result != null)
+        animHandler.GetAnim(AnimName.E_LightningRod)
+            .SetScale(0.5f)
+            .SetPosition(targetPos)
+            .Play(() =>
             {
-                battleHandler.battleEvent.StartActionEvent(EventTimeSkill.WithSkill, result);
+                // 번개 속성이 존재한다면
+                if (result != null)
+                {
+                    battleHandler.battleEvent.StartActionEvent(EventTimeSkill.WithSkill, result);
 
-                LogCon log = new LogCon();
-                log.text = $"스킬 발동";
-                log.selfSpr = skillImg.sprite;
-                log.targetSpr = result.skillImg.sprite;
+                    LogCon log = new LogCon();
+                    log.text = $"스킬 발동";
+                    log.selfSpr = skillImg.sprite;
+                    log.targetSpr = result.skillImg.sprite;
 
-                DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
+                    DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
 
-                result.Cast(target,onCastEnd);
+                    result.Cast(target, onCastEnd);
 
-                battleHandler.battleUtil.SetPieceToGraveyard(lightningSkillIdxDic[result]);
+                    battleHandler.battleUtil.SetPieceToGraveyard(lightningSkillIdxDic[result]);
 
-                log = new LogCon();
-                log.text = $"무덤으로 보냄";
-                log.selfSpr = skillImg.sprite;
-                log.targetSpr = result.skillImg.sprite;
+                    log = new LogCon();
+                    log.text = $"무덤으로 보냄";
+                    log.selfSpr = skillImg.sprite;
+                    log.targetSpr = result.skillImg.sprite;
 
-                DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
-            }
-            else
-            {
-                onCastEnd?.Invoke();
-            }
-        });
+                    DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
+                }
+                else
+                {
+                    onCastEnd?.Invoke();
+                }
+            });
 
         int damage = GetDamageCalc();
 

@@ -19,7 +19,7 @@ public class AnimHandler : MonoBehaviour
 
     public List<AnimInfo> animInfos = new List<AnimInfo>();
 
-    private Dictionary<AnimName, AnimationClip> animDic;
+    private Dictionary<AnimName, AnimInfo> animDic;
 
     private void Awake()
     {
@@ -33,11 +33,11 @@ public class AnimHandler : MonoBehaviour
 
     private void InitAnim()
     {
-        animDic = new Dictionary<AnimName, AnimationClip>();
+        animDic = new Dictionary<AnimName, AnimInfo>();
 
         for (int i = 0; i < animInfos.Count; i++)
         {
-            animDic.Add(animInfos[i].name, animInfos[i].clip);
+            animDic.Add(animInfos[i].name, animInfos[i]);
         }
     }
 
@@ -45,9 +45,10 @@ public class AnimHandler : MonoBehaviour
     {
         AnimObj animObj = PoolManager.GetItem<AnimObj>();
 
-        if (animDic.TryGetValue(name, out AnimationClip clip))
+        if (animDic.TryGetValue(name, out AnimInfo info))
         {
-            animObj.SetAnim(clip);
+            animObj.SetAnim(info.clip);
+            animObj.originScale = info.defaultSize;
         }
         else
         {

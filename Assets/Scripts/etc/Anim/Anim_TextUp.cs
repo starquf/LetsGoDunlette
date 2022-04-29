@@ -9,6 +9,8 @@ using Random = UnityEngine.Random;
 public class Anim_TextUp : AnimObj
 {
     public Text textValue;
+    public AnimationClip textClip;
+
     private TextUpAnimType currentType = TextUpAnimType.Up;
 
     protected override void Awake()
@@ -18,20 +20,62 @@ public class Anim_TextUp : AnimObj
         originColor = textValue.color;
     }
 
-    public void SetType(TextUpAnimType type)
+    protected override void InitComponent()
     {
-        currentType = type;
+        anim = GetComponent<Animator>();
+        textValue = GetComponentInChildren<Text>();
     }
 
-    public void SetTextColor(Color color)
+    public override void InitAnim()
+    {
+        base.InitAnim();
+        aoc["Play"] = textClip;
+    }
+
+    public Anim_TextUp SetType(TextUpAnimType type)
+    {
+        currentType = type;
+
+        return this;
+    }
+
+    public Anim_TextUp SetTextColor(Color color)
     {
         textValue.color = color;
+
+        return this;
+    }
+
+    public new Anim_TextUp SetScale(float scale)
+    {
+        transform.localScale = originScale * scale;
+
+        return this;
+    }
+
+    public new Anim_TextUp SetRotation(Vector3 rot)
+    {
+        transform.eulerAngles = rot;
+
+        return this;
+    }
+
+    public new Anim_TextUp SetPosition(Vector3 pos)
+    {
+        transform.position = pos;
+
+        return this;
     }
 
     public void Play(string value)
     {
         textValue.text = value;
         base.Play();
+    }
+
+    public override void SetAnim(AnimationClip clip)
+    {
+        
     }
 
     protected override IEnumerator PlayAnim(Action onEndAnim)
@@ -98,13 +142,13 @@ public class Anim_TextUp : AnimObj
 
         ResetAnim();
 
-
         gameObject.SetActive(false);
     }
 
     protected override void ResetAnim()
     {
-        base.ResetAnim();
+        transform.localScale = originScale;
+        transform.rotation = originRot;
 
         ResetText();
     }

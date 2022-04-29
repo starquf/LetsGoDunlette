@@ -77,9 +77,10 @@ public class RF_Skill : SkillPiece
         {
             target.GetDamage(20, this, owner);
 
-            Anim_M_Butt effect = PoolManager.GetItem<Anim_M_Butt>();
-            effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
-            effect.Play(() =>
+            animHandler.GetAnim(AnimName.M_Butt)
+            .SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            .SetScale(2f)
+            .Play(() =>
             {
                 SetIndicator(owner.gameObject, "조각 추가").OnEnd(() =>
                 {

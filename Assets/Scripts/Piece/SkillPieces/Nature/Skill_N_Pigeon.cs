@@ -58,14 +58,14 @@ public class Skill_N_Pigeon : SkillPiece
 
             skillEffect.Play(targetPos, () =>
             {
-                Anim_N_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_N_ManaSphereHit>();
-                hitEffect.SetScale(0.5f);
-                hitEffect.transform.position = targetPos;
+                animHandler.GetAnim(AnimName.N_ManaSphereHit)
+                .SetPosition(targetPos)
+                .SetScale(0.5f)
+                .Play();
 
                 target.GetDamage(damage, currentType);
 
                 GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-                hitEffect.Play();
 
                 if (a >= 4)
                 {

@@ -143,5 +143,6 @@ public enum AnimName
     StunEffect,
     SlientEffect,
     UI_SkillDetermined,
-    UI_RewardDetermined
+    UI_RewardDetermined,
+    W_Shield
 }
