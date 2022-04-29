@@ -62,12 +62,13 @@ public class AG_Skill : SkillPiece
                 {
                     owner.GetComponent<EnemyHealth>().cc.SetCC(CCType.Invincibility, 3);
 
-                    Anim_M_Butt effect = PoolManager.GetItem<Anim_M_Butt>();
-                    effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
-                    effect.Play(() =>
-                    {
-                        onCastEnd?.Invoke();
-                    });
+                    animHandler.GetAnim(AnimName.M_Butt)
+                            .SetPosition(GameManager.Instance.enemyEffectTrm.position)
+                            .SetScale(2f)
+                            .Play(() =>
+                            {
+                                onCastEnd?.Invoke();
+                            });
                 });
             });
         });

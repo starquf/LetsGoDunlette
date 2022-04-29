@@ -539,11 +539,10 @@ public class BattleHandler : MonoBehaviour
                 {
                     GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.15f, 0.1f);
 
-                    Anim_M_Butt hitEffect = PoolManager.GetItem<Anim_M_Butt>();
-                    hitEffect.SetScale(0.8f);
-                    hitEffect.transform.position = pos;
-
-                    hitEffect.Play();
+                    GameManager.Instance.animHandler.GetAnim(AnimName.M_Butt)
+                            .SetPosition(pos)
+                            .SetScale(0.8f)
+                            .Play();
                 }));
 
                 if (CheckBattleEnd())

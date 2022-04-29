@@ -18,13 +18,14 @@ public class GR_Attack : SkillPiece
         {
             target.GetDamage(Value, this, owner);
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
-            Anim_N_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_N_ManaSphereHit>();
-            hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(1.5f);
 
-            hitEffect.Play(() =>
-            {
-                onCastEnd?.Invoke();
-            });
+            animHandler.GetAnim(AnimName.N_ManaSphereHit)
+                .SetPosition(GameManager.Instance.enemyEffectTrm.position)
+                .SetScale(1.5f)
+                .Play(() => 
+                {
+                    onCastEnd?.Invoke();
+                });
         });
     }
 }

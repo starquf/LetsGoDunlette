@@ -79,13 +79,12 @@ public class Skill_W_FireSuppression : SkillPiece
                         textEffect.transform.position = skillPieces[a].skillImg.transform.position;
                         textEffect.Play("화재진압 발동!");
 
-                        Anim_W_Splash1 splashEffect = PoolManager.GetItem<Anim_W_Splash1>();
-                        splashEffect.transform.position = skillPos;
-                        splashEffect.SetScale(0.5f);
+                        animHandler.GetAnim(AnimName.W_Splash02)
+                        .SetPosition(skillPos)
+                        .SetScale(0.5f)
+                        .Play();
 
                         GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.15f, 0.1f);
-
-                        splashEffect.Play();
 
                         GameManager.Instance.battleHandler.mainRullet.PutRulletPieceToGraveYard(a);
                         effect.EndEffect();
@@ -109,12 +108,11 @@ public class Skill_W_FireSuppression : SkillPiece
         skillEffect.Play(target.transform.position, () => {
             target.GetDamage(damage, currentType);
 
-            Anim_W_Splash splashEffect = PoolManager.GetItem<Anim_W_Splash>();
-            splashEffect.transform.position = target.transform.position;
-
             GameManager.Instance.cameraHandler.ShakeCamera(1.5f + waterCnt * 0.2f, 0.15f);
 
-            splashEffect.Play();
+            animHandler.GetAnim(AnimName.W_Splash01)
+                    .SetPosition(target.transform.position)
+                    .Play();
 
             if(waterCnt <= 0)
             {
@@ -137,12 +135,12 @@ public class Skill_W_FireSuppression : SkillPiece
 
                 target.GetDamage(2, patternType);
 
-                Anim_W_Splash1 splashEffect = PoolManager.GetItem<Anim_W_Splash1>();
-                splashEffect.transform.position = target.transform.position;
-
                 GameManager.Instance.cameraHandler.ShakeCamera(1f, 0.15f);
 
-                splashEffect.Play();
+                animHandler.GetAnim(AnimName.W_Splash02)
+                .SetPosition(target.transform.position)
+                .SetScale(0.5f)
+                .Play();
 
                 if (a == waterCnt - 1)
                 {

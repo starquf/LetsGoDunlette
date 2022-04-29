@@ -43,36 +43,34 @@ public class Skill_F_DrawingWires : SkillPiece
 
         if (nextPiece != null && nextPiece.currentType.Equals(ElementalType.Fire))
         {
-            Anim_F_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_F_ManaSphereHit>();
-            hitEffect.transform.position = nextPiece.skillImg.transform.position;
-            hitEffect.SetScale(0.7f);
-
             Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
             textEffect.SetType(TextUpAnimType.Up);
             textEffect.transform.position = nextPiece.skillImg.transform.position;
             textEffect.SetScale(0.8f);
             textEffect.Play("도화선 효과발동!");
 
-            hitEffect.Play(() => 
-            {
-                nextPiece.Cast(target, () =>
+            animHandler.GetAnim(AnimName.F_ManaSphereHit)
+                .SetPosition(nextPiece.skillImg.transform.position)
+                .SetScale(0.7f)
+                .Play(() => 
                 {
-                    CheckLeft(pieces, target, onCastEnd);
-                });
+                    nextPiece.Cast(target, () =>
+                    {
+                        CheckLeft(pieces, target, onCastEnd);
+                    });
 
-                bh.battleUtil.SetPieceToGraveyard(nextIdx);
-            });
+                    bh.battleUtil.SetPieceToGraveyard(nextIdx);
+                });
         }
         else
         {
             CheckLeft(pieces, target, onCastEnd);
         }
 
-        Anim_F_ManaSphereHit hit = PoolManager.GetItem<Anim_F_ManaSphereHit>();
-        hit.transform.position = target.transform.position;
-        hit.SetScale(0.5f);
-
-        hit.Play();
+        animHandler.GetAnim(AnimName.F_ManaSphereHit)
+                .SetPosition(target.transform.position)
+                .SetScale(0.5f)
+                .Play();
 
         target.GetDamage(GetDamageCalc(), currentType);
         GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
@@ -87,25 +85,24 @@ public class Skill_F_DrawingWires : SkillPiece
 
         if (prevPiece != null && prevPiece.currentType.Equals(ElementalType.Fire))
         {
-            Anim_F_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_F_ManaSphereHit>();
-            hitEffect.transform.position = prevPiece.skillImg.transform.position;
-            hitEffect.SetScale(0.7f);
-
             Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
             textEffect.SetType(TextUpAnimType.Up);
             textEffect.transform.position = prevPiece.skillImg.transform.position;
             textEffect.SetScale(0.7f);
             textEffect.Play("도화선 효과발동!");
 
-            hitEffect.Play(() => 
-            {
-                prevPiece.Cast(target, () =>
+            animHandler.GetAnim(AnimName.F_ManaSphereHit)
+                .SetPosition(prevPiece.skillImg.transform.position)
+                .SetScale(0.7f)
+                .Play(() => 
                 {
-                    onCastEnd?.Invoke();
-                });
+                    prevPiece.Cast(target, () =>
+                    {
+                        onCastEnd?.Invoke();
+                    });
 
-                bh.battleUtil.SetPieceToGraveyard(prevIdx);
-            });
+                    bh.battleUtil.SetPieceToGraveyard(prevIdx);
+                });
         }
         else
         {

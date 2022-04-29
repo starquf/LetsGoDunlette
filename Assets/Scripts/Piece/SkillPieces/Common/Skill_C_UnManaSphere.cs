@@ -36,53 +36,48 @@ public class Skill_C_UnManaSphere : SkillPiece
         Vector3 startPos = transform.position;
         Vector3 targetPos = target.transform.position;
 
-        Anim_C_SphereCast castAnim = PoolManager.GetItem<Anim_C_SphereCast>();
-        castAnim.transform.position = startPos;
-
-        castAnim.Play(() =>
-        {
-            int damage = GetDamageCalc();
-
-            int rand = Random.Range(0, 100);
-
-            for (int i = 0; i < 2; i++)
+        animHandler.GetAnim(AnimName.C_SphereCast)
+            .SetPosition(startPos)
+            .Play(() =>
             {
-                int a = i;
+                int damage = GetDamageCalc();
 
-                EffectObj effect = PoolManager.GetItem<EffectObj>();
-                effect.transform.position = startPos;
-                effect.SetSprite(manaSphereSpr);
-                effect.SetColorGradient(effectGradient);
-                effect.SetScale(Vector3.one * Random.Range(0.6f, 1f));
+                int rand = Random.Range(0, 100);
 
-                effect.Play(targetPos, () =>
+                for (int i = 0; i < 2; i++)
                 {
-                    GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
+                    int a = i;
 
-                    //print($"데미지 발동 : {damage}");
-                    Anim_C_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_C_ManaSphereHit>();
-                    hitEffect.transform.position = targetPos;
+                    EffectObj effect = PoolManager.GetItem<EffectObj>();
+                    effect.transform.position = startPos;
+                    effect.SetSprite(manaSphereSpr);
+                    effect.SetColorGradient(effectGradient);
+                    effect.SetScale(Vector3.one * Random.Range(0.6f, 1f));
 
-                    hitEffect.Play(() =>
+                    effect.Play(targetPos, () =>
                     {
-                    });
+                        GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
-                    if (a == 1)
-                    {
-                        target.GetDamage(damage, currentType);
+                        animHandler.GetAnim(AnimName.C_ManaSphereHit)
+                        .SetPosition(targetPos)
+                        .Play();
 
-                        if (!CheckSilence() && rand < 35)
+                        if (a == 1)
                         {
-                            owner.GetComponent<LivingEntity>().cc.SetCC(CCType.Silence, 2);
+                            target.GetDamage(damage, currentType);
+
+                            if (!CheckSilence() && rand < 35)
+                            {
+                                owner.GetComponent<LivingEntity>().cc.SetCC(CCType.Silence, 2);
+                            }
+
+                            onCastEnd?.Invoke();
                         }
 
-                        onCastEnd?.Invoke();
-                    }
+                        effect.EndEffect();
 
-                    effect.EndEffect();
-
-                }, BezierType.Quadratic, isRotate: true, playSpeed: 1.7f);
-            }
-        });
+                    }, BezierType.Quadratic, isRotate: true, playSpeed: 1.7f);
+                }
+            });
     }
 }

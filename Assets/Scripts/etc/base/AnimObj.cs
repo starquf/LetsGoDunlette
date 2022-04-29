@@ -6,27 +6,28 @@ using UnityEngine;
 public class AnimObj : MonoBehaviour
 {
     protected Animator anim;
-
     protected AnimatorOverrideController aoc;
 
-    protected Vector3 originScale;
+    public Vector3 originScale;
     protected Quaternion originRot;
     protected Color originColor;
 
     protected SpriteRenderer sr;
 
-    protected int playTrigger;
-
     protected virtual void Awake()
     {
-        anim = GetComponent<Animator>();
-        sr = GetComponent<SpriteRenderer>();
-
+        InitComponent();
         InitAnim();
 
         originRot = Quaternion.identity;
-        originScale = Vector3.one;
+        originScale = transform.localScale;
         originColor = Color.white;
+    }
+
+    protected virtual void InitComponent()
+    {
+        anim = GetComponent<Animator>();
+        sr = GetComponent<SpriteRenderer>();
     }
 
     public virtual void InitAnim()
@@ -37,25 +38,23 @@ public class AnimObj : MonoBehaviour
         anim.runtimeAnimatorController = aoc;
 
         this.aoc = aoc;
-
-        playTrigger = Animator.StringToHash("Play");
     }
 
-    public AnimObj SetScale(float scale)
+    public virtual AnimObj SetScale(float scale)
     {
         transform.localScale = originScale * scale;
 
         return this;
     }
 
-    public AnimObj SetRotation(Vector3 rot)
+    public virtual AnimObj SetRotation(Vector3 rot)
     {
         transform.eulerAngles = rot;
 
         return this;
     }
 
-    public AnimObj SetPosition(Vector3 pos)
+    public virtual AnimObj SetPosition(Vector3 pos)
     {
         transform.position = pos;
 
@@ -64,11 +63,10 @@ public class AnimObj : MonoBehaviour
 
     public virtual void Play(Action onEndAnim = null)
     {
-        anim.SetTrigger(playTrigger);
         StartCoroutine(PlayAnim(onEndAnim));
     }
 
-    public void SetAnim(AnimationClip clip)
+    public virtual void SetAnim(AnimationClip clip)
     {
         aoc["Play"] = clip;
     }
@@ -78,6 +76,8 @@ public class AnimObj : MonoBehaviour
         yield return null;
 
         float time = anim.GetCurrentAnimatorStateInfo(0).length;
+
+        print(time);
 
         yield return new WaitForSeconds(time);
 

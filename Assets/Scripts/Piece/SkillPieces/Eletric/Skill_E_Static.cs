@@ -38,11 +38,10 @@ public class Skill_E_Static : SkillPiece
         Vector3 targetPos = target.transform.position;
         targetPos.y -= 0.7f;
 
-        Anim_E_Static staticEffect = PoolManager.GetItem<Anim_E_Static>();
-        staticEffect.transform.position = targetPos;
-
-        staticEffect.Play(() => {
-
+        animHandler.GetAnim(AnimName.E_Static)
+        .SetPosition(targetPos)
+        .Play(() =>
+        {
             int damage = GetDamageCalc();
 
             target.GetDamage(GetDamageCalc(), currentType);
@@ -55,14 +54,13 @@ public class Skill_E_Static : SkillPiece
             DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
 
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-            if(Random.Range(0,100) < stunPercent)
+            if (Random.Range(0, 100) < stunPercent)
             {
-                Anim_E_Static_Stun stunEffect = PoolManager.GetItem<Anim_E_Static_Stun>();
-                stunEffect.transform.position = targetPos;
-
-                stunEffect.Play(() => {
-                    onCastEnd?.Invoke();
-                });
+                animHandler.GetAnim(AnimName.E_Static_Stun)
+                    .SetPosition(bh.playerImgTrans.position)
+                    .Play(() => {
+                        onCastEnd?.Invoke();
+                    });
 
                 target.cc.SetCC(CCType.Stun, 1);
 

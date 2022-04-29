@@ -29,43 +29,43 @@ public class Skill_F_ChainExplosion : SkillPiece
 
         Vector3 targetPos = target.transform.position;
 
-        Anim_F_ChainExplosion staticEffect = PoolManager.GetItem<Anim_F_ChainExplosion>();
-        staticEffect.transform.position = targetPos;
-
         int damage = GetDamageCalc();
 
-        staticEffect.Play(() => {
-            target.GetDamage(damage, currentType);
-            GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-
-            Action<SkillPiece, Action> onNextAttack = (result,action) => { };
-            int targetHp = target.curHp;
-
-            onNextAttack = (result,action) =>
+        animHandler.GetAnim(AnimName.F_ChainExplosion)
+            .SetPosition(targetPos)
+            .SetScale(1.3f)
+            .Play(() => 
             {
-                //print($"현재체력 : {target.curHp}       예전 체력 : {targetHp}");
+                target.GetDamage(damage, currentType);
+                GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
-                if (result.isPlayerSkill && target.curHp < targetHp)
+                Action<SkillPiece, Action> onNextAttack = (result,action) => { };
+                int targetHp = target.curHp;
+
+                onNextAttack = (result,action) =>
                 {
-                    target.GetDamage(5, patternType);
-                    GameManager.Instance.cameraHandler.ShakeCamera(1.5f, 0.15f);
+                    //print($"현재체력 : {target.curHp}       예전 체력 : {targetHp}");
 
-                    Anim_F_ChainExplosionBonus bonusEffect = PoolManager.GetItem<Anim_F_ChainExplosionBonus>();
-                    bonusEffect.transform.position = targetPos;
+                    if (result.isPlayerSkill && target.curHp < targetHp)
+                    {
+                        target.GetDamage(5, patternType);
+                        GameManager.Instance.cameraHandler.ShakeCamera(1.5f, 0.15f);
 
-                    bonusEffect.Play();
+                        animHandler.GetAnim(AnimName.F_ChainExplosionBonus)
+                            .SetPosition(targetPos)
+                            .Play();
 
-                    Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-                    textEffect.SetType(TextUpAnimType.Fixed);
-                    textEffect.transform.position = target.transform.position;
-                    textEffect.SetScale(0.8f);
-                    textEffect.Play("연쇄폭발 효과 발동!");
-                }
+                        Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
+                        textEffect.SetType(TextUpAnimType.Fixed);
+                        textEffect.transform.position = target.transform.position;
+                        textEffect.SetScale(0.8f);
+                        textEffect.Play("연쇄폭발 효과 발동!");
+                    }
 
-                action?.Invoke();
-                // 바로 없엘거면 이렇게
-                //bh.battleEvent.RemoveEventInfo(eventInfo);
-            };
+                    action?.Invoke();
+                    // 바로 없엘거면 이렇게
+                    //bh.battleEvent.RemoveEventInfo(eventInfo);
+                };
 
             // 이벤트에 추가해주면 됨
             eventInfo = new SkillEvent(true, 2, EventTimeSkill.AfterSkill, onNextAttack);

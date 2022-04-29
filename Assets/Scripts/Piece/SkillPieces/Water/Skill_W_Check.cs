@@ -15,28 +15,26 @@ public class Skill_W_Check : SkillPiece
     {
         target.GetDamage(value, currentType);
 
-        Anim_W_Splash splashEffect = PoolManager.GetItem<Anim_W_Splash>();
-        splashEffect.transform.position = skillImg.transform.position;
-        splashEffect.SetScale(0.5f);
-
-        splashEffect.Play(() =>
-        {
-            if (target.cc.IsCC())
+        animHandler.GetAnim(AnimName.W_Splash01)
+            .SetPosition(skillImg.transform.position)
+            .SetScale(0.5f)
+            .Play(() =>
             {
-                Anim_W_Splash splashEffect = PoolManager.GetItem<Anim_W_Splash>();
-                splashEffect.transform.position = skillImg.transform.position;
-                splashEffect.SetScale(0.5f);
-
-                splashEffect.Play(() =>
+                if (target.cc.IsCC())
                 {
-                    owner.GetComponent<PlayerHealth>().AddShield(shieldValue);
+                    animHandler.GetAnim(AnimName.W_Splash01)
+                    .SetPosition(skillImg.transform.position)
+                    .SetScale(0.5f)
+                    .Play(() => 
+                    {
+                        owner.GetComponent<PlayerHealth>().AddShield(shieldValue);
+                        onCastEnd?.Invoke();
+                    });
+                }
+                else
+                {
                     onCastEnd?.Invoke();
-                });
-            }
-            else
-            {
-                onCastEnd?.Invoke();
-            }
-        });
+                }
+            });
     }
 }

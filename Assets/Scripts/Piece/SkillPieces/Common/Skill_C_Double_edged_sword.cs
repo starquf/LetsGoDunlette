@@ -33,14 +33,12 @@ public class Skill_C_Double_edged_sword : SkillPiece
             target.GetDamage(GetDamageCalc(), currentType);
         }
 
-
-        Anim_C_SphereCast effect = PoolManager.GetItem<Anim_C_SphereCast>();
-        effect.transform.position = skillImg.transform.position;
-        effect.SetScale(0.5f);
-
-        effect.Play(() =>
-        {
-            onCastEnd?.Invoke();
-        });
+        animHandler.GetAnim(AnimName.E_ManaSphereHit)
+            .SetScale(0.5f)
+            .SetPosition(skillImg.transform.position)
+            .Play(() => 
+            {
+                onCastEnd?.Invoke();
+            });
     }
 }

@@ -28,14 +28,14 @@ public class Skill_F_Arson : SkillPiece
 
         Vector3 targetPos = target.transform.position;
 
-        Anim_F_Arson fireEffect = PoolManager.GetItem<Anim_F_Arson>();
-        fireEffect.transform.position = targetPos;
+        animHandler.GetAnim(AnimName.F_Arson)
+                .SetPosition(targetPos)
+                .SetRotation(Vector3.forward * 90f)
+                .Play(() => {
+                    target.GetDamage(GetDamageCalc(), currentType);
+                    GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
-        fireEffect.Play(() => {
-            target.GetDamage(GetDamageCalc(), currentType);
-            GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-
-            onCastEnd?.Invoke();
-        });
+                    onCastEnd?.Invoke();
+                });
     }
 }
