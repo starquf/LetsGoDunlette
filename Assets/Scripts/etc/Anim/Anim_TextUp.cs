@@ -145,7 +145,7 @@ public class Anim_TextUp : AnimObj
         gameObject.SetActive(false);
     }
 
-    protected override void ResetAnim()
+    public override void ResetAnim()
     {
         transform.localScale = originScale;
         transform.rotation = originRot;

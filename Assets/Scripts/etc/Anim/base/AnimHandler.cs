@@ -49,6 +49,7 @@ public class AnimHandler : MonoBehaviour
         {
             animObj.SetAnim(info.clip);
             animObj.originScale = info.defaultSize;
+            animObj.ResetAnim();
         }
         else
         {

@@ -88,7 +88,7 @@ public class CreateAnim : MonoBehaviour
 
     private void Awake()
     {
-        PoolManager.CreatePool<Anim_TextUp>(TextUpAnim, this.transform, 5);
+        //PoolManager.CreatePool<Anim_TextUp>(TextUpAnim, this.transform, 5);
         //CreatePool();
     }
 

@@ -84,18 +84,14 @@ public class AnimObj : MonoBehaviour
 
         float time = anim.GetCurrentAnimatorStateInfo(0).length;
 
-        print(time);
-
         yield return new WaitForSeconds(time);
 
         onEndAnim?.Invoke();
 
-        ResetAnim();
-
         gameObject.SetActive(false);
     }
 
-    protected virtual void ResetAnim()
+    public virtual void ResetAnim()
     {
         transform.localScale = originScale;
         transform.rotation = originRot;
