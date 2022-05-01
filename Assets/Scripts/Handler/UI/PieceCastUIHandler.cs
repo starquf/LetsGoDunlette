@@ -95,14 +95,12 @@ public class PieceCastUIHandler : MonoBehaviour
             .Join(skillPiece.transform.DORotate(Quaternion.Euler(0, 0, 30).eulerAngles, 0.5f))
             .InsertCallback(0.25f, () =>
             {
-                Anim_SkillDetermined effect = PoolManager.GetItem<Anim_SkillDetermined>();
-
-                effect.transform.position = skillPiece.skillImg.transform.position;
-                effect.SetRotation(skillPiece.skillImg.transform.eulerAngles);
-                effect.SetScale(1.1f);
-                effect.ChangeColor(colorDic[skillPiece.patternType]);
-
-                effect.Play();
+                GameManager.Instance.animHandler.GetAnim(AnimName.UI_SkillDetermined)
+                .SetPosition(skillPiece.skillImg.transform.position)
+                .SetRotation(skillPiece.skillImg.transform.eulerAngles)
+                .SetScale(1.1f)
+                .SetColor(colorDic[skillPiece.patternType])
+                .Play();
             })
             //.Join(skillPiece.transform.DOScale(Vector3.one, 0.5f))
             .AppendInterval(0.3f)

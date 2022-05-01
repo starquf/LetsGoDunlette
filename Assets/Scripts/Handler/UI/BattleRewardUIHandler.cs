@@ -261,12 +261,11 @@ public class BattleRewardUIHandler : MonoBehaviour
 
     public void GetRewardEffect(Action onEndEffect = null)
     {
-        Anim_RewardDetermined rewardEffect = PoolManager.GetItem<Anim_RewardDetermined>();
-        rewardEffect.SetScale(1.5f);
+        GameManager.Instance.animHandler.GetAnim(AnimName.UI_RewardDetermined)
+        .SetScale(1.5f)
         //rewardEffect.ChangeColor(bh.castUIHandler.colorDic[selectedSkillObj.patternType]);
-        rewardEffect.transform.position = cardBG.transform.position;
-
-        rewardEffect.Play();
+        .SetPosition(cardBG.transform.position)
+        .Play();
 
         Sequence seq = DOTween.Sequence()
             .AppendInterval(0.25f)

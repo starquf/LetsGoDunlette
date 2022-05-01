@@ -26,7 +26,7 @@ public class AnimHandler : MonoBehaviour
         GameManager.Instance.animHandler = this;
 
         PoolManager.CreatePool<AnimObj>(animObjBase, transform, 2);
-        PoolManager.CreatePool<AnimObj>(textAnimObj, transform, 2);
+        PoolManager.CreatePool<Anim_TextUp>(textAnimObj, transform, 2);
 
         InitAnim();
     }

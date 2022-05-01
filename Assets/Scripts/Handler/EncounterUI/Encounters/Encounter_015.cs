@@ -27,8 +27,6 @@ public class Encounter_015 : RandomEncounter
             randomEncounterUIHandler.encounterChoiceTxtList[0].transform.parent.GetComponent<Button>().onClick.RemoveAllListeners();
             randomEncounterUIHandler.encounterChoiceTxtList[0].transform.parent.GetComponent<Button>().onClick.AddListener(() =>
             {
-                Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-                textEffect.Play("스크롤이 2개 이상이 아닙니다.");
                 randomEncounterUIHandler.encounterChoiceTxtList[0].transform.parent.GetComponent<Button>().interactable = false;
             });
         }

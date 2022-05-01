@@ -66,10 +66,10 @@ public class Skill_E_LightningRod : SkillPiece
             result = lightningSkillPieces[Random.Range(0, lightningSkillPieces.Count)];
             result.HighlightColor(0.4f);
 
-            Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-            textEffect.SetType(TextUpAnimType.Up);
-            textEffect.transform.position = result.skillImg.transform.position;
-            textEffect.Play("피뢰침 효과발동!");
+            animHandler.GetTextAnim()
+            .SetType(TextUpAnimType.Up)
+            .SetPosition(result.skillImg.transform.position)
+            .Play("피뢰침 효과발동!");
 
             EffectObj effect = PoolManager.GetItem<EffectObj>();
             effect.transform.position = skillImg.transform.position;

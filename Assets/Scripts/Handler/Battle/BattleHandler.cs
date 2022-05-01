@@ -638,10 +638,10 @@ public class BattleHandler : MonoBehaviour
             // 침묵되어 있다면
             if (piece.owner.GetComponent<LivingEntity>().cc.ccDic[CCType.Silence] > 0)
             {
-                Anim_TextUp silenceTextEffect = PoolManager.GetItem<Anim_TextUp>();
-                silenceTextEffect.SetType(TextUpAnimType.Up);
-                silenceTextEffect.transform.position = piece.skillImg.transform.position;
-                silenceTextEffect.Play("침묵됨!");
+                GameManager.Instance.animHandler.GetTextAnim()
+                .SetType(TextUpAnimType.Up)
+                .SetPosition(piece.skillImg.transform.position)
+                .Play("침묵됨!");
 
                 StartCoroutine(EndTurn());
                 return;

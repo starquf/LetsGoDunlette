@@ -74,10 +74,10 @@ public class Skill_W_FireSuppression : SkillPiece
 
                     effect.Play(skillPos, () => {
 
-                        Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-                        textEffect.SetType(TextUpAnimType.Up);
-                        textEffect.transform.position = skillPieces[a].skillImg.transform.position;
-                        textEffect.Play("화재진압 발동!");
+                        animHandler.GetTextAnim()
+                        .SetType(TextUpAnimType.Up)
+                        .SetPosition(skillPieces[a].skillImg.transform.position)
+                        .Play("화재진압 발동!");
 
                         animHandler.GetAnim(AnimName.W_Splash02)
                         .SetPosition(skillPos)

@@ -29,10 +29,10 @@ public class Skill_N_Swamp : SkillPiece
         BattleHandler bh = GameManager.Instance.battleHandler;
         target.GetDamage(value);
 
-        Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-        textEffect.SetType(TextUpAnimType.Up);
-        textEffect.transform.position = target.transform.position;
-        textEffect.Play("Èí¼ö!");
+        animHandler.GetTextAnim()
+        .SetType(TextUpAnimType.Up)
+        .SetPosition(target.transform.position)
+        .Play("Èí¼ö!");
 
         animHandler.GetAnim(AnimName.N_Drain)
                 .SetPosition(target.transform.position)

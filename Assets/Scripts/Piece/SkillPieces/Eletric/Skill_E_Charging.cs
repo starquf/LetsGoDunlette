@@ -48,11 +48,11 @@ public class Skill_E_Charging : SkillPiece
         {
             if (piece.currentType.Equals(ElementalType.Electric) && piece != this)
             {
-                Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-                textEffect.SetType(TextUpAnimType.Up);
-                textEffect.transform.position = skillImg.transform.position;
-                textEffect.SetScale(0.8f);
-                textEffect.Play("ÃæÀüµÊ!");
+                animHandler.GetTextAnim()
+               .SetType(TextUpAnimType.Up)
+               .SetPosition(skillImg.transform.position)
+               .SetScale(0.8f)
+               .Play("ÃæÀüµÊ!");
 
                 LogCon log = new LogCon();
                 log.text = $"ÃæÀüµÊ";

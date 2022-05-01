@@ -69,10 +69,10 @@ public class Skill_W_MermaidBlessing : SkillPiece
                     skillPieces[a].ChangeType(ElementalType.Water);
                     skillPieces[a].HighlightColor(0.4f);
 
-                    Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-                    textEffect.SetType(TextUpAnimType.Up);
-                    textEffect.transform.position = skillPieces[a].skillImg.transform.position;
-                    textEffect.Play("加己 函版!");
+                    animHandler.GetTextAnim()
+                    .SetType(TextUpAnimType.Up)
+                    .SetPosition(skillPieces[a].skillImg.transform.position)
+                    .Play("加己 函版!");
 
                     yield return pTwoSecWait;
                 }

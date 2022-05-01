@@ -132,27 +132,27 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
             Die();
         }
 
-        Anim_TextUp damageTextEffect = PoolManager.GetItem<Anim_TextUp>();
-        damageTextEffect.SetType(TextUpAnimType.Volcano);
-        damageTextEffect.transform.position = transform.position;
-        damageTextEffect.SetScale(0.9f + (damage / 200f));
+        Anim_TextUp text = GameManager.Instance.animHandler.GetTextAnim();
+
+        text.SetType(TextUpAnimType.Volcano);
+        text.SetPosition(transform.position);
+        text.SetScale(0.9f + (damage / 200f));
 
         if (isCritical)
         {
             Color32 criColor = new Color32(255, 220, 0, 255);
 
-            damageTextEffect.SetTextColor(criColor);
+            text.SetTextColor(criColor);
 
-            Anim_TextUp criticalEffect = PoolManager.GetItem<Anim_TextUp>();
-            criticalEffect.SetType(TextUpAnimType.Fixed);
-            criticalEffect.transform.position = transform.position;
-            criticalEffect.SetScale(0.8f);
-            criticalEffect.SetTextColor(criColor);
-
-            criticalEffect.Play("약점!");
+            GameManager.Instance.animHandler.GetTextAnim()
+            .SetType(TextUpAnimType.Fixed)
+            .SetPosition(transform.position)
+            .SetScale(0.8f)
+            .SetTextColor(criColor)
+            .Play("약점!");
         }
 
-        damageTextEffect.Play(damage.ToString());
+        text.Play(damage.ToString());
 
         SetDamageEffect();
     }
@@ -254,10 +254,10 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
             Die();
         }
 
-        Anim_TextUp damageTextEffect = PoolManager.GetItem<Anim_TextUp>();
-        damageTextEffect.SetType(TextUpAnimType.Volcano);
-        damageTextEffect.transform.position = transform.position;
-        damageTextEffect.Play(damage.ToString());
+        GameManager.Instance.animHandler.GetTextAnim()
+        .SetType(TextUpAnimType.Volcano)
+        .SetPosition(transform.position)
+        .Play(damage.ToString());
 
         SetDamageEffect();
         SetHPBar();

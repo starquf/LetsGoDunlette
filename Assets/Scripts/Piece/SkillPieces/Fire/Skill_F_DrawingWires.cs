@@ -43,11 +43,11 @@ public class Skill_F_DrawingWires : SkillPiece
 
         if (nextPiece != null && nextPiece.currentType.Equals(ElementalType.Fire))
         {
-            Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-            textEffect.SetType(TextUpAnimType.Up);
-            textEffect.transform.position = nextPiece.skillImg.transform.position;
-            textEffect.SetScale(0.8f);
-            textEffect.Play("도화선 효과발동!");
+            animHandler.GetTextAnim()
+            .SetType(TextUpAnimType.Up)
+            .SetPosition(nextPiece.skillImg.transform.position)
+            .SetScale(0.8f)
+            .Play("도화선 효과발동!");
 
             animHandler.GetAnim(AnimName.F_ManaSphereHit)
                 .SetPosition(nextPiece.skillImg.transform.position)
@@ -85,11 +85,11 @@ public class Skill_F_DrawingWires : SkillPiece
 
         if (prevPiece != null && prevPiece.currentType.Equals(ElementalType.Fire))
         {
-            Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-            textEffect.SetType(TextUpAnimType.Up);
-            textEffect.transform.position = prevPiece.skillImg.transform.position;
-            textEffect.SetScale(0.7f);
-            textEffect.Play("도화선 효과발동!");
+            animHandler.GetTextAnim()
+            .SetType(TextUpAnimType.Up)
+            .SetPosition(prevPiece.skillImg.transform.position)
+            .SetScale(0.7f)
+            .Play("도화선 효과발동!");
 
             animHandler.GetAnim(AnimName.F_ManaSphereHit)
                 .SetPosition(prevPiece.skillImg.transform.position)

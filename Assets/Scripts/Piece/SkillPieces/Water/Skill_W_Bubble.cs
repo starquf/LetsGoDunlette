@@ -50,10 +50,10 @@ public class Skill_W_Bubble : SkillPiece
                 if (a == rand - 1)
                 {
                     t.AddShield(Value);
-                    Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-                    textEffect.SetType(TextUpAnimType.Up);
-                    textEffect.transform.position = t.transform.position;
-                    textEffect.Play("½¯µå!");
+                    animHandler.GetTextAnim()
+                    .SetType(TextUpAnimType.Up)
+                    .SetPosition(t.transform.position)
+                    .Play("½¯µå!");
 
                     animHandler.GetAnim(AnimName.W_Shield)
                     .SetPosition(t.transform.position)

@@ -61,6 +61,13 @@ public class AnimObj : MonoBehaviour
         return this;
     }
 
+    public virtual AnimObj SetColor(Color color)
+    {
+        sr.color = color;
+
+        return this;
+    }
+
     public virtual void Play(Action onEndAnim = null)
     {
         StartCoroutine(PlayAnim(onEndAnim));

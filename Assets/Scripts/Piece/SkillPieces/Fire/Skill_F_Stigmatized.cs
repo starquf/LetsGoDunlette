@@ -28,11 +28,11 @@ public class Skill_F_Stigmatized : SkillPiece
 
         GameManager.Instance.battleHandler.fieldHandler.SetFieldType(ElementalType.Fire);
 
-        Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-        textEffect.SetType(TextUpAnimType.Up);
-        textEffect.transform.position = target.transform.position;
-        textEffect.SetScale(0.7f);
-        textEffect.Play("필드변경!");
+        animHandler.GetTextAnim()
+        .SetType(TextUpAnimType.Up)
+        .SetPosition(target.transform.position)
+        .SetScale(0.7f)
+        .Play("필드변경!");
 
         animHandler.GetAnim(AnimName.F_ManaSphereHit)
                 .SetPosition(target.transform.position)
