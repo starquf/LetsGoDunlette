@@ -46,6 +46,7 @@ public class MapManager : MonoBehaviour
 
     [SerializeField] GameObject brokenTile;
     [SerializeField] List<Sprite> mapIconSpriteList = new List<Sprite>();
+    [SerializeField] List<Sprite> tileSpriteList = new List<Sprite>();
 
     [Header("¸Ê ¹ë·±½º °ü·Ã")]
     [SerializeField] int defaultBossCount;
@@ -92,6 +93,7 @@ public class MapManager : MonoBehaviour
     {
         LinkMap();
         RandomDestroyMap();
+        SetRandomTileSprite();
         SetMapType();
         InitMap();
     }
@@ -432,6 +434,15 @@ public class MapManager : MonoBehaviour
         return mapType;
     }
 
+    public void SetRandomTileSprite()
+    {
+        List<Map> maps = tiles.Values.ToList();
+        for (int i = 0; i < maps.Count; i++)
+        {
+            maps[i].SetTileSprite(tileSpriteList[Random.Range(0, tileSpriteList.Count)]);
+        }
+    }
+
     // ¸ðµç ¸Ê¿¡ Å¸ÀÔ ¼¼ÆÃ
     public void SetMapType()
     {
@@ -479,13 +490,13 @@ public class MapManager : MonoBehaviour
                 spriteIdx = 1;
                 break;
             case mapNode.SHOP:
-                spriteIdx = 4;
-                break;
-            case mapNode.REST:
                 spriteIdx = 3;
                 break;
-            case mapNode.RandomEncounter:
+            case mapNode.REST:
                 spriteIdx = 2;
+                break;
+            case mapNode.RandomEncounter:
+                //spriteIdx = 2;
                 break;
             default:
                 break;
