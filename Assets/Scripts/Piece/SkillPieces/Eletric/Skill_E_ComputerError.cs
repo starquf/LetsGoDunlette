@@ -50,11 +50,10 @@ public class Skill_E_ComputerError : SkillPiece
 
         for (int i = 0; i < targets.Count; i++)
         {
-            Anim_E_Static_Stun stunEffect = PoolManager.GetItem<Anim_E_Static_Stun>();
-            stunEffect.transform.position = targets[i].transform.position;
-            stunEffect.SetScale(0.7f);
-
-            stunEffect.Play();
+            animHandler.GetAnim(AnimName.E_Static_Stun)
+                .SetPosition(targets[i].transform.position)
+                .SetScale(0.7f)
+                .Play();
 
             targets[i].GetDamage(damage, currentType);
 
@@ -100,11 +99,11 @@ public class Skill_E_ComputerError : SkillPiece
 
             Vector3 effectPos = pieces[pieceIdx].skillImg.transform.position;
 
-            Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-            textEffect.SetType(TextUpAnimType.Up);
-            textEffect.transform.position = effectPos;
-            textEffect.SetScale(0.8f);
-            textEffect.Play("전산오류 효과발동!");
+            animHandler.GetTextAnim()
+            .SetType(TextUpAnimType.Up)
+            .SetPosition(effectPos)
+            .SetScale(0.8f)
+            .Play("전산오류 효과발동!");
 
 
             LogCon log = new LogCon();
@@ -114,17 +113,16 @@ public class Skill_E_ComputerError : SkillPiece
 
             DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
 
-
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.25f);
 
-            Anim_E_Static_Stun stunEffect = PoolManager.GetItem<Anim_E_Static_Stun>();
-            stunEffect.transform.position = effectPos;
-            stunEffect.SetScale(0.7f);
-
-            stunEffect.Play(() => {
-                if(a == 1)
-                    onCastEnd?.Invoke();
-            });
+            animHandler.GetAnim(AnimName.E_Static_Stun)
+                .SetPosition(effectPos)
+                .SetScale(0.7f)
+                .Play(() => 
+                {
+                    if (a == 1)
+                        onCastEnd?.Invoke();
+                });
 
             pieces[pieceIdx].HighlightColor(0.4f);
 

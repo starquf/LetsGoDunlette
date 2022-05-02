@@ -196,7 +196,7 @@ public class BattleHandler : MonoBehaviour
     private void InitHandler()
     {
         battleRewardHandler.Init(GameManager.Instance.skillContainer.playerSkillPrefabs);
-        battleUtil.Init(inventory, mainRullet);
+        battleUtil.Init(inventory, mainRullet, this);
     }
 
     public void CreateEnemy(List<EnemyType> enemyInfos, Action onCreateEnd) //다중생성
@@ -539,11 +539,10 @@ public class BattleHandler : MonoBehaviour
                 {
                     GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.15f, 0.1f);
 
-                    Anim_M_Butt hitEffect = PoolManager.GetItem<Anim_M_Butt>();
-                    hitEffect.SetScale(0.8f);
-                    hitEffect.transform.position = pos;
-
-                    hitEffect.Play();
+                    GameManager.Instance.animHandler.GetAnim(AnimName.M_Butt)
+                            .SetPosition(pos)
+                            .SetScale(0.8f)
+                            .Play();
                 }));
 
                 if (CheckBattleEnd())
@@ -639,10 +638,10 @@ public class BattleHandler : MonoBehaviour
             // 침묵되어 있다면
             if (piece.owner.GetComponent<LivingEntity>().cc.ccDic[CCType.Silence] > 0)
             {
-                Anim_TextUp silenceTextEffect = PoolManager.GetItem<Anim_TextUp>();
-                silenceTextEffect.SetType(TextUpAnimType.Up);
-                silenceTextEffect.transform.position = piece.skillImg.transform.position;
-                silenceTextEffect.Play("침묵됨!");
+                GameManager.Instance.animHandler.GetTextAnim()
+                .SetType(TextUpAnimType.Up)
+                .SetPosition(piece.skillImg.transform.position)
+                .Play("침묵됨!");
 
                 StartCoroutine(EndTurn());
                 return;

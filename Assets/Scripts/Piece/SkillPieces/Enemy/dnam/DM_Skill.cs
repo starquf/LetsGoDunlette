@@ -54,11 +54,11 @@ public class DM_Skill : SkillPiece
                 }
                 LivingEntity health = enemys[i];
 
-                Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-                textEffect.SetType(TextUpAnimType.Fixed);
-                textEffect.transform.position = health.transform.position;
-                textEffect.SetScale(0.7f);
-                textEffect.Play("½¯µå!");
+                animHandler.GetTextAnim()
+                .SetType(TextUpAnimType.Fixed)
+                .SetPosition(health.transform.position)
+                .SetScale(0.7f)
+                .Play("½¯µå!");
 
                 Anim_SkillEffect01 sheldEffect = PoolManager.GetItem<Anim_SkillEffect01>();
                 sheldEffect.transform.position = health.transform.position;

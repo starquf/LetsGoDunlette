@@ -45,14 +45,13 @@ public class Skill_F_ManaSphere : SkillPiece
         skillEffect.SetScale(Vector3.one);
 
         skillEffect.Play(targetPos, () => {
-            Anim_F_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_F_ManaSphereHit>();
-            hitEffect.transform.position = targetPos;
-
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
             target.GetDamage(GetDamageCalc(), currentType);
             onCastEnd?.Invoke();
 
-            hitEffect.Play();
+            animHandler.GetAnim(AnimName.F_ManaSphereHit)
+                .SetPosition(targetPos)
+                .Play();
 
             skillEffect.EndEffect();
         }, BezierType.Linear, isRotate: true, playSpeed: 2f);

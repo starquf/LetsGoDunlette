@@ -42,11 +42,10 @@ public class Skill_W_MermaidBlessing : SkillPiece
         Rullet rullet = battleHandler.mainRullet;
         List<RulletPiece> skillPieces = rullet.GetPieces();
 
-        Anim_W_Splash splashEffect1 = PoolManager.GetItem<Anim_W_Splash>();
-        splashEffect1.transform.position = target.transform.position;
-        splashEffect1.SetScale(1f);
-
-        splashEffect1.Play();
+        animHandler.GetAnim(AnimName.W_Splash01)
+                    .SetPosition(target.transform.position)
+                    .SetScale(1f)
+                    .Play();
 
         target.GetDamage(GetDamageCalc(), currentType);
 
@@ -62,19 +61,18 @@ public class Skill_W_MermaidBlessing : SkillPiece
                 {
                     int a = i;
 
-                    Anim_W_Splash splashEffect = PoolManager.GetItem<Anim_W_Splash>();
-                    splashEffect.transform.position = skillPieces[a].skillImg.transform.position;
-                    splashEffect.SetScale(0.5f);
+                    animHandler.GetAnim(AnimName.W_Splash01)
+                    .SetPosition(skillPieces[a].skillImg.transform.position)
+                    .SetScale(0.5f)
+                    .Play();
 
                     skillPieces[a].ChangeType(ElementalType.Water);
                     skillPieces[a].HighlightColor(0.4f);
 
-                    splashEffect.Play();
-
-                    Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-                    textEffect.SetType(TextUpAnimType.Up);
-                    textEffect.transform.position = skillPieces[a].skillImg.transform.position;
-                    textEffect.Play("加己 函版!");
+                    animHandler.GetTextAnim()
+                    .SetType(TextUpAnimType.Up)
+                    .SetPosition(skillPieces[a].skillImg.transform.position)
+                    .Play("加己 函版!");
 
                     yield return pTwoSecWait;
                 }

@@ -28,11 +28,11 @@ public class GR_Skill : SkillPiece
             {
                 if(Random.Range(0, 100) < 40)
                 {
-                    Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-                    textEffect.SetType(TextUpAnimType.Fixed);
-                    textEffect.transform.position = target.transform.position;
-                    textEffect.SetScale(0.7f);
-                    textEffect.Play("기절!");
+                    animHandler.GetTextAnim()
+                    .SetType(TextUpAnimType.Fixed)
+                    .SetPosition(target.transform.position)
+                    .SetScale(0.7f)
+                    .Play("기절!");
 
                     target.cc.SetCC(CCType.Stun, 1);
                 }

@@ -19,16 +19,15 @@ public class Skill_W_BoatFare : SkillPiece
         targetPos.x -= 0.5f;
         targetPos.y += 0.5f;
 
-        Anim_W_BoatFare boatFaredEffect = PoolManager.GetItem<Anim_W_BoatFare>();
-        boatFaredEffect.transform.position = targetPos;
+        animHandler.GetAnim(AnimName.W_BoatFare)
+            .SetPosition(targetPos)
+            .Play(() =>
+            {
+                target.GetDamage(Value, currentType);
+                GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
-        boatFaredEffect.Play(() => {
-            target.GetDamage(Value, currentType);
-            GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-
-            GetMoney(onCastEnd, target);
-        });
-
+                GetMoney(onCastEnd, target);
+            });
     }
 
     private void GetMoney(Action onCastEnd, LivingEntity target)
@@ -36,13 +35,13 @@ public class Skill_W_BoatFare : SkillPiece
         GameManager.Instance.Gold += getMoney;
         if (target.IsDie)
         {
-            Anim_W_BoatFareBonusMoney boatFaredBonusEffect = PoolManager.GetItem<Anim_W_BoatFareBonusMoney>();
-            boatFaredBonusEffect.transform.position = targetPos;
-
-            boatFaredBonusEffect.Play(() => {
-                GameManager.Instance.Gold += getBonusMoney;
-                onCastEnd?.Invoke();
-            });
+            animHandler.GetAnim(AnimName.W_BoatFareBonusMoney)
+                .SetPosition(targetPos)
+                .Play(() =>
+                {
+                    GameManager.Instance.Gold += getBonusMoney;
+                    onCastEnd?.Invoke();
+                });
         }
         else
         {

@@ -100,7 +100,8 @@ public class GameManager : MonoBehaviour
     public ToBeContinueHandler tbcHandler;
     [HideInInspector]
     public EncounterHandler encounterHandler;
-
+    [HideInInspector]
+    public AnimHandler animHandler;
 
     [HideInInspector]
     public event Action OnUpdateUI;

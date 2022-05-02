@@ -90,10 +90,10 @@ public class SI_Skill : SkillPiece
             result = skillPiece[Random.Range(0, skillPiece.Count)];
             result.HighlightColor(0.4f);
 
-            Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-            textEffect.SetType(TextUpAnimType.Up);
-            textEffect.transform.position = result.skillImg.transform.position;
-            textEffect.Play($"{result.PieceName} 매혹!");
+            animHandler.GetTextAnim()
+            .SetType(TextUpAnimType.Up)
+            .SetPosition(result.skillImg.transform.position)
+            .Play($"{result.PieceName} 매혹!");
         }
 
         Anim_M_Wisp wispEffect = PoolManager.GetItem<Anim_M_Wisp>();

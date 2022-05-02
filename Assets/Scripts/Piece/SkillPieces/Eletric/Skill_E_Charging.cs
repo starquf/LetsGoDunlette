@@ -48,11 +48,11 @@ public class Skill_E_Charging : SkillPiece
         {
             if (piece.currentType.Equals(ElementalType.Electric) && piece != this)
             {
-                Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-                textEffect.SetType(TextUpAnimType.Up);
-                textEffect.transform.position = skillImg.transform.position;
-                textEffect.SetScale(0.8f);
-                textEffect.Play("ÃæÀüµÊ!");
+                animHandler.GetTextAnim()
+               .SetType(TextUpAnimType.Up)
+               .SetPosition(skillImg.transform.position)
+               .SetScale(0.8f)
+               .Play("ÃæÀüµÊ!");
 
                 LogCon log = new LogCon();
                 log.text = $"ÃæÀüµÊ";
@@ -60,10 +60,10 @@ public class Skill_E_Charging : SkillPiece
 
                 DebugLogHandler.AddLog(LogType.ImageText, log);
 
-                Anim_E_Static_Stun staticEffect = PoolManager.GetItem<Anim_E_Static_Stun>();
-                staticEffect.transform.position = skillImg.transform.position;
-                staticEffect.SetScale(0.8f);
-                staticEffect.Play();
+                animHandler.GetAnim(AnimName.E_Static_Stun)
+                .SetPosition(skillImg.transform.position)
+                .SetScale(0.8f)
+                .Play();
 
                 HighlightColor(0.2f);
 
@@ -128,13 +128,12 @@ public class Skill_E_Charging : SkillPiece
 
             DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
 
-            Anim_E_Static staticEffect = PoolManager.GetItem<Anim_E_Static>();
-            staticEffect.transform.position = enemy.transform.position;
-            staticEffect.SetScale(0.8f);
+            animHandler.GetAnim(AnimName.E_LightningRod)
+            .SetScale(0.8f)
+            .SetPosition(enemy.transform.position)
+            .Play();
 
             GameManager.Instance.cameraHandler.ShakeCamera(1.5f, 0.15f);
-
-            staticEffect.Play();
 
             yield return pOneSecWait;
         }

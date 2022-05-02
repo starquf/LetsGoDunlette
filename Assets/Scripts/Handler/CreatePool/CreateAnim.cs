@@ -88,7 +88,8 @@ public class CreateAnim : MonoBehaviour
 
     private void Awake()
     {
-        CreatePool();
+        //PoolManager.CreatePool<Anim_TextUp>(TextUpAnim, this.transform, 5);
+        //CreatePool();
     }
 
     private void CreatePool()
@@ -99,39 +100,14 @@ public class CreateAnim : MonoBehaviour
         PoolManager.CreatePool<Anim_RewardDetermined>(rewardDeterminedAnim, this.transform, 1);
 
         // ===========================================================================  ???? ????
-        PoolManager.CreatePool<Anim_Contract>(contractAnim, this.transform, 1);
-        PoolManager.CreatePool<Anim_C_SphereCast>(c_sphereCastAnim, this.transform, 1);
-        PoolManager.CreatePool<Anim_C_ManaSphereHit>(c_ManaSphereHitAnim, this.transform, 1);
+        // ===========================================================================  ???? ????
 
         // ===========================================================================  ???? ????
-        PoolManager.CreatePool<Anim_E_ManaSphereHit>(e_ManaSphereHitAnim, this.transform, 1);
-        PoolManager.CreatePool<Anim_E_LightningRod>(lightningRodAnim, this.transform, 1);
-        PoolManager.CreatePool<Anim_E_Static>(staticAnim, this.transform, 1);
-        PoolManager.CreatePool<Anim_E_Static_Stun>(staticStunAnim, this.transform, 1);
-
-        // ===========================================================================  ???? ????
-        PoolManager.CreatePool<Anim_N_ManaSphereHit>(n_ManaSphereHitAnim, this.transform, 1);
-        PoolManager.CreatePool<Anim_N_Drain>(n_DrainAnim, this.transform, 1);
-        PoolManager.CreatePool<Anim_N_PosionCloud>(posionCloudAnim, this.transform, 1);
-        PoolManager.CreatePool<Anim_N_Wind>(windAnim, this.transform, 1);
 
         // ===========================================================================  ?? ????
-        PoolManager.CreatePool<Anim_W_ManaSphereHit>(w_ManaSphereHitAnim, this.transform, 1);
-        PoolManager.CreatePool<Anim_W_Bubble>(w_Bubble, this.transform, 1);
-        PoolManager.CreatePool<Anim_W_BoatFare>(boatFareAnim, this.transform, 1);
-        PoolManager.CreatePool<Anim_W_BoatFareBonusMoney>(boatFareBonusMoneyAnim, this.transform, 1);
-        PoolManager.CreatePool<Anim_W_Splash>(splashAnim, this.transform, 1);
-        PoolManager.CreatePool<Anim_W_Splash1>(splash1Anim, this.transform, 1);
-        PoolManager.CreatePool<Anim_Shield>(shieldAnim2, this.transform, 1);
+        // ===========================================================================  ?? ????
 
         // ===========================================================================  ?? ????
-        PoolManager.CreatePool<Anim_F_ManaSphereHit>(f_ManaSphereHitAnim, this.transform, 1);
-        PoolManager.CreatePool<Anim_F_Arson>(arsonAnim, this.transform, 1);
-        PoolManager.CreatePool<Anim_F_ChainExplosion>(chainExplosionAnim, this.transform, 1);
-        PoolManager.CreatePool<Anim_F_ChainExplosionBonus>(chainExplosionBonusAnim, this.transform, 1);
-
-        // ===========================================================================  ?? ????
-        PoolManager.CreatePool<Anim_M_Butt>(buttAnim, this.transform, 1);
         PoolManager.CreatePool<Anim_M_Sword>(swordAnim, this.transform, 1);
         PoolManager.CreatePool<Anim_M_Bite>(biteAnim, this.transform, 1);
         PoolManager.CreatePool<Anim_M_Scratch>(scratchAnim, this.transform, 1);

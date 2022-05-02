@@ -33,17 +33,17 @@ public class Skill_N_Drain : SkillPiece
     {
         target.GetDamage(value, currentType);
 
-        Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-        textEffect.SetType(TextUpAnimType.Up);
-        textEffect.transform.position = target.transform.position;
-        textEffect.Play("Èí¼ö!");
+        animHandler.GetTextAnim()
+        .SetType(TextUpAnimType.Up)
+        .SetPosition(target.transform.position)
+        .Play("Èí¼ö!");
 
-        Anim_N_Drain skillEffect = PoolManager.GetItem<Anim_N_Drain>();
-        skillEffect.transform.position = target.transform.position;
-        skillEffect.SetScale(1f);
+        animHandler.GetAnim(AnimName.N_Drain)
+                .SetPosition(target.transform.position)
+                .SetScale(1f)
+                .Play();
 
         GameManager.Instance.cameraHandler.ShakeCamera(2f, 0.3f);
-        skillEffect.Play();
 
         yield return new WaitForSeconds(0.1f);
 

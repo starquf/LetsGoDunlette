@@ -93,10 +93,10 @@ public class GoldUIHandler : MonoBehaviour
     private void GetMoneyAnim()
     {
         int curGold = GameManager.Instance.Gold;
-        Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-        textEffect.SetType(TextUpAnimType.Up);
-        textEffect.transform.position = goldText.transform.position;
-        textEffect.Play((curGold - prevGold).ToString());
+        GameManager.Instance.animHandler.GetTextAnim()
+        .SetType(TextUpAnimType.Up)
+        .SetPosition(goldText.transform.position)
+        .Play((curGold - prevGold).ToString());
 
         goldText.text = curGold.ToString();
         prevGold = curGold;

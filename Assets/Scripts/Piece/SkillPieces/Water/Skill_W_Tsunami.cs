@@ -66,11 +66,10 @@ public class Skill_W_Tsunami : SkillPiece
 
                     waterCnt++;
 
-                    Anim_W_Splash splashEffect = PoolManager.GetItem<Anim_W_Splash>();
-                    splashEffect.transform.position = skillPos;
-                    splashEffect.SetScale(0.5f);
-
-                    splashEffect.Play();
+                    animHandler.GetAnim(AnimName.W_Splash01)
+                    .SetPosition(skillPos)
+                    .SetScale(0.5f)
+                    .Play();
 
                     EffectObj effect = PoolManager.GetItem<EffectObj>();
                     effect.transform.position = skillPos;
@@ -79,13 +78,12 @@ public class Skill_W_Tsunami : SkillPiece
                     effect.SetScale(Vector3.one);
 
                     effect.Play(startPos, () => {
-                        Anim_W_Splash splashEffect = PoolManager.GetItem<Anim_W_Splash>();
-                        splashEffect.transform.position = startPos;
-                        splashEffect.SetScale(0.5f);
-
                         GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.15f, 0.1f);
 
-                        splashEffect.Play();
+                        animHandler.GetAnim(AnimName.W_Splash01)
+                        .SetPosition(startPos)
+                        .SetScale(0.5f)
+                        .Play();
 
                         effect.EndEffect();
                     }, BezierType.Quadratic, isRotate: true, playSpeed: 2f);
@@ -120,12 +118,12 @@ public class Skill_W_Tsunami : SkillPiece
             {
                 targets[i].GetDamage(GetDamageCalc() + (2 * waterCnt), currentType);
 
-                Anim_W_Splash splashEffect = PoolManager.GetItem<Anim_W_Splash>();
-                splashEffect.transform.position = targets[i].transform.position;
-
                 GameManager.Instance.cameraHandler.ShakeCamera(1.5f + waterCnt * 0.5f, 0.15f);
 
-                splashEffect.Play();
+                animHandler.GetAnim(AnimName.W_Splash01)
+                        .SetPosition(targets[i].transform.position)
+                        .SetScale(0.5f)
+                        .Play();
             }
 
             onCastEnd?.Invoke();

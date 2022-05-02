@@ -27,8 +27,6 @@ public class Encounter_015 : RandomEncounter
             randomEncounterUIHandler.encounterChoiceTxtList[0].transform.parent.GetComponent<Button>().onClick.RemoveAllListeners();
             randomEncounterUIHandler.encounterChoiceTxtList[0].transform.parent.GetComponent<Button>().onClick.AddListener(() =>
             {
-                Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-                textEffect.Play("스크롤이 2개 이상이 아닙니다.");
                 randomEncounterUIHandler.encounterChoiceTxtList[0].transform.parent.GetComponent<Button>().interactable = false;
             });
         }
@@ -140,9 +138,8 @@ public class Encounter_015 : RandomEncounter
                 .OnComplete(() =>
                 {
                     Inventory owner = battleHandler.player.GetComponent<Inventory>();
-                    skill.gameObject.SetActive(false);
-                    skill.owner = owner;
-                    GameManager.Instance.inventoryHandler.AddSkill(skill);
+
+                    GameManager.Instance.inventoryHandler.AddSkill(skill, owner);
                     skill.GetComponent<Image>().color = Color.white;
 
                     OnExitEncounter?.Invoke(true);

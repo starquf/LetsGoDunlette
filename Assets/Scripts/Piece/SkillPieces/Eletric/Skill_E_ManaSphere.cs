@@ -44,8 +44,6 @@ public class Skill_E_ManaSphere : SkillPiece
         skillEffect.SetScale(Vector3.one);
 
         skillEffect.Play(targetPos, () => {
-            Anim_E_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_E_ManaSphereHit>();
-            hitEffect.transform.position = targetPos;
 
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
             target.GetDamage(GetDamageCalc(), currentType);
@@ -59,7 +57,9 @@ public class Skill_E_ManaSphere : SkillPiece
 
             onCastEnd?.Invoke();
 
-            hitEffect.Play();
+            animHandler.GetAnim(AnimName.E_ManaSphereHit)
+            .SetPosition(targetPos)
+            .Play();
 
             skillEffect.EndEffect();
         }, BezierType.Linear, isRotate: true, playSpeed: 2f);

@@ -116,10 +116,10 @@ public class CrowdControl : MonoBehaviour
         }
         else
         {
-            Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-            textEffect.SetType(TextUpAnimType.Fixed);
-            textEffect.transform.position = ccUIDic[cc].transform.position;
-            textEffect.Play(messege);
+            GameManager.Instance.animHandler.GetTextAnim()
+                .SetType(TextUpAnimType.Fixed)
+                .SetPosition(ccUIDic[cc].transform.position)
+                .Play(messege);
         }
     }
 

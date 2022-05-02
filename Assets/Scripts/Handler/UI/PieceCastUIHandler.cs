@@ -15,6 +15,7 @@ public class PieceCastUIHandler : MonoBehaviour
     public TextMeshProUGUI cardNameText;
     public TextMeshProUGUI cardDesText;
     public Transform skillIconTrans;
+    public Image strokeImg;
 
     public Button closeBtn;
 
@@ -26,7 +27,7 @@ public class PieceCastUIHandler : MonoBehaviour
     public List<Color> colors = new List<Color>();
     public Dictionary<ElementalType, Color> colorDic;
 
-    private List<SkillDesIcon> desIcons;
+    private List<SkillDesIcon> desIcons = new List<SkillDesIcon>();
 
     private Coroutine timeCor;
     private readonly WaitForSeconds fiveSecWait = new WaitForSeconds(5f);
@@ -82,6 +83,8 @@ public class PieceCastUIHandler : MonoBehaviour
         List<DesIconInfo> desInfos = skillPiece.GetDesIconInfo();
         ShowDesIcon(desInfos, skillPiece);
 
+        strokeImg.sprite = GameManager.Instance.inventoryHandler.pieceBGStrokeSprDic[skillPiece.currentType];
+
         pieceMoveSequence.Kill();
 
         skillPiece.gameObject.SetActive(true);
@@ -92,14 +95,12 @@ public class PieceCastUIHandler : MonoBehaviour
             .Join(skillPiece.transform.DORotate(Quaternion.Euler(0, 0, 30).eulerAngles, 0.5f))
             .InsertCallback(0.25f, () =>
             {
-                Anim_SkillDetermined effect = PoolManager.GetItem<Anim_SkillDetermined>();
-
-                effect.transform.position = skillPiece.skillImg.transform.position;
-                effect.SetRotation(skillPiece.skillImg.transform.eulerAngles);
-                effect.SetScale(1.1f);
-                effect.ChangeColor(colorDic[skillPiece.patternType]);
-
-                effect.Play();
+                GameManager.Instance.animHandler.GetAnim(AnimName.UI_SkillDetermined)
+                .SetPosition(skillPiece.skillImg.transform.position)
+                .SetRotation(skillPiece.skillImg.transform.eulerAngles)
+                .SetScale(1.1f)
+                .SetColor(colorDic[skillPiece.patternType])
+                .Play();
             })
             //.Join(skillPiece.transform.DOScale(Vector3.one, 0.5f))
             .AppendInterval(0.3f)
@@ -141,22 +142,7 @@ public class PieceCastUIHandler : MonoBehaviour
                 desIcons[i].gameObject.SetActive(true);
             }
 
-            Sprite icon = null;
-
-            switch (type)
-            {
-                case DesIconType.Attack:
-                    icon = GameManager.Instance.inventoryHandler.effectSprDic[skillPiece.currentType];
-                    break;
-
-                case DesIconType.Stun:
-                    icon = GameManager.Instance.ccIcons[0];
-                    break;
-
-                default:
-                    icon = null;
-                    break;
-            }
+            Sprite icon = GameManager.Instance.battleHandler.battleUtil.GetDesIcon(skillPiece, type);
 
             desIcons[i].SetIcon(icon, desInfos[i].value);
         }

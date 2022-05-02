@@ -52,8 +52,6 @@ public class Encounter_013 : RandomEncounter
                     turnCnt++;
                     if (turnCnt >= 5)
                     {
-                        Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-                        textEffect.Play("위험한 내기 실패!!!");
                         InventoryHandler inventoryHandler = GameManager.Instance.inventoryHandler;
                         
                         SkillPiece sp = GetRamdomSkill();
@@ -85,9 +83,6 @@ public class Encounter_013 : RandomEncounter
                 {
                     if (!isNextBattle)
                     {
-                        Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-                        textEffect.Play("위험한 내기 성공!!!");
-
                         playerHealth.Heal((int)(playerHealth.maxHp * 0.5f));
 
                         bh.battleEvent.RemoveEventInfo(eventInfo);

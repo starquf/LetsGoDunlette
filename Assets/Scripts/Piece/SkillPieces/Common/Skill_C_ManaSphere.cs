@@ -36,32 +36,28 @@ public class Skill_C_ManaSphere : SkillPiece
         Vector3 startPos = transform.position;
         Vector3 targetPos = target.transform.position;
 
-        Anim_C_SphereCast castAnim = PoolManager.GetItem<Anim_C_SphereCast>();
-        castAnim.transform.position = startPos;
-
-        castAnim.Play(() =>
-        {
-            EffectObj effect = PoolManager.GetItem<EffectObj>();
-            effect.transform.position = startPos;
-            effect.SetSprite(manaSphereSpr);
-            effect.SetColorGradient(effectGradient);
-            effect.SetScale(Vector3.one);
-
-            effect.Play(targetPos, () =>
+        animHandler.GetAnim(AnimName.C_SphereCast)
+            .SetPosition(targetPos)
+            .Play(() => 
             {
-                Anim_C_ManaSphereHit hitEffect = PoolManager.GetItem<Anim_C_ManaSphereHit>();
-                hitEffect.transform.position = targetPos;
+                EffectObj effect = PoolManager.GetItem<EffectObj>();
+                effect.transform.position = startPos;
+                effect.SetSprite(manaSphereSpr);
+                effect.SetColorGradient(effectGradient);
+                effect.SetScale(Vector3.one);
 
-                GameManager.Instance.cameraHandler.ShakeCamera(1f, 0.2f);
-                target.GetDamage(GetDamageCalc(), currentType);
-                onCastEnd?.Invoke();
-
-                hitEffect.Play(() =>
+                effect.Play(targetPos, () =>
                 {
-                });
+                    GameManager.Instance.cameraHandler.ShakeCamera(1f, 0.2f);
+                    target.GetDamage(GetDamageCalc(), currentType);
+                    onCastEnd?.Invoke();
 
-                effect.EndEffect();
-            }, BezierType.Linear, isRotate:true, playSpeed: 2f);
-        });
+                    animHandler.GetAnim(AnimName.C_ManaSphereHit)
+                        .SetPosition(targetPos)
+                        .Play();
+
+                    effect.EndEffect();
+                }, BezierType.Linear, isRotate: true, playSpeed: 2f);
+            });
     }
 }

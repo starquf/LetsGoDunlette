@@ -9,9 +9,9 @@ using Random = UnityEngine.Random;
 public class Anim_TextUp : AnimObj
 {
     public Text textValue;
-    private TextUpAnimType currentType = TextUpAnimType.Up;
+    public AnimationClip textClip;
 
-    private Color originColor;
+    private TextUpAnimType currentType = TextUpAnimType.Up;
 
     protected override void Awake()
     {
@@ -20,14 +20,51 @@ public class Anim_TextUp : AnimObj
         originColor = textValue.color;
     }
 
-    public void SetType(TextUpAnimType type)
+    protected override void InitComponent()
     {
-        currentType = type;
+        anim = GetComponent<Animator>();
+        textValue = GetComponentInChildren<Text>();
     }
 
-    public void SetTextColor(Color color)
+    public override void InitAnim()
+    {
+        base.InitAnim();
+        aoc["Play"] = textClip;
+    }
+
+    public Anim_TextUp SetType(TextUpAnimType type)
+    {
+        currentType = type;
+
+        return this;
+    }
+
+    public Anim_TextUp SetTextColor(Color color)
     {
         textValue.color = color;
+
+        return this;
+    }
+
+    public new Anim_TextUp SetScale(float scale)
+    {
+        transform.localScale = originScale * scale;
+
+        return this;
+    }
+
+    public new Anim_TextUp SetRotation(Vector3 rot)
+    {
+        transform.eulerAngles = rot;
+
+        return this;
+    }
+
+    public new Anim_TextUp SetPosition(Vector3 pos)
+    {
+        transform.position = pos;
+
+        return this;
     }
 
     public void Play(string value)
@@ -36,8 +73,15 @@ public class Anim_TextUp : AnimObj
         base.Play();
     }
 
-    protected override IEnumerator WaitAnim(Action onEndAnim)
+    public override void SetAnim(AnimationClip clip)
     {
+        
+    }
+
+    protected override IEnumerator PlayAnim(Action onEndAnim)
+    {
+        yield return null;
+
         float time = anim.GetCurrentAnimatorStateInfo(0).length;
         float timer = 0;
 
@@ -98,13 +142,13 @@ public class Anim_TextUp : AnimObj
 
         ResetAnim();
 
-
         gameObject.SetActive(false);
     }
 
-    protected override void ResetAnim()
+    public override void ResetAnim()
     {
-        base.ResetAnim();
+        transform.localScale = originScale;
+        transform.rotation = originRot;
 
         ResetText();
     }

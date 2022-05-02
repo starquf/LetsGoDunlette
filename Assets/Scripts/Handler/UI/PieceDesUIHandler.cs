@@ -4,16 +4,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 
 public class PieceDesUIHandler : MonoBehaviour
 {
     private InventoryHandler invenHandler;
 
-    public Text nameText;
+    public TextMeshProUGUI nameText;
     public Image bgImg;
-    public Text desText;
+    public TextMeshProUGUI desText;
+    public Transform skillIconTrans;
     public Image bookmarkImg;
     public Image bookmarkBGImg;
+    public Image strokeImg;
+
+    private List<SkillDesIcon> desIcons = new List<SkillDesIcon>();
 
     [Space(10f)]
     public Button closeBtn;
@@ -26,6 +31,8 @@ public class PieceDesUIHandler : MonoBehaviour
     {
         cg = GetComponent<CanvasGroup>();
         rect = GetComponent<RectTransform>();
+
+        skillIconTrans.GetComponentsInChildren(desIcons);
 
         invenHandler = GameManager.Instance.inventoryHandler;
 
@@ -48,9 +55,43 @@ public class PieceDesUIHandler : MonoBehaviour
         bookmarkImg.sprite = bookmark;
         bookmarkBGImg.sprite = bookmarkBG;
 
+        List<DesIconInfo> desInfos = skillPiece.GetDesIconInfo();
+        ShowDesIcon(desInfos, skillPiece);
+
+        if (skillPiece.PieceDes.Equals(""))
+        {
+            desText.gameObject.SetActive(false);
+        }
+        else
+        {
+            desText.gameObject.SetActive(true);
+        }
+
         confirmBtn.gameObject.SetActive(false);
 
         ShowPanel(true);
+    }
+
+    private void ShowDesIcon(List<DesIconInfo> desInfos, SkillPiece skillPiece)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            DesIconType type = desInfos[i].iconType;
+
+            if (type.Equals(DesIconType.None))
+            {
+                desIcons[i].gameObject.SetActive(false);
+                continue;
+            }
+            else
+            {
+                desIcons[i].gameObject.SetActive(true);
+            }
+
+            Sprite icon = GameManager.Instance.battleHandler.battleUtil.GetDesIcon(skillPiece, type);
+
+            desIcons[i].SetIcon(icon, desInfos[i].value);
+        }
     }
 
     public void ShowConfirmBtn(Action onConfirm)

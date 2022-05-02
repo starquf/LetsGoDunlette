@@ -18,7 +18,7 @@ public class Anim_SkillDetermined : AnimObj
         sr.color = color;
     }
 
-    protected override void ResetAnim()
+    public override void ResetAnim()
     {
         base.ResetAnim();
 

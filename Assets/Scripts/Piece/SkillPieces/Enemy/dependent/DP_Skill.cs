@@ -57,10 +57,10 @@ public class DP_Skill : SkillPiece
         {
             owner.GetComponent<EnemyHealth>().GetDamageIgnoreShild(40);
 
-            Anim_M_Butt effect = PoolManager.GetItem<Anim_M_Butt>();
-            effect.transform.position = owner.transform.position;
-            effect.SetScale(1f);
-            effect.Play();
+            animHandler.GetAnim(AnimName.M_Butt)
+            .SetPosition(owner.transform.position)
+            .SetScale(1f)
+            .Play();
 
             SetIndicator(boss.gameObject, "È¸º¹").OnEnd(() =>
             {

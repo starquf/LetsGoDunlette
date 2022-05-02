@@ -20,6 +20,8 @@ public class SkillPiece : RulletPiece
     [HideInInspector]
     public Inventory owner;
 
+    protected AnimHandler animHandler = null;
+
     protected override void Awake()
     {
         base.Awake();
@@ -30,6 +32,13 @@ public class SkillPiece : RulletPiece
         {
             desInfos.Add(new DesIconInfo());
         }
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+
+        animHandler = GameManager.Instance.animHandler;
     }
 
     public virtual PieceInfo ChoiceSkill()

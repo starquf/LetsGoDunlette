@@ -25,11 +25,10 @@ public class Skill_W_Change : SkillPiece
 
         recoverEffect.Play();
 
-        Anim_W_Splash splashEffect = PoolManager.GetItem<Anim_W_Splash>();
-        splashEffect.transform.position = owner.GetComponent<LivingEntity>().hpBar.transform.position;
-        splashEffect.SetScale(0.5f);
-
-        splashEffect.Play(() => onCastEnd?.Invoke());
+        animHandler.GetAnim(AnimName.W_Splash01)
+            .SetPosition(owner.GetComponent<LivingEntity>().hpBar.transform.position)
+            .SetScale(0.5f)
+            .Play(() => onCastEnd?.Invoke());
     }
 
 }

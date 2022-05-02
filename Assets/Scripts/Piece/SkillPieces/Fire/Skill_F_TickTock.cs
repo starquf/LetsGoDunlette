@@ -57,16 +57,16 @@ public class Skill_F_TickTock : SkillPiece
         {
             if (piece != this)
             {
-                Anim_TextUp textEffect = PoolManager.GetItem<Anim_TextUp>();
-                textEffect.SetType(TextUpAnimType.Fixed);
-                textEffect.transform.position = skillImg.transform.position;
-                textEffect.SetScale(0.8f);
-                textEffect.Play("Â°±ïÂ°±ï!");
+                animHandler.GetTextAnim()
+                .SetType(TextUpAnimType.Fixed)
+                .SetPosition(skillImg.transform.position)
+                .SetScale(0.8f)
+                .Play("Â°±ïÂ°±ï!");
 
-                Anim_F_ChainExplosion skillEffect = PoolManager.GetItem<Anim_F_ChainExplosion>();
-                skillEffect.transform.position = skillImg.transform.position;
-                skillEffect.SetScale(0.5f);
-                skillEffect.Play();
+                animHandler.GetAnim(AnimName.F_ChainExplosion)
+                .SetPosition(skillImg.transform.position)
+                .SetScale(0.5f)
+                .Play();
 
                 HighlightColor(0.2f);
 
@@ -74,13 +74,13 @@ public class Skill_F_TickTock : SkillPiece
                 counterText.text = turnCount.ToString();
                 if (turnCount <= 0)
                 {
-                    Anim_F_ManaSphereHit effect = PoolManager.GetItem<Anim_F_ManaSphereHit>();
-                    effect.transform.position = bh.playerImgTrans.position;
-                    effect.SetScale(Random.Range(0.8f, 1f));
-
                     GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.25f, 0.1f);
                     owner.GetComponent<LivingEntity>().GetDamage(hitedValue);
-                    effect.Play();
+
+                    animHandler.GetAnim(AnimName.F_ManaSphereHit)
+                    .SetPosition(bh.playerImgTrans.position)
+                    .SetScale(Random.Range(0.8f, 1f))
+                    .Play();
 
                     action?.Invoke();
                     bh.mainRullet.PutRulletPieceToGraveYard(pieceIdx);
@@ -111,20 +111,17 @@ public class Skill_F_TickTock : SkillPiece
 
         GameManager.Instance.cameraHandler.ShakeCamera(3.5f, 0.2f);
 
-        Anim_F_ManaSphereHit effect = PoolManager.GetItem<Anim_F_ManaSphereHit>();
-        effect.transform.position = target.transform.position;
-        effect.SetScale(Random.Range(0.8f, 1f));
+        animHandler.GetAnim(AnimName.F_ManaSphereHit)
+                .SetPosition(target.transform.position)
+                .SetScale(Random.Range(0.8f, 1f))
+                .Play();
 
-        effect.Play();
-
-        Anim_F_ManaSphereHit skillEffect = PoolManager.GetItem<Anim_F_ManaSphereHit>();
-        skillEffect.transform.position = target.transform.position;
-        skillEffect.SetScale(Random.Range(0.6f, 0.7f));
-
-        skillEffect.Play(() =>
-        {
-            onCastEnd?.Invoke();
-        });
+        animHandler.GetAnim(AnimName.F_ManaSphereHit)
+                .SetPosition(target.transform.position)
+                .SetScale(Random.Range(0.6f, 0.7f))
+                .Play(() =>
+                {
+                    onCastEnd?.Invoke();
+                });
     }
-
 }

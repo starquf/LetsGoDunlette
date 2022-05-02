@@ -22,12 +22,12 @@ public class Scroll_Flame : Scroll
             enemyList[i].GetDamage(damage);
         }
 
-         Anim_F_ChainExplosion recoverEffect = PoolManager.GetItem<Anim_F_ChainExplosion>();
-        recoverEffect.transform.position = bh.playerImgTrans.position;
-
-        recoverEffect.Play(() =>
-        {
-            onEndUse?.Invoke();
-        });
+        GameManager.Instance.animHandler.GetAnim(AnimName.F_ChainExplosion)
+                .SetPosition(bh.playerImgTrans.position)
+                .SetScale(0.5f)
+                .Play(() =>
+                {
+                    onEndUse?.Invoke();
+                });
     }
 }

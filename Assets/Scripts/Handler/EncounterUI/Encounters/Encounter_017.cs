@@ -79,10 +79,10 @@ public class Encounter_017 : RandomEncounter
                         }
                         else
                         {
-                            Anim_TextUp textAnim = PoolManager.GetItem<Anim_TextUp>();
-                            textAnim.SetScale(1f);
-                            textAnim.transform.position = Vector2.up*1.5f;
-                            textAnim.Play("전기속성 조각을 선택해 주세요!!");
+                            GameManager.Instance.animHandler.GetTextAnim()
+                            .SetScale(1f)
+                            .SetPosition(Vector2.up*1.5f)
+                            .Play("전기속성 조각을 선택해 주세요!!");
                         }
                     });
                 }/*, onCancelUse*/, stopTime: false);

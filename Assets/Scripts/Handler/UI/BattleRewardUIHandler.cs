@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -32,12 +33,15 @@ public class BattleRewardUIHandler : MonoBehaviour
 
     [Header("Ä«µå UI")]
     public Image cardBG;
-    public Text cardNameText;
-    public Text cardDesText;
+    public TextMeshProUGUI cardNameText;
+    public TextMeshProUGUI cardDesText;
+    public Transform skillIconTrans;
     public Image bookmarkBG;
     public Image bookmarkIcon;
     public Image maskImg;
     public Image selectedImg;
+
+    private List<SkillDesIcon> desIcons = new List<SkillDesIcon>();
 
     private Sequence showSequence;
     private Sequence winShowSequence;
@@ -51,6 +55,9 @@ public class BattleRewardUIHandler : MonoBehaviour
     [HideInInspector]
     public SkillPiece selectedSkillObj;
 
+    [HideInInspector]
+    public List<SkillPiece> createdReward = new List<SkillPiece>();
+
     private WaitForSeconds pOneSecWait = new WaitForSeconds(0.1f);
 
     private void Awake()
@@ -62,6 +69,8 @@ public class BattleRewardUIHandler : MonoBehaviour
     {
         invenHandler = GameManager.Instance.inventoryHandler;
         bh = GameManager.Instance.battleHandler;
+
+        skillIconTrans.GetComponentsInChildren(desIcons);
 
         startPos = pieceDesCG.transform.localPosition;
         ResetRewardUI();
@@ -170,16 +179,19 @@ public class BattleRewardUIHandler : MonoBehaviour
 
         for (int i = 0; i < rewards.Count; i++)
         {
-            SkillPiece reward = rewards[i];
+            SkillPiece reward = Instantiate(rewards[i]);
+            reward.gameObject.SetActive(false);
+
+            reward.owner = bh.player.GetComponent<Inventory>();
+
+            createdReward.Add(reward);
 
             PieceInfoUI pieceInfoUI = PoolManager.GetItem<PieceInfoUI>();
-            pieceInfoUI.SetSkillIcon(reward.transform.Find("SkillIcon").GetComponent<Image>().sprite);
-
+            pieceInfoUI.SetSkillIcon(reward.skillImg.sprite);
 
             pieceInfoUI.GetComponent<Image>().DOFade(1f, 0.5f)
                 .From(0f)
                 .SetEase(Ease.Linear);
-
 
             pieceInfoUI.transform.SetParent(selectContext);
 
@@ -205,6 +217,19 @@ public class BattleRewardUIHandler : MonoBehaviour
         cardBG.sprite = info.cardBG;
         cardNameText.text = info.PieceName;
         cardDesText.text = info.PieceDes;
+
+        if (info.PieceDes.Equals(""))
+        {
+            cardDesText.gameObject.SetActive(false);
+        }
+        else
+        {
+            cardDesText.gameObject.SetActive(true);
+        }
+
+        List<DesIconInfo> desInfos = info.GetDesIconInfo();
+        ShowDesIcon(desInfos, info);
+
         bookmarkBG.sprite = invenHandler.bookmarkSprDic[info.patternType];
         bookmarkIcon.sprite = invenHandler.effectSprDic[info.patternType];
 
@@ -212,14 +237,35 @@ public class BattleRewardUIHandler : MonoBehaviour
         getBtn.gameObject.SetActive(true);
     }
 
+    private void ShowDesIcon(List<DesIconInfo> desInfos, SkillPiece skillPiece)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            DesIconType type = desInfos[i].iconType;
+
+            if (type.Equals(DesIconType.None))
+            {
+                desIcons[i].gameObject.SetActive(false);
+                continue;
+            }
+            else
+            {
+                desIcons[i].gameObject.SetActive(true);
+            }
+
+            Sprite icon = GameManager.Instance.battleHandler.battleUtil.GetDesIcon(skillPiece, type);
+
+            desIcons[i].SetIcon(icon, desInfos[i].value);
+        }
+    }
+
     public void GetRewardEffect(Action onEndEffect = null)
     {
-        Anim_RewardDetermined rewardEffect = PoolManager.GetItem<Anim_RewardDetermined>();
-        rewardEffect.SetScale(1.5f);
+        GameManager.Instance.animHandler.GetAnim(AnimName.UI_RewardDetermined)
+        .SetScale(1.5f)
         //rewardEffect.ChangeColor(bh.castUIHandler.colorDic[selectedSkillObj.patternType]);
-        rewardEffect.transform.position = cardBG.transform.position;
-
-        rewardEffect.Play();
+        .SetPosition(cardBG.transform.position)
+        .Play();
 
         Sequence seq = DOTween.Sequence()
             .AppendInterval(0.25f)
