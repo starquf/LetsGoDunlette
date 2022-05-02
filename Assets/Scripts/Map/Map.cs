@@ -48,6 +48,11 @@ public class Map : MonoBehaviour
         button.onClick.AddListener(OnClickButton);
     }
 
+    public void SetTileSprite(Sprite tileSpr)
+    {
+        GetComponent<Image>().sprite = tileSpr;
+    }
+
     public void SetIcon(Sprite iconSpr)
     {
         switch (mapType)
