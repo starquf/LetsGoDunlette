@@ -95,10 +95,6 @@ public class CreateAnim : MonoBehaviour
     private void CreatePool()
     {
         // ===========================================================================  ???? ??????
-        PoolManager.CreatePool<Anim_TextUp>(TextUpAnim, this.transform, 5);
-        PoolManager.CreatePool<Anim_SkillDetermined>(skillDeterminedAnim, this.transform, 1);
-        PoolManager.CreatePool<Anim_RewardDetermined>(rewardDeterminedAnim, this.transform, 1);
-
         // ===========================================================================  ???? ????
         // ===========================================================================  ???? ????
 

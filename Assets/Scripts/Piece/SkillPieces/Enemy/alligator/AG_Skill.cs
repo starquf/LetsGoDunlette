@@ -39,12 +39,12 @@ public class AG_Skill : SkillPiece
                                   {
                                       target.GetDamage(60);
 
-                                      Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-                                      effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
-                                      effect.Play(() =>
-                                      {
-                                          action?.Invoke();
-                                      });
+                                      animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+                                        .SetScale(2)
+                                        .Play(() =>
+                                        {
+                                            action?.Invoke();
+                                        });
                                   });
                               };
         NormalEvent eventInfo = new NormalEvent(true, 3, onStartBattle, EventTime.EndOfTurn);
@@ -54,23 +54,23 @@ public class AG_Skill : SkillPiece
         {
             owner.GetComponent<EnemyHealth>().cc.SetCC(CCType.Silence, 3);
 
-            Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-            effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
-            effect.Play(() =>
-            {
-                SetIndicator(owner.gameObject, "公利").OnEnd(() =>
-                {
-                    owner.GetComponent<EnemyHealth>().cc.SetCC(CCType.Invincibility, 3);
+            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            .SetScale(2)
+            .Play(() =>
+           {
+               SetIndicator(owner.gameObject, "公利").OnEnd(() =>
+               {
+                   owner.GetComponent<EnemyHealth>().cc.SetCC(CCType.Invincibility, 3);
 
-                    animHandler.GetAnim(AnimName.M_Butt)
-                            .SetPosition(GameManager.Instance.enemyEffectTrm.position)
-                            .SetScale(2f)
-                            .Play(() =>
-                            {
-                                onCastEnd?.Invoke();
-                            });
-                });
-            });
+                   animHandler.GetAnim(AnimName.M_Butt)
+                           .SetPosition(GameManager.Instance.enemyEffectTrm.position)
+                           .SetScale(2f)
+                           .Play(() =>
+                           {
+                               onCastEnd?.Invoke();
+                           });
+               });
+           });
         });
     }
 

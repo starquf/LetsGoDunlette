@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class BB_Skill : SkillPiece
@@ -33,15 +31,15 @@ public class BB_Skill : SkillPiece
 
     private void BB_Breaking_Armor(LivingEntity target, Action onCastEnd = null) //플레이어의 보호막을 전부 부순다.
     {
-        if(target.HasShield())
+        if (target.HasShield())
         {
             SetIndicator(owner.gameObject, "보호막 파괴").OnEnd(() =>
             {
                 target.RemoveAllShield();
 
-                Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-                effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
-                effect.Play(() =>
+                animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+                .SetScale(2)
+                .Play(() =>
                 {
                     SetIndicator(owner.gameObject, "공격").OnEnd(() =>
                     {
