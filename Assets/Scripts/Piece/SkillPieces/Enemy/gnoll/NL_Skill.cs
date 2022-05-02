@@ -36,12 +36,11 @@ public class NL_Skill : SkillPiece
         SetIndicator(owner.gameObject, "공격").OnEnd(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
-            Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-            effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
-
             target.GetDamage(20 + addAdditionalDamage, this, owner);
 
-            effect.Play(() =>
+            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            .SetScale(2)
+            .Play(() =>
             {
                 SetIndicator(owner.gameObject, "상처부여").OnEnd(() =>
                 {
@@ -58,10 +57,9 @@ public class NL_Skill : SkillPiece
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
-            Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-            effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
-
-            effect.Play(() =>
+            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            .SetScale(2)
+            .Play(() =>
             {
                 onCastEnd?.Invoke();
             });

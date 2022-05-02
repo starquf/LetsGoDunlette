@@ -19,11 +19,9 @@ public class Skill_W_Change : SkillPiece
     {
         owner.GetComponent<PlayerHealth>().ChangeShieldToHealth();
 
-        Anim_M_Recover recoverEffect = PoolManager.GetItem<Anim_M_Recover>();
-        recoverEffect.transform.position = owner.transform.position;
-        recoverEffect.SetScale(0.5f);
-
-        recoverEffect.Play();
+        animHandler.GetAnim(AnimName.M_Shield).SetPosition(owner.transform.position)
+             .SetScale(0.5f)
+             .Play();
 
         animHandler.GetAnim(AnimName.W_Splash01)
             .SetPosition(owner.GetComponent<LivingEntity>().hpBar.transform.position)

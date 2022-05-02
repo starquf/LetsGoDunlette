@@ -46,10 +46,9 @@ public class FA_Skill : SkillPiece
                 }
             }
 
-            Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
-            effect.transform.position = owner.transform.position;
-
-            effect.Play(() =>
+            animHandler.GetAnim(AnimName.M_Shield).SetPosition(owner.transform.position)
+            .SetScale(1)
+            .Play(() =>
             {
                 onCastEnd?.Invoke();
             });
@@ -64,17 +63,16 @@ public class FA_Skill : SkillPiece
 
             target.GetDamage(Value, this, owner);
 
-            Anim_M_Scratch effect = PoolManager.GetItem<Anim_M_Scratch>();
-            effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
-
-            effect.Play(() =>
-            {
-                SetIndicator(owner.gameObject, "조각변경").OnEnd(() =>
-                {
-                    KiddingSkill();
-                    onCastEnd?.Invoke();
-                });
-            });
+            animHandler.GetAnim(AnimName.M_Scratch).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            .SetScale(2)
+            .Play(() =>
+           {
+               SetIndicator(owner.gameObject, "조각변경").OnEnd(() =>
+               {
+                   KiddingSkill();
+                   onCastEnd?.Invoke();
+               });
+           });
         });
     }
 

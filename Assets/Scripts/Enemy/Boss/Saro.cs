@@ -28,7 +28,7 @@ public class Saro : MonoBehaviour
 
                     print("4");
                     EnemyIndicator indi = GetComponent<EnemyIndicator>();
-                    indi.ShowText("스킬 강화", ()=> battleHandler.castUIHandler.ShowCasting(pieceInfo[0], () =>
+                    indi.ShowText("스킬 강화", () => battleHandler.castUIHandler.ShowCasting(pieceInfo[0], () =>
                     {
                         foreach (SkillPiece item in GameManager.Instance.inventoryHandler.skills)
                         {
@@ -46,7 +46,7 @@ public class Saro : MonoBehaviour
                     }));
                 };
 
-                EventInfo enemyEventInfo = new NormalEvent(true,0,eventAction,EventTime.EndOfTurn);
+                EventInfo enemyEventInfo = new NormalEvent(true, 0, eventAction, EventTime.EndOfTurn);
                 battleHandler.battleEvent.BookEvent(enemyEventInfo);
             }
 
@@ -63,17 +63,15 @@ public class Saro : MonoBehaviour
                     EnemyIndicator indi = GetComponent<EnemyIndicator>();
                     indi.ShowText("보호막", () => battleHandler.castUIHandler.ShowCasting(pieceInfo[1], () =>
                     {
-                        Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
-                        effect.transform.position = gameObject.transform.position;
-
                         GetComponent<EnemyHealth>().AddShield(300);
-
-                        effect.Play(() =>
-                        {
-                            battleHandler.castUIHandler.ShowPanel(false, false);
-                            indi.HideText();
-                            action?.Invoke();
-                        });
+                        GameManager.Instance.animHandler.GetAnim(AnimName.M_Shield).SetPosition(transform.position)
+                         .SetScale(1)
+                         .Play(() =>
+                         {
+                             battleHandler.castUIHandler.ShowPanel(false, false);
+                             indi.HideText();
+                             action?.Invoke();
+                         });
                     }));
                 };
 

@@ -16,9 +16,6 @@ public class Skil_F_Start_fire : SkillPiece
 
         Vector3 targetPos = target.transform.position;
 
-        Anim_FireEffect02 hitEffect = PoolManager.GetItem<Anim_FireEffect02>();
-        hitEffect.transform.position = targetPos;
-
         GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
         if(GameManager.Instance.battleHandler.fieldHandler.CheckFieldType(ElementalType.Water))
@@ -30,7 +27,9 @@ public class Skil_F_Start_fire : SkillPiece
             target.GetDamage(Value, currentType);
         }
 
-        hitEffect.Play(()=>
+        animHandler.GetAnim(AnimName.F_Effect02).SetPosition(targetPos)
+            .SetScale(1)
+            .Play(()=>
         {
             onCastEnd?.Invoke();
         });

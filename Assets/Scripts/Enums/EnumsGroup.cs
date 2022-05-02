@@ -144,5 +144,8 @@ public enum AnimName
     SlientEffect,
     UI_SkillDetermined,
     UI_RewardDetermined,
-    W_Shield
+    W_Shield,
+    M_Recover,
+    F_Effect02,
+    SkillEffect01
 }

@@ -1,8 +1,4 @@
-using DG.Tweening;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class Skill_N_Gentle_Breeze : SkillPiece
 {
@@ -12,10 +8,9 @@ public class Skill_N_Gentle_Breeze : SkillPiece
         owner.GetComponent<PlayerHealth>().Heal(value);
         GameManager.Instance.battleHandler.fieldHandler.SetFieldType(ElementalType.Nature);
 
-        Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
-        effect.transform.position = owner.transform.position;
-
-        effect.Play(() =>
+        animHandler.GetAnim(AnimName.M_Recover).SetPosition(owner.transform.position)
+            .SetScale(1)
+            .Play(() =>
         {
             onCastEnd?.Invoke();
         });

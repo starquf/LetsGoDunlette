@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class GR_Skill : SkillPiece
@@ -21,12 +20,10 @@ public class GR_Skill : SkillPiece
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
-            Anim_BuffEffect03 hitEffect = PoolManager.GetItem<Anim_BuffEffect03>();
-            hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(1.5f);
 
-            if(owner.GetComponent<EnemyHealth>().GetHpRatio() >= 50)
+            if (owner.GetComponent<EnemyHealth>().GetHpRatio() >= 50)
             {
-                if(Random.Range(0, 100) < 40)
+                if (Random.Range(0, 100) < 40)
                 {
                     animHandler.GetTextAnim()
                     .SetType(TextUpAnimType.Fixed)
@@ -39,10 +36,12 @@ public class GR_Skill : SkillPiece
             }
 
             target.GetDamage(Value, this, owner);
-            hitEffect.Play(() =>
-            {
-                onCastEnd?.Invoke();
-            });
+            animHandler.GetAnim(AnimName.BuffEffect03).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            .SetScale(1.5f)
+            .Play(() =>
+           {
+               onCastEnd?.Invoke();
+           });
         });
     }
 }

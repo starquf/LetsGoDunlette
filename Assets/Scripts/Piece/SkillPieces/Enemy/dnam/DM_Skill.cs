@@ -60,17 +60,16 @@ public class DM_Skill : SkillPiece
                 .SetScale(0.7f)
                 .Play("½¯µå!");
 
-                Anim_SkillEffect01 sheldEffect = PoolManager.GetItem<Anim_SkillEffect01>();
-                sheldEffect.transform.position = health.transform.position;
-                sheldEffect.SetScale(1);
-                sheldEffect.Play();
+                animHandler.GetAnim(AnimName.SkillEffect01).SetPosition(health.transform.position)
+                .SetScale(1)
+                .Play();
+
                 health.AddShield(Value);
             }
 
-            Anim_M_Shield effect = PoolManager.GetItem<Anim_M_Shield>();
-            effect.transform.position = owner.transform.position;
-
-            effect.Play(() =>
+            animHandler.GetAnim(AnimName.M_Shield).SetPosition(owner.transform.position)
+            .SetScale(1)
+            .Play(() =>
             {
                 onCastEnd?.Invoke();
             });
@@ -81,12 +80,11 @@ public class DM_Skill : SkillPiece
     {
         GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
-        Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
-        effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
-
         AddValue(30);
 
-        effect.Play(() =>
+        GameManager.Instance.animHandler.GetAnim(AnimName.M_Shield).SetPosition(owner.transform.position)
+        .SetScale(1)
+        .Play(() =>
         {
             onCastEnd?.Invoke();
         });

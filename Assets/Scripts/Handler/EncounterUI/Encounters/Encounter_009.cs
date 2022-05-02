@@ -20,12 +20,11 @@ public class Encounter_009 : RandomEncounter
             }
         }
         int randIdx = Random.Range(0, scrollList.Count);
-        Anim_M_Scratch scratchAnim = PoolManager.GetItem<Anim_M_Scratch>();
-        scratchAnim.transform.position = scrollList[randIdx].transform.position;
-        scratchAnim.Play(()=>
-        {
-            battleScrollHandler.SortScroll();
-        });
+        GameManager.Instance.animHandler.GetAnim(AnimName.M_Bite).SetPosition(scrollList[randIdx].transform.position)
+            .Play(()=>
+            {
+                battleScrollHandler.SortScroll();
+            });
         scrollList[randIdx].RemoveScroll();
     }
 

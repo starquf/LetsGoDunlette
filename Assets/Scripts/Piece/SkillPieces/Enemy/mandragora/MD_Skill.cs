@@ -35,12 +35,11 @@ public class MD_Skill : SkillPiece
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
-            Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-            effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
-
             target.GetDamage(15, this, owner);
 
-            effect.Play(() =>
+            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            .SetScale(2)
+            .Play(() =>
             {
                 if (Random.Range(1, 100) <= 40)
                 {
@@ -48,9 +47,9 @@ public class MD_Skill : SkillPiece
                     {
                         target.cc.SetCC(CCType.Silence, 2);
 
-                        Anim_M_Recover effect1 = PoolManager.GetItem<Anim_M_Recover>();
-                        effect1.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
-                        effect1.Play(() =>
+                        animHandler.GetAnim(AnimName.M_Shield).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+                        .SetScale(2)
+                        .Play(() =>
                         {
                             onCastEnd?.Invoke();
                         });
@@ -70,10 +69,9 @@ public class MD_Skill : SkillPiece
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
-            Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-            effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
-
-            effect.Play(() =>
+            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            .SetScale(2)
+            .Play(() =>
             {
                 onCastEnd?.Invoke();
             });

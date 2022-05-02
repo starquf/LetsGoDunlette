@@ -16,10 +16,9 @@ public class GA_Solidification : MonoBehaviour
                               {
                                   if (shieldValue > 0)
                                   {
-                                      Anim_M_Shield hitEffect = PoolManager.GetItem<Anim_M_Shield>();
-                                      hitEffect.transform.position = transform.position;
-
-                                      hitEffect.Play(() =>
+                                       GameManager.Instance.animHandler.GetAnim(AnimName.M_Shield).SetPosition(transform.position)
+                                        .SetScale(1)
+                                        .Play(() =>
                                       {
                                           action?.Invoke();
 

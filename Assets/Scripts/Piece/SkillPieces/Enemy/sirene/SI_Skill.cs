@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class SI_Skill : SkillPiece
@@ -42,11 +41,9 @@ public class SI_Skill : SkillPiece
 
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
-            Anim_M_Sword hitEffect = PoolManager.GetItem<Anim_M_Sword>();
-            hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
-
-
-            hitEffect.Play(() =>
+            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            .SetScale(2)
+            .Play(() =>
             {
                 onCastEnd?.Invoke();
             });
@@ -96,11 +93,10 @@ public class SI_Skill : SkillPiece
             .Play($"{result.PieceName} ∏≈»§!");
         }
 
-        Anim_M_Wisp wispEffect = PoolManager.GetItem<Anim_M_Wisp>();
-        wispEffect.transform.position = result.skillImg.transform.position;
-        wispEffect.SetScale(1.5f);
 
-        wispEffect.Play(() =>
+        animHandler.GetAnim(AnimName.M_Wisp).SetPosition(result.skillImg.transform.position)
+            .SetScale(1.5f)
+            .Play(() =>
         {
             if (result != null)
             {
@@ -109,10 +105,10 @@ public class SI_Skill : SkillPiece
                 Inventory temp = result.owner;
 
                 result.owner = this.owner;
-                result.Cast(battleHandler.player, () => 
+                result.Cast(battleHandler.player, () =>
                 {
                     result.owner = temp;
-                    onCastEnd.Invoke(); 
+                    onCastEnd.Invoke();
                 });
 
                 battleHandler.battleUtil.SetPieceToGraveyard(skillPieceIdxDic[result]);

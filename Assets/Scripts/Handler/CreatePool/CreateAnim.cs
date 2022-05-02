@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CreateAnim : MonoBehaviour
@@ -84,65 +82,4 @@ public class CreateAnim : MonoBehaviour
     [Header("CC Effects ")]
     public GameObject stunEffect;
     public GameObject slientEffect;
-
-
-    private void Awake()
-    {
-        //PoolManager.CreatePool<Anim_TextUp>(TextUpAnim, this.transform, 5);
-        //CreatePool();
-    }
-
-    private void CreatePool()
-    {
-        // ===========================================================================  ???? ??????
-        // ===========================================================================  ???? ????
-        // ===========================================================================  ???? ????
-
-        // ===========================================================================  ???? ????
-
-        // ===========================================================================  ?? ????
-        // ===========================================================================  ?? ????
-
-        // ===========================================================================  ?? ????
-        PoolManager.CreatePool<Anim_M_Sword>(swordAnim, this.transform, 1);
-        PoolManager.CreatePool<Anim_M_Bite>(biteAnim, this.transform, 1);
-        PoolManager.CreatePool<Anim_M_Scratch>(scratchAnim, this.transform, 1);
-        PoolManager.CreatePool<Anim_M_Recover>(recoverAnim, this.transform, 1);
-        PoolManager.CreatePool<Anim_M_Shield>(shieldAnim, this.transform, 1);
-        PoolManager.CreatePool<Anim_M_Wisp>(wispAnim, this.transform, 1);
-
-        // ===================================================================
-        PoolManager.CreatePool<Anim_BuffEffect01>(buffEffect01, this.transform, 1);
-        PoolManager.CreatePool<Anim_BuffEffect02>(buffEffect02, this.transform, 1);
-        PoolManager.CreatePool<Anim_BuffEffect03>(buffEffect03, this.transform, 1);
-        PoolManager.CreatePool<Anim_BuffEffect04>(buffEffect04, this.transform, 1);
-
-        PoolManager.CreatePool<Anim_WaterIce01>(waterIceEffect01, this.transform, 1);
-        PoolManager.CreatePool<Anim_WaterIce02>(waterIceEffect02, this.transform, 1);
-        PoolManager.CreatePool<Anim_WaterIce03>(waterIceEffect03, this.transform, 1);
-        PoolManager.CreatePool<Anim_WaterIce04>(waterIceEffect04, this.transform, 1);
-
-        PoolManager.CreatePool<Anim_SkillEffect01>(etcSkillEffect01, this.transform, 1);
-        PoolManager.CreatePool<Anim_SkillEffect02>(etcSkillEffect02, this.transform, 1);
-        PoolManager.CreatePool<Anim_SkillEffect03>(etcSkillEffect03, this.transform, 1);
-        PoolManager.CreatePool<Anim_SkillEffect04>(etcSkillEffect04, this.transform, 1);
-        PoolManager.CreatePool<Anim_SkillEffect05>(etcSkillEffect05, this.transform, 1);
-        PoolManager.CreatePool<Anim_SkillEffect06>(etcSkillEffect06, this.transform, 1);
-
-        PoolManager.CreatePool<Anim_FireEffect01>(fireEffect01, this.transform, 1);
-        PoolManager.CreatePool<Anim_FireEffect02>(fireEffect02, this.transform, 1);
-        PoolManager.CreatePool<Anim_FireEffect03>(fireEffect03, this.transform, 1);
-        PoolManager.CreatePool<Anim_FireEffect04>(fireEffect04, this.transform, 1);
-
-        PoolManager.CreatePool<Anim_ElecEffect01>(elecEffect01, this.transform, 1);
-        PoolManager.CreatePool<Anim_ElecEffect02>(elecEffect02, this.transform, 1);
-        PoolManager.CreatePool<Anim_ElecEffect03>(elecEffect03, this.transform, 1);
-        PoolManager.CreatePool<Anim_ElecEffect04>(elecEffect04, this.transform, 1);
-        PoolManager.CreatePool<Anim_ElecEffect05>(elecEffect05, this.transform, 1);
-        PoolManager.CreatePool<Anim_ElecEffect06>(elecEffect06, this.transform, 1);
-        PoolManager.CreatePool<Anim_ElecEffect07>(elecEffect07, this.transform, 1);
-
-        PoolManager.CreatePool<Anim_StunEffect>(stunEffect, this.transform, 1);
-        PoolManager.CreatePool<Anim_SlientEffect>(slientEffect, this.transform, 1);
-    }
 }

@@ -1,7 +1,5 @@
-using DG.Tweening;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -61,15 +59,13 @@ public class Skill_N_Drain : SkillPiece
             effect.SetColorGradient(effectGradient);
             effect.SetScale(Vector3.one * 0.5f);
 
-            effect.Play(healTarget.transform.position, () => {
+            effect.Play(healTarget.transform.position, () =>
+            {
+                animHandler.GetAnim(AnimName.M_Recover).SetPosition(effect.transform.position)
+            .SetScale(0.4f)
+            .Play();
 
-                Anim_M_Recover skillEffect = PoolManager.GetItem<Anim_M_Recover>();
-                skillEffect.transform.position = effect.transform.position;
-                skillEffect.SetScale(0.4f);
-
-                skillEffect.Play();
-
-                if(a == rand -1)
+                if (a == rand - 1)
                 {
                     healTarget.Heal(healValue - healAmount);
                     onCastEnd?.Invoke();

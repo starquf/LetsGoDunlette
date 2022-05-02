@@ -68,9 +68,9 @@ public class DP_Skill : SkillPiece
 
                 boss.Heal(30);
 
-                Anim_M_Recover healEffect = PoolManager.GetItem<Anim_M_Recover>();
-                healEffect.transform.position = boss.transform.position;
-                healEffect.Play(() =>
+                animHandler.GetAnim(AnimName.M_Recover).SetPosition(boss.transform.position)
+            .SetScale(1)
+            .Play(() =>
                 {
                     onCastEnd?.Invoke();
                 });
@@ -84,10 +84,9 @@ public class DP_Skill : SkillPiece
         SetIndicator(owner.gameObject, "АјАн").OnEnd(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
-            Anim_M_Sword hitEffect = PoolManager.GetItem<Anim_M_Sword>();
-            hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
-
-            hitEffect.Play(() =>
+            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            .SetScale(2)
+            .Play(() =>
             {
                 onCastEnd?.Invoke();
             });

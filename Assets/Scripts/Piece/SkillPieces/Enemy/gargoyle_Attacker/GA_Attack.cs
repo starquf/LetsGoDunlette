@@ -15,19 +15,16 @@ public class GA_Attack : SkillPiece
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
             target.GetDamage(Value, this, owner);
 
-            Anim_M_Sword hitEffect = PoolManager.GetItem<Anim_M_Sword>();
-            hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
-
-            hitEffect.Play(() =>
+            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            .SetScale(2)
+            .Play(() =>
             {
                 SetIndicator(owner.gameObject, "º¸È£¸·").OnEnd(() =>
                 {
-                    Anim_M_Shield effect = PoolManager.GetItem<Anim_M_Shield>();
-                    effect.transform.position = owner.transform.position;
-
                     owner.GetComponent<EnemyHealth>().AddShield(10);
-
-                    effect.Play(() =>
+                    animHandler.GetAnim(AnimName.M_Shield).SetPosition(owner.transform.position)
+            .SetScale(1)
+            .Play(() =>
                     {
                         onCastEnd?.Invoke();
                     });

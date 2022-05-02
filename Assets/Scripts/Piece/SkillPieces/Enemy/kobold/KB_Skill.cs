@@ -37,12 +37,11 @@ public class KB_Skill : SkillPiece
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
-            Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-            effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
-
             target.GetDamage(10, this, owner);
 
-            effect.Play(() =>
+            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            .SetScale(2)
+            .Play(() =>
             {
                 onCastEnd?.Invoke();
             });
@@ -58,12 +57,11 @@ public class KB_Skill : SkillPiece
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
-            Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-            effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
-
             target.GetDamage(stolenGolds, this, owner);
 
-            effect.Play(() =>
+            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            .SetScale(2)
+            .Play(() =>
             {
                 onCastEnd?.Invoke();
             });

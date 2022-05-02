@@ -40,12 +40,11 @@ public class SR_Skill : SkillPiece
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
-            Anim_M_Sword hitEffect = PoolManager.GetItem<Anim_M_Sword>();
-            hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
-
             target.GetDamage(Value, this, owner);
 
-            hitEffect.Play(() =>
+            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            .SetScale(2)
+            .Play(() =>
             {
                 onCastEnd?.Invoke();
             });
@@ -56,12 +55,10 @@ public class SR_Skill : SkillPiece
     {
         GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
-        Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
-        effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
-
         AddValue(30);
-
-        effect.Play(() =>
+        animHandler.GetAnim(AnimName.M_Recover).SetPosition(owner.transform.position)
+            .SetScale(1)
+            .Play(() =>
         {
             onCastEnd?.Invoke();
         });

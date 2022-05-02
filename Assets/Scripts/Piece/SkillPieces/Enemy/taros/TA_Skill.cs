@@ -68,9 +68,9 @@ public class TA_Skill : SkillPiece
                 target.GetDamage(40, this, owner);
             }
 
-            Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-            effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
-            effect.Play(() =>
+            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            .SetScale(2)
+            .Play(() =>
             {
                 onCastEnd?.Invoke();
             });
@@ -104,13 +104,12 @@ public class TA_Skill : SkillPiece
             }
 
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
-            Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
-            effect.transform.position = owner.transform.position;
-
-            effect.Play(() =>
-            {
-                onCastEnd?.Invoke();
-            });
+            animHandler.GetAnim(AnimName.M_Recover).SetPosition(owner.transform.position)
+            .SetScale(1)
+            .Play(() =>
+           {
+               onCastEnd?.Invoke();
+           });
         });
     }
 

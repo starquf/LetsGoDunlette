@@ -33,10 +33,9 @@ public class Gar : MonoBehaviour
                             GameManager.Instance.inventoryHandler.CreateSkill(garSkill, owner, gameObject.transform.position);
                         }
 
-                        Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
-                        effect.transform.position = gameObject.transform.position;
-
-                        effect.Play(() =>
+                        GameManager.Instance.animHandler.GetAnim(AnimName.M_Shield).SetPosition(transform.position)
+                         .SetScale(2)
+                         .Play(() =>
                         {
                             battleHandler.castUIHandler.ShowPanel(false, false);
                             indi.HideText();
@@ -61,17 +60,15 @@ public class Gar : MonoBehaviour
                     EnemyIndicator indi = GetComponent<EnemyIndicator>();
                     indi.ShowText("º¸È£¸·", () => battleHandler.castUIHandler.ShowCasting(pieceInfo[1], () =>
                     {
-                        Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
-                        effect.transform.position = gameObject.transform.position;
-
                         GetComponent<EnemyHealth>().AddShield(300);
-
-                        effect.Play(() =>
-                        {
-                            battleHandler.castUIHandler.ShowPanel(false, false);
-                            indi.HideText();
-                            action?.Invoke();
-                        });
+                        GameManager.Instance.animHandler.GetAnim(AnimName.M_Shield).SetPosition(transform.position)
+                         .SetScale(1)
+                         .Play(() =>
+                         {
+                             battleHandler.castUIHandler.ShowPanel(false, false);
+                             indi.HideText();
+                             action?.Invoke();
+                         });
                     }));
                 };
 

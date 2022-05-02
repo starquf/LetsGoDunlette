@@ -18,10 +18,9 @@ public class Scroll_Heal : Scroll
     {
         bh.player.Heal(50);
 
-        Anim_M_Recover recoverEffect = PoolManager.GetItem<Anim_M_Recover>();
-        recoverEffect.transform.position = bh.playerImgTrans.position;
-
-        recoverEffect.Play(() =>
+        GameManager.Instance.animHandler.GetAnim(AnimName.M_Recover).SetPosition(bh.playerImgTrans.position)
+            .SetScale(1)
+            .Play(() =>
         {
             onEndUse?.Invoke();
         });

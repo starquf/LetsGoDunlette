@@ -42,10 +42,9 @@ public class LSW_Skill : SkillPiece
 
             target.GetDamage(cuttingDmg, this, owner);
 
-            Anim_M_Sword hitEffect = PoolManager.GetItem<Anim_M_Sword>();
-            hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
-
-            hitEffect.Play(() =>
+            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            .SetScale(2)
+            .Play(() =>
             {
                 onCastEnd?.Invoke();
             });
@@ -58,10 +57,9 @@ public class LSW_Skill : SkillPiece
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
-            Anim_M_Shield shieldEffect = PoolManager.GetItem<Anim_M_Shield>();
-            shieldEffect.transform.position = owner.transform.position;
-
-            shieldEffect.Play(() =>
+            animHandler.GetAnim(AnimName.M_Shield).SetPosition(owner.transform.position)
+            .SetScale(1)
+            .Play(() =>
             {
                 onCastEnd?.Invoke();
             });

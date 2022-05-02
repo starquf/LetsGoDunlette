@@ -81,10 +81,9 @@ public class AG_Skill : SkillPiece
             owner.GetComponent<EnemyHealth>().Heal(30);
 
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
-            Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
-            effect.transform.position = owner.transform.position;
-
-            effect.Play(() =>
+            animHandler.GetAnim(AnimName.M_Recover).SetPosition(owner.transform.position)
+            .SetScale(1)
+            .Play(() =>
             {
                 onCastEnd?.Invoke();
             });

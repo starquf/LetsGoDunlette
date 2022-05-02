@@ -37,10 +37,9 @@ public class GG_Skill : SkillPiece
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
             target.GetDamage(30, this, owner);
 
-            Anim_M_Sword hitEffect = PoolManager.GetItem<Anim_M_Sword>();
-            hitEffect.transform.position = GameManager.Instance.enemyEffectTrm.position; hitEffect.SetScale(2);
-
-            hitEffect.Play(() =>
+            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            .SetScale(2)
+            .Play(() =>
             {
                 onCastEnd?.Invoke();
             });
@@ -52,16 +51,15 @@ public class GG_Skill : SkillPiece
 
     private void GG_Recover(LivingEntity target, Action onCastEnd = null) //자신의 체력을 30만큼 회복한다.
     {
-        SetIndicator(owner.gameObject, "공격").OnEnd(() =>
+        SetIndicator(owner.gameObject, "회복").OnEnd(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
             owner.GetComponent<EnemyHealth>().Heal(30);
 
-            Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
-            effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
-
-            effect.Play(() =>
+            animHandler.GetAnim(AnimName.M_Recover).SetPosition(owner.transform.position)
+            .SetScale(1)
+            .Play(() =>
             {
                 onCastEnd?.Invoke();
             });

@@ -32,15 +32,14 @@ public class Dnam : MonoBehaviour
 
                         for (int i = 0; i < 3; i++)
                         {
-                            SkillPiece piece = GameManager.Instance.inventoryHandler.CreateSkill(dnamSkill, owner,gameObject.transform.position);
+                            SkillPiece piece = GameManager.Instance.inventoryHandler.CreateSkill(dnamSkill, owner, gameObject.transform.position);
                             if (isUpgraded)
                                 piece.AddValue(30);
                         }
 
-                        Anim_M_Recover effect = PoolManager.GetItem<Anim_M_Recover>();
-                        effect.transform.position = gameObject.transform.position;
-
-                        effect.Play(() =>
+                        GameManager.Instance.animHandler.GetAnim(AnimName.M_Shield).SetPosition(transform.position)
+                        .SetScale(1)
+                        .Play(() =>
                         {
                             battleHandler.castUIHandler.ShowPanel(false, false);
                             indi.HideText();

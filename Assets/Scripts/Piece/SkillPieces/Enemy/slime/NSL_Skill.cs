@@ -39,10 +39,9 @@ public class NSL_Skill : SkillPiece
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
-            Anim_M_Recover recoverEffect = PoolManager.GetItem<Anim_M_Recover>();
-            recoverEffect.transform.position = owner.transform.position;
-
-            recoverEffect.Play(() =>
+            animHandler.GetAnim(AnimName.M_Recover).SetPosition(owner.transform.position)
+            .SetScale(1)
+            .Play(() =>
             {
                 onCastEnd?.Invoke();
             });

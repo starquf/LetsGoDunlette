@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class Scroll_Shield : Scroll
 {
@@ -18,10 +15,9 @@ public class Scroll_Shield : Scroll
     {
         bh.player.AddShield(50);
 
-        Anim_M_Shield shieldEffect = PoolManager.GetItem<Anim_M_Shield>();
-        shieldEffect.transform.position = bh.playerImgTrans.position;
-
-        shieldEffect.Play(() =>
+        GameManager.Instance.animHandler.GetAnim(AnimName.M_Shield).SetPosition(bh.playerImgTrans.position)
+            .SetScale(1)
+            .Play(() =>
         {
             onEndUse?.Invoke();
         });

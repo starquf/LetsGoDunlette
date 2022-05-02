@@ -35,12 +35,10 @@ public class GA_Skill : SkillPiece
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
-            Anim_M_Shield hitEffect = PoolManager.GetItem<Anim_M_Shield>();
-            hitEffect.transform.position = owner.transform.position;
-
             owner.GetComponent<GA_Solidification>().shieldValue += 5;
-
-            hitEffect.Play(() =>
+            animHandler.GetAnim(AnimName.M_Shield).SetPosition(owner.transform.position)
+            .SetScale(1)
+            .Play(() =>
             {
                 onCastEnd?.Invoke();
             });
@@ -55,10 +53,9 @@ public class GA_Skill : SkillPiece
 
             target.GetDamage(5, this, owner);
 
-            Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-            effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
-
-            effect.Play(() =>
+             animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+             .SetScale(2)
+             .Play(() =>
             {
                 int curShield = owner.GetComponent<EnemyHealth>().GetShieldHp();
                 if (curShield > 0)
@@ -67,10 +64,9 @@ public class GA_Skill : SkillPiece
                     {
                         target.GetDamage(curShield, this, owner);
 
-                        Anim_M_Sword effect = PoolManager.GetItem<Anim_M_Sword>();
-                        effect.transform.position = GameManager.Instance.enemyEffectTrm.position; effect.SetScale(2);
-
-                        effect.Play(() =>
+                        animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+                        .SetScale(2)
+                        .Play(() =>
                         {
                             onCastEnd?.Invoke();
                         });
