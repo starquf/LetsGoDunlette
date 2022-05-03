@@ -328,7 +328,7 @@ public class MapManager : MonoBehaviour
     public void CanNotMoveGameOverDirection()
     {
         ZoomCamera(3, time: 0.65f, ease: Ease.OutQuad);
-        BreakMap(curMap, false);
+        BreakMap(curMap);
         DOTween.Sequence()
             .AppendInterval(0.3f)
             .Append(playerTrm.DOMoveY(playerTrm.position.y - 5f, 1f).SetEase(Ease.InBack))
