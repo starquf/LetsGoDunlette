@@ -458,7 +458,7 @@ public class MapManager : MonoBehaviour
         List<Map> maps = tiles.Values.ToList();
         for (int i = 0; i < maps.Count; i++)
         {
-            maps[i].SetTileSprite(tileSpriteList[Random.Range(0, tileSpriteList.Count)]);
+            maps[i].SetTileSprite(tileSpriteList[Random.Range(0 + (GameManager.Instance.StageIdx * 7), 6 + (GameManager.Instance.StageIdx * 7))]);
         }
     }
 
