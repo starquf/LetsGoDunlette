@@ -140,7 +140,7 @@ public class InventoryHandler : MonoBehaviour
 
         skill.ResetPiece();
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 2; i++)
         {
             EffectObj effect = PoolManager.GetItem<EffectObj>();
             effect.SetSprite(effectSprDic[skill.currentType]);
@@ -151,7 +151,7 @@ public class InventoryHandler : MonoBehaviour
             effect.transform.DOMove(Random.insideUnitCircle * 1.5f, 0.4f)
                 .SetRelative();
 
-            effect.Play(skill.owner.transform.position, () =>
+            effect.Play(usedTrans.transform.position, () =>
             {
                 usedOpenTween.Kill();
                 usedOpenTween = usedTrans.DOScale(new Vector3(1.1f, 1.1f, 1f), 0.15f)
@@ -180,7 +180,7 @@ public class InventoryHandler : MonoBehaviour
 
         skill.ResetPiece();
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 2; i++)
         {
             EffectObj effect = PoolManager.GetItem<EffectObj>();
             effect.SetSprite(effectSprDic[skill.currentType]);
@@ -261,9 +261,6 @@ public class InventoryHandler : MonoBehaviour
         result.ResetPiece();
 
         result.gameObject.SetActive(true);
-        result.transform.position = new Vector3(result.owner.transform.position.x,
-                                                result.owner.transform.position.y,
-                                                result.transform.position.z);
 
         inven.skills.Remove(result);
 
@@ -291,7 +288,7 @@ public class InventoryHandler : MonoBehaviour
 
         for (int i = 0; i < inventorys.Count; i++)
         {
-            if (inventorys[i].isPlayerInven == isPlayer)
+            if (inventorys[i].isPlayerInven == isPlayer && inventorys[i].skills.Count > 0)
             {
                 filterdInven.Add(inventorys[i]);
             }
@@ -311,9 +308,6 @@ public class InventoryHandler : MonoBehaviour
         result.ResetPiece();
 
         result.gameObject.SetActive(true);
-        result.transform.position = new Vector3(result.owner.transform.position.x, 
-                                                result.owner.transform.position.y, 
-                                                result.transform.position.z);
 
         inven.skills.Remove(result);
 
@@ -350,7 +344,7 @@ public class InventoryHandler : MonoBehaviour
             graveyard[i].transform.SetParent(transform);
             graveyard[i].transform.localPosition = Vector3.zero;
 
-            for (int j = 0; j < 5; j++)
+            for (int j = 0; j < 2; j++)
             {
                 EffectObj effect = PoolManager.GetItem<EffectObj>();
                 effect.SetSprite(effectSprDic[graveyard[i].currentType]);
@@ -408,11 +402,11 @@ public class InventoryHandler : MonoBehaviour
         owner.skills.Clear();
     }
 
-    private void CreateSkillEffect(SkillPiece piece, Vector3 pos)
+    public void CreateSkillEffect(SkillPiece piece, Vector3 pos)
     {
         //print("이펙트 생성중!!!");
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 3; i++)
         {
             EffectObj effect = PoolManager.GetItem<EffectObj>();
             effect.SetSprite(effectSprDic[piece.currentType]);
