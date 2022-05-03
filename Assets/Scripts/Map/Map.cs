@@ -102,7 +102,7 @@ public class Map : MonoBehaviour
                             SetIcon(null);
                         });
                         mapManager.StartMap(mapType);
-                    });
+                    }, true);
             });
         }
     }
