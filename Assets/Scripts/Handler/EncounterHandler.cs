@@ -109,8 +109,29 @@ public class EncounterHandler : MonoBehaviour
                 break;
             case mapNode.RandomEncounter:
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
-                randomEncounterUIHandler.StartEvent();
-                GameManager.Instance.bottomUIHandler.ShowBottomPanel(false);
+
+                int randIdx = Random.Range(0, 100);
+                if (randIdx < 25)//¸÷
+                {
+                    bh.StartBattle();
+                }
+                else if (randIdx < 27)// ¿¤¸÷
+                {
+                    bh.StartBattle(isElite: true);
+                }
+                else if (randIdx < 87) // ÀÎÄ«¿îÅÍ
+                {
+                    randomEncounterUIHandler.StartEvent();
+                    GameManager.Instance.bottomUIHandler.ShowBottomPanel(false);
+                }
+                else if (randIdx < 96) // »óÁ¡
+                {
+                    shopEncounterUIHandler.StartEvent();
+                }
+                else // ÈÞ½Ä
+                {
+                    restEncounterUIHandler.StartEvent();
+                }
                 break;
         }
     }
