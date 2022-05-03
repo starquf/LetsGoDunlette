@@ -281,9 +281,14 @@ public class MapManager : MonoBehaviour
     }
 
     // 플레이어 이동 연출
-    public void MovePlayer(Map map, Action onComplete = null)
+    public void MovePlayer(Map map, Action onComplete = null, bool counting = false)
     {
-        playerTrm.DOJump(map.transform.position, 0.35f, 1, 0.35f).SetEase(Ease.OutQuad).SetDelay(0.5f).OnComplete(() =>
+        if(counting)
+        {
+            bossCount--;
+            bossCountTxt.DOText(bossCount.ToString(), 0.5f);
+        }
+        playerTrm.DOJump(map.transform.position, 0.35f, 1, 0.35f).SetEase(Ease.OutQuad).SetDelay(counting? 0.7f : 0.5f).OnComplete(() =>
         {
             BreakMap(curMap);
             curMap = map;
@@ -296,7 +301,7 @@ public class MapManager : MonoBehaviour
     public IEnumerator PlayDirection(Action onEndDirection, bool first = false)
     {
         blockPanel.raycastTarget = true;
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.5f);
         //yield return null;
 
         if(first) // 맨처음 부셔지는 맵 연출
@@ -313,7 +318,7 @@ public class MapManager : MonoBehaviour
         }
         else // 보스 카운팅 연출, 연결된 맵 없을시 떨어지면서 죽어야됨
         {
-            if (CheckHasLinckedMap())
+            if (bossCount == 0 || CheckHasLinckedMap())
             {
                 BossCountDirection(onEndDirection);
             }
@@ -350,41 +355,31 @@ public class MapManager : MonoBehaviour
     // 보스 카운팅 연출 및 보스 올라가는 연출
     public void BossCountDirection(Action onEndDirection)
     {
-        if(--bossCount > 0)
-        {
-            DOTween.Sequence()
-                .Append(bossCountTxt.DOText(bossCount.ToString(), 0.5f))
-                .AppendInterval(0.7f)
-                .OnComplete(()=>
-                {
-                    ZoomCamera(3, time: 0.65f, ease: Ease.OutQuad, onComplete: () =>
-                    {
-                        onEndDirection?.Invoke();
-                    });
-                });
-        }
-        else
+        if(bossCount > 0)
         {
             ZoomCamera(3, time: 0.65f, ease: Ease.OutQuad, onComplete: () =>
             {
-                CinemachineBrain cB = Camera.main.GetComponent<CinemachineBrain>();
-                cB.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.EaseInOut;
-                playerFollowCam.gameObject.SetActive(false);
-                Vector2 bossCloudPos = new Vector2(0, bossCloudTrm.position.y);
-                Vector2 dir = bossCloudPos - (Vector2)playerTrm.position;
-                float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-                DOTween.Sequence()
-                    .Append(bossCountTxt.DOText(bossCount.ToString(), 0.5f))
-                    .AppendInterval(0.7f)
-                    .Append(playerTrm.DORotate(new Vector3(playerTrm.rotation.x, playerTrm.rotation.y - 360f * 10, playerTrm.rotation.z), 1.3f).SetEase(Ease.OutCubic))
-                    .Join(playerTrm.DOMove(bossCloudPos, 1f).SetDelay(0.3f).SetEase(Ease.OutCubic))
-                    .Join(playerTrm.DORotateQuaternion(Quaternion.AngleAxis(angle - 90, Vector3.forward), 1f).SetDelay(0.3f).SetEase(Ease.OutCubic))
-                    .OnComplete(() =>
-                    {
-                        StartMap(mapNode.BOSS);
-                        //SetPlayerStartPos(curMap);
-                    });
+                onEndDirection?.Invoke();
             });
+        }
+        else
+        {
+            CinemachineBrain cB = Camera.main.GetComponent<CinemachineBrain>();
+            cB.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.EaseInOut;
+            playerFollowCam.gameObject.SetActive(false);
+            Vector2 bossCloudPos = new Vector2(0, bossCloudTrm.position.y);
+            Vector2 dir = bossCloudPos - (Vector2)playerTrm.position;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            DOTween.Sequence()
+                .AppendInterval(0.5f)
+                .Append(playerTrm.DORotate(new Vector3(playerTrm.rotation.x, playerTrm.rotation.y - 360f * 10, playerTrm.rotation.z), 1.3f).SetEase(Ease.OutCubic))
+                .Join(playerTrm.DOMove(bossCloudPos, 1f).SetDelay(0.3f).SetEase(Ease.OutCubic))
+                .Join(playerTrm.DORotateQuaternion(Quaternion.AngleAxis(angle - 90, Vector3.forward), 1f).SetDelay(0.3f).SetEase(Ease.OutCubic))
+                .OnComplete(() =>
+                {
+                    StartMap(mapNode.BOSS);
+                    //SetPlayerStartPos(curMap);
+                });
         }
     }
 
