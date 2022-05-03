@@ -7,10 +7,11 @@ using Random = UnityEngine.Random;
 
 public class InventoryHandler : MonoBehaviour
 {
-    // 현재 가지고 있는 모든 스킬들
-    public List<SkillPiece> unusedSkills = new List<SkillPiece>();
     public List<SkillPiece> skills = new List<SkillPiece>();
-    public List<SkillPiece> usedSkills = new List<SkillPiece>();
+
+    // 현재 가지고 있는 모든 스킬 인벤토리들
+    public List<Inventory> inventorys = new List<Inventory>();
+    public List<SkillPiece> graveyard = new List<SkillPiece>();
 
     public Transform usedTrans;
 
@@ -59,8 +60,8 @@ public class InventoryHandler : MonoBehaviour
 
     public void SetCountUI()
     {
-        unusedCardCount.text = unusedSkills.Count.ToString();
-        usedCardCount.text = usedSkills.Count.ToString();
+        //unusedCardCount.text = unusedSkills.Count.ToString();
+        usedCardCount.text = graveyard.Count.ToString();
 
         onUpdateInfo?.Invoke();
     }
@@ -76,45 +77,50 @@ public class InventoryHandler : MonoBehaviour
         return skill;
     }
 
-    public SkillPiece CreateSkill(GameObject skillPrefab, Inventory owner, Vector3 makePos, Action onEndCreate = null)
+    public SkillPiece CreateSkill(GameObject skillPrefab, Inventory owner, Vector3 makePos)
     {
-        SkillPiece skill = Instantiate(skillPrefab, transform).GetComponent<SkillPiece>();
-        skill.transform.position = makePos;
+        SkillPiece skill = CreateSkill(skillPrefab, owner);
 
-        skill.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
-
-        skill.transform.DOScale(new Vector3(0.2f, 0.2f, 1f), 0.5f)
-            .SetDelay(0.5f);
-
-        skill.transform.DOMove(transform.position, 0.5f)
-            .SetDelay(0.24f)
-            .OnComplete(() =>
-            {
-                skill.gameObject.SetActive(false);
-                onEndCreate?.Invoke();
-            });
-
-        AddSkill(skill, owner);
+        CreateSkillEffect(skill, makePos);
 
         return skill;
     }
 
     public void AddSkill(SkillPiece skill, Inventory owner)
     {
-        skill.gameObject.SetActive(false);
-
-        skill.transform.SetParent(transform);
         skill.owner = owner;
         owner.skills.Add(skill);
-
         skills.Add(skill);
-        unusedSkills.Add(skill);
+
+        //skills.Add(skill);
+        //unusedSkills.Add(skill);
 
         SetCountUI();
     }
 
+    public void AddInventory(Inventory inven)
+    {
+        inventorys.Add(inven);
+    }
+
+    public void RemoveInventory(Inventory inven)
+    {
+        inventorys.Remove(inven);
+    }
+
+    public Inventory GetPlayerInventory()
+    {
+        for (int i = 0; i < inventorys.Count; i++)
+        {
+            if (inventorys[i].isPlayerInven)
+                return inventorys[i];
+        }
+
+        return null;
+    }
+
     // 사용한 스킬은 이걸 호출
-    public void SetUseSkill(SkillPiece skill)
+    public void SetSkillToGraveyard(SkillPiece skill)
     {
         if (skill == null)
         {
@@ -130,7 +136,7 @@ public class InventoryHandler : MonoBehaviour
         }
 
         skill.isInRullet = false;
-        usedSkills.Add(skill);
+        graveyard.Add(skill);
 
         skill.ResetPiece();
 
@@ -145,7 +151,7 @@ public class InventoryHandler : MonoBehaviour
             effect.transform.DOMove(Random.insideUnitCircle * 1.5f, 0.4f)
                 .SetRelative();
 
-            effect.Play(usedTrans.position, () =>
+            effect.Play(skill.owner.transform.position, () =>
             {
                 usedOpenTween.Kill();
                 usedOpenTween = usedTrans.DOScale(new Vector3(1.1f, 1.1f, 1f), 0.15f)
@@ -159,17 +165,18 @@ public class InventoryHandler : MonoBehaviour
             , BezierType.Quadratic, 0.4f);
         }
 
-        skill.transform.SetParent(usedTrans);
+        skill.transform.SetParent(transform);
         skill.transform.localPosition = Vector3.zero;
         skill.gameObject.SetActive(false);
 
         SetCountUI();
     }
 
-    public void SetUnUseSkill(SkillPiece skill)
+    public void SetSkillToInventory(SkillPiece skill)
     {
         skill.isInRullet = false;
-        unusedSkills.Add(skill);
+
+        skill.owner.skills.Add(skill);
 
         skill.ResetPiece();
 
@@ -211,8 +218,12 @@ public class InventoryHandler : MonoBehaviour
         piece.gameObject.SetActive(true);
         piece.ResetPiece();
 
-        unusedSkills.Remove(piece);
-        usedSkills.Remove(piece);
+        for (int i = 0; i < inventorys.Count; i++)
+        {
+            inventorys[i].skills.Remove(piece);
+        }
+
+        graveyard.Remove(piece);
 
         SetCountUI();
     }
@@ -221,14 +232,26 @@ public class InventoryHandler : MonoBehaviour
     public SkillPiece GetRandomUnusedSkill()
     {
         // 비어있으면
-        if (unusedSkills.Count <= 0)
+        if (CheckAllInventoryEmpty())
         {
             CycleSkills();
         }
 
-        int randIdx = Random.Range(0, unusedSkills.Count);
+        List<Inventory> filterdInven = new List<Inventory>();
 
-        SkillPiece result = unusedSkills[randIdx];
+        for (int i = 0; i < inventorys.Count; i++)
+        {
+            if (inventorys[i].skills.Count > 0)
+            {
+                filterdInven.Add(inventorys[i]);
+            }
+        }
+
+        int randIdx = Random.Range(0, filterdInven.Count);
+        Inventory inven = filterdInven[randIdx];
+
+        randIdx = Random.Range(0, inven.skills.Count);
+        SkillPiece result = inven.skills[randIdx];
 
         if (result == null)
         {
@@ -238,8 +261,11 @@ public class InventoryHandler : MonoBehaviour
         result.ResetPiece();
 
         result.gameObject.SetActive(true);
+        result.transform.position = new Vector3(result.owner.transform.position.x,
+                                                result.owner.transform.position.y,
+                                                result.transform.position.z);
 
-        unusedSkills.Remove(result);
+        inven.skills.Remove(result);
 
         SetCountUI();
 
@@ -249,65 +275,90 @@ public class InventoryHandler : MonoBehaviour
     public SkillPiece GetRandomPlayerOrEnemySkill(bool isPlayer)
     {
         // 비어있으면
-        if (unusedSkills.Count <= 0)
+        if (CheckAllInventoryEmpty())
         {
             CycleSkills();
         }
 
-        List<SkillPiece> filterdSkill = new List<SkillPiece>();
-
-        for (int i = 0; i < unusedSkills.Count; i++)
-        {
-            if (unusedSkills[i].isPlayerSkill == isPlayer)
-            {
-                filterdSkill.Add(unusedSkills[i]);
-            }
-        }
-
         // 적이나 플레이어 스킬이 없다면
-        if (filterdSkill.Count == 0)
+        if (!CheckPlayerOrEnemySkill(isPlayer))
         {
             // 그냥 전체에서 하나 랜덤으로 준다
             return GetRandomUnusedSkill();
         }
 
-        int randIdx = Random.Range(0, filterdSkill.Count);
+        List<Inventory> filterdInven = new List<Inventory>();
 
-        SkillPiece result = filterdSkill[randIdx];
+        for (int i = 0; i < inventorys.Count; i++)
+        {
+            if (inventorys[i].isPlayerInven == isPlayer)
+            {
+                filterdInven.Add(inventorys[i]);
+            }
+        }
+
+        if (filterdInven.Count <= 0)
+        {
+            return GetRandomUnusedSkill();
+        }
+
+        int randIdx = Random.Range(0, filterdInven.Count);
+        Inventory inven = filterdInven[randIdx];
+
+        randIdx = Random.Range(0, inven.skills.Count);
+        SkillPiece result = inven.skills[randIdx];
+
         result.ResetPiece();
 
         result.gameObject.SetActive(true);
+        result.transform.position = new Vector3(result.owner.transform.position.x, 
+                                                result.owner.transform.position.y, 
+                                                result.transform.position.z);
 
-        unusedSkills.Remove(result);
+        inven.skills.Remove(result);
 
         SetCountUI();
 
         return result;
     }
 
+    public bool CheckAllInventoryEmpty()
+    {
+        for(int i = 0; i < inventorys.Count; i++)
+        {
+            if (inventorys[i].skills.Count > 0)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public void CycleSkills()
     {
-        for (int i = 0; i < usedSkills.Count; i++)
+        for (int i = 0; i < graveyard.Count; i++)
         {
-            if (usedSkills[i] == null)
+            if (graveyard[i] == null)
             {
                 continue;
             }
 
             // 사용한거를 옮겨
-            unusedSkills.Add(usedSkills[i]);
-            usedSkills[i].transform.SetParent(transform);
-            usedSkills[i].transform.localPosition = Vector3.zero;
+            graveyard[i].owner.skills.Add(graveyard[i]);
+
+            graveyard[i].transform.SetParent(transform);
+            graveyard[i].transform.localPosition = Vector3.zero;
 
             for (int j = 0; j < 5; j++)
             {
                 EffectObj effect = PoolManager.GetItem<EffectObj>();
-                effect.SetSprite(effectSprDic[usedSkills[i].currentType]);
-                effect.SetColorGradient(effectGradDic[usedSkills[i].currentType]);
+                effect.SetSprite(effectSprDic[graveyard[i].currentType]);
+                effect.SetColorGradient(effectGradDic[graveyard[i].currentType]);
 
                 effect.transform.position = usedTrans.position;
 
-                effect.Play(transform.position, () =>
+                effect.Play(graveyard[i].owner.transform.position, () =>
                 {
                     unusedOpenTween.Kill();
                     unusedOpenTween = transform.DOScale(new Vector3(1.1f, 1.1f, 1f), 0.15f)
@@ -322,16 +373,16 @@ public class InventoryHandler : MonoBehaviour
             }
         }
 
-        usedSkills.Clear();
+        graveyard.Clear();
     }
 
     public void RemoveAllEnemyPiece() //모든 적스킬을 삭제
     {
-        for (int i = skills.Count - 1; i >= 0; i--)
+        for (int i = inventorys.Count - 1; i >= 0; i--)
         {
-            if (!skills[i].isPlayerSkill)
+            if (inventorys[i].isPlayerInven == false)
             {
-                RemovePiece(skills[i]);
+                RemoveAllOwnerPiece(inventorys[i]);
             }
         }
     }
@@ -345,7 +396,7 @@ public class InventoryHandler : MonoBehaviour
             // 룰렛 안에 있는 거면
             if (piece.isInRullet)
             {
-                CreateRemoveEffect(piece);
+                CreateSkillEffect(piece, piece.skillImg.transform.position);
                 RemovePiece(piece);
             }
             else
@@ -357,7 +408,7 @@ public class InventoryHandler : MonoBehaviour
         owner.skills.Clear();
     }
 
-    private void CreateRemoveEffect(SkillPiece piece)
+    private void CreateSkillEffect(SkillPiece piece, Vector3 pos)
     {
         //print("이펙트 생성중!!!");
 
@@ -367,7 +418,6 @@ public class InventoryHandler : MonoBehaviour
             effect.SetSprite(effectSprDic[piece.currentType]);
             effect.SetColorGradient(effectGradDic[piece.currentType]);
 
-            Vector3 pos = piece.skillImg.transform.position;
             pos.z = 0f;
 
             effect.transform.position = pos;
@@ -384,35 +434,26 @@ public class InventoryHandler : MonoBehaviour
 
         piece.KillTween();
 
-        skills.Remove(piece);
-        usedSkills.Remove(piece);
-        unusedSkills.Remove(piece);
+        graveyard.Remove(piece);
         piece.owner.skills.Remove(piece);
+        skills.Remove(piece);
 
         Destroy(piece.gameObject);
-        SetCountUI();
-    }
-
-    public void RemoveNull()
-    {
-        unusedSkills.Clear();
-
-        for (int i = 0; i < skills.Count; i++)
-        {
-            unusedSkills.Add(skills[i]);
-        }
 
         SetCountUI();
     }
 
     // 플레이어/적 스킬 유무
-    public bool CheckPlayerOrEnemyInUnUsedInven(bool isPlayer)
+    public bool CheckPlayerOrEnemySkill(bool isPlayer)
     {
-        for (int i = 0; i < unusedSkills.Count; i++)
+        for (int i = 0; i < inventorys.Count; i++)
         {
-            if (unusedSkills[i].isPlayerSkill == isPlayer)
+            if (inventorys[i].isPlayerInven == isPlayer)
             {
-                return true;
+                if (inventorys[i].skills.Count > 0)
+                {
+                    return true;
+                }
             }
         }
 

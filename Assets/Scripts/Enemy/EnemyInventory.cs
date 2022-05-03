@@ -6,6 +6,11 @@ public class EnemyInventory : Inventory
 {
     private float waitTime = 0.25f;
 
+    protected virtual void Awake()
+    {
+        isPlayerInven = false;
+    }
+
     public float CreateSkillsSmooth()
     {
         StartCoroutine(CreateSkillsWait());
@@ -16,6 +21,8 @@ public class EnemyInventory : Inventory
     private IEnumerator CreateSkillsWait()
     {
         InventoryHandler inventoryHandler = GameManager.Instance.inventoryHandler;
+
+        inventoryHandler.AddInventory(this);
 
         for (int i = 0; i < skillPrefabs.Count; i++)
         {

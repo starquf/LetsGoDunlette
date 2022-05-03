@@ -158,11 +158,11 @@ public class InventoryInfoHandler : MonoBehaviour
         switch (currentRange)
         {
             case ShowInfoRange.Inventory:
-                skills = invenHandler.unusedSkills;
+                skills = bh.player.GetComponent<Inventory>().skills;
                 break;
 
             case ShowInfoRange.Graveyard:
-                skills = invenHandler.usedSkills;
+                skills = invenHandler.graveyard;
                 break;
         }
 

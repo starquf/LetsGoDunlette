@@ -23,7 +23,7 @@ public class Scroll_Memorie : Scroll
 
     public override void Use(Action onEndUse, Action onCancelUse)
     {
-        if (invenHandler.usedSkills.Count <= 0 || bh.mainRullet.IsStop)
+        if (invenHandler.graveyard.Count <= 0 || bh.mainRullet.IsStop)
         {
             onCancelUse?.Invoke();
             return;

@@ -38,7 +38,6 @@ public class DebugBattlePanelHandler : MonoBehaviour, IDebugPanel
             bh.BattleForceEnd();
             bh.CheckBattleEnd();
             bh.mainRullet.StopForceRullet();
-            GameManager.Instance.inventoryHandler.RemoveNull();
 
             for (int i = 0; i < battleHideImgObjs.Count; i++)
             {

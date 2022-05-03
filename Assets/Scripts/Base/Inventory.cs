@@ -10,6 +10,8 @@ public class Inventory : MonoBehaviour
     //[HideInInspector]
     public List<SkillPiece> skills = new List<SkillPiece>();
 
+    public bool isPlayerInven = false;
+
     public virtual void CreateSkills()
     {
         InventoryHandler inventoryHandler = GameManager.Instance.inventoryHandler;
@@ -18,5 +20,7 @@ public class Inventory : MonoBehaviour
         {
             SkillPiece skill = inventoryHandler.CreateSkill(skillPrefabs[i], this);
         }
+
+        inventoryHandler.AddInventory(this);
     }
 }

@@ -95,7 +95,9 @@ public class EnemyHealth : LivingEntity
         StartCoroutine(GameManager.Instance.battleHandler.battleEvent.ActionEvent(EventTimeEnemy.EnemyDie, this));
 
         coll.enabled = false;
+
         bh.enemys.Remove(this);
+        GameManager.Instance.inventoryHandler.RemoveInventory(GetComponent<Inventory>());
     }
 
     public virtual void ShowDieEffect()

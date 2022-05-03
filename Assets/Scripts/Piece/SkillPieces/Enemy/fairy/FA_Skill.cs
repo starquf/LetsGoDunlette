@@ -83,11 +83,9 @@ public class FA_Skill : SkillPiece
 
         // 3. 서로 바꿔야됩니다. <-
 
-        List<SkillPiece> unUsedinven = GameManager.Instance.inventoryHandler.unusedSkills;
-
-        if (!TryFindAttackFromAndCall(unUsedinven, FindRandomPlayerSkillAndChangePiece))
+        if (!TryFindAttackFromAndCall(owner.skills, FindRandomPlayerSkillAndChangePiece))
         {
-            List<SkillPiece> usedinven = GameManager.Instance.inventoryHandler.usedSkills;
+            List<SkillPiece> usedinven = GameManager.Instance.inventoryHandler.graveyard;
             TryFindAttackFromAndCall(usedinven, FindRandomPlayerSkillAndChangePiece);
         }
     }

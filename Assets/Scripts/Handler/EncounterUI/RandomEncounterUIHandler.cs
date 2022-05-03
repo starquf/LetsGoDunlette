@@ -99,13 +99,16 @@ public class RandomEncounterUIHandler : MonoBehaviour
         }
         else if(idx == 16)//전기 스킬 없을시 발동 x
         {
-            for (int i = 0; i < GameManager.Instance.inventoryHandler.unusedSkills.Count; i++)
+            Inventory inven = GameManager.Instance.inventoryHandler.GetPlayerInventory();
+
+            for (int i = 0; i < inven.skills.Count; i++)
             {
-                if(GameManager.Instance.inventoryHandler.unusedSkills[i].currentType == ElementalType.Electric)
+                if(inven.skills[i].currentType == ElementalType.Electric)
                 {
                     return true;
                 }
             }
+
             return false;
         }
         return true;

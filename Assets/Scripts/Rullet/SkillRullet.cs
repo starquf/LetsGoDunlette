@@ -31,7 +31,7 @@ public class SkillRullet : Rullet
 
         if (pieces[changeIdx] != null)
         {
-            inventory.SetUseSkill((SkillPiece)pieces[changeIdx]);
+            inventory.SetSkillToGraveyard((SkillPiece)pieces[changeIdx]);
         }
 
         SetPiece(changeIdx, changePiece);
@@ -65,7 +65,7 @@ public class SkillRullet : Rullet
 
         InventoryHandler inventory = GameManager.Instance.inventoryHandler;
 
-        inventory.SetUseSkill((SkillPiece)pieces[changeIdx]);
+        inventory.SetSkillToGraveyard((SkillPiece)pieces[changeIdx]);
 
         pieces[changeIdx] = null;
 
@@ -78,7 +78,7 @@ public class SkillRullet : Rullet
 
         InventoryHandler inventory = GameManager.Instance.inventoryHandler;
 
-        inventory.SetUnUseSkill((SkillPiece)pieces[changeIdx]);
+        inventory.SetSkillToInventory((SkillPiece)pieces[changeIdx]);
 
         pieces[changeIdx] = null;
 

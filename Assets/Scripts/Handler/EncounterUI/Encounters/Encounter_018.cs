@@ -33,7 +33,10 @@ public class Encounter_018 : RandomEncounter
                 for (int i = 0; i < 2; i++)
                 {
                     int idx = i;
-                    SkillPiece sp = invenHandler.unusedSkills[Random.Range(0, invenHandler.unusedSkills.Count)];
+
+                    Inventory inven = invenHandler.GetPlayerInventory();
+
+                    SkillPiece sp = inven.skills[Random.Range(0, inven.skills.Count)];
                     skills.Add(sp);
 
                     invenHandler.GetSkillFromInventory(sp);

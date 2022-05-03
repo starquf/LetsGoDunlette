@@ -35,16 +35,11 @@ public class Encounter_015 : RandomEncounter
     public SkillPiece GetRamdomSkill()
     {
         InventoryHandler inventoryHandler = GameManager.Instance.inventoryHandler;
-        List<SkillPiece> skills = new List<SkillPiece>();
-        for (int i = 0; i < inventoryHandler.unusedSkills.Count; i++)
-        {
-            if (inventoryHandler.unusedSkills[i].isPlayerSkill)
-            {
-                skills.Add(inventoryHandler.unusedSkills[i]);
-            }
-        }
-        int randIdx = Random.Range(0, skills.Count);
-        return skills[randIdx];
+
+        Inventory inven = inventoryHandler.GetPlayerInventory();
+
+        int randIdx = Random.Range(0, inven.skills.Count);
+        return inven.skills[randIdx];
     }
 
     public override void ResultSet(int resultIdx)

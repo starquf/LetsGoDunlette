@@ -25,7 +25,7 @@ public class Scroll_Use : Scroll
         }
 
         // 플레이어 스킬이 존재한다면
-        if (ih.CheckPlayerOrEnemyInUnUsedInven(true))
+        if (ih.CheckPlayerOrEnemySkill(true))
         {
             bh.mainRullet.PauseRullet();
 

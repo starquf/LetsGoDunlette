@@ -16,6 +16,8 @@ public class PlayerInventory : Inventory
 
     private void Awake()
     {
+        isPlayerInven = true;
+
         if (GameManager.Instance.deckIdx >= 0 && GameManager.Instance.deckIdx < decks.Count)
         {
             skillPrefabs = decks[GameManager.Instance.deckIdx].skills;

@@ -192,12 +192,12 @@ public class BattleUtilHandler : MonoBehaviour
     {
         if (piece == null) return;
 
-        inventory.SetUseSkill(piece);
+        inventory.SetSkillToGraveyard(piece);
     }
 
     public void SetPieceToInventory(SkillPiece piece)
     {
-        inventory.SetUnUseSkill(piece);
+        inventory.SetSkillToInventory(piece);
     }
 
     public void SetRulletEmpty(int pieceIdx)

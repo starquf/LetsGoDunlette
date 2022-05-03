@@ -14,20 +14,15 @@ public class Encounter_013 : RandomEncounter
     {
         InventoryHandler inventoryHandler = GameManager.Instance.inventoryHandler;
         List<SkillPiece> skills = new List<SkillPiece>();
-        for (int i = 0; i < inventoryHandler.unusedSkills.Count; i++)
+
+        for (int i = 0; i < inventoryHandler.skills.Count; i++)
         {
-            if (inventoryHandler.unusedSkills[i].isPlayerSkill)
+            if (inventoryHandler.skills[i].isPlayerSkill)
             {
-                skills.Add(inventoryHandler.unusedSkills[i]);
+                skills.Add(inventoryHandler.skills[i]);
             }
         }
-        for (int i = 0; i < inventoryHandler.usedSkills.Count; i++)
-        {
-            if (inventoryHandler.usedSkills[i].isPlayerSkill)
-            {
-                skills.Add(inventoryHandler.usedSkills[i]);
-            }
-        }
+
         int randIdx = Random.Range(0, skills.Count);
         return skills[randIdx];
     }
