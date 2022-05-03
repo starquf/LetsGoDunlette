@@ -18,7 +18,8 @@ public class MapGenerator : MonoBehaviour
     Map GenerateTile(int x, int y)
     {
         float rt = tileSize * realTileSize;
-        Map newTile = Instantiate(tile, transform).GetComponent<Map>();
+        //Map newTile = Instantiate(tile, transform).GetComponent<Map>();
+        Map newTile = PoolManager.GetItem<Map>();
         RectTransform rectTransform = newTile.GetComponent<RectTransform>();
 
         float posX = (x * rt + y * rt) / 2f;

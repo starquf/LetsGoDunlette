@@ -76,6 +76,9 @@ public class Map : MonoBehaviour
     public void SetInteracteble(bool enable)
     {
         button.interactable = enable;
+
+        if (mapManager.GetMapIcon(mapType) != null)
+            mapIcon.color = enable? Color.white : new Color(0.7f, 0.7f, 0.7f, 1f);
     }
 
     
@@ -99,7 +102,7 @@ public class Map : MonoBehaviour
                             SetIcon(null);
                         });
                         mapManager.StartMap(mapType);
-                    });
+                    }, true);
             });
         }
     }

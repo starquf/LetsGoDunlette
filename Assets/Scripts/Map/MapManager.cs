@@ -28,25 +28,30 @@ public class MapManager : MonoBehaviour
     Tween zoomTween;
 
     private Vector2 defaultBossCloudPos;
+    private Vector2 defaultBossEffectPos;
 
     [HideInInspector] public Dictionary<Vector2, Map> tiles;
     private Map curMap;
     private int bossCount;
 
     [Header("맵 생성 관현")]
-    [SerializeField] MapGenerator mapGenerator;
+    public MapGenerator mapGenerator;
     [SerializeField] CanvasGroup mapCvsGroup;
     [SerializeField] CanvasGroup mapBGCvsGroup;
     [SerializeField] Image blockPanel;
     [SerializeField] Transform bossCloudTrm;
+    [SerializeField] Transform bossEffectTrm;
     [SerializeField] Transform playerTrm;
     [SerializeField] Transform playerUpTrm;
     [SerializeField] CinemachineVirtualCamera playerFollowCam;
     [SerializeField] Text bossCountTxt;
 
-    [SerializeField] GameObject brokenTile;
     [SerializeField] List<Sprite> mapIconSpriteList = new List<Sprite>();
     [SerializeField] List<Sprite> tileSpriteList = new List<Sprite>();
+
+    private Image bossCloudImage;
+    [SerializeField] List<Sprite> bossCloudSpriteList = new List<Sprite>();
+    [SerializeField] Animator bossEffectAnimator;
 
     [Header("맵 밸런스 관련")]
     [SerializeField] int defaultBossCount;
@@ -65,7 +70,9 @@ public class MapManager : MonoBehaviour
     {
         GameManager.Instance.mapManager = this;
         tiles = new Dictionary<Vector2, Map>();
+        bossCloudImage = bossCloudTrm.GetChild(0).GetComponent<Image>();
         defaultBossCloudPos = bossCloudTrm.position;
+        defaultBossEffectPos = bossEffectTrm.position;
     }
 
     void Start()
@@ -104,6 +111,9 @@ public class MapManager : MonoBehaviour
         curMap = null;
         bossCount = defaultBossCount;
         bossCountTxt.text = bossCount.ToString();
+        print(GameManager.Instance.StageIdx);
+        bossCloudImage.sprite = bossCloudSpriteList[GameManager.Instance.StageIdx];
+        bossEffectAnimator.SetInteger(0, GameManager.Instance.StageIdx);
     }
 
     // 맵 구조 변경
@@ -130,7 +140,8 @@ public class MapManager : MonoBehaviour
                 {
                     count--;
                     DestroyMap(map);
-                    Destroy(map.gameObject);
+                    map.gameObject.SetActive(false);
+                    //Destroy(map.gameObject);
                 }
             }
         }
@@ -156,7 +167,7 @@ public class MapManager : MonoBehaviour
             Map linkedMap = map.linkedMoveAbleMap[j];
             if ((firstLinkedMapList.Contains(linkedMap) ? linkedMap.linkedMoveAbleMap.Count - 1 : linkedMap.linkedMoveAbleMap.Count) <= minLinkedMap)
             {
-                print("이거 부수면 좆됨");
+                //print("이거 부수면 좆됨");
                 return false;
             }
             else
@@ -177,14 +188,14 @@ public class MapManager : MonoBehaviour
                 checkedMapList.Add(linkedMap);
                 if (linkedMap == tiles[new Vector2(0, gridHeight-1)])
                 {
-                    print("모든 노드와 연결되어있음");
+                    //print("모든 노드와 연결되어있음");
                     return true;
                 }
                 if (IsLinkedAllNode(linkedMap, checkedMapList))
                     return true;
             }
         }
-        print("모든 노드와 연결되어있지 않음");
+        //print("모든 노드와 연결되어있지 않음");
         return false;
     }
 
@@ -208,7 +219,6 @@ public class MapManager : MonoBehaviour
                 StartCoroutine(PlayDirection(() =>
                 {
                     blockPanel.raycastTarget = false;
-                    ZoomCamera(3, time:0.65f, ease:Ease.OutQuad);
                 }, first));
             });
         }
@@ -271,9 +281,14 @@ public class MapManager : MonoBehaviour
     }
 
     // 플레이어 이동 연출
-    public void MovePlayer(Map map, Action onComplete = null)
+    public void MovePlayer(Map map, Action onComplete = null, bool counting = false)
     {
-        playerTrm.DOJump(map.transform.position, 0.35f, 1, 0.35f).SetEase(Ease.OutQuad).SetDelay(0.5f).OnComplete(() =>
+        if(counting)
+        {
+            bossCount--;
+            bossCountTxt.DOText(bossCount.ToString(), 0.5f);
+        }
+        playerTrm.DOJump(map.transform.position, 0.35f, 1, 0.35f).SetEase(Ease.OutQuad).SetDelay(counting? 0.7f : 0.5f).OnComplete(() =>
         {
             BreakMap(curMap);
             curMap = map;
@@ -286,19 +301,24 @@ public class MapManager : MonoBehaviour
     public IEnumerator PlayDirection(Action onEndDirection, bool first = false)
     {
         blockPanel.raycastTarget = true;
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.5f);
         //yield return null;
 
         if(first) // 맨처음 부셔지는 맵 연출
         {
-            MovePlayer(tiles[new Vector2(0, gridHeight-1)], ()=>
+            yield return new WaitForSeconds(0.7f);
+
+            ZoomCamera(3, time: 0.65f, ease: Ease.OutQuad, onComplete:()=>
             {
-                onEndDirection?.Invoke();
+                MovePlayer(tiles[new Vector2(0, gridHeight - 1)], () =>
+                {
+                    onEndDirection?.Invoke();
+                });
             });
         }
         else // 보스 카운팅 연출, 연결된 맵 없을시 떨어지면서 죽어야됨
         {
-            if(CheckHasLinckedMap())
+            if (bossCount == 0 || CheckHasLinckedMap())
             {
                 BossCountDirection(onEndDirection);
             }
@@ -313,11 +333,12 @@ public class MapManager : MonoBehaviour
     public void CanNotMoveGameOverDirection()
     {
         ZoomCamera(3, time: 0.65f, ease: Ease.OutQuad);
-        BreakMap(curMap, false);
+        BreakMap(curMap);
         DOTween.Sequence()
             .AppendInterval(0.3f)
             .Append(playerTrm.DOMoveY(playerTrm.position.y - 5f, 1f).SetEase(Ease.InBack))
             .Join(playerTrm.GetComponent<Image>().DOFade(0, 1f).SetEase(Ease.InBack))
+            .AppendInterval(0.7f)
             .OnComplete(()=>
             {
                 //ToDO 게임 오버
@@ -334,14 +355,12 @@ public class MapManager : MonoBehaviour
     // 보스 카운팅 연출 및 보스 올라가는 연출
     public void BossCountDirection(Action onEndDirection)
     {
-        if(--bossCount > 0)
+        if(bossCount > 0)
         {
-            DOTween.Sequence()
-                .Append(bossCountTxt.DOText(bossCount.ToString(), 0.5f))
-                .OnComplete(()=>
-                {
-                    onEndDirection?.Invoke();
-                });
+            ZoomCamera(3, time: 0.65f, ease: Ease.OutQuad, onComplete: () =>
+            {
+                onEndDirection?.Invoke();
+            });
         }
         else
         {
@@ -352,10 +371,10 @@ public class MapManager : MonoBehaviour
             Vector2 dir = bossCloudPos - (Vector2)playerTrm.position;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             DOTween.Sequence()
-                .Append(bossCountTxt.DOText(bossCount.ToString(), 0.5f))
+                .AppendInterval(0.5f)
                 .Append(playerTrm.DORotate(new Vector3(playerTrm.rotation.x, playerTrm.rotation.y - 360f * 10, playerTrm.rotation.z), 1.3f).SetEase(Ease.OutCubic))
                 .Join(playerTrm.DOMove(bossCloudPos, 1f).SetDelay(0.3f).SetEase(Ease.OutCubic))
-                .Join(playerTrm.DORotateQuaternion(Quaternion.AngleAxis(angle-90, Vector3.forward), 1f).SetDelay(0.3f).SetEase(Ease.OutCubic))
+                .Join(playerTrm.DORotateQuaternion(Quaternion.AngleAxis(angle - 90, Vector3.forward), 1f).SetDelay(0.3f).SetEase(Ease.OutCubic))
                 .OnComplete(() =>
                 {
                     StartMap(mapNode.BOSS);
@@ -439,7 +458,7 @@ public class MapManager : MonoBehaviour
         List<Map> maps = tiles.Values.ToList();
         for (int i = 0; i < maps.Count; i++)
         {
-            maps[i].SetTileSprite(tileSpriteList[Random.Range(0, tileSpriteList.Count)]);
+            maps[i].SetTileSprite(tileSpriteList[Random.Range(0 + (GameManager.Instance.StageIdx * 7), 6 + (GameManager.Instance.StageIdx * 7))]);
         }
     }
 
@@ -542,6 +561,7 @@ public class MapManager : MonoBehaviour
     // 맵과 연결되있는 리스트에서 다빼줌 tiles에서도 빼줌
     private void DestroyMap(Map map)
     {
+        map.SetInteracteble(false);
         for (int i = 0; i < map.linkedMoveAbleMap.Count; i++)
         {
             map.linkedMoveAbleMap[i].linkedMoveAbleMap.Remove(map);
@@ -552,11 +572,10 @@ public class MapManager : MonoBehaviour
     }
 
     // 맵 부셔지는 연출
-    public void BreakMap(Map map, bool createImg = true)
+    public void BreakMap(Map map)
     {
         if (map == null)
             return;
-        map.SetInteracteble(false);
         DestroyMap(map);
         Vector2 mapPosition = map.transform.position;
 
@@ -565,15 +584,8 @@ public class MapManager : MonoBehaviour
             .Join(map.transform.DOMoveY(map.transform.position.y - 0.5f, 0.5f))
             .OnComplete(() =>
             {
-                if(createImg)
-                {
-                    RectTransform rect = Instantiate(brokenTile, mapPosition, Quaternion.identity, mapGenerator.transform).GetComponent<RectTransform>();
-                    Image img = rect.GetComponent<Image>();
-                    rect.anchoredPosition = new Vector3(rect.anchoredPosition.x, rect.anchoredPosition.y, 0f);
-                    img.color = new Color(1, 1, 1, 0);
-                    img.DOFade(1, 0.5f);
-                }
-                Destroy(map.gameObject);
+                map.gameObject.SetActive(false);
+                //Destroy(map.gameObject);
             });
     }
 
@@ -607,11 +619,13 @@ public class MapManager : MonoBehaviour
         {
             DOTween.Sequence()
                 .Append(bossCloudTrm.DOMoveY(defaultBossCloudPos.y + movePower, time).SetEase(ease))
+                .Join(bossEffectTrm.DOMoveY(defaultBossEffectPos.y + movePower, time).SetEase(ease))
                 ;
         }
         else
         {
             bossCloudTrm.position = new Vector3(bossCloudTrm.position.x, defaultBossCloudPos.y + movePower, bossCloudTrm.position.z);
+            bossEffectTrm.position = new Vector3(bossEffectTrm.position.x, defaultBossEffectPos.y + movePower, bossCloudTrm.position.z);
         }
     }
 }
