@@ -91,22 +91,22 @@ public class BattleUtilHandler : MonoBehaviour
 
         for (int i = 0; i < condition.Count; i++)
         {
-            if (pieces.Count > i)
-            {
-                onResetPiecePosition?.Invoke(pieces[i].skillImg.transform.position);
-            }
-
-            yield return null;
-
             SkillPiece skill = GetRandomPlayerOrEnemySkill(condition[i]);
 
-            if (pieces.Count <= i)
+            if (pieces.Count > i)
             {
-                mainRullet.AddPiece(skill);
+                ChangeRulletPiece(i, skill);
+
+                if (pieces[i] != null)
+                {
+                    onResetPiecePosition?.Invoke(pieces[i].skillImg.transform.position);
+
+                    yield return null;
+                }
             }
             else
             {
-                ChangeRulletPiece(i, skill);
+                mainRullet.AddPiece(skill);
             }
 
             if(hasWait)
@@ -115,22 +115,22 @@ public class BattleUtilHandler : MonoBehaviour
 
         for (int i = condition.Count; i < 6; i++)
         {
-            if (pieces.Count > i)
-            {
-                onResetPiecePosition?.Invoke(pieces[i].skillImg.transform.position);
-            }
-
-            yield return null;
-
             SkillPiece skill = GetRandomSkill();
 
-            if (pieces.Count <= i)
+            if (pieces.Count > i)
             {
-                mainRullet.AddPiece(skill);
+                ChangeRulletPiece(i, skill);
+
+                if (pieces[i] != null)
+                {
+                    onResetPiecePosition?.Invoke(pieces[i].skillImg.transform.position);
+
+                    yield return null;
+                }
             }
             else
             {
-                ChangeRulletPiece(i, skill);
+                mainRullet.AddPiece(skill);
             }
 
             if (i != 5)
@@ -143,6 +143,17 @@ public class BattleUtilHandler : MonoBehaviour
         yield return new WaitForSeconds(0.35f);
 
         yield break;
+    }
+
+    public void SetSkillsToGraveyard()
+    {
+        List<RulletPiece> pieces = mainRullet.GetPieces();
+
+        for (int i = 0; i < pieces.Count; i++)
+        {
+            SetPieceToGraveyard(pieces[i] as SkillPiece);
+            pieces[i] = null;
+        }
     }
 
     public SkillPiece GetRandomPlayerOrEnemySkill(bool isPlayer) //true 면 플레이어

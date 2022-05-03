@@ -128,7 +128,7 @@ public class Skill_E_Charging : SkillPiece
 
             DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
 
-            animHandler.GetAnim(AnimName.E_LightningRod)
+            animHandler.GetAnim(AnimName.E_Static)
             .SetScale(0.8f)
             .SetPosition(enemy.transform.position)
             .Play();

@@ -57,7 +57,7 @@ public class Skill_E_Static : SkillPiece
             if (Random.Range(0, 100) < stunPercent)
             {
                 animHandler.GetAnim(AnimName.E_Static_Stun)
-                    .SetPosition(bh.playerImgTrans.position)
+                    .SetPosition(target.transform.position)
                     .Play(() => {
                         onCastEnd?.Invoke();
                     });

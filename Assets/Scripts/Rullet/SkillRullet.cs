@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using System;
+using Random = UnityEngine.Random;
 
 public class SkillRullet : Rullet
 {
@@ -49,9 +50,48 @@ public class SkillRullet : Rullet
 
         changePiece.OnRullet();
         changePiece.pieceIdx = changeIdx;
+
         changePiece.transform.SetParent(transform);
-        changePiece.transform.DOLocalMove(Vector3.zero, 0.35f);
-        changePiece.transform.DOScale(Vector3.one, 0.35f);
+        //changePiece.transform.position = changePiece.transform.position;
+
+        changePiece.gameObject.SetActive(false);
+
+        //changePiece.transform.DOLocalMove(Vector3.zero, 0.35f);
+        //changePiece.transform.DOScale(Vector3.one, 0.35f);
+
+        InventoryHandler inven = GameManager.Instance.inventoryHandler;
+        Sprite effectSpr = inven.effectSprDic[changePiece.currentType];
+        Gradient effectGrad = inven.effectGradDic[changePiece.currentType];
+
+        for (int i = 0; i < 2; i++)
+        {
+            int a = i;
+
+            EffectObj effect = PoolManager.GetItem<EffectObj>();
+            effect.SetSprite(effectSpr);
+            effect.SetColorGradient(effectGrad);
+
+            effect.transform.position = changePiece.owner.transform.position;
+
+            effect.Play(transform.position, () =>
+            {
+                if (a == 1)
+                {
+                    inven.CreateSkillEffect(changePiece, transform.position);
+
+                    changePiece.transform.localPosition = Vector3.zero;
+                    changePiece.transform.localScale = Vector3.one;
+
+                    changePiece.gameObject.SetActive(true);
+                    changePiece.HighlightColor(0.3f);
+
+                    GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.4f, 0.1f);
+                }
+
+                effect.EndEffect();
+            }
+            , BezierType.Quadratic, playSpeed : 2f);
+        }
 
         pieces[changeIdx] = changePiece;
 

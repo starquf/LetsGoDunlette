@@ -532,6 +532,12 @@ public class BattleHandler : MonoBehaviour
                 yield return pOneSecWait;
 
                 GivePenalty(boolList[i]);
+                battleUtil.SetSkillsToGraveyard();
+
+                if (CheckBattleEnd())
+                {
+                    yield break;
+                }
 
                 yield return null;
 
@@ -544,11 +550,6 @@ public class BattleHandler : MonoBehaviour
                             .SetScale(0.8f)
                             .Play();
                 }));
-
-                if (CheckBattleEnd())
-                {
-                    yield break;
-                }
 
                 yield return null;
 

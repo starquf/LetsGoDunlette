@@ -93,15 +93,6 @@ public class PieceCastUIHandler : MonoBehaviour
         pieceMoveSequence = DOTween.Sequence()
             .Append(skillPiece.transform.DOMove(parent.position, 0.5f))
             .Join(skillPiece.transform.DORotate(Quaternion.Euler(0, 0, 30).eulerAngles, 0.5f))
-            .InsertCallback(0.25f, () =>
-            {
-                GameManager.Instance.animHandler.GetAnim(AnimName.UI_SkillDetermined)
-                .SetPosition(skillPiece.skillImg.transform.position)
-                .SetRotation(skillPiece.skillImg.transform.eulerAngles)
-                .SetScale(1.1f)
-                .SetColor(colorDic[skillPiece.patternType])
-                .Play();
-            })
             //.Join(skillPiece.transform.DOScale(Vector3.one, 0.5f))
             .AppendInterval(0.3f)
             .Append(skillPiece.GetComponent<Image>().DOFade(0, 0.3f))
