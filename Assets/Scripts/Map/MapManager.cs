@@ -46,7 +46,6 @@ public class MapManager : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera playerFollowCam;
     [SerializeField] Text bossCountTxt;
 
-    [SerializeField] GameObject brokenTile;
     [SerializeField] List<Sprite> mapIconSpriteList = new List<Sprite>();
     [SerializeField] List<Sprite> tileSpriteList = new List<Sprite>();
 
@@ -329,7 +328,7 @@ public class MapManager : MonoBehaviour
     public void CanNotMoveGameOverDirection()
     {
         ZoomCamera(3, time: 0.65f, ease: Ease.OutQuad);
-        BreakMap(curMap, false);
+        BreakMap(curMap);
         DOTween.Sequence()
             .AppendInterval(0.3f)
             .Append(playerTrm.DOMoveY(playerTrm.position.y - 5f, 1f).SetEase(Ease.InBack))
@@ -358,28 +357,34 @@ public class MapManager : MonoBehaviour
                 .AppendInterval(0.7f)
                 .OnComplete(()=>
                 {
-                    onEndDirection?.Invoke();
+                    ZoomCamera(3, time: 0.65f, ease: Ease.OutQuad, onComplete: () =>
+                    {
+                        onEndDirection?.Invoke();
+                    });
                 });
         }
         else
         {
-            CinemachineBrain cB = Camera.main.GetComponent<CinemachineBrain>();
-            cB.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.EaseInOut;
-            playerFollowCam.gameObject.SetActive(false);
-            Vector2 bossCloudPos = new Vector2(0, bossCloudTrm.position.y);
-            Vector2 dir = bossCloudPos - (Vector2)playerTrm.position;
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-            DOTween.Sequence()
-                .Append(bossCountTxt.DOText(bossCount.ToString(), 0.5f))
-                .AppendInterval(0.7f)
-                .Append(playerTrm.DORotate(new Vector3(playerTrm.rotation.x, playerTrm.rotation.y - 360f * 10, playerTrm.rotation.z), 1.3f).SetEase(Ease.OutCubic))
-                .Join(playerTrm.DOMove(bossCloudPos, 1f).SetDelay(0.3f).SetEase(Ease.OutCubic))
-                .Join(playerTrm.DORotateQuaternion(Quaternion.AngleAxis(angle-90, Vector3.forward), 1f).SetDelay(0.3f).SetEase(Ease.OutCubic))
-                .OnComplete(() =>
-                {
-                    StartMap(mapNode.BOSS);
-                    //SetPlayerStartPos(curMap);
-                });
+            ZoomCamera(3, time: 0.65f, ease: Ease.OutQuad, onComplete: () =>
+            {
+                CinemachineBrain cB = Camera.main.GetComponent<CinemachineBrain>();
+                cB.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.EaseInOut;
+                playerFollowCam.gameObject.SetActive(false);
+                Vector2 bossCloudPos = new Vector2(0, bossCloudTrm.position.y);
+                Vector2 dir = bossCloudPos - (Vector2)playerTrm.position;
+                float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+                DOTween.Sequence()
+                    .Append(bossCountTxt.DOText(bossCount.ToString(), 0.5f))
+                    .AppendInterval(0.7f)
+                    .Append(playerTrm.DORotate(new Vector3(playerTrm.rotation.x, playerTrm.rotation.y - 360f * 10, playerTrm.rotation.z), 1.3f).SetEase(Ease.OutCubic))
+                    .Join(playerTrm.DOMove(bossCloudPos, 1f).SetDelay(0.3f).SetEase(Ease.OutCubic))
+                    .Join(playerTrm.DORotateQuaternion(Quaternion.AngleAxis(angle - 90, Vector3.forward), 1f).SetDelay(0.3f).SetEase(Ease.OutCubic))
+                    .OnComplete(() =>
+                    {
+                        StartMap(mapNode.BOSS);
+                        //SetPlayerStartPos(curMap);
+                    });
+            });
         }
     }
 
@@ -572,7 +577,7 @@ public class MapManager : MonoBehaviour
     }
 
     // ¸Ê ºÎ¼ÅÁö´Â ¿¬Ãâ
-    public void BreakMap(Map map, bool createImg = true)
+    public void BreakMap(Map map)
     {
         if (map == null)
             return;
@@ -584,14 +589,6 @@ public class MapManager : MonoBehaviour
             .Join(map.transform.DOMoveY(map.transform.position.y - 0.5f, 0.5f))
             .OnComplete(() =>
             {
-                if(createImg)
-                {
-                    RectTransform rect = Instantiate(brokenTile, mapPosition, Quaternion.identity, mapGenerator.transform).GetComponent<RectTransform>();
-                    Image img = rect.GetComponent<Image>();
-                    rect.anchoredPosition = new Vector3(rect.anchoredPosition.x, rect.anchoredPosition.y, 0f);
-                    img.color = new Color(1, 1, 1, 0);
-                    img.DOFade(1, 0.5f);
-                }
                 map.gameObject.SetActive(false);
                 //Destroy(map.gameObject);
             });
