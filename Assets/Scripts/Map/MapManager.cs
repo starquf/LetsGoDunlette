@@ -133,10 +133,9 @@ public class MapManager : MonoBehaviour
         {
             Map map = mapList[Random.Range(0, mapList.Count)];
             mapList.Remove(map);
-            if (GetTilesKeyToValue(map) != new Vector2(0, gridHeight - 1) && GetTilesKeyToValue(map) != new Vector2(-1, gridHeight - 1) && map.linkedMoveAbleMap.Count > minLinkedMap)
+            if (GetTilesKeyToValue(map) != new Vector2(0, gridHeight - 1) && GetTilesKeyToValue(map) != new Vector2(-1, gridHeight - 1))
             {
-                bool canDestroy = CheckCanDestroy(map);
-                if (canDestroy)
+                if (CheckCanDestroy(map))
                 {
                     count--;
                     DestroyMap(map);
@@ -146,10 +145,10 @@ public class MapManager : MonoBehaviour
             }
         }
     }
-    // -1, 4에 연결되어있어야됨
+    //  부술수 있는지 체크
     public bool CheckCanDestroy(Map map)
     {
-        if(!CheckDestroyLinkMap(map, map.linkedMoveAbleMap))
+        if(!CheckDestroyLinkMap(map))
             return false;
         for (int i = 0; i < map.linkedMoveAbleMap.Count; i++)
         {
@@ -160,12 +159,16 @@ public class MapManager : MonoBehaviour
         return true;
     }
 
-    private bool CheckDestroyLinkMap(Map map, List<Map> firstLinkedMapList)
+    // 최소 연결 갯수에 적합한지 체크
+    private bool CheckDestroyLinkMap(Map map)
     {
+        if (minLinkedMap < 1)
+            Debug.LogError("최소 연결 노드를 1이상으로 설정해야 합니다");
+
         for (int j = 0; j < map.linkedMoveAbleMap.Count; j++)
         {
             Map linkedMap = map.linkedMoveAbleMap[j];
-            if ((firstLinkedMapList.Contains(linkedMap) ? linkedMap.linkedMoveAbleMap.Count - 1 : linkedMap.linkedMoveAbleMap.Count) <= minLinkedMap)
+            if (linkedMap.linkedMoveAbleMap.Count - 1 <= minLinkedMap)
             {
                 //print("이거 부수면 좆됨");
                 return false;
@@ -178,6 +181,7 @@ public class MapManager : MonoBehaviour
         return true;
     }
 
+    // 시작지점과 연결되어있는지 체크
     private bool IsLinkedAllNode(Map map, List<Map> checkedMapList)
     {
         for (int j = 0; j < map.linkedMoveAbleMap.Count; j++)
@@ -402,53 +406,52 @@ public class MapManager : MonoBehaviour
     private mapNode GetCanSetType(Map map)
     {
         mapNode mapType;
-        int rand = Random.Range(0, 100);
-        bool canNotSet = false;
-
         do
         {
-            canNotSet = false;
-            rand = Random.Range(0, 100);
-            mapType = GetMapType(rand);
-            if(canNotLinkMapType.Contains(mapType))
-            {
-                for (int i = 0; i < map.linkedMoveAbleMap.Count; i++)
-                {
-                    if(map.linkedMoveAbleMap[i].MapType == mapType)
-                    {
-                        canNotSet = true;
-                        break;
-                    }
-                }
-            }
-        } while (canNotSet);
+            mapType = GetMapType(Random.Range(0, 100));
+        } while (!CanSetType(map, mapType));
 
         return mapType;
+    }
+
+    private bool CanSetType(Map map, mapNode mapType)
+    {
+        if (canNotLinkMapType.Contains(mapType))
+        {
+            for (int i = 0; i < map.linkedMoveAbleMap.Count; i++)
+            {
+                if (map.linkedMoveAbleMap[i].MapType == mapType)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     // 랜덤 값에 해당되는 맵 타입 반환
     private mapNode GetMapType(int randIdx)
     {
         mapNode mapType = mapNode.NONE;
-        if (randIdx < 12)
+        if (randIdx < 30)
         {
-            mapType = mapNode.REST;
+            mapType = mapNode.MONSTER;
         }
-        else if (randIdx < 34)
+        else if (randIdx < 38)
+        {
+            mapType = mapNode.MONSTER;
+        }
+        else if (randIdx < 78)
         {
             mapType = mapNode.RandomEncounter;
         }
-        else if (randIdx < 42)
+        else if (randIdx < 90)
         {
             mapType = mapNode.SHOP;
         }
-        else if (randIdx < 50)
-        {
-            mapType = mapNode.EMONSTER;
-        }
         else
         {
-            mapType = mapNode.MONSTER;
+            mapType = mapNode.REST;
         }
         return mapType;
     }
@@ -465,12 +468,50 @@ public class MapManager : MonoBehaviour
     // 모든 맵에 타입 세팅
     public void SetMapType()
     {
+        // 고정 좌표 맵 타일 설정
         List<Vector2> fixedPosMapList = fixedPosMapType.Keys.ToList();
         for (int i = 0; i < fixedPosMapList.Count; i++)
         {
-            tiles[fixedPosMapList[i]].MapType = fixedPosMapType[fixedPosMapList[i]];
+            mapNode mapType = fixedPosMapType[fixedPosMapList[i]];
+            if (fixedMapTypeCount.Keys.Contains(mapType))
+            {
+                fixedMapTypeCount[mapType]--;
+            }
+            Debug.Log($"{tiles[fixedPosMapList[i]].name}에 {mapType} 좌표 고정됨");
+            tiles[fixedPosMapList[i]].MapType = mapType;
         }
-        //TODO 고정 갯수 맵 타입 생성
+
+        // 고정 갯수 맵 타일 설정
+        List<mapNode> fixedMapTypeCountKeys = fixedMapTypeCount.Keys.ToList();
+        fixedMapTypeCountKeys.Sort((x, y) => canNotLinkMapType.Contains(x) ? -1 : 1);
+        for (int j = 0; j < fixedMapTypeCount.Count; j++)
+        {
+            List<Map> radomMapList = tiles.Values.ToList();
+
+            for (int i = 0; i < fixedPosMapList.Count; i++)
+            {
+                radomMapList.Remove(tiles[fixedPosMapList[i]]);
+            }
+
+            int mapCount = radomMapList.Count;
+
+            mapNode mapType = fixedMapTypeCountKeys[j];
+            int count = fixedMapTypeCount[mapType];
+
+            for (int i = 0; i < mapCount && count > 0; i++)
+            {
+                Map map = radomMapList[Random.Range(0, radomMapList.Count)];
+                radomMapList.Remove(map);
+                if(CanSetType(map, mapType))
+                {
+                    Debug.Log($"{map.name}에 {mapType} 갯수 고정됨");
+                    map.MapType = mapType;
+                    count--;
+                }
+            }
+        }
+
+        // 랜덤 맵 타일 설정
         List<Map> mapList = tiles.Values.ToList();
         for (int i = 0; i < mapList.Count; i++)
         {
