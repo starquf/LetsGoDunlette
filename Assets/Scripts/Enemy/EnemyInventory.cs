@@ -9,6 +9,8 @@ public class EnemyInventory : Inventory
     protected virtual void Awake()
     {
         isPlayerInven = false;
+
+        indicator = transform.GetChild(0).GetComponentInChildren<InventoryIndicator>();
     }
 
     public float CreateSkillsSmooth()

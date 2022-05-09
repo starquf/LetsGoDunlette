@@ -15,9 +15,33 @@ public class SkillRullet : Rullet
 
     public override void AddPiece(RulletPiece piece)
     {
-        base.AddPiece(piece);
+        SkillPiece sp = piece as SkillPiece;
 
-        (piece as SkillPiece).isInRullet = true;
+        sp.isInRullet = true;
+        sp.OnRullet();
+
+        ShowPieceEffect(sp);
+
+        if (pieces.Count >= 6)
+        {
+            for (int i = 0; i < pieces.Count; i++)
+            {
+                if (pieces[i] == null) // 빈칸이라면
+                {
+                    piece.pieceIdx = i;
+                    pieces[i] = piece;
+
+                    break;
+                }
+            }
+        }
+        else
+        {
+            piece.pieceIdx = pieces.Count;
+            pieces.Add(piece);
+        }
+
+        SetRulletSmooth();
     }
 
     // 해당 인덱스의 조각을 인벤토리에 넣고 바꾸는 함수
@@ -51,17 +75,22 @@ public class SkillRullet : Rullet
         changePiece.OnRullet();
         changePiece.pieceIdx = changeIdx;
 
-        changePiece.transform.SetParent(transform);
-        //changePiece.transform.position = changePiece.transform.position;
+        ShowPieceEffect(changePiece);
 
-        changePiece.gameObject.SetActive(false);
+        pieces[changeIdx] = changePiece;
 
-        //changePiece.transform.DOLocalMove(Vector3.zero, 0.35f);
-        //changePiece.transform.DOScale(Vector3.one, 0.35f);
+        SetRulletSmooth();
+    }
+
+    private void ShowPieceEffect(SkillPiece sp)
+    {
+        sp.transform.SetParent(transform);
+
+        sp.gameObject.SetActive(false);
 
         InventoryHandler inven = GameManager.Instance.inventoryHandler;
-        Sprite effectSpr = inven.effectSprDic[changePiece.currentType];
-        Gradient effectGrad = inven.effectGradDic[changePiece.currentType];
+        Sprite effectSpr = inven.effectSprDic[sp.currentType];
+        Gradient effectGrad = inven.effectGradDic[sp.currentType];
 
         for (int i = 0; i < 2; i++)
         {
@@ -71,31 +100,27 @@ public class SkillRullet : Rullet
             effect.SetSprite(effectSpr);
             effect.SetColorGradient(effectGrad);
 
-            effect.transform.position = changePiece.owner.transform.position;
+            effect.transform.position = sp.owner.indicator.transform.position;
 
             effect.Play(transform.position, () =>
             {
                 if (a == 1)
                 {
-                    inven.CreateSkillEffect(changePiece, transform.position);
+                    inven.CreateSkillEffect(sp, transform.position);
 
-                    changePiece.transform.localPosition = Vector3.zero;
-                    changePiece.transform.localScale = Vector3.one;
+                    sp.transform.localPosition = Vector3.zero;
+                    sp.transform.localScale = Vector3.one;
 
-                    changePiece.gameObject.SetActive(true);
-                    changePiece.HighlightColor(0.3f);
+                    sp.gameObject.SetActive(true);
+                    sp.HighlightColor(0.3f);
 
                     GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.4f, 0.1f);
                 }
 
                 effect.EndEffect();
             }
-            , BezierType.Quadratic, playSpeed : 2f);
+            , BezierType.Quadratic, playSpeed: 2f);
         }
-
-        pieces[changeIdx] = changePiece;
-
-        SetRulletSmooth();
     }
 
     // 해당 인덱스의 조각을 인벤토리로 넣는 함수

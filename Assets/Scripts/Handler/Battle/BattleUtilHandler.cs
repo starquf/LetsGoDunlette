@@ -76,7 +76,7 @@ public class BattleUtilHandler : MonoBehaviour
             }
         }
 
-        yield return new WaitForSeconds(0.35f);
+        yield return new WaitForSeconds(0.45f);
 
         yield break;
     }
@@ -140,7 +140,7 @@ public class BattleUtilHandler : MonoBehaviour
             }
         }
 
-        yield return new WaitForSeconds(0.35f);
+        yield return new WaitForSeconds(0.45f);
 
         yield break;
     }

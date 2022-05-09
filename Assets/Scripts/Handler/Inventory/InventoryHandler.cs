@@ -13,10 +13,7 @@ public class InventoryHandler : MonoBehaviour
     public List<Inventory> inventorys = new List<Inventory>();
     public List<SkillPiece> graveyard = new List<SkillPiece>();
 
-    public Transform usedTrans;
-
-    public Text unusedCardCount;
-    public Text usedCardCount;
+    public InventoryIndicator graveyardIndicator;
 
     [Header("문양 이펙트 관련")]
     [SerializeField] private List<Sprite> effectSprites = new List<Sprite>();
@@ -61,7 +58,6 @@ public class InventoryHandler : MonoBehaviour
     public void SetCountUI()
     {
         //unusedCardCount.text = unusedSkills.Count.ToString();
-        usedCardCount.text = graveyard.Count.ToString();
 
         onUpdateInfo?.Invoke();
     }
@@ -92,8 +88,8 @@ public class InventoryHandler : MonoBehaviour
         owner.skills.Add(skill);
         skills.Add(skill);
 
-        //skills.Add(skill);
-        //unusedSkills.Add(skill);
+        owner.indicator.SetText(owner.skills.Count.ToString());
+        owner.indicator.ShowEffect();
 
         SetCountUI();
     }
@@ -151,14 +147,9 @@ public class InventoryHandler : MonoBehaviour
             effect.transform.DOMove(Random.insideUnitCircle * 1.5f, 0.4f)
                 .SetRelative();
 
-            effect.Play(usedTrans.transform.position, () =>
+            effect.Play(graveyardIndicator.transform.position, () =>
             {
-                usedOpenTween.Kill();
-                usedOpenTween = usedTrans.DOScale(new Vector3(1.1f, 1.1f, 1f), 0.15f)
-                .OnComplete(() =>
-                {
-                    usedTrans.DOScale(new Vector3(1f, 1f, 1f), 0.15f);
-                });
+                graveyardIndicator.ShowEffect();
 
                 effect.EndEffect();
             }
@@ -169,6 +160,8 @@ public class InventoryHandler : MonoBehaviour
         skill.transform.localPosition = Vector3.zero;
         skill.gameObject.SetActive(false);
 
+        graveyardIndicator.SetText(graveyard.Count.ToString());
+
         SetCountUI();
     }
 
@@ -176,9 +169,14 @@ public class InventoryHandler : MonoBehaviour
     {
         skill.isInRullet = false;
 
-        skill.owner.skills.Add(skill);
+        Inventory owner = skill.owner;
+
+        owner.skills.Add(skill);
 
         skill.ResetPiece();
+
+        owner.indicator?.SetText(owner.skills.Count.ToString());
+        owner.indicator?.ShowEffect();
 
         for (int i = 0; i < 2; i++)
         {
@@ -225,6 +223,11 @@ public class InventoryHandler : MonoBehaviour
 
         graveyard.Remove(piece);
 
+        Inventory owner = piece.owner;
+
+        owner.indicator?.SetText(owner.skills.Count.ToString());
+        owner.indicator?.ShowEffect();
+
         SetCountUI();
     }
 
@@ -263,6 +266,9 @@ public class InventoryHandler : MonoBehaviour
         result.gameObject.SetActive(true);
 
         inven.skills.Remove(result);
+
+        inven.indicator?.SetText(inven.skills.Count.ToString());
+        inven.indicator?.ShowEffect();
 
         SetCountUI();
 
@@ -311,6 +317,9 @@ public class InventoryHandler : MonoBehaviour
 
         inven.skills.Remove(result);
 
+        inven.indicator?.SetText(inven.skills.Count.ToString());
+        inven.indicator?.ShowEffect();
+
         SetCountUI();
 
         return result;
@@ -344,15 +353,20 @@ public class InventoryHandler : MonoBehaviour
             graveyard[i].transform.SetParent(transform);
             graveyard[i].transform.localPosition = Vector3.zero;
 
+            Inventory owner = graveyard[i].owner;
+
+            owner.indicator?.SetText(owner.skills.Count.ToString());
+            owner.indicator?.ShowEffect();
+
             for (int j = 0; j < 2; j++)
             {
                 EffectObj effect = PoolManager.GetItem<EffectObj>();
                 effect.SetSprite(effectSprDic[graveyard[i].currentType]);
                 effect.SetColorGradient(effectGradDic[graveyard[i].currentType]);
 
-                effect.transform.position = usedTrans.position;
+                effect.transform.position = graveyardIndicator.transform.position;
 
-                effect.Play(graveyard[i].owner.transform.position, () =>
+                effect.Play(graveyard[i].owner.indicator.transform.position, () =>
                 {
                     unusedOpenTween.Kill();
                     unusedOpenTween = transform.DOScale(new Vector3(1.1f, 1.1f, 1f), 0.15f)
