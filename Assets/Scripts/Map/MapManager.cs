@@ -79,6 +79,31 @@ public class MapManager : MonoBehaviour
     {
         encounterHandler = GameManager.Instance.encounterHandler;
         mapGenerator.GenerateGrid(gridHeight, gridWidth, OnGenerateMap);
+        GameManager.Instance.OnNextStage += () =>
+        {
+            ResetMap();
+            mapGenerator.GenerateGrid(gridHeight, gridWidth, OnGenerateMap);
+        };
+    }
+
+    public void ResetMap()
+    {
+        List<Map> mapList = tiles.Values.ToList();
+        for (int i = 0; i < mapList.Count; i++)
+        {
+            mapList[i].gameObject.SetActive(false);
+        }
+        tiles.Clear();
+
+        List<Vector2> fixedPosMapList = fixedPosMapType.Keys.ToList();
+        for (int i = 0; i < fixedPosMapList.Count; i++)
+        {
+            mapNode mapType = fixedPosMapType[fixedPosMapList[i]];
+            if (fixedMapTypeCount.Keys.Contains(mapType))
+            {
+                fixedMapTypeCount[mapType]++;
+            }
+        }
     }
 
     // ¸Ê ½ÃÀÛ
@@ -113,7 +138,7 @@ public class MapManager : MonoBehaviour
         bossCountTxt.text = bossCount.ToString();
         print(GameManager.Instance.StageIdx);
         bossCloudImage.sprite = bossCloudSpriteList[GameManager.Instance.StageIdx];
-        bossEffectAnimator.SetInteger(0, GameManager.Instance.StageIdx);
+        bossEffectAnimator.SetInteger("Stage", GameManager.Instance.StageIdx);
     }
 
     // ¸Ê ±¸Á¶ º¯°æ
@@ -491,6 +516,8 @@ public class MapManager : MonoBehaviour
             for (int i = 0; i < fixedPosMapList.Count; i++)
             {
                 radomMapList.Remove(tiles[fixedPosMapList[i]]);
+                radomMapList.Remove(tiles[new Vector2(-1, gridHeight - 1)]);
+                radomMapList.Remove(tiles[new Vector2(0, gridHeight - 1)]);
             }
 
             int mapCount = radomMapList.Count;
@@ -621,7 +648,7 @@ public class MapManager : MonoBehaviour
         Vector2 mapPosition = map.transform.position;
 
         DOTween.Sequence()
-            .Append(map.GetComponent<Image>().DOFade(0, 0.5f))
+            .Append(map.GetComponent<CanvasGroup>().DOFade(0, 0.5f))
             .Join(map.transform.DOMoveY(map.transform.position.y - 0.5f, 0.5f))
             .OnComplete(() =>
             {

@@ -140,18 +140,39 @@ public class EncounterHandler : MonoBehaviour
     {
         if (!isEncounterPlaying) return;
         isEncounterPlaying = false;
-        GameManager.Instance.curEncounter = mapNode.NONE;
-        bh.GetComponent<BattleScrollHandler>().ShowScrollUI(open:false);
-        GameManager.Instance.goldUIHandler.ShowGoldUI(false);
-        GameManager.Instance.bottomUIHandler.ShowBottomPanel(true);
 
-        Sequence mapChangeSeq = DOTween.Sequence()
-            .Append(fadeBGCvs.DOFade(1f, 0.5f).SetEase(Ease.Linear))
-            .AppendCallback(() =>
-            {
-                GameManager.Instance.mapManager.OpenMap(true);
-            })
-            .Append(fadeBGCvs.DOFade(0f, 0.7f).SetEase(Ease.Linear))
-            .SetUpdate(true);
+        GameManager gm = GameManager.Instance;
+
+        gm.curEncounter = mapNode.NONE;
+        bh.GetComponent<BattleScrollHandler>().ShowScrollUI(open: false);
+        gm.goldUIHandler.ShowGoldUI(false);
+        gm.bottomUIHandler.ShowBottomPanel(true);
+        if (gm.battleHandler.isBoss)
+        {
+            Sequence nextStageSeq = DOTween.Sequence()
+                .Append(fadeBGCvs.DOFade(1f, 0.5f).SetEase(Ease.Linear))
+                .AppendCallback(() =>
+                {
+                    gm.NextStage();
+                })
+                .AppendInterval(2f)
+                .AppendCallback(() =>
+                {
+                    GameManager.Instance.mapManager.OpenMap(true, first: true);
+                })
+                .Append(fadeBGCvs.DOFade(0f, 0.7f).SetEase(Ease.Linear))
+                .SetUpdate(true);
+        }
+        else
+        {
+            Sequence mapChangeSeq = DOTween.Sequence()
+                .Append(fadeBGCvs.DOFade(1f, 0.5f).SetEase(Ease.Linear))
+                .AppendCallback(() =>
+                {
+                    gm.mapManager.OpenMap(true);
+                })
+                .Append(fadeBGCvs.DOFade(0f, 0.7f).SetEase(Ease.Linear))
+                .SetUpdate(true);
+        }
     }
 }

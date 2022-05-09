@@ -109,6 +109,8 @@ public class GameManager : MonoBehaviour
     public event Action OnEndEncounter;
     [HideInInspector]
     public event Action OnResetGame;
+    [HideInInspector]
+    public event Action OnNextStage;
 
     [HideInInspector]
     public Transform enemyEffectTrm;
@@ -121,9 +123,6 @@ public class GameManager : MonoBehaviour
 
     private int stageIdx = 0;
 
-    [HideInInspector]
-    public bool isLastBattle = false;
-
     public int StageIdx
     {
         get
@@ -135,6 +134,9 @@ public class GameManager : MonoBehaviour
             stageIdx = value;
         }
     }
+
+    [Header("진행가능한 스테이지")]
+    public int progressiveStageIdx = 1;
 
     private int gold = 100;
     public int Gold 
@@ -158,6 +160,12 @@ public class GameManager : MonoBehaviour
     public PlayerHealth GetPlayer() //플레이어를 가져옵니다.
     {
         return battleHandler.player;
+    }
+
+    public void NextStage()
+    {
+        stageIdx++;
+        OnNextStage();
     }
 
     public void EndEncounter()
@@ -204,5 +212,10 @@ public class GameManager : MonoBehaviour
         OnUpdateUI = null;
         OnEndEncounter = null;
         OnResetGame = null;
+    }
+
+    public bool IsEndStage()
+    {
+        return stageIdx == progressiveStageIdx;
     }
 }

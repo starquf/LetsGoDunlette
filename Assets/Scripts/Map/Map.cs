@@ -42,6 +42,7 @@ public class Map : MonoBehaviour
 
     public void InitMap(MapManager mapManager)
     {
+        button.onClick.RemoveAllListeners();
         this.mapManager = mapManager;
         defaltPosY = GetComponent<RectTransform>().position.y;
         isSelected = false;
@@ -125,5 +126,15 @@ public class Map : MonoBehaviour
             {
                 onComplete?.Invoke();
             });
+    }
+
+    public void OnDisable()
+    {
+        mapType = mapNode.NONE;
+        for (int i = 0; i < linkedMoveAbleMap.Count; i++)
+        {
+            linkedMoveAbleMap[i].linkedMoveAbleMap.Remove(this);
+        }
+        linkedMoveAbleMap.Clear();
     }
 }

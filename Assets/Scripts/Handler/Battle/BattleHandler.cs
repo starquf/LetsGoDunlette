@@ -590,10 +590,10 @@ public class BattleHandler : MonoBehaviour
         if (isWin)
         {
             enemys.Clear();
-            if(GameManager.Instance.isLastBattle)
+            if(isBoss && GameManager.Instance.IsEndStage())
             {
+                print("리셋");
                 GameManager.Instance.StageIdx = 0;
-                GameManager.Instance.isLastBattle = false;
                 GameManager.Instance.tbcHandler.StartEvent(()=>GameManager.Instance.LoadScene(0), "메인화면으로 돌아갑니다");
             }
             else

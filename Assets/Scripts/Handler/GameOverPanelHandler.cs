@@ -21,10 +21,6 @@ public class GameOverPanelHandler : MonoBehaviour
     {
         GameManager.Instance.OnResetGame += () =>
         {
-            if (GameManager.Instance.isLastBattle)
-            {
-                GameManager.Instance.isLastBattle = false;
-            }
             GameManager.Instance.StageIdx = 0;
             GameOverEffect();
         };
@@ -44,7 +40,6 @@ public class GameOverPanelHandler : MonoBehaviour
                 gameOverImg.color = new Color(1f, 1f, 1f, 0f);*/
 
                 GameManager.Instance.StageIdx = 0;
-                GameManager.Instance.isLastBattle = false;
                 GameManager.Instance.LoadScene(0);
             });
         });

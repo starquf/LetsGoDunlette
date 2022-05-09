@@ -32,6 +32,8 @@ public class MapGenerator : MonoBehaviour
 
         newTile.name = $"{x}, {y}";
 
+        newTile.GetComponent<CanvasGroup>().alpha = 1;
+
         newTile.InitMap(mapManager);
 
         GameManager.Instance.mapManager.tiles.Add(new Vector2(x, y), newTile);
