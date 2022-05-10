@@ -158,7 +158,6 @@ public class SkillRullet : Rullet
         }
     }
 
-
     // 해당 인덱스의 조각을 감지하지 못하게 함수
     public void SetEmpty(int changeIdx)
     {

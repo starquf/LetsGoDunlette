@@ -77,8 +77,11 @@ public class BattleRewardHandler : MonoBehaviour
 
     public IEnumerator ResetInventory(Action action = null)
     {
-        PutRulletPieceInInventory();            //룰렛 다 인벤토리에 넣고
-        invenHandler.RemoveAllEnemyPiece(); //적 스킬 없애고
+        invenHandler.RemoveAllEnemyPiece();     // 적 스킬 없애고
+
+        yield return null;
+
+        PutRulletPieceInInventory();            // 룰렛 다 인벤토리에 넣고
 
         yield return oneSecWait;
         yield return oneSecWait;

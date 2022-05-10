@@ -9,11 +9,15 @@ public class BattleUtilHandler : MonoBehaviour
     private InventoryHandler inventory;
     private SkillRullet mainRullet;
 
-    public void Init(InventoryHandler inven, SkillRullet rullet, BattleHandler battleHandler)
+    private void Start()
     {
-        inventory = inven;
+        bh = GameManager.Instance.battleHandler;
+        inventory = GameManager.Instance.inventoryHandler;
+    }
+
+    public void Init(SkillRullet rullet)
+    {
         mainRullet = rullet;
-        bh = battleHandler;
     }
 
     public bool CheckRulletPenalty(bool isPlayerPiece)

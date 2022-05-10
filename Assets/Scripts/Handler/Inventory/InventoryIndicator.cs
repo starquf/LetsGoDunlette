@@ -11,17 +11,29 @@ public class InventoryIndicator : MonoBehaviour
     private Tween effectTween;
 
     private Vector3 originScale;
+    private Color emptyColor = Color.red;
 
     private void Awake()
     {
         pieceText = GetComponentInChildren<Text>();
 
         originScale = transform.localScale;
+
+        ColorUtility.TryParseHtmlString("#F03F59", out emptyColor);
     }
 
-    public void SetText(string text)
+    public void SetText(int count)
     {
-        pieceText.text = text;
+        if (count <= 0)
+        {
+            pieceText.color = emptyColor;
+        }
+        else
+        {
+            pieceText.color = Color.white;
+        }
+
+        pieceText.text = count.ToString();
     }
 
     public virtual void ShowEffect()
