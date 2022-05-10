@@ -198,10 +198,6 @@ public class MapManager : MonoBehaviour
                 //print("ÀÌ°Å ºÎ¼ö¸é Á¿µÊ");
                 return false;
             }
-            else
-            {
-                return true;
-            }
         }
         return true;
     }
