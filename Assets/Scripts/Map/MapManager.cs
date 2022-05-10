@@ -130,13 +130,6 @@ public class MapManager : MonoBehaviour
         SetRandomTileSprite();
         SetMapType();
         InitMap();
-        Dictionary<mapNode, float> mfD = GetMapTypeProportion();
-        List<float> a = mfD.Values.ToList();
-        List<mapNode> b = mfD.Keys.ToList();
-        for (int i = 0; i < a.Count; i++)
-        {
-            print(b[i]+":"+a[i]);
-        }
     }
 
     // 맵 변수 초기화
@@ -145,7 +138,7 @@ public class MapManager : MonoBehaviour
         curMap = null;
         bossCount = defaultBossCount;
         bossCountTxt.text = bossCount.ToString();
-        print("Stage :"+GameManager.Instance.StageIdx);
+        Debug.Log("Stage :"+GameManager.Instance.StageIdx);
         bossCloudImage.sprite = bossCloudSpriteList[GameManager.Instance.StageIdx];
         bossEffectAnimator.SetInteger("Stage", GameManager.Instance.StageIdx);
     }
@@ -446,7 +439,7 @@ public class MapManager : MonoBehaviour
         {
             if(i>=sortedMapTypeList.Count)
             {
-                Debug.LogError("비율 세팅이 외 안되누");
+                //Debug.LogError("비율 세팅이 외 안되누");
                 return mapNode.NONE;
             }
             mapType = sortedMapTypeList[i];
@@ -456,9 +449,9 @@ public class MapManager : MonoBehaviour
         for (int j = 0; j < sortedMapTypeList.Count; j++)
         {
             mapNode mt = sortedMapTypeList[j];
-            Debug.Log(mt + ":" + mapTypeProportionDic[mt].ToString() + ", " + curMapTypeProportionDic[mt].ToString());
+            //Debug.Log(mt + ":" + mapTypeProportionDic[mt].ToString() + ", " + curMapTypeProportionDic[mt].ToString());
         }
-        Debug.Log(mapType + "가 비율로 세팅됨");
+        //Debug.Log(mapType + "가 비율로 세팅됨");
 
         return mapType;
     }
