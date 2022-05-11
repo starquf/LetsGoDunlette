@@ -35,7 +35,7 @@ public class BB_Skill : SkillPiece
         {
             SetIndicator(owner.gameObject, "º¸È£¸· ÆÄ±«").OnEnd(() =>
             {
-                target.RemoveAllShield();
+                target.RemoveShield();
 
                 animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
                 .SetScale(2)

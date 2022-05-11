@@ -9,11 +9,6 @@ public class PlayerHealth : LivingEntity
     public Color damageBGColor;
     public Image damageBGEffect;
 
-    protected override void Die()
-    {
-        //print("³ª Á×À½!");
-    }
-
     public override void GetDamage(int damage, bool isCritical = false)
     {
         base.GetDamage(damage);

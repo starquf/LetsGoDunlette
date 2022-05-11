@@ -73,6 +73,34 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         SetHPBar();
     }
 
+    public virtual void Init()
+    {
+        isDie = false;
+        hp = maxHp;
+        cc.ResetAllCC();
+        RemoveShield();
+
+        SetHPBar();
+    }
+
+    public virtual void SetHp(int hp)
+    {
+        if (IsDie)
+        {
+            return;
+        }
+
+        this.hp = hp;
+
+        RemoveShield();
+        SetHPBar();
+
+        if (hp <= 0)
+        {
+            Die();
+        }
+    }
+
     public virtual void GetDamage(int damage, bool isCritical = false)
     {
         if (cc.ccDic[CCType.Invincibility] > 0 || isDie) //이미 죽었거나 무적 상태라면
@@ -85,10 +113,8 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
             int leftDamage = shieldHp - damage; //쉴드를 다 쓰고 남은 대미지
             if (leftDamage < 0)
             {
-                shieldHp = 0;
                 hp += leftDamage;
-
-                cc.RemoveBuff(BuffType.Shield);
+                RemoveShield();
             }
             else
             {
@@ -136,35 +162,13 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         text.Play(damage.ToString());
     }
 
-    public virtual void SetHp(int hp)
-    {
-        if (IsDie)
-        {
-            return;
-        }
-
-        RemoveShield();
-
-        this.hp = hp;
-
-        if (hp <= 0)
-        {
-            hp = 0;
-            isDie = true;
-
-            Die();
-        }
-
-        SetHPBar();
-    }
-
     public virtual void GetDamage(int damage, ElementalType damageType)
     {
-        BattleFieldHandler fh = GameManager.Instance.battleHandler.fieldHandler;
+        BattleFieldHandler fieldHandler = GameManager.Instance.battleHandler.fieldHandler;
 
         float damageBuff = 1f;
 
-        if (fh.FieldType != ElementalType.None && damageType.Equals(fh.FieldType))
+        if (fieldHandler.FieldType != ElementalType.None && damageType.Equals(fieldHandler.FieldType))
         {
             damageBuff += 0.5f;
         }
@@ -239,6 +243,31 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
         SetHPBar();
     }
+    public virtual void AddShield(int value)
+    {
+        cc.IncreaseBuff(BuffType.Shield, value);
+
+        shieldHp += value;
+        SetHPBar();
+    }
+    public virtual void RemoveShield()
+    {
+        cc.RemoveBuff(BuffType.Shield);
+
+        shieldHp = 0;
+        SetHPBar();
+    }
+    public void ChangeShieldToHealth()
+    {
+        if (shieldHp > 0)
+        {
+            int previousShield = shieldHp;
+
+            RemoveShield();
+            Heal(previousShield);
+            SetHPBar();
+        }
+    }
 
     private void SetDamageEffect()
     {
@@ -248,48 +277,18 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         damageTween = damageImg.DOFade(0f, 0.3f);
     }
 
-    public virtual void AddShield(int value)
+    private void SetHPBar()
     {
-        cc.IncreaseBuff(BuffType.Shield, value);
-
-        shieldHp += value;
-        SetHPBar();
-    }
-
-    public virtual void RemoveShield()
-    {
-        cc.RemoveBuff(BuffType.Shield);
-
-        shieldHp = 0;
-        SetHPBar();
-    }
-
-    public virtual void Init()
-    {
-        isDie = false;
-        hp = maxHp;
-
-        cc.ResetAllCC();
-        cc.RemoveBuff(BuffType.Shield);
-
-        shieldHp = 0;
-
-        SetHPBar();
-    }
-
-    protected virtual void SetHPBar()
-    {
+        if (IsDie)
+        {
+            hpText.text = $"사망";
+            return;
+        }
 
         hpText.text = $"{hp}/{maxHp}";
-
         if(shieldHp > 0)
         {
             hpText.text = $"{hp}+<color=aqua>{shieldHp}</color>/{maxHp}";
-        }
-
-        if (hp <= 0)
-        {
-            hpText.text = $"사망";
         }
 
         if (hp == maxHp)
@@ -300,45 +299,24 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
                 DOTween.To(() => hpBarAfterImageBar.fillAmount, x => hpBarAfterImageBar.fillAmount = x, (float)hp / curMaxHp, 0.33f);
             });
         }
-        else if (hp + shieldHp > maxHp)
+        else if (curHp >= maxHp)
         {
-            float max = hp + shieldHp;
-            //hpBar.DOScaleX((float)hp / max, 0.33f);
-            //hpShieldBar.DOScaleX((float)shieldHp / max, 0.33f);
+            float max = curHp;
 
             DOTween.To(() => hpBar.fillAmount, x => hpBar.fillAmount = x, (float)hp / max, 0.33f);
-            DOTween.To(() => hpShieldBar.fillAmount, x => hpShieldBar.fillAmount = x, ((float)hp + shieldHp) / max, 0.33f).OnComplete(() =>
+            DOTween.To(() => hpShieldBar.fillAmount, x => hpShieldBar.fillAmount = x, 1, 0.33f).OnComplete(() =>
             {
                 DOTween.To(() => hpBarAfterImageBar.fillAmount, x => hpBarAfterImageBar.fillAmount = x, (float)hp / max, 0.33f);
             });
         }
         else
         {
-            //hpBar.DOScaleX((float)hp / maxHp, 0.33f);
-            //hpShieldBar.DOScaleX((float)shieldHp / maxHp, 0.33f);
             DOTween.To(() => hpBar.fillAmount, x => hpBar.fillAmount = x, (float)hp / maxHp, 0.33f);
             DOTween.To(() => hpShieldBar.fillAmount, x => hpShieldBar.fillAmount = x, ((float)hp + shieldHp) / maxHp, 0.33f).OnComplete(() =>
             {
                 DOTween.To(() => hpBarAfterImageBar.fillAmount, x => hpBarAfterImageBar.fillAmount = x, (float)hp / maxHp, 0.33f);
             });
         }
-
-
-    }
-
-    public void ChangeShieldToHealth()
-    {
-        if(shieldHp > 0)
-        {
-            int previousShield = shieldHp;
-            shieldHp = 0;
-
-            cc.RemoveBuff(BuffType.Shield);
-
-            Heal(previousShield);
-        }
-
-        SetHPBar();
     }
 
     public bool HasShield()
@@ -348,12 +326,6 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
             return true;
         }
         return false;
-    }
-
-    public void RemoveAllShield()
-    {
-        shieldHp = 0;
-        SetHPBar();
     }
 
     public int GetShieldHp()
