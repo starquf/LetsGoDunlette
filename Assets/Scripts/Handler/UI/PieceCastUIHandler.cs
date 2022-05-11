@@ -16,6 +16,7 @@ public class PieceCastUIHandler : MonoBehaviour
     public TextMeshProUGUI cardDesText;
     public Transform skillIconTrans;
     public Image strokeImg;
+    public Image targetBGImg;
 
     public Button closeBtn;
 
@@ -83,7 +84,10 @@ public class PieceCastUIHandler : MonoBehaviour
         List<DesIconInfo> desInfos = skillPiece.GetDesIconInfo();
         ShowDesIcon(desInfos, skillPiece);
 
-        strokeImg.sprite = GameManager.Instance.inventoryHandler.pieceBGStrokeSprDic[skillPiece.currentType];
+        InventoryHandler inven = GameManager.Instance.inventoryHandler;
+
+        strokeImg.sprite = inven.pieceBGStrokeSprDic[skillPiece.currentType];
+        targetBGImg.sprite = inven.targetBGSprDic[skillPiece.currentType];
 
         pieceMoveSequence.Kill();
 

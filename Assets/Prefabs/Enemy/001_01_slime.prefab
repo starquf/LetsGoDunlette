@@ -108,6 +108,8 @@ MonoBehaviour:
   - {fileID: 7184858899688869429, guid: 7963ee84bd354eb438d6b22382aa30ec, type: 3}
   - {fileID: 7184858899688869429, guid: 7963ee84bd354eb438d6b22382aa30ec, type: 3}
   skills: []
+  indicator: {fileID: 8165385885453336843}
+  isPlayerInven: 0
 --- !u!114 &2194092688508076325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,6 +127,7 @@ MonoBehaviour:
   maxHp: 180
   hp: 0
   shieldHp: 0
+  attackPower: 0
   weaknessType: 1
   cc: {fileID: 0}
   originSize: {x: 0, y: 0, z: 0}
@@ -196,6 +199,10 @@ PrefabInstance:
     - target: {fileID: 4474147163416425506, guid: 6f7d579030297a24b86f71b29f71499e, type: 3}
       propertyPath: m_Name
       value: EnemyHPCvs
+      objectReference: {fileID: 0}
+    - target: {fileID: 8903450862119654721, guid: 6f7d579030297a24b86f71b29f71499e, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9170769619470681917, guid: 6f7d579030297a24b86f71b29f71499e, type: 3}
       propertyPath: m_Pivot.x
@@ -312,6 +319,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8165385885453336843 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6652362794636621342, guid: 6f7d579030297a24b86f71b29f71499e, type: 3}
+  m_PrefabInstance: {fileID: 3242793510062552853}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d3a53c43e1855d40aeded2660ce4d6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &6350248509432867508

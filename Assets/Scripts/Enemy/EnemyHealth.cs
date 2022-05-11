@@ -96,13 +96,15 @@ public class EnemyHealth : LivingEntity
 
         ShowDieEffect();
 
-        GameManager.Instance.inventoryHandler.RemoveAllOwnerPiece(GetComponent<Inventory>());
+        Inventory inven = GetComponent<Inventory>();
+
+        GameManager.Instance.inventoryHandler.RemoveAllOwnerPiece(inven);
         StartCoroutine(GameManager.Instance.battleHandler.battleEvent.ActionEvent(EventTimeEnemy.EnemyDie, this));
 
         coll.enabled = false;
 
         bh.enemys.Remove(this);
-        GameManager.Instance.inventoryHandler.RemoveInventory(GetComponent<Inventory>());
+        GameManager.Instance.inventoryHandler.RemoveInventory(inven);
     }
 
     public virtual void SetScale(float percent)

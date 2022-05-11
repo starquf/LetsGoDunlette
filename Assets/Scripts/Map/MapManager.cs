@@ -56,8 +56,9 @@ public class MapManager : MonoBehaviour
     [Header("맵 밸런스 관련")]
     [SerializeField] int defaultBossCount;
     [SerializeField] List<mapNode> canNotLinkMapType = new List<mapNode>();
-    [SerializeField] SerializableDictionary<mapNode, int> fixedMapTypeCount = new SerializableDictionary<mapNode, int>();
+    //[SerializeField] SerializableDictionary<mapNode, int> fixedMapTypeCount = new SerializableDictionary<mapNode, int>();
     [SerializeField] SerializableDictionary<Vector2, mapNode> fixedPosMapType = new SerializableDictionary<Vector2, mapNode>();
+    [SerializeField] SerializableDictionary<mapNode, float> mapTypeProportionDic = new SerializableDictionary<mapNode, float>();
 
     [SerializeField] int gridWidth = 5;
     [SerializeField] int gridHeight = 5;
@@ -95,6 +96,7 @@ public class MapManager : MonoBehaviour
         }
         tiles.Clear();
 
+        /*
         List<Vector2> fixedPosMapList = fixedPosMapType.Keys.ToList();
         for (int i = 0; i < fixedPosMapList.Count; i++)
         {
@@ -103,7 +105,7 @@ public class MapManager : MonoBehaviour
             {
                 fixedMapTypeCount[mapType]++;
             }
-        }
+        }*/
     }
 
     // 맵 시작
@@ -136,7 +138,7 @@ public class MapManager : MonoBehaviour
         curMap = null;
         bossCount = defaultBossCount;
         bossCountTxt.text = bossCount.ToString();
-        print(GameManager.Instance.StageIdx);
+        Debug.Log("Stage :"+GameManager.Instance.StageIdx);
         bossCloudImage.sprite = bossCloudSpriteList[GameManager.Instance.StageIdx];
         bossEffectAnimator.SetInteger("Stage", GameManager.Instance.StageIdx);
     }
@@ -197,10 +199,6 @@ public class MapManager : MonoBehaviour
             {
                 //print("이거 부수면 좆됨");
                 return false;
-            }
-            else
-            {
-                return true;
             }
         }
         return true;
@@ -430,11 +428,30 @@ public class MapManager : MonoBehaviour
     // 연결 불가능한 맵 처리해서 랜덤한 맵 타입 반환
     private mapNode GetCanSetType(Map map)
     {
+        Dictionary<mapNode, float> curMapTypeProportionDic = GetMapTypeProportion();
+        List<mapNode> sortedMapTypeList = mapTypeProportionDic.Keys.ToList();
+
+        sortedMapTypeList.Sort((x, y) => (mapTypeProportionDic[x] - curMapTypeProportionDic[x]) >(mapTypeProportionDic[y] - curMapTypeProportionDic[y]) ? -1 : 1);
+
         mapNode mapType;
+        int i = 0;
         do
         {
-            mapType = GetMapType(Random.Range(0, 100));
+            if(i>=sortedMapTypeList.Count)
+            {
+                //Debug.LogError("비율 세팅이 외 안되누");
+                return mapNode.NONE;
+            }
+            mapType = sortedMapTypeList[i];
+            i++;
         } while (!CanSetType(map, mapType));
+
+        for (int j = 0; j < sortedMapTypeList.Count; j++)
+        {
+            mapNode mt = sortedMapTypeList[j];
+            //Debug.Log(mt + ":" + mapTypeProportionDic[mt].ToString() + ", " + curMapTypeProportionDic[mt].ToString());
+        }
+        //Debug.Log(mapType + "가 비율로 세팅됨");
 
         return mapType;
     }
@@ -454,33 +471,6 @@ public class MapManager : MonoBehaviour
         return true;
     }
 
-    // 랜덤 값에 해당되는 맵 타입 반환
-    private mapNode GetMapType(int randIdx)
-    {
-        mapNode mapType = mapNode.NONE;
-        if (randIdx < 30)
-        {
-            mapType = mapNode.MONSTER;
-        }
-        else if (randIdx < 38)
-        {
-            mapType = mapNode.MONSTER;
-        }
-        else if (randIdx < 78)
-        {
-            mapType = mapNode.RandomEncounter;
-        }
-        else if (randIdx < 90)
-        {
-            mapType = mapNode.SHOP;
-        }
-        else
-        {
-            mapType = mapNode.REST;
-        }
-        return mapType;
-    }
-
     public void SetRandomTileSprite()
     {
         List<Map> maps = tiles.Values.ToList();
@@ -498,14 +488,15 @@ public class MapManager : MonoBehaviour
         for (int i = 0; i < fixedPosMapList.Count; i++)
         {
             mapNode mapType = fixedPosMapType[fixedPosMapList[i]];
+            /*
             if (fixedMapTypeCount.Keys.Contains(mapType))
             {
                 fixedMapTypeCount[mapType]--;
-            }
+            }*/
             Debug.Log($"{tiles[fixedPosMapList[i]].name}에 {mapType} 좌표 고정됨");
             tiles[fixedPosMapList[i]].MapType = mapType;
         }
-
+        /*
         // 고정 갯수 맵 타일 설정
         List<mapNode> fixedMapTypeCountKeys = fixedMapTypeCount.Keys.ToList();
         fixedMapTypeCountKeys.Sort((x, y) => canNotLinkMapType.Contains(x) ? -1 : 1);
@@ -536,9 +527,9 @@ public class MapManager : MonoBehaviour
                     count--;
                 }
             }
-        }
+        }*/
 
-        // 랜덤 맵 타일 설정
+        // 랜덤 맵 타일 설정 <- 비율로 변경
         List<Map> mapList = tiles.Values.ToList();
         for (int i = 0; i < mapList.Count; i++)
         {
@@ -554,6 +545,39 @@ public class MapManager : MonoBehaviour
                 mapList[i].MapType = GetCanSetType(mapList[i]);
             }
         }
+    }
+
+    public Dictionary<mapNode, float> GetMapTypeProportion()
+    {
+        Dictionary<mapNode, float> mapTypeProportion = new Dictionary<mapNode, float>();
+
+        Dictionary<mapNode, float> mapTypeCountDic = new Dictionary<mapNode, float>();
+
+        List<mapNode> mapTypes = mapTypeProportionDic.Keys.ToList();
+        for (int i = 0; i < mapTypes.Count; i++)
+        {
+            mapNode mapType = mapTypes[i];
+            mapTypeCountDic.Add(mapType, 0);
+        }
+
+        int count = 0;
+        List<Map> mapList = tiles.Values.ToList();
+        for (int i = 0; i < mapList.Count; i++)
+        {
+            Map map = mapList[i];
+            if (!(map.MapType == mapNode.NONE || map.MapType == mapNode.START || map.MapType == mapNode.BOSS))
+            {
+                mapTypeCountDic[map.MapType]++;
+                count++;
+            }
+        }
+
+        for (int i = 0; i < mapTypes.Count; i++)
+        {
+            mapNode mapType = mapTypes[i];
+            mapTypeProportion.Add(mapType, mapTypeCountDic[mapType] / (float)count * 100);
+        }
+        return mapTypeProportion;
     }
 
     // 맵 타입에 맞는 스프라이트 반환

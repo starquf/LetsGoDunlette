@@ -10,6 +10,9 @@ public class Inventory : MonoBehaviour
     //[HideInInspector]
     public List<SkillPiece> skills = new List<SkillPiece>();
 
+    public InventoryIndicator indicator;
+
+    [HideInInspector]
     public bool isPlayerInven = false;
 
     public virtual void CreateSkills()
@@ -23,4 +26,6 @@ public class Inventory : MonoBehaviour
 
         inventoryHandler.AddInventory(this);
     }
+
+
 }

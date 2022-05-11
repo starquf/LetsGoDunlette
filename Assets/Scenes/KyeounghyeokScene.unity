@@ -59045,6 +59045,7 @@ MonoBehaviour:
   - {fileID: 6804786383528516221, guid: 280dbc5884aab634c8f8c5b874ead8d1, type: 3}
   - {fileID: 6804786383528516221, guid: 280dbc5884aab634c8f8c5b874ead8d1, type: 3}
   skills: []
+  indicator: {fileID: 0}
   isPlayerInven: 0
   decks:
   - deckName: "\uC2DC\uC791 \uB371"
@@ -60522,7 +60523,7 @@ MonoBehaviour:
   m_Follow: {fileID: 1688733156}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 5
+    OrthographicSize: 3
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -77048,20 +77049,25 @@ MonoBehaviour:
   - {fileID: 7099310800700434873, guid: 6e66ee708d3d14746a12626aaab928fa, type: 3}
   - {fileID: -1204352510245723880, guid: 6e66ee708d3d14746a12626aaab928fa, type: 3}
   bossEffectAnimator: {fileID: 1041188211}
-  defaultBossCount: 1
+  defaultBossCount: 15
   canNotLinkMapType: 030000000500000006000000
-  fixedMapTypeCount:
-    g_InspectorKeys: 050000000600000003000000
-    g_InspectorValues: 020000000200000002000000
   fixedPosMapType:
     g_InspectorKeys:
     - {x: 0, y: 3}
     - {x: 1, y: 4}
     g_InspectorValues: 0400000004000000
+  mapTypeProportionDic:
+    g_InspectorKeys: 0400000003000000070000000500000006000000
+    g_InspectorValues:
+    - 30
+    - 8
+    - 40
+    - 12
+    - 10
   gridWidth: 5
   gridHeight: 5
   minLinkedMap: 2
-  maxDestroyCount: 5
+  maxDestroyCount: 24
 --- !u!4 &1173638036
 Transform:
   m_ObjectHideFlags: 0
@@ -107903,7 +107909,7 @@ MonoBehaviour:
   - {fileID: 6949942483554766801, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
   - {fileID: 5093648005084248228, guid: 13f1fb46a9106e24a8f142ade245e5f6, type: 3}
   curEncounter: 0
-  progressiveStageIdx: 0
+  progressiveStageIdx: 1
   deckIdx: -1
 --- !u!4 &1781078976
 Transform:
@@ -122680,9 +122686,7 @@ MonoBehaviour:
   skills: []
   inventorys: []
   graveyard: []
-  usedTrans: {fileID: 1828921868}
-  unusedCardCount: {fileID: 1698854283}
-  usedCardCount: {fileID: 632957013}
+  graveyardIndicator: {fileID: 0}
   effectSprites:
   - {fileID: 6007819940767646187, guid: db6531baeb620044c8662975aec692c9, type: 3}
   - {fileID: 6960728830346886067, guid: db6531baeb620044c8662975aec692c9, type: 3}
