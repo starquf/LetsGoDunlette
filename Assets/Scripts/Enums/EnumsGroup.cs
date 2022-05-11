@@ -34,7 +34,6 @@ public enum CCType
 public enum BuffType
 {
     Shield = 0,
-    Contract = 1,
 }
 
 public enum TextUpAnimType

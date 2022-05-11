@@ -22,8 +22,8 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     private Tween damageTween;
 
     public int maxHp;
-    public int curMaxHp => maxHp + shieldHp;
-    public int curHp => hp + shieldHp;
+    public int curMaxHp => maxHp + shieldHp; //MaxHp 에 ShieldHp 더한값
+    public int curHp => hp + shieldHp; // 현재 체력에 쉴드 더한값
 
     [SerializeField] protected int hp;
     [SerializeField] protected int shieldHp = 0;
@@ -47,9 +47,6 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     [HideInInspector]
     public CrowdControl cc;
 
-    [HideInInspector]
-    public Vector3 originSize;
-
     protected virtual void Awake()
     {
         cc = GetComponent<CrowdControl>();
@@ -64,56 +61,38 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         damageImg = damageTrans.GetComponent<Image>();
         damageColor = damageImg.color;
         damageColor = new Color(damageColor.r, damageColor.g, damageColor.b, 1f);
-
-        originSize = transform.localScale;
     }
 
     protected virtual void Start()
     {
+        bh = GameManager.Instance.battleHandler;
+
         hp = maxHp;
         shieldHp = 0;
 
         SetHPBar();
-
-        bh = GameManager.Instance.battleHandler;
-    }
-
-    public virtual void SetScale(float percent)
-    {
-        transform.DOScale(originSize * percent, 0.3f);
     }
 
     public virtual void GetDamage(int damage, bool isCritical = false)
     {
-        if (isDie)
+        if (cc.ccDic[CCType.Invincibility] > 0 || isDie) //이미 죽었거나 무적 상태라면
         {
             return;
         }
 
-        if (cc.ccDic[CCType.Invincibility] > 0)
+        if (shieldHp > 0) //쉴드가 있다면
         {
-            return;
-        }
-
-        // 계약 상태라면
-        if (cc.buffDic[BuffType.Contract] > 0)
-        {
-            damage = cc.buffDic[BuffType.Contract];
-            cc.RemoveBuff(BuffType.Contract);
-        }
-
-        if (shieldHp > 0)
-        {
-            int left = shieldHp - damage;
-            if (left < 0) // -1라면
+            int leftDamage = shieldHp - damage; //쉴드를 다 쓰고 남은 대미지
+            if (leftDamage < 0)
             {
-                hp += left;
                 shieldHp = 0;
+                hp += leftDamage;
+
                 cc.RemoveBuff(BuffType.Shield);
             }
             else
             {
-                shieldHp = left;
+                shieldHp = leftDamage;
                 cc.DecreaseBuff(BuffType.Shield, damage);
             }
         }
@@ -126,14 +105,16 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
         if (hp <= 0)
         {
-            hp = 0;
-            isDie = true;
-
             Die();
         }
 
-        Anim_TextUp text = GameManager.Instance.animHandler.GetTextAnim();
+        ShowDamageText(damage, isCritical);
+        SetDamageEffect();
+    }
 
+    public void ShowDamageText(int damage,bool isCritical)
+    {
+        Anim_TextUp text = GameManager.Instance.animHandler.GetTextAnim();
         text.SetType(TextUpAnimType.Volcano);
         text.SetPosition(transform.position);
         text.SetScale(0.9f + (damage / 200f));
@@ -153,13 +134,11 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         }
 
         text.Play(damage.ToString());
-
-        SetDamageEffect();
     }
 
     public virtual void SetHp(int hp)
     {
-        if (isDie)
+        if (IsDie)
         {
             return;
         }
@@ -232,25 +211,15 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     public virtual void GetDamageIgnoreShild(int damage) //쉴드 무시하고 받는 데미지
     {
-        if (isDie)
+        if (IsDie)
         {
             return;
-        }
-
-        // 계약 상태라면
-        if (cc.buffDic[BuffType.Contract] > 0)
-        {
-            damage = cc.buffDic[BuffType.Contract];
-            cc.RemoveBuff(BuffType.Contract);
         }
 
         hp -= damage;
 
         if (hp <= 0)
         {
-            hp = 0;
-            isDie = true;
-
             Die();
         }
 
@@ -274,10 +243,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     private void SetDamageEffect()
     {
         DOTween.To(() => damageImg.fillAmount, x => damageImg.fillAmount = x, ((float)hp + shieldHp) / (hp + shieldHp > maxHp ? hp + shieldHp : maxHp), 0.33f);
-        //damageTrans.DOScaleX(hp / (float)maxHp, 0.33f);
-
         damageImg.color = damageColor;
-
         damageTween.Kill();
         damageTween = damageImg.DOFade(0f, 0.3f);
     }
@@ -399,5 +365,9 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     {
         return ((float)hp / maxHp) * 100;
     }
-    protected abstract void Die();
+    protected virtual void Die()
+    {
+        hp = 0;
+        isDie = true;
+    }
 }

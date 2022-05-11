@@ -14,7 +14,6 @@ public class BossHealth : EnemyHealth
     protected override void Die()
     {
         base.Die();
-
         bh.BattleForceEnd();
     }
 }

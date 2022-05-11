@@ -23,6 +23,9 @@ public class EnemyHealth : LivingEntity
 
     public UnityEvent onInit = null;
 
+    private Vector3 originSize;
+
+
     protected override void Awake()
     {
         base.Awake();
@@ -31,6 +34,8 @@ public class EnemyHealth : LivingEntity
         sr = GetComponent<SpriteRenderer>();
 
         indicator = GetComponent<EnemyIndicator>();
+
+        originSize = transform.localScale;
     }
 
     protected override void Start()
@@ -98,6 +103,11 @@ public class EnemyHealth : LivingEntity
 
         bh.enemys.Remove(this);
         GameManager.Instance.inventoryHandler.RemoveInventory(GetComponent<Inventory>());
+    }
+
+    public virtual void SetScale(float percent)
+    {
+        transform.DOScale(originSize * percent, 0.3f);
     }
 
     public virtual void ShowDieEffect()
