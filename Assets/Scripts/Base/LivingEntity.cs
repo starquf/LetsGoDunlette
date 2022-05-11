@@ -5,47 +5,38 @@ using UnityEngine.UI;
 
 public abstract class LivingEntity : MonoBehaviour, IDamageable
 {
-    // 이거 나중에 클래스로 뺴줘요
-    public GameObject hPCvs;
-
-    [HideInInspector]
-    public Image hpBar;
-    private Image hpBarAfterImageBar;
-    private Image hpShieldBar;
-
-    private Text hpText;
-
-    private Transform damageTrans;
-
-    private Image damageImg;
-    private Color damageColor;
-    private Tween damageTween;
-
     public int maxHp;
     public int curMaxHp => maxHp + shieldHp; //MaxHp 에 ShieldHp 더한값
     public int curHp => hp + shieldHp; // 현재 체력에 쉴드 더한값
 
     [SerializeField] protected int hp;
     [SerializeField] protected int shieldHp = 0;
-
     [SerializeField] protected int attackPower;
-    public int AttackPower 
+    public int AttackPower
     {
-        get 
+        get
         {
             return attackPower;
-        } 
+        }
     }
 
-    protected bool isDie = false;
+    // 이거 나중에 클래스로 뺴줘요
+    public GameObject hPCvs;
+    [HideInInspector] public Image hpBar;
+
+    private Image hpBarAfterImageBar;
+    private Image hpShieldBar;
+    private Text hpText;
+    private Transform damageTrans;
+    private Image damageImg;
+    private Color damageColor;
+    private Tween damageTween;
     public bool IsDie => isDie;
-
+    protected bool isDie = false;
     protected BattleHandler bh;
-
     public ElementalType weaknessType;
 
-    [HideInInspector]
-    public CrowdControl cc;
+    [HideInInspector] public CrowdControl cc;
 
     protected virtual void Awake()
     {
