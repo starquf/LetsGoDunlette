@@ -21,9 +21,12 @@ public abstract class Scroll : MonoBehaviour
 
     public ScrollSlot slot;
 
+    protected BattleHandler bh;
+
     private void Awake()
     {
         scrollIcon = GetComponent<Image>().sprite;
+        bh = GameManager.Instance.battleHandler;
     }
 
     public abstract void Use(Action onEndUse, Action onCancelUse);

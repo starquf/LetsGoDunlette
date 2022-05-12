@@ -61,7 +61,6 @@ public class InventoryHandler : MonoBehaviour
     {
         //unusedCardCount.text = unusedSkills.Count.ToString();
         graveyardIndicator.SetText(graveyard.Count);
-
         onUpdateInfo?.Invoke();
     }
 

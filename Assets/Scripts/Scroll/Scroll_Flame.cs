@@ -5,11 +5,8 @@ using UnityEngine;
 
 public class Scroll_Flame : Scroll
 {
-    private BattleHandler bh;
     private void Start()
     {
-        bh = GameManager.Instance.battleHandler;
-
         //scrollType = ScrollType.Flame;
     }
 

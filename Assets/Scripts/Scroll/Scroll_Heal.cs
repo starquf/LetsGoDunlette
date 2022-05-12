@@ -5,12 +5,8 @@ using UnityEngine;
 
 public class Scroll_Heal : Scroll
 {
-    private BattleHandler bh;
-
     private void Start()
     {
-        bh = GameManager.Instance.battleHandler;
-
         scrollType = ScrollType.Heal;
     }
 

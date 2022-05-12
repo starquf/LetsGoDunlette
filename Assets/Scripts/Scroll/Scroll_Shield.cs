@@ -2,12 +2,8 @@ using System;
 
 public class Scroll_Shield : Scroll
 {
-    private BattleHandler bh;
-
     private void Start()
     {
-        bh = GameManager.Instance.battleHandler;
-
         scrollType = ScrollType.Shield;
     }
 

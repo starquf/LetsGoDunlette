@@ -5,12 +5,8 @@ using UnityEngine;
 
 public class SC_Hiding : Scroll
 {
-    private BattleHandler bh;
-
     private void Start()
     {
-        bh = GameManager.Instance.battleHandler;
-
         scrollType = ScrollType.Hiding;
     }
 

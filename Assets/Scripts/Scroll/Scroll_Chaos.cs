@@ -5,12 +5,8 @@ using UnityEngine;
 
 public class Scroll_Chaos : Scroll
 {
-    private BattleHandler bh;
-
     private void Start()
     {
-        bh = GameManager.Instance.battleHandler;
-
         scrollType = ScrollType.Chaos;
     }
 

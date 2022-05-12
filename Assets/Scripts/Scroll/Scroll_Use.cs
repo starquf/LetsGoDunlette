@@ -5,12 +5,9 @@ using UnityEngine;
 
 public class Scroll_Use : Scroll
 {
-    private BattleHandler bh;
     private InventoryHandler ih;
-
     private void Start()
     {
-        bh = GameManager.Instance.battleHandler;
         ih = GameManager.Instance.inventoryHandler;
 
         scrollType = ScrollType.Use;

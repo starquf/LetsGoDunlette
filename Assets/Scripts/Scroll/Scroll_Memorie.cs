@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Scroll_Memorie : Scroll
 {
-    private BattleHandler bh;
     private InventoryHandler invenHandler;
     private InventoryInfoHandler invenInfoHandler;
 
@@ -14,7 +13,6 @@ public class Scroll_Memorie : Scroll
 
     private void Start()
     {
-        bh = GameManager.Instance.battleHandler;
         invenInfoHandler = GameManager.Instance.invenInfoHandler;
         invenHandler = GameManager.Instance.inventoryHandler;
 
