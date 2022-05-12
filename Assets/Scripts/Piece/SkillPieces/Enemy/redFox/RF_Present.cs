@@ -60,7 +60,7 @@ public class RF_Present : SkillPiece
     {
         skillImg.sprite = originIcon;
 
-        SetIndicator(owner.gameObject, "공격").OnEnd(() =>
+        SetIndicator(owner.gameObject, "공격").OnEndAction(() =>
         {
             target.GetDamage(Value, this, owner);
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);

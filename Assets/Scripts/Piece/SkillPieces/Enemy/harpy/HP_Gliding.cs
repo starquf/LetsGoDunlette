@@ -13,7 +13,7 @@ public class HP_Gliding : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(owner.gameObject, "ÇÒÄû±â Ãß°¡").OnEnd(() =>
+        SetIndicator(owner.gameObject, "ÇÒÄû±â Ãß°¡").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
             animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)

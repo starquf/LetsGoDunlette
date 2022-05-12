@@ -19,8 +19,6 @@ public class Skill_F_TickTock : SkillPiece
     private readonly WaitForSeconds pOneSecWait = new WaitForSeconds(0.1f);
     private readonly WaitForSeconds pTwoSecWait = new WaitForSeconds(0.2f);
 
-    private bool onReset = false;
-
     protected override void Start()
     {
         base.Start();
@@ -47,8 +45,6 @@ public class Skill_F_TickTock : SkillPiece
 
     public override void OnRullet()
     {
-        onReset = false;
-
         bh = GameManager.Instance.battleHandler;
 
         bh.battleEvent.RemoveEventInfo(eventInfo);

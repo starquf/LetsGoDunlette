@@ -55,7 +55,7 @@ public class TA_Attack : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(owner.gameObject, "공격").OnEnd(() =>
+        SetIndicator(owner.gameObject, "공격").OnEndAction(() =>
         {
             if(owner.GetComponent<EnemyHealth>().cc.IsCC(CCType.Heating))
             {

@@ -36,7 +36,7 @@ public class SR_Skill : SkillPiece
 
     private void SR_CutOff(LivingEntity target, Action onCastEnd = null) // 플레이어에게 30의 피해를 입힌다. //가르가 죽으면 절단의 데미지가 30만큼 증가한다.
     {
-        SetIndicator(owner.gameObject, "공격").OnEnd(() =>
+        SetIndicator(owner.gameObject, "공격").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 

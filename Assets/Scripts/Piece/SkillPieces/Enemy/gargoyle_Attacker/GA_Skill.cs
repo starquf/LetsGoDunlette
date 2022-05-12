@@ -31,7 +31,7 @@ public class GA_Skill : SkillPiece
 
     private void GA_Solidification(LivingEntity target, Action onCastEnd = null) // 전투가 종료될 때까지 매턴 5의 보호막을 얻는다. 중첩가능
     {
-        SetIndicator(owner.gameObject, "보호막 추가").OnEnd(() =>
+        SetIndicator(owner.gameObject, "보호막 추가").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
@@ -47,7 +47,7 @@ public class GA_Skill : SkillPiece
 
     private void GA_Press(LivingEntity target, Action onCastEnd = null) //현재 자신의 보호막만큼 플레이어에게 추가 피해를 준다.
     {
-        SetIndicator(owner.gameObject, "공격").OnEnd(() =>
+        SetIndicator(owner.gameObject, "공격").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
@@ -60,7 +60,7 @@ public class GA_Skill : SkillPiece
                 int curShield = owner.GetComponent<EnemyHealth>().GetShieldHp();
                 if (curShield > 0)
                 {
-                    SetIndicator(owner.gameObject, $"추가 피해 +{curShield}").OnEnd(() =>
+                    SetIndicator(owner.gameObject, $"추가 피해 +{curShield}").OnEndAction(() =>
                     {
                         target.GetDamage(curShield, this, owner);
 

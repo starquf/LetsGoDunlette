@@ -36,7 +36,7 @@ public class DM_Skill : SkillPiece
 
     private void DM_RapidGrowth(LivingEntity target, Action onCastEnd = null) //아군 중 무작위 2명에게 보호막을 30부여한다.
     {
-        SetIndicator(owner.gameObject, "아군 축복").OnEnd(() =>
+        SetIndicator(owner.gameObject, "아군 축복").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 

@@ -32,7 +32,7 @@ public class GG_Skill : SkillPiece
 
     private void GG_Beat(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(owner.gameObject, "공격").OnEnd(() =>
+        SetIndicator(owner.gameObject, "공격").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
             target.GetDamage(30, this, owner);
@@ -51,7 +51,7 @@ public class GG_Skill : SkillPiece
 
     private void GG_Recover(LivingEntity target, Action onCastEnd = null) //자신의 체력을 30만큼 회복한다.
     {
-        SetIndicator(owner.gameObject, "회복").OnEnd(() =>
+        SetIndicator(owner.gameObject, "회복").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 

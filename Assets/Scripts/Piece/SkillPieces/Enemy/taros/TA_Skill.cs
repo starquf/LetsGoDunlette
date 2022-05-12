@@ -57,7 +57,7 @@ public class TA_Skill : SkillPiece
 
     private void TA_Off_Limits(LivingEntity target, Action onCastEnd = null) //플레이어에게 40의 피해를 입힌다.
     {
-        SetIndicator(owner.gameObject, "공격").OnEnd(() =>
+        SetIndicator(owner.gameObject, "공격").OnEndAction(() =>
         {
             if (owner.GetComponent<EnemyHealth>().cc.IsCC(CCType.Heating))
             {
@@ -88,7 +88,7 @@ public class TA_Skill : SkillPiece
 
     private void TA_Body_Heating(LivingEntity target, Action onCastEnd = null) //타로스의 모든 공격의 피해를 10만큼 증가시킨다. //스프라이트 변경
     {
-        SetIndicator(owner.gameObject, "강화").OnEnd(() =>
+        SetIndicator(owner.gameObject, "강화").OnEndAction(() =>
         {
             owner.GetComponent<SpriteRenderer>().sprite = heatingSprite;
             owner.GetComponent<EnemyHealth>().cc.SetCC(CCType.Heating, 4);

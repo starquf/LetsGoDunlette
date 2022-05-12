@@ -17,7 +17,7 @@ public class SkillRullet : Rullet
     {
         SkillPiece sp = piece as SkillPiece;
 
-        sp.isInRullet = true;
+        sp.IsInRullet = true;
         sp.OnRullet();
 
         ShowPieceEffect(sp);
@@ -70,7 +70,7 @@ public class SkillRullet : Rullet
             Debug.LogError("null 발생!!");
         }
 
-        changePiece.isInRullet = true;
+        changePiece.IsInRullet = true;
 
         changePiece.OnRullet();
         changePiece.pieceIdx = changeIdx;

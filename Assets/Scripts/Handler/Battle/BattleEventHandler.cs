@@ -308,7 +308,6 @@ public class BattleEventHandler : MonoBehaviour
             int a = i;
             if (eventInfoList[a].CheckEventType(eventTime))
             {
-                bool flag = true;
                 eventInfoList[a].turn--;
                 if (eventInfoList[a].actionOnEnd) //마지막만 실행되는거라면
                 {
@@ -316,7 +315,7 @@ public class BattleEventHandler : MonoBehaviour
                     {
                         EventInfo nowInfo = eventInfoList[a];
                         eventInfoList.RemoveAt(a);
-                        nowInfo.InvokeEvent(enemy, () => flag = false);
+                        nowInfo.InvokeEvent(enemy,null);
                     }
                     continue;
                 }
@@ -329,7 +328,7 @@ public class BattleEventHandler : MonoBehaviour
                         eventInfoList.RemoveAt(a);
                     }
 
-                    nowInfo.InvokeEvent(enemy, () => flag = false);
+                    nowInfo.InvokeEvent(enemy,null);
                 }
             }
         }

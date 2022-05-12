@@ -6,22 +6,25 @@ public class SkillPiece : RulletPiece
 {
     [Header("스킬 세팅")]
     public bool isPlayerSkill = true; //플레이어 스킬인가?
-    public bool isDisposable = false; //1회용인가
-    public bool isRandomSkill = false; //랜덤 스킬인가??
     public bool isTargeting = true; //타게팅스킬인가?
+    public bool isRandomSkill = false; //랜덤 스킬인가??
+    public bool isDisposable = false; //1회용인가
 
     public PieceInfo[] pieceInfo;
     protected Action<LivingEntity, Action> onCastSkill;
 
     protected List<DesIconInfo> desInfos = new List<DesIconInfo>();
 
-    [HideInInspector]
-    public bool isInRullet = false;
+    private bool isInRullet = false;
+    public bool IsInRullet { get => isInRullet; set => isInRullet = value; }
 
     [HideInInspector]
     public Inventory owner;
 
     protected AnimHandler animHandler = null;
+
+    private GameObject go;
+    private string content;
 
     protected override void Awake()
     {
@@ -48,16 +51,12 @@ public class SkillPiece : RulletPiece
     }
 
 
-    public override void Cast(LivingEntity targetTrm, Action onCastEnd = null)
-    {
-
-    }
+    public override void Cast(LivingEntity targetTrm, Action onCastEnd = null) { }
 
     public virtual string GetPieceDes()
     {
         string des = PieceDes;
         des.Replace("{ownerDmg}", owner.GetComponent<LivingEntity>().AttackPower.ToString());
-
         return PieceDes;
     }
 
@@ -67,38 +66,28 @@ public class SkillPiece : RulletPiece
         {
             desInfos[i].iconType = DesIconType.None;
         }
-
         return desInfos;
     }
 
-    public virtual bool CheckSilence()
+    public virtual bool CheckSilence() // 침묵 상태인가?
     {
         CrowdControl cc = owner.GetComponent<CrowdControl>();
-
-        // 침묵 상태인가?
         return cc.ccDic[CCType.Silence] > 0;
     }
 
-    private GameObject go;
-    private string content;
-    protected SkillPiece SetIndicator(GameObject go, string content)
+    protected SkillPiece SetIndicator(GameObject go, string content) //머리위에 텍스트 뛰우는 함수
     {
         this.go = go;
         this.content = content;
-
         return this;
     }
 
-    public void OnEnd(Action action)
+    public void OnEndAction(Action action) //스킬이 끝났을때
     {
         EnemyIndicator enemyIndicator = go.GetComponent<EnemyIndicator>();
         if (enemyIndicator != null)
         {
             enemyIndicator.ShowText(content,action);
-        }
-        else
-        {
-            //print("enemyIndicator is null!");
         }
     }
 

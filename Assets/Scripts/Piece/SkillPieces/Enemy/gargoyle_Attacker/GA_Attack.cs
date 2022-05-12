@@ -10,7 +10,7 @@ public class GA_Attack : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(owner.gameObject, "공격").OnEnd(() =>
+        SetIndicator(owner.gameObject, "공격").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
             target.GetDamage(Value, this, owner);
@@ -19,7 +19,7 @@ public class GA_Attack : SkillPiece
             .SetScale(2)
             .Play(() =>
             {
-                SetIndicator(owner.gameObject, "보호막").OnEnd(() =>
+                SetIndicator(owner.gameObject, "보호막").OnEndAction(() =>
                 {
                     owner.GetComponent<EnemyHealth>().AddShield(10);
                     animHandler.GetAnim(AnimName.M_Shield).SetPosition(owner.transform.position)

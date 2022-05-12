@@ -5,15 +5,9 @@ using UnityEngine;
 
 public class Skill_F_Stigmatized : SkillPiece
 {
-    private BattleHandler bh = null;
-    SkillEvent eventInfo = null;
-
     protected override void Start()
     {
         base.Start();
-
-        bh = GameManager.Instance.battleHandler;
-
         isTargeting = true;
     }
 

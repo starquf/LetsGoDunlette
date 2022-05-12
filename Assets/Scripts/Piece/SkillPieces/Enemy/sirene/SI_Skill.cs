@@ -34,7 +34,7 @@ public class SI_Skill : SkillPiece
 
     private void SI_Enchanting_Melody(LivingEntity target, Action onCastEnd = null) // 플레이어에게 10의 피해를 입힌다. //플레이어에게 5턴간 매혹의 표식을 남긴다. //매혹
     {
-        SetIndicator(owner.gameObject, "매혹").OnEnd(() =>
+        SetIndicator(owner.gameObject, "매혹").OnEndAction(() =>
         {
             target.cc.SetCC(CCType.Fascinate, 6);
             target.GetDamage(10, this, owner);

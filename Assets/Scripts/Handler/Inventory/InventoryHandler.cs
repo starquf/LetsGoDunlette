@@ -134,7 +134,7 @@ public class InventoryHandler : MonoBehaviour
             return;
         }
 
-        skill.isInRullet = false;
+        skill.IsInRullet = false;
         graveyard.Add(skill);
 
         skill.ResetPiece();
@@ -170,7 +170,7 @@ public class InventoryHandler : MonoBehaviour
 
     public void SetSkillToInventory(SkillPiece skill)
     {
-        skill.isInRullet = false;
+        skill.IsInRullet = false;
 
         Inventory owner = skill.owner;
 
@@ -386,7 +386,7 @@ public class InventoryHandler : MonoBehaviour
             if (!piece.isPlayerSkill)
             {
                 // ·ê·¿ ¾È¿¡ ÀÖ´Â °Å¸é
-                if (piece.isInRullet)
+                if (piece.IsInRullet)
                 {
                     CreateSkillEffect(piece, piece.skillImg.transform.position);
                     RemovePiece(piece);
@@ -408,7 +408,7 @@ public class InventoryHandler : MonoBehaviour
             if (piece.owner == owner)
             {
                 // ·ê·¿ ¾È¿¡ ÀÖ´Â °Å¸é
-                if (piece.isInRullet)
+                if (piece.IsInRullet)
                 {
                     CreateSkillEffect(piece, piece.skillImg.transform.position);
                     RemovePiece(piece);
