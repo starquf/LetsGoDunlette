@@ -23,7 +23,7 @@ public class Skill_C_Allegro : SkillPiece
         .SetPosition(bh.mainRullet.transform.position)
         .Play("∑Í∑ø º”µµ ¡ı∞°!");
 
-        owner.GetComponent<LivingEntity>().AddShield(value);
+        Owner.GetComponent<LivingEntity>().AddShield(value);
         bh.mainRullet.RulletSpeed += 100f;
 
         onCastEnd?.Invoke();

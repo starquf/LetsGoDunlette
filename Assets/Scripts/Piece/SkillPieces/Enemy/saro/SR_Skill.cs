@@ -36,11 +36,11 @@ public class SR_Skill : SkillPiece
 
     private void SR_CutOff(LivingEntity target, Action onCastEnd = null) // 플레이어에게 30의 피해를 입힌다. //가르가 죽으면 절단의 데미지가 30만큼 증가한다.
     {
-        SetIndicator(owner.gameObject, "공격").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
-            target.GetDamage(Value, this, owner);
+            target.GetDamage(Value, this, Owner);
 
             animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
             .SetScale(2)
@@ -56,7 +56,7 @@ public class SR_Skill : SkillPiece
         GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
         AddValue(30);
-        animHandler.GetAnim(AnimName.M_Recover).SetPosition(owner.transform.position)
+        animHandler.GetAnim(AnimName.M_Recover).SetPosition(Owner.transform.position)
             .SetScale(1)
             .Play(() =>
         {

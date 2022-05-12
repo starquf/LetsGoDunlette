@@ -182,7 +182,7 @@ public class BattleRewardUIHandler : MonoBehaviour
             SkillPiece reward = Instantiate(rewards[i]);
             reward.gameObject.SetActive(false);
 
-            reward.owner = bh.player.GetComponent<Inventory>();
+            reward.Owner = bh.player.GetComponent<Inventory>();
 
             createdReward.Add(reward);
 

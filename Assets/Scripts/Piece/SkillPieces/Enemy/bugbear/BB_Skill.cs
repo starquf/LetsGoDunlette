@@ -33,7 +33,7 @@ public class BB_Skill : SkillPiece
     {
         if (target.HasShield())
         {
-            SetIndicator(owner.gameObject, "보호막 파괴").OnEndAction(() =>
+            SetIndicator(Owner.gameObject, "보호막 파괴").OnEndAction(() =>
             {
                 target.RemoveShield();
 
@@ -41,7 +41,7 @@ public class BB_Skill : SkillPiece
                 .SetScale(2)
                 .Play(() =>
                 {
-                    SetIndicator(owner.gameObject, "공격").OnEndAction(() =>
+                    SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
                     {
                         target.GetDamage(20);
 
@@ -58,7 +58,7 @@ public class BB_Skill : SkillPiece
         }
         else
         {
-            SetIndicator(owner.gameObject, "공격").OnEndAction(() =>
+            SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
             {
                 target.GetDamage(20);
 
@@ -75,7 +75,7 @@ public class BB_Skill : SkillPiece
 
     private void BB_Strong_Attack(LivingEntity target, Action onCastEnd = null) //스킬 사용 후 기절에 걸린다.
     {
-        SetIndicator(owner.gameObject, "공격").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
         {
             target.GetDamage(60);
 
@@ -84,9 +84,9 @@ public class BB_Skill : SkillPiece
             .SetScale(2f)
             .Play(() =>
             {
-                SetIndicator(owner.gameObject, "기절").OnEndAction(() =>
+                SetIndicator(Owner.gameObject, "기절").OnEndAction(() =>
                 {
-                    owner.GetComponent<EnemyHealth>().cc.SetCC(CCType.Stun, 1);
+                    Owner.GetComponent<EnemyHealth>().cc.SetCC(CCType.Stun, 1);
                     onCastEnd?.Invoke();
                 });
             });

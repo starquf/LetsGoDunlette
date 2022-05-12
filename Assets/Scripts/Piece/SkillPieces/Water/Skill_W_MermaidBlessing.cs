@@ -25,7 +25,7 @@ public class Skill_W_MermaidBlessing : SkillPiece
 
     private int GetDamageCalc()
     {
-        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.3f);
+        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.3f);
 
         return attack;
     }

@@ -100,7 +100,7 @@ public class SkillRullet : Rullet
             effect.SetSprite(effectSpr);
             effect.SetColorGradient(effectGrad);
 
-            effect.transform.position = sp.owner.indicator.transform.position;
+            effect.transform.position = sp.Owner.indicator.transform.position;
 
             effect.Play(transform.position, () =>
             {

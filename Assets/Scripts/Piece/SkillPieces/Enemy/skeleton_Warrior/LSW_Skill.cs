@@ -36,11 +36,11 @@ public class LSW_Skill : SkillPiece
 
     private void LSW_Cutting(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(owner.gameObject, "공격").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
-            target.GetDamage(cuttingDmg, this, owner);
+            target.GetDamage(cuttingDmg, this, Owner);
 
             animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
             .SetScale(2)
@@ -53,18 +53,18 @@ public class LSW_Skill : SkillPiece
 
     private void LSW_Old_Shield(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(owner.gameObject, "보호막").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "보호막").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
-            animHandler.GetAnim(AnimName.M_Shield).SetPosition(owner.transform.position)
+            animHandler.GetAnim(AnimName.M_Shield).SetPosition(Owner.transform.position)
             .SetScale(1)
             .Play(() =>
             {
                 onCastEnd?.Invoke();
             });
 
-            owner.GetComponent<EnemyHealth>().AddShield(shieldVal);
+            Owner.GetComponent<EnemyHealth>().AddShield(shieldVal);
         });
     }
 

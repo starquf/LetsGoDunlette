@@ -26,11 +26,11 @@ public class Gar : MonoBehaviour
                     EnemyIndicator indi = GetComponent<EnemyIndicator>();
                     indi.ShowText("조각 추가", () => battleHandler.castUIHandler.ShowCasting(pieceInfo[0], () =>
                     {
-                        Inventory owner = GetComponent<EnemyInventory>();
+                        Inventory Owner = GetComponent<EnemyInventory>();
 
                         for (int i = 0; i < 3; i++)
                         {
-                            GameManager.Instance.inventoryHandler.CreateSkill(garSkill, owner, gameObject.transform.position);
+                            GameManager.Instance.inventoryHandler.CreateSkill(garSkill, Owner, gameObject.transform.position);
                         }
 
                         GameManager.Instance.animHandler.GetAnim(AnimName.M_Shield).SetPosition(transform.position)

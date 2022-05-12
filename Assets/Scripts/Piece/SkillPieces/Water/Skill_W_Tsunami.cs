@@ -34,7 +34,7 @@ public class Skill_W_Tsunami : SkillPiece
 
     private int GetDamageCalc()
     {
-        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.4f);
+        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.4f);
 
         return attack;
     }

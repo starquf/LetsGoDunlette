@@ -34,7 +34,7 @@ public class Skill_E_AdjustableCurrent : SkillPiece
 
     private int GetDamageCalc()
     {
-        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.3f - 1);
+        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.3f - 1);
 
         return attack;
     }

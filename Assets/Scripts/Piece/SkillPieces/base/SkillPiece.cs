@@ -18,8 +18,8 @@ public class SkillPiece : RulletPiece
     private bool isInRullet = false;
     public bool IsInRullet { get => isInRullet; set => isInRullet = value; }
 
-    [HideInInspector]
-    public Inventory owner;
+    private Inventory owner;
+    public Inventory Owner { get => owner; set => owner = value; }
 
     protected AnimHandler animHandler = null;
 
@@ -56,7 +56,7 @@ public class SkillPiece : RulletPiece
     public virtual string GetPieceDes()
     {
         string des = PieceDes;
-        des.Replace("{ownerDmg}", owner.GetComponent<LivingEntity>().AttackPower.ToString());
+        des.Replace("{OwnerDmg}", Owner.GetComponent<LivingEntity>().AttackPower.ToString());
         return PieceDes;
     }
 
@@ -71,7 +71,7 @@ public class SkillPiece : RulletPiece
 
     public virtual bool CheckSilence() // 침묵 상태인가?
     {
-        CrowdControl cc = owner.GetComponent<CrowdControl>();
+        CrowdControl cc = Owner.GetComponent<CrowdControl>();
         return cc.ccDic[CCType.Silence] > 0;
     }
 

@@ -25,7 +25,7 @@ public class Skill_N_ManaSphere : SkillPiece
 
     private int GetDamageCalc()
     {
-        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.4f);
+        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.4f);
 
         return attack;
     }

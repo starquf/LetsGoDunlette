@@ -32,21 +32,21 @@ public class FA_Skill : SkillPiece
 
     private void FA_Fairy_Ligtht(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(owner.gameObject, "강화").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "강화").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.2f);
 
             //전투가 끝날 때 까지 기본 공격의 피해가 5 상승한다.
-            for (int i = 0; i < owner.skills.Count; i++)
+            for (int i = 0; i < Owner.skills.Count; i++)
             {
-                FA_Attack skill = owner.skills[i].GetComponent<FA_Attack>();
+                FA_Attack skill = Owner.skills[i].GetComponent<FA_Attack>();
                 if (skill != null)
                 {
                     skill.AddValue(5);
                 }
             }
 
-            animHandler.GetAnim(AnimName.M_Shield).SetPosition(owner.transform.position)
+            animHandler.GetAnim(AnimName.M_Shield).SetPosition(Owner.transform.position)
             .SetScale(1)
             .Play(() =>
             {
@@ -57,17 +57,17 @@ public class FA_Skill : SkillPiece
 
     private void FA_Kidding(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(owner.gameObject, "공격").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.2f);
 
-            target.GetDamage(Value, this, owner);
+            target.GetDamage(Value, this, Owner);
 
             animHandler.GetAnim(AnimName.M_Scratch).SetPosition(GameManager.Instance.enemyEffectTrm.position)
             .SetScale(2)
             .Play(() =>
            {
-               SetIndicator(owner.gameObject, "조각변경").OnEndAction(() =>
+               SetIndicator(Owner.gameObject, "조각변경").OnEndAction(() =>
                {
                    KiddingSkill();
                    onCastEnd?.Invoke();
@@ -83,7 +83,7 @@ public class FA_Skill : SkillPiece
 
         // 3. 서로 바꿔야됩니다. <-
 
-        if (!TryFindAttackFromAndCall(owner.skills, FindRandomPlayerSkillAndChangePiece))
+        if (!TryFindAttackFromAndCall(Owner.skills, FindRandomPlayerSkillAndChangePiece))
         {
             List<SkillPiece> usedinven = GameManager.Instance.inventoryHandler.graveyard;
             TryFindAttackFromAndCall(usedinven, FindRandomPlayerSkillAndChangePiece);
@@ -98,7 +98,7 @@ public class FA_Skill : SkillPiece
 
             if (attack != null)
             {
-                if (attack.owner == owner)
+                if (attack.Owner == Owner)
                 {
                     action?.Invoke(attack);
                     return true;

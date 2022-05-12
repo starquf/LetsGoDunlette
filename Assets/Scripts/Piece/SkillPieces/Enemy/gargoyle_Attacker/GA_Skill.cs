@@ -31,12 +31,12 @@ public class GA_Skill : SkillPiece
 
     private void GA_Solidification(LivingEntity target, Action onCastEnd = null) // 전투가 종료될 때까지 매턴 5의 보호막을 얻는다. 중첩가능
     {
-        SetIndicator(owner.gameObject, "보호막 추가").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "보호막 추가").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
-            owner.GetComponent<GA_Solidification>().shieldValue += 5;
-            animHandler.GetAnim(AnimName.M_Shield).SetPosition(owner.transform.position)
+            Owner.GetComponent<GA_Solidification>().shieldValue += 5;
+            animHandler.GetAnim(AnimName.M_Shield).SetPosition(Owner.transform.position)
             .SetScale(1)
             .Play(() =>
             {
@@ -47,22 +47,22 @@ public class GA_Skill : SkillPiece
 
     private void GA_Press(LivingEntity target, Action onCastEnd = null) //현재 자신의 보호막만큼 플레이어에게 추가 피해를 준다.
     {
-        SetIndicator(owner.gameObject, "공격").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
-            target.GetDamage(5, this, owner);
+            target.GetDamage(5, this, Owner);
 
              animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
              .SetScale(2)
              .Play(() =>
             {
-                int curShield = owner.GetComponent<EnemyHealth>().GetShieldHp();
+                int curShield = Owner.GetComponent<EnemyHealth>().GetShieldHp();
                 if (curShield > 0)
                 {
-                    SetIndicator(owner.gameObject, $"추가 피해 +{curShield}").OnEndAction(() =>
+                    SetIndicator(Owner.gameObject, $"추가 피해 +{curShield}").OnEndAction(() =>
                     {
-                        target.GetDamage(curShield, this, owner);
+                        target.GetDamage(curShield, this, Owner);
 
                         animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
                         .SetScale(2)

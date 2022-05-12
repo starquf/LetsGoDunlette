@@ -66,33 +66,33 @@ public class InventoryHandler : MonoBehaviour
     }
 
     // 스킬 추가 할땐 이걸 호출
-    public SkillPiece CreateSkill(GameObject skillPrefab, Inventory owner)
+    public SkillPiece CreateSkill(GameObject skillPrefab, Inventory Owner)
     {
         SkillPiece skill = Instantiate(skillPrefab, transform).GetComponent<SkillPiece>();
         skill.gameObject.SetActive(false);
 
-        AddSkill(skill, owner);
+        AddSkill(skill, Owner);
 
         return skill;
     }
 
-    public SkillPiece CreateSkill(GameObject skillPrefab, Inventory owner, Vector3 makePos)
+    public SkillPiece CreateSkill(GameObject skillPrefab, Inventory Owner, Vector3 makePos)
     {
-        SkillPiece skill = CreateSkill(skillPrefab, owner);
+        SkillPiece skill = CreateSkill(skillPrefab, Owner);
 
         CreateSkillEffect(skill, makePos);
 
         return skill;
     }
 
-    public void AddSkill(SkillPiece skill, Inventory owner)
+    public void AddSkill(SkillPiece skill, Inventory Owner)
     {
-        skill.owner = owner;
-        owner.skills.Add(skill);
+        skill.Owner = Owner;
+        Owner.skills.Add(skill);
         skills.Add(skill);
 
-        owner.indicator.SetText(owner.skills.Count);
-        owner.indicator.ShowEffect();
+        Owner.indicator.SetText(Owner.skills.Count);
+        Owner.indicator.ShowEffect();
 
         SetCountUI();
     }
@@ -172,14 +172,14 @@ public class InventoryHandler : MonoBehaviour
     {
         skill.IsInRullet = false;
 
-        Inventory owner = skill.owner;
+        Inventory Owner = skill.Owner;
 
-        owner.skills.Add(skill);
+        Owner.skills.Add(skill);
 
         skill.ResetPiece();
 
-        owner.indicator.SetText(owner.skills.Count);
-        owner.indicator.ShowEffect();
+        Owner.indicator.SetText(Owner.skills.Count);
+        Owner.indicator.ShowEffect();
 
         for (int i = 0; i < 2; i++)
         {
@@ -192,9 +192,9 @@ public class InventoryHandler : MonoBehaviour
             effect.transform.DOMove(Random.insideUnitCircle * 1.5f, 0.4f)
                 .SetRelative();
 
-            effect.Play(owner.indicator.transform.position, () =>
+            effect.Play(Owner.indicator.transform.position, () =>
             {
-                owner.indicator.ShowEffect();
+                Owner.indicator.ShowEffect();
 
                 effect.EndEffect();
             }
@@ -221,10 +221,10 @@ public class InventoryHandler : MonoBehaviour
 
         graveyard.Remove(piece);
 
-        Inventory owner = piece.owner;
+        Inventory Owner = piece.Owner;
 
-        owner.indicator.SetText(owner.skills.Count);
-        owner.indicator.ShowEffect();
+        Owner.indicator.SetText(Owner.skills.Count);
+        Owner.indicator.ShowEffect();
 
         SetCountUI();
     }
@@ -346,15 +346,15 @@ public class InventoryHandler : MonoBehaviour
             }
 
             // 사용한거를 옮겨
-            graveyard[i].owner.skills.Add(graveyard[i]);
+            graveyard[i].Owner.skills.Add(graveyard[i]);
 
             graveyard[i].transform.SetParent(transform);
             graveyard[i].transform.localPosition = Vector3.zero;
 
-            Inventory owner = graveyard[i].owner;
+            Inventory Owner = graveyard[i].Owner;
 
-            owner.indicator.SetText(owner.skills.Count);
-            owner.indicator.ShowEffect();
+            Owner.indicator.SetText(Owner.skills.Count);
+            Owner.indicator.ShowEffect();
 
             for (int j = 0; j < 2; j++)
             {
@@ -364,7 +364,7 @@ public class InventoryHandler : MonoBehaviour
 
                 effect.transform.position = graveyardIndicator.transform.position;
 
-                effect.Play(graveyard[i].owner.indicator.transform.position, () =>
+                effect.Play(graveyard[i].Owner.indicator.transform.position, () =>
                 {
                     graveyardIndicator.ShowEffect();
 
@@ -399,13 +399,13 @@ public class InventoryHandler : MonoBehaviour
         }
     }
 
-    public void RemoveAllOwnerPiece(Inventory owner)
+    public void RemoveAllOwnerPiece(Inventory Owner)
     {
         for (int i = skills.Count - 1; i >= 0; i--)
         {
             SkillPiece piece = skills[i];
 
-            if (piece.owner == owner)
+            if (piece.Owner == Owner)
             {
                 // 룰렛 안에 있는 거면
                 if (piece.IsInRullet)
@@ -420,7 +420,7 @@ public class InventoryHandler : MonoBehaviour
             }
         }
 
-        owner.skills.Clear();
+        Owner.skills.Clear();
     }
 
     public void CreateSkillEffect(SkillPiece piece, Vector3 pos)
@@ -450,10 +450,10 @@ public class InventoryHandler : MonoBehaviour
         piece.KillTween();
 
         graveyard.Remove(piece);
-        piece.owner.skills.Remove(piece);
+        piece.Owner.skills.Remove(piece);
         skills.Remove(piece);
 
-        piece.owner.indicator.SetText(piece.owner.skills.Count);
+        piece.Owner.indicator.SetText(piece.Owner.skills.Count);
         graveyardIndicator.SetText(graveyard.Count);
 
         Destroy(piece.gameObject);

@@ -45,7 +45,7 @@ public class Skill_N_Drain : SkillPiece
 
         yield return new WaitForSeconds(0.1f);
 
-        LivingEntity healTarget = owner.GetComponent<LivingEntity>();
+        LivingEntity healTarget = Owner.GetComponent<LivingEntity>();
 
         const float time = 0.8f;
         int rand = Random.Range(7, 13);

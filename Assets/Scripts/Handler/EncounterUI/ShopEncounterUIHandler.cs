@@ -184,9 +184,9 @@ public class ShopEncounterUIHandler : MonoBehaviour
                     .Join(skillPiece.GetComponent<Image>().DOFade(0f, 0.3f))
                     .OnComplete(() =>
                     {
-                        Inventory owner = battleHandler.player.GetComponent<Inventory>();
+                        Inventory Owner = battleHandler.player.GetComponent<Inventory>();
 
-                        GameManager.Instance.inventoryHandler.AddSkill(skillPiece, owner);
+                        GameManager.Instance.inventoryHandler.AddSkill(skillPiece, Owner);
                         skillImg.color = Color.white;
 
                         selectPanel.DOFade(0, 0.5f).OnComplete(()=> {

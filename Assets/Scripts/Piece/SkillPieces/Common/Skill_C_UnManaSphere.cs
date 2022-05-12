@@ -26,7 +26,7 @@ public class Skill_C_UnManaSphere : SkillPiece
 
     private int GetDamageCalc()
     {
-        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.6f);
+        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.6f);
 
         return attack;
     }
@@ -68,7 +68,7 @@ public class Skill_C_UnManaSphere : SkillPiece
 
                             if (!CheckSilence() && rand < 35)
                             {
-                                owner.GetComponent<LivingEntity>().cc.SetCC(CCType.Silence, 2);
+                                Owner.GetComponent<LivingEntity>().cc.SetCC(CCType.Silence, 2);
                             }
 
                             onCastEnd?.Invoke();

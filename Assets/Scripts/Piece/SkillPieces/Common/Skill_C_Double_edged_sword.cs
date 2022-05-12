@@ -16,14 +16,14 @@ public class Skill_C_Double_edged_sword : SkillPiece
 
     private int GetDamageCalc()
     {
-        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.5f);
+        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.5f);
 
         return attack;
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        PlayerHealth playerHealth = owner.GetComponent<PlayerHealth>();
+        PlayerHealth playerHealth = Owner.GetComponent<PlayerHealth>();
         if (!playerHealth.HasShield())
         {
             playerHealth.GetDamage(2);

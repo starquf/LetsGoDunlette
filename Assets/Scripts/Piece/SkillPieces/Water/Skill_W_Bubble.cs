@@ -24,7 +24,7 @@ public class Skill_W_Bubble : SkillPiece
 
     private int GetDamageCalc()
     {
-        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.4f);
+        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.4f);
 
         return attack;
     }
@@ -34,7 +34,7 @@ public class Skill_W_Bubble : SkillPiece
         //print($"스킬 발동!! 이름 : {PieceName}");
         bh = GameManager.Instance.battleHandler;
 
-        LivingEntity t = owner.GetComponent<LivingEntity>();
+        LivingEntity t = Owner.GetComponent<LivingEntity>();
 
         int rand = Random.Range(5, 8);
         float time = 0.2f;

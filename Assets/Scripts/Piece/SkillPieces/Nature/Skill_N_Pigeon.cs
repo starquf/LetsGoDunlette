@@ -32,7 +32,7 @@ public class Skill_N_Pigeon : SkillPiece
 
     private int GetDamageCalc()
     {
-        int attack = Mathf.Clamp(((int)(owner.GetComponent<LivingEntity>().AttackPower * 0.2f + 2) / 5), 1, int.MaxValue);
+        int attack = Mathf.Clamp(((int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.2f + 2) / 5), 1, int.MaxValue);
 
         return attack;
     }

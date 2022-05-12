@@ -35,28 +35,28 @@ public class NSL_Skill : SkillPiece
 
     private void NSl_Recover(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(owner.gameObject, "회복").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "회복").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
-            animHandler.GetAnim(AnimName.M_Recover).SetPosition(owner.transform.position)
+            animHandler.GetAnim(AnimName.M_Recover).SetPosition(Owner.transform.position)
             .SetScale(1)
             .Play(() =>
             {
                 onCastEnd?.Invoke();
             });
 
-            owner.GetComponent<EnemyHealth>().Heal(recoverVal);
+            Owner.GetComponent<EnemyHealth>().Heal(recoverVal);
         });
     }
 
     private void NSL_Bounce(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(owner.gameObject, "공격").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
-            target.GetDamage(BounceDmg, this, owner);
+            target.GetDamage(BounceDmg, this, Owner);
 
             animHandler.GetAnim(AnimName.M_Butt)
             .SetPosition(GameManager.Instance.enemyEffectTrm.position)

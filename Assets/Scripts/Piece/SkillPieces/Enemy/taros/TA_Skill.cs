@@ -16,17 +16,17 @@ public class TA_Skill : SkillPiece
     public override PieceInfo ChoiceSkill()
     {
         base.ChoiceSkill();
-        if (!owner.GetComponent<EnemyHealth>().cc.IsCC(CCType.Heating))
+        if (!Owner.GetComponent<EnemyHealth>().cc.IsCC(CCType.Heating))
         {
             if (skillCount < 2)
             {
                 onCastSkill = TA_Off_Limits;
 
-                owner.GetComponent<SpriteRenderer>().sprite = normalSprite;
+                Owner.GetComponent<SpriteRenderer>().sprite = normalSprite;
 
-                for (int i = 0; i < owner.skills.Count; i++)
+                for (int i = 0; i < Owner.skills.Count; i++)
                 {
-                    TA_Skill skill = owner.skills[i].GetComponent<TA_Skill>();
+                    TA_Skill skill = Owner.skills[i].GetComponent<TA_Skill>();
                     if (skill != null)
                     {
                         skill.pieceInfo[0].PieceDes = "플레이어에게 40의 피해를 입힌다.";
@@ -57,15 +57,15 @@ public class TA_Skill : SkillPiece
 
     private void TA_Off_Limits(LivingEntity target, Action onCastEnd = null) //플레이어에게 40의 피해를 입힌다.
     {
-        SetIndicator(owner.gameObject, "공격").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
         {
-            if (owner.GetComponent<EnemyHealth>().cc.IsCC(CCType.Heating))
+            if (Owner.GetComponent<EnemyHealth>().cc.IsCC(CCType.Heating))
             {
-                target.GetDamage(50, this, owner);
+                target.GetDamage(50, this, Owner);
             }
             else
             {
-                target.GetDamage(40, this, owner);
+                target.GetDamage(40, this, Owner);
             }
 
             animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
@@ -75,9 +75,9 @@ public class TA_Skill : SkillPiece
                 onCastEnd?.Invoke();
             });
 
-            for (int i = 0; i < owner.skills.Count; i++)
+            for (int i = 0; i < Owner.skills.Count; i++)
             {
-                TA_Skill skill = owner.skills[i].GetComponent<TA_Skill>();
+                TA_Skill skill = Owner.skills[i].GetComponent<TA_Skill>();
                 if (skill != null)
                 {
                     skill.skillCount++;
@@ -88,14 +88,14 @@ public class TA_Skill : SkillPiece
 
     private void TA_Body_Heating(LivingEntity target, Action onCastEnd = null) //타로스의 모든 공격의 피해를 10만큼 증가시킨다. //스프라이트 변경
     {
-        SetIndicator(owner.gameObject, "강화").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "강화").OnEndAction(() =>
         {
-            owner.GetComponent<SpriteRenderer>().sprite = heatingSprite;
-            owner.GetComponent<EnemyHealth>().cc.SetCC(CCType.Heating, 4);
+            Owner.GetComponent<SpriteRenderer>().sprite = heatingSprite;
+            Owner.GetComponent<EnemyHealth>().cc.SetCC(CCType.Heating, 4);
 
-            for (int i = 0; i < owner.skills.Count; i++)
+            for (int i = 0; i < Owner.skills.Count; i++)
             {
-                TA_Skill skill = owner.skills[i].GetComponent<TA_Skill>();
+                TA_Skill skill = Owner.skills[i].GetComponent<TA_Skill>();
                 if (skill != null)
                 {
                     skill.pieceInfo[0].PieceDes = "플레이어에게 50의 피해를 입힌다.";
@@ -104,7 +104,7 @@ public class TA_Skill : SkillPiece
             }
 
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
-            animHandler.GetAnim(AnimName.M_Recover).SetPosition(owner.transform.position)
+            animHandler.GetAnim(AnimName.M_Recover).SetPosition(Owner.transform.position)
             .SetScale(1)
             .Play(() =>
            {

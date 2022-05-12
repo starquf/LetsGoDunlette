@@ -110,12 +110,12 @@ public class Encounter_011 : RandomEncounter
                 .Join(skill2.GetComponent<Image>().DOFade(0f, 0.5f))
                 .OnComplete(() =>
                 {
-                    Inventory owner = battleHandler.player.GetComponent<Inventory>();
+                    Inventory Owner = battleHandler.player.GetComponent<Inventory>();
 
-                    GameManager.Instance.inventoryHandler.AddSkill(skill, owner);
+                    GameManager.Instance.inventoryHandler.AddSkill(skill, Owner);
                     skill.GetComponent<Image>().color = Color.white;
 
-                    GameManager.Instance.inventoryHandler.AddSkill(skill2, owner);
+                    GameManager.Instance.inventoryHandler.AddSkill(skill2, Owner);
                     skill2.GetComponent<Image>().color = Color.white;
 
                     OnExitEncounter?.Invoke(true);
@@ -128,9 +128,9 @@ public class Encounter_011 : RandomEncounter
                 .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
                 .OnComplete(() =>
                 {
-                    Inventory owner = battleHandler.player.GetComponent<Inventory>();
+                    Inventory Owner = battleHandler.player.GetComponent<Inventory>();
 
-                    GameManager.Instance.inventoryHandler.AddSkill(skill, owner);
+                    GameManager.Instance.inventoryHandler.AddSkill(skill, Owner);
                     skill.GetComponent<Image>().color = Color.white;
 
                     OnExitEncounter?.Invoke(true);

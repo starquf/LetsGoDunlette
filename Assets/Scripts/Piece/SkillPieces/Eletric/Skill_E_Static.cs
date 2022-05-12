@@ -25,7 +25,7 @@ public class Skill_E_Static : SkillPiece
 
     private int GetDamageCalc()
     {
-        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.2f);
+        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.2f);
 
         return attack;
     }

@@ -60,9 +60,9 @@ public class RF_Present : SkillPiece
     {
         skillImg.sprite = originIcon;
 
-        SetIndicator(owner.gameObject, "공격").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
         {
-            target.GetDamage(Value, this, owner);
+            target.GetDamage(Value, this, Owner);
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
             animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
             .SetScale(2)

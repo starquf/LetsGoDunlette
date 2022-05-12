@@ -38,7 +38,7 @@ public class Skill_F_TickTock : SkillPiece
 
     private int GetDamageCalc()
     {
-        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.9f);
+        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.9f);
 
         return attack;
     }
@@ -71,7 +71,7 @@ public class Skill_F_TickTock : SkillPiece
                 if (turnCount <= 0)
                 {
                     GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.25f, 0.1f);
-                    owner.GetComponent<LivingEntity>().GetDamage(hitedValue);
+                    Owner.GetComponent<LivingEntity>().GetDamage(hitedValue);
 
                     animHandler.GetAnim(AnimName.F_ManaSphereHit)
                     .SetPosition(bh.playerImgTrans.position)

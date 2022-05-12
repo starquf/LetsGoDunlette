@@ -175,10 +175,10 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         }
     }
 
-    public virtual void GetDamage(int damage, SkillPiece skillPiece, Inventory owner) // 적이 사용 전용
+    public virtual void GetDamage(int damage, SkillPiece skillPiece, Inventory Owner) // 적이 사용 전용
     {
-        Vector3 size = owner.transform.localScale;
-        SpriteRenderer sr = owner.GetComponent<SpriteRenderer>();
+        Vector3 size = Owner.transform.localScale;
+        SpriteRenderer sr = Owner.GetComponent<SpriteRenderer>();
 
         DOTween.Sequence()
             .AppendCallback(() =>
@@ -186,10 +186,10 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
                 sr.sortingLayerID = SortingLayer.NameToID("Effect");
                 sr.sortingOrder = -1;
             })
-            .Append(owner.transform.DOScale(size * 2f, 0.15f))
-            .Insert(0.1f, owner.transform.DOShakePosition(0.3f, 0.25f, 50, 90f))
+            .Append(Owner.transform.DOScale(size * 2f, 0.15f))
+            .Insert(0.1f, Owner.transform.DOShakePosition(0.3f, 0.25f, 50, 90f))
             //.AppendInterval(0.3f)
-            .Append(owner.transform.DOScale(size, 0.5f))
+            .Append(Owner.transform.DOScale(size, 0.5f))
             .AppendCallback(() =>
             {
                 sr.sortingLayerID = SortingLayer.NameToID("Default");

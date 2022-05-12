@@ -637,7 +637,7 @@ public class BattleHandler : MonoBehaviour
         if (piece != null)
         {
             // 침묵되어 있다면
-            if (piece.owner.GetComponent<LivingEntity>().cc.ccDic[CCType.Silence] > 0)
+            if (piece.Owner.GetComponent<LivingEntity>().cc.ccDic[CCType.Silence] > 0)
             {
                 GameManager.Instance.animHandler.GetTextAnim()
                 .SetType(TextUpAnimType.Up)

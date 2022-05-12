@@ -16,7 +16,7 @@ public class Skill_F_ChainExplosion : SkillPiece
 
     private int GetDamageCalc()
     {
-        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.7f);
+        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.7f);
 
         return attack;
     }

@@ -20,16 +20,16 @@ public class NSL_Attack : SkillPiece
 
     private int GetDamageCalc()
     {
-        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.4f); // 0.4 ¸¦ ¿¢¼¿¿¡¼­ °¡Á®¿Í¾ßÇÔ ¿¢¼¿
+        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.4f); // 0.4 ¸¦ ¿¢¼¿¿¡¼­ °¡Á®¿Í¾ßÇÔ ¿¢¼¿
 
         return attack;
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(owner.gameObject, "°ø°Ý").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "°ø°Ý").OnEndAction(() =>
         {
-            target.GetDamage(GetDamageCalc(), this,owner);
+            target.GetDamage(GetDamageCalc(), this,Owner);
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
             animHandler.GetAnim(AnimName.M_Butt)

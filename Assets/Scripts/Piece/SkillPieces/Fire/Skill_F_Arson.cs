@@ -16,7 +16,7 @@ public class Skill_F_Arson : SkillPiece
 
     private int GetDamageCalc()
     {
-        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.5f);
+        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.5f);
 
         return attack;
     }

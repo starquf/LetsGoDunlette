@@ -27,7 +27,7 @@ public class Skill_E_LightningRod : SkillPiece
 
     private int GetDamageCalc()
     {
-        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.1f + 1);
+        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.1f + 1);
 
         return attack;
     }

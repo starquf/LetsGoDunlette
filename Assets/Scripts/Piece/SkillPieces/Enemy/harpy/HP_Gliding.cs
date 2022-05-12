@@ -13,7 +13,7 @@ public class HP_Gliding : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(owner.gameObject, "할퀴기 추가").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "할퀴기 추가").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
             animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
@@ -32,11 +32,11 @@ public class HP_Gliding : SkillPiece
     //스킬 부분
     public void GlidingSkill() //덱에 할퀴기 2개 집어넣는다.
     {
-        Inventory owner1 = owner.GetComponent<EnemyInventory>();
+        Inventory Owner1 = Owner.GetComponent<EnemyInventory>();
 
         for (int i = 0; i < value; i++)
         {
-            GameManager.Instance.inventoryHandler.CreateSkill(scratchingSkill, owner1);
+            GameManager.Instance.inventoryHandler.CreateSkill(scratchingSkill, Owner1);
         }
     }
 }

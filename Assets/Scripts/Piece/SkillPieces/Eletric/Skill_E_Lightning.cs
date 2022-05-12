@@ -26,7 +26,7 @@ public class Skill_E_Lightning : SkillPiece
 
     private int GetDamageCalc()
     {
-        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.3f + 2);
+        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.3f + 2);
 
         return attack;
     }
@@ -49,7 +49,7 @@ public class Skill_E_Lightning : SkillPiece
         .SetPosition(target.transform.position)
         .Play(() => 
         {
-            PlayerHealth playerHealth = owner.GetComponent<PlayerHealth>();
+            PlayerHealth playerHealth = Owner.GetComponent<PlayerHealth>();
             if (playerHealth.HasShield())
             {
                 if (Random.Range(0, 100) < 60)

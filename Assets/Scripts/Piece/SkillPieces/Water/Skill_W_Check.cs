@@ -27,7 +27,7 @@ public class Skill_W_Check : SkillPiece
                     .SetScale(0.5f)
                     .Play(() => 
                     {
-                        owner.GetComponent<PlayerHealth>().AddShield(shieldValue);
+                        Owner.GetComponent<PlayerHealth>().AddShield(shieldValue);
                         onCastEnd?.Invoke();
                     });
                 }

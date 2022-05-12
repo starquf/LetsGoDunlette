@@ -16,12 +16,12 @@ public class GR_Skill : SkillPiece
 
     private void GR_StrangeLight(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(owner.gameObject, "공격").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
 
-            if (owner.GetComponent<EnemyHealth>().GetHpRatio() >= 50)
+            if (Owner.GetComponent<EnemyHealth>().GetHpRatio() >= 50)
             {
                 if (Random.Range(0, 100) < 40)
                 {
@@ -35,7 +35,7 @@ public class GR_Skill : SkillPiece
                 }
             }
 
-            target.GetDamage(Value, this, owner);
+            target.GetDamage(Value, this, Owner);
             animHandler.GetAnim(AnimName.BuffEffect03).SetPosition(GameManager.Instance.enemyEffectTrm.position)
             .SetScale(1.5f)
             .Play(() =>

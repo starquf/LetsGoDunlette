@@ -28,7 +28,7 @@ public class TA_Attack : SkillPiece
 
         onNextTurn = (piece,action) =>
         {
-            if (owner.GetComponent<EnemyHealth>().cc.IsCC(CCType.Heating))
+            if (Owner.GetComponent<EnemyHealth>().cc.IsCC(CCType.Heating))
             {
                 SetValue(firstValue + 10);
             }
@@ -55,11 +55,11 @@ public class TA_Attack : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(owner.gameObject, "공격").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
         {
-            if(owner.GetComponent<EnemyHealth>().cc.IsCC(CCType.Heating))
+            if(Owner.GetComponent<EnemyHealth>().cc.IsCC(CCType.Heating))
             {
-                target.GetDamage(Value, this, owner);
+                target.GetDamage(Value, this, Owner);
             }
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
             animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)

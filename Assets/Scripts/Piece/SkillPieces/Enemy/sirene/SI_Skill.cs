@@ -34,10 +34,10 @@ public class SI_Skill : SkillPiece
 
     private void SI_Enchanting_Melody(LivingEntity target, Action onCastEnd = null) // 플레이어에게 10의 피해를 입힌다. //플레이어에게 5턴간 매혹의 표식을 남긴다. //매혹
     {
-        SetIndicator(owner.gameObject, "매혹").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "매혹").OnEndAction(() =>
         {
             target.cc.SetCC(CCType.Fascinate, 6);
-            target.GetDamage(10, this, owner);
+            target.GetDamage(10, this, Owner);
 
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
@@ -102,12 +102,12 @@ public class SI_Skill : SkillPiece
             {
                 battleHandler.battleEvent.StartActionEvent(EventTimeSkill.WithSkill, result);
 
-                Inventory temp = result.owner;
+                Inventory temp = result.Owner;
 
-                result.owner = this.owner;
+                result.Owner = this.Owner;
                 result.Cast(battleHandler.player, () =>
                 {
-                    result.owner = temp;
+                    result.Owner = temp;
                     onCastEnd.Invoke();
                 });
 

@@ -35,7 +35,7 @@ public class AG_Skill : SkillPiece
         Action<Action> onStartBattle = action =>
                               {
                                   print("AG");
-                                  SetIndicator(owner.gameObject, "공격").OnEndAction(() =>
+                                  SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
                                   {
                                       target.GetDamage(60);
 
@@ -50,17 +50,17 @@ public class AG_Skill : SkillPiece
         NormalEvent eventInfo = new NormalEvent(true, 3, onStartBattle, EventTime.EndOfTurn);
         GameManager.Instance.battleHandler.battleEvent.BookEvent(eventInfo);
 
-        SetIndicator(owner.gameObject, "침묵").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "침묵").OnEndAction(() =>
         {
-            owner.GetComponent<EnemyHealth>().cc.SetCC(CCType.Silence, 3);
+            Owner.GetComponent<EnemyHealth>().cc.SetCC(CCType.Silence, 3);
 
             animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
             .SetScale(2)
             .Play(() =>
            {
-               SetIndicator(owner.gameObject, "무적").OnEndAction(() =>
+               SetIndicator(Owner.gameObject, "무적").OnEndAction(() =>
                {
-                   owner.GetComponent<EnemyHealth>().cc.SetCC(CCType.Invincibility, 3);
+                   Owner.GetComponent<EnemyHealth>().cc.SetCC(CCType.Invincibility, 3);
 
                    animHandler.GetAnim(AnimName.M_Butt)
                            .SetPosition(GameManager.Instance.enemyEffectTrm.position)
@@ -76,12 +76,12 @@ public class AG_Skill : SkillPiece
 
     private void AG_Crocodile_Bird(LivingEntity target, Action onCastEnd = null) //자신의 체력을 40만큼 회복한다.
     {
-        SetIndicator(owner.gameObject, "회복").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "회복").OnEndAction(() =>
         {
-            owner.GetComponent<EnemyHealth>().Heal(30);
+            Owner.GetComponent<EnemyHealth>().Heal(30);
 
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
-            animHandler.GetAnim(AnimName.M_Recover).SetPosition(owner.transform.position)
+            animHandler.GetAnim(AnimName.M_Recover).SetPosition(Owner.transform.position)
             .SetScale(1)
             .Play(() =>
             {

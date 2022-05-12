@@ -20,7 +20,7 @@ public class QN_Skill : SkillPiece
         {
             var health = enemys[i];
 
-            if (health.gameObject != owner.gameObject)
+            if (health.gameObject != Owner.gameObject)
             {
                 onCastSkill = QN_Authority;
                 return pieceInfo[1];
@@ -52,7 +52,7 @@ public class QN_Skill : SkillPiece
             onCastEnd?.Invoke();
         });
 
-        owner.GetComponent<EnemyIndicator>().ShowText("社発");
+        Owner.GetComponent<EnemyIndicator>().ShowText("社発");
     }
 
     private void QN_Authority(LivingEntity target, Action onCastEnd = null)
@@ -65,15 +65,15 @@ public class QN_Skill : SkillPiece
         {
             var health = enemys[i];
 
-            if (health.gameObject != owner.gameObject)
+            if (health.gameObject != Owner.gameObject)
             {
                 health.AddShield(10);
             }
         }
 
-        owner.GetComponent<LivingEntity>().AddShield(10);
+        Owner.GetComponent<LivingEntity>().AddShield(10);
 
-        animHandler.GetAnim(AnimName.M_Shield).SetPosition(owner.transform.position)
+        animHandler.GetAnim(AnimName.M_Shield).SetPosition(Owner.transform.position)
             .SetScale(1)
             .Play(() =>
         {

@@ -36,7 +36,7 @@ public class Skill_E_Charging : SkillPiece
 
     private int GetDamageCalc()
     {
-        int attack = (int)(owner.GetComponent<LivingEntity>().AttackPower * 0.2f + 1);
+        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.2f + 1);
 
         return attack;
     }

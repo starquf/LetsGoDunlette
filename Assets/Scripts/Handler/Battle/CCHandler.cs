@@ -76,7 +76,7 @@ public class CCHandler : MonoBehaviour
 
     private void Stun(CrowdControl target)
     {
-        Inventory owner = target.GetComponent<Inventory>();
+        Inventory Owner = target.GetComponent<Inventory>();
 
         List<RulletPiece> pieces = battleHandler.mainRullet.GetPieces();
 
@@ -86,7 +86,7 @@ public class CCHandler : MonoBehaviour
             if (pieces[i] == null) continue;
 
             // 룰렛 안에 있는 스킬이 대상의 스킬이라면
-            if ((pieces[i] as SkillPiece).owner == owner)
+            if ((pieces[i] as SkillPiece).Owner == Owner)
             {
                 battleHandler.mainRullet.PutRulletPieceToGraveYard(i);
             }

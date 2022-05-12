@@ -33,16 +33,16 @@ public class NL_Skill : SkillPiece
 
     private void NL_Poison_Dagger(LivingEntity target, Action onCastEnd = null) //상처를 부여해서 2턴 동안 10의 피해를 입힌다..
     {
-        SetIndicator(owner.gameObject, "공격").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
-            target.GetDamage(20 + addAdditionalDamage, this, owner);
+            target.GetDamage(20 + addAdditionalDamage, this, Owner);
 
             animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
             .SetScale(2)
             .Play(() =>
             {
-                SetIndicator(owner.gameObject, "상처부여").OnEndAction(() =>
+                SetIndicator(Owner.gameObject, "상처부여").OnEndAction(() =>
                 {
                     target.cc.SetCC(CCType.Wound, 2, true);
                     onCastEnd?.Invoke();
@@ -53,7 +53,7 @@ public class NL_Skill : SkillPiece
 
     private void NL_Mark(LivingEntity target, Action onCastEnd = null) //놀의 모든 공격의 피해가 5 상승한다. 상처 제외
     {
-        SetIndicator(owner.gameObject, "강화").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "강화").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
@@ -66,9 +66,9 @@ public class NL_Skill : SkillPiece
 
             addAdditionalDamage += 5;
 
-            for (int i = 0; i < owner.skills.Count; i++)
+            for (int i = 0; i < Owner.skills.Count; i++)
             {
-                NL_Attack skill = owner.skills[i].GetComponent<NL_Attack>();
+                NL_Attack skill = Owner.skills[i].GetComponent<NL_Attack>();
                 if (skill != null)
                 {
                     skill.AddValue(5);

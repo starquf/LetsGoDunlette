@@ -28,11 +28,11 @@ public class Dnam : MonoBehaviour
                     EnemyIndicator indi = GetComponent<EnemyIndicator>();
                     indi.ShowText("조각 추가", () => battleHandler.castUIHandler.ShowCasting(pieceInfo[0], () =>
                     {
-                        Inventory owner = GetComponent<EnemyInventory>();
+                        Inventory Owner = GetComponent<EnemyInventory>();
 
                         for (int i = 0; i < 3; i++)
                         {
-                            SkillPiece piece = GameManager.Instance.inventoryHandler.CreateSkill(dnamSkill, owner, gameObject.transform.position);
+                            SkillPiece piece = GameManager.Instance.inventoryHandler.CreateSkill(dnamSkill, Owner, gameObject.transform.position);
                             if (isUpgraded)
                                 piece.AddValue(30);
                         }
