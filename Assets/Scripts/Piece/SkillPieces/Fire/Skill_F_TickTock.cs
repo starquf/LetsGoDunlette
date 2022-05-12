@@ -26,7 +26,7 @@ public class Skill_F_TickTock : SkillPiece
         base.Start();
 
         bh = GameManager.Instance.battleHandler;
-        hasTarget = true;
+        isTargeting = true;
     }
 
     public override List<DesIconInfo> GetDesIconInfo()

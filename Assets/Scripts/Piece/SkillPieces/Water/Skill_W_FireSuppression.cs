@@ -20,7 +20,7 @@ public class Skill_W_FireSuppression : SkillPiece
         effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[ElementalType.Water];
         bh = GameManager.Instance.battleHandler;
 
-        hasTarget = true;
+        isTargeting = true;
     }
 
     public override List<DesIconInfo> GetDesIconInfo()

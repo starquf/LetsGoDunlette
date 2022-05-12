@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class SkillPiece : RulletPiece
 {
-    public bool isPlayerSkill = true;
-    public bool isInRullet = false;
-
+    [Header("스킬 세팅")]
+    public bool isPlayerSkill = true; //플레이어 스킬인가?
     public bool isDisposable = false; //1회용인가
     public bool isRandomSkill = false; //랜덤 스킬인가??
-
-    public bool hasTarget = true;
+    public bool isTargeting = true; //타게팅스킬인가?
 
     public PieceInfo[] pieceInfo;
     protected Action<LivingEntity, Action> onCastSkill;
 
     protected List<DesIconInfo> desInfos = new List<DesIconInfo>();
+
+    [HideInInspector]
+    public bool isInRullet = false;
 
     [HideInInspector]
     public Inventory owner;

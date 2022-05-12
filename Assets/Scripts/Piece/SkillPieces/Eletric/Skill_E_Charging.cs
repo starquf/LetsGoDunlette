@@ -22,7 +22,7 @@ public class Skill_E_Charging : SkillPiece
 
         bh = GameManager.Instance.battleHandler;
 
-        hasTarget = false;
+        isTargeting = false;
     }
 
     public override List<DesIconInfo> GetDesIconInfo()

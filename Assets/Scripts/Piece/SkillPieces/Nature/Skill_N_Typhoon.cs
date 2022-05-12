@@ -15,7 +15,7 @@ public class Skill_N_Typhoon : SkillPiece
 
         bh = GameManager.Instance.battleHandler;
 
-        hasTarget = false;
+        isTargeting = false;
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)

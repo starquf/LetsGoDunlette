@@ -35,12 +35,12 @@ public class DesIconInfo
 public abstract class RulletPiece : MonoBehaviour
 {
     public ElementalType patternType = ElementalType.None;
+    [HideInInspector]
     public ElementalType currentType = ElementalType.None;
 
     public PieceType PieceType { get; protected set; }
 
-    [SerializeField]
-    protected int size;
+    protected int size = 6;
     public int Size => size;
 
     [SerializeField]
@@ -62,6 +62,7 @@ public abstract class RulletPiece : MonoBehaviour
     [HideInInspector]
     public Image skillImg;
 
+    [HideInInspector]
     public int pieceIdx = 0;
 
     [Header("카드 배경")]

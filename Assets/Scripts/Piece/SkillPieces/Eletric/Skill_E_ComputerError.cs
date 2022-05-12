@@ -12,7 +12,7 @@ public class Skill_E_ComputerError : SkillPiece
     {
         base.Start();
 
-        hasTarget = false;
+        isTargeting = false;
 
         bh = GameManager.Instance.battleHandler;
     }

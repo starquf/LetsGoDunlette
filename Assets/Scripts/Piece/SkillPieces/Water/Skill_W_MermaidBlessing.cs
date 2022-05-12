@@ -11,7 +11,7 @@ public class Skill_W_MermaidBlessing : SkillPiece
     {
         base.Start();
 
-        hasTarget = true;
+        isTargeting = true;
     }
 
     public override List<DesIconInfo> GetDesIconInfo()

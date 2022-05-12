@@ -20,7 +20,7 @@ public class Skill_W_Tsunami : SkillPiece
         effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[ElementalType.Water];
         bh = GameManager.Instance.battleHandler;
 
-        hasTarget = false;
+        isTargeting = false;
     }
 
     public override List<DesIconInfo> GetDesIconInfo()

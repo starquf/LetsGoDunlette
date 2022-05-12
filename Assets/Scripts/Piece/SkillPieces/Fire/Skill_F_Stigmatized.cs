@@ -14,7 +14,7 @@ public class Skill_F_Stigmatized : SkillPiece
 
         bh = GameManager.Instance.battleHandler;
 
-        hasTarget = true;
+        isTargeting = true;
     }
 
     public override void OnRullet()

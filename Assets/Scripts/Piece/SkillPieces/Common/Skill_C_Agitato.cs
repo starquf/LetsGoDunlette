@@ -13,7 +13,7 @@ public class Skill_C_Agitato : SkillPiece
 
         bh = GameManager.Instance.battleHandler;
 
-        hasTarget = true;
+        isTargeting = true;
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)

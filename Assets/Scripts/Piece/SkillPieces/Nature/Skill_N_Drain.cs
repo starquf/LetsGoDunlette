@@ -17,7 +17,7 @@ public class Skill_N_Drain : SkillPiece
 
         effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[ElementalType.Nature];
 
-        hasTarget = true;
+        isTargeting = true;
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null) //적에게 50의 피해를 입힌다.		-	회복	체력을 20 회복한다.
