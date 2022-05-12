@@ -149,3 +149,10 @@ public enum AnimName
     F_Effect02,
     SkillEffect01
 }
+
+public enum PlayerSkillType
+{
+    Active_Cooldown,
+    Active_Count,
+    Passive
+}

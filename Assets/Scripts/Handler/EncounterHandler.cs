@@ -17,6 +17,9 @@ public class EncounterHandler : MonoBehaviour
 
     private bool isEncounterPlaying = false;
 
+    [Header("¾Æ·¡ UIµé")]
+    public List<BottomUIElement> bottomUIs = new List<BottomUIElement>();
+
     private void Awake()
     {
         GameManager.Instance.encounterHandler = this;
@@ -46,6 +49,12 @@ public class EncounterHandler : MonoBehaviour
     public void StartEncounter(mapNode type)
     {
         if (isEncounterPlaying) return;
+
+        for (int i = 0; i < bottomUIs.Count; i++)
+        {
+            bottomUIs[i].ClosePanel();
+        }
+
         ShowBlackPanel(true);
         isEncounterPlaying = true;
         GameManager.Instance.curEncounter = type;
@@ -75,6 +84,7 @@ public class EncounterHandler : MonoBehaviour
     private IEnumerator LateEncounter(mapNode type)
     {
         yield return null;
+
 
         switch (type)
         {
