@@ -19,6 +19,18 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
             return attackPower;
         }
     }
+    [SerializeField] protected int addtionAttackPower;
+    public int AddtionAttackPower
+    {
+        get
+        {
+            return addtionAttackPower;
+        }
+        set
+        {
+            addtionAttackPower = value;
+        }
+    }
 
     // 이거 나중에 클래스로 뺴줘요
     public GameObject hPCvs;
