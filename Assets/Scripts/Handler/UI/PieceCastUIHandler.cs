@@ -228,7 +228,8 @@ public class PieceCastUIHandler : MonoBehaviour
             skipSeq.Kill();
             skipUI.SetPanel(false);
 
-            showSequence = DOTween.Sequence().Append(cvsGroup.DOFade(enable ? 1 : 0, enable ? 0.2f : 0.3f).OnComplete(() =>
+            showSequence = DOTween.Sequence().Append(cvsGroup.DOFade(enable ? 1 : 0, enable ? 0.2f : 0.3f)
+            .OnComplete(() =>
             {
                 cvsGroup.interactable = enable;
                 cvsGroup.blocksRaycasts = enable;

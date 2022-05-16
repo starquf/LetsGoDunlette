@@ -16,6 +16,9 @@ public class BattleHandler : MonoBehaviour
     [Header("캐스트 하는 스킬 띄워주는 핸들러")]
     public PieceCastUIHandler castUIHandler;
 
+    [Header("플레이어 정보 핸들러")]
+    public PlayerInfoPanelHandler playerInfoHandler;
+
     private BattleInfoHandler battleInfoHandler;
     private CCHandler ccHandler;
     private BattleRewardHandler battleRewardHandler;
@@ -123,6 +126,8 @@ public class BattleHandler : MonoBehaviour
 
         // 플레이어가 가지고 있는 기본 스킬 생성 일단 테스트로 만들어놈
         player.GetComponent<Inventory>().CreateSkills();
+
+        playerInfoHandler.Init(player.GetComponent<PlayerInfo>());
     }
 
     #region StartBattle
@@ -197,6 +202,7 @@ public class BattleHandler : MonoBehaviour
 
     private void InitHandler()
     {
+        playerInfoHandler.OnBattleStart();
         battleRewardHandler.Init(GameManager.Instance.skillContainer.playerSkillPrefabs);
         battleUtil.Init(mainRullet);
     }
@@ -461,6 +467,8 @@ public class BattleHandler : MonoBehaviour
 
         // 스크롤 버튼 활성화
         battleScroll.SetInteract(enable);
+
+        playerInfoHandler.SetInteract(enable);
     }
 
     // 실행이 전부 끝나면 실행되는 코루틴
