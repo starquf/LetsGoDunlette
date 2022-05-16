@@ -15,10 +15,6 @@ public class Skill_F_TickTock : SkillPiece
     private BattleHandler bh = null;
 
     SkillEvent eventInfo = null;
-
-    private readonly WaitForSeconds pOneSecWait = new WaitForSeconds(0.1f);
-    private readonly WaitForSeconds pTwoSecWait = new WaitForSeconds(0.2f);
-
     protected override void Start()
     {
         base.Start();
@@ -45,8 +41,6 @@ public class Skill_F_TickTock : SkillPiece
 
     public override void OnRullet()
     {
-        bh = GameManager.Instance.battleHandler;
-
         bh.battleEvent.RemoveEventInfo(eventInfo);
 
         onNextTurn = (piece,action) =>
@@ -94,7 +88,6 @@ public class Skill_F_TickTock : SkillPiece
     {
         base.ResetPiece();
 
-        bh = GameManager.Instance.battleHandler;
         bh.battleEvent.RemoveEventInfo(eventInfo);
 
         turnCount = 3;

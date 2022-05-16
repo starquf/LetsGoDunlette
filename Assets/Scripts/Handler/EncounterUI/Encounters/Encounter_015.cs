@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,11 +6,11 @@ using UnityEngine.UI;
 public class Encounter_015 : RandomEncounter
 {
     private SkillPiece skill;
-    BattleScrollHandler battleScrollHandler= null;
+    BattleScrollHandler battleScrollHandler = null;
 
     public override void Init()
     {
-        battleScrollHandler = GameManager.Instance.battleHandler.GetComponent<BattleScrollHandler>();
+        battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
         int scrollCount = 0;
         for (int i = 0; i < battleScrollHandler.slots.Count; i++)
         {
@@ -21,7 +20,7 @@ public class Encounter_015 : RandomEncounter
                 scrollCount++;
             }
         }
-        if(scrollCount<2)
+        if (scrollCount < 2)
         {
             RandomEncounterUIHandler randomEncounterUIHandler = encounterInfoHandler.GetComponent<RandomEncounterUIHandler>();
             randomEncounterUIHandler.encounterChoiceTxtList[0].transform.parent.GetComponent<Button>().onClick.RemoveAllListeners();
@@ -115,7 +114,6 @@ public class Encounter_015 : RandomEncounter
 
     public override void Result()
     {
-        BattleHandler battleHandler = GameManager.Instance.battleHandler;
         Transform unusedInventoryTrm = GameManager.Instance.inventoryHandler.transform;
         switch (choiceIdx)
         {
@@ -132,7 +130,7 @@ public class Encounter_015 : RandomEncounter
                 .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
                 .OnComplete(() =>
                 {
-                    Inventory Owner = battleHandler.player.GetComponent<Inventory>();
+                    Inventory Owner = bh.player.GetComponent<Inventory>();
 
                     GameManager.Instance.inventoryHandler.AddSkill(skill, Owner);
                     skill.GetComponent<Image>().color = Color.white;

@@ -1,6 +1,5 @@
 using DG.Tweening;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,6 +35,8 @@ public class RandomEncounterUIHandler : MonoBehaviour
     private int encounterIdx;
     private List<int> cantEncounterIdxList;
 
+    private BattleHandler bh;
+
     private void Awake()
     {
         encounterInfoHandler = GetComponent<EncounterInfoHandler>();
@@ -45,10 +46,11 @@ public class RandomEncounterUIHandler : MonoBehaviour
 
     private void Start()
     {
-        battleScrollHandler = GameManager.Instance.battleHandler.GetComponent<BattleScrollHandler>();
+        bh = GameManager.Instance.battleHandler;
+        battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
         for (int i = 0; i < randomEncounterList.Count; i++)
         {
-            randomEncounterList[i].encounterInfoHandler = this.encounterInfoHandler;
+            randomEncounterList[i].encounterInfoHandler = encounterInfoHandler;
             randomEncounterList[i].OnExitEncounter = EndEvent;
             randomEncounterList[i].ShowEndEncounter = ShowEndEncounter;
         }
@@ -65,7 +67,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
     {
         for (int i = 0; i < cantEncounterIdxList.Count; i++)
         {
-            if( cantEncounterIdxList[i] == idx)
+            if (cantEncounterIdxList[i] == idx)
             {
                 return false;
             }
@@ -74,14 +76,14 @@ public class RandomEncounterUIHandler : MonoBehaviour
         {
             return false;
         }
-        else if (idx == 8 || idx == 10) // 스크롤 없을시 발동 x
+        else if (idx is 8 or 10) // 스크롤 없을시 발동 x
         {
             if (!battleScrollHandler.HasScroll())
             {
                 return false;
             }
         }
-        else if(idx == 13) //힐 스크롤 없을 시 발동x
+        else if (idx == 13) //힐 스크롤 없을 시 발동x
         {
             for (int i = 0; i < battleScrollHandler.slots.Count; i++)
             {
@@ -97,13 +99,13 @@ public class RandomEncounterUIHandler : MonoBehaviour
             }
             return false;
         }
-        else if(idx == 16)//전기 스킬 없을시 발동 x
+        else if (idx == 16)//전기 스킬 없을시 발동 x
         {
             Inventory inven = GameManager.Instance.inventoryHandler.GetPlayerInventory();
 
             for (int i = 0; i < inven.skills.Count; i++)
             {
-                if(inven.skills[i].currentType == ElementalType.Electric)
+                if (inven.skills[i].currentType == ElementalType.Electric)
                 {
                     return true;
                 }
@@ -116,7 +118,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
 
     public void InitEncounter()
     {
-        if(encounterIdx < 0)
+        if (encounterIdx < 0)
         {
             int randIdx = -1;
             //randIdx = 16;
@@ -135,10 +137,10 @@ public class RandomEncounterUIHandler : MonoBehaviour
         encounterTitleTxt.text = randomEncounter.en_Name;
         encounterTxt.text = randomEncounter.en_Start_Text;
         encounterImg.sprite = randomEncounter.en_Start_Image;
-        
+
         for (int i = 0; i < 3; i++)
         {
-            if(randomEncounter.en_Choice_Count <= i)
+            if (randomEncounter.en_Choice_Count <= i)
             {
                 encounterChoiceTxtList[i].transform.parent.gameObject.SetActive(false);
             }
@@ -148,7 +150,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
                 encounterChoiceTxtList[i].text = randomEncounter.en_ChoiceList[i];
 
                 int idx = i;
-                encounterChoiceTxtList[i].transform.parent.GetComponent<Button>().onClick.AddListener(()=>
+                encounterChoiceTxtList[i].transform.parent.GetComponent<Button>().onClick.AddListener(() =>
                 {
                     OnChoiceBtnClick(idx);
                 });
@@ -227,17 +229,18 @@ public class RandomEncounterUIHandler : MonoBehaviour
 
     public void ShowPanel(bool enable, CanvasGroup cvsGroup = null, float time = 0.5f, Action onComplecteEvent = null)
     {
-        if(cvsGroup == null)
+        if (cvsGroup == null)
         {
             cvsGroup = mainPanel;
         }
-        if(!enable)
+        if (!enable)
         {
             cvsGroup.blocksRaycasts = enable;
             cvsGroup.interactable = enable;
         }
         cvsGroup.DOFade(enable ? 1 : 0, time)
-            .OnComplete(() => {
+            .OnComplete(() =>
+            {
                 cvsGroup.blocksRaycasts = enable;
                 cvsGroup.interactable = enable;
                 onComplecteEvent?.Invoke();

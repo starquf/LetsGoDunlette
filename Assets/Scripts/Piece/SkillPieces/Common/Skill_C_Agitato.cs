@@ -5,13 +5,9 @@ using UnityEngine;
 
 public class Skill_C_Agitato : SkillPiece
 {
-    private BattleHandler bh;
-
     protected override void Start()
     {
         base.Start();
-
-        bh = GameManager.Instance.battleHandler;
 
         isTargeting = true;
     }

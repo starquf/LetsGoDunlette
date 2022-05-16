@@ -25,18 +25,20 @@ public class PieceCastUIHandler : MonoBehaviour
     private Sequence pieceMoveSequence;
 
     [Header("»ö±òµé")]
-    public List<Color> colors = new List<Color>();
+    public List<Color> colors = new();
     public Dictionary<ElementalType, Color> colorDic;
 
-    private List<SkillDesIcon> desIcons = new List<SkillDesIcon>();
+    private List<SkillDesIcon> desIcons = new();
 
     private Coroutine timeCor;
-    private readonly WaitForSeconds fiveSecWait = new WaitForSeconds(5f);
+    private readonly WaitForSeconds fiveSecWait = new(5f);
 
     private Sequence skipSeq;
     public SkipUIPanelHandler skipUI;
 
-    void Awake()
+    private BattleHandler battleHandler;
+
+    private void Awake()
     {
         cvsGroup = GetComponent<CanvasGroup>();
 
@@ -49,6 +51,12 @@ public class PieceCastUIHandler : MonoBehaviour
         {
             colorDic.Add((ElementalType)i, colors[i]);
         }
+
+    }
+
+    private void Start()
+    {
+        battleHandler = GameManager.Instance.battleHandler;
     }
 
     public void CastSkill(SkillPiece skillPiece, LivingEntity targetTrm, Action onCastEnd = null)
@@ -72,7 +80,7 @@ public class PieceCastUIHandler : MonoBehaviour
             cardDesText.text = skillPiece.PieceDes;
         }
 
-        if (skillPiece.PieceDes.Equals(""))
+        if (cardDesText.text.Equals(""))
         {
             cardDesText.gameObject.SetActive(false);
         }
@@ -109,10 +117,12 @@ public class PieceCastUIHandler : MonoBehaviour
 
                 ShowSkipText();
 
-                SetCloseBtn(() => 
+                SetCloseBtn(() =>
                 {
                     if (timeCor != null)
+                    {
                         StopCoroutine(timeCor);
+                    }
 
                     onEndEffect();
                 });
@@ -137,7 +147,7 @@ public class PieceCastUIHandler : MonoBehaviour
                 desIcons[i].gameObject.SetActive(true);
             }
 
-            Sprite icon = GameManager.Instance.battleHandler.battleUtil.GetDesIcon(skillPiece, type);
+            Sprite icon = battleHandler.battleUtil.GetDesIcon(skillPiece, type);
 
             desIcons[i].SetIcon(icon, desInfos[i].value);
         }
@@ -158,7 +168,9 @@ public class PieceCastUIHandler : MonoBehaviour
         SetCloseBtn(() =>
         {
             if (timeCor != null)
+            {
                 StopCoroutine(timeCor);
+            }
 
             onEndEffect();
         });

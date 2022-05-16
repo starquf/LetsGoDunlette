@@ -28,8 +28,6 @@ public class RF_Present : SkillPiece
 
     public override void OnRullet()
     {
-        bh = GameManager.Instance.battleHandler;
-
         base.OnRullet();
 
         List<RulletPiece> pieces = bh.mainRullet.GetPieces();

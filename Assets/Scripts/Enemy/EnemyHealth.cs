@@ -26,6 +26,7 @@ public class EnemyHealth : LivingEntity
     private Vector3 originSize;
 
 
+
     protected override void Awake()
     {
         base.Awake();
@@ -36,6 +37,7 @@ public class EnemyHealth : LivingEntity
         indicator = GetComponent<EnemyIndicator>();
 
         originSize = transform.localScale;
+
     }
 
     protected override void Start()
@@ -99,7 +101,7 @@ public class EnemyHealth : LivingEntity
         Inventory inven = GetComponent<Inventory>();
 
         GameManager.Instance.inventoryHandler.RemoveAllOwnerPiece(inven);
-        StartCoroutine(GameManager.Instance.battleHandler.battleEvent.ActionEvent(EventTimeEnemy.EnemyDie, this));
+        StartCoroutine(bh.battleEvent.ActionEvent(EventTimeEnemy.EnemyDie, this));
 
         coll.enabled = false;
 

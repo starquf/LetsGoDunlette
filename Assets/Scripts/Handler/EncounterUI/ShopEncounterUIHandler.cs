@@ -1,9 +1,8 @@
-using System.Collections;
+using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 using UnityEngine.UI;
-using System;
 using Random = UnityEngine.Random;
 
 public enum ProductType
@@ -26,18 +25,20 @@ public class ShopEncounterUIHandler : MonoBehaviour
     private bool isSelectPanelEnable;
     private int selectIdx;
 
-    [SerializeField] private List<ProductInfo> products = new List<ProductInfo>();
+    [SerializeField] private List<ProductInfo> products = new();
 
     [Header("랜덤 상점 리스트")]
-    public List<Scroll> scrollShopList = new List<Scroll>();
+    public List<Scroll> scrollShopList = new();
 
-    private List<SkillPiece> randomRulletPiece = new List<SkillPiece>();
-    private List<Scroll> randomScroll = new List<Scroll>();
+    private List<SkillPiece> randomRulletPiece = new();
+    private List<Scroll> randomScroll = new();
 
-    private List<int> soldIdxList = new List<int>();
+    private List<int> soldIdxList = new();
 
     private GoldUIHandler goldUIHandler;
     private BattleScrollHandler battleScrollHandler;
+
+    private BattleHandler bh;
 
     private void Awake()
     {
@@ -46,8 +47,9 @@ public class ShopEncounterUIHandler : MonoBehaviour
 
     public void Start()
     {
+        bh = GameManager.Instance.battleHandler;
         goldUIHandler = GameManager.Instance.goldUIHandler;
-        battleScrollHandler = GameManager.Instance.battleHandler.battleScroll;
+        battleScrollHandler = bh.battleScroll;
 
         exitBtn.onClick.AddListener(OnExitBtnClick);
         purchaseBtn.onClick.AddListener(OnPurchaseBtnClick);
@@ -96,7 +98,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
             int idx = i;
             if (idx < 3)
             {
-                
+
                 SkillPiece rulletPiece = randomRulletPiece[Random.Range(0, randomRulletPiece.Count)];
                 randomRulletPiece.Remove(rulletPiece);
                 products[idx].SetProduct(ProductType.RulletPiece, null, rulletPiece);
@@ -149,34 +151,30 @@ public class ShopEncounterUIHandler : MonoBehaviour
                     Scroll scroll = PoolManager.GetScroll(selectProduct.scroll.scrollType);
                     Image scrollImg = scroll.GetComponent<Image>();
                     scrollImg.color = new Color(1, 1, 1, 0);
-                    scroll.transform.SetParent(this.transform);
+                    scroll.transform.SetParent(transform);
                     scroll.GetComponent<RectTransform>().sizeDelta = Vector2.one * 300f;
-                    scroll.transform.position = selectProductImg.transform.position+Vector3.down;
+                    scroll.transform.position = selectProductImg.transform.position + Vector3.down;
                     scroll.transform.localScale = Vector3.one;
 
-                    GameManager.Instance.battleHandler.GetComponent<BattleScrollHandler>()
-                        .GetScroll(scroll, () => {
-                        selectPanel.DOFade(0, 0.5f).OnComplete(() => {
-                            SetProductSold(selectIdx);
-                            SetAllButtonInterval(true, true);
-                        });
-                    }, true);
-
+                    bh.GetComponent<BattleScrollHandler>()
+                         .GetScroll(scroll, () =>
+                         {
+                             selectPanel.DOFade(0, 0.5f).OnComplete(() =>
+                             {
+                                 SetProductSold(selectIdx);
+                                 SetAllButtonInterval(true, true);
+                             });
+                         }, true);
                     break;
                 case ProductType.RulletPiece:
                     SkillPiece skillPiece = Instantiate(selectProduct.rulletPiece, Vector3.zero, Quaternion.identity).GetComponent<SkillPiece>();
-
                     Image skillImg = skillPiece.GetComponent<Image>();
                     skillImg.color = new Color(1, 1, 1, 0);
-                    skillPiece.transform.SetParent(this.transform);
+                    skillPiece.transform.SetParent(transform);
                     skillPiece.transform.localScale = Vector3.one;
                     skillPiece.transform.position = Vector3.zero;
                     skillPiece.transform.rotation = Quaternion.Euler(0, 0, 30f);
-                    
-
-                    BattleHandler battleHandler = GameManager.Instance.battleHandler;
                     Transform unusedInventoryTrm = GameManager.Instance.inventoryHandler.transform;
-
                     DOTween.Sequence()
                      .Append(skillImg.DOFade(1, 0.5f))
                     .Append(skillPiece.transform.DOMove(unusedInventoryTrm.position, 0.3f).SetDelay(0.3f))
@@ -184,12 +182,13 @@ public class ShopEncounterUIHandler : MonoBehaviour
                     .Join(skillPiece.GetComponent<Image>().DOFade(0f, 0.3f))
                     .OnComplete(() =>
                     {
-                        Inventory Owner = battleHandler.player.GetComponent<Inventory>();
+                        Inventory owner = bh.player.GetComponent<Inventory>();
 
-                        GameManager.Instance.inventoryHandler.AddSkill(skillPiece, Owner);
+                        GameManager.Instance.inventoryHandler.AddSkill(skillPiece, owner);
                         skillImg.color = Color.white;
 
-                        selectPanel.DOFade(0, 0.5f).OnComplete(()=> {
+                        selectPanel.DOFade(0, 0.5f).OnComplete(() =>
+                        {
                             SetProductSold(selectIdx);
                             SetAllButtonInterval(true, true);
                         });
@@ -238,17 +237,22 @@ public class ShopEncounterUIHandler : MonoBehaviour
     }
 
     // 품목 선택시 애니메이션, 보여주기
-    private void SelectProduct(int selectIdx){
+    private void SelectProduct(int selectIdx)
+    {
         if (isSelectPanelEnable)
         {
             if (this.selectIdx == selectIdx)
+            {
                 return;
+            }
+
             DOTween.Sequence()
-                   .Append(selectPanel.DOFade(0, 0.3f).OnComplete(() => {
+                   .Append(selectPanel.DOFade(0, 0.3f).OnComplete(() =>
+                   {
                        SetSelectPanel(products[selectIdx]);
                    }))
                    .Append(selectPanel.DOFade(1, 0.3f))
-                   .OnComplete(()=>
+                   .OnComplete(() =>
                    {
                        SetButtonInterval(purchaseBtn, true);
                    });
@@ -276,7 +280,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
     private void EndEvent()
     {
         isSelectPanelEnable = false;
-        ShowPanel(false, ()=>
+        ShowPanel(false, () =>
         {
             selectPanel.alpha = 0;
         });
@@ -289,7 +293,8 @@ public class ShopEncounterUIHandler : MonoBehaviour
     public void ShowPanel(bool enable, Action onComplecteEvent = null)
     {
         mainPanel.DOFade(enable ? 1 : 0, 0.5f)
-        .OnComplete(()=> {
+        .OnComplete(() =>
+        {
             mainPanel.blocksRaycasts = enable;
             mainPanel.interactable = enable;
             onComplecteEvent?.Invoke();

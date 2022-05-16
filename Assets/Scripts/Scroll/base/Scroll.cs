@@ -26,6 +26,10 @@ public abstract class Scroll : MonoBehaviour
     private void Awake()
     {
         scrollIcon = GetComponent<Image>().sprite;
+    }
+
+    private void Start()
+    {
         bh = GameManager.Instance.battleHandler;
     }
 

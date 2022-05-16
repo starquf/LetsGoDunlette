@@ -58,7 +58,7 @@ public class BattleUtilHandler : MonoBehaviour
     public IEnumerator DrawRulletPieces()
     {
         List<RulletPiece> pieces = mainRullet.GetPieces();
-        List<int> changeIdxList = new List<int>();
+        List<int> changeIdxList = new();
 
         for (int i = 0; i < pieces.Count; i++)
         {
@@ -90,7 +90,7 @@ public class BattleUtilHandler : MonoBehaviour
         // 인벤토리에서 랜덤한 6개의 스킬을 뽑아 룰렛에 적용한다. 단, 최소한 적의 스킬 1개와 내 스킬 2개가 보장된다.
         // true : 플레이어    false : 적
 
-        List<bool> condition = new List<bool>() { true, true, false };
+        List<bool> condition = new() { true, true, false };
         List<RulletPiece> pieces = mainRullet.GetPieces();
 
         for (int i = 0; i < condition.Count; i++)
@@ -113,8 +113,10 @@ public class BattleUtilHandler : MonoBehaviour
                 mainRullet.AddPiece(skill);
             }
 
-            if(hasWait)
+            if (hasWait)
+            {
                 yield return new WaitForSeconds(0.15f);
+            }
         }
 
         for (int i = condition.Count; i < 6; i++)
@@ -140,7 +142,9 @@ public class BattleUtilHandler : MonoBehaviour
             if (i != 5)
             {
                 if (hasWait)
+                {
                     yield return new WaitForSeconds(0.15f);
+                }
             }
         }
 
@@ -205,7 +209,10 @@ public class BattleUtilHandler : MonoBehaviour
 
     public void SetPieceToGraveyard(SkillPiece piece)
     {
-        if (piece == null) return;
+        if (piece == null)
+        {
+            return;
+        }
 
         inventory.SetSkillToGraveyard(piece);
     }
@@ -252,7 +259,7 @@ public class BattleUtilHandler : MonoBehaviour
 
     public List<EnemyHealth> CheckLivingEnemy(List<EnemyHealth> enemys)
     {
-        List<EnemyHealth> livingEnemys = new List<EnemyHealth>();
+        List<EnemyHealth> livingEnemys = new();
 
         for (int i = 0; i < enemys.Count; i++)
         {
@@ -267,7 +274,7 @@ public class BattleUtilHandler : MonoBehaviour
 
     public List<LivingEntity> DeepCopyEnemyList(List<EnemyHealth> targetList)
     {
-        List<LivingEntity> list = new List<LivingEntity>();
+        List<LivingEntity> list = new();
 
         for (int i = 0; i < targetList.Count; i++)
         {
@@ -281,21 +288,12 @@ public class BattleUtilHandler : MonoBehaviour
     {
         Sprite icon = null;
 
-        switch (type)
+        icon = type switch
         {
-            case DesIconType.Attack:
-                icon = inventory.effectSprDic[skillPiece.currentType];
-                break;
-
-            case DesIconType.Stun:
-                icon = GameManager.Instance.ccIcons[0];
-                break;
-
-            default:
-                icon = null;
-                break;
-        }
-
+            DesIconType.Attack => inventory.effectSprDic[skillPiece.currentType],
+            DesIconType.Stun => GameManager.Instance.ccIcons[0],
+            _ => null,
+        };
         return icon;
     }
 }

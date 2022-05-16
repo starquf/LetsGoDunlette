@@ -12,17 +12,21 @@ public class GoldUIHandler : MonoBehaviour
 
     private Sequence goldUISequence;
 
+    private BattleHandler bh;
+
     private void Awake()
     {
         GameManager.Instance.goldUIHandler = this;
 
         thisRectTrm = GetComponent<RectTransform>();
         goldText = GetComponentInChildren<Text>();
+
     }
     void Start()
     {
         Init();
         prevGold = GameManager.Instance.Gold;
+        bh = GameManager.Instance.battleHandler;
         GameManager.Instance.OnUpdateUI += UpdateGoldUI;
     }
 
@@ -65,7 +69,6 @@ public class GoldUIHandler : MonoBehaviour
 
     private IEnumerator UpdateGoldUIAnim()
     {
-        BattleHandler bh = GameManager.Instance.battleHandler;
         if(bh.isBattle)
         {
             GetMoneyAnim();

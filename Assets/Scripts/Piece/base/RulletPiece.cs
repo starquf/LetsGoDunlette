@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using DG.Tweening;
 using System;
+using UnityEngine;
+using UnityEngine.UI;
 
 [Serializable]
 public class PieceInfo
@@ -146,7 +144,7 @@ public abstract class RulletPiece : MonoBehaviour
 
     public virtual void OnRullet()
     {
-        
+
     }
 
     public void KillTween()

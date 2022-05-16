@@ -16,8 +16,7 @@ public class Encounter_020 : RandomEncounter
         switch (resultIdx)
         {
             case 0:
-                BattleHandler battleHandler = GameManager.Instance.battleHandler;
-                BattleScrollHandler battleScrollHandler = battleHandler.GetComponent<BattleScrollHandler>();
+                BattleScrollHandler battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
                 randomEncounterUIHandler.exitBtn.gameObject.SetActive(false);
 
                 showText = en_End_TextList[0];
@@ -59,8 +58,6 @@ public class Encounter_020 : RandomEncounter
 
     public override void Result()
     {
-        BattleHandler battleHandler = GameManager.Instance.battleHandler;
-        Transform unusedInventoryTrm = GameManager.Instance.inventoryHandler.transform;
         switch (choiceIdx)
         {
             case 0:

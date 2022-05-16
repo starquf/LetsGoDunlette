@@ -8,11 +8,16 @@ public class Dnam : MonoBehaviour
     public GameObject dnamSkill;
     public PieceInfo[] pieceInfo;
     private bool isUpgraded = false;
+
+    private BattleHandler bh;
+
+    private void Start()
+    {
+        bh = GameManager.Instance.battleHandler;
+    }
     public void Sacrifice()
     {
         isUpgraded = false;
-        BattleHandler battleHandler = GameManager.Instance.battleHandler;
-
         enemyEvent = (enemy, action) =>
         {
             if (enemy.GetComponent<EnemyHealth>().enemyType == EnemyType.SARO) //사로가 죽으면 든암의 스킬조각이 3장 늘어난다.
@@ -26,7 +31,7 @@ public class Dnam : MonoBehaviour
                     }
 
                     EnemyIndicator indi = GetComponent<EnemyIndicator>();
-                    indi.ShowText("조각 추가", () => battleHandler.castUIHandler.ShowCasting(pieceInfo[0], () =>
+                    indi.ShowText("조각 추가", () => bh.castUIHandler.ShowCasting(pieceInfo[0], () =>
                     {
                         Inventory Owner = GetComponent<EnemyInventory>();
 
@@ -41,7 +46,7 @@ public class Dnam : MonoBehaviour
                         .SetScale(1)
                         .Play(() =>
                         {
-                            battleHandler.castUIHandler.ShowPanel(false, false);
+                            bh.castUIHandler.ShowPanel(false, false);
                             indi.HideText();
                             action?.Invoke();
                         });
@@ -49,7 +54,7 @@ public class Dnam : MonoBehaviour
                 };
 
                 EventInfo enemyEventInfo = new NormalEvent(true, 0, eventAction, EventTime.EndOfTurn);
-                battleHandler.battleEvent.BookEvent(enemyEventInfo);
+                bh.battleEvent.BookEvent(enemyEventInfo);
             }
 
             if (enemy.GetComponent<EnemyHealth>().enemyType == EnemyType.GAR) //가르가 죽으면 급속 성장의 보호막이 30만큼 증가한다.
@@ -65,7 +70,7 @@ public class Dnam : MonoBehaviour
                     isUpgraded = true;
 
                     EnemyIndicator indi = GetComponent<EnemyIndicator>();
-                    indi.ShowText("스킬 강화", () => battleHandler.castUIHandler.ShowCasting(pieceInfo[1], () =>
+                    indi.ShowText("스킬 강화", () => bh.castUIHandler.ShowCasting(pieceInfo[1], () =>
                     {
                         foreach (SkillPiece item in GameManager.Instance.inventoryHandler.skills)
                         {
@@ -74,7 +79,7 @@ public class Dnam : MonoBehaviour
                             {
                                 skill.DM_Sacrifice(() =>
                                 {
-                                    battleHandler.castUIHandler.ShowPanel(false, false);
+                                    bh.castUIHandler.ShowPanel(false, false);
                                     indi.HideText();
                                     action?.Invoke();
                                 });
@@ -84,13 +89,13 @@ public class Dnam : MonoBehaviour
                 };
 
                 EventInfo enemyEventInfo = new NormalEvent(true, 0, eventAction, EventTime.EndOfTurn);
-                battleHandler.battleEvent.BookEvent(enemyEventInfo);
+                bh.battleEvent.BookEvent(enemyEventInfo);
 
                 action?.Invoke();
             }
         };
 
         enemyEventInfo = new EnemyEvent(EventTimeEnemy.EnemyDie, enemyEvent);
-        battleHandler.battleEvent.BookEvent(enemyEventInfo);
+        bh.battleEvent.BookEvent(enemyEventInfo);
     }
 }

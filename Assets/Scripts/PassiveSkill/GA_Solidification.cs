@@ -6,11 +6,11 @@ using UnityEngine;
 public class GA_Solidification : MonoBehaviour
 {
     public int shieldValue;
-
+    private BattleHandler bh;
     // Start is called before the first frame update
     void Start()
     {
-        BattleHandler bh = GameManager.Instance.battleHandler;
+        bh = GameManager.Instance.battleHandler;
 
         Action<Action> onNextTurn = action =>
                               {

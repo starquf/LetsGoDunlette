@@ -29,7 +29,7 @@ public class BattleRewardUIHandler : MonoBehaviour
     [SerializeField]
     private Text rewardText;
 
-    [SerializeField] private List<ParticleSystem> fireworks = new List<ParticleSystem>();
+    [SerializeField] private List<ParticleSystem> fireworks = new();
 
     [Header("Ä«µå UI")]
     public Image cardBG;
@@ -41,7 +41,7 @@ public class BattleRewardUIHandler : MonoBehaviour
     public Image maskImg;
     public Image selectedImg;
 
-    private List<SkillDesIcon> desIcons = new List<SkillDesIcon>();
+    private List<SkillDesIcon> desIcons = new();
 
     private Sequence showSequence;
     private Sequence winShowSequence;
@@ -56,16 +56,16 @@ public class BattleRewardUIHandler : MonoBehaviour
     public SkillPiece selectedSkillObj;
 
     [HideInInspector]
-    public List<SkillPiece> createdReward = new List<SkillPiece>();
+    public List<SkillPiece> createdReward = new();
 
-    private WaitForSeconds pOneSecWait = new WaitForSeconds(0.1f);
+    private WaitForSeconds pOneSecWait = new(0.1f);
 
     private void Awake()
     {
         cg = GetComponent<CanvasGroup>();
     }
 
-    void Start()
+    private void Start()
     {
         invenHandler = GameManager.Instance.inventoryHandler;
         bh = GameManager.Instance.battleHandler;
@@ -122,7 +122,8 @@ public class BattleRewardUIHandler : MonoBehaviour
             winShowSequence = DOTween.Sequence()
                 .AppendInterval(0.15f)
                 .Append(battleWinImg.DOFade(1f, 0.8f))
-                .InsertCallback(0.5f, () => {
+                .InsertCallback(0.5f, () =>
+                {
                     for (int i = 0; i < fireworks.Count; i++)
                     {
                         fireworks[i].Play();
@@ -131,7 +132,7 @@ public class BattleRewardUIHandler : MonoBehaviour
                 .AppendInterval(0.6f)
                 .Append(battleWinImgTrans.DOLocalMoveY(1150f, 0.8f))
                 .Join(battleWinImg.DOFade(0f, 0.5f))
-                .AppendCallback(() => 
+                .AppendCallback(() =>
                 {
                     ShowPanel(rewardCG, true);
                 })
@@ -169,7 +170,7 @@ public class BattleRewardUIHandler : MonoBehaviour
 
     private IEnumerator CreateReward(List<SkillPiece> rewards)
     {
-        List<PieceInfoUI> infoUIs = new List<PieceInfoUI>();
+        List<PieceInfoUI> infoUIs = new();
         selectContext.GetComponentsInChildren(infoUIs);
 
         for (int i = 0; i < infoUIs.Count; i++)
@@ -253,7 +254,7 @@ public class BattleRewardUIHandler : MonoBehaviour
                 desIcons[i].gameObject.SetActive(true);
             }
 
-            Sprite icon = GameManager.Instance.battleHandler.battleUtil.GetDesIcon(skillPiece, type);
+            Sprite icon = bh.battleUtil.GetDesIcon(skillPiece, type);
 
             desIcons[i].SetIcon(icon, desInfos[i].value);
         }
@@ -295,7 +296,9 @@ public class BattleRewardUIHandler : MonoBehaviour
                     effect.Play(invenHandler.transform.position, () =>
                     {
                         if (a == 9)
+                        {
                             onEndEffect?.Invoke();
+                        }
 
                         effect.EndEffect();
                     }
@@ -311,7 +314,7 @@ public class BattleRewardUIHandler : MonoBehaviour
         pieceDesCG.transform.DORotate(new Vector3(0f, 0f, 90f), 0.5f);
         pieceDesCG.transform.DOLocalMoveY(800f, 0.5f)
             .SetRelative()
-            .OnComplete(() => 
+            .OnComplete(() =>
             {
                 onEndEffect?.Invoke();
             });
@@ -321,11 +324,12 @@ public class BattleRewardUIHandler : MonoBehaviour
     {
         if (!skip)
         {
-             showSequence = DOTween.Sequence()
-                .Append(cvsGroup.DOFade(enable ? 1 : 0, dur)
-                .OnComplete(() => {
-                    onShowEnd?.Invoke();
-                }));
+            showSequence = DOTween.Sequence()
+               .Append(cvsGroup.DOFade(enable ? 1 : 0, dur)
+               .OnComplete(() =>
+               {
+                   onShowEnd?.Invoke();
+               }));
 
             cvsGroup.interactable = enable;
             cvsGroup.blocksRaycasts = enable;

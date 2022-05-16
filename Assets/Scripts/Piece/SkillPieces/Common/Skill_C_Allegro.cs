@@ -5,13 +5,10 @@ using UnityEngine;
 
 public class Skill_C_Allegro : SkillPiece
 {
-    private BattleHandler bh;
 
     protected override void Start()
     {
         base.Start();
-
-        bh = GameManager.Instance.battleHandler;
 
         isTargeting = false;
     }

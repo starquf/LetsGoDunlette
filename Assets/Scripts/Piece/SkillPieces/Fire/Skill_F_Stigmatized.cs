@@ -20,7 +20,7 @@ public class Skill_F_Stigmatized : SkillPiece
     {
         target.GetDamage(Value, currentType);
 
-        GameManager.Instance.battleHandler.fieldHandler.SetFieldType(ElementalType.Fire);
+        bh.fieldHandler.SetFieldType(ElementalType.Fire);
 
         animHandler.GetTextAnim()
         .SetType(TextUpAnimType.Up)

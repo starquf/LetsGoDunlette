@@ -18,8 +18,7 @@ public class Encounter_019 : RandomEncounter
         switch (resultIdx)
         {
             case 0:
-                BattleHandler battleHandler = GameManager.Instance.battleHandler;
-                BattleScrollHandler battleScrollHandler = battleHandler.GetComponent<BattleScrollHandler>();
+                BattleScrollHandler battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
                 en_End_Result = "½ºÅ©·Ñ 1°³ È¹µæ";
                 showText = en_End_TextList[0];
                 showImg = en_End_Image[0];
@@ -64,7 +63,6 @@ public class Encounter_019 : RandomEncounter
 
     public override void Result()
     {
-        BattleHandler battleHandler = GameManager.Instance.battleHandler;
         Transform unusedInventoryTrm = GameManager.Instance.inventoryHandler.transform;
         switch (choiceIdx)
         {
@@ -78,7 +76,7 @@ public class Encounter_019 : RandomEncounter
                 .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
                 .OnComplete(() =>
                 {
-                    Inventory Owner = battleHandler.player.GetComponent<Inventory>();
+                    Inventory Owner = bh.player.GetComponent<Inventory>();
 
                     GameManager.Instance.inventoryHandler.AddSkill(skill, Owner);
                     skill.GetComponent<Image>().color = Color.white;

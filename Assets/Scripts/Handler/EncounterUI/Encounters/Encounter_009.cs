@@ -8,7 +8,7 @@ public class Encounter_009 : RandomEncounter
 {
     public override void Init()
     {
-        BattleScrollHandler battleScrollHandler = GameManager.Instance.battleHandler.GetComponent<BattleScrollHandler>();
+        BattleScrollHandler battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
 
         List<ScrollSlot> scrollList = new List<ScrollSlot>();
         for (int i = 0; i < battleScrollHandler.slots.Count; i++)
@@ -58,7 +58,7 @@ public class Encounter_009 : RandomEncounter
                 bInfo.enemyInfos = new List<EnemyType>() { EnemyType.GNOLL };
                 bInfo.isWeakEnemy = false;
 
-                GameManager.Instance.battleHandler.StartBattle(bInfo: bInfo);
+                bh.StartBattle(bInfo: bInfo);
                 OnExitEncounter?.Invoke(false);
                 break;
             case 1:

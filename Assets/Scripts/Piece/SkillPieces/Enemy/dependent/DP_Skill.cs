@@ -34,7 +34,7 @@ public class DP_Skill : SkillPiece
     {
         EnemyHealth boss = null;
 
-        List<EnemyHealth> enemys = GameManager.Instance.battleHandler.enemys;
+        List<EnemyHealth> enemys = bh.enemys;
 
         for (int i = 0; i < enemys.Count; i++)
         {
