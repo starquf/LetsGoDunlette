@@ -7,8 +7,6 @@ using Random = UnityEngine.Random;
 
 public class Skill_N_Typhoon : SkillPiece
 {
-    private BattleHandler bh = null;
-
     protected override void Start()
     {
         base.Start();

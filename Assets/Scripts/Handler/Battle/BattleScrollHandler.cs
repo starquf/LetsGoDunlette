@@ -12,7 +12,7 @@ public class BattleScrollHandler : MonoBehaviour
     public CanvasGroup chagneScrollPopUp;
     public ScrollDesUIHandler scrollDesHandler;
 
-    public List<ScrollSlot> slots = new();
+    public List<ScrollSlot> slots = new List<ScrollSlot>();
 
     private Sequence scrollUISequence;
 
@@ -140,7 +140,7 @@ public class BattleScrollHandler : MonoBehaviour
 
     public void RemoveRandomScroll()
     {
-        List<ScrollSlot> scrollList = new();
+        List<ScrollSlot> scrollList = new List<ScrollSlot>();
         for (int i = 0; i < slots.Count; i++)
         {
             ScrollSlot scrollSlot = slots[i];
@@ -258,7 +258,7 @@ public class BattleScrollHandler : MonoBehaviour
 
     public void SortScroll()
     {
-        List<int> emptySlotIdxList = new();
+        List<int> emptySlotIdxList = new List<int>();
         for (int i = 0; i < slots.Count; i++)
         {
             int idx = i;

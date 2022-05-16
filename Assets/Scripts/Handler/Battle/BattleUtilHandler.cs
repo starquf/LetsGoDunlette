@@ -58,7 +58,7 @@ public class BattleUtilHandler : MonoBehaviour
     public IEnumerator DrawRulletPieces()
     {
         List<RulletPiece> pieces = mainRullet.GetPieces();
-        List<int> changeIdxList = new();
+        List<int> changeIdxList = new List<int>();
 
         for (int i = 0; i < pieces.Count; i++)
         {
@@ -90,7 +90,7 @@ public class BattleUtilHandler : MonoBehaviour
         // 인벤토리에서 랜덤한 6개의 스킬을 뽑아 룰렛에 적용한다. 단, 최소한 적의 스킬 1개와 내 스킬 2개가 보장된다.
         // true : 플레이어    false : 적
 
-        List<bool> condition = new() { true, true, false };
+        List<bool> condition = new List<bool>() { true, true, false };
         List<RulletPiece> pieces = mainRullet.GetPieces();
 
         for (int i = 0; i < condition.Count; i++)
@@ -259,7 +259,7 @@ public class BattleUtilHandler : MonoBehaviour
 
     public List<EnemyHealth> CheckLivingEnemy(List<EnemyHealth> enemys)
     {
-        List<EnemyHealth> livingEnemys = new();
+        List<EnemyHealth> livingEnemys = new List<EnemyHealth>();
 
         for (int i = 0; i < enemys.Count; i++)
         {
@@ -274,7 +274,7 @@ public class BattleUtilHandler : MonoBehaviour
 
     public List<LivingEntity> DeepCopyEnemyList(List<EnemyHealth> targetList)
     {
-        List<LivingEntity> list = new();
+        List<LivingEntity> list = new List<LivingEntity>();
 
         for (int i = 0; i < targetList.Count; i++)
         {

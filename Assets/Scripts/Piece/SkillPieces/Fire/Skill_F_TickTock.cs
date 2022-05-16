@@ -12,8 +12,6 @@ public class Skill_F_TickTock : SkillPiece
     public Text counterText;
     private int turnCount = 3;
 
-    private BattleHandler bh = null;
-
     SkillEvent eventInfo = null;
     protected override void Start()
     {

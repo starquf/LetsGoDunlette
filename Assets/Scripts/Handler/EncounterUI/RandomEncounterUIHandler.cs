@@ -76,7 +76,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
         {
             return false;
         }
-        else if (idx is 8 or 10) // 스크롤 없을시 발동 x
+        else if (idx == 8 || idx == 10) // 스크롤 없을시 발동 x
         {
             if (!battleScrollHandler.HasScroll())
             {
@@ -193,15 +193,15 @@ public class RandomEncounterUIHandler : MonoBehaviour
 
     private void ShowEndEncounter()
     {
-        encounterImg.DOColor(Color.black, 0.5f);
-        encounterTxt.DOFade(0, 0.5f);
+        _ = encounterImg.DOColor(Color.black, 0.5f);
+        _ = encounterTxt.DOFade(0, 0.5f);
         ShowPanel(false, enStartPanel, 0.3f, () =>
         {
             encounterTxt.text = randomEncounter.showText;
             encounterResultTxt.text = randomEncounter.en_End_Result;
             encounterImg.sprite = randomEncounter.showImg;
-            encounterImg.DOColor(Color.white, 0.3f).SetEase(Ease.InQuad);
-            encounterTxt.DOFade(1, 0.3f).SetEase(Ease.InQuad);
+            _ = encounterImg.DOColor(Color.white, 0.3f).SetEase(Ease.InQuad);
+            _ = encounterTxt.DOFade(1, 0.3f).SetEase(Ease.InQuad);
             ShowPanel(true, enEndPanel);
         });
     }
@@ -238,7 +238,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
             cvsGroup.blocksRaycasts = enable;
             cvsGroup.interactable = enable;
         }
-        cvsGroup.DOFade(enable ? 1 : 0, time)
+        _ = cvsGroup.DOFade(enable ? 1 : 0, time)
             .OnComplete(() =>
             {
                 cvsGroup.blocksRaycasts = enable;

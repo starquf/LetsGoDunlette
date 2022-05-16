@@ -25,13 +25,13 @@ public class PieceCastUIHandler : MonoBehaviour
     private Sequence pieceMoveSequence;
 
     [Header("»ö±òµé")]
-    public List<Color> colors = new();
+    public List<Color> colors = new List<Color>();
     public Dictionary<ElementalType, Color> colorDic;
 
-    private List<SkillDesIcon> desIcons = new();
+    private List<SkillDesIcon> desIcons = new List<SkillDesIcon>();
 
     private Coroutine timeCor;
-    private readonly WaitForSeconds fiveSecWait = new(5f);
+    private readonly WaitForSeconds fiveSecWait = new WaitForSeconds(5f);
 
     private Sequence skipSeq;
     public SkipUIPanelHandler skipUI;

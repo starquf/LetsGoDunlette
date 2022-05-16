@@ -131,7 +131,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
         if (isCritical)
         {
-            Color32 criColor = new(255, 220, 0, 255);
+            Color32 criColor = new Color32(255, 220, 0, 255);
 
             text.SetTextColor(criColor);
 

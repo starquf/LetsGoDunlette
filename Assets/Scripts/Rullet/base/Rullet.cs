@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public abstract class Rullet : MonoBehaviour
 {
-    [SerializeField] protected List<RulletPiece> pieces = new();
+    [SerializeField] protected List<RulletPiece> pieces = new List<RulletPiece>();
     protected RulletPiece result;
     public Action<RulletPiece, int> onResult;
     protected int maxSize = 36;
@@ -37,13 +37,13 @@ public abstract class Rullet : MonoBehaviour
     public Text speedText;
     public Image timerFillAmount;
     public Gradient timerGradient;
-    public List<ParticleSystem> particles = new();
+    public List<ParticleSystem> particles = new List<ParticleSystem>();
 
     protected float currentTime;
     protected float currentResetTime;
     protected bool isPaused = false;
 
-    protected WaitForSeconds oneSecWait = new(1f);
+    protected WaitForSeconds oneSecWait = new WaitForSeconds(1f);
 
     protected virtual void Start()
     {

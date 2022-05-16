@@ -7,7 +7,6 @@ using Random = UnityEngine.Random;
 
 public class Skill_E_Charging : SkillPiece
 {
-    private BattleHandler bh = null;
     private Action<SkillPiece,Action> onCharge = null;
 
     public Text counterText;

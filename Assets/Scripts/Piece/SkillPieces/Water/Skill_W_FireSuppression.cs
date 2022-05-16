@@ -11,8 +11,6 @@ public class Skill_W_FireSuppression : SkillPiece
     private readonly WaitForSeconds pOneSecWait = new WaitForSeconds(0.1f);
     private readonly WaitForSeconds pTwoSecWait = new WaitForSeconds(0.2f);
 
-    private BattleHandler bh;
-
     protected override void Start()
     {
         base.Start();

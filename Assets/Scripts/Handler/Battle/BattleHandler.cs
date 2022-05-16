@@ -72,7 +72,7 @@ public class BattleHandler : MonoBehaviour
     public Transform playerHpbarTrans;
 
     //[HideInInspector]
-    public List<EnemyHealth> enemys = new();
+    public List<EnemyHealth> enemys = new List<EnemyHealth>();
 
     //==================================================
 
@@ -98,10 +98,10 @@ public class BattleHandler : MonoBehaviour
     public CinemachineVirtualCamera cvCam;
 
     #region WaitSeconds
-    private readonly WaitForSeconds oneSecWait = new(1f);
-    private readonly WaitForSeconds pFiveSecWait = new(0.5f);
-    private readonly WaitForSeconds pOneSecWait = new(0.1f);
-    private List<bool> boolList = new() { true, false };
+    private readonly WaitForSeconds oneSecWait = new WaitForSeconds(1f);
+    private readonly WaitForSeconds pFiveSecWait = new WaitForSeconds(0.5f);
+    private readonly WaitForSeconds pOneSecWait = new WaitForSeconds(0.1f);
+    private List<bool> boolList = new List<bool>() { true, false };
     #endregion
 
     private void Awake()
@@ -191,7 +191,7 @@ public class BattleHandler : MonoBehaviour
         // 스탑 버튼에 기능 추가
         SetStopHandler();
 
-        LogCon log = new()
+        LogCon log = new LogCon()
         {
             text = "전투 시작",
             hasLine = true
@@ -209,7 +209,7 @@ public class BattleHandler : MonoBehaviour
 
     public void CreateEnemy(List<EnemyType> enemyInfos, Action onCreateEnd) //다중생성
     {
-        List<EnemyHealth> createdEnemy = new();
+        List<EnemyHealth> createdEnemy = new List<EnemyHealth>();
 
         for (int i = 0; i < enemyInfos.Count; i++)
         {
@@ -286,7 +286,7 @@ public class BattleHandler : MonoBehaviour
             }
         }
 
-        Vector2 screenX = new(Camera.main.ViewportToWorldPoint(Vector3.zero).x, Camera.main.ViewportToWorldPoint(Vector3.one).x);
+        Vector2 screenX = new Vector2(Camera.main.ViewportToWorldPoint(Vector3.zero).x, Camera.main.ViewportToWorldPoint(Vector3.one).x);
         float posX = (Mathf.Abs(screenX.x) + screenX.y) / (enemyCount + 1);
 
         // -10  -5   0   5  10
@@ -404,7 +404,7 @@ public class BattleHandler : MonoBehaviour
 
         turnCnt++;
 
-        LogCon log = new()
+        LogCon log = new LogCon()
         {
             text = "",
             hasLine = true
@@ -590,7 +590,7 @@ public class BattleHandler : MonoBehaviour
         battleScroll.ShowScrollUI(open: false);
         GameManager.Instance.goldUIHandler.ShowGoldUI(open: false);
 
-        LogCon log = new()
+        LogCon log = new LogCon()
         {
             text = "전투 종료",
             hasLine = true

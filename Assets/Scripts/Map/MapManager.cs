@@ -45,19 +45,19 @@ public class MapManager : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera playerFollowCam;
     [SerializeField] private Text bossCountTxt;
 
-    [SerializeField] private List<Sprite> mapIconSpriteList = new();
-    [SerializeField] private List<Sprite> tileSpriteList = new();
+    [SerializeField] private List<Sprite> mapIconSpriteList = new List<Sprite>();
+    [SerializeField] private List<Sprite> tileSpriteList = new List<Sprite>();
 
     private Image bossCloudImage;
-    [SerializeField] private List<Sprite> bossCloudSpriteList = new();
+    [SerializeField] private List<Sprite> bossCloudSpriteList = new List<Sprite>();
     [SerializeField] private Animator bossEffectAnimator;
 
     [Header("¸Ê ¹ë·±½º °ü·Ã")]
     [SerializeField] private int defaultBossCount;
-    [SerializeField] private List<mapNode> canNotLinkMapType = new();
+    [SerializeField] private List<mapNode> canNotLinkMapType = new List<mapNode>();
     //[SerializeField] SerializableDictionary<mapNode, int> fixedMapTypeCount = new SerializableDictionary<mapNode, int>();
-    [SerializeField] private SerializableDictionary<Vector2, mapNode> fixedPosMapType = new();
-    [SerializeField] private SerializableDictionary<mapNode, float> mapTypeProportionDic = new();
+    [SerializeField] private SerializableDictionary<Vector2, mapNode> fixedPosMapType = new SerializableDictionary<Vector2, mapNode>();
+    [SerializeField] private SerializableDictionary<mapNode, float> mapTypeProportionDic = new SerializableDictionary<mapNode, float>();
 
     [SerializeField] private int gridWidth = 5;
     [SerializeField] private int gridHeight = 5;
@@ -271,7 +271,7 @@ public class MapManager : MonoBehaviour
     // ¸Ê ¿­¸®´Â ¿¬Ãâ
     public void OpenMapPanel(bool open, bool skip = false, float time = 0.5f, Action OnComplete = null)
     {
-        List<CanvasGroup> cvsGroupList = new()
+        List<CanvasGroup> cvsGroupList = new List<CanvasGroup>()
         {
             mapCvsGroup,
             mapBGCvsGroup
@@ -405,7 +405,7 @@ public class MapManager : MonoBehaviour
             CinemachineBrain cB = Camera.main.GetComponent<CinemachineBrain>();
             cB.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.EaseInOut;
             playerFollowCam.gameObject.SetActive(false);
-            Vector2 bossCloudPos = new(0, bossCloudTrm.position.y);
+            Vector2 bossCloudPos = new Vector2(0, bossCloudTrm.position.y);
             Vector2 dir = bossCloudPos - (Vector2)playerTrm.position;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             DOTween.Sequence()
@@ -558,9 +558,9 @@ public class MapManager : MonoBehaviour
 
     public Dictionary<mapNode, float> GetMapTypeProportion()
     {
-        Dictionary<mapNode, float> mapTypeProportion = new();
+        Dictionary<mapNode, float> mapTypeProportion = new Dictionary<mapNode, float>();
 
-        Dictionary<mapNode, float> mapTypeCountDic = new();
+        Dictionary<mapNode, float> mapTypeCountDic = new Dictionary<mapNode, float>();
 
         List<mapNode> mapTypes = mapTypeProportionDic.Keys.ToList();
         for (int i = 0; i < mapTypes.Count; i++)
@@ -574,7 +574,7 @@ public class MapManager : MonoBehaviour
         for (int i = 0; i < mapList.Count; i++)
         {
             Map map = mapList[i];
-            if (map.MapType is not (mapNode.NONE or mapNode.START or mapNode.BOSS))
+            if (map.MapType != mapNode.NONE || map.MapType != mapNode.START || map.MapType != mapNode.BOSS)
             {
                 mapTypeCountDic[map.MapType]++;
                 count++;

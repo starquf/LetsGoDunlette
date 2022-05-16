@@ -29,7 +29,7 @@ public class BattleRewardUIHandler : MonoBehaviour
     [SerializeField]
     private Text rewardText;
 
-    [SerializeField] private List<ParticleSystem> fireworks = new();
+    [SerializeField] private List<ParticleSystem> fireworks = new List<ParticleSystem>();
 
     [Header("Ä«µå UI")]
     public Image cardBG;
@@ -41,7 +41,7 @@ public class BattleRewardUIHandler : MonoBehaviour
     public Image maskImg;
     public Image selectedImg;
 
-    private List<SkillDesIcon> desIcons = new();
+    private List<SkillDesIcon> desIcons = new List<SkillDesIcon>();
 
     private Sequence showSequence;
     private Sequence winShowSequence;
@@ -56,9 +56,9 @@ public class BattleRewardUIHandler : MonoBehaviour
     public SkillPiece selectedSkillObj;
 
     [HideInInspector]
-    public List<SkillPiece> createdReward = new();
+    public List<SkillPiece> createdReward = new List<SkillPiece>();
 
-    private WaitForSeconds pOneSecWait = new(0.1f);
+    private WaitForSeconds pOneSecWait = new WaitForSeconds(0.1f);
 
     private void Awake()
     {
@@ -170,7 +170,7 @@ public class BattleRewardUIHandler : MonoBehaviour
 
     private IEnumerator CreateReward(List<SkillPiece> rewards)
     {
-        List<PieceInfoUI> infoUIs = new();
+        List<PieceInfoUI> infoUIs = new List<PieceInfoUI>();
         selectContext.GetComponentsInChildren(infoUIs);
 
         for (int i = 0; i < infoUIs.Count; i++)

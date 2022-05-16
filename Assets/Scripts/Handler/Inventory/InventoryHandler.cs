@@ -6,21 +6,21 @@ using Random = UnityEngine.Random;
 
 public class InventoryHandler : MonoBehaviour
 {
-    public List<SkillPiece> skills = new();
+    public List<SkillPiece> skills = new List<SkillPiece>();
 
     // 현재 가지고 있는 모든 스킬 인벤토리들
-    public List<Inventory> inventorys = new();
-    public List<SkillPiece> graveyard = new();
+    public List<Inventory> inventorys = new List<Inventory>();
+    public List<SkillPiece> graveyard = new List<SkillPiece>();
 
     public InventoryIndicator graveyardIndicator;
 
     [Header("문양 이펙트 관련")]
-    [SerializeField] private List<Sprite> effectSprites = new();
-    [SerializeField] private List<Gradient> effectGradients = new();
-    [SerializeField] private List<Sprite> bookmarkSprites = new();
-    [SerializeField] private List<Sprite> pieceBGSprites = new();
-    [SerializeField] private List<Sprite> pieceBGStrokeSprites = new();
-    [SerializeField] private List<Sprite> targetBGSprites = new();
+    [SerializeField] private List<Sprite> effectSprites = new List<Sprite>();
+    [SerializeField] private List<Gradient> effectGradients = new List<Gradient>();
+    [SerializeField] private List<Sprite> bookmarkSprites = new List<Sprite>();
+    [SerializeField] private List<Sprite> pieceBGSprites = new List<Sprite>();
+    [SerializeField] private List<Sprite> pieceBGStrokeSprites = new List<Sprite>();
+    [SerializeField] private List<Sprite> targetBGSprites = new List<Sprite>();
 
 
     public Dictionary<ElementalType, Sprite> effectSprDic;
@@ -238,7 +238,7 @@ public class InventoryHandler : MonoBehaviour
             CycleSkills();
         }
 
-        List<Inventory> filterdInven = new();
+        List<Inventory> filterdInven = new List<Inventory>();
 
         for (int i = 0; i < inventorys.Count; i++)
         {
@@ -288,7 +288,7 @@ public class InventoryHandler : MonoBehaviour
             return GetRandomUnusedSkill();
         }
 
-        List<Inventory> filterdInven = new();
+        List<Inventory> filterdInven = new List<Inventory>();
 
         for (int i = 0; i < inventorys.Count; i++)
         {

@@ -25,15 +25,15 @@ public class ShopEncounterUIHandler : MonoBehaviour
     private bool isSelectPanelEnable;
     private int selectIdx;
 
-    [SerializeField] private List<ProductInfo> products = new();
+    [SerializeField] private List<ProductInfo> products = new List<ProductInfo>();
 
     [Header("랜덤 상점 리스트")]
-    public List<Scroll> scrollShopList = new();
+    public List<Scroll> scrollShopList = new List<Scroll>();
 
-    private List<SkillPiece> randomRulletPiece = new();
-    private List<Scroll> randomScroll = new();
+    private List<SkillPiece> randomRulletPiece = new List<SkillPiece>();
+    private List<Scroll> randomScroll = new List<Scroll>();
 
-    private List<int> soldIdxList = new();
+    private List<int> soldIdxList = new List<int>();
 
     private GoldUIHandler goldUIHandler;
     private BattleScrollHandler battleScrollHandler;
