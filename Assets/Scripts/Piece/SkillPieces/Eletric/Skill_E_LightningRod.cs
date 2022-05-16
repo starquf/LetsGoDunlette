@@ -35,9 +35,7 @@ public class Skill_E_LightningRod : SkillPiece
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         //print($"스킬 발동!! 이름 : {PieceName}");
-        BattleHandler battleHandler = GameManager.Instance.battleHandler;
-
-        Rullet rullet = battleHandler.mainRullet;
+        Rullet rullet = bh.mainRullet;
         List<RulletPiece> skillPieces = rullet.GetPieces();
 
         List<SkillPiece> lightningSkillPieces = new List<SkillPiece>();
@@ -94,7 +92,7 @@ public class Skill_E_LightningRod : SkillPiece
                 // 번개 속성이 존재한다면
                 if (result != null)
                 {
-                    battleHandler.battleEvent.StartActionEvent(EventTimeSkill.WithSkill, result);
+                    bh.battleEvent.StartActionEvent(EventTimeSkill.WithSkill, result);
 
                     LogCon log = new LogCon();
                     log.text = $"스킬 발동";
@@ -105,7 +103,7 @@ public class Skill_E_LightningRod : SkillPiece
 
                     result.Cast(target, onCastEnd);
 
-                    battleHandler.battleUtil.SetPieceToGraveyard(lightningSkillIdxDic[result]);
+                    bh.battleUtil.SetPieceToGraveyard(lightningSkillIdxDic[result]);
 
                     log = new LogCon();
                     log.text = $"무덤으로 보냄";

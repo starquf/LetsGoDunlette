@@ -113,8 +113,10 @@ public class BattleUtilHandler : MonoBehaviour
                 mainRullet.AddPiece(skill);
             }
 
-            if(hasWait)
+            if (hasWait)
+            {
                 yield return new WaitForSeconds(0.15f);
+            }
         }
 
         for (int i = condition.Count; i < 6; i++)
@@ -140,7 +142,9 @@ public class BattleUtilHandler : MonoBehaviour
             if (i != 5)
             {
                 if (hasWait)
+                {
                     yield return new WaitForSeconds(0.15f);
+                }
             }
         }
 
@@ -205,7 +209,10 @@ public class BattleUtilHandler : MonoBehaviour
 
     public void SetPieceToGraveyard(SkillPiece piece)
     {
-        if (piece == null) return;
+        if (piece == null)
+        {
+            return;
+        }
 
         inventory.SetSkillToGraveyard(piece);
     }
@@ -281,21 +288,12 @@ public class BattleUtilHandler : MonoBehaviour
     {
         Sprite icon = null;
 
-        switch (type)
+        icon = type switch
         {
-            case DesIconType.Attack:
-                icon = inventory.effectSprDic[skillPiece.currentType];
-                break;
-
-            case DesIconType.Stun:
-                icon = GameManager.Instance.ccIcons[0];
-                break;
-
-            default:
-                icon = null;
-                break;
-        }
-
+            DesIconType.Attack => inventory.effectSprDic[skillPiece.currentType],
+            DesIconType.Stun => GameManager.Instance.ccIcons[0],
+            _ => null,
+        };
         return icon;
     }
 }

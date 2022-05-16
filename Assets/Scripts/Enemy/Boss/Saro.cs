@@ -6,10 +6,13 @@ public class Saro : MonoBehaviour
     private Action<EnemyHealth, Action> enemyEvent;
     private EnemyEvent enemyEventInfo = null;
     public PieceInfo[] pieceInfo;
-
+    private BattleHandler battleHandler;
+    private void Start()
+    {
+        battleHandler = GameManager.Instance.battleHandler;
+    }
     public void Sacrifice()
     {
-        BattleHandler battleHandler = GameManager.Instance.battleHandler;
         print("12123");
         enemyEvent = (enemy, action) =>
         {

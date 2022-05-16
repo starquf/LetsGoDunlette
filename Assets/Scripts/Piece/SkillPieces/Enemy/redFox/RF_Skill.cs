@@ -6,7 +6,6 @@ public class RF_Skill : SkillPiece
 {
     private GameObject presentgSkill; // ÇÒÄû±â
 
-    private BattleHandler bh;
     private InventoryHandler ih;
 
     protected override void Awake()

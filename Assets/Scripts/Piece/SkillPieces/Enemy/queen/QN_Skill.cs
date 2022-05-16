@@ -14,7 +14,7 @@ public class QN_Skill : SkillPiece
     public override PieceInfo ChoiceSkill()
     {
         base.ChoiceSkill();
-        var enemys = GameManager.Instance.battleHandler.enemys;
+        var enemys = bh.enemys;
 
         for (int i = 0; i < enemys.Count; i++)
         {
@@ -47,7 +47,7 @@ public class QN_Skill : SkillPiece
             dependents.Add(EnemyType.DEPENDENT);
         }
 
-        GameManager.Instance.battleHandler.CreateEnemy(dependents, () =>
+        bh.CreateEnemy(dependents, () =>
         {
             onCastEnd?.Invoke();
         });
@@ -59,7 +59,7 @@ public class QN_Skill : SkillPiece
     {
         GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
-        var enemys = GameManager.Instance.battleHandler.enemys;
+        var enemys = bh.enemys;
 
         for (int i = 0; i < enemys.Count; i++)
         {

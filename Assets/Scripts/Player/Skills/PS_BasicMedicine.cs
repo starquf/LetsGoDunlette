@@ -12,19 +12,6 @@ public class PS_BasicMedicine : PlayerSkill
     private void Start()
     {
         bh = GameManager.Instance.battleHandler;
-
-        bh.battleEvent.BookEvent(new NormalEvent(action =>
-        {
-            if (bh.battleUtil.CheckEnemyDie(bh.enemys))
-            {
-                bh.player.Heal(healValue);
-                GameManager.Instance.animHandler.GetAnim(AnimName.M_Recover).SetPosition(bh.player.transform.position)
-                .SetScale(1)
-                .Play();
-            }
-            action?.Invoke();
-
-        }, EventTime.EndOfTurn));
     }
 
     public override void Cast(Action onEndSkill)
@@ -46,7 +33,23 @@ public class PS_BasicMedicine : PlayerSkill
 
     public override void OnBattleStart()
     {
-        //cooldown = 0;
+
+        bh.battleEvent.BookEvent(new NormalEvent(action =>
+        {
+            if (bh.battleUtil.CheckEnemyDie(bh.enemys))
+            {
+                bh.player.Heal(healValue);
+                GameManager.Instance.animHandler.GetAnim(AnimName.M_Recover).SetPosition(bh.player.transform.position)
+                .SetScale(1)
+                .Play();
+                GameManager.Instance.animHandler.GetTextAnim().SetPosition(bh.player.transform.position)
+                .SetScale(1.3f)
+                .SetType(TextUpAnimType.Fixed)
+                .Play("기초의학");
+            }
+            action?.Invoke();
+
+        }, EventTime.EndOfTurn));
 
         //ui.UpdateUI();
     }

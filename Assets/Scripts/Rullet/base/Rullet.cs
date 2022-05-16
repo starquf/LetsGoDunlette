@@ -1,42 +1,31 @@
+using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
-using System;
 
 public abstract class Rullet : MonoBehaviour
 {
     [SerializeField] protected List<RulletPiece> pieces = new List<RulletPiece>();
     protected RulletPiece result;
-
     public Action<RulletPiece, int> onResult;
-
     protected int maxSize = 36;
-
-    private bool isRoll = false;
-    public bool IsRoll => isRoll;
-
-    private bool isStop = false;
-    public bool IsStop => isStop;
-
+    public bool IsRoll { get; private set; } = false;
+    public bool IsStop { get; private set; } = false;
     protected float rollSpeed;
     protected float stopSpeed;
     protected float multiply = 1f;
-
     protected float rulletSpeed = 0f;
-    public float RulletSpeed 
+    public float RulletSpeed
     {
-        get 
-        {
-            return rulletSpeed; 
-        }
+        get => rulletSpeed;
         set
         {
             rulletSpeed = value;
 
             rulletSpeed = Mathf.Clamp(rulletSpeed, 500f, 1500f);
-            speedText.text = $"Speed : {rulletSpeed.ToString()}";
+            speedText.text = $"Speed : {rulletSpeed}";
         }
     }
 
@@ -71,7 +60,10 @@ public abstract class Rullet : MonoBehaviour
 
         for (int i = 0; i < pieces.Count; i++)
         {
-            if (pieces[i] == null) continue;
+            if (pieces[i] == null)
+            {
+                continue;
+            }
 
             pieces[i].GetComponent<Image>().DOFillAmount(pieces[i].Size / (float)maxSize, 0.3f);
             pieces[i].transform.DOScale(Vector3.one, 0.3f);
@@ -133,7 +125,7 @@ public abstract class Rullet : MonoBehaviour
             if (pieces[i] != null)
             {
                 pieces[i].transform
-                            .DORotateQuaternion(Quaternion.AngleAxis(transform.eulerAngles.z + sizeSum * angle, Vector3.forward), 0.35f);
+                            .DORotateQuaternion(Quaternion.AngleAxis(transform.eulerAngles.z + (sizeSum * angle), Vector3.forward), 0.35f);
 
                 sizeSum += pieces[i].Size;
             }
@@ -153,7 +145,7 @@ public abstract class Rullet : MonoBehaviour
 
         for (int i = 0; i < pieces.Count; i++)
         {
-            pieces[i].transform.rotation = Quaternion.AngleAxis(transform.eulerAngles.z + sizeSum * angle, Vector3.forward);
+            pieces[i].transform.rotation = Quaternion.AngleAxis(transform.eulerAngles.z + (sizeSum * angle), Vector3.forward);
 
             sizeSum += pieces[i].Size;
         }
@@ -161,11 +153,14 @@ public abstract class Rullet : MonoBehaviour
 
     public virtual void RollRullet(bool hasTimer = true)
     {
-        if (isRoll) return;
+        if (IsRoll)
+        {
+            return;
+        }
 
         result = null;
-        isRoll = true;
-        isStop = false;
+        IsRoll = true;
+        IsStop = false;
 
         timerFillAmount.fillAmount = 10;
 
@@ -174,8 +169,10 @@ public abstract class Rullet : MonoBehaviour
 
         if (hasTimer)
         {
-            if(!isPaused)
+            if (!isPaused)
+            {
                 currentTime = GetTime();
+            }
 
             timeCor = StartCoroutine(Timer());
         }
@@ -203,29 +200,42 @@ public abstract class Rullet : MonoBehaviour
 
     public virtual void PauseRullet()
     {
-        if (!isRoll) return;    // 돌아가지 않는 상태거나
-        if (isStop) return;     // 멈추고 있다면  리턴
+        if (!IsRoll)
+        {
+            return;    // 돌아가지 않는 상태거나
+        }
+
+        if (IsStop)
+        {
+            return;     // 멈추고 있다면  리턴
+        }
 
         if (rollCor != null)
+        {
             StopCoroutine(rollCor);
+        }
 
-        if(timeCor != null)
+        if (timeCor != null)
+        {
             StopCoroutine(timeCor);
+        }
 
         SetParticle(false);
 
         isPaused = true;
-        isRoll = false;
+        IsRoll = false;
     }
 
     public void StopRullet()
     {
-        isStop = true;
+        IsStop = true;
 
         SetParticle(false);
 
         if (timeCor != null)
+        {
             StopCoroutine(timeCor);
+        }
 
         currentResetTime = currentTime;
         StartCoroutine(ResetTimer());
@@ -234,15 +244,19 @@ public abstract class Rullet : MonoBehaviour
     public void StopForceRullet()
     {
         if (rollCor != null)
+        {
             StopCoroutine(rollCor);
+        }
 
         if (timeCor != null)
+        {
             StopCoroutine(timeCor);
+        }
 
         SetParticle(false);
 
-        isStop = false;
-        isRoll = false;
+        IsStop = false;
+        IsRoll = false;
         isPaused = false;
     }
 
@@ -257,7 +271,7 @@ public abstract class Rullet : MonoBehaviour
         rollSpeed = (rulletSpeed + UnityEngine.Random.Range(0, 50)) * multiply;
         stopSpeed = UnityEngine.Random.Range(10f, 10.5f);
 
-        speedText.text = $"Speed : {rulletSpeed.ToString()}";
+        speedText.text = $"Speed : {rulletSpeed}";
 
         while (Mathf.Abs(rollSpeed) > 1.5f)
         {
@@ -265,14 +279,14 @@ public abstract class Rullet : MonoBehaviour
 
             transform.Rotate(0f, 0f, rollSpeed * Time.deltaTime);
 
-            if (isStop)
+            if (IsStop)
             {
                 rollSpeed = Mathf.Lerp(rollSpeed, 0f, Time.deltaTime * stopSpeed);
             }
         }
 
-        isStop = false;
-        isRoll = false;
+        IsStop = false;
+        IsRoll = false;
         isPaused = false;
 
         RulletResult(onResult);
@@ -296,7 +310,7 @@ public abstract class Rullet : MonoBehaviour
             yield return null;
         }
 
-        isStop = true;
+        IsStop = true;
     }
 
     protected virtual IEnumerator ResetTimer()
@@ -330,7 +344,7 @@ public abstract class Rullet : MonoBehaviour
         for (int i = 0; i < pieces.Count; i++)
         {
             // 범위 안에 있다면
-            if (rulletAngle <= angleSum + pieces[i].Size * sizeAngle
+            if (rulletAngle <= angleSum + (pieces[i].Size * sizeAngle)
                 && rulletAngle >= angleSum)
             {
                 pieceIdx = i;

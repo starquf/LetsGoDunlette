@@ -53,7 +53,6 @@ public class Encounter_007 : RandomEncounter
                         {
                             Destroy(sp);
 
-                            BattleHandler battleHandler = GameManager.Instance.battleHandler;
                             SkillPiece rulletPieces = encounterInfoHandler.GetRandomSkillRewards(1)[0].GetComponent<SkillPiece>();
                             SkillPiece skill = Instantiate(rulletPieces).GetComponent<SkillPiece>();
                             skill.transform.position = Vector2.zero;
@@ -71,7 +70,7 @@ public class Encounter_007 : RandomEncounter
                             .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
                             .OnComplete(() =>
                             {
-                                Inventory Owner = battleHandler.player.GetComponent<Inventory>();
+                                Inventory Owner = bh.player.GetComponent<Inventory>();
 
                                 GameManager.Instance.inventoryHandler.AddSkill(skill, Owner);
                                 skill.GetComponent<Image>().color = Color.white;

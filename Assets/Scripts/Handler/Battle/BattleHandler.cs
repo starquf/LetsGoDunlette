@@ -191,9 +191,11 @@ public class BattleHandler : MonoBehaviour
         // 스탑 버튼에 기능 추가
         SetStopHandler();
 
-        LogCon log = new LogCon();
-        log.text = "전투 시작";
-        log.hasLine = true;
+        LogCon log = new LogCon()
+        {
+            text = "전투 시작",
+            hasLine = true
+        };
 
         DebugLogHandler.AddLog(LogType.OnlyText, log);
     }
@@ -237,10 +239,7 @@ public class BattleHandler : MonoBehaviour
             // 보스면
             if (enemys[i].isBoss && i != idx)
             {
-                EnemyHealth temp = enemys[idx];
-
-                enemys[idx] = enemys[i];
-                enemys[i] = temp;
+                (enemys[i], enemys[idx]) = (enemys[idx], enemys[i]);
             }
         }
     }
@@ -261,7 +260,7 @@ public class BattleHandler : MonoBehaviour
                 }
             }
         }
-        else 
+        else
         {
             for (int i = 0; i < enemys.Count; i++)
             {
@@ -288,7 +287,7 @@ public class BattleHandler : MonoBehaviour
         }
 
         Vector2 screenX = new Vector2(Camera.main.ViewportToWorldPoint(Vector3.zero).x, Camera.main.ViewportToWorldPoint(Vector3.one).x);
-        float posX = (Mathf.Abs(screenX.x) + screenX.y) / (float)(enemyCount + 1);
+        float posX = (Mathf.Abs(screenX.x) + screenX.y) / (enemyCount + 1);
 
         // -10  -5   0   5  10
         // 
@@ -405,14 +404,18 @@ public class BattleHandler : MonoBehaviour
 
         turnCnt++;
 
-        LogCon log = new LogCon();
-        log.text = "";
-        log.hasLine = true;
+        LogCon log = new LogCon()
+        {
+            text = "",
+            hasLine = true
+        };
 
         DebugLogHandler.AddLog(LogType.OnlyText, log);
 
-        log = new LogCon();
-        log.text = $"{turnCnt}턴 시작";
+        log = new LogCon
+        {
+            text = $"{turnCnt}턴 시작"
+        };
 
         DebugLogHandler.AddLog(LogType.OnlyText, log);
 
@@ -471,9 +474,7 @@ public class BattleHandler : MonoBehaviour
     // 실행이 전부 끝나면 실행되는 코루틴
     private IEnumerator EndTurn()
     {
-
-        yield return StartCoroutine(battleEvent.ActionEvent(EventTimeSkill.AfterSkill,result));
-
+        yield return StartCoroutine(battleEvent.ActionEvent(EventTimeSkill.AfterSkill, result));
         yield return StartCoroutine(battleEvent.ActionEvent(EventTime.EndOfTurn));
         yield return pOneSecWait;
 
@@ -589,20 +590,22 @@ public class BattleHandler : MonoBehaviour
         battleScroll.ShowScrollUI(open: false);
         GameManager.Instance.goldUIHandler.ShowGoldUI(open: false);
 
-        LogCon log = new LogCon();
-        log.text = "전투 종료";
-        log.hasLine = true;
+        LogCon log = new LogCon()
+        {
+            text = "전투 종료",
+            hasLine = true
+        };
 
         DebugLogHandler.AddLog(LogType.OnlyText, log);
 
         if (isWin)
         {
             enemys.Clear();
-            if(isBoss && GameManager.Instance.IsEndStage())
+            if (isBoss && GameManager.Instance.IsEndStage())
             {
                 print("리셋");
                 GameManager.Instance.StageIdx = 0;
-                GameManager.Instance.tbcHandler.StartEvent(()=>GameManager.Instance.LoadScene(0), "메인화면으로 돌아갑니다");
+                GameManager.Instance.tbcHandler.StartEvent(() => GameManager.Instance.LoadScene(0), "메인화면으로 돌아갑니다");
             }
             else
             {
@@ -656,7 +659,7 @@ public class BattleHandler : MonoBehaviour
                 return;
             }
 
-            StartCoroutine(battleEvent.ActionEvent(EventTimeSkill.WithSkill,piece));
+            StartCoroutine(battleEvent.ActionEvent(EventTimeSkill.WithSkill, piece));
 
             Action onShowCast = () => { };
 

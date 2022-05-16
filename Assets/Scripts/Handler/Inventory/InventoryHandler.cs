@@ -2,7 +2,6 @@ using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class InventoryHandler : MonoBehaviour
@@ -111,7 +110,9 @@ public class InventoryHandler : MonoBehaviour
         for (int i = 0; i < inventorys.Count; i++)
         {
             if (inventorys[i].isPlayerInven)
+            {
                 return inventorys[i];
+            }
         }
 
         return null;
@@ -324,7 +325,7 @@ public class InventoryHandler : MonoBehaviour
 
     public bool CheckAllInventoryEmpty()
     {
-        for(int i = 0; i < inventorys.Count; i++)
+        for (int i = 0; i < inventorys.Count; i++)
         {
             if (inventorys[i].skills.Count > 0)
             {
@@ -444,7 +445,10 @@ public class InventoryHandler : MonoBehaviour
 
     public void RemovePiece(SkillPiece piece)
     {
-        if (piece == null) return;
+        if (piece == null)
+        {
+            return;
+        }
 
         piece.KillTween();
 

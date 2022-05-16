@@ -7,7 +7,6 @@ using Random = UnityEngine.Random;
 
 public class Skill_E_Charging : SkillPiece
 {
-    private BattleHandler bh = null;
     private Action<SkillPiece,Action> onCharge = null;
 
     public Text counterText;
@@ -43,7 +42,7 @@ public class Skill_E_Charging : SkillPiece
 
     public override void OnRullet()
     {
-        GameManager.Instance.battleHandler.battleEvent.RemoveEventInfo(eventInfo);
+        bh.battleEvent.RemoveEventInfo(eventInfo);
         onCharge = (piece,action) =>
         {
             if (piece.currentType.Equals(ElementalType.Electric) && piece != this)
@@ -74,14 +73,14 @@ public class Skill_E_Charging : SkillPiece
         };
 
         eventInfo = new SkillEvent(EventTimeSkill.WithSkill, onCharge);
-        GameManager.Instance.battleHandler.battleEvent.BookEvent(eventInfo);
+       bh.battleEvent.BookEvent(eventInfo);
     }
 
     public override void ResetPiece()
     {
         base.ResetPiece();
 
-        GameManager.Instance.battleHandler.battleEvent.RemoveEventInfo(eventInfo);
+        bh.battleEvent.RemoveEventInfo(eventInfo);
 
         attackCount = 1;
         counterText.text = attackCount.ToString();
@@ -89,7 +88,7 @@ public class Skill_E_Charging : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        GameManager.Instance.battleHandler.battleUtil.StartCoroutine(ChargeAttack(target, onCastEnd));
+        bh.battleUtil.StartCoroutine(ChargeAttack(target, onCastEnd));
     }
 
     private IEnumerator ChargeAttack(LivingEntity target, Action onCastEnd = null)

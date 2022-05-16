@@ -17,9 +17,6 @@ public class Skill_N_PosionCloud : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        //print($"스킬 발동!! 이름 : {PieceName}");
-
-        BattleHandler bh = GameManager.Instance.battleHandler;
         Vector3 targetPos = target.transform.position;
 
         animHandler.GetAnim(AnimName.N_PoisionCloud)

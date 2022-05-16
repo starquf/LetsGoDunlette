@@ -6,11 +6,9 @@ using Random = UnityEngine.Random;
 
 public class Skill_W_Bubble : SkillPiece
 {
-    BattleHandler bh;
-
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        GameManager.Instance.battleHandler.battleUtil.StartCoroutine(Bubble(target, onCastEnd));
+       bh.battleUtil.StartCoroutine(Bubble(target, onCastEnd));
     }
 
     public override List<DesIconInfo> GetDesIconInfo()
@@ -31,9 +29,6 @@ public class Skill_W_Bubble : SkillPiece
 
     private IEnumerator Bubble(LivingEntity target, Action onCastEnd = null)
     {
-        //print($"스킬 발동!! 이름 : {PieceName}");
-        bh = GameManager.Instance.battleHandler;
-
         LivingEntity t = Owner.GetComponent<LivingEntity>();
 
         int rand = Random.Range(5, 8);

@@ -26,6 +26,8 @@ public class SkillPiece : RulletPiece
     private GameObject go;
     private string content;
 
+    protected BattleHandler bh;
+
     protected override void Awake()
     {
         base.Awake();
@@ -36,12 +38,14 @@ public class SkillPiece : RulletPiece
         {
             desInfos.Add(new DesIconInfo());
         }
+
     }
 
     protected override void Start()
     {
         base.Start();
 
+        bh = GameManager.Instance.battleHandler;
         animHandler = GameManager.Instance.animHandler;
     }
 

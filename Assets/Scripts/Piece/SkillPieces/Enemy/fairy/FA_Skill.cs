@@ -111,7 +111,8 @@ public class FA_Skill : SkillPiece
 
     private void FindRandomPlayerSkillAndChangePiece(SkillPiece rulletPiece)
     {
-        List<RulletPiece> list = GameManager.Instance.battleHandler.mainRullet.GetPieces();
+        SkillRullet mainRullet = bh.mainRullet;
+        List<RulletPiece> list = mainRullet.GetPieces();
 
         for (int j = 0; j < list.Count; j++)
         {
@@ -125,7 +126,7 @@ public class FA_Skill : SkillPiece
             if (skill.isPlayerSkill)
             {
                 GameManager.Instance.inventoryHandler.GetSkillFromInventory(rulletPiece);
-                GameManager.Instance.battleHandler.mainRullet.ChangePiece(j, rulletPiece);
+                mainRullet.ChangePiece(j, rulletPiece);
 
                 return;
             }

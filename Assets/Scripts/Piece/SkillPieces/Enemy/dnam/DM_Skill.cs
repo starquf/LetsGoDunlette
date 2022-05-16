@@ -15,7 +15,6 @@ public class DM_Skill : SkillPiece
     {
         base.OnRullet();
 
-        BattleHandler bh = GameManager.Instance.battleHandler;
         bh.battleEvent.RemoveEventInfo(skillEventInfo);
 
         skillEvent = (piece, action) =>
@@ -39,8 +38,6 @@ public class DM_Skill : SkillPiece
         SetIndicator(Owner.gameObject, "아군 축복").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
-
-            BattleHandler bh = GameManager.Instance.battleHandler;
 
             List<LivingEntity> enemys = bh.battleUtil.DeepCopyEnemyList(bh.enemys);
             enemys = ShuffleList(enemys);
