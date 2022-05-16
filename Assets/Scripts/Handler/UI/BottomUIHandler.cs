@@ -8,10 +8,13 @@ public class BottomUIHandler : MonoBehaviour
 {
     private CanvasGroup cg;
 
+    public Button swapBtn;
+
     private float startPos;
     private float downPos;
 
     public bool isShow = true;
+
 
     private void Awake()
     {
