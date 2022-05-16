@@ -64,12 +64,12 @@ public class InventoryHandler : MonoBehaviour
     }
 
     // 스킬 추가 할땐 이걸 호출
-    public SkillPiece CreateSkill(GameObject skillPrefab, Inventory Owner)
+    public SkillPiece CreateSkill(GameObject skillPrefab, Inventory owner)
     {
         SkillPiece skill = Instantiate(skillPrefab, transform).GetComponent<SkillPiece>();
         skill.gameObject.SetActive(false);
 
-        AddSkill(skill, Owner);
+        AddSkill(skill, owner);
 
         return skill;
     }
@@ -83,14 +83,14 @@ public class InventoryHandler : MonoBehaviour
         return skill;
     }
 
-    public void AddSkill(SkillPiece skill, Inventory Owner)
+    public void AddSkill(SkillPiece skill, Inventory owner)
     {
-        skill.Owner = Owner;
-        Owner.skills.Add(skill);
+        skill.Owner = owner;
+        owner.skills.Add(skill);
         skills.Add(skill);
 
-        Owner.indicator.SetText(Owner.skills.Count);
-        Owner.indicator.ShowEffect();
+        owner.indicator.SetText(owner.skills.Count);
+        owner.indicator.ShowEffect();
 
         SetCountUI();
     }

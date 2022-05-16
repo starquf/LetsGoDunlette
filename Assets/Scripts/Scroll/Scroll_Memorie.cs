@@ -11,8 +11,9 @@ public class Scroll_Memorie : Scroll
     private readonly string msg_1 = "무덤에서 꺼낼 조각 선택";
     private readonly string msg_2 = "교체할 조각을 선택하세요";
 
-    private void Start()
+    public override void Start()
     {
+        base.Start();
         invenInfoHandler = GameManager.Instance.invenInfoHandler;
         invenHandler = GameManager.Instance.inventoryHandler;
 

@@ -2,8 +2,9 @@ using System;
 
 public class Scroll_Shield : Scroll
 {
-    private void Start()
+    public override void Start()
     {
+        base.Start();
         scrollType = ScrollType.Shield;
     }
 

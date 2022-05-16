@@ -16,8 +16,6 @@ public class Skill_F_TickTock : SkillPiece
     protected override void Start()
     {
         base.Start();
-
-        bh = GameManager.Instance.battleHandler;
         isTargeting = true;
     }
 
@@ -85,7 +83,10 @@ public class Skill_F_TickTock : SkillPiece
     public override void ResetPiece()
     {
         base.ResetPiece();
-
+        if(bh == null)
+        {
+            bh = GameManager.Instance.battleHandler;
+        }
         bh.battleEvent.RemoveEventInfo(eventInfo);
 
         turnCount = 3;

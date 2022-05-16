@@ -27,13 +27,13 @@ public class PlayerInfoPanelHandler : BottomUIElement
 
         skillBtnTrans.GetComponentsInChildren(skillButtons);
 
-        infoButton.onClick.AddListener(() =>
-        {
-            if (Time.timeScale <= 0) return;
+        //infoButton.onClick.AddListener(() =>
+        //{
+        //    if (Time.timeScale <= 0) return;
 
-            if (!isShow)
-                Popup();
-        });
+        //    if (!isShow)
+        //        Popup();
+        //});
 
         closeBtn.onClick.AddListener(() =>
         {

@@ -574,7 +574,7 @@ public class MapManager : MonoBehaviour
         for (int i = 0; i < mapList.Count; i++)
         {
             Map map = mapList[i];
-            if (map.MapType != mapNode.NONE || map.MapType != mapNode.START || map.MapType != mapNode.BOSS)
+            if (!(map.MapType == mapNode.NONE || map.MapType == mapNode.START || map.MapType == mapNode.BOSS))
             {
                 mapTypeCountDic[map.MapType]++;
                 count++;

@@ -27,7 +27,6 @@ public class SkillPiece : RulletPiece
     private string content;
 
     protected BattleHandler bh;
-
     protected override void Awake()
     {
         base.Awake();
@@ -44,7 +43,6 @@ public class SkillPiece : RulletPiece
     protected override void Start()
     {
         base.Start();
-
         bh = GameManager.Instance.battleHandler;
         animHandler = GameManager.Instance.animHandler;
     }

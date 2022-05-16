@@ -6,8 +6,9 @@ using UnityEngine;
 public class Scroll_Use : Scroll
 {
     private InventoryHandler ih;
-    private void Start()
+    public override void Start()
     {
+        base.Start();
         ih = GameManager.Instance.inventoryHandler;
 
         scrollType = ScrollType.Use;

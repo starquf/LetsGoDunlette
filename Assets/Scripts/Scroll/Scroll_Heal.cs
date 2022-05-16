@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class Scroll_Heal : Scroll
 {
-    private void Start()
+    public override void Start()
     {
+        base.Start();
         scrollType = ScrollType.Heal;
     }
 
