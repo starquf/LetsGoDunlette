@@ -1,9 +1,8 @@
+using DG.Tweening;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 using Random = UnityEngine.Random;
 
 public class BattleScrollHandler : MonoBehaviour
@@ -44,9 +43,15 @@ public class BattleScrollHandler : MonoBehaviour
             slots[a].GetComponent<Button>().onClick.RemoveAllListeners();
             slots[a].GetComponent<Button>().onClick.AddListener(() =>
             {
-                if (Time.timeScale <= 0) return;
+                if (Time.timeScale <= 0)
+                {
+                    return;
+                }
 
-                if (!canUse) return;
+                if (!canUse)
+                {
+                    return;
+                }
 
                 if (slots[a].scroll != null && !bh.mainRullet.IsStop)
                 {
@@ -59,7 +64,7 @@ public class BattleScrollHandler : MonoBehaviour
                             UseScroll(slots[a], slots[a].scroll);
                         },
 
-                        () => 
+                        () =>
                         {
                             Time.timeScale = 1f;
                             bh.SetInteract(true);
@@ -75,25 +80,25 @@ public class BattleScrollHandler : MonoBehaviour
     public void ShowChangeScrollPopUp(bool open = true, Action onComplete = null)
     {
         blackPanel.DOFade(open ? 1f : 0f, 0.5f);
-        chagneScrollPopUp.DOFade(open?1f:0f, 0.5f).OnComplete(()=>onComplete?.Invoke());
+        chagneScrollPopUp.DOFade(open ? 1f : 0f, 0.5f).OnComplete(() => onComplete?.Invoke());
     }
 
     public void ShowScrollUI(bool isChangeScroll = false, bool open = true, bool skip = false)
     {
         scrollUISequence.Kill();
 
-        if(skip)
+        if (skip)
         {
             scrollUI.anchoredPosition = new Vector2(open ? 0f : -150f, scrollUI.anchoredPosition.y);
             SetInteract(isChangeScroll && open);
         }
         else
         {
-            if(!open)
+            if (!open)
             {
                 SetInteract(false);
             }
-            if(isChangeScroll)
+            if (isChangeScroll)
             {
                 ShowChangeScrollPopUp(open);
             }
@@ -156,7 +161,7 @@ public class BattleScrollHandler : MonoBehaviour
             ScrollSlot scrollSlot = slots[a];
             if (scrollSlot.scroll == null)
             {
-                if(!playAnim)
+                if (!playAnim)
                 {
                     SetScroll(scrollSlot, scroll);
                     SortScroll();
@@ -169,7 +174,8 @@ public class BattleScrollHandler : MonoBehaviour
                         ShowScrollUI();
                     }
                     SetInteract(false);
-                    GetAnim(a, scroll, () => {
+                    GetAnim(a, scroll, () =>
+                    {
                         SetScroll(scrollSlot, scroll);
                         SortScroll();
                         OnComplete?.Invoke();
@@ -209,7 +215,7 @@ public class BattleScrollHandler : MonoBehaviour
         }
         else
         {
-            ShowChangeScrollPopUp(true,()=> SetInteract(true));
+            ShowChangeScrollPopUp(true, () => SetInteract(true));
             //SetInteract(true);
         }
         for (int i = 0; i < slots.Count; i++)
@@ -218,12 +224,16 @@ public class BattleScrollHandler : MonoBehaviour
             slots[a].GetComponent<Button>().onClick.RemoveAllListeners();
             slots[a].GetComponent<Button>().onClick.AddListener(() =>
             {
-                if (!canUse) return;
+                if (!canUse)
+                {
+                    return;
+                }
 
                 if (slots[a].scroll != null || !bh.mainRullet.IsStop)
                 {
                     SetInteract(false);
-                    GetAnim(a, scroll, () => {
+                    GetAnim(a, scroll, () =>
+                    {
                         ChangeScrollData(a, scroll);
                         if (GameManager.Instance.curEncounter != mapNode.SHOP)
                         {
@@ -244,7 +254,7 @@ public class BattleScrollHandler : MonoBehaviour
         slots[idx].RemoveScroll();
         SetScroll(slots[idx], scroll);
     }
-    
+
 
     public void SortScroll()
     {
@@ -258,7 +268,7 @@ public class BattleScrollHandler : MonoBehaviour
                 emptySlotIdxList.Add(idx);
                 emptySlotIdxList.Sort();
             }
-            else if(emptySlotIdxList.Count > 0)
+            else if (emptySlotIdxList.Count > 0)
             {
                 SetScroll(slots[emptySlotIdxList[0]], scrollSlot.scroll);
                 slots[idx].scroll = null;
@@ -271,7 +281,10 @@ public class BattleScrollHandler : MonoBehaviour
 
     private void UseScroll(ScrollSlot slot, Scroll scroll)
     {
-        if (scroll == null) return;
+        if (scroll == null)
+        {
+            return;
+        }
 
         bh.SetInteract(false);
 
@@ -285,7 +298,7 @@ public class BattleScrollHandler : MonoBehaviour
             SortScroll();
             bh.StartTurn();
         },
-        () => 
+        () =>
         {
             bh.canPause = true;
             bh.StartTurn();

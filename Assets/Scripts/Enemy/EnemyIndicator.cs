@@ -11,6 +11,13 @@ public class EnemyIndicator : MonoBehaviour
 
     private List<Text> indicatorList = new List<Text>();
 
+    private BattleHandler bh;
+
+    private void Start()
+    {
+        bh = GameManager.Instance.battleHandler;
+    }
+
     public void ShowText(string text,Action action = null)
     {
         Text indiText = PoolManager.GetItem<EnemyIndicatorText>().GetComponent<Text>();
@@ -24,7 +31,8 @@ public class EnemyIndicator : MonoBehaviour
         indiText.transform.localPosition = new Vector2(0f, (indicatorList.Count + 1) * indiText.rectTransform.rect.height);
         indiText.transform.DOLocalMoveY(-100f, 0.5f)
             .From(true);
-        GameManager.Instance.battleHandler.battleUtil.SetTimer(0.5f, action);
+
+       bh.battleUtil.SetTimer(0.5f, action);
 
         indicatorList.Add(indiText);
     }

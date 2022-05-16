@@ -34,13 +34,12 @@ public class Encounter_012 : RandomEncounter
 
     public override void Result()
     {
-        BattleHandler battleHandler = GameManager.Instance.battleHandler;
         Transform unusedInventoryTrm = GameManager.Instance.inventoryHandler.transform;
         switch (choiceIdx)
         {
             case 0:
                 PlayerHealth playerHealth = GameManager.Instance.GetPlayer();
-                BattleEventHandler battleEventHandler = GameManager.Instance.battleHandler.battleEvent;
+                BattleEventHandler battleEventHandler = bh.battleEvent;
 
                 int battlecount = battleCntValue;
 
@@ -60,7 +59,7 @@ public class Encounter_012 : RandomEncounter
                 };
 
                 eventInfo = new NormalEvent(onBattleStart, EventTime.BeginBattle);
-                battleHandler.battleEvent.BookEvent(eventInfo);
+                bh.battleEvent.BookEvent(eventInfo);
 
                 OnExitEncounter?.Invoke(true);
                 break;

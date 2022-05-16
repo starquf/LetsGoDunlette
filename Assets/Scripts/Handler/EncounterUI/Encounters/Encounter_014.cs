@@ -11,13 +11,12 @@ public class Encounter_014 : RandomEncounter
     public RF_Skill redfoxSkill = null;
     public override void ResultSet(int resultIdx)
     {
-        BattleHandler bh = GameManager.Instance.battleHandler;
         choiceIdx = resultIdx;
         Action<Action> onBattleStart = null;
         switch (resultIdx)
         {
             case 0:
-                BattleScrollHandler battleScrollHandler = GameManager.Instance.battleHandler.GetComponent<BattleScrollHandler>();
+                BattleScrollHandler battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
                 showText = en_End_TextList[0];
                 showImg = en_End_Image[0];
                 en_End_Result = "보스가 여왕으로 고정됨, 여왕의 체력이 50 닳은 상태로 시작";

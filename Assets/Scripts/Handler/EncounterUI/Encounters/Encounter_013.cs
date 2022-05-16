@@ -31,7 +31,6 @@ public class Encounter_013 : RandomEncounter
     {
         choiceIdx = resultIdx;
         PlayerHealth playerHealth = GameManager.Instance.GetPlayer();
-        BattleHandler bh = GameManager.Instance.battleHandler;
         switch (resultIdx)
         {
             case 0:

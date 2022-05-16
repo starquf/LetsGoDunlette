@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class Skill_W_Change : SkillPiece
 {
-    private BattleHandler bh;
-
     protected override void Start()
     {
         base.Start();

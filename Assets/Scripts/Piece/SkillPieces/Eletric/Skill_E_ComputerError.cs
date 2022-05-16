@@ -6,8 +6,6 @@ using Random = UnityEngine.Random;
 
 public class Skill_E_ComputerError : SkillPiece
 {
-    private BattleHandler bh = null;
-
     protected override void Start()
     {
         base.Start();

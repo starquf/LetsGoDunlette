@@ -1,6 +1,5 @@
 using DG.Tweening;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,7 +19,7 @@ public class Encounter_011 : RandomEncounter
         switch (resultIdx)
         {
             case 0:
-                BattleScrollHandler battleScrollHandler = GameManager.Instance.battleHandler.GetComponent<BattleScrollHandler>();
+                BattleScrollHandler battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
                 showText = en_End_TextList[0];
                 showImg = en_End_Image[0];
                 en_End_Result = "물속성 룰렛 조각 1개 및 인어의 축복 조각 획득";
@@ -39,9 +38,12 @@ public class Encounter_011 : RandomEncounter
                 battleScrollHandler.SortScroll();
 
                 if (mermaidBlessingPiece == null)
+                {
                     Debug.LogError("인어의축복 조각이 안들어있음");
+                }
+
                 skill = Instantiate(mermaidBlessingPiece).GetComponent<SkillPiece>();
-                skill.transform.position = Vector2.zero+(Vector2.right*1f);
+                skill.transform.position = Vector2.zero + (Vector2.right * 1f);
                 skill.transform.rotation = Quaternion.Euler(0, 0, 30f);
                 skillImg = skill.GetComponent<Image>();
                 skillImg.color = new Color(1, 1, 1, 0);
@@ -53,7 +55,7 @@ public class Encounter_011 : RandomEncounter
                 do
                 {
                     piece = encounterInfoHandler.GetRandomSkillRewards(1)[0].GetComponent<SkillPiece>();
-                }while (piece.currentType != ElementalType.Water);
+                } while (piece.currentType != ElementalType.Water);
 
                 skill2 = Instantiate(piece).GetComponent<SkillPiece>();
                 skill2.transform.position = Vector2.zero + (Vector2.left * 1f);
@@ -96,7 +98,6 @@ public class Encounter_011 : RandomEncounter
 
     public override void Result()
     {
-        BattleHandler battleHandler = GameManager.Instance.battleHandler;
         Transform unusedInventoryTrm = GameManager.Instance.inventoryHandler.transform;
         switch (choiceIdx)
         {
@@ -110,7 +111,7 @@ public class Encounter_011 : RandomEncounter
                 .Join(skill2.GetComponent<Image>().DOFade(0f, 0.5f))
                 .OnComplete(() =>
                 {
-                    Inventory Owner = battleHandler.player.GetComponent<Inventory>();
+                    Inventory Owner = bh.player.GetComponent<Inventory>();
 
                     GameManager.Instance.inventoryHandler.AddSkill(skill, Owner);
                     skill.GetComponent<Image>().color = Color.white;
@@ -128,7 +129,7 @@ public class Encounter_011 : RandomEncounter
                 .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
                 .OnComplete(() =>
                 {
-                    Inventory Owner = battleHandler.player.GetComponent<Inventory>();
+                    Inventory Owner = bh.player.GetComponent<Inventory>();
 
                     GameManager.Instance.inventoryHandler.AddSkill(skill, Owner);
                     skill.GetComponent<Image>().color = Color.white;
@@ -140,7 +141,7 @@ public class Encounter_011 : RandomEncounter
             case 2:
                 NormalEvent eventInfo = null;
                 PlayerHealth playerHealth = GameManager.Instance.GetPlayer();
-                BattleEventHandler battleEventHandler = GameManager.Instance.battleHandler.battleEvent;
+                BattleEventHandler battleEventHandler = bh.battleEvent;
 
                 int battlecount = battleCntValue;
 

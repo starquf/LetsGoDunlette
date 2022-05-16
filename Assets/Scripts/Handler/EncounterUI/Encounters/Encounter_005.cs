@@ -67,8 +67,7 @@ public class Encounter_005 : RandomEncounter
 
     private void GetScroll(Scroll _scroll)
     {
-        BattleHandler battleHandler = GameManager.Instance.battleHandler;
-        BattleScrollHandler battleScrollHandler = battleHandler.GetComponent<BattleScrollHandler>();
+        BattleScrollHandler battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
 
         Scroll scroll = PoolManager.GetScroll(_scroll.scrollType);
         Image scrollImg = scroll.GetComponent<Image>();

@@ -6,8 +6,6 @@ using Random = UnityEngine.Random;
 
 public class Skill_F_DrawingWires : SkillPiece
 {
-    private BattleHandler bh;
-
     protected override void Start()
     {
         base.Start();

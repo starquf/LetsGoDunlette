@@ -55,10 +55,7 @@ public class SI_Skill : SkillPiece
 
     private void SI_Sweet_Voice(LivingEntity target, Action onCastEnd = null) //플레이어에게 매혹의 표식이 있다면 룰렛에 있는 플레이어 스킬 중 하나를 세이렌이 사용한다.
     {
-
-        BattleHandler battleHandler = GameManager.Instance.battleHandler;
-
-        Rullet rullet = battleHandler.mainRullet;
+        Rullet rullet = bh.mainRullet;
         List<RulletPiece> skillPieces = rullet.GetPieces();
 
         List<SkillPiece> skillPiece = new List<SkillPiece>();
@@ -100,18 +97,18 @@ public class SI_Skill : SkillPiece
         {
             if (result != null)
             {
-                battleHandler.battleEvent.StartActionEvent(EventTimeSkill.WithSkill, result);
+                bh.battleEvent.StartActionEvent(EventTimeSkill.WithSkill, result);
 
                 Inventory temp = result.Owner;
 
                 result.Owner = this.Owner;
-                result.Cast(battleHandler.player, () =>
+                result.Cast(bh.player, () =>
                 {
                     result.Owner = temp;
                     onCastEnd.Invoke();
                 });
 
-                battleHandler.battleUtil.SetPieceToGraveyard(skillPieceIdxDic[result]);
+                bh.battleUtil.SetPieceToGraveyard(skillPieceIdxDic[result]);
             }
             else
             {

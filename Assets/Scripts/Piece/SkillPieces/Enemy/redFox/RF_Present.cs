@@ -8,9 +8,6 @@ using Random = UnityEngine.Random;
 public class RF_Present : SkillPiece
 {
     private Sprite originIcon;
-
-    private BattleHandler bh;
-
     protected override void Awake()
     {
         base.Awake();
@@ -28,8 +25,6 @@ public class RF_Present : SkillPiece
 
     public override void OnRullet()
     {
-        bh = GameManager.Instance.battleHandler;
-
         base.OnRullet();
 
         List<RulletPiece> pieces = bh.mainRullet.GetPieces();

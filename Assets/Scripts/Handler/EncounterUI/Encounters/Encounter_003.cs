@@ -50,7 +50,7 @@ public class Encounter_003 : RandomEncounter
                 bInfo.isWeakEnemy = false;
                 bInfo.bg = ballteBg;
 
-                GameManager.Instance.battleHandler.StartBattle(bInfo : bInfo);
+                bh.StartBattle(bInfo : bInfo);
                 OnExitEncounter?.Invoke(false);
                 break;
             case 1:

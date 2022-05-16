@@ -24,7 +24,6 @@ public class Skill_N_Swamp : SkillPiece
 
     private IEnumerator Drain(LivingEntity target, Action onCastEnd = null)
     {
-        BattleHandler bh = GameManager.Instance.battleHandler;
         target.GetDamage(value);
 
         animHandler.GetTextAnim()

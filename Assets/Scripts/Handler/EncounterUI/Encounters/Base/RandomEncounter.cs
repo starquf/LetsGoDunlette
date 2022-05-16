@@ -23,6 +23,12 @@ public abstract class RandomEncounter : MonoBehaviour
     [HideInInspector]public bool isEffectEnd;
     protected int choiceIdx;
 
+    protected BattleHandler bh;
+
+    private void Start()
+    {
+        bh = GameManager.Instance.battleHandler;
+    }
     public virtual void Init()
     {
 

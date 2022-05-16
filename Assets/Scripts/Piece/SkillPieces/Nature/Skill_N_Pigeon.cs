@@ -10,8 +10,6 @@ public class Skill_N_Pigeon : SkillPiece
     public Sprite pigeonSpr;
     private Gradient effectGradient;
 
-    private BattleHandler bh;
-
     protected override void Start()
     {
         base.Start();

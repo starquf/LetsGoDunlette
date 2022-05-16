@@ -1,7 +1,5 @@
 using DG.Tweening;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -50,7 +48,8 @@ public class GameOverPanelHandler : MonoBehaviour
         showSequence.Kill();
         if (!skip)
         {
-            showSequence = DOTween.Sequence().Append(cvsGroup.DOFade(enable ? 1 : 0, 0.5f).OnComplete(() => {
+            showSequence = DOTween.Sequence().Append(cvsGroup.DOFade(enable ? 1 : 0, 0.5f).OnComplete(() =>
+            {
                 cvsGroup.interactable = enable;
                 cvsGroup.blocksRaycasts = enable;
                 onShowEnd?.Invoke();

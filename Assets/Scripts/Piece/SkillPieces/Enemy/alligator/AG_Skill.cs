@@ -48,7 +48,7 @@ public class AG_Skill : SkillPiece
                                   });
                               };
         NormalEvent eventInfo = new NormalEvent(true, 3, onStartBattle, EventTime.EndOfTurn);
-        GameManager.Instance.battleHandler.battleEvent.BookEvent(eventInfo);
+        bh.battleEvent.BookEvent(eventInfo);
 
         SetIndicator(Owner.gameObject, "Ä§¹¬").OnEndAction(() =>
         {

@@ -52,7 +52,6 @@ public class Encounter_008 : RandomEncounter
         {
             case 0:
 
-                BattleHandler battleHandler = GameManager.Instance.battleHandler;
                 Transform unusedInventoryTrm = GameManager.Instance.inventoryHandler.transform;
                 DOTween.Sequence()
                 .Append(skill.transform.DOMove(unusedInventoryTrm.position, 0.5f))
@@ -60,7 +59,7 @@ public class Encounter_008 : RandomEncounter
                 .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
                 .OnComplete(() =>
                 {
-                    Inventory Owner = battleHandler.player.GetComponent<Inventory>();
+                    Inventory Owner = bh.player.GetComponent<Inventory>();
 
                     GameManager.Instance.inventoryHandler.AddSkill(skill, Owner);
                     skill.GetComponent<Image>().color = Color.white;

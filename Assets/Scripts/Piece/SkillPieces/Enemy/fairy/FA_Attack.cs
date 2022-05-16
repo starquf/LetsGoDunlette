@@ -18,7 +18,6 @@ public class FA_Attack : SkillPiece
     public override void OnRullet()
     {
         base.OnRullet();
-        BattleHandler bh = GameManager.Instance.battleHandler;
         bh.battleEvent.RemoveEventInfo(eventInfo);
 
         onNextTurn = (piece,action) =>
