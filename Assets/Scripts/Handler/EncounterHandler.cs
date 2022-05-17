@@ -53,6 +53,7 @@ public class EncounterHandler : MonoBehaviour
         for (int i = 0; i < bottomUIs.Count; i++)
         {
             bottomUIs[i].ClosePanel();
+            bottomUIs[i].canControl = false;
         }
 
         ShowBlackPanel(true);
@@ -84,7 +85,6 @@ public class EncounterHandler : MonoBehaviour
     private IEnumerator LateEncounter(mapNode type)
     {
         yield return null;
-
 
         switch (type)
         {
@@ -148,6 +148,12 @@ public class EncounterHandler : MonoBehaviour
                     restEncounterUIHandler.StartEvent();
                 }
                 break;
+        }
+
+
+        for (int i = 0; i < bottomUIs.Count; i++)
+        {
+            bottomUIs[i].canControl = true;
         }
     }
 

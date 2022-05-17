@@ -21,6 +21,8 @@ public abstract class BottomUIElement : MonoBehaviour
 
     protected bool isShow = false;
 
+    public bool canControl = true;
+
     protected virtual void Start()
     {
         cg = GetComponent<CanvasGroup>();
@@ -41,6 +43,9 @@ public abstract class BottomUIElement : MonoBehaviour
 
     public virtual void Popup(bool stopTime = true)
     {
+        if (!canControl)
+            return;
+
         this.stopTime = stopTime;
 
         ShowPanel(true);
