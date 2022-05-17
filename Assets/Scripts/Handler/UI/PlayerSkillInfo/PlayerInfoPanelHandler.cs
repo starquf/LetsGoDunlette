@@ -4,12 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class PlayerInfoPanelHandler : BottomUIElement
+public class PlayerInfoPanelHandler : BottomSwapUI
 {
     private BattleHandler bh;
-
-    public Button infoButton;
-    public Button closeBtn;
 
     private PlayerInfo playerInfo;
 
@@ -19,26 +16,18 @@ public class PlayerInfoPanelHandler : BottomUIElement
     public bool isCasting = false;
     private bool canCast = true;
 
+    protected override void Awake()
+    {
+        base.Awake();
+
+        skillBtnTrans.GetComponentsInChildren(skillButtons);
+    }
+
     protected override void Start()
     {
         base.Start();
 
         bh = GameManager.Instance.battleHandler;
-
-        skillBtnTrans.GetComponentsInChildren(skillButtons);
-
-        //infoButton.onClick.AddListener(() =>
-        //{
-        //    if (Time.timeScale <= 0) return;
-
-        //    if (!isShow)
-        //        Popup();
-        //});
-
-        closeBtn.onClick.AddListener(() =>
-        {
-            ClosePanel();
-        });
     }
 
     public void Init(PlayerInfo playerInfo)
@@ -101,7 +90,7 @@ public class PlayerInfoPanelHandler : BottomUIElement
                 isCasting = false;
             });
 
-            ClosePanel();
+            //ClosePanel();
         }
     }
 

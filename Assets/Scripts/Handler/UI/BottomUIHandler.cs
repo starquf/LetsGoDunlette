@@ -15,6 +15,8 @@ public class BottomUIHandler : MonoBehaviour
 
     public bool isShow = true;
 
+    public List<BottomSwapUI> swapUIs = new List<BottomSwapUI>();
+    private int swapUIIdx = 0;
 
     private void Awake()
     {
@@ -23,6 +25,38 @@ public class BottomUIHandler : MonoBehaviour
 
         startPos = transform.localPosition.y;
         downPos = transform.localPosition.y - 240f;
+    }
+
+    private void Start()
+    {
+        ShowSwapUI(0);
+
+        swapBtn.onClick.AddListener(() =>
+        {
+            SwapToNextUI();
+        });
+    }
+
+    public void SwapToNextUI()
+    {
+        swapUIIdx = (swapUIIdx + 1) % swapUIs.Count;
+
+        ShowSwapUI(swapUIIdx);
+    }
+
+    protected void ShowSwapUI(int idx)
+    {
+        if (idx >= swapUIs.Count)
+            return;
+
+        for (int i = 0; i < swapUIs.Count; i++)
+        {
+            swapUIs[i].ShowPanel(false);
+        }
+
+        swapUIs[idx].ShowPanel(true);
+
+        swapUIs[idx].transform.SetAsLastSibling();
     }
 
     public void ShowBottomPanel(bool enable)
