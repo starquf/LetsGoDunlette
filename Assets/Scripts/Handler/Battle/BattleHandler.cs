@@ -602,6 +602,8 @@ public class BattleHandler : MonoBehaviour
         battleEvent.ResetAllEvents();
         fieldHandler.SetFieldType(ElementalType.None);
 
+        SetInteract(false);
+
         //battleScroll.ShowScrollUI(open: false);
         //GameManager.Instance.goldUIHandler.ShowGoldUI(open: false);
 
