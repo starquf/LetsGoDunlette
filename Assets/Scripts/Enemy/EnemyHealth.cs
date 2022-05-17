@@ -9,7 +9,6 @@ public class EnemyHealth : LivingEntity
     [Header("적 기본 데이터")]
     public EnemyType enemyType;
 
-    private Collider2D coll;
     private SpriteRenderer sr;
 
     [HideInInspector]
@@ -30,7 +29,6 @@ public class EnemyHealth : LivingEntity
     {
         base.Awake();
 
-        coll = GetComponent<Collider2D>();
         sr = GetComponent<SpriteRenderer>();
 
         indicator = GetComponent<EnemyIndicator>();
@@ -91,7 +89,6 @@ public class EnemyHealth : LivingEntity
         Inventory inven = GetComponent<Inventory>();
         GameManager.Instance.inventoryHandler.RemoveAllOwnerPiece(inven);
         StartCoroutine(bh.battleEvent.ActionEvent(EventTimeEnemy.EnemyDie, this));
-        coll.enabled = false;
         bh.enemys.Remove(this);
         GameManager.Instance.inventoryHandler.RemoveInventory(inven);
     }
@@ -117,7 +114,5 @@ public class EnemyHealth : LivingEntity
         sr.DOFade(1f, 1f)
             .From(0f)
             .SetEase(Ease.Linear);
-
-        coll.enabled = true;
     }
 }
