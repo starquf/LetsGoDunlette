@@ -5,10 +5,6 @@ using UnityEngine.UI;
 public class Encounter_017 : RandomEncounter
 {
     private SkillPiece skill;
-    public override void Init()
-    {
-        base.Init();
-    }
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;

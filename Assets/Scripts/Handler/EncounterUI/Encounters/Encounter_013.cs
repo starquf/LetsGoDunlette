@@ -8,10 +8,6 @@ using Random = UnityEngine.Random;
 public class Encounter_013 : RandomEncounter
 {
     public int lostGoldValue = 10;
-    public override void Init()
-    {
-        base.Init();
-    }
     public SkillPiece GetRamdomSkill()
     {
         InventoryHandler inventoryHandler = GameManager.Instance.inventoryHandler;

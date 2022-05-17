@@ -7,10 +7,6 @@ public class Encounter_008 : RandomEncounter
     public int getGoldValue = 10;
     public SkillPiece fisingPiece;
     private SkillPiece skill;
-    public override void Init()
-    {
-        base.Init();
-    }
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;

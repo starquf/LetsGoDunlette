@@ -11,10 +11,6 @@ public class Encounter_011 : RandomEncounter
     public SkillPiece mermaidBlessingPiece;
     private SkillPiece skill;
     private SkillPiece skill2;
-    public override void Init()
-    {
-        base.Init();
-    }
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;

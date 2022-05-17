@@ -4,10 +4,6 @@ using UnityEngine.UI;
 
 public class Encounter_007 : RandomEncounter
 {
-    public override void Init()
-    {
-        base.Init();
-    }
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;

@@ -4,10 +4,6 @@ using UnityEngine.UI;
 
 public class Encounter_005 : RandomEncounter
 {
-    public override void Init()
-    {
-        base.Init();
-    }
     private bool IsWin()
     {
         int rand = Random.Range(0, 99);

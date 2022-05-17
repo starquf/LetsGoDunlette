@@ -6,10 +6,6 @@ public class Encounter_020 : RandomEncounter
 {
     public int giveMoneyValue = 10;
     public int hitedDamage = 20;
-    public override void Init()
-    {
-        base.Init();
-    }
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;
