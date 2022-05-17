@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,7 +32,10 @@ public class DebugBattlePanelHandler : MonoBehaviour, IDebugPanel
 
         finishBattleBtn.onClick.AddListener(() =>
         {
-            if (!bh.isBattle) return;
+            if (!bh.isBattle)
+            {
+                return;
+            }
 
             bh.BattleForceEnd();
             bh.CheckBattleEnd();
@@ -57,7 +59,10 @@ public class DebugBattlePanelHandler : MonoBehaviour, IDebugPanel
             battleHideImgObjs[i].SetActive(true);
         }
 
-        if (!bh.isBattle) return;
+        if (!bh.isBattle)
+        {
+            return;
+        }
 
         for (int i = 0; i < battleHideImgObjs.Count; i++)
         {
@@ -66,16 +71,20 @@ public class DebugBattlePanelHandler : MonoBehaviour, IDebugPanel
 
         for (int i = 0; i < bh.enemys.Count; i++)
         {
-            Dropdown.OptionData optionData = new Dropdown.OptionData();
-            optionData.text = i.ToString();
-            optionData.image = bh.enemys[i].GetComponent<SpriteRenderer>().sprite;
+            Dropdown.OptionData optionData = new Dropdown.OptionData
+            {
+                text = i.ToString(),
+                image = bh.enemys[i].GetComponent<SpriteRenderer>().sprite
+            };
 
             enemySelectDrop.options.Add(optionData);
         }
 
-        Dropdown.OptionData data = new Dropdown.OptionData();
-        data.text = "ALL";
-        data.image = null;
+        Dropdown.OptionData data = new Dropdown.OptionData
+        {
+            text = "ALL",
+            image = null
+        };
 
         enemySelectDrop.options.Add(data);
 
@@ -109,9 +118,8 @@ public class DebugBattlePanelHandler : MonoBehaviour, IDebugPanel
 
     private void OnHpTextEditEnd(InputField target, string text)
     {
-        int hp = 0;
 
-        if (int.TryParse(text, out hp))
+        if (int.TryParse(text, out int hp))
         {
             if (hp <= 0)
             {

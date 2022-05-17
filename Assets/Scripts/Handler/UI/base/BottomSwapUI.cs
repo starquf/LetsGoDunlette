@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using DG.Tweening;
+using UnityEngine;
 
 public abstract class BottomSwapUI : MonoBehaviour
 {
@@ -21,7 +19,7 @@ public abstract class BottomSwapUI : MonoBehaviour
         rect = GetComponent<RectTransform>();
 
         startPos = cg.transform.localPosition.y;
-        endPos = cg.transform.localPosition.y - rect.rect.height;
+        endPos = cg.transform.localPosition.y - rect.rect.height - 30f;
 
         ShowPanel(false);
 
@@ -63,8 +61,8 @@ public abstract class BottomSwapUI : MonoBehaviour
 
             sizeSeq.Kill();
             sizeSeq = DOTween.Sequence()
-                .Append(cg.transform.DOScale(Vector3.one * 1.06f, 0.12f))
-                .Append(cg.transform.DOScale(Vector3.one, 0.12f));
+                .Append(cg.transform.DOScale(Vector3.one * 1.05f, 0.1f))
+                .Append(cg.transform.DOScale(Vector3.one, 0.1f));
         }
         else
         {

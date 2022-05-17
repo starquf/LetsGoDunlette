@@ -8,7 +8,7 @@ public class Skill_W_Bubble : SkillPiece
 {
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-       bh.battleUtil.StartCoroutine(Bubble(target, onCastEnd));
+        bh.battleUtil.StartCoroutine(Bubble(target, onCastEnd));
     }
 
     public override List<DesIconInfo> GetDesIconInfo()
@@ -38,9 +38,9 @@ public class Skill_W_Bubble : SkillPiece
             int a = i;
 
             animHandler.GetAnim(AnimName.W_Bubble)
-            .SetPosition(t.transform.position + (Vector3)(Vector2.up * Random.Range(-0.3f, 0.3f) + Vector2.right * Random.Range(-0.3f, 0.3f)))
+            .SetPosition(t.transform.position + (Vector3)((Vector2.up * Random.Range(-0.3f, 0.3f)) + (Vector2.right * Random.Range(-0.3f, 0.3f))))
             .SetScale(0.5f)
-            .Play(() => 
+            .Play(() =>
             {
                 if (a == rand - 1)
                 {
@@ -60,7 +60,7 @@ public class Skill_W_Bubble : SkillPiece
                 }
             });
 
-            yield return new WaitForSeconds(time / (float)rand);
+            yield return new WaitForSeconds(time / rand);
         }
     }
 }

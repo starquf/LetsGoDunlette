@@ -5,21 +5,19 @@ using UnityEngine;
 public class SkillPiece : RulletPiece
 {
     [Header("스킬 세팅")]
-    public bool isPlayerSkill = true; //플레이어 스킬인가?
-    public bool isTargeting = true; //타게팅스킬인가?
-    public bool isRandomSkill = false; //랜덤 스킬인가??
-    public bool isDisposable = false; //1회용인가
+    public bool isPlayerSkill = true;                 // 플레이어 스킬인가?
+    public bool isTargeting = true;                   // 타게팅스킬인가?
+    public bool isRandomSkill = false;                // 랜덤 스킬인가??
+    public bool isDisposable = false;                 // 1회용인가
+    public SkillRange skillRange = SkillRange.Single; // 스킬의 공격 범위
 
     public PieceInfo[] pieceInfo;
     protected Action<LivingEntity, Action> onCastSkill;
 
     protected List<DesIconInfo> desInfos = new List<DesIconInfo>();
 
-    private bool isInRullet = false;
-    public bool IsInRullet { get => isInRullet; set => isInRullet = value; }
-
-    private Inventory owner;
-    public Inventory Owner { get => owner; set => owner = value; }
+    public bool IsInRullet { get; set; } = false;
+    public Inventory Owner { get; set; }
 
     protected AnimHandler animHandler = null;
 
@@ -40,16 +38,22 @@ public class SkillPiece : RulletPiece
 
     }
 
-    protected override void Start()
+    protected virtual void Start()
     {
-        base.Start();
+        bh = GameManager.Instance.battleHandler;
+        animHandler = GameManager.Instance.animHandler;
+    }
+
+    public override void OnRullet()
+    {
+        base.OnRullet();
         bh = GameManager.Instance.battleHandler;
         animHandler = GameManager.Instance.animHandler;
     }
 
     public virtual PieceInfo ChoiceSkill()
     {
-        return new PieceInfo("None","None");
+        return new PieceInfo("None", "None");
     }
 
 
@@ -89,7 +93,7 @@ public class SkillPiece : RulletPiece
         EnemyIndicator enemyIndicator = go.GetComponent<EnemyIndicator>();
         if (enemyIndicator != null)
         {
-            enemyIndicator.ShowText(content,action);
+            enemyIndicator.ShowText(content, action);
         }
     }
 

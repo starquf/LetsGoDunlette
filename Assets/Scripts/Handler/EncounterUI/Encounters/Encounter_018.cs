@@ -15,10 +15,6 @@ public class Encounter_018 : RandomEncounter
         PlayerHealth playerHealth = GameManager.Instance.GetPlayer();
         Image skill2Img;
 
-        RandomEncounterUIHandler randomEncounterUIHandler = encounterInfoHandler.GetComponent<RandomEncounterUIHandler>();
-        InventoryInfoHandler invenInfoHandler = GameManager.Instance.invenInfoHandler;
-        InventoryHandler invenHandler = GameManager.Instance.inventoryHandler;
-
         switch (resultIdx)
         {
             case 0:
@@ -26,8 +22,32 @@ public class Encounter_018 : RandomEncounter
                 showImg = en_End_Image[0];
                 en_End_Result = "가지고 있는 조각 중 2개의 랜덤한 조각들이 각각 하나씩 더 복사된다.";
 
+
+                break;
+            case 1:
+                showText = en_End_TextList[1];
+                showImg = en_End_Image[1];
+                en_End_Result = "원하는 룰렛 조각을 하나 선택해 복사한다.";
+                break;
+            default:
+                break;
+        }
+        ShowEndEncounter?.Invoke();
+    }
+
+    public override void Result()
+    {
+
+        RandomEncounterUIHandler randomEncounterUIHandler = encounterInfoHandler.GetComponent<RandomEncounterUIHandler>();
+        InventoryInfoHandler invenInfoHandler = GameManager.Instance.invenInfoHandler;
+        InventoryHandler invenHandler = GameManager.Instance.inventoryHandler;
+
+        Transform unusedInventoryTrm = GameManager.Instance.inventoryHandler.transform;
+        switch (choiceIdx)
+        {
+            case 0:
+
                 invenInfoHandler.closeBtn.interactable = false;
-                randomEncounterUIHandler.exitBtn.gameObject.SetActive(false);
 
                 skills = new List<SkillPiece>();
                 for (int i = 0; i < 2; i++)
@@ -41,24 +61,20 @@ public class Encounter_018 : RandomEncounter
 
                     invenHandler.GetSkillFromInventory(sp);
 
-                    sp.GetComponent<Image>().raycastTarget = false;
+                    sp.transform.position = bh.player.GetComponent<Inventory>().indicator.transform.position;
                     sp.transform.SetParent(encounterInfoHandler.transform);
 
                     DOTween.Sequence()
-                    .Append(sp.transform.DOMove(Vector2.zero+(idx==0 ?Vector2.up:Vector2.down), 0.5f))
+                    .Append(sp.transform.DOMove(Vector2.zero + (idx == 0 ? Vector2.up : Vector2.down), 0.5f))
                     .Join(sp.transform.DOScale(Vector2.one, 0.5f))
                     .Join(sp.transform.DORotate(new Vector3(0f, 0f, 30f), 0.5f))
                     .OnComplete(() =>
                     {
-                        SkillPiece sp2 = Instantiate(sp).GetComponent<SkillPiece>();
-                        skills.Add(sp2);
+                        SkillPiece sp2 = null;
+                        MakeSkill(sp, out sp2);
                         sp2.transform.position = sp.transform.position;
-                        sp2.transform.rotation = Quaternion.Euler(0, 0, 30f);
                         Image sp2Img = sp2.GetComponent<Image>();
-                        sp2Img.color = new Color(1, 1, 1, 0);
-                        sp2Img.raycastTarget = false;
-                        sp2.transform.SetParent(encounterInfoHandler.transform);
-                        sp2.transform.localScale = Vector3.one;
+                        skills.Add(sp2);
 
                         DOTween.Sequence()
                         .Append(sp2Img.DOFade(1, 0.3f))
@@ -66,24 +82,33 @@ public class Encounter_018 : RandomEncounter
                         .Join(sp2.transform.DOMoveX(1f, 0.3f))
                         .OnComplete(() =>
                         {
-                            if(idx == 1)
+                            if (idx == 1)
                             {
-                                invenInfoHandler.closeBtn.interactable = true;
-                                randomEncounterUIHandler.exitBtn.gameObject.SetActive(true);
+                                for (int i = 0; i < skills.Count; i++)
+                                {
+                                    int idx = i;
+                                    DOTween.Sequence().SetDelay(idx * 0.1f)
+                                        .OnComplete(() =>
+                                        {
+                                            GetSkillInRandomEncounterAnim(skills[idx],
+                                                () =>
+                                                {
+                                                    if (idx == skills.Count - 1)
+                                                    {
+                                                        OnExitEncounter?.Invoke(true);
+                                                        invenInfoHandler.closeBtn.interactable = true;
+                                                    }
+                                                }, true);
+                                        });
+                                }
                             }
                         });
                     });
                 }
-
                 break;
             case 1:
-                showText = en_End_TextList[1];
-                showImg = en_End_Image[1];
-                en_End_Result = "원하는 룰렛 조각을 하나 선택해 복사한다.";
-
 
                 invenInfoHandler.closeBtn.interactable = false;
-                randomEncounterUIHandler.exitBtn.gameObject.SetActive(false);
 
                 Transform frontPanelTrm = invenInfoHandler.transform.parent;
 
@@ -105,22 +130,18 @@ public class Encounter_018 : RandomEncounter
 
                         GameManager.Instance.bottomUIHandler.ShowBottomPanel(false);
 
+                        sp.transform.position = bh.player.GetComponent<Inventory>().indicator.transform.position;
                         sp.transform.SetParent(encounterInfoHandler.transform);
 
                         skill = sp;
                         DOTween.Sequence()
                         .Append(skill.transform.DOMove(Vector2.zero, 0.5f))
                         .Join(skill.transform.DOScale(Vector2.one, 0.5f))
-                        .Join(skill.transform.DORotate(new Vector3(0f,0f,30f), 0.5f))
+                        .Join(skill.transform.DORotate(new Vector3(0f, 0f, 30f), 0.5f))
                         .OnComplete(() =>
                         {
-                            skill2 = Instantiate(sp).GetComponent<SkillPiece>();
-                            skill2.transform.position = Vector2.zero;
-                            skill2.transform.rotation = Quaternion.Euler(0, 0, 30f);
-                            skill2Img = skill2.GetComponent<Image>();
-                            skill2Img.color = new Color(1, 1, 1, 0);
-                            skill2.transform.SetParent(encounterInfoHandler.transform);
-                            skill2.transform.localScale = Vector3.one;
+                            MakeSkill(sp, out skill2);
+                            Image skill2Img = skill2.GetComponent<Image>();
 
                             DOTween.Sequence()
                             .Append(skill2Img.DOFade(1, 0.3f))
@@ -128,66 +149,41 @@ public class Encounter_018 : RandomEncounter
                             .Join(skill2.transform.DOMoveX(1f, 0.3f))
                             .OnComplete(() =>
                             {
-                                invenInfoHandler.closeBtn.interactable = true;
-                                randomEncounterUIHandler.exitBtn.gameObject.SetActive(true);
+
+                                GetSkillInRandomEncounterAnim(skill,
+                                    () =>
+                                    {
+                                        GetSkillInRandomEncounterAnim(skill2,
+                                            () =>
+                                            {
+                                                OnExitEncounter?.Invoke(true);
+                                                invenInfoHandler.closeBtn.interactable = true;
+                                            }, true);
+                                    }, true);
                             });
                         });
                     });
                 }/*, onCancelUse*/, stopTime: false);
-                break;
-            default:
-                break;
-        }
-        ShowEndEncounter?.Invoke();
-    }
 
-    public override void Result()
-    {
-        Transform unusedInventoryTrm = GameManager.Instance.inventoryHandler.transform;
-        switch (choiceIdx)
-        {
-            case 0:
-                for (int i = 0; i < skills.Count; i++)
-                {
-                    int idx = i;
-                    DOTween.Sequence().SetDelay(idx*0.1f)
-                    .Append(skills[idx].transform.DOMove(unusedInventoryTrm.position, 0.5f))
-                    .Join(skills[idx].transform.DOScale(Vector2.one * 0.1f, 0.5f))
-                    .Join(skills[idx].GetComponent<Image>().DOFade(0f, 0.5f))
-                    .OnComplete(() =>
-                    {
-                        Inventory owner = bh.player.GetComponent<Inventory>();
+                //DOTween.Sequence()
+                //.Append(skill.transform.DOMove(unusedInventoryTrm.position, 0.5f))
+                //.Join(skill.transform.DOScale(Vector2.one * 0.1f, 0.5f))
+                //.Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
+                //.Append(skill2.transform.DOMove(unusedInventoryTrm.position, 0.5f))
+                //.Join(skill2.transform.DOScale(Vector2.one * 0.1f, 0.5f))
+                //.Join(skill2.GetComponent<Image>().DOFade(0f, 0.5f))
+                //.OnComplete(() =>
+                //{
+                //    Inventory owner = bh.player.GetComponent<Inventory>();
 
-                        GameManager.Instance.inventoryHandler.AddSkill(skills[idx], owner);
-                        skills[idx].GetComponent<Image>().color = Color.white;
+                //    GameManager.Instance.inventoryHandler.AddSkill(skill, owner);
+                //    skill.GetComponent<Image>().color = Color.white;
 
-                        if(idx==skills.Count-1)
-                        {
-                            OnExitEncounter?.Invoke(true);
-                        }
-                    });
-                }
-                break;
-            case 1:
-                DOTween.Sequence()
-                .Append(skill.transform.DOMove(unusedInventoryTrm.position, 0.5f))
-                .Join(skill.transform.DOScale(Vector2.one * 0.1f, 0.5f))
-                .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
-                .Append(skill2.transform.DOMove(unusedInventoryTrm.position, 0.5f))
-                .Join(skill2.transform.DOScale(Vector2.one * 0.1f, 0.5f))
-                .Join(skill2.GetComponent<Image>().DOFade(0f, 0.5f))
-                .OnComplete(() =>
-                {
-                    Inventory owner = bh.player.GetComponent<Inventory>();
+                //    GameManager.Instance.inventoryHandler.AddSkill(skill2, owner);
+                //    skill2.GetComponent<Image>().color = Color.white;
 
-                    GameManager.Instance.inventoryHandler.AddSkill(skill, owner);
-                    skill.GetComponent<Image>().color = Color.white;
-
-                    GameManager.Instance.inventoryHandler.AddSkill(skill2, owner);
-                    skill2.GetComponent<Image>().color = Color.white;
-
-                    OnExitEncounter?.Invoke(true);
-                });
+                //    OnExitEncounter?.Invoke(true);
+                //});
                 break;
             default:
                 break;

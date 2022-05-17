@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class Encounter_015 : RandomEncounter
 {
-    private SkillPiece skill;
+    private Scroll scroll = null;
     BattleScrollHandler battleScrollHandler = null;
-
     public override void Init()
     {
+        base.Init();
         battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
         int scrollCount = 0;
         for (int i = 0; i < battleScrollHandler.slots.Count; i++)
@@ -95,16 +95,7 @@ public class Encounter_015 : RandomEncounter
                 en_End_Result = "°ñµå¸¦ ÀÒ°í ·£´ý ½ºÅ©·Ñ 1°³¸¦ È¹µæ";
                 GameManager.Instance.Gold -= 10;
 
-                SkillPiece piece = encounterInfoHandler.GetRandomSkillRewards(1)[0].GetComponent<SkillPiece>();
-
-                skill = Instantiate(piece).GetComponent<SkillPiece>();
-                skill.transform.position = Vector2.zero;
-                skill.transform.rotation = Quaternion.Euler(0, 0, 30f);
-                skillImg = skill.GetComponent<Image>();
-                skillImg.color = new Color(1, 1, 1, 0);
-                skill.transform.SetParent(encounterInfoHandler.transform);
-                skill.transform.localScale = Vector3.one;
-                skillImg.DOFade(1, 0.5f).SetDelay(1f);
+                MakeScroll(encounterInfoHandler.GetRandomScrollRewards(1)[0].scrollType, out scroll);
                 break;
             default:
                 break;
@@ -124,19 +115,15 @@ public class Encounter_015 : RandomEncounter
                 OnExitEncounter?.Invoke(true);
                 break;
             case 2:
-                DOTween.Sequence()
-                .Append(skill.transform.DOMove(unusedInventoryTrm.position, 0.5f))
-                .Join(skill.transform.DOScale(Vector2.one * 0.1f, 0.5f))
-                .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
-                .OnComplete(() =>
+                BattleScrollHandler battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
+                RandomEncounterUIHandler randomEncounterUIHandler = encounterInfoHandler.GetComponent<RandomEncounterUIHandler>();
+                scroll.GetComponent<Image>().DOFade(1, 0.5f).SetDelay(1f);
+
+                battleScrollHandler.GetScroll(scroll, () =>
                 {
-                    Inventory Owner = bh.player.GetComponent<Inventory>();
-
-                    GameManager.Instance.inventoryHandler.AddSkill(skill, Owner);
-                    skill.GetComponent<Image>().color = Color.white;
-
                     OnExitEncounter?.Invoke(true);
-                });
+                    randomEncounterUIHandler.exitBtn.gameObject.SetActive(true);
+                }, true);
                 break;
             default:
                 break;

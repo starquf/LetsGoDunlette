@@ -1,11 +1,9 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class ComboManager : MonoBehaviour
-{ 
+{
     public static ComboManager Instance { get; private set; } //싱글톤은 나중에 보완
 
     // 8개
@@ -55,7 +53,7 @@ public class ComboManager : MonoBehaviour
 
         // 이전 거의 타입
         ElementalType previousType = ElementalType.None;
-        
+
         // 큐를 리스트로 변환하는 거
         List<ComboSlot> comboTempList = new List<ComboSlot>();
         comboTempList = comboQueue.ToList();
@@ -65,7 +63,7 @@ public class ComboManager : MonoBehaviour
             if (previousType.Equals(comboTempList[i].comboType))
             {
                 combo++;
-                comboTempList[i-1].Delete();
+                comboTempList[i - 1].Delete();
             }
             else
             {

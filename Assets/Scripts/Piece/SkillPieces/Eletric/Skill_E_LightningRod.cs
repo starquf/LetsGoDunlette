@@ -1,6 +1,4 @@
-using DG.Tweening;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -27,7 +25,7 @@ public class Skill_E_LightningRod : SkillPiece
 
     private int GetDamageCalc()
     {
-        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.1f + 1);
+        int attack = (int)((Owner.GetComponent<LivingEntity>().AttackPower * 0.1f) + 1);
 
         return attack;
     }
@@ -43,11 +41,14 @@ public class Skill_E_LightningRod : SkillPiece
 
         for (int i = 0; i < skillPieces.Count; i++)
         {
-            if (skillPieces[i] == null) continue;
-
-            if(skillPieces[i].PieceType.Equals(PieceType.SKILL))
+            if (skillPieces[i] == null)
             {
-                if(skillPieces[i].currentType.Equals(ElementalType.Electric) && skillPieces[i] != this)
+                continue;
+            }
+
+            if (skillPieces[i].PieceType.Equals(PieceType.SKILL))
+            {
+                if (skillPieces[i].currentType.Equals(ElementalType.Electric) && skillPieces[i] != this)
                 {
                     SkillPiece piece = skillPieces[i] as SkillPiece;
                     lightningSkillPieces.Add(piece);
@@ -75,7 +76,8 @@ public class Skill_E_LightningRod : SkillPiece
             effect.SetColorGradient(effectGradient);
             effect.SetScale(Vector3.one * 0.6f);
 
-            effect.Play(result.skillImg.transform.position, () => {
+            effect.Play(result.skillImg.transform.position, () =>
+            {
                 effect.EndEffect();
             }, BezierType.Linear, isRotate: true, playSpeed: 3f);
         }
@@ -94,10 +96,12 @@ public class Skill_E_LightningRod : SkillPiece
                 {
                     bh.battleEvent.StartActionEvent(EventTimeSkill.WithSkill, result);
 
-                    LogCon log = new LogCon();
-                    log.text = $"스킬 발동";
-                    log.selfSpr = skillImg.sprite;
-                    log.targetSpr = result.skillImg.sprite;
+                    LogCon log = new LogCon
+                    {
+                        text = $"스킬 발동",
+                        selfSpr = skillImg.sprite,
+                        targetSpr = result.skillImg.sprite
+                    };
 
                     DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
 
@@ -105,10 +109,12 @@ public class Skill_E_LightningRod : SkillPiece
 
                     bh.battleUtil.SetPieceToGraveyard(lightningSkillIdxDic[result]);
 
-                    log = new LogCon();
-                    log.text = $"무덤으로 보냄";
-                    log.selfSpr = skillImg.sprite;
-                    log.targetSpr = result.skillImg.sprite;
+                    log = new LogCon
+                    {
+                        text = $"무덤으로 보냄",
+                        selfSpr = skillImg.sprite,
+                        targetSpr = result.skillImg.sprite
+                    };
 
                     DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
                 }
@@ -122,10 +128,12 @@ public class Skill_E_LightningRod : SkillPiece
 
         target.GetDamage(damage, currentType);
 
-        LogCon log = new LogCon();
-        log.text = $"{damage} 데미지 부여";
-        log.selfSpr = skillImg.sprite;
-        log.targetSpr = target.GetComponent<SpriteRenderer>().sprite;
+        LogCon log = new LogCon
+        {
+            text = $"{damage} 데미지 부여",
+            selfSpr = skillImg.sprite,
+            targetSpr = target.GetComponent<SpriteRenderer>().sprite
+        };
 
         DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
 

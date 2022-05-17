@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class Skill_C_Double_edged_sword : SkillPiece
 {
@@ -36,7 +34,7 @@ public class Skill_C_Double_edged_sword : SkillPiece
         animHandler.GetAnim(AnimName.E_ManaSphereHit)
             .SetScale(0.5f)
             .SetPosition(skillImg.transform.position)
-            .Play(() => 
+            .Play(() =>
             {
                 onCastEnd?.Invoke();
             });

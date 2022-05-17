@@ -1,9 +1,8 @@
-using System.Collections;
+using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
-using System;
 
 public class InventoryInfoHandler : BottomUIElement
 {
@@ -29,7 +28,7 @@ public class InventoryInfoHandler : BottomUIElement
     private InventoryHandler invenHandler;
     private BattleHandler bh;
 
-    [SerializeField] 
+    [SerializeField]
     private Text messageText;
     private string unusedMsg = "사용되지 않은 조각";
     private string usedMsg = "무덤에 있는 조각";
@@ -56,30 +55,44 @@ public class InventoryInfoHandler : BottomUIElement
 
         invenBtn.onClick.AddListener(() =>
         {
-            if (Time.timeScale <= 0) return;
+            if (Time.timeScale <= 0)
+            {
+                return;
+            }
 
             if (!isShow)
+            {
                 ShowInventoryInfo(unusedMsg, ShowInfoRange.Inventory, desPanel.ShowDescription);
+            }
         });
 
-        usedInvenBtn.onClick.AddListener(() => 
+        usedInvenBtn.onClick.AddListener(() =>
         {
-            if (Time.timeScale <= 0) return;
+            if (Time.timeScale <= 0)
+            {
+                return;
+            }
 
             if (!isShow)
+            {
                 ShowInventoryInfo(usedMsg, ShowInfoRange.Graveyard, desPanel.ShowDescription);
+            }
         });
 
         closeBtn.onClick.AddListener(() =>
         {
-            if(GameManager.Instance.curEncounter != mapNode.RandomEncounter)
+            if (GameManager.Instance.curEncounter != mapNode.RandomEncounter)
+            {
                 CloseInventoryInfo();
+            }
         });
 
         closeImgBtn.onClick.AddListener(() =>
         {
             if (GameManager.Instance.curEncounter != mapNode.RandomEncounter)
+            {
                 CloseInventoryInfo();
+            }
         });
 
         invenHandler.onUpdateInfo += ResetInventoryInfo;
@@ -124,7 +137,10 @@ public class InventoryInfoHandler : BottomUIElement
 
     private void ResetInventoryInfo()
     {
-        if (!isShow) return;
+        if (!isShow)
+        {
+            return;
+        }
 
         ResetPieceInfo();
 

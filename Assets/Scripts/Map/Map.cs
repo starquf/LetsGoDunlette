@@ -1,9 +1,8 @@
-using System.Collections;
+using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
-using DG.Tweening;
 
 public class Map : MonoBehaviour
 {
@@ -13,10 +12,7 @@ public class Map : MonoBehaviour
 
     public mapNode MapType
     {
-        get
-        {
-            return mapType;
-        }
+        get => mapType;
         set
         {
             mapType = value;
@@ -64,7 +60,7 @@ public class Map : MonoBehaviour
             default:
                 break;
         }
-        if(iconSpr == null)
+        if (iconSpr == null)
         {
             mapIcon.color = Color.clear;
         }
@@ -79,13 +75,15 @@ public class Map : MonoBehaviour
         button.interactable = enable;
 
         if (mapManager.GetMapIcon(mapType) != null)
-            mapIcon.color = enable? Color.white : new Color(0.7f, 0.7f, 0.7f, 1f);
+        {
+            mapIcon.color = enable ? Color.white : new Color(0.7f, 0.7f, 0.7f, 1f);
+        }
     }
 
-    
+
     private void OnClickButton()
     {
-        if(!isSelected) // 처음에 버튼 선택했을 때
+        if (!isSelected) // 처음에 버튼 선택했을 때
         {
             OnSelected(true);
             mapManager.UnSelectedLinkedMap(this);
@@ -96,7 +94,7 @@ public class Map : MonoBehaviour
             OnSelected(false, 0.1f, () =>
             {
                 mapManager.MovePlayer(this,
-                    ()=>
+                    () =>
                     {
                         mapManager.ZoomCamera(0.1f, time: 0.87f, ease: Ease.InBack, onComplete: () =>
                         {
@@ -120,7 +118,7 @@ public class Map : MonoBehaviour
         RectTransform rect = GetComponent<RectTransform>();
 
         selectSequence = DOTween.Sequence()
-            .Append(rect.DOMoveY(enable ? defaltPosY + (rect.sizeDelta.x /100f)/10f : defaltPosY, time))
+            .Append(rect.DOMoveY(enable ? defaltPosY + (rect.sizeDelta.x / 100f / 10f) : defaltPosY, time))
             .Join(mapOutLine.DOFade(enable ? 1 : 0, time))
             .OnComplete(() =>
             {

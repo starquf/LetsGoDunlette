@@ -1,5 +1,3 @@
-using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,16 +7,12 @@ public class Encounter_005 : RandomEncounter
     private bool IsWin()
     {
         int rand = Random.Range(0, 99);
-        if(rand < 40)
-        {
-            return true;
-        }
-        return false;
+        return rand < 40;
     }
 
     public override void ResultSet(int resultIdx)
     {
-        if(IsWin())
+        if (IsWin())
         {
             choiceIdx = 0;
             showText = en_End_TextList[0];
@@ -38,7 +32,7 @@ public class Encounter_005 : RandomEncounter
                 GameObject item = parent.GetChild(idx).gameObject;
                 Image image = item.GetComponent<Image>();
                 image.sprite = scrolls[idx].GetComponent<Image>().sprite;
-                
+
                 item.GetComponent<Button>().onClick.AddListener(() =>
                 {
                     for (int j = 0; j < 3; j++)
@@ -70,12 +64,7 @@ public class Encounter_005 : RandomEncounter
         BattleScrollHandler battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
 
         Scroll scroll = PoolManager.GetScroll(_scroll.scrollType);
-        Image scrollImg = scroll.GetComponent<Image>();
-        scrollImg.color = new Color(1, 1, 1, 0);
-        scroll.transform.SetParent(encounterInfoHandler.transform);
-        scroll.GetComponent<RectTransform>().sizeDelta = Vector2.one * 400f;
-        scroll.transform.position = Vector2.zero;
-        scroll.transform.localScale = Vector3.one;
+        MakeScroll(_scroll.scrollType, out scroll);
 
         battleScrollHandler.GetScroll(scroll, () =>
         {

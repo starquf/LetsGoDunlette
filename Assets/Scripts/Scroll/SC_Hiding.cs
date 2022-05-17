@@ -1,20 +1,29 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class SC_Hiding : Scroll
 {
-    private void Start()
+    public override void Start()
     {
+        base.Start();
         scrollType = ScrollType.Hiding;
     }
 
     public override void Use(Action onEndUse, Action onCancelUse)
     {
-        if (!bh.isBattle) return;
-        if (bh.isBoss) return;
-        if(bh.isElite) return;
+        if (!bh.isBattle)
+        {
+            return;
+        }
+
+        if (bh.isBoss)
+        {
+            return;
+        }
+
+        if (bh.isElite)
+        {
+            return;
+        }
 
         bh.BattleForceEnd();
         bh.CheckBattleEnd();

@@ -1,9 +1,3 @@
-using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-
 public class Encounter_021 : RandomEncounter
 {
     public int getMoneyValue = 10;

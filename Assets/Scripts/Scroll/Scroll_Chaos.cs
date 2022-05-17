@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class Scroll_Chaos : Scroll
 {
@@ -21,7 +18,7 @@ public class Scroll_Chaos : Scroll
 
         bh.mainRullet.PauseRullet();
 
-        StartCoroutine(bh.battleUtil.ResetRullet(() => 
+        StartCoroutine(bh.battleUtil.ResetRullet(() =>
         {
             print("Ω√¿€2");
 

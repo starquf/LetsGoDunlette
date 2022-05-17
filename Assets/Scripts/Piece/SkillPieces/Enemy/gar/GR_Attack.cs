@@ -1,8 +1,4 @@
-using DG.Tweening;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class GR_Attack : SkillPiece
 {
@@ -22,7 +18,7 @@ public class GR_Attack : SkillPiece
             animHandler.GetAnim(AnimName.N_ManaSphereHit)
                 .SetPosition(GameManager.Instance.enemyEffectTrm.position)
                 .SetScale(1.5f)
-                .Play(() => 
+                .Play(() =>
                 {
                     onCastEnd?.Invoke();
                 });

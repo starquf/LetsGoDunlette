@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -38,9 +36,11 @@ public class DebugFieldPanelHandler : MonoBehaviour, IDebugPanel
 
         foreach (ElementalType pattern in fieldDic.Keys)
         {
-            Dropdown.OptionData op = new Dropdown.OptionData();
-            op.text = fieldDic[pattern];
-            op.image = GameManager.Instance.inventoryHandler.effectSprDic[pattern];
+            Dropdown.OptionData op = new Dropdown.OptionData
+            {
+                text = fieldDic[pattern],
+                image = GameManager.Instance.inventoryHandler.effectSprDic[pattern]
+            };
 
             fieldDropdown.options.Add(op);
         }

@@ -15,7 +15,6 @@ public class Encounter_011 : RandomEncounter
     {
         choiceIdx = resultIdx;
         PlayerHealth playerHealth = GameManager.Instance.GetPlayer();
-        Image skillImg, skill2Img;
         switch (resultIdx)
         {
             case 0:
@@ -42,13 +41,15 @@ public class Encounter_011 : RandomEncounter
                     Debug.LogError("인어의축복 조각이 안들어있음");
                 }
 
-                skill = Instantiate(mermaidBlessingPiece).GetComponent<SkillPiece>();
-                skill.transform.position = Vector2.zero + (Vector2.right * 1f);
-                skill.transform.rotation = Quaternion.Euler(0, 0, 30f);
-                skillImg = skill.GetComponent<Image>();
-                skillImg.color = new Color(1, 1, 1, 0);
-                skill.transform.SetParent(encounterInfoHandler.transform);
-                skill.transform.localScale = Vector3.one;
+                MakeSkill(mermaidBlessingPiece, out skill);
+
+                //skill = Instantiate(mermaidBlessingPiece).GetComponent<SkillPiece>();
+                //skill.transform.position = Vector2.zero + (Vector2.right * 1f);
+                //skill.transform.rotation = Quaternion.Euler(0, 0, 30f);
+                //skillImg = skill.GetComponent<Image>();
+                //skillImg.color = new Color(1, 1, 1, 0);
+                //skill.transform.SetParent(encounterInfoHandler.transform);
+                //skill.transform.localScale = Vector3.one;
 
 
                 SkillPiece piece = null;
@@ -57,16 +58,7 @@ public class Encounter_011 : RandomEncounter
                     piece = encounterInfoHandler.GetRandomSkillRewards(1)[0].GetComponent<SkillPiece>();
                 } while (piece.currentType != ElementalType.Water);
 
-                skill2 = Instantiate(piece).GetComponent<SkillPiece>();
-                skill2.transform.position = Vector2.zero + (Vector2.left * 1f);
-                skill2.transform.rotation = Quaternion.Euler(0, 0, 30f);
-                skill2Img = skill2.GetComponent<Image>();
-                skill2Img.color = new Color(1, 1, 1, 0);
-                skill2.transform.SetParent(encounterInfoHandler.transform);
-                skill2.transform.localScale = Vector3.one;
-
-                skillImg.DOFade(1, 0.5f).SetDelay(1f);
-                skill2Img.DOFade(1, 0.5f).SetDelay(1f);
+                MakeSkill(mermaidBlessingPiece, out skill2);
                 break;
             case 1:
                 showText = en_End_TextList[1];
@@ -74,16 +66,7 @@ public class Encounter_011 : RandomEncounter
                 en_End_Result = "최대 체력의 12%만큼 피해를 입고 인어의 축복 조각 획득";
                 playerHealth.GetDamage((int)(playerHealth.maxHp * 0.12f));
 
-
-
-                skill = Instantiate(mermaidBlessingPiece).GetComponent<SkillPiece>();
-                skill.transform.position = Vector2.zero;
-                skill.transform.rotation = Quaternion.Euler(0, 0, 30f);
-                skillImg = skill.GetComponent<Image>();
-                skillImg.color = new Color(1, 1, 1, 0);
-                skill.transform.SetParent(encounterInfoHandler.transform);
-                skill.transform.localScale = Vector3.one;
-                skillImg.DOFade(1, 0.5f).SetDelay(1f);
+                MakeSkill(mermaidBlessingPiece, out skill);
                 break;
             case 2:
                 showText = en_End_TextList[2];
@@ -102,41 +85,57 @@ public class Encounter_011 : RandomEncounter
         switch (choiceIdx)
         {
             case 0:
-                DOTween.Sequence()
-                .Append(skill.transform.DOMove(unusedInventoryTrm.position, 0.5f))
-                .Join(skill.transform.DOScale(Vector2.one * 0.1f, 0.5f))
-                .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
-                .Append(skill2.transform.DOMove(unusedInventoryTrm.position, 0.5f))
-                .Join(skill2.transform.DOScale(Vector2.one * 0.1f, 0.5f))
-                .Join(skill2.GetComponent<Image>().DOFade(0f, 0.5f))
-                .OnComplete(() =>
-                {
-                    Inventory Owner = bh.player.GetComponent<Inventory>();
 
-                    GameManager.Instance.inventoryHandler.AddSkill(skill, Owner);
-                    skill.GetComponent<Image>().color = Color.white;
+                GetSkillInRandomEncounterAnim(skill,
+                    () =>
+                    {
+                        GetSkillInRandomEncounterAnim(skill2,
+                            () =>
+                            {
+                                OnExitEncounter?.Invoke(true);
+                            });
+                    });
+                //DOTween.Sequence()
+                //.Append(skill.transform.DOMove(unusedInventoryTrm.position, 0.5f))
+                //.Join(skill.transform.DOScale(Vector2.one * 0.1f, 0.5f))
+                //.Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
+                //.Append(skill2.transform.DOMove(unusedInventoryTrm.position, 0.5f))
+                //.Join(skill2.transform.DOScale(Vector2.one * 0.1f, 0.5f))
+                //.Join(skill2.GetComponent<Image>().DOFade(0f, 0.5f))
+                //.OnComplete(() =>
+                //{
+                //    Inventory Owner = bh.player.GetComponent<Inventory>();
 
-                    GameManager.Instance.inventoryHandler.AddSkill(skill2, Owner);
-                    skill2.GetComponent<Image>().color = Color.white;
+                //    GameManager.Instance.inventoryHandler.AddSkill(skill, Owner);
+                //    skill.GetComponent<Image>().color = Color.white;
 
-                    OnExitEncounter?.Invoke(true);
-                });
+                //    GameManager.Instance.inventoryHandler.AddSkill(skill2, Owner);
+                //    skill2.GetComponent<Image>().color = Color.white;
+
+                //    OnExitEncounter?.Invoke(true);
+                //});
                 break;
             case 1:
-                DOTween.Sequence()
-                .Append(skill.transform.DOMove(unusedInventoryTrm.position, 0.5f))
-                .Join(skill.transform.DOScale(Vector2.one * 0.1f, 0.5f))
-                .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
-                .OnComplete(() =>
-                {
-                    Inventory Owner = bh.player.GetComponent<Inventory>();
 
-                    GameManager.Instance.inventoryHandler.AddSkill(skill, Owner);
-                    skill.GetComponent<Image>().color = Color.white;
+                GetSkillInRandomEncounterAnim(skill,
+                    () =>
+                    {
+                        OnExitEncounter?.Invoke(true);
+                    });
+                //DOTween.Sequence()
+                //.Append(skill.transform.DOMove(unusedInventoryTrm.position, 0.5f))
+                //.Join(skill.transform.DOScale(Vector2.one * 0.1f, 0.5f))
+                //.Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
+                //.OnComplete(() =>
+                //{
+                //    Inventory Owner = bh.player.GetComponent<Inventory>();
 
-                    OnExitEncounter?.Invoke(true);
-                });
-                OnExitEncounter?.Invoke(true);
+                //    GameManager.Instance.inventoryHandler.AddSkill(skill, Owner);
+                //    skill.GetComponent<Image>().color = Color.white;
+
+                //    OnExitEncounter?.Invoke(true);
+                //});
+                //OnExitEncounter?.Invoke(true);
                 break;
             case 2:
                 NormalEvent eventInfo = null;

@@ -1,6 +1,5 @@
 using DG.Tweening;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +8,6 @@ using Random = UnityEngine.Random;
 public class Encounter_013 : RandomEncounter
 {
     public int lostGoldValue = 10;
-
     public SkillPiece GetRamdomSkill()
     {
         InventoryHandler inventoryHandler = GameManager.Instance.inventoryHandler;
@@ -47,18 +45,18 @@ public class Encounter_013 : RandomEncounter
                     if (turnCnt >= 5)
                     {
                         InventoryHandler inventoryHandler = GameManager.Instance.inventoryHandler;
-                        
+
                         SkillPiece sp = GetRamdomSkill();
                         inventoryHandler.GetSkillFromInventory(sp);
                         DOTween.Sequence()
                         .Append(sp.transform.DOMove(Vector2.zero, 0.5f))
                         .Append(sp.GetComponent<Image>().DOFade(0, 0.5f))
-                        .Join(sp.skillImg.DOFade(0,0.5f))
+                        .Join(sp.skillImg.DOFade(0, 0.5f))
                         .OnComplete(() =>
                         {
                             Destroy(sp);
                         });
-                        
+
 
                         GameManager.Instance.Gold -= lostGoldValue;
 

@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -48,9 +46,8 @@ public class DebugItemPanelHandler : MonoBehaviour, IDebugPanel
 
     private void OnGoldEditEnd(string text)
     {
-        int gold = 0;
 
-        if (int.TryParse(text, out gold))
+        if (int.TryParse(text, out int gold))
         {
             if (gold <= 0)
             {
@@ -71,9 +68,11 @@ public class DebugItemPanelHandler : MonoBehaviour, IDebugPanel
         {
             Scroll scrollObj = PoolManager.GetScroll(scroll);
 
-            Dropdown.OptionData op = new Dropdown.OptionData();
-            op.text = scroll.ToString();
-            op.image = scrollObj.GetComponent<Image>().sprite;
+            Dropdown.OptionData op = new Dropdown.OptionData
+            {
+                text = scroll.ToString(),
+                image = scrollObj.GetComponent<Image>().sprite
+            };
 
             scrollDropdown.options.Add(op);
 

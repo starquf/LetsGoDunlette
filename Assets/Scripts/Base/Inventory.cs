@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,7 +20,7 @@ public class Inventory : MonoBehaviour
 
         for (int i = 0; i < skillPrefabs.Count; i++)
         {
-           inventoryHandler.CreateSkill(skillPrefabs[i], this);
+            inventoryHandler.CreateSkill(skillPrefabs[i], this);
         }
 
         inventoryHandler.AddInventory(this);

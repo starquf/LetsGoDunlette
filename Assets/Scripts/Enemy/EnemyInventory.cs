@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyInventory : Inventory
@@ -17,7 +16,7 @@ public class EnemyInventory : Inventory
     {
         StartCoroutine(CreateSkillsWait());
 
-        return skillPrefabs.Count * waitTime + 0.5f;
+        return (skillPrefabs.Count * waitTime) + 0.5f;
     }
 
     private IEnumerator CreateSkillsWait()

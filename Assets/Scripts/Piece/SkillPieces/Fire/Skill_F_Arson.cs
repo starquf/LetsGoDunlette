@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +8,7 @@ public class Skill_F_Arson : SkillPiece
     {
         base.GetDesIconInfo();
 
-        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc().ToString()}");
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc()}");
 
         return desInfos;
     }
@@ -28,7 +27,8 @@ public class Skill_F_Arson : SkillPiece
         animHandler.GetAnim(AnimName.F_Arson)
                 .SetPosition(targetPos)
                 .SetRotation(Vector3.forward * 90f)
-                .Play(() => {
+                .Play(() =>
+                {
                     target.GetDamage(GetDamageCalc(), currentType);
                     GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 

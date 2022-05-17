@@ -1,13 +1,11 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Skill_W_BoatFare : SkillPiece
 {
     public int getMoney = 10;
     public int getBonusMoney = 5;
-    Vector3 targetPos;
+    private Vector3 targetPos;
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {

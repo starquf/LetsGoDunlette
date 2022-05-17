@@ -121,7 +121,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
         if (encounterIdx < 0)
         {
             int randIdx = -1;
-            //randIdx = 16;
+            randIdx = 4;
             while (!CanStartEncounter(randIdx))
             {
                 randIdx = stage[GameManager.Instance.StageIdx].RandomEncounterIdx[Random.Range(0, stage[GameManager.Instance.StageIdx].RandomEncounterIdx.Count)];

@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class Scroll_Memorie : Scroll
 {
@@ -46,7 +43,8 @@ public class Scroll_Memorie : Scroll
                 invenHandler.GetSkillFromInventory(sp);
 
                 bh.battleUtil.ChangeRulletPiece(UnityEngine.Random.Range(0, 6), sp);
-                bh.battleUtil.SetTimer(0.5f, () => {
+                bh.battleUtil.SetTimer(0.5f, () =>
+                {
                     onEndUse?.Invoke();
                 });
             });

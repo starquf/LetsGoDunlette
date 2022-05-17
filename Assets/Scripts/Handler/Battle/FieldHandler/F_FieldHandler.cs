@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using DG.Tweening;
+using UnityEngine;
 
 public class F_FieldHandler : FieldHandler
 {
@@ -22,7 +20,7 @@ public class F_FieldHandler : FieldHandler
     public override void DisableField(bool skip = false)
     {
         base.DisableField();
-        if(skip)
+        if (skip)
         {
             redTransSpr.color = new Color(redTransColor.r, redTransColor.g, redTransColor.b, 0);
             DistortionEffectSpr.color = new Color(DistortionEffectSpr.color.r, DistortionEffectSpr.color.g, DistortionEffectSpr.color.b, 0);

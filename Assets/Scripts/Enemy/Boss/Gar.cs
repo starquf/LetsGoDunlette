@@ -8,12 +8,15 @@ public class Gar : MonoBehaviour
     public GameObject garSkill;
     public PieceInfo[] pieceInfo;
     private BattleHandler battleHandler;
-    private void Start()
-    {
-        battleHandler = GameManager.Instance.battleHandler;
-    }
     public void Sacrifice()
     {
+        if (battleHandler == null)
+        {
+            battleHandler = GameManager.Instance.battleHandler;
+        }
+
+        battleHandler.battleEvent.RemoveEventInfo(enemyEventInfo);
+
         enemyEvent = (enemy, action) =>
         {
             if (enemy.GetComponent<EnemyHealth>().enemyType == EnemyType.SARO) //사로가 죽으면 가르의 스킬조각이 3장 늘어난다.

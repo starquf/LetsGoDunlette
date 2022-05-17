@@ -53,7 +53,10 @@ public class Skill_W_Tsunami : SkillPiece
 
         for (int i = 0; i < skillPieces.Count; i++)
         {
-            if (skillPieces[i] == null) continue;
+            if (skillPieces[i] == null)
+            {
+                continue;
+            }
 
             if (skillPieces[i].PieceType.Equals(PieceType.SKILL))
             {
@@ -75,7 +78,8 @@ public class Skill_W_Tsunami : SkillPiece
                     effect.SetColorGradient(effectGradient);
                     effect.SetScale(Vector3.one);
 
-                    effect.Play(startPos, () => {
+                    effect.Play(startPos, () =>
+                    {
                         GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.15f, 0.1f);
 
                         animHandler.GetAnim(AnimName.W_Splash01)
@@ -99,7 +103,8 @@ public class Skill_W_Tsunami : SkillPiece
         skillEffect.SetColorGradient(effectGradient);
         skillEffect.SetScale(Vector3.one * (waterCnt + 1));
 
-        skillEffect.Play(bh.createTrans.position, () => {
+        skillEffect.Play(bh.createTrans.position, () =>
+        {
 
             List<LivingEntity> targets = new List<LivingEntity>();
 
@@ -116,7 +121,7 @@ public class Skill_W_Tsunami : SkillPiece
             {
                 targets[i].GetDamage(GetDamageCalc() + (2 * waterCnt), currentType);
 
-                GameManager.Instance.cameraHandler.ShakeCamera(1.5f + waterCnt * 0.5f, 0.15f);
+                GameManager.Instance.cameraHandler.ShakeCamera(1.5f + (waterCnt * 0.5f), 0.15f);
 
                 animHandler.GetAnim(AnimName.W_Splash01)
                         .SetPosition(targets[i].transform.position)

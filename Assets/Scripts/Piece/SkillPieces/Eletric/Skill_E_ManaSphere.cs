@@ -1,11 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Skill_E_ManaSphere : SkillPiece
 {
-    public Sprite effectSpr; 
+    public Sprite effectSpr;
     private Gradient effectGradient;
 
     protected override void Start()
@@ -43,15 +42,18 @@ public class Skill_E_ManaSphere : SkillPiece
         skillEffect.SetColorGradient(effectGradient);
         skillEffect.SetScale(Vector3.one);
 
-        skillEffect.Play(targetPos, () => {
+        skillEffect.Play(targetPos, () =>
+        {
 
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
             target.GetDamage(GetDamageCalc(), currentType);
 
-            LogCon log = new LogCon();
-            log.text = $"{GetDamageCalc()} 데미지 부여";
-            log.selfSpr = skillImg.sprite;
-            log.targetSpr = target.GetComponent<SpriteRenderer>().sprite;
+            LogCon log = new LogCon
+            {
+                text = $"{GetDamageCalc()} 데미지 부여",
+                selfSpr = skillImg.sprite,
+                targetSpr = target.GetComponent<SpriteRenderer>().sprite
+            };
 
             DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
 

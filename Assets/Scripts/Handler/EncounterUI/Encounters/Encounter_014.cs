@@ -1,9 +1,5 @@
-using DG.Tweening;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Encounter_014 : RandomEncounter
 {
@@ -27,7 +23,7 @@ public class Encounter_014 : RandomEncounter
                     ScrollSlot scrollSlot = battleScrollHandler.slots[i];
                     if (scrollSlot.scroll != null)
                     {
-                        if(scrollSlot.scroll.scrollType == ScrollType.Heal)
+                        if (scrollSlot.scroll.scrollType == ScrollType.Heal)
                         {
                             idx = i;
                             break;

@@ -1,10 +1,9 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public class PoolManager
-{    
+{
     private static Dictionary<string, IPool> poolDic = new Dictionary<string, IPool>();
 
     public static void CreatePool<T>(GameObject prefab, Transform parent, int count = 5) where T : MonoBehaviour

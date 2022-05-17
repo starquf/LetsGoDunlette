@@ -1,6 +1,4 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +10,6 @@ public class Encounter_010 : RandomEncounter
     {
         choiceIdx = resultIdx;
         PlayerHealth playerHealth = GameManager.Instance.GetPlayer();
-        Image skillImg;
         switch (resultIdx)
         {
             case 0:
@@ -22,16 +19,13 @@ public class Encounter_010 : RandomEncounter
                 GameManager.Instance.Gold += 10;
 
                 if (cheatingPiece == null)
+                {
                     Debug.LogError("속임수 조각이 안들어있음");
+                }
+
                 Debug.LogWarning("아지타토로 대신 넣어놈");
-                skill = Instantiate(cheatingPiece).GetComponent<SkillPiece>();
-                skill.transform.position = Vector2.zero;
-                skill.transform.rotation = Quaternion.Euler(0, 0, 30f);
-                skillImg = skill.GetComponent<Image>();
-                skillImg.color = new Color(1, 1, 1, 0);
-                skill.transform.SetParent(encounterInfoHandler.transform);
-                skill.transform.localScale = Vector3.one;
-                skillImg.DOFade(1, 0.5f).SetDelay(1f);
+
+                MakeSkill(cheatingPiece, out skill);
                 break;
             case 1:
                 showText = en_End_TextList[0];
@@ -41,14 +35,7 @@ public class Encounter_010 : RandomEncounter
 
                 SkillPiece piece = encounterInfoHandler.GetRandomSkillRewards(1)[0].GetComponent<SkillPiece>();
 
-                skill = Instantiate(piece).GetComponent<SkillPiece>();
-                skill.transform.position = Vector2.zero;
-                skill.transform.rotation = Quaternion.Euler(0, 0, 30f);
-                skillImg = skill.GetComponent<Image>();
-                skillImg.color = new Color(1, 1, 1, 0);
-                skill.transform.SetParent(encounterInfoHandler.transform);
-                skill.transform.localScale = Vector3.one;
-                skillImg.DOFade(1, 0.5f).SetDelay(1f);
+                MakeSkill(piece, out skill);
                 break;
             case 2:
                 showText = en_End_TextList[0];
@@ -69,34 +56,12 @@ public class Encounter_010 : RandomEncounter
         switch (choiceIdx)
         {
             case 0:
-                DOTween.Sequence()
-                .Append(skill.transform.DOMove(unusedInventoryTrm.position, 0.5f))
-                .Join(skill.transform.DOScale(Vector2.one * 0.1f, 0.5f))
-                .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
-                .OnComplete(() =>
-                {
-                    Inventory Owner = bh.player.GetComponent<Inventory>();
-
-                    GameManager.Instance.inventoryHandler.AddSkill(skill, Owner);
-                    skill.GetComponent<Image>().color = Color.white;
-
-                    OnExitEncounter?.Invoke(true);
-                });
-                break;
             case 1:
-                DOTween.Sequence()
-                .Append(skill.transform.DOMove(unusedInventoryTrm.position, 0.5f))
-                .Join(skill.transform.DOScale(Vector2.one * 0.1f, 0.5f))
-                .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
-                .OnComplete(() =>
-                {
-                    Inventory Owner = bh.player.GetComponent<Inventory>();
-
-                    GameManager.Instance.inventoryHandler.AddSkill(skill, Owner);
-                    skill.GetComponent<Image>().color = Color.white;
-
-                    OnExitEncounter?.Invoke(true);
-                });
+                GetSkillInRandomEncounterAnim(skill,
+                    () =>
+                    {
+                        OnExitEncounter?.Invoke(true);
+                    });
                 break;
             case 2:
                 OnExitEncounter?.Invoke(true);

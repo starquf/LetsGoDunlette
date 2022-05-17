@@ -108,6 +108,7 @@ public class EncounterHandler : MonoBehaviour
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
                 bh.StartBattle();
                 //randomEncounterUIHandler.StartEvent();
+                //GameManager.Instance.bottomUIHandler.ShowBottomPanel(false);
                 break;
             case mapNode.SHOP:
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);

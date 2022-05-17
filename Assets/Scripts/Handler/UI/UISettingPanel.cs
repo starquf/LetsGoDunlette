@@ -1,7 +1,3 @@
-using DG.Tweening;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,13 +11,18 @@ public class UISettingPanel : BottomUIElement
     protected override void Start()
     {
         base.Start();
-        
+
         settingButton.onClick.AddListener(() =>
         {
-            if (Time.timeScale <= 0) return;
+            if (Time.timeScale <= 0)
+            {
+                return;
+            }
 
             if (!isShow)
+            {
                 Popup();
+            }
         });
 
         closeBtn.onClick.AddListener(() =>

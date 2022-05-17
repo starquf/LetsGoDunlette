@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +5,6 @@ public class Encounter_003 : RandomEncounter
 {
     public int getGoldValue = 10;
     public Sprite ballteBg;
-
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;
@@ -14,7 +12,7 @@ public class Encounter_003 : RandomEncounter
         {
             case 0:
                 int rand = Random.Range(0, 100);
-                if(rand < 50)
+                if (rand < 50)
                 {
                     showText = en_End_TextList[0];
                     showImg = en_End_Image[0];
@@ -45,12 +43,14 @@ public class Encounter_003 : RandomEncounter
         switch (choiceIdx)
         {
             case 0:
-                BattleInfo bInfo = new BattleInfo();
-                bInfo.enemyInfos = new List<EnemyType>() { EnemyType.MIMIC };
-                bInfo.isWeakEnemy = false;
-                bInfo.bg = ballteBg;
+                BattleInfo bInfo = new BattleInfo
+                {
+                    enemyInfos = new List<EnemyType>() { EnemyType.MIMIC },
+                    isWeakEnemy = false,
+                    bg = ballteBg
+                };
 
-                bh.StartBattle(bInfo : bInfo);
+                bh.StartBattle(bInfo: bInfo);
                 OnExitEncounter?.Invoke(false);
                 break;
             case 1:

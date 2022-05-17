@@ -1,12 +1,25 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Encounter_007 : RandomEncounter
 {
+    SkillPiece skill = null;
 
+    InventoryInfoHandler invenInfoHandler = null;
+    InventoryHandler invenHandler = null;
+    Transform frontPanelTrm = null;
+
+    RandomEncounterUIHandler randomEncounterUIHandler;
+
+    public override void Init()
+    {
+        base.Init();
+        invenInfoHandler = GameManager.Instance.invenInfoHandler;
+        invenHandler = GameManager.Instance.inventoryHandler;
+        frontPanelTrm = invenInfoHandler.transform.parent;
+        randomEncounterUIHandler = encounterInfoHandler.GetComponent<RandomEncounterUIHandler>();
+    }
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;
@@ -16,14 +29,10 @@ public class Encounter_007 : RandomEncounter
                 showText = en_End_TextList[0];
                 showImg = en_End_Image[0];
                 en_End_Result = "¹«ÀÛÀ§ ·ê·¿À¸·Î ±³È¯";
-                RandomEncounterUIHandler randomEncounterUIHandler = encounterInfoHandler.GetComponent<RandomEncounterUIHandler>();
-                InventoryInfoHandler invenInfoHandler = GameManager.Instance.invenInfoHandler;
-                InventoryHandler invenHandler = GameManager.Instance.inventoryHandler;
 
                 invenInfoHandler.closeBtn.interactable = false;
                 randomEncounterUIHandler.exitBtn.gameObject.SetActive(false);
 
-                Transform frontPanelTrm = invenInfoHandler.transform.parent;
 
                 //invenInfoHandler.transform.SetParent(encounterInfoHandler.transform);
                 //invenInfoHandler.desPanel.transform.SetParent(encounterInfoHandler.transform);
@@ -54,40 +63,14 @@ public class Encounter_007 : RandomEncounter
                             Destroy(sp);
 
                             SkillPiece rulletPieces = encounterInfoHandler.GetRandomSkillRewards(1)[0].GetComponent<SkillPiece>();
-                            SkillPiece skill = Instantiate(rulletPieces).GetComponent<SkillPiece>();
-                            skill.transform.position = Vector2.zero;
-                            skill.transform.rotation = Quaternion.Euler(0, 0, 30f);
-                            Image skillImg = skill.GetComponent<Image>();
-                            skillImg.color = new Color(1, 1, 1, 0);
-                            skill.transform.SetParent(encounterInfoHandler.transform);
-                            skill.transform.localScale = Vector3.one;
+
+                            MakeSkill(rulletPieces, out skill);
 
 
-                            Transform unusedInventoryTrm = GameManager.Instance.inventoryHandler.transform;
-                            DOTween.Sequence().Append(skillImg.DOFade(1, 0.5f)).SetDelay(1f)
-                            .Append(skill.transform.DOMove(unusedInventoryTrm.position, 0.5f))
-                            .Join(skill.transform.DOScale(Vector2.one * 0.1f, 0.5f))
-                            .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
-                            .OnComplete(() =>
-                            {
-                                Inventory Owner = bh.player.GetComponent<Inventory>();
-
-                                GameManager.Instance.inventoryHandler.AddSkill(skill, Owner);
-                                skill.GetComponent<Image>().color = Color.white;
-
-                                invenInfoHandler.transform.SetParent(frontPanelTrm.transform);
-                                invenInfoHandler.desPanel.transform.SetParent(frontPanelTrm.transform);
-
-                                //invenInfoHandler.transform.SetSiblingIndex(3);
-                                //invenInfoHandler.desPanel.transform.SetSiblingIndex(4);
-                                invenInfoHandler.closeBtn.interactable = true;
-                                randomEncounterUIHandler.exitBtn.gameObject.SetActive(true);
-                                //OnExitEncounter?.Invoke(true);
-                                ShowEndEncounter?.Invoke();
-                            });
+                            ShowEndEncounter?.Invoke();
                         });
                     });
-                }/*, onCancelUse*/, stopTime:false);
+                }/*, onCancelUse*/, stopTime: false);
 
                 break;
             case 1:
@@ -106,8 +89,15 @@ public class Encounter_007 : RandomEncounter
         switch (choiceIdx)
         {
             case 0:
+                GetSkillInRandomEncounterAnim(skill, () =>
+                {
+                    invenInfoHandler.transform.SetParent(frontPanelTrm.transform);
+                    invenInfoHandler.desPanel.transform.SetParent(frontPanelTrm.transform);
+                    invenInfoHandler.closeBtn.interactable = true;
+                    randomEncounterUIHandler.exitBtn.gameObject.SetActive(true);
 
-                OnExitEncounter?.Invoke(true);
+                    OnExitEncounter?.Invoke(true);
+                });
                 break;
             case 1:
                 OnExitEncounter?.Invoke(true);
