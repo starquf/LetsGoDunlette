@@ -43,7 +43,7 @@ public class BattleScrollHandler : MonoBehaviour
             slots[a].GetComponent<Button>().onClick.RemoveAllListeners();
             slots[a].GetComponent<Button>().onClick.AddListener(() =>
             {
-                if (Time.timeScale <= 0)
+                if (Time.timeScale < 1f)
                 {
                     return;
                 }
@@ -70,7 +70,7 @@ public class BattleScrollHandler : MonoBehaviour
                             bh.SetInteract(true);
                         });
 
-                    Time.timeScale = 0f;
+                    Time.timeScale = 0.25f;
                     bh.SetInteract(false);
                 }
             });

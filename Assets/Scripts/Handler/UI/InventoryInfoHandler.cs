@@ -55,7 +55,7 @@ public class InventoryInfoHandler : BottomUIElement
 
         invenBtn.onClick.AddListener(() =>
         {
-            if (Time.timeScale <= 0)
+            if (Time.timeScale < 1f)
             {
                 return;
             }
@@ -68,7 +68,7 @@ public class InventoryInfoHandler : BottomUIElement
 
         usedInvenBtn.onClick.AddListener(() =>
         {
-            if (Time.timeScale <= 0)
+            if (Time.timeScale < 1f)
             {
                 return;
             }

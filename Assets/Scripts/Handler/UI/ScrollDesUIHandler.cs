@@ -16,6 +16,12 @@ public class ScrollDesUIHandler : MonoBehaviour
     public Button cancelBtn;
     public Text confirmBtnText;
 
+    [Space(10f)]
+    public CanvasGroup blackPanel;
+    public CanvasGroup blackoutPanel;
+
+    public bool isShow = false;
+
     private void Start()
     {
         cg = GetComponent<CanvasGroup>();
@@ -48,10 +54,23 @@ public class ScrollDesUIHandler : MonoBehaviour
         });
     }
 
+    public void ForceCancelDes()
+    {
+        ShowCG(false);
+
+        confirmBtn.onClick.RemoveAllListeners();
+        cancelBtn.onClick.RemoveAllListeners();
+    }
+
     private void ShowCG(bool enable)
     {
         cg.alpha = enable ? 1f : 0f;
         cg.interactable = enable;
         cg.blocksRaycasts = enable;
+
+        blackPanel.alpha = enable ? 1f : 0f;
+        blackoutPanel.alpha = enable ? 1f : 0f;
+
+        isShow = enable;
     }
 }
