@@ -31,8 +31,8 @@ public class EncounterHandler : MonoBehaviour
         GameManager.Instance.OnResetGame += () => isEncounterPlaying = false;;
         GameManager.Instance.OnEndEncounter += EndEncounter;
         bh = GameManager.Instance.battleHandler;
-        bh.GetComponent<BattleScrollHandler>().ShowScrollUI(open: false,skip: true);
-        GameManager.Instance.goldUIHandler.ShowGoldUI(false, true);
+        //bh.GetComponent<BattleScrollHandler>().ShowScrollUI(open: false,skip: true);
+        //GameManager.Instance.goldUIHandler.ShowGoldUI(false, true);
 
         StartCoroutine(LateStart());
         //StartEncounter(mapNode.MONSTER);
@@ -155,8 +155,8 @@ public class EncounterHandler : MonoBehaviour
         GameManager gm = GameManager.Instance;
 
         gm.curEncounter = mapNode.NONE;
-        bh.GetComponent<BattleScrollHandler>().ShowScrollUI(open: false);
-        gm.goldUIHandler.ShowGoldUI(false);
+        //bh.GetComponent<BattleScrollHandler>().ShowScrollUI(open: false);
+        //gm.goldUIHandler.ShowGoldUI(false);
         gm.bottomUIHandler.ShowBottomPanel(true);
         if (gm.battleHandler.isBoss)
         {

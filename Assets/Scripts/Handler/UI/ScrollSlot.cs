@@ -13,6 +13,8 @@ public class ScrollSlot : MonoBehaviour
         scroll.transform.SetParent(transform);
         scroll.transform.localPosition = scrollPos;
         scroll.transform.localScale = Vector3.one;
+
+        transform.GetChild(0).gameObject.SetActive(false);
     }
 
     public void RemoveScroll()
@@ -20,5 +22,7 @@ public class ScrollSlot : MonoBehaviour
         scroll.gameObject.SetActive(false);
 
         scroll = null;
+
+        transform.GetChild(0).gameObject.SetActive(true);
     }
 }
