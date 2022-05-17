@@ -60,8 +60,8 @@ public class ShopEncounterUIHandler : MonoBehaviour
     //상점 열렸을때 호출
     public void StartEvent()
     {
-        goldUIHandler.ShowGoldUI(true);
-        battleScrollHandler.ShowScrollUI(open: true);
+        //goldUIHandler.ShowGoldUI(true);
+        //battleScrollHandler.ShowScrollUI(open: true);
         isSelectPanelEnable = false;
         selectIdx = -1;
 
@@ -285,8 +285,8 @@ public class ShopEncounterUIHandler : MonoBehaviour
             selectPanel.alpha = 0;
         });
 
-        goldUIHandler.ShowGoldUI(false);
-        battleScrollHandler.ShowScrollUI(open: false);
+        //goldUIHandler.ShowGoldUI(false);
+        //battleScrollHandler.ShowScrollUI(open: false);
         GameManager.Instance.EndEncounter();
     }
 

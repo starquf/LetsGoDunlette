@@ -148,8 +148,8 @@ public class BattleHandler : MonoBehaviour
 
         bottomUI.ShowBottomPanel(true);
 
-        GameManager.Instance.goldUIHandler.ShowGoldUI();
-        GetComponent<BattleScrollHandler>().ShowScrollUI();
+        //GameManager.Instance.goldUIHandler.ShowGoldUI();
+        //GetComponent<BattleScrollHandler>().ShowScrollUI();
         GameManager.Instance.bottomUIHandler.ShowBottomPanel(true);
         //print("전투시작");
         SoundHandler.Instance.PlayBGMSound("Battle_4");
@@ -587,8 +587,8 @@ public class BattleHandler : MonoBehaviour
         battleEvent.ResetAllEvents();
         fieldHandler.SetFieldType(ElementalType.None);
 
-        battleScroll.ShowScrollUI(open: false);
-        GameManager.Instance.goldUIHandler.ShowGoldUI(open: false);
+        //battleScroll.ShowScrollUI(open: false);
+        //GameManager.Instance.goldUIHandler.ShowGoldUI(open: false);
 
         LogCon log = new LogCon()
         {

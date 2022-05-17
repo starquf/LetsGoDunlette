@@ -36,25 +36,25 @@ public class GoldUIHandler : MonoBehaviour
         goldText.text = curGold.ToString();
         prevGold = curGold;
     }
-    public void ShowGoldUI(bool open = true, bool skip = false)
-    {
-        if (skip)
-        {
-            thisRectTrm.anchoredPosition = new Vector2(open ? 0f : -230f, thisRectTrm.anchoredPosition.y);
-            ShowGoldText(open, true);
-        }
-        else
-        {
-            goldUISequence.Kill();
+    //public void ShowGoldUI(bool open = true, bool skip = false)
+    //{
+    //    if (skip)
+    //    {
+    //        thisRectTrm.anchoredPosition = new Vector2(open ? 0f : -230f, thisRectTrm.anchoredPosition.y);
+    //        ShowGoldText(open, true);
+    //    }
+    //    else
+    //    {
+    //        goldUISequence.Kill();
 
-            goldUISequence = DOTween.Sequence()
-            .Append(thisRectTrm.DOAnchorPosX(open ? 0f : -230f, 0.5f))
-            .OnComplete(() =>
-            {
-                ShowGoldText(open);
-            });
-        }
-    }
+    //        goldUISequence = DOTween.Sequence()
+    //        .Append(thisRectTrm.DOAnchorPosX(open ? 0f : -230f, 0.5f))
+    //        .OnComplete(() =>
+    //        {
+    //            ShowGoldText(open);
+    //        });
+    //    }
+    //}
 
     public void ShowGoldText(bool open = true, bool skip = false)
     {
@@ -63,35 +63,36 @@ public class GoldUIHandler : MonoBehaviour
 
     private void UpdateGoldUI()
     {
-        StartCoroutine(UpdateGoldUIAnim());
+        GetMoneyAnim();
+        //StartCoroutine(UpdateGoldUIAnim());
     }
 
 
-    private IEnumerator UpdateGoldUIAnim()
-    {
-        if (bh.isBattle)
-        {
-            GetMoneyAnim();
-        }
-        else
-        {
+    //private IEnumerator UpdateGoldUIAnim()
+    //{
+    //    if (bh.isBattle)
+    //    {
+    //        GetMoneyAnim();
+    //    }
+    //    else
+    //    {
 
-            if (GameManager.Instance.curEncounter != mapNode.SHOP)
-            {
-                ShowGoldUI();
-            }
-            yield return new WaitForSeconds(0.5f);
+    //        if (GameManager.Instance.curEncounter != mapNode.SHOP)
+    //        {
+    //            ShowGoldUI();
+    //        }
+    //        yield return new WaitForSeconds(0.5f);
 
-            GetMoneyAnim();
+    //        GetMoneyAnim();
 
-            yield return new WaitForSeconds(0.5f);
+    //        yield return new WaitForSeconds(0.5f);
 
-            if (GameManager.Instance.curEncounter != mapNode.SHOP)
-            {
-                ShowGoldUI(false);
-            }
-        }
-    }
+    //        if (GameManager.Instance.curEncounter != mapNode.SHOP)
+    //        {
+    //            ShowGoldUI(false);
+    //        }
+    //    }
+    //}
 
     private void GetMoneyAnim()
     {
