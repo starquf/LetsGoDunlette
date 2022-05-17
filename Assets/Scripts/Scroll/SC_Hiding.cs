@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class SC_Hiding : Scroll
 {
-    private void Start()
+    public override void Start()
     {
+        base.Start();
         scrollType = ScrollType.Hiding;
     }
 

@@ -1,15 +1,10 @@
-using DG.Tweening;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Encounter_012 : RandomEncounter
 {
     public int giveMoney = 10;
     public int battleCntValue = 3;
-
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;

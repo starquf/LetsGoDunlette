@@ -1,6 +1,4 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -45,7 +43,10 @@ public class Encounter_019 : RandomEncounter
                 en_End_Result = "전산 오류 조각을 1개 획득";
 
                 if (computerErrorPiece == null)
+                {
                     Debug.LogError("전산오류 조각이 안들어있음");
+                }
+
                 skill = Instantiate(computerErrorPiece).GetComponent<SkillPiece>();
                 skill.transform.position = Vector2.zero;
                 skill.transform.rotation = Quaternion.Euler(0, 0, 30f);
@@ -76,9 +77,9 @@ public class Encounter_019 : RandomEncounter
                 .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
                 .OnComplete(() =>
                 {
-                    Inventory Owner = bh.player.GetComponent<Inventory>();
+                    Inventory owner = bh.player.GetComponent<Inventory>();
 
-                    GameManager.Instance.inventoryHandler.AddSkill(skill, Owner);
+                    GameManager.Instance.inventoryHandler.AddSkill(skill, owner);
                     skill.GetComponent<Image>().color = Color.white;
 
                     OnExitEncounter?.Invoke(true);

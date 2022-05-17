@@ -15,6 +15,11 @@ public class FA_Attack : SkillPiece
         isPlayerSkill = false;
     }
 
+    protected override void Start()
+    {
+        base.Start();
+    }
+
     public override void OnRullet()
     {
         base.OnRullet();

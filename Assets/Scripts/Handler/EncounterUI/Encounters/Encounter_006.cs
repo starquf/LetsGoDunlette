@@ -1,11 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class Encounter_006 : RandomEncounter
 {
     public int getGoldValue = 10;
-
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;

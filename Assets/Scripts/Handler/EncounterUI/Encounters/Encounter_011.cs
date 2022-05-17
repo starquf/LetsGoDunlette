@@ -73,9 +73,6 @@ public class Encounter_011 : RandomEncounter
                 showImg = en_End_Image[1];
                 en_End_Result = "최대 체력의 12%만큼 피해를 입고 인어의 축복 조각 획득";
                 playerHealth.GetDamage((int)(playerHealth.maxHp * 0.12f));
-
-
-
                 skill = Instantiate(mermaidBlessingPiece).GetComponent<SkillPiece>();
                 skill.transform.position = Vector2.zero;
                 skill.transform.rotation = Quaternion.Euler(0, 0, 30f);

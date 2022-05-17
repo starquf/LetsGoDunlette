@@ -1,16 +1,12 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Encounter_008 : RandomEncounter
 {
-
     public int getGoldValue = 10;
     public SkillPiece fisingPiece;
     private SkillPiece skill;
-
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;
@@ -22,7 +18,10 @@ public class Encounter_008 : RandomEncounter
                 en_End_Result = "³¬½Ã Á¶°¢ È×µæ";
 
                 if (fisingPiece == null)
+                {
                     Debug.LogError("³¬½Ã Á¶°¢ÀÌ ¾Èµé¾îÀÖÀ½");
+                }
+
                 Debug.LogWarning("¹î»éÀ¸·Î ´ë½Å ³Ö¾î³ð");
                 skill = Instantiate(fisingPiece).GetComponent<SkillPiece>();
                 skill.transform.position = Vector2.zero;
@@ -59,11 +58,11 @@ public class Encounter_008 : RandomEncounter
                 .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
                 .OnComplete(() =>
                 {
-                    Inventory Owner = bh.player.GetComponent<Inventory>();
+                    Inventory owner = bh.player.GetComponent<Inventory>();
 
-                    GameManager.Instance.inventoryHandler.AddSkill(skill, Owner);
+                    GameManager.Instance.inventoryHandler.AddSkill(skill, owner);
                     skill.GetComponent<Image>().color = Color.white;
-                    
+
                     OnExitEncounter?.Invoke(true);
                 });
                 break;
