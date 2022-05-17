@@ -1,10 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using DG.Tweening;
-using System;
-using Random = UnityEngine.Random;
 
 public class SkillRullet : Rullet
 {
@@ -126,7 +120,10 @@ public class SkillRullet : Rullet
     // 해당 인덱스의 조각을 인벤토리로 넣는 함수
     public void PutRulletPieceToGraveYard(int changeIdx) //현제 룰렛에 index 에 있는 조각을 무덤에 넣는다
     {
-        if (pieces[changeIdx] == null) return;
+        if (pieces[changeIdx] == null)
+        {
+            return;
+        }
 
         InventoryHandler inventory = GameManager.Instance.inventoryHandler;
 
@@ -139,7 +136,10 @@ public class SkillRullet : Rullet
 
     public void PutRulletPieceToInventory(int changeIdx) //현제 룰렛에 index 에 있는 조각을 인벤에 넣는다
     {
-        if (pieces[changeIdx] == null) return;
+        if (pieces[changeIdx] == null)
+        {
+            return;
+        }
 
         InventoryHandler inventory = GameManager.Instance.inventoryHandler;
 

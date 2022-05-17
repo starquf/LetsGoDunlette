@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class Scroll_Flame : Scroll
 {
@@ -13,7 +11,7 @@ public class Scroll_Flame : Scroll
 
     public override void Use(Action onEndUse, Action onCancelUse)
     {
-        var enemyList = bh.enemys;
+        List<EnemyHealth> enemyList = bh.enemys;
         int damage = 10; // юс╫ц
         for (int i = 0; i < enemyList.Count; i++)
         {
