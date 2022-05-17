@@ -6,6 +6,20 @@ public class PlayerHealth : LivingEntity
 {
     public Color damageBGColor;
     public Image damageBGEffect;
+    public Text TopPanelHPText;
+
+    public override void SetHPBar()
+    {
+        if (IsDie)
+        {
+            TopPanelHPText.text = $"»ç¸Á";
+        }
+        else
+        {
+            TopPanelHPText.text = $"{hp}/{maxHp}";
+        }
+        base.SetHPBar();
+    }
 
     public override void GetDamage(int damage, bool isCritical = false)
     {
