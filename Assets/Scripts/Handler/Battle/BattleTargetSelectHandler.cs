@@ -204,7 +204,7 @@ public class BattleTargetSelectHandler : MonoBehaviour
         }
         else
         {
-            List<EnemyHealth> enemys = GameManager.Instance.battleHandler.enemys;
+            List<EnemyHealth> enemys = new List<EnemyHealth>(GameManager.Instance.battleHandler.enemys);
             enemys.Sort((e1, e2) => Vector2.Distance(e1.transform.position, pos) < Vector2.Distance(e2.transform.position, pos) ? -1 : 1);
             enemy = enemys[0];
         }
