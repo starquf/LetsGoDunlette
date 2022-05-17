@@ -33,14 +33,7 @@ public class Encounter_001 : RandomEncounter
 
                 SkillPiece piece = encounterInfoHandler.GetRandomSkillRewards(1)[0].GetComponent<SkillPiece>();
 
-                skill = Instantiate(piece).GetComponent<SkillPiece>();
-                skill.transform.position = Vector2.zero;
-                skill.transform.rotation = Quaternion.Euler(0, 0, 30f);
-                Image skillImg = skill.GetComponent<Image>();
-                skillImg.color = new Color(1, 1, 1, 0);
-                skill.transform.SetParent(encounterInfoHandler.transform);
-                skill.transform.localScale = Vector3.one;
-                skillImg.DOFade(1, 0.5f).SetDelay(1f);
+                MakeSkill(piece, out skill);
                 break;
             default:
                 break;
@@ -59,19 +52,24 @@ public class Encounter_001 : RandomEncounter
                 OnExitEncounter?.Invoke(true);
                 break;
             case 2:
-                Transform unusedInventoryTrm = GameManager.Instance.inventoryHandler.transform;
-                DOTween.Sequence()
-                .Append(skill.transform.DOMove(unusedInventoryTrm.position, 0.5f))
-                .Join(skill.transform.DOScale(Vector2.one * 0.1f, 0.5f))
-                .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
-                .OnComplete(() =>
-                {
-                    Inventory owner = bh.player.GetComponent<Inventory>();
-                    GameManager.Instance.inventoryHandler.AddSkill(skill, owner);
-                    skill.GetComponent<Image>().color = Color.white;
+                GetSkillInRandomEncounterAnim(skill,
+                    () =>
+                    {
+                        OnExitEncounter?.Invoke(true);
+                    });
+                //Transform unusedInventoryTrm = GameManager.Instance.inventoryHandler.transform;
+                //DOTween.Sequence()
+                //.Append(skill.transform.DOMove(unusedInventoryTrm.position, 0.5f))
+                //.Join(skill.transform.DOScale(Vector2.one * 0.1f, 0.5f))
+                //.Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
+                //.OnComplete(() =>
+                //{
+                //    Inventory owner = bh.player.GetComponent<Inventory>();
+                //    GameManager.Instance.inventoryHandler.AddSkill(skill, owner);
+                //    skill.GetComponent<Image>().color = Color.white;
 
-                    OnExitEncounter?.Invoke(true);
-                });
+                //    OnExitEncounter?.Invoke(true);
+                //});
 
                 break;
             default:

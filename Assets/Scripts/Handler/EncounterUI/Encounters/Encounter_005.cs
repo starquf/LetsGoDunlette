@@ -64,12 +64,7 @@ public class Encounter_005 : RandomEncounter
         BattleScrollHandler battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
 
         Scroll scroll = PoolManager.GetScroll(_scroll.scrollType);
-        Image scrollImg = scroll.GetComponent<Image>();
-        scrollImg.color = new Color(1, 1, 1, 0);
-        scroll.transform.SetParent(encounterInfoHandler.transform);
-        scroll.GetComponent<RectTransform>().sizeDelta = Vector2.one * 400f;
-        scroll.transform.position = Vector2.zero;
-        scroll.transform.localScale = Vector3.one;
+        MakeScroll(_scroll.scrollType, out scroll);
 
         battleScrollHandler.GetScroll(scroll, () =>
         {

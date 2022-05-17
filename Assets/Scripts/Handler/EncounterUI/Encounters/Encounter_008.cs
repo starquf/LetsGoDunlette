@@ -23,14 +23,7 @@ public class Encounter_008 : RandomEncounter
                 }
 
                 Debug.LogWarning("¹î»éÀ¸·Î ´ë½Å ³Ö¾î³ð");
-                skill = Instantiate(fisingPiece).GetComponent<SkillPiece>();
-                skill.transform.position = Vector2.zero;
-                skill.transform.rotation = Quaternion.Euler(0, 0, 30f);
-                Image skillImg = skill.GetComponent<Image>();
-                skillImg.color = new Color(1, 1, 1, 0);
-                skill.transform.SetParent(encounterInfoHandler.transform);
-                skill.transform.localScale = Vector3.one;
-                skillImg.DOFade(1, 0.5f).SetDelay(1f);
+                MakeSkill(fisingPiece, out skill);
 
                 break;
             case 1:
@@ -51,20 +44,11 @@ public class Encounter_008 : RandomEncounter
         {
             case 0:
 
-                Transform unusedInventoryTrm = GameManager.Instance.inventoryHandler.transform;
-                DOTween.Sequence()
-                .Append(skill.transform.DOMove(unusedInventoryTrm.position, 0.5f))
-                .Join(skill.transform.DOScale(Vector2.one * 0.1f, 0.5f))
-                .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
-                .OnComplete(() =>
-                {
-                    Inventory owner = bh.player.GetComponent<Inventory>();
-
-                    GameManager.Instance.inventoryHandler.AddSkill(skill, owner);
-                    skill.GetComponent<Image>().color = Color.white;
-
-                    OnExitEncounter?.Invoke(true);
-                });
+                GetSkillInRandomEncounterAnim(skill,
+                    ()=>
+                    {
+                        OnExitEncounter?.Invoke(true);
+                    });
                 break;
             case 1:
                 OnExitEncounter?.Invoke(true);
