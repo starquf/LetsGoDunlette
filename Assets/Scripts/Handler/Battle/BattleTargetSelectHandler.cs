@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -101,15 +102,21 @@ public class BattleTargetSelectHandler : MonoBehaviour
     {
         isDrag = true;
 
+        Vector2 touchStartPos = mainCam.ScreenToWorldPoint(Input.mousePosition);
+
         while (true)
         {
             yield return null;
-
             touchPos = mainCam.ScreenToWorldPoint(Input.mousePosition);
             touchPos.z = 0f;
 
+            if (touchStartPos.y > touchPos.y)
+            {
+                touchStartPos = touchPos;
+            }
+
             // 적이 선택되었다면
-            if (GetPositionEnemy(touchPos, out EnemyHealth enemy))
+            if (GetPositionEnemy(touchStartPos, touchPos, out EnemyHealth enemy))
             {
                 // 선 그려주는 작업
                 lr.SetPosition(1, enemy.transform.position);
@@ -179,19 +186,29 @@ public class BattleTargetSelectHandler : MonoBehaviour
         isSelect = false;
     }
 
-    private bool GetPositionEnemy(Vector3 pos, out EnemyHealth enemy)
+    private bool GetPositionEnemy(Vector2 dragStartPos, Vector2 pos, out EnemyHealth enemy)
     {
         enemy = null;
 
-        Collider2D coll = Physics2D.OverlapPoint(pos, isEnemy);
+        //Collider2D coll = Physics2D.OverlapPoint(pos, isEnemy);
 
-        // 적이 있다면
-        if (coll != null)
+        //// 적이 있다면
+        //if (coll != null)
+        //{
+        //    enemy = coll.GetComponent<EnemyHealth>();
+        //    return true;
+        //}
+        if(Vector2.Distance(dragStartPos, pos)< 1 || dragStartPos.y > pos.y)
         {
-            enemy = coll.GetComponent<EnemyHealth>();
-            return true;
+            return false;
+        }
+        else
+        {
+            List<EnemyHealth> enemys = GameManager.Instance.battleHandler.enemys;
+            enemys.Sort((e1, e2) => Vector2.Distance(e1.transform.position, pos) < Vector2.Distance(e2.transform.position, pos) ? -1 : 1);
+            enemy = enemys[0];
         }
 
-        return false;
+        return true;
     }
 }

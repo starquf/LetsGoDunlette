@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2354424636162078948}
   - component: {fileID: 2354424636162078951}
   - component: {fileID: 2354424636162078950}
-  - component: {fileID: 2354424636162078953}
   - component: {fileID: 2354424636162078952}
   - component: {fileID: 2354424636162078947}
   m_Layer: 6
@@ -109,6 +108,8 @@ MonoBehaviour:
   - {fileID: 3321979937218529764, guid: 12c96f8cc5a661447b0f3e0498cecb0a, type: 3}
   - {fileID: 3321979937218529764, guid: 12c96f8cc5a661447b0f3e0498cecb0a, type: 3}
   skills: []
+  indicator: {fileID: 0}
+  isPlayerInven: 0
 --- !u!114 &2354424636162078951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,14 +122,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65e8d3eb5c6db9544b113545f8cc90f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hPCvs: {fileID: 6258205083575170542}
-  hpBar: {fileID: 0}
   maxHp: 300
   hp: 0
   shieldHp: 0
+  attackPower: 0
+  addtionAttackPower: 0
+  hPCvs: {fileID: 6258205083575170542}
+  hpBar: {fileID: 0}
   weaknessType: 4
   cc: {fileID: 0}
-  originSize: {x: 0, y: 0, z: 0}
   enemyType: 19
   indicator: {fileID: 0}
   weaknessImg: {fileID: 671925629965872430}
@@ -162,22 +164,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ccUITrm: {fileID: 2458877574694302257}
   uiObj: {fileID: 4633525893839555858, guid: d59678b5cb46d314ebaec841ffd61e73, type: 3}
---- !u!58 &2354424636162078953
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2354424636162078955}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!114 &2354424636162078952
 MonoBehaviour:
   m_ObjectHideFlags: 0

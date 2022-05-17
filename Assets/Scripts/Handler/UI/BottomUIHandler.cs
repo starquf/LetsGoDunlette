@@ -8,6 +8,7 @@ public class BottomUIHandler : MonoBehaviour
     private CanvasGroup cg;
 
     public Button swapBtn;
+    private Image swapIcon;
 
     private float startPos;
     private float downPos;
@@ -15,10 +16,13 @@ public class BottomUIHandler : MonoBehaviour
     public bool isShow = true;
 
     public List<BottomSwapUI> swapUIs = new List<BottomSwapUI>();
+    public List<Sprite> swapIconList = new List<Sprite>();
+
     private int swapUIIdx = 0;
 
     private void Awake()
     {
+        swapIcon = swapBtn.transform.GetChild(0).GetComponent<Image>();
         GameManager.Instance.bottomUIHandler = this;
         cg = GetComponent<CanvasGroup>();
 
@@ -32,6 +36,9 @@ public class BottomUIHandler : MonoBehaviour
 
         swapBtn.onClick.AddListener(() =>
         {
+            if (Time.timeScale < 1f)
+                return;
+
             SwapToNextUI();
         });
     }
@@ -40,6 +47,7 @@ public class BottomUIHandler : MonoBehaviour
     {
         swapUIIdx = (swapUIIdx + 1) % swapUIs.Count;
 
+        swapIcon.sprite = swapIconList[swapUIIdx];
         ShowSwapUI(swapUIIdx);
     }
 

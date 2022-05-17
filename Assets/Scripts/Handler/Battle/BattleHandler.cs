@@ -128,6 +128,16 @@ public class BattleHandler : MonoBehaviour
         player.GetComponent<Inventory>().CreateSkills();
 
         playerInfoHandler.Init(player.GetComponent<PlayerInfo>());
+
+        mainRullet.onTimerEnd += () =>
+        {
+            if (battleScroll.scrollDesHandler.isShow)
+            {
+                battleScroll.scrollDesHandler.ForceCancelDes();
+
+                Time.timeScale = 1f;
+            }
+        };
     }
 
     #region StartBattle
@@ -338,6 +348,11 @@ public class BattleHandler : MonoBehaviour
         },
         () =>
         {
+            if (battleScroll.scrollDesHandler.isShow)
+            {
+                battleScroll.scrollDesHandler.ForceCancelDes();
+            }
+
             // 스크롤 버튼 비활성화
             SetInteract(false);
         });

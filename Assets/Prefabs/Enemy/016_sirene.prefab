@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 277614994068543484}
   - component: {fileID: 277614994068543483}
   - component: {fileID: 277614994068543482}
-  - component: {fileID: 277614994068543481}
   - component: {fileID: 277614994068543480}
   m_Layer: 6
   m_Name: 016_sirene
@@ -112,6 +111,8 @@ MonoBehaviour:
   - {fileID: 3683386177077806694, guid: 9980c9bf3ad541d4183cc26be2387438, type: 3}
   - {fileID: 3683386177077806694, guid: 9980c9bf3ad541d4183cc26be2387438, type: 3}
   skills: []
+  indicator: {fileID: 0}
+  isPlayerInven: 0
 --- !u!114 &277614994068543483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,14 +125,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65e8d3eb5c6db9544b113545f8cc90f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hPCvs: {fileID: 8480082089080630416}
-  hpBar: {fileID: 0}
   maxHp: 400
   hp: 0
   shieldHp: 0
+  attackPower: 0
+  addtionAttackPower: 0
+  hPCvs: {fileID: 8480082089080630416}
+  hpBar: {fileID: 0}
   weaknessType: 4
   cc: {fileID: 0}
-  originSize: {x: 0, y: 0, z: 0}
   enemyType: 15
   indicator: {fileID: 0}
   weaknessImg: {fileID: 3037107484031431760}
@@ -153,22 +155,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ccUITrm: {fileID: 101719973148552015}
   uiObj: {fileID: 4633525893839555858, guid: d59678b5cb46d314ebaec841ffd61e73, type: 3}
---- !u!58 &277614994068543481
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 277614994068543367}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!114 &277614994068543480
 MonoBehaviour:
   m_ObjectHideFlags: 0

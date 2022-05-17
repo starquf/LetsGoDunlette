@@ -9,10 +9,14 @@ public abstract class Rullet : MonoBehaviour
 {
     [SerializeField] protected List<RulletPiece> pieces = new List<RulletPiece>();
     protected RulletPiece result;
+
     public Action<RulletPiece, int> onResult;
+    public event Action onTimerEnd;
+
     protected int maxSize = 36;
     public bool IsRoll { get; private set; } = false;
     public bool IsStop { get; private set; } = false;
+
     protected float rollSpeed;
     protected float stopSpeed;
     protected float multiply = 1f;
@@ -309,6 +313,8 @@ public abstract class Rullet : MonoBehaviour
 
             yield return null;
         }
+
+        onTimerEnd?.Invoke();
 
         IsStop = true;
     }

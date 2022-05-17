@@ -1,16 +1,22 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class RF_Present : SkillPiece
 {
     private Sprite originIcon;
+    private Sprite originSkillTypeIcon;
+
+    private Image skillTypeIconImage;
     protected override void Awake()
     {
         base.Awake();
         isPlayerSkill = false;
+        skillTypeIconImage = skillImg.transform.GetChild(0).GetComponent<Image>();
         originIcon = skillImg.sprite;
+        originSkillTypeIcon = skillTypeIconImage.sprite;
     }
 
     public override void OnRullet()
@@ -37,12 +43,14 @@ public class RF_Present : SkillPiece
 
             bgImg.sprite = GameManager.Instance.inventoryHandler.pieceBGSprDic[target.currentType];
             skillImg.sprite = target.skillImg.sprite;
+            skillTypeIconImage.sprite = target.skillImg.transform.GetChild(0).GetComponent<Image>().sprite;
         }
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         skillImg.sprite = originIcon;
+        skillTypeIconImage.sprite = originSkillTypeIcon;
 
         SetIndicator(Owner.gameObject, "АјАн").OnEndAction(() =>
         {
