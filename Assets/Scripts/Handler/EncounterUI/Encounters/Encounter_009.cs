@@ -52,9 +52,11 @@ public class Encounter_009 : RandomEncounter
         switch (choiceIdx)
         {
             case 0:
-                BattleInfo bInfo = new BattleInfo();
-                bInfo.enemyInfos = new List<EnemyType>() { EnemyType.GNOLL };
-                bInfo.isWeakEnemy = false;
+                BattleInfo bInfo = new BattleInfo
+                {
+                    enemyInfos = new List<EnemyType>() { EnemyType.GNOLL },
+                    isWeakEnemy = false
+                };
 
                 bh.StartBattle(bInfo: bInfo);
                 OnExitEncounter?.Invoke(false);

@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -45,7 +44,7 @@ public class Encounter_018 : RandomEncounter
                     sp.transform.SetParent(encounterInfoHandler.transform);
 
                     DOTween.Sequence()
-                    .Append(sp.transform.DOMove(Vector2.zero+(idx==0 ?Vector2.up:Vector2.down), 0.5f))
+                    .Append(sp.transform.DOMove(Vector2.zero + (idx == 0 ? Vector2.up : Vector2.down), 0.5f))
                     .Join(sp.transform.DOScale(Vector2.one, 0.5f))
                     .Join(sp.transform.DORotate(new Vector3(0f, 0f, 30f), 0.5f))
                     .OnComplete(() =>
@@ -66,7 +65,7 @@ public class Encounter_018 : RandomEncounter
                         .Join(sp2.transform.DOMoveX(1f, 0.3f))
                         .OnComplete(() =>
                         {
-                            if(idx == 1)
+                            if (idx == 1)
                             {
                                 invenInfoHandler.closeBtn.interactable = true;
                                 randomEncounterUIHandler.exitBtn.gameObject.SetActive(true);
@@ -111,7 +110,7 @@ public class Encounter_018 : RandomEncounter
                         DOTween.Sequence()
                         .Append(skill.transform.DOMove(Vector2.zero, 0.5f))
                         .Join(skill.transform.DOScale(Vector2.one, 0.5f))
-                        .Join(skill.transform.DORotate(new Vector3(0f,0f,30f), 0.5f))
+                        .Join(skill.transform.DORotate(new Vector3(0f, 0f, 30f), 0.5f))
                         .OnComplete(() =>
                         {
                             skill2 = Instantiate(sp).GetComponent<SkillPiece>();
@@ -150,7 +149,7 @@ public class Encounter_018 : RandomEncounter
                 for (int i = 0; i < skills.Count; i++)
                 {
                     int idx = i;
-                    DOTween.Sequence().SetDelay(idx*0.1f)
+                    DOTween.Sequence().SetDelay(idx * 0.1f)
                     .Append(skills[idx].transform.DOMove(unusedInventoryTrm.position, 0.5f))
                     .Join(skills[idx].transform.DOScale(Vector2.one * 0.1f, 0.5f))
                     .Join(skills[idx].GetComponent<Image>().DOFade(0f, 0.5f))
@@ -161,7 +160,7 @@ public class Encounter_018 : RandomEncounter
                         GameManager.Instance.inventoryHandler.AddSkill(skills[idx], owner);
                         skills[idx].GetComponent<Image>().color = Color.white;
 
-                        if(idx==skills.Count-1)
+                        if (idx == skills.Count - 1)
                         {
                             OnExitEncounter?.Invoke(true);
                         }
