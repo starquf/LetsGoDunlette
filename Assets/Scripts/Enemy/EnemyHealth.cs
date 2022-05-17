@@ -87,17 +87,11 @@ public class EnemyHealth : LivingEntity
     protected override void Die()
     {
         base.Die();
-        //print($"{gameObject.name} Á×À½!!");
-
         ShowDieEffect();
-
         Inventory inven = GetComponent<Inventory>();
-
         GameManager.Instance.inventoryHandler.RemoveAllOwnerPiece(inven);
         StartCoroutine(bh.battleEvent.ActionEvent(EventTimeEnemy.EnemyDie, this));
-
         coll.enabled = false;
-
         bh.enemys.Remove(this);
         GameManager.Instance.inventoryHandler.RemoveInventory(inven);
     }
