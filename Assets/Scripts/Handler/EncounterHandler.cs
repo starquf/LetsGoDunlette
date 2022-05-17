@@ -1,8 +1,8 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
 public class EncounterHandler : MonoBehaviour
 {
@@ -28,10 +28,10 @@ public class EncounterHandler : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.OnResetGame += () => isEncounterPlaying = false;;
+        GameManager.Instance.OnResetGame += () => isEncounterPlaying = false; ;
         GameManager.Instance.OnEndEncounter += EndEncounter;
         bh = GameManager.Instance.battleHandler;
-        bh.GetComponent<BattleScrollHandler>().ShowScrollUI(open: false,skip: true);
+        bh.GetComponent<BattleScrollHandler>().ShowScrollUI(open: false, skip: true);
         GameManager.Instance.goldUIHandler.ShowGoldUI(false, true);
 
         StartCoroutine(LateStart());
@@ -48,7 +48,10 @@ public class EncounterHandler : MonoBehaviour
     // 인카운터 시작할 떄 호출
     public void StartEncounter(mapNode type)
     {
-        if (isEncounterPlaying) return;
+        if (isEncounterPlaying)
+        {
+            return;
+        }
 
         for (int i = 0; i < bottomUIs.Count; i++)
         {
@@ -148,7 +151,11 @@ public class EncounterHandler : MonoBehaviour
 
     private void EndEncounter()
     {
-        if (!isEncounterPlaying) return;
+        if (!isEncounterPlaying)
+        {
+            return;
+        }
+
         isEncounterPlaying = false;
 
         GameManager gm = GameManager.Instance;

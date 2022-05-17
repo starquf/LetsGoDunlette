@@ -1,14 +1,10 @@
-using DG.Tweening;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class TA_Attack : SkillPiece
 {
     private int firstValue;
-    private Action<SkillPiece,Action> onNextTurn;
-    SkillEvent eventInfo = null;
+    private Action<SkillPiece, Action> onNextTurn;
+    private SkillEvent eventInfo = null;
 
     protected override void Awake()
     {
@@ -26,7 +22,7 @@ public class TA_Attack : SkillPiece
 
         bh.battleEvent.RemoveEventInfo(eventInfo);
 
-        onNextTurn = (piece,action) =>
+        onNextTurn = (piece, action) =>
         {
             if (Owner.GetComponent<EnemyHealth>().cc.IsCC(CCType.Heating))
             {
@@ -57,7 +53,7 @@ public class TA_Attack : SkillPiece
     {
         SetIndicator(Owner.gameObject, "АјАн").OnEndAction(() =>
         {
-            if(Owner.GetComponent<EnemyHealth>().cc.IsCC(CCType.Heating))
+            if (Owner.GetComponent<EnemyHealth>().cc.IsCC(CCType.Heating))
             {
                 target.GetDamage(Value, this, Owner);
             }

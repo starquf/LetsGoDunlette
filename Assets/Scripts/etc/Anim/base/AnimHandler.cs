@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -53,7 +52,7 @@ public class AnimHandler : MonoBehaviour
         }
         else
         {
-            Debug.LogError($"애니메이션이 없습니다!!  이름 : {name.ToString()}");
+            Debug.LogError($"애니메이션이 없습니다!!  이름 : {name}");
         }
 
         return animObj;

@@ -30,8 +30,8 @@ public abstract class EventInfo
 
     public EventInfo()
     {
-        this.actionOnEnd = false;
-        this.turn = 101;
+        actionOnEnd = false;
+        turn = 101;
     }
 
     public EventInfo(bool actionOnEnd, int turn)
@@ -315,7 +315,7 @@ public class BattleEventHandler : MonoBehaviour
                     {
                         EventInfo nowInfo = eventInfoList[a];
                         eventInfoList.RemoveAt(a);
-                        nowInfo.InvokeEvent(enemy,null);
+                        nowInfo.InvokeEvent(enemy, null);
                     }
                     continue;
                 }
@@ -328,7 +328,7 @@ public class BattleEventHandler : MonoBehaviour
                         eventInfoList.RemoveAt(a);
                     }
 
-                    nowInfo.InvokeEvent(enemy,null);
+                    nowInfo.InvokeEvent(enemy, null);
                 }
             }
         }

@@ -14,8 +14,6 @@ public class SR_Skill : SkillPiece
     public override void OnRullet()
     {
         base.OnRullet();
-
-        BattleHandler bh = GameManager.Instance.battleHandler;
         bh.battleEvent.RemoveEventInfo(skillEventInfo);
 
         skillEvent = (piece, action) =>
@@ -56,6 +54,12 @@ public class SR_Skill : SkillPiece
         GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
         AddValue(30);
+
+        if (animHandler == null)
+        {
+            animHandler = GameManager.Instance.animHandler;
+        }
+
         animHandler.GetAnim(AnimName.M_Recover).SetPosition(Owner.transform.position)
             .SetScale(1)
             .Play(() =>

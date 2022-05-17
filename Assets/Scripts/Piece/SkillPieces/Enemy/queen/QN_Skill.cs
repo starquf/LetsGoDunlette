@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class QN_Skill : SkillPiece
 {
@@ -14,11 +12,11 @@ public class QN_Skill : SkillPiece
     public override PieceInfo ChoiceSkill()
     {
         base.ChoiceSkill();
-        var enemys = bh.enemys;
+        List<EnemyHealth> enemys = bh.enemys;
 
         for (int i = 0; i < enemys.Count; i++)
         {
-            var health = enemys[i];
+            EnemyHealth health = enemys[i];
 
             if (health.gameObject != Owner.gameObject)
             {
@@ -59,11 +57,11 @@ public class QN_Skill : SkillPiece
     {
         GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
-        var enemys = bh.enemys;
+        List<EnemyHealth> enemys = bh.enemys;
 
         for (int i = 0; i < enemys.Count; i++)
         {
-            var health = enemys[i];
+            EnemyHealth health = enemys[i];
 
             if (health.gameObject != Owner.gameObject)
             {

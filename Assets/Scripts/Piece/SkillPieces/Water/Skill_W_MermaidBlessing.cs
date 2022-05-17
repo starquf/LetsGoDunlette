@@ -18,7 +18,7 @@ public class Skill_W_MermaidBlessing : SkillPiece
     {
         base.GetDesIconInfo();
 
-        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc().ToString()}");
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc()}");
 
         return desInfos;
     }
@@ -53,7 +53,10 @@ public class Skill_W_MermaidBlessing : SkillPiece
 
         for (int i = 0; i < skillPieces.Count; i++)
         {
-            if (skillPieces[i] == null) continue;
+            if (skillPieces[i] == null)
+            {
+                continue;
+            }
 
             if (skillPieces[i].PieceType.Equals(PieceType.SKILL))
             {

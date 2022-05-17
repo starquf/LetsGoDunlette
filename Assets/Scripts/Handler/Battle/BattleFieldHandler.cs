@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,18 +8,13 @@ public class BattleFieldHandler : MonoBehaviour
 
     private Dictionary<ElementalType, FieldHandler> fieldDic;
 
-    public ElementalType FieldType
-    {
-        get { return nowFieldType; }
-    }
-    //필드속성을 저장함 기본은 무속성
-    private ElementalType nowFieldType = ElementalType.None;
+    public ElementalType FieldType { get; private set; } = ElementalType.None;
 
     private int currentTurn = 0;
 
     public void Start()
     {
-        nowFieldType = ElementalType.None;
+        FieldType = ElementalType.None;
 
         fieldDic = new Dictionary<ElementalType, FieldHandler>();
         for (int i = 0; i < fieldHandlersParent.childCount; i++)
@@ -30,7 +24,7 @@ public class BattleFieldHandler : MonoBehaviour
             fieldDic.Add(field.fieldType, field);
         }
 
-        foreach(FieldHandler fieldHandler in fieldDic.Values)
+        foreach (FieldHandler fieldHandler in fieldDic.Values)
         {
             fieldHandler.DisableField(true);
         }
@@ -53,12 +47,7 @@ public class BattleFieldHandler : MonoBehaviour
 
     public bool CheckFieldType(ElementalType type)
     {
-        if(type == FieldType)
-        {
-            return true;
-        }
-
-        return false;
+        return type == FieldType;
     }
 
     public void DecreaseTurn()
@@ -74,7 +63,7 @@ public class BattleFieldHandler : MonoBehaviour
 
     public void IncreaseTurn(int turn)
     {
-        if (nowFieldType != ElementalType.None)
+        if (FieldType != ElementalType.None)
         {
             currentTurn += turn;
         }
@@ -83,14 +72,16 @@ public class BattleFieldHandler : MonoBehaviour
     public void SetFieldType(ElementalType type)
     {
         if (type == ElementalType.Monster)
+        {
             return;
+        }
 
         if (type.Equals(ElementalType.None))
         {
-            if (!nowFieldType.Equals(ElementalType.None))
+            if (!FieldType.Equals(ElementalType.None))
             {
-                fieldDic[nowFieldType].DisableField();
-                nowFieldType = type;
+                fieldDic[FieldType].DisableField();
+                FieldType = type;
 
                 currentTurn = 0;
             }
@@ -100,6 +91,6 @@ public class BattleFieldHandler : MonoBehaviour
 
         ChangeField(type);
 
-        nowFieldType = type;
+        FieldType = type;
     }
 }

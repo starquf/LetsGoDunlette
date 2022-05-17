@@ -1,9 +1,8 @@
+using DG.Tweening;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 using Random = UnityEngine.Random;
 
 public class Anim_TextUp : AnimObj
@@ -75,7 +74,7 @@ public class Anim_TextUp : AnimObj
 
     public override void SetAnim(AnimationClip clip)
     {
-        
+
     }
 
     protected override IEnumerator PlayAnim(Action onEndAnim)
@@ -87,7 +86,7 @@ public class Anim_TextUp : AnimObj
 
         Vector3 startSize = textValue.transform.localScale;
 
-        textValue.transform.DOScale(startSize * 1.5f, time / 2f - 0.05f)
+        textValue.transform.DOScale(startSize * 1.5f, (time / 2f) - 0.05f)
             .SetLoops(2, LoopType.Yoyo);
 
         switch (currentType)
@@ -163,9 +162,9 @@ public class Anim_TextUp : AnimObj
 
     protected Vector3 Parabola(Vector3 start, Vector3 end, float height, float t)
     {
-        float t2 = -4 * height * t * t + 4 * height * t;
+        float t2 = (-4 * height * t * t) + (4 * height * t);
 
-        var mid = Vector3.Lerp(start, end, t);
+        Vector3 mid = Vector3.Lerp(start, end, t);
 
         return new Vector3(mid.x, t2 + Mathf.Lerp(start.y, end.y, t), mid.z);
     }

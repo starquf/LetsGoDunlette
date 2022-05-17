@@ -1,18 +1,15 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class Skill_F_TickTock : SkillPiece
 {
     public int hitedValue = 5;
-    private Action<SkillPiece,Action> onNextTurn = null;
+    private Action<SkillPiece, Action> onNextTurn = null;
     public Text counterText;
     private int turnCount = 3;
-
-    SkillEvent eventInfo = null;
+    private SkillEvent eventInfo = null;
     protected override void Start()
     {
         base.Start();
@@ -23,7 +20,7 @@ public class Skill_F_TickTock : SkillPiece
     {
         base.GetDesIconInfo();
 
-        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc().ToString()}");
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc()}");
 
         return desInfos;
     }
@@ -39,7 +36,7 @@ public class Skill_F_TickTock : SkillPiece
     {
         bh.battleEvent.RemoveEventInfo(eventInfo);
 
-        onNextTurn = (piece,action) =>
+        onNextTurn = (piece, action) =>
         {
             if (piece != this)
             {
@@ -83,7 +80,7 @@ public class Skill_F_TickTock : SkillPiece
     public override void ResetPiece()
     {
         base.ResetPiece();
-        if(bh == null)
+        if (bh == null)
         {
             bh = GameManager.Instance.battleHandler;
         }
@@ -92,7 +89,7 @@ public class Skill_F_TickTock : SkillPiece
         turnCount = 3;
         counterText.text = turnCount.ToString();
     }
-    
+
     public override void Cast(LivingEntity target, Action onCastEnd = null) //룰렛에 들어온 뒤 사용되지 않은채로 3턴이 지나면 자신에게 60의 데미지를 준 뒤 무덤으로 이동한다.
     {
         target.GetDamage(GetDamageCalc(), currentType);

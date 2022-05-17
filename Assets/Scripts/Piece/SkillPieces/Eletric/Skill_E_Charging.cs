@@ -7,11 +7,11 @@ using Random = UnityEngine.Random;
 
 public class Skill_E_Charging : SkillPiece
 {
-    private Action<SkillPiece,Action> onCharge = null;
+    private Action<SkillPiece, Action> onCharge = null;
 
     public Text counterText;
     private int attackCount = 1;
-        SkillEvent eventInfo = null;
+    private SkillEvent eventInfo = null;
 
     private readonly WaitForSeconds pOneSecWait = new WaitForSeconds(0.1f);
 
@@ -28,14 +28,14 @@ public class Skill_E_Charging : SkillPiece
     {
         base.GetDesIconInfo();
 
-        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc().ToString()}x{attackCount}");
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc()}x{attackCount}");
 
         return desInfos;
     }
 
     private int GetDamageCalc()
     {
-        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.2f + 1);
+        int attack = (int)((Owner.GetComponent<LivingEntity>().AttackPower * 0.2f) + 1);
 
         return attack;
     }
@@ -43,7 +43,7 @@ public class Skill_E_Charging : SkillPiece
     public override void OnRullet()
     {
         bh.battleEvent.RemoveEventInfo(eventInfo);
-        onCharge = (piece,action) =>
+        onCharge = (piece, action) =>
         {
             if (piece.currentType.Equals(ElementalType.Electric) && piece != this)
             {
@@ -53,9 +53,11 @@ public class Skill_E_Charging : SkillPiece
                .SetScale(0.8f)
                .Play("충전됨!");
 
-                LogCon log = new LogCon();
-                log.text = $"충전됨";
-                log.selfSpr = skillImg.sprite;
+                LogCon log = new LogCon
+                {
+                    text = $"충전됨",
+                    selfSpr = skillImg.sprite
+                };
 
                 DebugLogHandler.AddLog(LogType.ImageText, log);
 
@@ -73,7 +75,7 @@ public class Skill_E_Charging : SkillPiece
         };
 
         eventInfo = new SkillEvent(EventTimeSkill.WithSkill, onCharge);
-       bh.battleEvent.BookEvent(eventInfo);
+        bh.battleEvent.BookEvent(eventInfo);
     }
 
     public override void ResetPiece()
@@ -120,10 +122,12 @@ public class Skill_E_Charging : SkillPiece
 
             enemy.GetDamage(GetDamageCalc(), currentType);
 
-            LogCon log = new LogCon();
-            log.text = $"{GetDamageCalc()} 데미지 부여";
-            log.selfSpr = skillImg.sprite;
-            log.targetSpr = enemy.GetComponent<SpriteRenderer>().sprite;
+            LogCon log = new LogCon
+            {
+                text = $"{GetDamageCalc()} 데미지 부여",
+                selfSpr = skillImg.sprite,
+                targetSpr = enemy.GetComponent<SpriteRenderer>().sprite
+            };
 
             DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
 

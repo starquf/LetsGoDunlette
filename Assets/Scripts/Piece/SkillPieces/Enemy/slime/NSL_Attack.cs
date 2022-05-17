@@ -29,7 +29,7 @@ public class NSL_Attack : SkillPiece
     {
         SetIndicator(Owner.gameObject, "АјАн").OnEndAction(() =>
         {
-            target.GetDamage(GetDamageCalc(), this,Owner);
+            target.GetDamage(GetDamageCalc(), this, Owner);
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
             animHandler.GetAnim(AnimName.M_Butt)

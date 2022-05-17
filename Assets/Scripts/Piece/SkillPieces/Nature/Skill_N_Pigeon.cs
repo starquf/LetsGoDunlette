@@ -1,6 +1,4 @@
-using DG.Tweening;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -22,7 +20,7 @@ public class Skill_N_Pigeon : SkillPiece
     {
         base.GetDesIconInfo();
 
-        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc().ToString()}x5");
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc()}x5");
         desInfos[1].SetInfo(DesIconType.Silence, "2");
 
         return desInfos;
@@ -30,7 +28,7 @@ public class Skill_N_Pigeon : SkillPiece
 
     private int GetDamageCalc()
     {
-        int attack = Mathf.Clamp(((int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.2f + 2) / 5), 1, int.MaxValue);
+        int attack = Mathf.Clamp((int)((Owner.GetComponent<LivingEntity>().AttackPower * 0.2f) + 2) / 5, 1, int.MaxValue);
 
         return attack;
     }

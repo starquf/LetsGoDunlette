@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -43,7 +41,10 @@ public class LogLine : MonoBehaviour
                 break;
         }
 
-        if (hasLine) lineImg.gameObject.SetActive(true);
+        if (hasLine)
+        {
+            lineImg.gameObject.SetActive(true);
+        }
     }
 
     private void ResetLog()

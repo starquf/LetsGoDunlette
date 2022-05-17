@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
 public class InventoryIndicator : MonoBehaviour
 {
@@ -24,14 +22,7 @@ public class InventoryIndicator : MonoBehaviour
 
     public void SetText(int count)
     {
-        if (count <= 0)
-        {
-            pieceText.color = emptyColor;
-        }
-        else
-        {
-            pieceText.color = Color.white;
-        }
+        pieceText.color = count <= 0 ? emptyColor : Color.white;
 
         pieceText.text = count.ToString();
     }

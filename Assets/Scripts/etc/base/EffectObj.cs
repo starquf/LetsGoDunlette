@@ -9,14 +9,17 @@ public class EffectObj : MonoBehaviour
     public AnimationCurve moveCurve;
 
     private SpriteRenderer sr;
-    public SpriteRenderer Sr { 
-        get 
+    public SpriteRenderer Sr
+    {
+        get
         {
             if (sr == null)
+            {
                 sr = GetComponent<SpriteRenderer>();
+            }
 
             return sr;
-        } 
+        }
     }
 
     private TrailRenderer tr;
@@ -96,15 +99,17 @@ public class EffectObj : MonoBehaviour
     private IEnumerator PlayEffect(Vector3 target, Action onEndEffect, BezierType type, float delay, float playSpeed, bool isRotate)
     {
         if (delay > 0)
+        {
             yield return new WaitForSeconds(delay);
+        }
 
         Vector3 start = transform.position;
 
         float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
-        Vector3 p0 = start + new Vector3(Mathf.Cos(angle), Mathf.Sin(angle)) * 2f;
+        Vector3 p0 = start + (new Vector3(Mathf.Cos(angle), Mathf.Sin(angle)) * 2f);
 
         angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
-        Vector3 p1 = target + new Vector3(Mathf.Cos(angle), Mathf.Sin(angle)) * 2f;
+        Vector3 p1 = target + (new Vector3(Mathf.Cos(angle), Mathf.Sin(angle)) * 2f);
 
         Vector3 prevPoint = start;
         Vector3 dir = Vector3.zero;
@@ -182,6 +187,6 @@ public class EffectObj : MonoBehaviour
 
     private Vector3 LinearBezierPoint(float t, Vector3 start, Vector3 end)
     {
-        return start + t * (end - start);
+        return start + (t * (end - start));
     }
 }

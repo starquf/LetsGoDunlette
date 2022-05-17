@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Skil_F_Start_fire : SkillPiece
@@ -18,7 +16,7 @@ public class Skil_F_Start_fire : SkillPiece
 
         GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
-        if(GameManager.Instance.battleHandler.fieldHandler.CheckFieldType(ElementalType.Water))
+        if (GameManager.Instance.battleHandler.fieldHandler.CheckFieldType(ElementalType.Water))
         {
             target.GetDamage(Value / 2, currentType);
         }
@@ -29,7 +27,7 @@ public class Skil_F_Start_fire : SkillPiece
 
         animHandler.GetAnim(AnimName.F_Effect02).SetPosition(targetPos)
             .SetScale(1)
-            .Play(()=>
+            .Play(() =>
         {
             onCastEnd?.Invoke();
         });

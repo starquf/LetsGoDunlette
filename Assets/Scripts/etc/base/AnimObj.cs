@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AnimObj : MonoBehaviour
@@ -32,8 +31,10 @@ public class AnimObj : MonoBehaviour
 
     public virtual void InitAnim()
     {
-        AnimatorOverrideController aoc = new AnimatorOverrideController();
-        aoc.runtimeAnimatorController = anim.runtimeAnimatorController;
+        AnimatorOverrideController aoc = new AnimatorOverrideController
+        {
+            runtimeAnimatorController = anim.runtimeAnimatorController
+        };
 
         anim.runtimeAnimatorController = aoc;
 

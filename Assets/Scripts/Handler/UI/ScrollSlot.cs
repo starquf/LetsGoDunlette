@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ScrollSlot : MonoBehaviour
@@ -12,7 +10,7 @@ public class ScrollSlot : MonoBehaviour
     {
         this.scroll = scroll;
 
-        scroll.transform.SetParent(this.transform);
+        scroll.transform.SetParent(transform);
         scroll.transform.localPosition = scrollPos;
         scroll.transform.localScale = Vector3.one;
     }
@@ -21,6 +19,6 @@ public class ScrollSlot : MonoBehaviour
     {
         scroll.gameObject.SetActive(false);
 
-        this.scroll = null;
+        scroll = null;
     }
 }

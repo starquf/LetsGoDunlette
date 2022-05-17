@@ -1,6 +1,4 @@
-using DG.Tweening;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -11,22 +9,13 @@ public class RF_Present : SkillPiece
     protected override void Awake()
     {
         base.Awake();
-
         isPlayerSkill = false;
         originIcon = skillImg.sprite;
-    }
-
-    protected override void Start()
-    {
-        base.Start();
-
-        bh = GameManager.Instance.battleHandler;
     }
 
     public override void OnRullet()
     {
         base.OnRullet();
-
         List<RulletPiece> pieces = bh.mainRullet.GetPieces();
         List<SkillPiece> targetList = new List<SkillPiece>();
 
