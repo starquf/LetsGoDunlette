@@ -5,10 +5,11 @@ using UnityEngine;
 public class SkillPiece : RulletPiece
 {
     [Header("스킬 세팅")]
-    public bool isPlayerSkill = true; //플레이어 스킬인가?
-    public bool isTargeting = true; //타게팅스킬인가?
-    public bool isRandomSkill = false; //랜덤 스킬인가??
-    public bool isDisposable = false; //1회용인가
+    public bool isPlayerSkill = true;                 // 플레이어 스킬인가?
+    public bool isTargeting = true;                   // 타게팅스킬인가?
+    public bool isRandomSkill = false;                // 랜덤 스킬인가??
+    public bool isDisposable = false;                 // 1회용인가
+    public SkillRange skillRange = SkillRange.Single; // 스킬의 공격 범위
 
     public PieceInfo[] pieceInfo;
     protected Action<LivingEntity, Action> onCastSkill;

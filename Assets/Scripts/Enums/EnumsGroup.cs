@@ -158,7 +158,7 @@ public enum PlayerSkillType
 
 public enum SkillRange
 {
-    Single,
-    All,
-    Random
+    Single = 0,
+    All = 1,
+    Random = 2
 }

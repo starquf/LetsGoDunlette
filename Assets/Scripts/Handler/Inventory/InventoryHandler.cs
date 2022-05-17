@@ -14,13 +14,14 @@ public class InventoryHandler : MonoBehaviour
 
     public InventoryIndicator graveyardIndicator;
 
-    [Header("문양 이펙트 관련")]
+    [Header("카드 관련")]
     [SerializeField] private List<Sprite> effectSprites = new List<Sprite>();
     [SerializeField] private List<Gradient> effectGradients = new List<Gradient>();
     [SerializeField] private List<Sprite> bookmarkSprites = new List<Sprite>();
     [SerializeField] private List<Sprite> pieceBGSprites = new List<Sprite>();
     [SerializeField] private List<Sprite> pieceBGStrokeSprites = new List<Sprite>();
     [SerializeField] private List<Sprite> targetBGSprites = new List<Sprite>();
+    [SerializeField] private List<Sprite> targetIconSprites = new List<Sprite>();
 
 
     public Dictionary<ElementalType, Sprite> effectSprDic;
@@ -29,6 +30,7 @@ public class InventoryHandler : MonoBehaviour
     public Dictionary<ElementalType, Sprite> pieceBGSprDic;
     public Dictionary<ElementalType, Sprite> pieceBGStrokeSprDic;
     public Dictionary<ElementalType, Sprite> targetBGSprDic;
+    public Dictionary<SkillRange, Sprite> targetIconSprDic;
 
     public event Action onUpdateInfo;
 
@@ -44,6 +46,7 @@ public class InventoryHandler : MonoBehaviour
         pieceBGSprDic = new Dictionary<ElementalType, Sprite>();
         pieceBGStrokeSprDic = new Dictionary<ElementalType, Sprite>();
         targetBGSprDic = new Dictionary<ElementalType, Sprite>();
+        targetIconSprDic = new Dictionary<SkillRange, Sprite>();
 
         for (int i = 0; i < 6; i++)
         {
@@ -53,6 +56,11 @@ public class InventoryHandler : MonoBehaviour
             pieceBGSprDic.Add((ElementalType)i, pieceBGSprites[i]);
             pieceBGStrokeSprDic.Add((ElementalType)i, pieceBGStrokeSprites[i]);
             targetBGSprDic.Add((ElementalType)i, targetBGSprites[i]);
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            targetIconSprDic.Add((SkillRange)i, targetIconSprites[i]);
         }
     }
 

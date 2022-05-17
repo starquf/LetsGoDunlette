@@ -17,6 +17,7 @@ public class PieceCastUIHandler : MonoBehaviour
     public Transform skillIconTrans;
     public Image strokeImg;
     public Image targetBGImg;
+    public Image targetIcon;
 
     public Button closeBtn;
 
@@ -96,6 +97,7 @@ public class PieceCastUIHandler : MonoBehaviour
 
         strokeImg.sprite = inven.pieceBGStrokeSprDic[skillPiece.currentType];
         targetBGImg.sprite = inven.targetBGSprDic[skillPiece.currentType];
+        targetIcon.sprite = inven.targetIconSprDic[skillPiece.skillRange];
 
         pieceMoveSequence.Kill();
 
