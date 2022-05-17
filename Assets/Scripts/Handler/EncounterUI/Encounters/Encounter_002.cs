@@ -6,7 +6,10 @@ public class Encounter_002 : RandomEncounter
 {
     public Sprite ballteBg;
     public int lostGoldValue = 10;
-
+    public override void Start()
+    {
+        base.Start();
+    }
     public override void Init()
     {
         GameManager.Instance.Gold -= lostGoldValue;

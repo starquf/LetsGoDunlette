@@ -8,6 +8,10 @@ public class Encounter_001 : RandomEncounter
 {
     public int getGoldValue = 10;
     private SkillPiece skill;
+    public override void Start()
+    {
+        base.Start();
+    }
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;

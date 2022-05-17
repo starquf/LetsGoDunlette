@@ -8,6 +8,10 @@ public class Encounter_010 : RandomEncounter
 {
     public SkillPiece cheatingPiece;
     private SkillPiece skill;
+    public override void Start()
+    {
+        base.Start();
+    }
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;

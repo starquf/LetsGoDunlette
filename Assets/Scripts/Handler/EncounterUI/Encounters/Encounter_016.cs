@@ -8,7 +8,10 @@ public class Encounter_016 : RandomEncounter
 {
     RandomEncounterUIHandler encounterUIHandler = null;
     private List<int> encounterIdxList;
-
+    public override void Start()
+    {
+        base.Start();
+    }
     public override void Init()
     {
         encounterIdxList = new List<int>();

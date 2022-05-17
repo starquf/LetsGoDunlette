@@ -9,6 +9,10 @@ public class Encounter_018 : RandomEncounter
     private List<SkillPiece> skills = new List<SkillPiece>();
     private SkillPiece skill;
     private SkillPiece skill2;
+    public override void Start()
+    {
+        base.Start();
+    }
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;

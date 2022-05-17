@@ -7,7 +7,10 @@ public class Encounter_015 : RandomEncounter
 {
     private SkillPiece skill;
     BattleScrollHandler battleScrollHandler = null;
-
+    public override void Start()
+    {
+        base.Start();
+    }
     public override void Init()
     {
         battleScrollHandler = bh.GetComponent<BattleScrollHandler>();

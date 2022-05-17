@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 public class Encounter_009 : RandomEncounter
 {
+    public override void Start()
+    {
+        base.Start();
+    }
     public override void Init()
     {
         BattleScrollHandler battleScrollHandler = bh.GetComponent<BattleScrollHandler>();

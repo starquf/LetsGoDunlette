@@ -5,7 +5,10 @@ using UnityEngine;
 public class Encounter_006 : RandomEncounter
 {
     public int getGoldValue = 10;
-
+    public override void Start()
+    {
+        base.Start();
+    }
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;

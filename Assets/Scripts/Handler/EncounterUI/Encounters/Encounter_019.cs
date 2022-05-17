@@ -9,6 +9,10 @@ public class Encounter_019 : RandomEncounter
     public SkillPiece computerErrorPiece;
     private SkillPiece skill;
     private Scroll scroll;
+    public override void Start()
+    {
+        base.Start();
+    }
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;

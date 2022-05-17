@@ -7,6 +7,10 @@ using UnityEngine.UI;
 public class Encounter_017 : RandomEncounter
 {
     private SkillPiece skill;
+    public override void Start()
+    {
+        base.Start();
+    }
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;

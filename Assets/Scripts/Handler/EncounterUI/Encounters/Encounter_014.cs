@@ -9,6 +9,10 @@ public class Encounter_014 : RandomEncounter
 {
     public int queenGetDamage = 50;
     public RF_Skill redfoxSkill = null;
+    public override void Start()
+    {
+        base.Start();
+    }
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;
