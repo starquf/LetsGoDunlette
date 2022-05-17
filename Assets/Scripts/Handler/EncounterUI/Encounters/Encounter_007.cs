@@ -73,9 +73,9 @@ public class Encounter_007 : RandomEncounter
                             .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
                             .OnComplete(() =>
                             {
-                                Inventory Owner = bh.player.GetComponent<Inventory>();
+                                Inventory owner = bh.player.GetComponent<Inventory>();
 
-                                GameManager.Instance.inventoryHandler.AddSkill(skill, Owner);
+                                invenHandler.AddSkill(skill, owner);
                                 skill.GetComponent<Image>().color = Color.white;
 
                                 invenInfoHandler.transform.SetParent(frontPanelTrm.transform);
@@ -109,7 +109,6 @@ public class Encounter_007 : RandomEncounter
         switch (choiceIdx)
         {
             case 0:
-
                 OnExitEncounter?.Invoke(true);
                 break;
             case 1:

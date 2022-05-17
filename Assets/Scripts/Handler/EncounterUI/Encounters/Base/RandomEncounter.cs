@@ -31,7 +31,7 @@ public abstract class RandomEncounter : MonoBehaviour
     }
     public virtual void Init()
     {
-
+        bh = GameManager.Instance.battleHandler;
     }
 
     public abstract void ResultSet(int resultIdx);
