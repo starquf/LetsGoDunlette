@@ -155,3 +155,10 @@ public enum PlayerSkillType
     Active_Count,
     Passive
 }
+
+public enum SkillRange
+{
+    Single,
+    All,
+    Random
+}
