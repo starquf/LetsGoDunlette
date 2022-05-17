@@ -102,11 +102,11 @@ public class Skill_E_AdjustableCurrent : SkillPiece
 
                     int damage = GetDamageCalc();
 
-                    target.GetDamage(GetDamageCalc(), currentType);
+                    target.GetDamage(damage, currentType);
 
                     LogCon log2 = new LogCon
                     {
-                        text = $"{GetDamageCalc()} 데미지 부여",
+                        text = $"{damage} 데미지 부여",
                         selfSpr = skillImg.sprite,
                         targetSpr = target.GetComponent<SpriteRenderer>().sprite
                     };
