@@ -128,6 +128,8 @@ public class PieceCastUIHandler : MonoBehaviour
                 });
             });
 
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)cardDesText.transform.parent);
+
         ShowPanel(true);
     }
 
