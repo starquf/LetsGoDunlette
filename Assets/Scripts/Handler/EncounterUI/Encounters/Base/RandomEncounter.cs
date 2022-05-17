@@ -25,7 +25,7 @@ public abstract class RandomEncounter : MonoBehaviour
 
     protected BattleHandler bh;
 
-    private void Start()
+    public virtual void Start()
     {
         bh = GameManager.Instance.battleHandler;
     }

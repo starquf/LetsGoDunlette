@@ -8,6 +8,11 @@ public class Encounter_020 : RandomEncounter
 {
     public int giveMoneyValue = 10;
     public int hitedDamage = 20;
+    public override void Start()
+    {
+        base.Start();
+    }
+
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;
