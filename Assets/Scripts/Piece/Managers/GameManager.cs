@@ -165,7 +165,6 @@ public class GameManager : MonoBehaviour
     public int TryStillGold(int max) //ÃÖ´ë max ¸¸Å­ °ñµå¸¦ ÈÉÄ§ ÈÉÄ£ °ñµå¸¦ ¸®ÅÏ
     {
         int remain = gold - max;
-
         return remain >= 0 ? max : gold;
     }
 
