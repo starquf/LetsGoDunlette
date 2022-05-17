@@ -43,9 +43,6 @@ public abstract class BottomUIElement : MonoBehaviour
 
     public virtual void Popup(bool stopTime = true)
     {
-        if (!canControl)
-            return;
-
         this.stopTime = stopTime;
 
         ShowPanel(true);
@@ -53,6 +50,9 @@ public abstract class BottomUIElement : MonoBehaviour
 
     protected virtual void ShowPanel(bool enable)
     {
+        if (!canControl)
+            return;
+
         SetCGEnable(enable);
         ShowCGEffect(enable);
     }
