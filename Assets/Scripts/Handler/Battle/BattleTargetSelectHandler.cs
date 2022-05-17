@@ -110,7 +110,7 @@ public class BattleTargetSelectHandler : MonoBehaviour
             touchPos = mainCam.ScreenToWorldPoint(Input.mousePosition);
             touchPos.z = 0f;
 
-            if (touchStartPos.y > touchPos.y)
+            if (touchStartPos.y > touchPos.y && touchPos.y >= detectTrans.position.y)
             {
                 touchStartPos = touchPos;
             }
