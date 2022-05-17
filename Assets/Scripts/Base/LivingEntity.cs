@@ -267,7 +267,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         damageTween = damageImg.DOFade(0f, 0.3f);
     }
 
-    private void SetHPBar()
+    public virtual void SetHPBar()
     {
         if (IsDie)
         {
