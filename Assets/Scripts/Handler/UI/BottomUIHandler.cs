@@ -1,8 +1,7 @@
-using System.Collections;
+using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
 public class BottomUIHandler : MonoBehaviour
 {
@@ -47,7 +46,9 @@ public class BottomUIHandler : MonoBehaviour
     protected void ShowSwapUI(int idx)
     {
         if (idx >= swapUIs.Count)
+        {
             return;
+        }
 
         for (int i = 0; i < swapUIs.Count; i++)
         {

@@ -25,7 +25,7 @@ public class Skill_W_Check : SkillPiece
                     animHandler.GetAnim(AnimName.W_Splash01)
                     .SetPosition(skillImg.transform.position)
                     .SetScale(0.5f)
-                    .Play(() => 
+                    .Play(() =>
                     {
                         Owner.GetComponent<PlayerHealth>().AddShield(shieldValue);
                         onCastEnd?.Invoke();

@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,8 +7,7 @@ public class StopSliderHandler : MonoBehaviour
     private CanvasGroup cg;
     private Button tapBtn;
 
-    private bool isStopped = false;
-    public bool IsStopped => isStopped;
+    public bool IsStopped { get; private set; } = false;
 
     [HideInInspector]
     public Rullet rullet;
@@ -25,9 +22,12 @@ public class StopSliderHandler : MonoBehaviour
 
         tapBtn.onClick.AddListener(() =>
         {
-            if (Time.timeScale <= 0) return;
+            if (Time.timeScale <= 0)
+            {
+                return;
+            }
 
-            if (!isStopped)
+            if (!IsStopped)
             {
                 onStartStop?.Invoke();
                 StopRullet();
@@ -45,14 +45,14 @@ public class StopSliderHandler : MonoBehaviour
 
     private void StopRullet()
     {
-        isStopped = true;
+        IsStopped = true;
 
         rullet.StopRullet();
     }
 
     public void SetInteract(bool enable)
     {
-        isStopped = !enable;
+        IsStopped = !enable;
         cg.interactable = enable;
         cg.blocksRaycasts = enable;
     }

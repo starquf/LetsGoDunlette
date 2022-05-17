@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,7 +37,7 @@ public class Skill_C_ManaSphere : SkillPiece
 
         animHandler.GetAnim(AnimName.C_SphereCast)
             .SetPosition(targetPos)
-            .Play(() => 
+            .Play(() =>
             {
                 EffectObj effect = PoolManager.GetItem<EffectObj>();
                 effect.transform.position = startPos;

@@ -77,7 +77,7 @@ public class Skill_N_Drain : SkillPiece
 
                 effect.EndEffect();
             }, BezierType.Quadratic, isRotate: true, playSpeed: 1.5f);
-            yield return new WaitForSeconds(time / (float)rand);
+            yield return new WaitForSeconds(time / rand);
         }
     }
 }

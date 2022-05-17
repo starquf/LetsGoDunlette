@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using DG.Tweening;
-using UnityEngine.UI;
 using System;
+using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class ToBeContinueHandler : MonoBehaviour
 {
@@ -23,7 +22,7 @@ public class ToBeContinueHandler : MonoBehaviour
     public void StartEvent(Action onEndToBeContinue, string str)
     {
         this.onEndToBeContinue = onEndToBeContinue;
-        this.endActionString = str;
+        endActionString = str;
         ShowPanel(true);
 
         StartCoroutine(Timer());
@@ -42,23 +41,24 @@ public class ToBeContinueHandler : MonoBehaviour
 
     private void EndEvent()
     {
-        ShowPanel(false, onComplete : ()=> {
+        ShowPanel(false, onComplete: () =>
+        {
             onEndToBeContinue?.Invoke();
-            this.onEndToBeContinue = null;
-            this.endActionString = null;
+            onEndToBeContinue = null;
+            endActionString = null;
         });
     }
 
     private void ShowPanel(bool enable, bool skip = false, Action onComplete = null)
     {
-        if(skip)
+        if (skip)
         {
             panel.alpha = enable ? 1f : 0f;
             onComplete?.Invoke();
         }
         else
         {
-            panel.DOFade(enable?1f:0f, 0.5f).OnComplete(()=>onComplete?.Invoke());
+            panel.DOFade(enable ? 1f : 0f, 0.5f).OnComplete(() => onComplete?.Invoke());
         }
 
         panel.blocksRaycasts = enable;

@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class SoundHandler : MonoBehaviour
 {
-    public float MasterVoulme => masterVoulme;
+    public float MasterVoulme { get; private set; } = 0.5f;
     public float BGMVolume => bgmVolume * MasterVoulme;
     public float FxVoulme => fxVoulme * MasterVoulme;
 
-    private float masterVoulme = 0.5f;
     private float bgmVolume = 1f;
     private float fxVoulme = 1f;
 
@@ -40,16 +39,16 @@ public class SoundHandler : MonoBehaviour
     {
         if (instance == null)
         {
-            instance = this as SoundHandler;
+            instance = this;
         }
         else
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
             return;
         }
         DontDestroyOnLoad(this);
 
-        foreach (var audioClip in Resources.LoadAll<AudioClip>("Sound/BGM")) // Resource 폴더에있는 사운드들 담아두기
+        foreach (AudioClip audioClip in Resources.LoadAll<AudioClip>("Sound/BGM")) // Resource 폴더에있는 사운드들 담아두기
         {
             bgmSoundDic.Add(audioClip.name, audioClip);
             //Debug.Log(audioClip.name);
@@ -66,8 +65,7 @@ public class SoundHandler : MonoBehaviour
 
     private AudioClip GetBGMSound(string name)
     {
-        AudioClip result;
-        if (!bgmSoundDic.TryGetValue(name, out result))
+        if (!bgmSoundDic.TryGetValue(name, out AudioClip result))
         {
             Debug.LogWarning(name + "Not Found");
         }
@@ -76,8 +74,7 @@ public class SoundHandler : MonoBehaviour
 
     private AudioClip GetFxSound(string name)
     {
-        AudioClip result;
-        if (!fxSoundDic.TryGetValue(name, out result))
+        if (!fxSoundDic.TryGetValue(name, out AudioClip result))
         {
             result = Resources.Load<AudioClip>("Sound/Fx/" + name);
             if (result == null)
@@ -92,8 +89,10 @@ public class SoundHandler : MonoBehaviour
 
     private AudioSource MakeAudioSourceObject(string name)
     {
-        GameObject audioObject = new GameObject();
-        audioObject.name = name;
+        GameObject audioObject = new GameObject
+        {
+            name = name
+        };
         audioObject.transform.SetParent(gameObject.transform);
 
         return audioObject.AddComponent<AudioSource>();
@@ -109,7 +108,7 @@ public class SoundHandler : MonoBehaviour
 
     public void AdjustMasterVolume(float newVolume)
     {
-        masterVoulme = newVolume;
+        MasterVoulme = newVolume;
         AdjustBGMVolume(bgmVolume);
         AdjustFxVoulme(fxVoulme);
     }
@@ -126,7 +125,7 @@ public class SoundHandler : MonoBehaviour
     public void AdjustFxVoulme(float newVolume)
     {
         fxVoulme = newVolume;
-        foreach (var fxAudioSource in fxAudioSourceList)
+        foreach (AudioSource fxAudioSource in fxAudioSourceList)
         {
             if (fxAudioSource != null)
             {
@@ -150,7 +149,7 @@ public class SoundHandler : MonoBehaviour
 
     public void PlayFXSound(string name)
     {
-        foreach (var fxAudioSource in fxAudioSourceList)
+        foreach (AudioSource fxAudioSource in fxAudioSourceList)
         {
             if (!fxAudioSource.isPlaying)
             {
@@ -164,7 +163,7 @@ public class SoundHandler : MonoBehaviour
         PlayFXSound(name);
     }
 
-    IEnumerator crossBgm()
+    private IEnumerator crossBgm()
     {
         float newvolume = bgmVolume;
         float nowvolume = 0;

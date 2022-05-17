@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,8 +16,10 @@ public class CCHandler : MonoBehaviour
 
     public void Init()
     {
-        List<CrowdControl> ccList = new List<CrowdControl>();
-        ccList.Add(battleHandler.player.cc);
+        List<CrowdControl> ccList = new List<CrowdControl>
+        {
+            battleHandler.player.cc
+        };
 
         for (int i = 0; i < battleHandler.enemys.Count; i++)
         {
@@ -57,7 +58,10 @@ public class CCHandler : MonoBehaviour
     {
         for (int i = 0; i < crowdControls.Count; i++)
         {
-            if (crowdControls[i].GetComponent<LivingEntity>().IsDie) continue;
+            if (crowdControls[i].GetComponent<LivingEntity>().IsDie)
+            {
+                continue;
+            }
 
             if (crowdControls[i].ccDic[ccType] > 0)
             {
@@ -83,7 +87,10 @@ public class CCHandler : MonoBehaviour
         for (int i = 0; i < pieces.Count; i++)
         {
             // 빈칸이라면
-            if (pieces[i] == null) continue;
+            if (pieces[i] == null)
+            {
+                continue;
+            }
 
             // 룰렛 안에 있는 스킬이 대상의 스킬이라면
             if ((pieces[i] as SkillPiece).Owner == Owner)

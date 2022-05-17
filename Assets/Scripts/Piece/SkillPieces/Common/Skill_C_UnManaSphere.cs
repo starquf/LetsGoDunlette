@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -19,7 +18,7 @@ public class Skill_C_UnManaSphere : SkillPiece
     {
         base.GetDesIconInfo();
 
-        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc().ToString()}");
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc()}");
 
         return desInfos;
     }

@@ -1,9 +1,7 @@
-using System.Collections;
+using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
-using UnityEngine.SceneManagement;
 
 public class ChooseDeckPanel : MonoBehaviour
 {
@@ -25,7 +23,8 @@ public class ChooseDeckPanel : MonoBehaviour
         canClick = true;
 
         confirmButton.gameObject.SetActive(false);
-        confirmButton.onClick.AddListener(() => {
+        confirmButton.onClick.AddListener(() =>
+        {
             confirmButton.interactable = false;
             LoadingSceneHandler.LoadScene("SeungHwanScene");
         });
@@ -33,7 +32,10 @@ public class ChooseDeckPanel : MonoBehaviour
 
     private void OnClickButton(int num)
     {
-        if(!canClick) return;
+        if (!canClick)
+        {
+            return;
+        }
 
         canClick = false;
 
@@ -41,9 +43,9 @@ public class ChooseDeckPanel : MonoBehaviour
 
         for (int i = 0; i < buttons.Count; i++)
         {
-            if(num == i)
+            if (num == i)
             {
-                buttons[i].GetComponent<Image>().DOFade(1f,1f);
+                buttons[i].GetComponent<Image>().DOFade(1f, 1f);
             }
             else
             {

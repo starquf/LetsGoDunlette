@@ -78,9 +78,12 @@ public abstract class RulletPiece : MonoBehaviour
         transform.GetComponent<Image>().fillAmount = Size / 36f;
 
         skillImg = transform.Find("SkillIcon").GetComponent<Image>();
-        if (skillImg == null) return;
+        if (skillImg == null)
+        {
+            return;
+        }
 
-        float angle = -360f * ((Size / 36f) / 2f);
+        float angle = -360f * (Size / 36f / 2f);
 
         // ¹ÝÁö¸§
         r = transform.GetComponent<RectTransform>().rect.width / 3.6f;
@@ -90,11 +93,6 @@ public abstract class RulletPiece : MonoBehaviour
 
         skillImg.transform.localRotation = Quaternion.AngleAxis(angle, Vector3.forward);
         skillImg.transform.localPosition = pos * r;
-    }
-
-    protected virtual void Start()
-    {
-
     }
 
     public virtual void ChangePieceName(string pieceName)
@@ -149,7 +147,10 @@ public abstract class RulletPiece : MonoBehaviour
 
     public void KillTween()
     {
-        if (transform == null) return;
+        if (transform == null)
+        {
+            return;
+        }
 
         transform.DOKill();
         skillImg.transform.DOKill();

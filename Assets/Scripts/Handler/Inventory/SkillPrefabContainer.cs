@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,9 +29,13 @@ public class SkillPrefabContainer : MonoBehaviour
             ////print($"스킬 이름 : {name}");
 
             if (piece.isPlayerSkill)
+            {
                 playerSkillPrefabs.Add(skillPrefabs[i]);
+            }
             else
+            {
                 enemySkillPrefabs.Add(skillPrefabs[i]);
+            }
 
             skillPrefabDic.Add(name, skillPrefabs[i]);
         }

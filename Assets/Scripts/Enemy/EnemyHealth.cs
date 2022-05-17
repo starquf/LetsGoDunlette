@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -63,20 +62,13 @@ public class EnemyHealth : LivingEntity
         }
     }
 
-    IEnumerator UnBeatTime()
+    private IEnumerator UnBeatTime()
     {
         int countTime = 0;
         while (countTime < 10)
         {
             //Alpha Effect
-            if (countTime % 2 == 0)
-            {
-                sr.color = new Color32(255, 255, 255, 20);
-            }
-            else
-            {
-                sr.color = new Color32(255, 255, 255, 200);
-            }
+            sr.color = countTime % 2 == 0 ? (Color)new Color32(255, 255, 255, 20) : (Color)new Color32(255, 255, 255, 200);
             //Wait Update Frame
             yield return new WaitForSeconds(0.1f);
             countTime++;
@@ -94,6 +86,7 @@ public class EnemyHealth : LivingEntity
 
     protected override void Die()
     {
+        base.Die();
         //print($"{gameObject.name} Á×À½!!");
 
         ShowDieEffect();

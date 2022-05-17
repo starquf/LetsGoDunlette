@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 #if UNITY_EDITOR
 using UnityEditor;
 
@@ -22,7 +20,7 @@ public class ColorInHierarchy : MonoBehaviour
 
     private static void HandleHierarchyWindowItemOnGUI(int instanceID, Rect selectionRect)
     {
-        var obj = EditorUtility.InstanceIDToObject(instanceID);
+        UnityEngine.Object obj = EditorUtility.InstanceIDToObject(instanceID);
 
         if (obj != null && coloredObjects.ContainsKey(obj))
         {
@@ -53,8 +51,7 @@ public class ColorInHierarchy : MonoBehaviour
 
     private static Color invertColor(Color toInvert)
     {
-        float h, s, v;
-        Color.RGBToHSV(toInvert, out h, out s, out v);
+        Color.RGBToHSV(toInvert, out float h, out float s, out float v);
         h = (h + .5f) % 1;
         v = (v + .5f) % 1;
         return Color.HSVToRGB(h, s, v);
@@ -71,13 +68,13 @@ public class ColorInHierarchy : MonoBehaviour
 
     private void OnValidate()
     {
-        if (false == coloredObjects.ContainsKey(this.gameObject)) // notify editor of new color
+        if (false == coloredObjects.ContainsKey(gameObject)) // notify editor of new color
         {
-            coloredObjects.Add(this.gameObject, colorInHierarchy);
+            coloredObjects.Add(gameObject, colorInHierarchy);
         }
-        else if (coloredObjects[this.gameObject] != colorInHierarchy) // color has changed
+        else if (coloredObjects[gameObject] != colorInHierarchy) // color has changed
         {
-            coloredObjects[this.gameObject] = colorInHierarchy;
+            coloredObjects[gameObject] = colorInHierarchy;
         }
     }
     #endregion [ instanced -  Subscribe color to editor ]

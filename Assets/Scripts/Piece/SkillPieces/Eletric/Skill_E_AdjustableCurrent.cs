@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,14 +26,14 @@ public class Skill_E_AdjustableCurrent : SkillPiece
         base.GetDesIconInfo();
 
         desInfos[0].SetInfo(DesIconType.Attack, GetDamageCalc().ToString());
-        desInfos[1].SetInfo(DesIconType.Stun, $"{percentage.ToString()}%");
+        desInfos[1].SetInfo(DesIconType.Stun, $"{percentage}%");
 
         return desInfos;
     }
 
     private int GetDamageCalc()
     {
-        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.3f - 1);
+        int attack = (int)((Owner.GetComponent<LivingEntity>().AttackPower * 0.3f) - 1);
 
         return attack;
     }
@@ -68,10 +67,12 @@ public class Skill_E_AdjustableCurrent : SkillPiece
 
                         target.cc.SetCC(CCType.Stun, 1);
 
-                        LogCon log = new LogCon();
-                        log.text = $"기절시킴";
-                        log.selfSpr = skillImg.sprite;
-                        log.targetSpr = target.GetComponent<SpriteRenderer>().sprite;
+                        LogCon log = new LogCon
+                        {
+                            text = $"기절시킴",
+                            selfSpr = skillImg.sprite,
+                            targetSpr = target.GetComponent<SpriteRenderer>().sprite
+                        };
 
                         DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
 
@@ -81,9 +82,11 @@ public class Skill_E_AdjustableCurrent : SkillPiece
                         .SetPosition(target.transform.position)
                         .Play("기절 확률 증가!");
 
-                        log = new LogCon();
-                        log.text = $"확률 증가";
-                        log.selfSpr = skillImg.sprite;
+                        log = new LogCon
+                        {
+                            text = $"확률 증가",
+                            selfSpr = skillImg.sprite
+                        };
 
                         DebugLogHandler.AddLog(LogType.ImageText, log);
 
@@ -94,17 +97,19 @@ public class Skill_E_AdjustableCurrent : SkillPiece
                             percentage = 100;
                         }
 
-                        percentText.text = $"{percentage.ToString()}%";
+                        percentText.text = $"{percentage}%";
                     }
 
                     int damage = GetDamageCalc();
 
                     target.GetDamage(GetDamageCalc(), currentType);
 
-                    LogCon log2 = new LogCon();
-                    log2.text = $"{GetDamageCalc()} 데미지 부여";
-                    log2.selfSpr = skillImg.sprite;
-                    log2.targetSpr = target.GetComponent<SpriteRenderer>().sprite;
+                    LogCon log2 = new LogCon
+                    {
+                        text = $"{GetDamageCalc()} 데미지 부여",
+                        selfSpr = skillImg.sprite,
+                        targetSpr = target.GetComponent<SpriteRenderer>().sprite
+                    };
 
                     DebugLogHandler.AddLog(LogType.ImgTextToTarget, log2);
 
@@ -117,7 +122,7 @@ public class Skill_E_AdjustableCurrent : SkillPiece
             }
             else
             {
-                skillEffect.Play(targetPos, () => 
+                skillEffect.Play(targetPos, () =>
                 {
                     skillEffect.EndEffect();
                 }, BezierType.Linear, isRotate: true, playSpeed: 6f, delay: i * 0.07f);

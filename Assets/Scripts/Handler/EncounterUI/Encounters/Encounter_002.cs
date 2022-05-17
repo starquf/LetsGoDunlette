@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,12 +36,14 @@ public class Encounter_002 : RandomEncounter
         switch (choiceIdx)
         {
             case 0:
-                BattleInfo bInfo = new BattleInfo();
-                bInfo.enemyInfos = new List<EnemyType>() { EnemyType.KOBOLD };
-                bInfo.isWeakEnemy = false;
-                bInfo.bg = ballteBg;
+                BattleInfo bInfo = new BattleInfo
+                {
+                    enemyInfos = new List<EnemyType>() { EnemyType.KOBOLD },
+                    isWeakEnemy = false,
+                    bg = ballteBg
+                };
 
-                bh.StartBattle(bInfo:bInfo);
+                bh.StartBattle(bInfo: bInfo);
                 OnExitEncounter?.Invoke(false);
                 break;
             case 1:

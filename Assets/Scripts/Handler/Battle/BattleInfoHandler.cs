@@ -1,10 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
 using System.Text.RegularExpressions;
-using UnityEngine.UI;
-using System.IO;
+using UnityEngine;
 
 [System.Serializable]
 public class BattleInfo
@@ -42,7 +39,7 @@ public class BattleInfoHandler : MonoBehaviour
     private List<StageInfo> stages = new List<StageInfo>();
     private int counter = 0;
 
-    void Awake()
+    private void Awake()
     {
         LoadStageData();
     }
@@ -55,7 +52,7 @@ public class BattleInfoHandler : MonoBehaviour
             List<Dictionary<string, object>> data = CSVReader.Read($"StageCSV/Stage{k}");
             StageInfo stage = new StageInfo();
 
-            for (var i = 0; i < data.Count; i++)
+            for (int i = 0; i < data.Count; i++)
             {
                 print("name " + data[i]["EnemyName"] + " " +
                        "age " + data[i]["Type"] + " " +
@@ -68,12 +65,11 @@ public class BattleInfoHandler : MonoBehaviour
 
                 if (name.Contains(','))
                 {
-                    var enemys = Regex.Split(name, ",");
+                    string[] enemys = Regex.Split(name, ",");
 
                     for (int j = 0; j < enemys.Length; j++)
                     {
-                        EnemyType type;
-                        bool check = System.Enum.TryParse(enemys[j], out type);
+                        bool check = System.Enum.TryParse(enemys[j], out EnemyType type);
                         if (check)
                         {
                             enemyInfos.Add(type);
@@ -86,8 +82,7 @@ public class BattleInfoHandler : MonoBehaviour
                 }
                 else
                 {
-                    EnemyType type;
-                    bool check = System.Enum.TryParse(name, out type);
+                    bool check = System.Enum.TryParse(name, out EnemyType type);
                     if (check)
                     {
                         enemyInfos.Add(type);
@@ -136,7 +131,7 @@ public class BattleInfoHandler : MonoBehaviour
             k++;
         }
 
-        
+
     }
 
     public BattleInfo GetRandomBattleInfo()

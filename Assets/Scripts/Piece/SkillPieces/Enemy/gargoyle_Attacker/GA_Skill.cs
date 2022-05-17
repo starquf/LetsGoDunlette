@@ -53,30 +53,30 @@ public class GA_Skill : SkillPiece
 
             target.GetDamage(5, this, Owner);
 
-             animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
-             .SetScale(2)
-             .Play(() =>
-            {
-                int curShield = Owner.GetComponent<EnemyHealth>().GetShieldHp();
-                if (curShield > 0)
-                {
-                    SetIndicator(Owner.gameObject, $"추가 피해 +{curShield}").OnEndAction(() =>
-                    {
-                        target.GetDamage(curShield, this, Owner);
+            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            .SetScale(2)
+            .Play(() =>
+           {
+               int curShield = Owner.GetComponent<EnemyHealth>().GetShieldHp();
+               if (curShield > 0)
+               {
+                   SetIndicator(Owner.gameObject, $"추가 피해 +{curShield}").OnEndAction(() =>
+                   {
+                       target.GetDamage(curShield, this, Owner);
 
-                        animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
-                        .SetScale(2)
-                        .Play(() =>
-                        {
-                            onCastEnd?.Invoke();
-                        });
-                    });
-                }
-                else
-                {
-                    onCastEnd?.Invoke();
-                }
-            });
+                       animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+                       .SetScale(2)
+                       .Play(() =>
+                       {
+                           onCastEnd?.Invoke();
+                       });
+                   });
+               }
+               else
+               {
+                   onCastEnd?.Invoke();
+               }
+           });
         });
 
     }

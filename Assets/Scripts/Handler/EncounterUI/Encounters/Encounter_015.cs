@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Encounter_015 : RandomEncounter
 {
     private SkillPiece skill;
-    BattleScrollHandler battleScrollHandler = null;
+    private BattleScrollHandler battleScrollHandler = null;
     public override void Init()
     {
         base.Init();

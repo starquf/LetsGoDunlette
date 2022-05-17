@@ -101,7 +101,7 @@ public class SI_Skill : SkillPiece
 
                 Inventory temp = result.Owner;
 
-                result.Owner = this.Owner;
+                result.Owner = Owner;
                 result.Cast(bh.player, () =>
                 {
                     result.Owner = temp;

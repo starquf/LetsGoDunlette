@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -43,7 +42,8 @@ public class Skill_W_ManaSphere : SkillPiece
         skillEffect.SetColorGradient(effectGradient);
         skillEffect.SetScale(Vector3.one);
 
-        skillEffect.Play(targetPos, () => {
+        skillEffect.Play(targetPos, () =>
+        {
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
             target.GetDamage(GetDamageCalc(), currentType);
             onCastEnd?.Invoke();
@@ -53,6 +53,6 @@ public class Skill_W_ManaSphere : SkillPiece
             .Play();
 
             skillEffect.EndEffect();
-        }, BezierType.Linear, isRotate: true, playSpeed:2f);
+        }, BezierType.Linear, isRotate: true, playSpeed: 2f);
     }
 }

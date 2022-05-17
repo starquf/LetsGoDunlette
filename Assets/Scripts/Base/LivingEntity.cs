@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,24 +11,12 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     [SerializeField] protected int hp;
     [SerializeField] protected int shieldHp = 0;
     [SerializeField] protected int attackPower;
-    public int AttackPower
-    {
-        get
-        {
-            return attackPower;
-        }
-    }
+    public int AttackPower => attackPower;
     [SerializeField] protected int addtionAttackPower;
     public int AddtionAttackPower
     {
-        get
-        {
-            return addtionAttackPower;
-        }
-        set
-        {
-            addtionAttackPower = value;
-        }
+        get => addtionAttackPower;
+        set => addtionAttackPower = value;
     }
 
     // 이거 나중에 클래스로 뺴줘요
@@ -141,7 +128,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         SetDamageEffect();
     }
 
-    public void ShowDamageText(int damage,bool isCritical)
+    public void ShowDamageText(int damage, bool isCritical)
     {
         Anim_TextUp text = GameManager.Instance.animHandler.GetTextAnim();
         text.SetType(TextUpAnimType.Volcano);
@@ -208,7 +195,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
                 sr.sortingOrder = 1;
             });
 
-        if(skillPiece.currentType == GameManager.Instance.battleHandler.fieldHandler.FieldType)
+        if (skillPiece.currentType == GameManager.Instance.battleHandler.fieldHandler.FieldType)
         {
             damage += 20;
         }
@@ -289,7 +276,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         }
 
         hpText.text = $"{hp}/{maxHp}";
-        if(shieldHp > 0)
+        if (shieldHp > 0)
         {
             hpText.text = $"{hp}+<color=aqua>{shieldHp}</color>/{maxHp}";
         }
@@ -306,10 +293,10 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         {
             float max = curHp;
 
-            DOTween.To(() => hpBar.fillAmount, x => hpBar.fillAmount = x, (float)hp / max, 0.33f);
+            DOTween.To(() => hpBar.fillAmount, x => hpBar.fillAmount = x, hp / max, 0.33f);
             DOTween.To(() => hpShieldBar.fillAmount, x => hpShieldBar.fillAmount = x, 1, 0.33f).OnComplete(() =>
             {
-                DOTween.To(() => hpBarAfterImageBar.fillAmount, x => hpBarAfterImageBar.fillAmount = x, (float)hp / max, 0.33f);
+                DOTween.To(() => hpBarAfterImageBar.fillAmount, x => hpBarAfterImageBar.fillAmount = x, hp / max, 0.33f);
             });
         }
         else
@@ -324,11 +311,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     public bool HasShield()
     {
-        if (shieldHp > 0)
-        {
-            return true;
-        }
-        return false;
+        return shieldHp > 0;
     }
 
     public int GetShieldHp()
@@ -338,7 +321,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     public float GetHpRatio()
     {
-        return ((float)hp / maxHp) * 100;
+        return (float)hp / maxHp * 100;
     }
     protected virtual void Die()
     {

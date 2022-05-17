@@ -1,9 +1,8 @@
-using System.Collections;
+using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
-using System;
 
 public class EnemyIndicator : MonoBehaviour
 {
@@ -18,7 +17,7 @@ public class EnemyIndicator : MonoBehaviour
         bh = GameManager.Instance.battleHandler;
     }
 
-    public void ShowText(string text,Action action = null)
+    public void ShowText(string text, Action action = null)
     {
         Text indiText = PoolManager.GetItem<EnemyIndicatorText>().GetComponent<Text>();
         indiText.transform.SetParent(indicatorTrans);
@@ -32,7 +31,7 @@ public class EnemyIndicator : MonoBehaviour
         indiText.transform.DOLocalMoveY(-100f, 0.5f)
             .From(true);
 
-       bh.battleUtil.SetTimer(0.5f, action);
+        bh.battleUtil.SetTimer(0.5f, action);
 
         indicatorList.Add(indiText);
     }

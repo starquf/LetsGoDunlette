@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.SceneManagement;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class Menu : MonoBehaviour
 {
     [MenuItem("Scene/EnemySpanwer")]
-    static void EnemySpanwerScene()
+    private static void EnemySpanwerScene()
     {
         if (EditorSceneManager.GetActiveScene().isDirty)
         {
@@ -17,7 +15,7 @@ public class Menu : MonoBehaviour
     }
 
     [MenuItem("Scene/Seunghwan")]
-    static void SeunghwanScene()
+    private static void SeunghwanScene()
     {
         if (EditorSceneManager.GetActiveScene().isDirty)
         {
@@ -27,7 +25,7 @@ public class Menu : MonoBehaviour
     }
 
     [MenuItem("Scene/Seunghyeok")]
-    static void SeunghyeokScene()
+    private static void SeunghyeokScene()
     {
         if (EditorSceneManager.GetActiveScene().isDirty)
         {
@@ -37,7 +35,7 @@ public class Menu : MonoBehaviour
     }
 
     [MenuItem("Scene/Kyeounghyeok")]
-    static void KyeounghyeokScene()
+    private static void KyeounghyeokScene()
     {
         if (EditorSceneManager.GetActiveScene().isDirty)
         {
@@ -47,7 +45,7 @@ public class Menu : MonoBehaviour
     }
 
     [MenuItem("Scene/SunHo")]
-    static void SunHoScene()
+    private static void SunHoScene()
     {
         if (EditorSceneManager.GetActiveScene().isDirty)
         {
@@ -57,7 +55,7 @@ public class Menu : MonoBehaviour
     }
 
     [MenuItem("Scene/CopySeunghwan")]
-    static void CopySeunghwan()
+    private static void CopySeunghwan()
     {
         string path = Application.dataPath;
         string fileName = path + "/Scenes/SeungHwanScene.unity";

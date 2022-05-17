@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,7 +14,7 @@ public class ObjectPooling<T> : IPool where T : MonoBehaviour
         this.parent = parent;
         m_queue = new Queue<T>();
 
-        for(int i = 0; i < count; i++)
+        for (int i = 0; i < count; i++)
         {
             GameObject obj = GameObject.Instantiate(prefab, parent);
             T t = obj.GetComponent<T>();

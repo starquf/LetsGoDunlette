@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PS_Stubborn : PlayerSkill
@@ -48,7 +46,7 @@ public class PS_Stubborn : PlayerSkill
         ElementalType prevSkillType = ElementalType.None;
         curStackCount = 0;
 
-        bh.battleEvent.BookEvent(new SkillEvent(EventTimeSkill.WithSkill, (skill, action) => 
+        bh.battleEvent.BookEvent(new SkillEvent(EventTimeSkill.WithSkill, (skill, action) =>
         {
             if (!prevSkillType.Equals(skill.patternType))
             {
@@ -83,7 +81,7 @@ public class PS_Stubborn : PlayerSkill
 
         ui.UpdateUI();
     }
-    
+
     private void SetPlayerOffensivePower(int prevStackCount)
     {
         float prevPowerUp = prevStackCount * offensivePowerUpValue;

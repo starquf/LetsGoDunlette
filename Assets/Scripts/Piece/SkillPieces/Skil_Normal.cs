@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using DG.Tweening;
 using System;
+using UnityEngine;
 
 public class Skil_Normal : SkillPiece
 {
@@ -32,7 +30,9 @@ public class Skil_Normal : SkillPiece
                 GameManager.Instance.cameraHandler.ShakeCamera(0.25f, 0.2f);
 
                 if (a == 2)
+                {
                     onCastEnd?.Invoke();
+                }
             }
             , BezierType.Cubic, i * 0.1f);
         }

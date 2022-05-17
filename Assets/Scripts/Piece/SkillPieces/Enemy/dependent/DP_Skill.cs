@@ -38,7 +38,7 @@ public class DP_Skill : SkillPiece
 
         for (int i = 0; i < enemys.Count; i++)
         {
-            var health = enemys[i];
+            EnemyHealth health = enemys[i];
 
             if (health.isBoss)
             {
