@@ -81,7 +81,6 @@ public class EncounterHandler : MonoBehaviour
         StartCoroutine(LateEncounter(type));
     }
 
-    int ccccc = 0;
     private IEnumerator LateEncounter(mapNode type)
     {
         yield return null;
@@ -107,16 +106,9 @@ public class EncounterHandler : MonoBehaviour
                 break;
             case mapNode.MONSTER:
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
-                if(ccccc == 0)
-                {
-                    randomEncounterUIHandler.StartEvent();
-                    GameManager.Instance.bottomUIHandler.ShowBottomPanel(false);
-                    ccccc++;
-                }
-                else
-                {
-                    bh.StartBattle();
-                }
+                bh.StartBattle();
+                //randomEncounterUIHandler.StartEvent();
+                //GameManager.Instance.bottomUIHandler.ShowBottomPanel(false);
                 break;
             case mapNode.SHOP:
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);

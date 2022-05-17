@@ -1,6 +1,5 @@
 using DG.Tweening;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -35,11 +34,11 @@ public class GameManager : MonoBehaviour
         }
         else if (_instance != this)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
             return;
         }
 
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(gameObject);
 
         Application.targetFrameRate = 60;
         Screen.SetResolution(1080, 1920, true);
@@ -55,16 +54,16 @@ public class GameManager : MonoBehaviour
         int deviceWidth = Screen.width; // 기기 너비 저장
         int deviceHeight = Screen.height; // 기기 높이 저장
 
-        Screen.SetResolution(setWidth, (int)(((float)deviceHeight / deviceWidth) * setWidth), true);
+        Screen.SetResolution(setWidth, (int)((float)deviceHeight / deviceWidth * setWidth), true);
 
         if ((float)setWidth / setHeight < (float)deviceWidth / deviceHeight)                      // 기기의 해상도 비가 더 큰 경우
         {
-            float newWidth = ((float)setWidth / setHeight) / ((float)deviceWidth / deviceHeight); // 새로운 너비
+            float newWidth = (float)setWidth / setHeight / ((float)deviceWidth / deviceHeight); // 새로운 너비
             Camera.main.rect = new Rect((1f - newWidth) / 2f, 0f, newWidth, 1f);                  // 새로운 Rect 적용
         }
         else // 게임의 해상도 비가 더 큰 경우
         {
-            float newHeight = ((float)deviceWidth / deviceHeight) / ((float)setWidth / setHeight);// 새로운 높이
+            float newHeight = (float)deviceWidth / deviceHeight / ((float)setWidth / setHeight);// 새로운 높이
             Camera.main.rect = new Rect(0f, (1f - newHeight) / 2f, 1f, newHeight);                // 새로운 Rect 적용
         }
     }
@@ -121,31 +120,16 @@ public class GameManager : MonoBehaviour
 
     public mapNode curEncounter = mapNode.NONE;
 
-    private int stageIdx = 0;
-
-    public int StageIdx
-    {
-        get
-        {
-            return stageIdx;
-        }
-        set
-        {
-            stageIdx = value;
-        }
-    }
+    public int StageIdx { get; set; } = 0;
 
     [Header("진행가능한 스테이지")]
     public int progressiveStageIdx = 1;
 
     private int gold = 100;
-    public int Gold 
+    public int Gold
     {
-        get 
-        {
-            return gold;
-        } 
-        set 
+        get => gold;
+        set
         {
             gold = value;
             OnUpdateUI?.Invoke();
@@ -164,7 +148,7 @@ public class GameManager : MonoBehaviour
 
     public void NextStage()
     {
-        stageIdx++;
+        StageIdx++;
         OnNextStage();
     }
 
@@ -181,15 +165,7 @@ public class GameManager : MonoBehaviour
     public int TryStillGold(int max) //최대 max 만큼 골드를 훔침 훔친 골드를 리턴
     {
         int remain = gold - max;
-
-        if (remain >= 0)
-        {
-            return max;
-        }
-        else
-        {
-            return gold;
-        }
+        return remain >= 0 ? max : gold;
     }
 
     public void LoadScene(int sceneIdx)
@@ -216,6 +192,6 @@ public class GameManager : MonoBehaviour
 
     public bool IsEndStage()
     {
-        return stageIdx == progressiveStageIdx;
+        return StageIdx == progressiveStageIdx;
     }
 }

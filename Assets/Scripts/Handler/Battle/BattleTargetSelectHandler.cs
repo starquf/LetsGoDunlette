@@ -1,7 +1,6 @@
 using DG.Tweening;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -46,14 +45,20 @@ public class BattleTargetSelectHandler : MonoBehaviour
 
     private void Update()
     {
-        if (!canControl) return;
+        if (!canControl)
+        {
+            return;
+        }
 
         CheckDrag();
     }
 
     private void CheckDrag()
     {
-        if (!isSelect || isDrag) return;
+        if (!isSelect || isDrag)
+        {
+            return;
+        }
 
         if (Input.GetMouseButtonDown(0))
         {

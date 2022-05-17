@@ -42,16 +42,16 @@ public class MI_Skill : SkillPiece
 
             target.GetDamage(bittingDamage, this, Owner);
 
-             animHandler.GetAnim(AnimName.M_Bite).SetPosition(GameManager.Instance.enemyEffectTrm.position)
-             .SetScale(2)
-             .Play(() =>
-            {
-                SetIndicator(Owner.gameObject, "惑贸何咯").OnEndAction(() =>
-                {
-                    target.cc.SetCC(CCType.Wound, 5, true);
-                    onCastEnd?.Invoke();
-                });
-            });
+            animHandler.GetAnim(AnimName.M_Bite).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            .SetScale(2)
+            .Play(() =>
+           {
+               SetIndicator(Owner.gameObject, "惑贸何咯").OnEndAction(() =>
+               {
+                   target.cc.SetCC(CCType.Wound, 5, true);
+                   onCastEnd?.Invoke();
+               });
+           });
         });
 
 

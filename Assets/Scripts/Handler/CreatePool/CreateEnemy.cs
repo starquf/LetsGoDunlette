@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,7 +15,7 @@ public class CreateEnemy : MonoBehaviour
     {
         for (int i = 0; i < enemyList.Count; i++)
         {
-            PoolManager.CreateEnemyPool(enemyList[i].enemyType, enemyList[i].gameObject, this.transform, 1);
+            PoolManager.CreateEnemyPool(enemyList[i].enemyType, enemyList[i].gameObject, transform, 1);
         }
     }
 }

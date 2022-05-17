@@ -25,7 +25,7 @@ public class Skill_W_FireSuppression : SkillPiece
     {
         base.GetDesIconInfo();
 
-        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc().ToString()}");
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc()}");
 
         return desInfos;
     }
@@ -53,7 +53,10 @@ public class Skill_W_FireSuppression : SkillPiece
 
         for (int i = 0; i < skillPieces.Count; i++)
         {
-            if (skillPieces[i] == null) continue;
+            if (skillPieces[i] == null)
+            {
+                continue;
+            }
 
             if (skillPieces[i].PieceType.Equals(PieceType.SKILL))
             {
@@ -70,7 +73,8 @@ public class Skill_W_FireSuppression : SkillPiece
                     effect.SetColorGradient(effectGradient);
                     effect.SetScale(Vector3.one);
 
-                    effect.Play(skillPos, () => {
+                    effect.Play(skillPos, () =>
+                    {
 
                         animHandler.GetTextAnim()
                         .SetType(TextUpAnimType.Up)
@@ -99,20 +103,21 @@ public class Skill_W_FireSuppression : SkillPiece
         skillEffect.transform.position = startPos;
         skillEffect.SetSprite(manaSphereSpr);
         skillEffect.SetColorGradient(effectGradient);
-        skillEffect.SetScale(Vector3.one * (waterCnt*0.3f + 1));
+        skillEffect.SetScale(Vector3.one * ((waterCnt * 0.3f) + 1));
 
         int damage = GetDamageCalc();
 
-        skillEffect.Play(target.transform.position, () => {
+        skillEffect.Play(target.transform.position, () =>
+        {
             target.GetDamage(damage, currentType);
 
-            GameManager.Instance.cameraHandler.ShakeCamera(1.5f + waterCnt * 0.2f, 0.15f);
+            GameManager.Instance.cameraHandler.ShakeCamera(1.5f + (waterCnt * 0.2f), 0.15f);
 
             animHandler.GetAnim(AnimName.W_Splash01)
                     .SetPosition(target.transform.position)
                     .Play();
 
-            if(waterCnt <= 0)
+            if (waterCnt <= 0)
             {
                 onCastEnd?.Invoke();
             }
@@ -129,7 +134,8 @@ public class Skill_W_FireSuppression : SkillPiece
             effect.SetColorGradient(effectGradient);
             effect.SetScale(Vector3.one);
 
-            effect.Play(target.transform.position, () => {
+            effect.Play(target.transform.position, () =>
+            {
 
                 target.GetDamage(2, patternType);
 

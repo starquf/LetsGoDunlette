@@ -1,14 +1,13 @@
 using DG.Tweening;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public abstract class RandomEncounter : MonoBehaviour
 {
-    [HideInInspector]public EncounterInfoHandler encounterInfoHandler;
-    [HideInInspector]public Action<bool> OnExitEncounter;
+    [HideInInspector] public EncounterInfoHandler encounterInfoHandler;
+    [HideInInspector] public Action<bool> OnExitEncounter;
     [HideInInspector] public Action ShowEndEncounter;
 
     [Header("선택전")]
@@ -20,9 +19,9 @@ public abstract class RandomEncounter : MonoBehaviour
     [Header("선택후")]
     public List<Sprite> en_End_Image;
     public List<string> en_End_TextList;
-    [HideInInspector]public string en_End_Result, showText;
+    [HideInInspector] public string en_End_Result, showText;
     [HideInInspector] public Sprite showImg;
-    [HideInInspector]public bool isEffectEnd;
+    [HideInInspector] public bool isEffectEnd;
     protected int choiceIdx;
 
     protected BattleHandler bh;

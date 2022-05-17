@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class PS_Test : PlayerSkill
 {
@@ -58,7 +55,7 @@ public class PS_Test : PlayerSkill
     {
         cooldown = 0;
 
-        bh.battleEvent.BookEvent(new NormalEvent(action => 
+        bh.battleEvent.BookEvent(new NormalEvent(action =>
         {
             if (cooldown > 0)
             {

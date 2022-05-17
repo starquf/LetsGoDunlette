@@ -10,14 +10,17 @@ public class Dnam : MonoBehaviour
     private bool isUpgraded = false;
 
     private BattleHandler bh;
-
-    private void Start()
-    {
-        bh = GameManager.Instance.battleHandler;
-    }
     public void Sacrifice()
     {
+        if(bh == null)
+        {
+            bh = GameManager.Instance.battleHandler;
+        }
+
+        bh.battleEvent.RemoveEventInfo(enemyEventInfo);
+
         isUpgraded = false;
+
         enemyEvent = (enemy, action) =>
         {
             if (enemy.GetComponent<EnemyHealth>().enemyType == EnemyType.SARO) //사로가 죽으면 든암의 스킬조각이 3장 늘어난다.
@@ -33,11 +36,11 @@ public class Dnam : MonoBehaviour
                     EnemyIndicator indi = GetComponent<EnemyIndicator>();
                     indi.ShowText("조각 추가", () => bh.castUIHandler.ShowCasting(pieceInfo[0], () =>
                     {
-                        Inventory Owner = GetComponent<EnemyInventory>();
+                        Inventory owner = GetComponent<EnemyInventory>();
 
                         for (int i = 0; i < 3; i++)
                         {
-                            SkillPiece piece = GameManager.Instance.inventoryHandler.CreateSkill(dnamSkill, Owner, gameObject.transform.position);
+                            SkillPiece piece = GameManager.Instance.inventoryHandler.CreateSkill(dnamSkill, owner, gameObject.transform.position);
                             if (isUpgraded)
                                 piece.AddValue(30);
                         }

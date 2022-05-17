@@ -1,6 +1,4 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,7 +24,10 @@ public class SkipUIPanelHandler : MonoBehaviour
 
     public void ShowSkipUI()
     {
-        if (isShow) return;
+        if (isShow)
+        {
+            return;
+        }
 
         isShow = true;
 
@@ -43,7 +44,10 @@ public class SkipUIPanelHandler : MonoBehaviour
 
     public void ShowDragUI()
     {
-        if (isShow) return;
+        if (isShow)
+        {
+            return;
+        }
 
         isShow = true;
 
@@ -53,7 +57,7 @@ public class SkipUIPanelHandler : MonoBehaviour
 
         fingerImg.color = new Color(1f, 1f, 1f, 0f);
         fingerImg.enabled = true;
-        
+
         fingerSeq = DOTween.Sequence()
             .AppendCallback(() =>
             {
@@ -86,7 +90,7 @@ public class SkipUIPanelHandler : MonoBehaviour
     {
         cg.alpha = enable ? 1 : 0;
 
-        if(!enable)
+        if (!enable)
         {
             isShow = false;
 

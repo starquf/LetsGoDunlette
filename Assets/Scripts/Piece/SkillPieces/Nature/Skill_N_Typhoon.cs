@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 using Random = UnityEngine.Random;
 
 public class Skill_N_Typhoon : SkillPiece
@@ -26,7 +24,7 @@ public class Skill_N_Typhoon : SkillPiece
         {
             targets.Add(target);
         }
-        else 
+        else
         {
             targets = bh.battleUtil.DeepCopyEnemyList(bh.enemys);
         }
@@ -67,7 +65,7 @@ public class Skill_N_Typhoon : SkillPiece
         for (int i = 0; i < 7; i++)
         {
             animHandler.GetAnim(AnimName.N_Wind)
-                .SetPosition(effectPos + Random.insideUnitCircle * 2f)
+                .SetPosition(effectPos + (Random.insideUnitCircle * 2f))
                 .SetScale(Random.Range(0.15f, 0.5f))
                 .Play();
         }

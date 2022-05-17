@@ -1,8 +1,7 @@
+using DG.Tweening;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
 public class GoldUIHandler : MonoBehaviour
 {
@@ -22,7 +21,8 @@ public class GoldUIHandler : MonoBehaviour
         goldText = GetComponentInChildren<Text>();
 
     }
-    void Start()
+
+    private void Start()
     {
         Init();
         prevGold = GameManager.Instance.Gold;
@@ -51,7 +51,7 @@ public class GoldUIHandler : MonoBehaviour
             .Append(thisRectTrm.DOAnchorPosX(open ? 0f : -230f, 0.5f))
             .OnComplete(() =>
             {
-                    ShowGoldText(open);
+                ShowGoldText(open);
             });
         }
     }
@@ -69,7 +69,7 @@ public class GoldUIHandler : MonoBehaviour
 
     private IEnumerator UpdateGoldUIAnim()
     {
-        if(bh.isBattle)
+        if (bh.isBattle)
         {
             GetMoneyAnim();
         }

@@ -69,9 +69,9 @@ public class CrowdControl : MonoBehaviour
     }
 
     // ================================================================ 군중제어
-    public void SetCC(CCType cc, int turn,bool isAdd = false)
+    public void SetCC(CCType cc, int turn, bool isAdd = false)
     {
-        if(isAdd)
+        if (isAdd)
         {
             ccDic[cc] += turn;
         }
@@ -216,11 +216,6 @@ public class CrowdControl : MonoBehaviour
     public bool IsCC(CCType ccType)
     {
 
-        if (ccDic[ccType] > 0)
-        {
-            return true;
-        }
-
-        return false;
+        return ccDic[ccType] > 0;
     }
 }

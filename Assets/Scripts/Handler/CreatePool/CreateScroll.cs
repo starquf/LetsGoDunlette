@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,7 +15,7 @@ public class CreateScroll : MonoBehaviour
     {
         for (int i = 0; i < scrollList.Count; i++)
         {
-            PoolManager.CreateScrollPool(scrollList[i].scrollType, scrollList[i].gameObject, this.transform, 1);
+            PoolManager.CreateScrollPool(scrollList[i].scrollType, scrollList[i].gameObject, transform, 1);
         }
     }
 }

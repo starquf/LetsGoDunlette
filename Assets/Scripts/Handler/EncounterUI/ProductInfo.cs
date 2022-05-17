@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,8 +5,8 @@ public class ProductInfo : MonoBehaviour
 {
     public ProductType productType = ProductType.None;
 
-    [HideInInspector]public Scroll scroll;
-    [HideInInspector]public RulletPiece rulletPiece;
+    [HideInInspector] public Scroll scroll;
+    [HideInInspector] public RulletPiece rulletPiece;
 
     public Image productImg;
     public Image productPriceImg;
@@ -24,13 +22,13 @@ public class ProductInfo : MonoBehaviour
         productPriceTxt.GetComponent<RectTransform>().sizeDelta = new Vector2(155f, productPriceTxt.GetComponent<RectTransform>().sizeDelta.y);
         if ((scroll == null) == (rulletPiece == null))
         {
-            Debug.LogError("»óÇ°Àº ÇÑ Á¾·ù¸¸ µÇ¾î¾ßµË´Ï´Ù.");
+            Debug.LogError("ï¿½ï¿½Ç°ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ßµË´Ï´ï¿½.");
         }
         switch (productType)
         {
             case ProductType.Scroll:
                 this.scroll = scroll;
-                productImg.GetComponent<RectTransform>().sizeDelta = Vector2.one*200;
+                productImg.GetComponent<RectTransform>().sizeDelta = Vector2.one * 200;
                 productImg.sprite = scroll.GetComponent<Image>().sprite;
                 productName = scroll.ScrollName;
                 productDes = scroll.ScrollDes;
@@ -47,7 +45,7 @@ public class ProductInfo : MonoBehaviour
                 productPriceTxt.text = price.ToString();
                 break;
             default:
-                Debug.LogError("»óÇ°Å¸ÀÔÀÌ ¾ø½À´Ï´Ù");
+                Debug.LogError("ï¿½ï¿½Ç°Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½");
                 break;
         }
     }
@@ -56,7 +54,7 @@ public class ProductInfo : MonoBehaviour
     {
         if ((scroll == null) == (rulletPiece == null))
         {
-            Debug.LogError("»óÇ°Àº ÇÑ Á¾·ù¸¸ µÇ¾î¾ßµË´Ï´Ù.");
+            Debug.LogError("ï¿½ï¿½Ç°ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ßµË´Ï´ï¿½.");
             return;
         }
 

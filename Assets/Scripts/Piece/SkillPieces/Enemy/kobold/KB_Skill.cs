@@ -47,7 +47,9 @@ public class KB_Skill : SkillPiece
             });
 
             //°ñµå ÈÉÄ¡´Â ·çÆ¾
-            stolenGolds += GameManager.Instance.TryStillGold(10);
+            int stolendGold = GameManager.Instance.TryStillGold(10);
+            GameManager.Instance.Gold -= stolendGold;
+            stolenGolds += stolendGold;
         });
     }
 

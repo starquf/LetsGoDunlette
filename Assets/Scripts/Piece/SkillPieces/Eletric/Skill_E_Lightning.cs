@@ -24,7 +24,7 @@ public class Skill_E_Lightning : SkillPiece
 
     private int GetDamageCalc()
     {
-        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.3f + 2);
+        int attack = (int)((Owner.GetComponent<LivingEntity>().AttackPower * 0.3f) + 2);
 
         return attack;
     }
@@ -35,17 +35,19 @@ public class Skill_E_Lightning : SkillPiece
 
         target.GetDamage(damage, currentType);
 
-        LogCon log = new LogCon();
-        log.text = $"{damage} 데미지 부여";
-        log.selfSpr = skillImg.sprite;
-        log.targetSpr = target.GetComponent<SpriteRenderer>().sprite;
+        LogCon log = new LogCon
+        {
+            text = $"{damage} 데미지 부여",
+            selfSpr = skillImg.sprite,
+            targetSpr = target.GetComponent<SpriteRenderer>().sprite
+        };
 
         DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
 
         animHandler.GetAnim(AnimName.E_Static)
         .SetScale(1.2f)
         .SetPosition(target.transform.position)
-        .Play(() => 
+        .Play(() =>
         {
             PlayerHealth playerHealth = Owner.GetComponent<PlayerHealth>();
             if (playerHealth.HasShield())
@@ -58,10 +60,12 @@ public class Skill_E_Lightning : SkillPiece
 
                     playerHealth.cc.SetCC(CCType.Stun, 1);
 
-                    LogCon log = new LogCon();
-                    log.text = $"기절시킴";
-                    log.selfSpr = skillImg.sprite;
-                    log.targetSpr = playerHealth.GetComponent<SpriteRenderer>().sprite;
+                    LogCon log = new LogCon
+                    {
+                        text = $"기절시킴",
+                        selfSpr = skillImg.sprite,
+                        targetSpr = playerHealth.GetComponent<SpriteRenderer>().sprite
+                    };
 
                     DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
                 }
@@ -76,10 +80,12 @@ public class Skill_E_Lightning : SkillPiece
 
                     target.cc.SetCC(CCType.Stun, 1);
 
-                    LogCon log = new LogCon();
-                    log.text = $"기절시킴";
-                    log.selfSpr = skillImg.sprite;
-                    log.targetSpr = target.GetComponent<SpriteRenderer>().sprite;
+                    LogCon log = new LogCon
+                    {
+                        text = $"기절시킴",
+                        selfSpr = skillImg.sprite,
+                        targetSpr = target.GetComponent<SpriteRenderer>().sprite
+                    };
 
                     DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
                 }

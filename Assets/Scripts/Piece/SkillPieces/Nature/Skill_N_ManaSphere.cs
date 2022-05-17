@@ -1,11 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Skill_N_ManaSphere : SkillPiece
 {
-    public Sprite manaSphereSpr; 
+    public Sprite manaSphereSpr;
     private Gradient effectGradient;
 
     protected override void Start()
@@ -43,7 +42,8 @@ public class Skill_N_ManaSphere : SkillPiece
         skillEffect.SetColorGradient(effectGradient);
         skillEffect.SetScale(Vector3.one);
 
-        skillEffect.Play(targetPos, () => {
+        skillEffect.Play(targetPos, () =>
+        {
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
             target.GetDamage(GetDamageCalc(), currentType);
 

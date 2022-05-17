@@ -1,10 +1,7 @@
 using DG.Tweening;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Random = UnityEngine.Random;
 
 public class RestEncounterUIHandler : MonoBehaviour
 {
@@ -37,7 +34,7 @@ public class RestEncounterUIHandler : MonoBehaviour
     {
         ShowPanel(false, restSelectPanel, 0.3f, () =>
         {
-            ShowPanel(true, restResultPanel, 0.5f, ()=>
+            ShowPanel(true, restResultPanel, 0.5f, () =>
             {
                 PlayerHealth playerHealth = GameManager.Instance.GetPlayer();
                 playerHealth.Heal((int)(playerHealth.maxHp * 0.4f));
@@ -72,12 +69,13 @@ public class RestEncounterUIHandler : MonoBehaviour
 
     public void ShowPanel(bool enable, CanvasGroup cvsGroup = null, float time = 0.5f, Action onComplecteEvent = null)
     {
-        if(cvsGroup == null)
+        if (cvsGroup == null)
         {
             cvsGroup = mainPanel;
         }
         cvsGroup.DOFade(enable ? 1 : 0, time)
-            .OnComplete(() => {
+            .OnComplete(() =>
+            {
                 cvsGroup.blocksRaycasts = enable;
                 cvsGroup.interactable = enable;
                 onComplecteEvent?.Invoke();

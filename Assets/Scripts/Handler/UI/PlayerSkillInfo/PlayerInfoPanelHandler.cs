@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using DG.Tweening;
 
 public class PlayerInfoPanelHandler : BottomSwapUI
 {
@@ -44,15 +41,19 @@ public class PlayerInfoPanelHandler : BottomSwapUI
             PlayerSkill skill = playerInfo.playerSkills[i];
 
             skillButtons[i].gameObject.SetActive(true);
-            skillButtons[i].Init(skill, ps => 
+            skillButtons[i].Init(skill, ps =>
             {
                 print($"눌린 스킬 : {ps.skillName}");
 
                 if (!canCast)
+                {
                     return;
+                }
 
                 if (!bh.isBattle || bh.mainRullet.IsStop)
+                {
                     return;
+                }
 
                 if (!isCasting)
                 {
@@ -83,7 +84,7 @@ public class PlayerInfoPanelHandler : BottomSwapUI
             bh.SetInteract(false);
             isCasting = true;
 
-            skill.Cast(() => 
+            skill.Cast(() =>
             {
                 bh.StartTurn();
 

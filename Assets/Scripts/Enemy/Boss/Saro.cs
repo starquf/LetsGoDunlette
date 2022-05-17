@@ -7,13 +7,21 @@ public class Saro : MonoBehaviour
     private EnemyEvent enemyEventInfo = null;
     public PieceInfo[] pieceInfo;
     private BattleHandler battleHandler;
-    private void Start()
+
+    public void Start()
     {
-        battleHandler = GameManager.Instance.battleHandler;
+        Sacrifice();
     }
+
     public void Sacrifice()
     {
-        print("12123");
+        if (battleHandler == null)
+        {
+            battleHandler = GameManager.Instance.battleHandler;
+        }
+
+        battleHandler.battleEvent.RemoveEventInfo(enemyEventInfo);
+
         enemyEvent = (enemy, action) =>
         {
             print("1");

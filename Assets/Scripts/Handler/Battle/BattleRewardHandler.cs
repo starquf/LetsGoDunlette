@@ -1,9 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
-using UnityEngine.UI;
-using System;
 using Random = UnityEngine.Random;
 
 public class BattleRewardHandler : MonoBehaviour
@@ -64,7 +62,7 @@ public class BattleRewardHandler : MonoBehaviour
 
     public void GiveReward()
     {
-        StartCoroutine(ResetInventory(() => 
+        StartCoroutine(ResetInventory(() =>
         {
             RewardRoutine();
         }));

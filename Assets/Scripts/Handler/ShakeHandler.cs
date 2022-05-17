@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using DG.Tweening;
+using UnityEngine;
 
 public class ShakeHandler : MonoBehaviour
 {
@@ -17,7 +15,7 @@ public class ShakeHandler : MonoBehaviour
     {
         backCanvasUI.DOKill();
         backCanvasUI.localPosition = Vector3.zero;
-        backCanvasUI.DOShakePosition(time, intensity*100 , 30);
+        backCanvasUI.DOShakePosition(time, intensity * 100, 30);
         //backCanvasUI.DOShakePosition(time, intensity*100, 50);
     }
 }

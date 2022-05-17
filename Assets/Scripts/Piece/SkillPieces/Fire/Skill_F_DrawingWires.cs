@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class Skill_F_DrawingWires : SkillPiece
 {
@@ -17,7 +14,7 @@ public class Skill_F_DrawingWires : SkillPiece
     {
         base.GetDesIconInfo();
 
-        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc().ToString()}");
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc()}");
 
         return desInfos;
     }
@@ -50,7 +47,7 @@ public class Skill_F_DrawingWires : SkillPiece
             animHandler.GetAnim(AnimName.F_ManaSphereHit)
                 .SetPosition(nextPiece.skillImg.transform.position)
                 .SetScale(0.7f)
-                .Play(() => 
+                .Play(() =>
                 {
                     nextPiece.Cast(target, () =>
                     {
@@ -92,7 +89,7 @@ public class Skill_F_DrawingWires : SkillPiece
             animHandler.GetAnim(AnimName.F_ManaSphereHit)
                 .SetPosition(prevPiece.skillImg.transform.position)
                 .SetScale(0.7f)
-                .Play(() => 
+                .Play(() =>
                 {
                     prevPiece.Cast(target, () =>
                     {
@@ -110,7 +107,7 @@ public class Skill_F_DrawingWires : SkillPiece
 
     private int GetNearbyIdx(int count, bool isNext = true)
     {
-        int result = (this.pieceIdx + (isNext ? 1 : -1));
+        int result = pieceIdx + (isNext ? 1 : -1);
 
         if (result < 0)
         {

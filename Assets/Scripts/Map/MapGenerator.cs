@@ -1,29 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using DG.Tweening;
 using System;
-using Random = UnityEngine.Random;
+using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
 {
     public MapManager mapManager;
 
-    [SerializeField] GameObject tile;
+    [SerializeField] private GameObject tile;
     private int gridHeight;
     private int gridWidth;
-    [SerializeField] float tileSize = 1f;
-    [SerializeField] float realTileSize = 1f;
+    [SerializeField] private float tileSize = 1f;
+    [SerializeField] private float realTileSize = 1f;
 
-    Map GenerateTile(int x, int y)
+    private Map GenerateTile(int x, int y)
     {
         float rt = tileSize * realTileSize;
         //Map newTile = Instantiate(tile, transform).GetComponent<Map>();
         Map newTile = PoolManager.GetItem<Map>();
         RectTransform rectTransform = newTile.GetComponent<RectTransform>();
 
-        float posX = (x * rt + y * rt) / 2f;
-        float posY = (x * rt - y * rt) / 1.6f;
+        float posX = ((x * rt) + (y * rt)) / 2f;
+        float posY = ((x * rt) - (y * rt)) / 1.6f;
 
         posX -= (gridWidth * rt / 2f) - (rt / 2f);
 

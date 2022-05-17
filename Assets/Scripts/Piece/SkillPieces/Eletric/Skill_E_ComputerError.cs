@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -55,10 +54,12 @@ public class Skill_E_ComputerError : SkillPiece
 
             targets[i].GetDamage(damage, currentType);
 
-            LogCon log = new LogCon();
-            log.text = $"{damage} 데미지 부여";
-            log.selfSpr = skillImg.sprite;
-            log.targetSpr = targets[i].GetComponent<SpriteRenderer>().sprite;
+            LogCon log = new LogCon
+            {
+                text = $"{damage} 데미지 부여",
+                selfSpr = skillImg.sprite,
+                targetSpr = targets[i].GetComponent<SpriteRenderer>().sprite
+            };
 
             DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
         }
@@ -93,7 +94,10 @@ public class Skill_E_ComputerError : SkillPiece
             }
             while (pieces[pieceIdx] == null || pieces[pieceIdx] == this);
 
-            if (stop) break;
+            if (stop)
+            {
+                break;
+            }
 
             Vector3 effectPos = pieces[pieceIdx].skillImg.transform.position;
 
@@ -104,10 +108,12 @@ public class Skill_E_ComputerError : SkillPiece
             .Play("전산오류 효과발동!");
 
 
-            LogCon log = new LogCon();
-            log.text = $"무덤으로 보냄";
-            log.selfSpr = skillImg.sprite;
-            log.targetSpr = pieces[pieceIdx].skillImg.sprite;
+            LogCon log = new LogCon
+            {
+                text = $"무덤으로 보냄",
+                selfSpr = skillImg.sprite,
+                targetSpr = pieces[pieceIdx].skillImg.sprite
+            };
 
             DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
 
@@ -116,10 +122,12 @@ public class Skill_E_ComputerError : SkillPiece
             animHandler.GetAnim(AnimName.E_Static_Stun)
                 .SetPosition(effectPos)
                 .SetScale(0.7f)
-                .Play(() => 
+                .Play(() =>
                 {
                     if (a == 1)
+                    {
                         onCastEnd?.Invoke();
+                    }
                 });
 
             pieces[pieceIdx].HighlightColor(0.4f);
