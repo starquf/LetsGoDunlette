@@ -111,6 +111,8 @@ MonoBehaviour:
   - {fileID: 8934882644507587758, guid: 9820e93f05fa3714da53414c6c725d25, type: 3}
   - {fileID: 8934882644507587758, guid: 9820e93f05fa3714da53414c6c725d25, type: 3}
   skills: []
+  indicator: {fileID: 0}
+  isPlayerInven: 0
 --- !u!114 &8488250946742138023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,14 +125,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65e8d3eb5c6db9544b113545f8cc90f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hPCvs: {fileID: 268342021927359233}
-  hpBar: {fileID: 0}
+  atkRange: {x: 10, y: 10}
+  hpRange: {x: 230, y: 240}
   maxHp: 800
   hp: 0
   shieldHp: 0
+  attackPower: 0
+  addtionAttackPower: 0
+  hPCvs: {fileID: 268342021927359233}
+  hpBar: {fileID: 0}
   weaknessType: 4
   cc: {fileID: 0}
-  originSize: {x: 0, y: 0, z: 0}
   enemyType: 13
   indicator: {fileID: 0}
   weaknessImg: {fileID: 6643903692021451713}

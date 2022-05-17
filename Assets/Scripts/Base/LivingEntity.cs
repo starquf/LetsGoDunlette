@@ -4,6 +4,11 @@ using UnityEngine.UI;
 
 public abstract class LivingEntity : MonoBehaviour, IDamageable
 {
+    [Header("기본 세팅")]
+
+    public Vector2 atkRange;
+    public Vector2 hpRange;
+
     public int maxHp;
     public int curMaxHp => maxHp + shieldHp; //MaxHp 에 ShieldHp 더한값
     public int curHp => hp + shieldHp; // 현재 체력에 쉴드 더한값
@@ -57,6 +62,8 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     {
         bh = GameManager.Instance.battleHandler;
 
+        maxHp = Random.Range((int)hpRange.x, (int)hpRange.y);
+        attackPower = Random.Range((int)atkRange.x, (int)atkRange.y);
         hp = maxHp;
         shieldHp = 0;
 
@@ -66,6 +73,8 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     public virtual void Init()
     {
         isDie = false;
+
+
         hp = maxHp;
         cc.ResetAllCC();
         RemoveShield();
