@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 8488250946742138022}
   - component: {fileID: 8488250946742138023}
   - component: {fileID: 8488250946742138040}
-  - component: {fileID: 8488250946742138041}
   - component: {fileID: 8488250946742138042}
   m_Layer: 6
   m_Name: 014_redFox
@@ -111,6 +110,8 @@ MonoBehaviour:
   - {fileID: 8934882644507587758, guid: 9820e93f05fa3714da53414c6c725d25, type: 3}
   - {fileID: 8934882644507587758, guid: 9820e93f05fa3714da53414c6c725d25, type: 3}
   skills: []
+  indicator: {fileID: 0}
+  isPlayerInven: 0
 --- !u!114 &8488250946742138023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,14 +124,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65e8d3eb5c6db9544b113545f8cc90f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hPCvs: {fileID: 268342021927359233}
-  hpBar: {fileID: 0}
   maxHp: 800
   hp: 0
   shieldHp: 0
+  attackPower: 0
+  addtionAttackPower: 0
+  hPCvs: {fileID: 268342021927359233}
+  hpBar: {fileID: 0}
   weaknessType: 4
   cc: {fileID: 0}
-  originSize: {x: 0, y: 0, z: 0}
   enemyType: 13
   indicator: {fileID: 0}
   weaknessImg: {fileID: 6643903692021451713}
@@ -152,22 +154,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ccUITrm: {fileID: 8610737182154626270}
   uiObj: {fileID: 4633525893839555858, guid: d59678b5cb46d314ebaec841ffd61e73, type: 3}
---- !u!58 &8488250946742138041
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8488250946742138043}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.7
 --- !u!114 &8488250946742138042
 MonoBehaviour:
   m_ObjectHideFlags: 0
