@@ -124,10 +124,12 @@ public class EncounterHandler : MonoBehaviour
                 int randIdx = Random.Range(0, 100);
                 if (randIdx < 25)//¸÷
                 {
+                    GameManager.Instance.curEncounter = mapNode.MONSTER;
                     bh.StartBattle();
                 }
                 else if (randIdx < 27)// ¿¤¸÷
                 {
+                    GameManager.Instance.curEncounter = mapNode.EMONSTER;
                     bh.StartBattle(isElite: true);
                 }
                 else if (randIdx < 87) // ÀÎÄ«¿îÅÍ
@@ -137,10 +139,12 @@ public class EncounterHandler : MonoBehaviour
                 }
                 else if (randIdx < 96) // »óÁ¡
                 {
+                    GameManager.Instance.curEncounter = mapNode.SHOP;
                     shopEncounterUIHandler.StartEvent();
                 }
                 else // ÈÞ½Ä
                 {
+                    GameManager.Instance.curEncounter = mapNode.REST;
                     restEncounterUIHandler.StartEvent();
                 }
                 break;
