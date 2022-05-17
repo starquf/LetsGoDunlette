@@ -1,6 +1,4 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,9 +6,9 @@ public class Encounter_010 : RandomEncounter
 {
     public SkillPiece cheatingPiece;
     private SkillPiece skill;
-    public override void Start()
+    public override void Init()
     {
-        base.Start();
+        base.Init();
     }
     public override void ResultSet(int resultIdx)
     {
@@ -26,7 +24,10 @@ public class Encounter_010 : RandomEncounter
                 GameManager.Instance.Gold += 10;
 
                 if (cheatingPiece == null)
+                {
                     Debug.LogError("속임수 조각이 안들어있음");
+                }
+
                 Debug.LogWarning("아지타토로 대신 넣어놈");
                 skill = Instantiate(cheatingPiece).GetComponent<SkillPiece>();
                 skill.transform.position = Vector2.zero;
@@ -79,9 +80,9 @@ public class Encounter_010 : RandomEncounter
                 .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
                 .OnComplete(() =>
                 {
-                    Inventory Owner = bh.player.GetComponent<Inventory>();
+                    Inventory owner = bh.player.GetComponent<Inventory>();
 
-                    GameManager.Instance.inventoryHandler.AddSkill(skill, Owner);
+                    GameManager.Instance.inventoryHandler.AddSkill(skill, owner);
                     skill.GetComponent<Image>().color = Color.white;
 
                     OnExitEncounter?.Invoke(true);
@@ -94,9 +95,9 @@ public class Encounter_010 : RandomEncounter
                 .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
                 .OnComplete(() =>
                 {
-                    Inventory Owner = bh.player.GetComponent<Inventory>();
+                    Inventory owner = bh.player.GetComponent<Inventory>();
 
-                    GameManager.Instance.inventoryHandler.AddSkill(skill, Owner);
+                    GameManager.Instance.inventoryHandler.AddSkill(skill, owner);
                     skill.GetComponent<Image>().color = Color.white;
 
                     OnExitEncounter?.Invoke(true);

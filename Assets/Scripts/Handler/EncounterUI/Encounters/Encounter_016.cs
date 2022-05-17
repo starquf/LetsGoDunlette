@@ -1,19 +1,14 @@
-using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Encounter_016 : RandomEncounter
 {
-    RandomEncounterUIHandler encounterUIHandler = null;
+    private RandomEncounterUIHandler encounterUIHandler = null;
     private List<int> encounterIdxList;
-    public override void Start()
-    {
-        base.Start();
-    }
+
     public override void Init()
     {
+        base.Init();
         encounterIdxList = new List<int>();
         encounterUIHandler = encounterInfoHandler.GetComponent<RandomEncounterUIHandler>();
         for (int i = 0; i < 3; i++)

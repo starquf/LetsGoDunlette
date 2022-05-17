@@ -24,11 +24,6 @@ public abstract class RandomEncounter : MonoBehaviour
     protected int choiceIdx;
 
     protected BattleHandler bh;
-
-    public virtual void Start()
-    {
-        bh = GameManager.Instance.battleHandler;
-    }
     public virtual void Init()
     {
         bh = GameManager.Instance.battleHandler;

@@ -1,15 +1,13 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Encounter_017 : RandomEncounter
 {
     private SkillPiece skill;
-    public override void Start()
+    public override void Init()
     {
-        base.Start();
+        base.Init();
     }
     public override void ResultSet(int resultIdx)
     {
@@ -19,7 +17,7 @@ public class Encounter_017 : RandomEncounter
         {
             case 0:
                 int rand = Random.Range(0, 100);
-                if(rand<60)
+                if (rand < 60)
                 {
                     showText = en_End_TextList[0];
                     showImg = en_End_Image[0];
@@ -52,7 +50,7 @@ public class Encounter_017 : RandomEncounter
                     {
                         invenInfoHandler.desPanel.ShowPanel(false);
 
-                        if(sp.currentType == ElementalType.Electric)
+                        if (sp.currentType == ElementalType.Electric)
                         {
                             invenInfoHandler.onCloseBtn = null;
                             invenInfoHandler.CloseInventoryInfo();
@@ -85,7 +83,7 @@ public class Encounter_017 : RandomEncounter
                         {
                             GameManager.Instance.animHandler.GetTextAnim()
                             .SetScale(1f)
-                            .SetPosition(Vector2.up*1.5f)
+                            .SetPosition(Vector2.up * 1.5f)
                             .Play("전기속성 조각을 선택해 주세요!!");
                         }
                     });

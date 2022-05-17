@@ -1,6 +1,4 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,11 +6,10 @@ public class Encounter_020 : RandomEncounter
 {
     public int giveMoneyValue = 10;
     public int hitedDamage = 20;
-    public override void Start()
+    public override void Init()
     {
-        base.Start();
+        base.Init();
     }
-
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;

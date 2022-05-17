@@ -7,12 +7,9 @@ public class Encounter_015 : RandomEncounter
 {
     private SkillPiece skill;
     BattleScrollHandler battleScrollHandler = null;
-    public override void Start()
-    {
-        base.Start();
-    }
     public override void Init()
     {
+        base.Init();
         battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
         int scrollCount = 0;
         for (int i = 0; i < battleScrollHandler.slots.Count; i++)
@@ -133,9 +130,9 @@ public class Encounter_015 : RandomEncounter
                 .Join(skill.GetComponent<Image>().DOFade(0f, 0.5f))
                 .OnComplete(() =>
                 {
-                    Inventory Owner = bh.player.GetComponent<Inventory>();
+                    Inventory owner = bh.player.GetComponent<Inventory>();
 
-                    GameManager.Instance.inventoryHandler.AddSkill(skill, Owner);
+                    GameManager.Instance.inventoryHandler.AddSkill(skill, owner);
                     skill.GetComponent<Image>().color = Color.white;
 
                     OnExitEncounter?.Invoke(true);

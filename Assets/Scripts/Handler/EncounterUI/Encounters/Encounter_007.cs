@@ -1,14 +1,12 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Encounter_007 : RandomEncounter
 {
-    public override void Start()
+    public override void Init()
     {
-        base.Start();
+        base.Init();
     }
     public override void ResultSet(int resultIdx)
     {
@@ -90,7 +88,7 @@ public class Encounter_007 : RandomEncounter
                             });
                         });
                     });
-                }/*, onCancelUse*/, stopTime:false);
+                }/*, onCancelUse*/, stopTime: false);
 
                 break;
             case 1:

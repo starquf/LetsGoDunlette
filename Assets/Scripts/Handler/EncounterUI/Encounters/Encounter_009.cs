@@ -1,17 +1,11 @@
-using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Encounter_009 : RandomEncounter
 {
-    public override void Start()
-    {
-        base.Start();
-    }
     public override void Init()
     {
+        base.Init();
         BattleScrollHandler battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
 
         List<ScrollSlot> scrollList = new List<ScrollSlot>();
@@ -25,7 +19,7 @@ public class Encounter_009 : RandomEncounter
         }
         int randIdx = Random.Range(0, scrollList.Count);
         GameManager.Instance.animHandler.GetAnim(AnimName.M_Bite).SetPosition(scrollList[randIdx].transform.position)
-            .Play(()=>
+            .Play(() =>
             {
                 battleScrollHandler.SortScroll();
             });

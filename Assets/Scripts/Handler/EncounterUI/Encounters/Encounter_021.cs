@@ -1,17 +1,7 @@
-using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-
 public class Encounter_021 : RandomEncounter
 {
     public int getMoneyValue = 10;
     public int healpercent = 20;
-    public override void Start()
-    {
-        base.Start();
-    }
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;

@@ -6,10 +6,6 @@ public class Encounter_003 : RandomEncounter
 {
     public int getGoldValue = 10;
     public Sprite ballteBg;
-    public override void Start()
-    {
-        base.Start();
-    }
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;

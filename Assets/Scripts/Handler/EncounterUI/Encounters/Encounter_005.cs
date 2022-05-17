@@ -1,28 +1,22 @@
-using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Encounter_005 : RandomEncounter
 {
-    public override void Start()
+    public override void Init()
     {
-        base.Start();
+        base.Init();
     }
     private bool IsWin()
     {
         int rand = Random.Range(0, 99);
-        if(rand < 40)
-        {
-            return true;
-        }
-        return false;
+        return rand < 40;
     }
 
     public override void ResultSet(int resultIdx)
     {
-        if(IsWin())
+        if (IsWin())
         {
             choiceIdx = 0;
             showText = en_End_TextList[0];
@@ -42,7 +36,7 @@ public class Encounter_005 : RandomEncounter
                 GameObject item = parent.GetChild(idx).gameObject;
                 Image image = item.GetComponent<Image>();
                 image.sprite = scrolls[idx].GetComponent<Image>().sprite;
-                
+
                 item.GetComponent<Button>().onClick.AddListener(() =>
                 {
                     for (int j = 0; j < 3; j++)
