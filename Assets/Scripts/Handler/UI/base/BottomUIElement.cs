@@ -91,7 +91,8 @@ public abstract class BottomUIElement : MonoBehaviour
         }
         else
         {
-            bottomBG.ShowBottomPanel(true);
+            if (!GameManager.Instance.curEncounter.Equals(mapNode.RandomEncounter))
+                bottomBG.ShowBottomPanel(true);
 
             cg.transform.DOLocalMoveY(endPos, 0.22f)
                 .SetEase(Ease.OutCubic)
