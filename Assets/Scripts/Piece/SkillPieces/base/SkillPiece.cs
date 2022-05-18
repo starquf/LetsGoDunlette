@@ -91,10 +91,15 @@ public class SkillPiece : RulletPiece
         }
     }
 
-    public virtual bool CheckSilence() // 침묵 상태인가?
+    public void AddAttackPower(int value)
+    {
+        Owner.GetComponent<LivingEntity>().AddAttackPower(value);
+    }
+
+    public virtual bool CheckCC(CCType type)
     {
         CrowdControl cc = Owner.GetComponent<CrowdControl>();
-        return cc.ccDic[CCType.Silence] > 0;
+        return cc.ccDic[type] > 0;
     }
 
     protected SkillPiece SetIndicator(GameObject go, string content) //머리위에 텍스트 뛰우는 함수

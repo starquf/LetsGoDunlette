@@ -235,6 +235,11 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         SetHPBar();
     }
 
+    public virtual void AddAttackPower(int value)
+    {
+        attackPower += value;
+    }
+
     public virtual void Heal(int value) //value 만큼 회복합니다.
     {
         hp += value;

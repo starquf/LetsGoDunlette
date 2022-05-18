@@ -65,7 +65,7 @@ public class Skill_C_UnManaSphere : SkillPiece
                         {
                             target.GetDamage(damage, currentType);
 
-                            if (!CheckSilence() && rand < 35)
+                            if (!CheckCC(CCType.Silence) && rand < 35)
                             {
                                 Owner.GetComponent<LivingEntity>().cc.SetCC(CCType.Silence, 2);
                             }
