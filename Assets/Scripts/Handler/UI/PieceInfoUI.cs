@@ -8,7 +8,7 @@ public class PieceInfoUI : MonoBehaviour
 
     private void Awake()
     {
-        image = GetComponent<Image>();
+        image = transform.GetChild(0).GetComponent<Image>();
         button = GetComponent<Button>();
     }
 
