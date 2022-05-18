@@ -556,12 +556,13 @@ public class BattleHandler : MonoBehaviour
                 yield return pOneSecWait;
 
                 GivePenalty(boolList[i]);
-                battleUtil.SetSkillsToGraveyard();
 
                 if (CheckBattleEnd())
                 {
                     yield break;
                 }
+
+                battleUtil.SetSkillsToGraveyard();
 
                 yield return null;
 

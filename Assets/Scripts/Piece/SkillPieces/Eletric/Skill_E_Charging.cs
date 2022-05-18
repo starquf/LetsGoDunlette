@@ -82,7 +82,7 @@ public class Skill_E_Charging : SkillPiece
     {
         base.ResetPiece();
 
-        bh.battleEvent.RemoveEventInfo(eventInfo);
+        GameManager.Instance.battleHandler.battleEvent.RemoveEventInfo(eventInfo);
 
         attackCount = 1;
         counterText.text = attackCount.ToString();

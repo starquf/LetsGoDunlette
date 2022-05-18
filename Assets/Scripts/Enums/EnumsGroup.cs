@@ -98,13 +98,15 @@ public enum DesIconType
 {
     None = 0,
     Attack = 1,
-    Stun = 2,          // 기절
-    Silence = 3,       // 침묵
-    Exhausted = 4,     // 피곤함
-    Wound = 5,         // 상처
-    Invincibility = 6, // 무적
-    Fascinate,         // 매혹 (세이렌 전용)
-    Heating            // 신체 가열 (타로스 전용)
+    Stun = 2,           // 기절
+    Silence = 3,        // 침묵
+    Exhausted = 4,      // 피곤함
+    Wound = 5,          // 상처
+    Invincibility = 6,  // 무적
+    Fascinate,          // 매혹 (세이렌 전용)
+    Heating,            // 신체 가열 (타로스 전용)
+    Heal,               // 힐
+    Upgrade,            //강화
 }
 
 public enum AnimName

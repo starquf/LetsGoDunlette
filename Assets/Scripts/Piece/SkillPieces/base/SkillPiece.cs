@@ -11,7 +11,7 @@ public class SkillPiece : RulletPiece
     public bool isDisposable = false;                 // 1회용인가
     public SkillRange skillRange = SkillRange.Single; // 스킬의 공격 범위
 
-    public PieceInfo[] pieceInfo;
+    public List<PieceInfo> pieceInfo;
     protected Action<LivingEntity, Action> onCastSkill;
 
     protected List<DesIconInfo> desInfos = new List<DesIconInfo>();
@@ -79,11 +79,16 @@ public class SkillPiece : RulletPiece
 
     public virtual List<DesIconInfo> GetDesIconInfo()
     {
+        ResetDesInfo();
+        return desInfos;
+    }
+
+    public void ResetDesInfo()
+    {
         for (int i = 0; i < desInfos.Count; i++)
         {
             desInfos[i].iconType = DesIconType.None;
         }
-        return desInfos;
     }
 
     public virtual bool CheckSilence() // 침묵 상태인가?

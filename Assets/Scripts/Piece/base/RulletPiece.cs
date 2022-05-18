@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,12 +10,18 @@ public class PieceInfo
     public string PieceName;
     public string PieceDes;
     public Sprite cardBG;
-    public int value;
+    public List<int> value;
 
     public PieceInfo(string pieceName, string pieceDes)
     {
+
         PieceName = pieceName;
         PieceDes = pieceDes;
+    }
+
+    public int GetValue(int index = 0)
+    {
+        return value[index];
     }
 }
 
