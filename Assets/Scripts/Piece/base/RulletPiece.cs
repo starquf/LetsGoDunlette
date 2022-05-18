@@ -9,6 +9,7 @@ public class PieceInfo
     public string PieceName;
     public string PieceDes;
     public Sprite cardBG;
+    public int value;
 
     public PieceInfo(string pieceName, string pieceDes)
     {
