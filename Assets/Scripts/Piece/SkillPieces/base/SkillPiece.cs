@@ -50,6 +50,17 @@ public class SkillPiece : RulletPiece
         bh = GameManager.Instance.battleHandler;
         animHandler = GameManager.Instance.animHandler;
     }
+    public virtual int GetDamageCalc() //Player 전용임
+    {
+        int attack = Owner.GetComponent<LivingEntity>().AttackPower + value;
+        return attack;
+    }
+
+    public virtual int GetDamageCalc(int addValue) //Player 전용임
+    {
+        int attack = Owner.GetComponent<LivingEntity>().AttackPower + addValue;
+        return attack;
+    }
 
     public virtual PieceInfo ChoiceSkill()
     {

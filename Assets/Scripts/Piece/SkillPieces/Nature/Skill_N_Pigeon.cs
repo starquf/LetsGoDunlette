@@ -19,18 +19,10 @@ public class Skill_N_Pigeon : SkillPiece
     public override List<DesIconInfo> GetDesIconInfo()
     {
         base.GetDesIconInfo();
-
-        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc()}x5");
+        desInfos[0].SetInfo(DesIconType.Attack, $"{Mathf.Clamp(GetDamageCalc() / 5, 1, int.MaxValue)}x5");
         desInfos[1].SetInfo(DesIconType.Silence, "2");
 
         return desInfos;
-    }
-
-    private int GetDamageCalc()
-    {
-        int attack = Mathf.Clamp((int)((Owner.GetComponent<LivingEntity>().AttackPower * 0.2f) + 2) / 5, 1, int.MaxValue);
-
-        return attack;
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null) //적에게 60피해를 입힌다.		침묵	-	적에게 2턴간 침묵을 부여한다.
@@ -38,7 +30,7 @@ public class Skill_N_Pigeon : SkillPiece
         Vector3 targetPos = target.transform.position;
         Vector3 startPos = bh.bottomPos.position;
 
-        int damage = GetDamageCalc();
+        int damage = Mathf.Clamp(GetDamageCalc() / 5, 1, int.MaxValue);
 
         for (int i = 0; i < 5; i++)
         {

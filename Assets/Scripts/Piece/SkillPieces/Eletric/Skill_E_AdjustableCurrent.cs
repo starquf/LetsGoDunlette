@@ -31,13 +31,6 @@ public class Skill_E_AdjustableCurrent : SkillPiece
         return desInfos;
     }
 
-    private int GetDamageCalc()
-    {
-        int attack = (int)((Owner.GetComponent<LivingEntity>().AttackPower * 0.3f) - 1);
-
-        return attack;
-    }
-
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         Vector3 startPos = skillImg.transform.position;

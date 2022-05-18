@@ -30,13 +30,6 @@ public class Skill_W_FireSuppression : SkillPiece
         return desInfos;
     }
 
-    private int GetDamageCalc()
-    {
-        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.6f);
-
-        return attack;
-    }
-
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         bh.battleUtil.StartCoroutine(FireSuppression(target, onCastEnd));
