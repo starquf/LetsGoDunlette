@@ -223,6 +223,14 @@ public class BattleScrollHandler : MonoBehaviour
         //    ShowChangeScrollPopUp(true, () => SetInteract(true));
         //    //SetInteract(true);
         //}
+
+        if (GameManager.Instance.curEncounter.Equals(mapNode.RandomEncounter))
+        {
+            GameManager.Instance.bottomUIHandler.ShowBottomPanel(true);
+            InventoryInfoHandler inventoryInfoHandler = GameManager.Instance.invenInfoHandler;
+            inventoryInfoHandler.invenBtn.interactable = false;
+            inventoryInfoHandler.usedInvenBtn.interactable = false;
+        }
         ShowChangeScrollPopUp(true, () => SetInteract(true));
         for (int i = 0; i < slots.Count; i++)
         {
@@ -245,6 +253,14 @@ public class BattleScrollHandler : MonoBehaviour
                         //{
                         //    ShowScrollUI(true, open: false);
                         //}
+
+                        if (GameManager.Instance.curEncounter.Equals(mapNode.RandomEncounter))
+                        {
+                            GameManager.Instance.bottomUIHandler.ShowBottomPanel(false);
+                            InventoryInfoHandler inventoryInfoHandler = GameManager.Instance.invenInfoHandler;
+                            inventoryInfoHandler.invenBtn.interactable = true;
+                            inventoryInfoHandler.usedInvenBtn.interactable = true;
+                        }
                         ShowChangeScrollPopUp(false);
 
                         InitSlot();

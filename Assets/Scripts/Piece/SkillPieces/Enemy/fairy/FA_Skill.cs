@@ -15,11 +15,17 @@ public class FA_Skill : SkillPiece
         base.ChoiceSkill();
         if (Random.Range(0, 100) <= value)
         {
+            ResetDesInfo();
+            desInfos[1].SetInfo(DesIconType.Upgrade, $"{pieceInfo[0].GetValue()}턴"); //강화 아이콘으로 변경해야함
+
             onCastSkill = FA_Fairy_Ligtht;
             return pieceInfo[0];
         }
         else
         {
+            ResetDesInfo();
+            desInfos[1].SetInfo(DesIconType.Wound, $"{pieceInfo[0].GetValue()}턴");
+
             onCastSkill = FA_Kidding;
             return pieceInfo[1];
         }

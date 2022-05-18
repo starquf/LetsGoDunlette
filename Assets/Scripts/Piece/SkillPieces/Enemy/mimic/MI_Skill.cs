@@ -1,13 +1,10 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class MI_Skill : SkillPiece
 {
-    [Header("데미지 변수")]
-    public int bittingDamage = 15;
-    public int bumpDamage = 35;
-
     protected override void Awake()
     {
         base.Awake();
@@ -19,14 +16,24 @@ public class MI_Skill : SkillPiece
         base.ChoiceSkill();
         if (Random.Range(0, 100) <= value)
         {
+            ResetDesInfo();
+            desInfos[0].SetInfo(DesIconType.Wound, $"{pieceInfo[0].GetValue()}턴");
+
             onCastSkill = MI_Biting;
             return pieceInfo[0];
         }
         else
         {
+            ResetDesInfo();
+            desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[1].GetValue())}");
+
             onCastSkill = MI_Bump;
             return pieceInfo[1];
         }
+    }
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        return desInfos;
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
@@ -36,21 +43,17 @@ public class MI_Skill : SkillPiece
 
     private void MI_Biting(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "상처 부여").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
-            target.GetDamage(bittingDamage, this, Owner);
+            target.cc.SetCC(CCType.Wound, pieceInfo[0].GetValue(), true);
 
             animHandler.GetAnim(AnimName.M_Bite).SetPosition(GameManager.Instance.enemyEffectTrm.position)
             .SetScale(2)
             .Play(() =>
            {
-               SetIndicator(Owner.gameObject, "상처부여").OnEndAction(() =>
-               {
-                   target.cc.SetCC(CCType.Wound, 5, true);
                    onCastEnd?.Invoke();
-               });
            });
         });
 
@@ -63,7 +66,7 @@ public class MI_Skill : SkillPiece
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.7f, 0.15f);
 
-            target.GetDamage(bumpDamage, this, Owner);
+            target.GetDamage(GetDamageCalc(pieceInfo[1].GetValue()), this, Owner);
 
             animHandler.GetAnim(AnimName.M_Bite).SetPosition(GameManager.Instance.enemyEffectTrm.position)
             .SetScale(2)
