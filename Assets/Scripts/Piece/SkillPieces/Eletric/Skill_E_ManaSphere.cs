@@ -44,7 +44,7 @@ public class Skill_E_ManaSphere : SkillPiece
             LogCon log = new LogCon
             {
                 text = $"{GetDamageCalc()} 데미지 부여",
-                selfSpr = skillImg.sprite,
+                selfSpr = skillIconImg.sprite,
                 targetSpr = target.GetComponent<SpriteRenderer>().sprite
             };
 

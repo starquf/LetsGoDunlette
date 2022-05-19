@@ -66,13 +66,18 @@ public abstract class RulletPiece : MonoBehaviour
     protected Image highlightImg;
 
     [HideInInspector]
-    public Image skillImg;
+    public Image skillIconImg;
+
+    private Transform skillIconTrans;
 
     [HideInInspector]
     public int pieceIdx = 0;
 
     [Header("카드 배경")]
     public Sprite cardBG;
+
+    [HideInInspector]
+    public Sprite skillStroke;
 
     private float r;
     private Vector3 pos;
@@ -85,11 +90,21 @@ public abstract class RulletPiece : MonoBehaviour
         highlightImg = GetComponentsInChildren<Image>()[1];
         transform.GetComponent<Image>().fillAmount = Size / 36f;
 
-        skillImg = transform.Find("SkillIcon").GetComponent<Image>();
-        if (skillImg == null)
+        skillIconTrans = transform.Find("SkillIcons");
+        if (skillIconTrans == null)
+        {
+            print("스킬 아이콘이 없음 !!");
+            return;
+        }
+
+        skillIconImg = skillIconTrans.Find("SkillBG").Find("Icon").GetComponent<Image>();
+        if (skillIconImg == null)
         {
             return;
         }
+
+        skillIconImg.sprite = cardBG;
+        skillStroke = skillIconTrans.Find("SkillStoke").GetComponent<Image>().sprite;
 
         float angle = -360f * (Size / 36f / 2f);
 
@@ -99,8 +114,8 @@ public abstract class RulletPiece : MonoBehaviour
         // 각도의 한 점 (방향 벡터)
         pos = new Vector3(Mathf.Cos((angle + 90f) * Mathf.Deg2Rad), Mathf.Sin((angle + 90f) * Mathf.Deg2Rad), 0f);
 
-        skillImg.transform.localRotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        skillImg.transform.localPosition = pos * r;
+        skillIconTrans.transform.localRotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        skillIconTrans.transform.localPosition = pos * r;
     }
 
     public virtual void ChangePieceName(string pieceName)
@@ -140,8 +155,8 @@ public abstract class RulletPiece : MonoBehaviour
 
         pieceIdx = 0;
         transform.localScale = Vector3.one;
-        skillImg.transform.localScale = Vector3.one;
-        skillImg.color = Color.white;
+        skillIconImg.transform.localScale = Vector3.one;
+        skillIconImg.color = Color.white;
         bgImg.color = Color.white;
         highlightImg.color = Color.clear;
 
@@ -161,7 +176,7 @@ public abstract class RulletPiece : MonoBehaviour
         }
 
         transform.DOKill();
-        skillImg.transform.DOKill();
+        skillIconImg.transform.DOKill();
         bgImg.DOKill();
         highlightImg.DOKill();
     }
@@ -172,7 +187,7 @@ public abstract class RulletPiece : MonoBehaviour
         highlightImg.DOFade(0f, 0.5f)
             .SetEase(Ease.InQuad);
 
-        skillImg.transform.DOScale(new Vector3(1.1f, 1.1f, 1f), 0.5f);
+        skillIconImg.transform.DOScale(new Vector3(1.1f, 1.1f, 1f), 0.5f);
     }
 
     public virtual void HighlightColor(float dur)
@@ -184,7 +199,7 @@ public abstract class RulletPiece : MonoBehaviour
 
     public void UnHighlight()
     {
-        skillImg.transform.DOScale(Vector3.one, 0.5f);
+        skillIconImg.transform.DOScale(Vector3.one, 0.5f);
     }
 
     public void AddValue(int value)

@@ -35,12 +35,12 @@ public class Skill_F_TickTock : SkillPiece
             {
                 animHandler.GetTextAnim()
                 .SetType(TextUpAnimType.Fixed)
-                .SetPosition(skillImg.transform.position)
+                .SetPosition(skillIconImg.transform.position)
                 .SetScale(0.8f)
                 .Play("Â°±ïÂ°±ï!");
 
                 animHandler.GetAnim(AnimName.F_ChainExplosion)
-                .SetPosition(skillImg.transform.position)
+                .SetPosition(skillIconImg.transform.position)
                 .SetScale(0.5f)
                 .Play();
 

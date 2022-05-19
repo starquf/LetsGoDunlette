@@ -34,7 +34,7 @@ public class Skill_E_Static : SkillPiece
             LogCon log = new LogCon
             {
                 text = $"{GetDamageCalc()} 데미지 부여",
-                selfSpr = skillImg.sprite,
+                selfSpr = skillIconImg.sprite,
                 targetSpr = target.GetComponent<SpriteRenderer>().sprite
             };
 
@@ -55,7 +55,7 @@ public class Skill_E_Static : SkillPiece
                 log = new LogCon
                 {
                     text = $"기절시킴",
-                    selfSpr = skillImg.sprite,
+                    selfSpr = skillIconImg.sprite,
                     targetSpr = target.GetComponent<SpriteRenderer>().sprite
                 };
 

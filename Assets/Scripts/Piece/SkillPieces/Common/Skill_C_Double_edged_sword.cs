@@ -24,7 +24,7 @@ public class Skill_C_Double_edged_sword : SkillPiece
 
         animHandler.GetAnim(AnimName.E_ManaSphereHit)
             .SetScale(0.5f)
-            .SetPosition(skillImg.transform.position)
+            .SetPosition(skillIconImg.transform.position)
             .Play(() =>
             {
                 onCastEnd?.Invoke();

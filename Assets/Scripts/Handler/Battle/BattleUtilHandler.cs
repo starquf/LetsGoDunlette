@@ -103,7 +103,7 @@ public class BattleUtilHandler : MonoBehaviour
 
                 if (pieces[i] != null)
                 {
-                    onResetPiecePosition?.Invoke(pieces[i].skillImg.transform.position);
+                    onResetPiecePosition?.Invoke(pieces[i].skillIconImg.transform.position);
 
                     yield return null;
                 }
@@ -129,7 +129,7 @@ public class BattleUtilHandler : MonoBehaviour
 
                 if (pieces[i] != null)
                 {
-                    onResetPiecePosition?.Invoke(pieces[i].skillImg.transform.position);
+                    onResetPiecePosition?.Invoke(pieces[i].skillIconImg.transform.position);
 
                     yield return null;
                 }

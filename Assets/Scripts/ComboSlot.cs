@@ -12,7 +12,7 @@ public class ComboSlot : MonoBehaviour
     public void SetData(RulletPiece piece)
     {
         comboType = piece.currentType;
-        iconImage.sprite = piece.skillImg.sprite;
+        iconImage.sprite = piece.skillIconImg.sprite;
     }
 
     // 슬롯을 없에는 함수

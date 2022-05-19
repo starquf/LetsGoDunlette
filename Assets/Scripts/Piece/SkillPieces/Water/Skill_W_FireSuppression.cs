@@ -55,7 +55,7 @@ public class Skill_W_FireSuppression : SkillPiece
             {
                 if (skillPieces[i].currentType.Equals(ElementalType.Fire) && skillPieces[i] != this)
                 {
-                    Vector3 skillPos = skillPieces[i].skillImg.transform.position;
+                    Vector3 skillPos = skillPieces[i].skillIconImg.transform.position;
                     int a = i;
 
                     waterCnt++;
@@ -71,7 +71,7 @@ public class Skill_W_FireSuppression : SkillPiece
 
                         animHandler.GetTextAnim()
                         .SetType(TextUpAnimType.Up)
-                        .SetPosition(skillPieces[a].skillImg.transform.position)
+                        .SetPosition(skillPieces[a].skillIconImg.transform.position)
                         .Play("화재진압 발동!");
 
                         animHandler.GetAnim(AnimName.W_Splash02)

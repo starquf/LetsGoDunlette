@@ -10,7 +10,7 @@ public class Skil_Normal : SkillPiece
         GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
         Vector3 targetPos = target.transform.position;
-        Vector3 startPos = skillImg.transform.position;
+        Vector3 startPos = skillIconImg.transform.position;
 
         for (int i = 0; i < 3; i++)
         {

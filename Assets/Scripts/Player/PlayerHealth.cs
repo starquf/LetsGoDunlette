@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,8 +7,10 @@ public class PlayerHealth : LivingEntity
 {
     public Color damageBGColor;
     public Color healBGColor;
+    public Color ShieldBGColor;
     public Image damageBGEffect;
     public HealParticleSetter healParticle;
+    public ShieldParticleSetter shieldParticle;
 
     public Text TopPanelHPText;
 
@@ -36,8 +39,24 @@ public class PlayerHealth : LivingEntity
                 .Play();
 
         }
-        healParticle.PLay(0.55f);
+        healParticle.Play(0.55f);
         damageBGEffect.color = healBGColor;
+        damageBGEffect.DOFade(0f, 0.55f);
+    }
+
+    public override void AddShield(int value)
+    {
+        base.AddShield(value);
+
+        StartCoroutine(ShieldEffect());
+    }
+
+    private IEnumerator ShieldEffect()
+    {
+        shieldParticle.Play(0.5f);
+
+        yield return new WaitForSeconds(0.4f);
+        damageBGEffect.color = ShieldBGColor;
         damageBGEffect.DOFade(0f, 0.55f);
     }
 }

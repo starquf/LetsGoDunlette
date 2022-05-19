@@ -58,7 +58,7 @@ public class Skill_W_MermaidBlessing : SkillPiece
                     int a = i;
 
                     animHandler.GetAnim(AnimName.W_Splash01)
-                    .SetPosition(skillPieces[a].skillImg.transform.position)
+                    .SetPosition(skillPieces[a].skillIconImg.transform.position)
                     .SetScale(0.5f)
                     .Play();
 
@@ -67,7 +67,7 @@ public class Skill_W_MermaidBlessing : SkillPiece
 
                     animHandler.GetTextAnim()
                     .SetType(TextUpAnimType.Up)
-                    .SetPosition(skillPieces[a].skillImg.transform.position)
+                    .SetPosition(skillPieces[a].skillIconImg.transform.position)
                     .Play("속성 변경!");
 
                     yield return pTwoSecWait;

@@ -30,7 +30,7 @@ public class Skill_E_Lightning : SkillPiece
         LogCon log = new LogCon
         {
             text = $"{damage} 데미지 부여",
-            selfSpr = skillImg.sprite,
+            selfSpr = skillIconImg.sprite,
             targetSpr = target.GetComponent<SpriteRenderer>().sprite
         };
 
@@ -55,7 +55,7 @@ public class Skill_E_Lightning : SkillPiece
                     LogCon log = new LogCon
                     {
                         text = $"기절시킴",
-                        selfSpr = skillImg.sprite,
+                        selfSpr = skillIconImg.sprite,
                         targetSpr = playerHealth.GetComponent<SpriteRenderer>().sprite
                     };
 
@@ -75,7 +75,7 @@ public class Skill_E_Lightning : SkillPiece
                     LogCon log = new LogCon
                     {
                         text = $"기절시킴",
-                        selfSpr = skillImg.sprite,
+                        selfSpr = skillIconImg.sprite,
                         targetSpr = target.GetComponent<SpriteRenderer>().sprite
                     };
 

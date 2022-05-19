@@ -153,7 +153,7 @@ public class InventoryHandler : MonoBehaviour
             effect.SetSprite(effectSprDic[skill.currentType]);
             effect.SetColorGradient(effectGradDic[skill.currentType]);
 
-            effect.transform.position = skill.skillImg.transform.position;
+            effect.transform.position = skill.skillIconImg.transform.position;
 
             effect.transform.DOMove(Random.insideUnitCircle * 1.5f, 0.4f)
                 .SetRelative();
@@ -195,7 +195,7 @@ public class InventoryHandler : MonoBehaviour
             effect.SetSprite(effectSprDic[skill.currentType]);
             effect.SetColorGradient(effectGradDic[skill.currentType]);
 
-            effect.transform.position = skill.skillImg.transform.position;
+            effect.transform.position = skill.skillIconImg.transform.position;
 
             effect.transform.DOMove(Random.insideUnitCircle * 1.5f, 0.4f)
                 .SetRelative();
@@ -396,7 +396,7 @@ public class InventoryHandler : MonoBehaviour
                 // ·ê·¿ ¾È¿¡ ÀÖ´Â °Å¸é
                 if (piece.IsInRullet)
                 {
-                    CreateSkillEffect(piece, piece.skillImg.transform.position);
+                    CreateSkillEffect(piece, piece.skillIconImg.transform.position);
                     RemovePiece(piece);
                 }
                 else
@@ -418,7 +418,7 @@ public class InventoryHandler : MonoBehaviour
                 // ·ê·¿ ¾È¿¡ ÀÖ´Â °Å¸é
                 if (piece.IsInRullet)
                 {
-                    CreateSkillEffect(piece, piece.skillImg.transform.position);
+                    CreateSkillEffect(piece, piece.skillIconImg.transform.position);
                     RemovePiece(piece);
                 }
                 else
