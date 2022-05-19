@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class Skill_N_Swamp : SkillPiece
 {
@@ -27,7 +25,7 @@ public class Skill_N_Swamp : SkillPiece
         return desInfos;
     }
 
-    public override void Cast(LivingEntity target, Action onCastEnd = null) 
+    public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         N_Swamp(target, onCastEnd);
     }
