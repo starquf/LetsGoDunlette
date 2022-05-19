@@ -20,13 +20,6 @@ public class Skill_W_Bubble : SkillPiece
         return desInfos;
     }
 
-    private int GetDamageCalc()
-    {
-        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.4f);
-
-        return attack;
-    }
-
     private IEnumerator Bubble(LivingEntity target, Action onCastEnd = null)
     {
         LivingEntity t = Owner.GetComponent<LivingEntity>();

@@ -23,13 +23,6 @@ public class Skill_W_MermaidBlessing : SkillPiece
         return desInfos;
     }
 
-    private int GetDamageCalc()
-    {
-        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.3f);
-
-        return attack;
-    }
-
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         GameManager.Instance.battleHandler.battleUtil.StartCoroutine(Blessing(target, onCastEnd));

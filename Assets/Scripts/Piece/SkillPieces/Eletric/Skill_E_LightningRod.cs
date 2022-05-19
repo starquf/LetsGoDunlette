@@ -23,13 +23,6 @@ public class Skill_E_LightningRod : SkillPiece
         return desInfos;
     }
 
-    private int GetDamageCalc()
-    {
-        int attack = (int)((Owner.GetComponent<LivingEntity>().AttackPower * 0.1f) + 1);
-
-        return attack;
-    }
-
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         //print($"스킬 발동!! 이름 : {PieceName}");
