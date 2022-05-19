@@ -19,7 +19,7 @@ public class HealParticleSetter : MonoBehaviour
         ParticleSystemRenderer healParticleSystemRenderer = null;
         healParticleSystemRenderer = GetComponent<ParticleSystemRenderer>();
 
-        if (GameManager.Instance.curEncounter.Equals(mapNode.RandomEncounter))
+        if (GameManager.Instance.curEncounter.Equals(mapNode.RandomEncounter) || GameManager.Instance.curEncounter.Equals(mapNode.REST))
         {
             healParticleSystemRenderer.sortingLayerName = "Effect";
             healParticleSystemRenderer.sortingOrder = 0;
