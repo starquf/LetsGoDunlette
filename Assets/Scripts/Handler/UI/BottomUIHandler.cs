@@ -37,7 +37,9 @@ public class BottomUIHandler : MonoBehaviour
         swapBtn.onClick.AddListener(() =>
         {
             if (Time.timeScale < 1f)
+            {
                 return;
+            }
 
             SwapToNextUI();
         });

@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +12,6 @@ public class Encounter_018 : RandomEncounter
     {
         choiceIdx = resultIdx;
         PlayerHealth playerHealth = GameManager.Instance.GetPlayer();
-        Image skill2Img;
 
         switch (resultIdx)
         {
@@ -70,8 +68,7 @@ public class Encounter_018 : RandomEncounter
                     .Join(sp.transform.DORotate(new Vector3(0f, 0f, 30f), 0.5f))
                     .OnComplete(() =>
                     {
-                        SkillPiece sp2 = null;
-                        MakeSkill(sp, out sp2);
+                        MakeSkill(sp, out SkillPiece sp2);
                         sp2.transform.position = sp.transform.position;
                         Image sp2Img = sp2.GetComponent<Image>();
                         skills.Add(sp2);

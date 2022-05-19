@@ -58,7 +58,7 @@ public abstract class RandomEncounter : MonoBehaviour
         Inventory owner = bh.player.GetComponent<Inventory>();
         Transform unusedInventoryTrm = owner.indicator.transform;
         Image skillImg = skill.GetComponent<Image>();
-        if(fadeInSkip)
+        if (fadeInSkip)
         {
             DOTween.Sequence()
             .Append(skill.transform.DOMove(unusedInventoryTrm.position, 0.5f))
@@ -68,8 +68,8 @@ public abstract class RandomEncounter : MonoBehaviour
             {
                 GameManager.Instance.inventoryHandler.AddSkill(skill, owner);
                 skill.GetComponent<Image>().color = Color.white;
-            //skill.transform.SetParent
-            skill.gameObject.SetActive(false);
+                //skill.transform.SetParent
+                skill.gameObject.SetActive(false);
 
                 OnComplete?.Invoke();
             });
@@ -86,8 +86,8 @@ public abstract class RandomEncounter : MonoBehaviour
             {
                 GameManager.Instance.inventoryHandler.AddSkill(skill, owner);
                 skill.GetComponent<Image>().color = Color.white;
-            //skill.transform.SetParent
-            skill.gameObject.SetActive(false);
+                //skill.transform.SetParent
+                skill.gameObject.SetActive(false);
 
                 OnComplete?.Invoke();
             });

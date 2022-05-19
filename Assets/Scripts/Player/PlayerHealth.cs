@@ -10,14 +10,7 @@ public class PlayerHealth : LivingEntity
 
     public override void SetHPBar()
     {
-        if (IsDie)
-        {
-            TopPanelHPText.text = $"»ç¸Á";
-        }
-        else
-        {
-            TopPanelHPText.text = $"{hp}/{maxHp}";
-        }
+        TopPanelHPText.text = IsDie ? $"»ç¸Á" : $"{hp}/{maxHp}";
         base.SetHPBar();
     }
 
