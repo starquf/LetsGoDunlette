@@ -31,8 +31,8 @@ public class PlayerHealth : LivingEntity
     public override void Heal(int value)
     {
         base.Heal(value);
-        
-        if(!GameManager.Instance.curEncounter.Equals(mapNode.RandomEncounter) && !GameManager.Instance.curEncounter.Equals(mapNode.REST))
+
+        if (!GameManager.Instance.curEncounter.Equals(mapNode.RandomEncounter) && !GameManager.Instance.curEncounter.Equals(mapNode.REST))
         {
             GameManager.Instance.animHandler.GetAnim(AnimName.PlayerHeal).SetPosition(bh.mainRullet.transform.position)
                 .SetScale(2.5f)
