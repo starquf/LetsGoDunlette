@@ -18,6 +18,11 @@ public class RF_Present : SkillPiece
         originIcon = skillImg.sprite;
         originSkillTypeIcon = skillTypeIconImage.sprite;
     }
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(Value)}");
+        return desInfos;
+    }
 
     public override void OnRullet()
     {
@@ -43,7 +48,7 @@ public class RF_Present : SkillPiece
 
             bgImg.sprite = GameManager.Instance.inventoryHandler.pieceBGSprDic[target.currentType];
             skillImg.sprite = target.skillImg.sprite;
-            skillTypeIconImage.sprite = target.skillImg.transform.GetChild(0).GetComponent<Image>().sprite;
+            skillTypeIconImage.sprite = target.skillImg.transform.GetChild(0).GetComponent<Image>().sprite; //여기서 왜 에러남 ?
         }
     }
 
@@ -54,7 +59,7 @@ public class RF_Present : SkillPiece
 
         SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
         {
-            target.GetDamage(Value, this, Owner);
+            target.GetDamage(GetDamageCalc(Value), this, Owner);
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
             animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
             .SetScale(2)
