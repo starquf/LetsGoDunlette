@@ -16,13 +16,20 @@ public class DP_Skill : SkillPiece
         if (Random.Range(0, 100) <= value)
         {
             onCastSkill = DP_Duty;
+            pieceInfo[0].PieceDes = String.Format(pieceInfo[0].PieceDes, pieceInfo[0].GetValue());
             return pieceInfo[0];
         }
         else
         {
+            desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[1].GetValue())}"); //강화 아이콘으로 변경해야함
+
             onCastSkill = DP_Poke;
             return pieceInfo[1];
         }
+    }
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        return desInfos;
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
@@ -51,32 +58,22 @@ public class DP_Skill : SkillPiece
         if (boss == null)
         {
             Debug.LogError("보스가 없음");
+            return;
         }
 
-        SetIndicator(Owner.gameObject, "희생").OnEndAction(() =>
+        SetIndicator(boss.gameObject, "회복").OnEndAction(() =>
         {
-            Owner.GetComponent<EnemyHealth>().GetDamageIgnoreShild(40);
+            GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
-            animHandler.GetAnim(AnimName.M_Butt)
-            .SetPosition(Owner.transform.position)
-            .SetScale(1f)
-            .Play();
+            boss.Heal(pieceInfo[0].GetValue());
 
-            SetIndicator(boss.gameObject, "회복").OnEndAction(() =>
+            animHandler.GetAnim(AnimName.M_Recover).SetPosition(boss.transform.position)
+        .SetScale(1)
+        .Play(() =>
             {
-                GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-
-                boss.Heal(30);
-
-                animHandler.GetAnim(AnimName.M_Recover).SetPosition(boss.transform.position)
-            .SetScale(1)
-            .Play(() =>
-                {
-                    onCastEnd?.Invoke();
-                });
+                onCastEnd?.Invoke();
             });
         });
-        //나중에 힐 이펙트가 여왕한테 가야함   
     }
 
     private void DP_Poke(LivingEntity target, Action onCastEnd = null)
@@ -84,13 +81,15 @@ public class DP_Skill : SkillPiece
         SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
+
             animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
             .SetScale(2)
             .Play(() =>
             {
                 onCastEnd?.Invoke();
             });
-            target.GetDamage(15, this, Owner);
+
+            target.GetDamage(GetDamageCalc(pieceInfo[1].GetValue()), this, Owner);
         });
     }
 

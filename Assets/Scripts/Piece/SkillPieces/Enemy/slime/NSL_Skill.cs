@@ -15,7 +15,6 @@ public class NSL_Skill : SkillPiece
         base.ChoiceSkill();
         if (Random.Range(0, 100) <= value)
         {
-            ResetDesInfo();
             desInfos[0].SetInfo(DesIconType.Heal, $"{pieceInfo[0].GetValue()}");
 
             onCastSkill = NSl_Recover;
@@ -23,7 +22,6 @@ public class NSL_Skill : SkillPiece
         }
         else
         {
-            ResetDesInfo();
             desInfos[0].SetInfo(DesIconType.Attack, GetDamageCalc(pieceInfo[1].GetValue()).ToString());
 
             onCastSkill = NSL_Bounce;

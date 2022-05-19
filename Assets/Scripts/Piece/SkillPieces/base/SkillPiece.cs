@@ -64,6 +64,7 @@ public class SkillPiece : RulletPiece
 
     public virtual PieceInfo ChoiceSkill()
     {
+        ResetDesInfo();
         return new PieceInfo("None", "None");
     }
 

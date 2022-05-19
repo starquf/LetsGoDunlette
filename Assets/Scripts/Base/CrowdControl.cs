@@ -213,9 +213,13 @@ public class CrowdControl : MonoBehaviour
         return false;
     }
 
+    public int GetCCValue(CCType type)
+    {
+        return ccDic[type];
+    }
+
     public bool IsCC(CCType ccType)
     {
-
         return ccDic[ccType] > 0;
     }
 }

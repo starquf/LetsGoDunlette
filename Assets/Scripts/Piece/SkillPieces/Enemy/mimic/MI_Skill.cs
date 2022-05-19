@@ -16,7 +16,6 @@ public class MI_Skill : SkillPiece
         base.ChoiceSkill();
         if (Random.Range(0, 100) <= value)
         {
-            ResetDesInfo();
             desInfos[0].SetInfo(DesIconType.Wound, $"{pieceInfo[0].GetValue()}ео");
 
             onCastSkill = MI_Biting;
@@ -24,7 +23,6 @@ public class MI_Skill : SkillPiece
         }
         else
         {
-            ResetDesInfo();
             desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[1].GetValue())}");
 
             onCastSkill = MI_Bump;

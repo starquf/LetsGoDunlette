@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Random = UnityEngine.Random;
 
 public class BB_Skill : SkillPiece
@@ -13,16 +14,23 @@ public class BB_Skill : SkillPiece
         base.ChoiceSkill();
         if (Random.Range(0, 100) <= value)
         {
+            desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[0].GetValue())}");
+
             onCastSkill = BB_Breaking_Armor;
             return pieceInfo[0];
         }
         else
         {
+            desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[1].GetValue())}");
+
             onCastSkill = BB_Strong_Attack;
             return pieceInfo[1];
         }
     }
-
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        return desInfos;
+    }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
@@ -43,7 +51,7 @@ public class BB_Skill : SkillPiece
                 {
                     SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
                     {
-                        target.GetDamage(20);
+                        target.GetDamage(GetDamageCalc(pieceInfo[0].GetValue()));
 
                         animHandler.GetAnim(AnimName.M_Butt)
                             .SetPosition(GameManager.Instance.enemyEffectTrm.position)
@@ -77,7 +85,7 @@ public class BB_Skill : SkillPiece
     {
         SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
         {
-            target.GetDamage(60);
+            target.GetDamage(GetDamageCalc(pieceInfo[1].GetValue()));
 
             animHandler.GetAnim(AnimName.M_Butt)
             .SetPosition(GameManager.Instance.enemyEffectTrm.position)
