@@ -35,10 +35,14 @@ public class PlayerHealth : LivingEntity
     public override void Heal(int value)
     {
         base.Heal(value);
+        
+        if(!GameManager.Instance.curEncounter.Equals(mapNode.RandomEncounter))
+        {
+            GameManager.Instance.animHandler.GetAnim(AnimName.PlayerHeal).SetPosition(bh.mainRullet.transform.position)
+                .SetScale(2.5f)
+                .Play();
 
-        GameManager.Instance.animHandler.GetAnim(AnimName.PlayerHeal).SetPosition(bh.mainRullet.transform.position)
-            .SetScale(2.5f)
-            .Play();
+        }
         healParticle.PLay(0.55f);
         damageBGEffect.color = healBGColor;
         damageBGEffect.DOFade(0f, 0.55f);
