@@ -11,7 +11,7 @@ public class HealParticleSetter : MonoBehaviour
         healParticle = GetComponent<ParticleSystem>();
     }
 
-    public void PLay(float time)
+    public void Play(float time)
     {
         //var mainModule = healParticle.main;
         //mainModule.startLifetime = time;
