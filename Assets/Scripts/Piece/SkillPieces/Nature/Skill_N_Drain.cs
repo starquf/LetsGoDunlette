@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -8,7 +9,6 @@ public class Skill_N_Drain : SkillPiece
     public Sprite drainingEffectSpr;
     private Gradient effectGradient;
 
-    [Header("파라매터들")]
     public int healValue = 15;
 
     protected override void Start()
@@ -18,6 +18,15 @@ public class Skill_N_Drain : SkillPiece
         effectGradient = GameManager.Instance.inventoryHandler.effectGradDic[ElementalType.Nature];
 
         isTargeting = true;
+    }
+
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        base.GetDesIconInfo();
+
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc()}");
+        desInfos[1].SetInfo(DesIconType.Heal, $"5");
+        return desInfos;
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null) //적에게 50의 피해를 입힌다.		-	회복	체력을 20 회복한다.
