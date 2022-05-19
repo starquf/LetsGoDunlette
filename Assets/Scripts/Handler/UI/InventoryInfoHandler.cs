@@ -162,7 +162,7 @@ public class InventoryInfoHandler : BottomUIElement
             SkillPiece sp = skills[i];
 
             PieceInfoUI pieceInfoUI = PoolManager.GetItem<PieceInfoUI>();
-            pieceInfoUI.SetSkillIcon(sp.skillImg.sprite);
+            pieceInfoUI.SetSkillIcon(sp.skillIconImg.sprite, sp.skillStroke);
             pieceInfoUI.transform.SetParent(pieceHolderTrm);
             pieceInfoUI.GetComponent<Image>().color = Color.white;
 

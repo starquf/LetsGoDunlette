@@ -60,16 +60,16 @@ public class Skill_E_LightningRod : SkillPiece
 
             animHandler.GetTextAnim()
             .SetType(TextUpAnimType.Up)
-            .SetPosition(result.skillImg.transform.position)
+            .SetPosition(result.skillIconImg.transform.position)
             .Play("피뢰침 효과발동!");
 
             EffectObj effect = PoolManager.GetItem<EffectObj>();
-            effect.transform.position = skillImg.transform.position;
+            effect.transform.position = skillIconImg.transform.position;
             effect.SetSprite(effectSpr);
             effect.SetColorGradient(effectGradient);
             effect.SetScale(Vector3.one * 0.6f);
 
-            effect.Play(result.skillImg.transform.position, () =>
+            effect.Play(result.skillIconImg.transform.position, () =>
             {
                 effect.EndEffect();
             }, BezierType.Linear, isRotate: true, playSpeed: 3f);
@@ -92,8 +92,8 @@ public class Skill_E_LightningRod : SkillPiece
                     LogCon log = new LogCon
                     {
                         text = $"스킬 발동",
-                        selfSpr = skillImg.sprite,
-                        targetSpr = result.skillImg.sprite
+                        selfSpr = skillIconImg.sprite,
+                        targetSpr = result.skillIconImg.sprite
                     };
 
                     DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
@@ -105,8 +105,8 @@ public class Skill_E_LightningRod : SkillPiece
                     log = new LogCon
                     {
                         text = $"무덤으로 보냄",
-                        selfSpr = skillImg.sprite,
-                        targetSpr = result.skillImg.sprite
+                        selfSpr = skillIconImg.sprite,
+                        targetSpr = result.skillIconImg.sprite
                     };
 
                     DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
@@ -124,7 +124,7 @@ public class Skill_E_LightningRod : SkillPiece
         LogCon log = new LogCon
         {
             text = $"{damage} 데미지 부여",
-            selfSpr = skillImg.sprite,
+            selfSpr = skillIconImg.sprite,
             targetSpr = target.GetComponent<SpriteRenderer>().sprite
         };
 

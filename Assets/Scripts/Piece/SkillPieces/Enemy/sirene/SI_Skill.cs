@@ -86,12 +86,12 @@ public class SI_Skill : SkillPiece
 
             animHandler.GetTextAnim()
             .SetType(TextUpAnimType.Up)
-            .SetPosition(result.skillImg.transform.position)
+            .SetPosition(result.skillIconImg.transform.position)
             .Play($"{result.PieceName} ¸ÅÈ¤!");
         }
 
 
-        animHandler.GetAnim(AnimName.M_Wisp).SetPosition(result.skillImg.transform.position)
+        animHandler.GetAnim(AnimName.M_Wisp).SetPosition(result.skillIconImg.transform.position)
             .SetScale(1.5f)
             .Play(() =>
         {

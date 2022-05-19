@@ -55,7 +55,7 @@ public class Skill_W_Tsunami : SkillPiece
             {
                 if (skillPieces[i].currentType.Equals(ElementalType.Water) && skillPieces[i] != this)
                 {
-                    Vector3 skillPos = skillPieces[i].skillImg.transform.position;
+                    Vector3 skillPos = skillPieces[i].skillIconImg.transform.position;
                     int a = i;
 
                     waterCnt++;

@@ -33,7 +33,7 @@ public class Skill_E_AdjustableCurrent : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        Vector3 startPos = skillImg.transform.position;
+        Vector3 startPos = skillIconImg.transform.position;
         Vector3 targetPos = target.transform.position;
 
         for (int i = 0; i < effectSprList.Count; i++)
@@ -63,7 +63,7 @@ public class Skill_E_AdjustableCurrent : SkillPiece
                         LogCon log = new LogCon
                         {
                             text = $"기절시킴",
-                            selfSpr = skillImg.sprite,
+                            selfSpr = skillIconImg.sprite,
                             targetSpr = target.GetComponent<SpriteRenderer>().sprite
                         };
 
@@ -78,7 +78,7 @@ public class Skill_E_AdjustableCurrent : SkillPiece
                         log = new LogCon
                         {
                             text = $"확률 증가",
-                            selfSpr = skillImg.sprite
+                            selfSpr = skillIconImg.sprite
                         };
 
                         DebugLogHandler.AddLog(LogType.ImageText, log);
@@ -100,7 +100,7 @@ public class Skill_E_AdjustableCurrent : SkillPiece
                     LogCon log2 = new LogCon
                     {
                         text = $"{damage} 데미지 부여",
-                        selfSpr = skillImg.sprite,
+                        selfSpr = skillIconImg.sprite,
                         targetSpr = target.GetComponent<SpriteRenderer>().sprite
                     };
 

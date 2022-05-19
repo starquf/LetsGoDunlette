@@ -3,17 +3,22 @@ using UnityEngine.UI;
 
 public class PieceInfoUI : MonoBehaviour
 {
-    private Image image;
+    private Image icon;
+    private Image stroke;
+
     public Button button;
 
     private void Awake()
     {
-        image = transform.GetChild(0).GetComponent<Image>();
+        icon  = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>();
+        stroke = transform.GetChild(0).GetChild(1).GetComponent<Image>();
+
         button = GetComponent<Button>();
     }
 
-    public void SetSkillIcon(Sprite skillSpr)
+    public void SetSkillIcon(Sprite skillSpr, Sprite strokeSpr)
     {
-        image.sprite = skillSpr;
+        icon.sprite = skillSpr;
+        stroke.sprite = strokeSpr;
     }
 }

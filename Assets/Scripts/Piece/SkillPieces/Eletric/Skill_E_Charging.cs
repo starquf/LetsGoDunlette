@@ -42,20 +42,20 @@ public class Skill_E_Charging : SkillPiece
             {
                 animHandler.GetTextAnim()
                .SetType(TextUpAnimType.Up)
-               .SetPosition(skillImg.transform.position)
+               .SetPosition(skillIconImg.transform.position)
                .SetScale(0.8f)
                .Play("충전됨!");
 
                 LogCon log = new LogCon
                 {
                     text = $"충전됨",
-                    selfSpr = skillImg.sprite
+                    selfSpr = skillIconImg.sprite
                 };
 
                 DebugLogHandler.AddLog(LogType.ImageText, log);
 
                 animHandler.GetAnim(AnimName.E_Static_Stun)
-                .SetPosition(skillImg.transform.position)
+                .SetPosition(skillIconImg.transform.position)
                 .SetScale(0.8f)
                 .Play();
 
@@ -118,7 +118,7 @@ public class Skill_E_Charging : SkillPiece
             LogCon log = new LogCon
             {
                 text = $"{GetDamageCalc()} 데미지 부여",
-                selfSpr = skillImg.sprite,
+                selfSpr = skillIconImg.sprite,
                 targetSpr = enemy.GetComponent<SpriteRenderer>().sprite
             };
 

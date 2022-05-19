@@ -188,7 +188,7 @@ public class BattleRewardUIHandler : MonoBehaviour
             createdReward.Add(reward);
 
             PieceInfoUI pieceInfoUI = PoolManager.GetItem<PieceInfoUI>();
-            pieceInfoUI.SetSkillIcon(reward.skillImg.sprite);
+            pieceInfoUI.SetSkillIcon(reward.skillIconImg.sprite, reward.skillStroke);
 
             pieceInfoUI.GetComponent<Image>().DOFade(1f, 0.5f)
                 .From(0f)

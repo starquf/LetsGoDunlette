@@ -81,7 +81,7 @@ public class Encounter_015 : RandomEncounter
                 DOTween.Sequence()
                 .Append(sp.transform.DOMove(Vector2.zero, 0.5f))
                 .Append(sp.GetComponent<Image>().DOFade(0, 0.5f))
-                .Join(sp.skillImg.DOFade(0, 0.5f))
+                .Join(sp.skillIconImg.DOFade(0, 0.5f))
                 .OnComplete(() =>
                 {
                     Destroy(sp);

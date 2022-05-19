@@ -110,7 +110,7 @@ public class PieceCastUIHandler : MonoBehaviour
             //.Join(skillPiece.transform.DOScale(Vector3.one, 0.5f))
             .AppendInterval(0.3f)
             .Append(skillPiece.GetComponent<Image>().DOFade(0, 0.3f))
-            .Join(skillPiece.skillImg.DOFade(0, 0.3f))
+            .Join(skillPiece.skillIconImg.DOFade(0, 0.3f))
             .OnComplete(() =>
             { //print("¿Ã∆Â∆Æ≥°≥≤");
                 skillPiece.gameObject.SetActive(false);
@@ -202,7 +202,7 @@ public class PieceCastUIHandler : MonoBehaviour
             if (skillPiece != null)
             {
                 skillPiece.GetComponent<Image>().color = Color.white;
-                skillPiece.skillImg.color = Color.white;
+                skillPiece.skillIconImg.color = Color.white;
             }
         });
     }

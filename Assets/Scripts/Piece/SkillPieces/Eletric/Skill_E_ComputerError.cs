@@ -50,7 +50,7 @@ public class Skill_E_ComputerError : SkillPiece
             LogCon log = new LogCon
             {
                 text = $"{damage} 데미지 부여",
-                selfSpr = skillImg.sprite,
+                selfSpr = skillIconImg.sprite,
                 targetSpr = targets[i].GetComponent<SpriteRenderer>().sprite
             };
 
@@ -92,7 +92,7 @@ public class Skill_E_ComputerError : SkillPiece
                 break;
             }
 
-            Vector3 effectPos = pieces[pieceIdx].skillImg.transform.position;
+            Vector3 effectPos = pieces[pieceIdx].skillIconImg.transform.position;
 
             animHandler.GetTextAnim()
             .SetType(TextUpAnimType.Up)
@@ -104,8 +104,8 @@ public class Skill_E_ComputerError : SkillPiece
             LogCon log = new LogCon
             {
                 text = $"무덤으로 보냄",
-                selfSpr = skillImg.sprite,
-                targetSpr = pieces[pieceIdx].skillImg.sprite
+                selfSpr = skillIconImg.sprite,
+                targetSpr = pieces[pieceIdx].skillIconImg.sprite
             };
 
             DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);

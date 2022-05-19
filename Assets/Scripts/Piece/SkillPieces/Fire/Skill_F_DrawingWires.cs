@@ -33,12 +33,12 @@ public class Skill_F_DrawingWires : SkillPiece
         {
             animHandler.GetTextAnim()
             .SetType(TextUpAnimType.Up)
-            .SetPosition(nextPiece.skillImg.transform.position)
+            .SetPosition(nextPiece.skillIconImg.transform.position)
             .SetScale(0.8f)
             .Play("도화선 효과발동!");
 
             animHandler.GetAnim(AnimName.F_ManaSphereHit)
-                .SetPosition(nextPiece.skillImg.transform.position)
+                .SetPosition(nextPiece.skillIconImg.transform.position)
                 .SetScale(0.7f)
                 .Play(() =>
                 {
@@ -75,12 +75,12 @@ public class Skill_F_DrawingWires : SkillPiece
         {
             animHandler.GetTextAnim()
             .SetType(TextUpAnimType.Up)
-            .SetPosition(prevPiece.skillImg.transform.position)
+            .SetPosition(prevPiece.skillIconImg.transform.position)
             .SetScale(0.7f)
             .Play("도화선 효과발동!");
 
             animHandler.GetAnim(AnimName.F_ManaSphereHit)
-                .SetPosition(prevPiece.skillImg.transform.position)
+                .SetPosition(prevPiece.skillIconImg.transform.position)
                 .SetScale(0.7f)
                 .Play(() =>
                 {

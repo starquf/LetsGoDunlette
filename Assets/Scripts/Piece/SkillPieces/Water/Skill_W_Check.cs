@@ -16,14 +16,14 @@ public class Skill_W_Check : SkillPiece
         target.GetDamage(GetDamageCalc(), currentType);
 
         animHandler.GetAnim(AnimName.W_Splash01)
-            .SetPosition(skillImg.transform.position)
+            .SetPosition(skillIconImg.transform.position)
             .SetScale(0.5f)
             .Play(() =>
             {
                 if (target.cc.IsCC())
                 {
                     animHandler.GetAnim(AnimName.W_Splash01)
-                    .SetPosition(skillImg.transform.position)
+                    .SetPosition(skillIconImg.transform.position)
                     .SetScale(0.5f)
                     .Play(() =>
                     {

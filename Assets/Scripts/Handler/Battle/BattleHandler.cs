@@ -670,7 +670,7 @@ public class BattleHandler : MonoBehaviour
             {
                 GameManager.Instance.animHandler.GetTextAnim()
                 .SetType(TextUpAnimType.Up)
-                .SetPosition(piece.skillImg.transform.position)
+                .SetPosition(piece.skillIconImg.transform.position)
                 .Play("침묵됨!");
 
                 StartCoroutine(EndTurn());
