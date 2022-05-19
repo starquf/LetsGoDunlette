@@ -51,7 +51,9 @@ public abstract class BottomUIElement : MonoBehaviour
     protected virtual void ShowPanel(bool enable)
     {
         if (!canControl)
+        {
             return;
+        }
 
         SetCGEnable(enable);
         ShowCGEffect(enable);
@@ -92,7 +94,9 @@ public abstract class BottomUIElement : MonoBehaviour
         else
         {
             if (!GameManager.Instance.curEncounter.Equals(mapNode.RandomEncounter))
+            {
                 bottomBG.ShowBottomPanel(true);
+            }
 
             cg.transform.DOLocalMoveY(endPos, 0.22f)
                 .SetEase(Ease.OutCubic)

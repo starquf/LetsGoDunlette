@@ -12,7 +12,7 @@ public class Dnam : MonoBehaviour
     private BattleHandler bh;
     public void Sacrifice()
     {
-        if(bh == null)
+        if (bh == null)
         {
             bh = GameManager.Instance.battleHandler;
         }
@@ -42,7 +42,9 @@ public class Dnam : MonoBehaviour
                         {
                             SkillPiece piece = GameManager.Instance.inventoryHandler.CreateSkill(dnamSkill, owner, gameObject.transform.position);
                             if (isUpgraded)
+                            {
                                 piece.AddValue(30);
+                            }
                         }
 
                         GameManager.Instance.animHandler.GetAnim(AnimName.M_Shield).SetPosition(transform.position)

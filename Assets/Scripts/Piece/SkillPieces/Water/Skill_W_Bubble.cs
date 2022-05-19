@@ -15,16 +15,9 @@ public class Skill_W_Bubble : SkillPiece
     {
         base.GetDesIconInfo();
 
-        desInfos[0].SetInfo(DesIconType.Attack, GetDamageCalc().ToString());
+        desInfos[0].SetInfo(DesIconType.Shield, $"{Value}");
 
         return desInfos;
-    }
-
-    private int GetDamageCalc()
-    {
-        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.4f);
-
-        return attack;
     }
 
     private IEnumerator Bubble(LivingEntity target, Action onCastEnd = null)

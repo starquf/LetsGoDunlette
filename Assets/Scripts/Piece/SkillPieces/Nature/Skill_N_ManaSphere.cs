@@ -22,13 +22,6 @@ public class Skill_N_ManaSphere : SkillPiece
         return desInfos;
     }
 
-    private int GetDamageCalc()
-    {
-        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.4f);
-
-        return attack;
-    }
-
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         //print($"스킬 발동!! 이름 : {PieceName}");

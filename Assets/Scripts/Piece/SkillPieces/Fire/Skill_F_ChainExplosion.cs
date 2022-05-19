@@ -13,13 +13,6 @@ public class Skill_F_ChainExplosion : SkillPiece
         return desInfos;
     }
 
-    private int GetDamageCalc()
-    {
-        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.7f);
-
-        return attack;
-    }
-
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         SkillEvent eventInfo = null;

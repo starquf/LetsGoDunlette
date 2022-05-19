@@ -4,13 +4,11 @@ using UnityEngine.UI;
 
 public class Encounter_007 : RandomEncounter
 {
-    SkillPiece skill = null;
-
-    InventoryInfoHandler invenInfoHandler = null;
-    InventoryHandler invenHandler = null;
-    Transform frontPanelTrm = null;
-
-    RandomEncounterUIHandler randomEncounterUIHandler;
+    private SkillPiece skill = null;
+    private InventoryInfoHandler invenInfoHandler = null;
+    private InventoryHandler invenHandler = null;
+    private Transform frontPanelTrm = null;
+    private RandomEncounterUIHandler randomEncounterUIHandler;
 
     public override void Init()
     {

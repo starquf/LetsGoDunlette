@@ -18,13 +18,6 @@ public class NSL_Attack : SkillPiece
         return desInfos;
     }
 
-    private int GetDamageCalc()
-    {
-        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.4f); // 0.4 ¸¦ ¿¢¼¿¿¡¼­ °¡Á®¿Í¾ßÇÔ ¿¢¼¿
-
-        return attack;
-    }
-
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         SetIndicator(Owner.gameObject, "°ø°Ý").OnEndAction(() =>

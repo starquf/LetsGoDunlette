@@ -21,14 +21,6 @@ public class Skill_E_Lightning : SkillPiece
 
         return desInfos;
     }
-
-    private int GetDamageCalc()
-    {
-        int attack = (int)((Owner.GetComponent<LivingEntity>().AttackPower * 0.3f) + 2);
-
-        return attack;
-    }
-
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         int damage = GetDamageCalc();

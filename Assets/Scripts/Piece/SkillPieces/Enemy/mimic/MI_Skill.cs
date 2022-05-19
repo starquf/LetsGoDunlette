@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class MI_Skill : SkillPiece
@@ -51,7 +50,7 @@ public class MI_Skill : SkillPiece
             .SetScale(2)
             .Play(() =>
            {
-                   onCastEnd?.Invoke();
+               onCastEnd?.Invoke();
            });
         });
 

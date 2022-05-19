@@ -23,13 +23,6 @@ public class Skill_C_UnManaSphere : SkillPiece
         return desInfos;
     }
 
-    private int GetDamageCalc()
-    {
-        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.6f);
-
-        return attack;
-    }
-
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         Vector3 startPos = transform.position;

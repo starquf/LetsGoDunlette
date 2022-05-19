@@ -68,7 +68,7 @@ public class BB_Skill : SkillPiece
         {
             SetIndicator(Owner.gameObject, "АјАн").OnEndAction(() =>
             {
-                target.GetDamage(20);
+                target.GetDamage(GetDamageCalc(pieceInfo[0].GetValue()));
 
                 animHandler.GetAnim(AnimName.M_Butt)
                             .SetPosition(GameManager.Instance.enemyEffectTrm.position)

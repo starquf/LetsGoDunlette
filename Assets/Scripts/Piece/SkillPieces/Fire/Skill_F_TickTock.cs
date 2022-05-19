@@ -25,13 +25,6 @@ public class Skill_F_TickTock : SkillPiece
         return desInfos;
     }
 
-    private int GetDamageCalc()
-    {
-        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.9f);
-
-        return attack;
-    }
-
     public override void OnRullet()
     {
         bh.battleEvent.RemoveEventInfo(eventInfo);

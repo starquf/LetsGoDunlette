@@ -30,13 +30,6 @@ public class Skill_W_Tsunami : SkillPiece
         return desInfos;
     }
 
-    private int GetDamageCalc()
-    {
-        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.4f);
-
-        return attack;
-    }
-
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         GameManager.Instance.battleHandler.battleUtil.StartCoroutine(Tsunami(target, onCastEnd));

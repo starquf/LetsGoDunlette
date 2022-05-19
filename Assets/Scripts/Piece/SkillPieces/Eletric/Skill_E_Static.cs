@@ -5,9 +5,6 @@ using Random = UnityEngine.Random;
 
 public class Skill_E_Static : SkillPiece
 {
-    public GameObject staticEffectPrefab;
-    public GameObject staticStunEffectPrefab;
-
     [Header("±âÀý È®·ü")]
     public int stunPercent;
 
@@ -19,13 +16,6 @@ public class Skill_E_Static : SkillPiece
         desInfos[1].SetInfo(DesIconType.Stun, $"{stunPercent}%");
 
         return desInfos;
-    }
-
-    private int GetDamageCalc()
-    {
-        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.2f);
-
-        return attack;
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)

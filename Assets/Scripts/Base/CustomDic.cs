@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 
 namespace CustomDic
 {
@@ -72,7 +70,7 @@ namespace CustomDic
             for (int i = 0; i < g_InspectorKeys.Count; i++)
             {
                 //중복된 키가 있다면 에러 출력
-                if (this.ContainsKey(g_InspectorKeys[i]))
+                if (ContainsKey(g_InspectorKeys[i]))
                 {
                     Debug.LogError("중복된 키가 있습니다.");
                     break;

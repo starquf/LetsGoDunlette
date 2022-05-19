@@ -1,6 +1,4 @@
-using DG.Tweening;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Encounter_008 : RandomEncounter
 {
@@ -45,7 +43,7 @@ public class Encounter_008 : RandomEncounter
             case 0:
 
                 GetSkillInRandomEncounterAnim(skill,
-                    ()=>
+                    () =>
                     {
                         OnExitEncounter?.Invoke(true);
                     });

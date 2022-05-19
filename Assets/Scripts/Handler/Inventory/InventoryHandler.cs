@@ -74,7 +74,7 @@ public class InventoryHandler : MonoBehaviour
     // 스킬 추가 할땐 이걸 호출
     public SkillPiece CreateSkill(GameObject skillPrefab, Inventory owner)
     {
-        SkillPiece skill = Instantiate(skillPrefab, transform).GetComponent<SkillPiece>();
+        SkillPiece skill = Instantiate(skillPrefab, transform).GetComponent<SkillPiece>(); //여기 왜 에러남?
         skill.gameObject.SetActive(false);
 
         AddSkill(skill, owner);

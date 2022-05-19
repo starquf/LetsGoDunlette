@@ -107,6 +107,7 @@ public enum DesIconType
     Heating,            // 신체 가열 (타로스 전용)
     Heal,               // 힐
     Upgrade,            //강화
+    Shield, //보호막
 }
 
 public enum AnimName
@@ -148,7 +149,8 @@ public enum AnimName
     W_Shield,
     M_Recover,
     F_Effect02,
-    SkillEffect01
+    SkillEffect01,
+    PlayerHeal,
 }
 
 public enum PlayerSkillType

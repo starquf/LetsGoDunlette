@@ -8,7 +8,7 @@ public class Skill_N_PosionCloud : SkillPiece
     {
         base.GetDesIconInfo();
 
-        desInfos[1].SetInfo(DesIconType.Wound, "2");
+        desInfos[0].SetInfo(DesIconType.Wound, $"{Value}");
 
         return desInfos;
     }
@@ -24,6 +24,6 @@ public class Skill_N_PosionCloud : SkillPiece
                     onCastEnd?.Invoke();
                 });
 
-        target.cc.SetCC(CCType.Wound, 2, true);
+        target.cc.SetCC(CCType.Wound, Value, true);
     }
 }

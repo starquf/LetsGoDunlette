@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -30,6 +31,9 @@ public class RF_Skill : SkillPiece
         base.ChoiceSkill();
         if (Random.Range(0, 100) <= value)
         {
+            desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[0].GetValue())}");
+            desInfos[1].SetInfo(DesIconType.Wound, $"{pieceInfo[0].GetValue(1)}턴");
+
             onCastSkill = RF_Sharp_Claw;
             return pieceInfo[0];
         }
@@ -39,7 +43,10 @@ public class RF_Skill : SkillPiece
             return pieceInfo[1];
         }
     }
-
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        return desInfos;
+    }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
@@ -48,51 +55,36 @@ public class RF_Skill : SkillPiece
 
     private void RF_Sharp_Claw(LivingEntity target, Action onCastEnd = null) //상처를 부여해서 3턴 동안 10의 피해를 입힌다.
     {
-        SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "상처 부여").OnEndAction(() =>
         {
-            target.GetDamage(10, this, Owner);
+            target.GetDamage(GetDamageCalc(pieceInfo[0].GetValue()), this, Owner);
 
             animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
             .SetScale(2)
             .Play(() =>
             {
-                SetIndicator(Owner.gameObject, "상처 부여").OnEndAction(() =>
-                {
-                    target.cc.SetCC(CCType.Wound, 3, true);
-                    animHandler.GetAnim(AnimName.M_Sword).SetPosition(bh.playerImgTrans.position)
-                    .SetScale(1)
-                    .Play(() =>
-                    {
-                        onCastEnd?.Invoke();
-                    });
-                });
+                target.cc.SetCC(CCType.Wound, pieceInfo[0].GetValue(1), true);
+                onCastEnd?.Invoke();
             });
         });
     }
 
-    private void RF_Sneaky(LivingEntity target, Action onCastEnd = null) //인벤토리에 '여우의 선물'을 2개 추가한다.
+    private void RF_Sneaky(LivingEntity target, Action onCastEnd = null) //인벤토리에 '여우의 선물'을 3개 추가한다.
     {
-        SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "조각 추가").OnEndAction(() =>
         {
-            target.GetDamage(20, this, Owner);
-
-            animHandler.GetAnim(AnimName.M_Butt)
+            animHandler.GetAnim(AnimName.SkillEffect01)
             .SetPosition(GameManager.Instance.enemyEffectTrm.position)
             .SetScale(2f)
             .Play(() =>
             {
-                SetIndicator(Owner.gameObject, "조각 추가").OnEndAction(() =>
+                for (int i = 0; i < 3; i++)
                 {
-                    for (int i = 0; i < 2; i++)
-                    {
-                        bh.battleUtil.SetTimer(0.25f * i, () => { ih.CreateSkill(presentgSkill, Owner, Owner.transform.position); });
-                    }
+                    bh.battleUtil.SetTimer(0.25f * i, () => { ih.CreateSkill(presentgSkill, Owner, Owner.transform.position); });
+                }
 
-                    bh.battleUtil.SetTimer(0.5f + (0.25f * 1), onCastEnd);
-                });
+                bh.battleUtil.SetTimer(0.5f + (0.25f * 1), onCastEnd);
             });
         });
     }
-
-
 }

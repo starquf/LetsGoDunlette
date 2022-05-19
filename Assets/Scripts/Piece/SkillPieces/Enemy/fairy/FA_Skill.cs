@@ -15,7 +15,7 @@ public class FA_Skill : SkillPiece
         base.ChoiceSkill();
         if (Random.Range(0, 100) <= value)
         {
-            desInfos[0].SetInfo(DesIconType.Upgrade, $"{pieceInfo[0].GetValue()}"); 
+            desInfos[0].SetInfo(DesIconType.Upgrade, $"{pieceInfo[0].GetValue()}");
 
             onCastSkill = FA_Fairy_Ligtht;
             return pieceInfo[0];
@@ -50,7 +50,7 @@ public class FA_Skill : SkillPiece
                 FA_Attack skill = Owner.skills[i].GetComponent<FA_Attack>();
                 if (skill != null)
                 {
-                   AddAttackPower(GetDamageCalc(pieceInfo[0].GetValue()));
+                    AddAttackPower(GetDamageCalc(pieceInfo[0].GetValue()));
                 }
             }
 

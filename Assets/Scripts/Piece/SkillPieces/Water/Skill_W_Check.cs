@@ -13,7 +13,7 @@ public class Skill_W_Check : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        target.GetDamage(value, currentType);
+        target.GetDamage(GetDamageCalc(), currentType);
 
         animHandler.GetAnim(AnimName.W_Splash01)
             .SetPosition(skillImg.transform.position)

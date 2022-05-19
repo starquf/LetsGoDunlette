@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Encounter_015 : RandomEncounter
 {
     private Scroll scroll = null;
-    BattleScrollHandler battleScrollHandler = null;
+    private BattleScrollHandler battleScrollHandler = null;
     public override void Init()
     {
         base.Init();
@@ -45,7 +45,6 @@ public class Encounter_015 : RandomEncounter
     {
         InventoryHandler inventoryHandler = GameManager.Instance.inventoryHandler;
         choiceIdx = resultIdx;
-        Image skillImg;
         switch (resultIdx)
         {
             case 0:

@@ -33,16 +33,9 @@ public class Skill_E_Charging : SkillPiece
         return desInfos;
     }
 
-    private int GetDamageCalc()
-    {
-        int attack = (int)((Owner.GetComponent<LivingEntity>().AttackPower * 0.2f) + 1);
-
-        return attack;
-    }
-
     public override void OnRullet()
     {
-        bh.battleEvent.RemoveEventInfo(eventInfo);
+        GameManager.Instance.battleHandler.battleEvent.RemoveEventInfo(eventInfo);
         onCharge = (piece, action) =>
         {
             if (piece.currentType.Equals(ElementalType.Electric) && piece != this)
@@ -75,7 +68,7 @@ public class Skill_E_Charging : SkillPiece
         };
 
         eventInfo = new SkillEvent(EventTimeSkill.WithSkill, onCharge);
-        bh.battleEvent.BookEvent(eventInfo);
+        GameManager.Instance.battleHandler.battleEvent.BookEvent(eventInfo);
     }
 
     public override void ResetPiece()

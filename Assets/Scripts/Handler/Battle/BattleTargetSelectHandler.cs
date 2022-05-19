@@ -198,7 +198,7 @@ public class BattleTargetSelectHandler : MonoBehaviour
         //    enemy = coll.GetComponent<EnemyHealth>();
         //    return true;
         //}
-        if(Vector2.Distance(dragStartPos, pos)< 1 || dragStartPos.y > pos.y)
+        if (Vector2.Distance(dragStartPos, pos) < 1 || dragStartPos.y > pos.y)
         {
             return false;
         }

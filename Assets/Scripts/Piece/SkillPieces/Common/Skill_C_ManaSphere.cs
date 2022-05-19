@@ -17,17 +17,8 @@ public class Skill_C_ManaSphere : SkillPiece
     public override List<DesIconInfo> GetDesIconInfo()
     {
         base.GetDesIconInfo();
-
         desInfos[0].SetInfo(DesIconType.Attack, GetDamageCalc().ToString());
-
         return desInfos;
-    }
-
-    private int GetDamageCalc()
-    {
-        int attack = (int)(Owner.GetComponent<LivingEntity>().AttackPower * 0.4f);
-
-        return attack;
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
