@@ -149,7 +149,8 @@ public enum AnimName
     W_Shield,
     M_Recover,
     F_Effect02,
-    SkillEffect01
+    SkillEffect01,
+    PlayerHeal,
 }
 
 public enum PlayerSkillType
