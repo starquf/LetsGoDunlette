@@ -130,7 +130,7 @@ public class Skill_W_FireSuppression : SkillPiece
             effect.Play(target.transform.position, () =>
             {
 
-                target.GetDamage(2, patternType);
+                target.GetDamage(3, patternType);
 
                 GameManager.Instance.cameraHandler.ShakeCamera(1f, 0.15f);
 

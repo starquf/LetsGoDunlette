@@ -15,7 +15,7 @@ public class Skill_W_Bubble : SkillPiece
     {
         base.GetDesIconInfo();
 
-        desInfos[0].SetInfo(DesIconType.Attack, GetDamageCalc().ToString());
+        desInfos[0].SetInfo(DesIconType.Shield, $"{Value}");
 
         return desInfos;
     }
