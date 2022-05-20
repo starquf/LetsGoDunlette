@@ -38,7 +38,7 @@ public class ProductInfo : MonoBehaviour
             case ProductType.RulletPiece:
                 this.rulletPiece = rulletPiece;
                 productImg.GetComponent<RectTransform>().sizeDelta = Vector2.one * 250;
-                productImg.sprite = rulletPiece.transform.Find("SkillIcon").GetComponent<Image>().sprite;
+                productImg.sprite = rulletPiece.transform.Find("SkillIcons").Find("SkillBG").Find("Icon").GetComponent<Image>().sprite;
                 productName = rulletPiece.PieceName;
                 productDes = rulletPiece.PieceDes;
                 price = 10;
