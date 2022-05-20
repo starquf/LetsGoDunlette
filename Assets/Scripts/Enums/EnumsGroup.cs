@@ -166,3 +166,10 @@ public enum SkillRange
     All = 1,
     Random = 2
 }
+
+public enum GradeMinsuSibalNum
+{
+    Normal = 1,
+    Epic = 2,
+    True6StarMythAwakeningLegendTranscendentReincarnation = 3
+}
