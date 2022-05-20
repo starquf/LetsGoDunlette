@@ -16,7 +16,7 @@ public class DP_Skill : SkillPiece
         if (Random.Range(0, 100) <= value)
         {
             onCastSkill = DP_Duty;
-            pieceInfo[0].PieceDes = String.Format(pieceInfo[0].PieceDes, pieceInfo[0].GetValue());
+            pieceInfo[0].PieceDes = string.Format(pieceInfo[0].PieceDes, pieceInfo[0].GetValue());
             return pieceInfo[0];
         }
         else
