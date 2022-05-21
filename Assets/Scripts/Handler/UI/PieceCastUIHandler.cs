@@ -18,6 +18,7 @@ public class PieceCastUIHandler : MonoBehaviour
     public Image strokeImg;
     public Image targetBGImg;
     public Image targetIcon;
+    public GradeInfoHandler gradeHandler;
 
     public Button closeBtn;
 
@@ -98,6 +99,7 @@ public class PieceCastUIHandler : MonoBehaviour
         strokeImg.sprite = inven.pieceBGStrokeSprDic[skillPiece.currentType];
         targetBGImg.sprite = inven.targetBGSprDic[skillPiece.currentType];
         targetIcon.sprite = inven.targetIconSprDic[skillPiece.skillRange];
+        gradeHandler.SetGrade(skillPiece.skillGrade);
 
         pieceMoveSequence.Kill();
 

@@ -36,9 +36,13 @@ public class BattleRewardUIHandler : MonoBehaviour
     public TextMeshProUGUI cardNameText;
     public TextMeshProUGUI cardDesText;
     public Transform skillIconTrans;
-    public Image bookmarkBG;
-    public Image bookmarkIcon;
-    public Image maskImg;
+    public Image strokeImg;
+    public Image targetBGImg;
+    public Image targetImg;
+    public GradeInfoHandler gradeHandler;
+
+    public CanvasGroup pieceDesCvs;
+
     public Image selectedImg;
 
     private List<SkillDesIcon> desIcons = new List<SkillDesIcon>();
@@ -97,12 +101,9 @@ public class BattleRewardUIHandler : MonoBehaviour
         pieceDesCG.transform.localScale = Vector3.one;
 
         cardBG.color = Color.white;
-        cardNameText.color = Color.white;
-        cardDesText.color = Color.white;
-        bookmarkBG.color = Color.white;
-        bookmarkIcon.color = Color.white;
+        strokeImg.color = Color.white;
+        pieceDesCvs.alpha = 0f;
 
-        //maskImg.color = Color.white;
         print(cardBG.material.GetFloat("_DesolveIntensity"));
 
         cardBG.material.SetFloat("_DesolveIntensity", -1f);
@@ -218,6 +219,10 @@ public class BattleRewardUIHandler : MonoBehaviour
         cardBG.sprite = info.cardBG;
         cardNameText.text = info.PieceName;
         cardDesText.text = info.PieceDes;
+        strokeImg.sprite = invenHandler.pieceBGStrokeSprDic[info.currentType];
+        targetBGImg.sprite = invenHandler.targetBGSprDic[info.currentType];
+        targetImg.sprite = invenHandler.targetIconSprDic[info.skillRange];
+        gradeHandler.SetGrade(info.skillGrade);
 
         if (info.PieceDes.Equals(""))
         {
@@ -230,9 +235,6 @@ public class BattleRewardUIHandler : MonoBehaviour
 
         List<DesIconInfo> desInfos = info.GetDesIconInfo();
         ShowDesIcon(desInfos, info);
-
-        bookmarkBG.sprite = invenHandler.bookmarkSprDic[info.patternType];
-        bookmarkIcon.sprite = invenHandler.effectSprDic[info.patternType];
 
         ShowPanel(pieceDesCG, true);
         getBtn.gameObject.SetActive(true);
@@ -274,10 +276,7 @@ public class BattleRewardUIHandler : MonoBehaviour
                         x => cardBG.material.SetFloat("_DesolveIntensity", x)
                         , 1f
                         , 1f))
-            .Join(cardNameText.DOFade(0f, 0.9f))
-            .Join(cardDesText.DOFade(0f, 0.9f))
-            .Join(bookmarkBG.DOFade(0f, 0.9f))
-            .Join(bookmarkIcon.DOFade(0f, 0.9f))
+            .Join(pieceDesCvs.DOFade(0f, 0.9f))
             .AppendCallback(() =>
             {
                 for (int i = 0; i < 10; i++)
@@ -293,10 +292,12 @@ public class BattleRewardUIHandler : MonoBehaviour
                     effect.transform.DOMove(Random.insideUnitCircle * 1.5f, 0.4f)
                         .SetRelative();
 
-                    effect.Play(invenHandler.transform.position, () =>
+                    InventoryIndicator indicator = bh.player.GetComponent<Inventory>().indicator;
+                    effect.Play(indicator.transform.position, () =>
                     {
                         if (a == 9)
                         {
+                            indicator.ShowEffect();
                             onEndEffect?.Invoke();
                         }
 
