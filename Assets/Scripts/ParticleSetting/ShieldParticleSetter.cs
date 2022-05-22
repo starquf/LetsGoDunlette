@@ -1,8 +1,7 @@
+using DG.Tweening;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
 public class ShieldParticleSetter : MonoBehaviour
 {
@@ -12,7 +11,7 @@ public class ShieldParticleSetter : MonoBehaviour
     public Color shieldColor = new Color();
     private Color startShieldColor = new Color();
 
-    void Awake()
+    private void Awake()
     {
         shieldParticle = GetComponent<ParticleSystem>();
         shieldAnimImage = GetComponentInChildren<Image>();
@@ -36,7 +35,7 @@ public class ShieldParticleSetter : MonoBehaviour
 
     public IEnumerator PlayAnim(float time)
     {
-        yield return new WaitForSeconds(time*0.9f);
+        yield return new WaitForSeconds(time * 0.9f);
 
         shieldAnimImage.fillAmount = 0;
         shieldAnimImage.color = startShieldColor;
