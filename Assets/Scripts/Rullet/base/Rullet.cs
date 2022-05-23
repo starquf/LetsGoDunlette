@@ -29,7 +29,6 @@ public abstract class Rullet : MonoBehaviour
             rulletSpeed = value;
 
             rulletSpeed = Mathf.Clamp(rulletSpeed, 500f, 1500f);
-            speedText.text = $"Speed : {rulletSpeed}";
         }
     }
 
@@ -38,7 +37,6 @@ public abstract class Rullet : MonoBehaviour
     protected Tween fillTween;
 
     //public Transform pinTrans;
-    public Text speedText;
     public Image timerFillAmount;
     public Gradient timerGradient;
     public List<ParticleSystem> particles = new List<ParticleSystem>();
@@ -274,8 +272,6 @@ public abstract class Rullet : MonoBehaviour
     {
         rollSpeed = (rulletSpeed + UnityEngine.Random.Range(0, 50)) * multiply;
         stopSpeed = UnityEngine.Random.Range(10f, 10.5f);
-
-        speedText.text = $"Speed : {rulletSpeed}";
 
         while (Mathf.Abs(rollSpeed) > 1.5f)
         {
