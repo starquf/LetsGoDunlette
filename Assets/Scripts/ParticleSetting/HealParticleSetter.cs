@@ -1,21 +1,11 @@
 using UnityEngine;
 
-public class HealParticleSetter : MonoBehaviour
+public class HealParticleSetter : BuffParticleSetter
 {
-    [HideInInspector] public ParticleSystem healParticle;
-
-    private void Awake()
+    public override void Play(float time)
     {
-        healParticle = GetComponent<ParticleSystem>();
-    }
 
-    public void Play(float time)
-    {
-        //var mainModule = healParticle.main;
-        //mainModule.startLifetime = time;
-        //healParticle.startLifetime = time;
-        ParticleSystemRenderer healParticleSystemRenderer = null;
-        healParticleSystemRenderer = GetComponent<ParticleSystemRenderer>();
+        ParticleSystemRenderer healParticleSystemRenderer = GetComponent<ParticleSystemRenderer>();
 
         if (GameManager.Instance.curEncounter.Equals(mapNode.RandomEncounter) || GameManager.Instance.curEncounter.Equals(mapNode.REST))
         {
@@ -28,8 +18,6 @@ public class HealParticleSetter : MonoBehaviour
             healParticleSystemRenderer.sortingOrder = 11;
         }
 
-        ParticleSystem.MainModule m = healParticle.main;
-        m.startLifetime = time;
-        healParticle.Play();
+        base.Play(time);
     }
 }

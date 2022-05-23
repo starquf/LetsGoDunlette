@@ -101,6 +101,8 @@ public class GameManager : MonoBehaviour
     public EncounterHandler encounterHandler;
     [HideInInspector]
     public AnimHandler animHandler;
+    [HideInInspector]
+    public BuffParticleHandler buffParticleHandler;
 
     [HideInInspector]
     public event Action OnUpdateUI;
