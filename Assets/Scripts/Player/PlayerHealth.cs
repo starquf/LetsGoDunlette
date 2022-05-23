@@ -14,6 +14,13 @@ public class PlayerHealth : LivingEntity
 
     public Text TopPanelHPText;
 
+    protected override void Awake()
+    {
+        base.Awake();
+
+        cc.isPlayer = true;
+    }
+
     public override void SetHPBar()
     {
         TopPanelHPText.text = IsDie ? $"»ç¸Á" : $"{hp}/{maxHp}";
@@ -48,15 +55,6 @@ public class PlayerHealth : LivingEntity
     {
         base.AddShield(value);
 
-        StartCoroutine(ShieldEffect());
-    }
-
-    private IEnumerator ShieldEffect()
-    {
         shieldParticle.Play(0.5f);
-
-        yield return new WaitForSeconds(0.4f);
-        damageBGEffect.color = ShieldBGColor;
-        damageBGEffect.DOFade(0f, 0.55f);
     }
 }
