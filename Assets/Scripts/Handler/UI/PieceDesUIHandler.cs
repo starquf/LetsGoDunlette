@@ -12,9 +12,10 @@ public class PieceDesUIHandler : MonoBehaviour
     public Image bgImg;
     public TextMeshProUGUI desText;
     public Transform skillIconTrans;
-    public Image bookmarkImg;
-    public Image bookmarkBGImg;
     public Image strokeImg;
+    public Image targetBGImg;
+    public Image targetImg;
+    public GradeInfoHandler gradeHandler;
 
     private List<SkillDesIcon> desIcons = new List<SkillDesIcon>();
 
@@ -42,16 +43,19 @@ public class PieceDesUIHandler : MonoBehaviour
     public void ShowDescription(SkillPiece skillPiece)
     {
         Sprite bg = skillPiece.cardBG;
-        Sprite bookmark = invenHandler.effectSprDic[skillPiece.currentType];
-        Sprite bookmarkBG = invenHandler.bookmarkSprDic[skillPiece.currentType];
+        Sprite stroke = invenHandler.pieceBGStrokeSprDic[skillPiece.currentType];
+        Sprite targetBG = invenHandler.targetBGSprDic[skillPiece.currentType];
+        Sprite targetIcon = invenHandler.targetIconSprDic[skillPiece.skillRange];
         string name = skillPiece.PieceName;
         string des = skillPiece.PieceDes;
 
         nameText.text = name;
         bgImg.sprite = bg;
         desText.text = des;
-        bookmarkImg.sprite = bookmark;
-        bookmarkBGImg.sprite = bookmarkBG;
+        strokeImg.sprite = stroke;
+        targetBGImg.sprite = targetBG;
+        targetImg.sprite = targetIcon;
+        gradeHandler.SetGrade(skillPiece.skillGrade);
 
         List<DesIconInfo> desInfos = skillPiece.GetDesIconInfo();
         ShowDesIcon(desInfos, skillPiece);

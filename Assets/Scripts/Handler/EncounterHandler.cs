@@ -172,9 +172,10 @@ public class EncounterHandler : MonoBehaviour
         GameManager gm = GameManager.Instance;
 
         gm.curEncounter = mapNode.NONE;
-        //bh.GetComponent<BattleScrollHandler>().ShowScrollUI(open: false);
-        //gm.goldUIHandler.ShowGoldUI(false);
         gm.bottomUIHandler.ShowBottomPanel(true);
+
+        bh.SetCanvas(false);
+
         if (gm.battleHandler.isBoss)
         {
             Sequence nextStageSeq = DOTween.Sequence()

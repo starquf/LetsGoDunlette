@@ -1,15 +1,14 @@
+using DG.Tweening;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
 public class ShieldParticleSetter : BuffParticleSetter
 {
     [HideInInspector] public Image shieldAnimImage;
 
     private Color startShieldColor = new Color();
-
+    
     protected override void Awake()
     {
         base.Awake();
@@ -26,7 +25,7 @@ public class ShieldParticleSetter : BuffParticleSetter
 
     public IEnumerator PlayAnim(float time)
     {
-        yield return new WaitForSeconds(time*0.9f);
+        yield return new WaitForSeconds(time * 0.9f);
 
         damageBGEffect.color = buffColor;
         damageBGEffect.DOFade(0f, 0.55f);

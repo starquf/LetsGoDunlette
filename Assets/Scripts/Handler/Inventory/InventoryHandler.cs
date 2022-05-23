@@ -17,7 +17,6 @@ public class InventoryHandler : MonoBehaviour
     [Header("카드 관련")]
     [SerializeField] private List<Sprite> effectSprites = new List<Sprite>();
     [SerializeField] private List<Gradient> effectGradients = new List<Gradient>();
-    [SerializeField] private List<Sprite> bookmarkSprites = new List<Sprite>();
     [SerializeField] private List<Sprite> pieceBGSprites = new List<Sprite>();
     [SerializeField] private List<Sprite> pieceBGStrokeSprites = new List<Sprite>();
     [SerializeField] private List<Sprite> targetBGSprites = new List<Sprite>();
@@ -26,7 +25,6 @@ public class InventoryHandler : MonoBehaviour
 
     public Dictionary<ElementalType, Sprite> effectSprDic;
     public Dictionary<ElementalType, Gradient> effectGradDic;
-    public Dictionary<ElementalType, Sprite> bookmarkSprDic;
     public Dictionary<ElementalType, Sprite> pieceBGSprDic;
     public Dictionary<ElementalType, Sprite> pieceBGStrokeSprDic;
     public Dictionary<ElementalType, Sprite> targetBGSprDic;
@@ -42,7 +40,6 @@ public class InventoryHandler : MonoBehaviour
 
         effectSprDic = new Dictionary<ElementalType, Sprite>();
         effectGradDic = new Dictionary<ElementalType, Gradient>();
-        bookmarkSprDic = new Dictionary<ElementalType, Sprite>();
         pieceBGSprDic = new Dictionary<ElementalType, Sprite>();
         pieceBGStrokeSprDic = new Dictionary<ElementalType, Sprite>();
         targetBGSprDic = new Dictionary<ElementalType, Sprite>();
@@ -52,7 +49,6 @@ public class InventoryHandler : MonoBehaviour
         {
             effectSprDic.Add((ElementalType)i, effectSprites[i]);
             effectGradDic.Add((ElementalType)i, effectGradients[i]);
-            bookmarkSprDic.Add((ElementalType)i, bookmarkSprites[i]);
             pieceBGSprDic.Add((ElementalType)i, pieceBGSprites[i]);
             pieceBGStrokeSprDic.Add((ElementalType)i, pieceBGStrokeSprites[i]);
             targetBGSprDic.Add((ElementalType)i, targetBGSprites[i]);
@@ -383,6 +379,8 @@ public class InventoryHandler : MonoBehaviour
         }
 
         graveyard.Clear();
+
+        SetCountUI();
     }
 
     public void RemoveAllEnemyPiece() //모든 적스킬을 삭제

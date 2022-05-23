@@ -10,7 +10,7 @@ public class PieceInfoUI : MonoBehaviour
 
     private void Awake()
     {
-        icon  = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>();
+        icon = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>();
         stroke = transform.GetChild(0).GetChild(1).GetComponent<Image>();
 
         button = GetComponent<Button>();

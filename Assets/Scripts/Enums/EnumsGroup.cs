@@ -36,6 +36,7 @@ public enum BuffType
 {
     None = -1,
     Shield = 0,
+    Heal = 1
 }
 
 public enum TextUpAnimType
@@ -168,4 +169,11 @@ public enum SkillRange
     Single = 0,
     All = 1,
     Random = 2
+}
+
+public enum GradeMinsuSibalNum
+{
+    Normal = 1,
+    Epic = 2,
+    True6StarMythAwakeningLegendTranscendentReincarnation = 3
 }
