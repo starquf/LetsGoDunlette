@@ -292,6 +292,14 @@ public class BattleUtilHandler : MonoBehaviour
         {
             DesIconType.Attack => inventory.effectSprDic[skillPiece.currentType],
             DesIconType.Stun => GameManager.Instance.ccIcons[0],
+            DesIconType.Silence => GameManager.Instance.ccIcons[1],
+            DesIconType.Exhausted => GameManager.Instance.ccIcons[2],
+            DesIconType.Wound => GameManager.Instance.ccIcons[3],
+            DesIconType.Invincibility => GameManager.Instance.ccIcons[4],
+            DesIconType.Fascinate => GameManager.Instance.ccIcons[5],
+            DesIconType.Heating => GameManager.Instance.ccIcons[6],
+            DesIconType.Shield => GameManager.Instance.buffIcons[0],
+            DesIconType.Heal => GameManager.Instance.buffIcons[1],
             _ => null,
         };
         return icon;

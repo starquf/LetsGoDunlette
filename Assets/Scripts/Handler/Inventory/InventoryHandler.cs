@@ -379,6 +379,8 @@ public class InventoryHandler : MonoBehaviour
         }
 
         graveyard.Clear();
+
+        SetCountUI();
     }
 
     public void RemoveAllEnemyPiece() //모든 적스킬을 삭제

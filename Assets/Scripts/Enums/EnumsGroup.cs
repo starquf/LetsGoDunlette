@@ -34,6 +34,7 @@ public enum CCType
 public enum BuffType
 {
     Shield = 0,
+    Heal = 1
 }
 
 public enum TextUpAnimType
