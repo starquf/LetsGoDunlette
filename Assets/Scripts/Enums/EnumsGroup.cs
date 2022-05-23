@@ -22,6 +22,7 @@ public enum PieceType
 
 public enum CCType
 {
+    None = -1,
     Stun = 0,          // ±âÀý
     Silence = 1,       // Ä§¹¬
     Exhausted = 2,     // ÇÇ°ïÇÔ
@@ -33,6 +34,7 @@ public enum CCType
 
 public enum BuffType
 {
+    None = -1,
     Shield = 0,
     Heal = 1
 }
@@ -152,6 +154,7 @@ public enum AnimName
     F_Effect02,
     SkillEffect01,
     PlayerHeal,
+    PlayerStunned,
 }
 
 public enum PlayerSkillType
