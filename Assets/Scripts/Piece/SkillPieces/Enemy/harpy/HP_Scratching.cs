@@ -12,7 +12,7 @@ public class HP_Scratching : SkillPiece
     {
         SetIndicator(Owner.gameObject, "АјАн").OnEndAction(() =>
         {
-            target.GetDamage(Value, this, Owner);
+            target.GetDamage(GetDamageCalc(value), this, Owner);
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
             animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
             .SetScale(2)
