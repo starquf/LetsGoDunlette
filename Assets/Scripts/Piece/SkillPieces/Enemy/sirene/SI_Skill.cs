@@ -15,6 +15,7 @@ public class SI_Skill : SkillPiece
         base.ChoiceSkill();
         if (GameManager.Instance.GetPlayer().cc.IsCC(CCType.Fascinate))
         {
+            desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[1].GetValue())}");
             onCastSkill = SI_Sweet_Voice;
             return pieceInfo[1];
         }
@@ -23,6 +24,11 @@ public class SI_Skill : SkillPiece
             onCastSkill = SI_Enchanting_Melody;
             return pieceInfo[0];
         }
+    }
+
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        return desInfos;
     }
 
 
@@ -37,7 +43,6 @@ public class SI_Skill : SkillPiece
         SetIndicator(Owner.gameObject, "매혹").OnEndAction(() =>
         {
             target.cc.SetCC(CCType.Fascinate, 6);
-            target.GetDamage(10, this, Owner);
 
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
@@ -52,6 +57,8 @@ public class SI_Skill : SkillPiece
 
     private void SI_Sweet_Voice(LivingEntity target, Action onCastEnd = null) //플레이어에게 매혹의 표식이 있다면 룰렛에 있는 플레이어 스킬 중 하나를 세이렌이 사용한다.
     {
+        target.GetDamage(GetDamageCalc(pieceInfo[1].GetValue()), this, Owner);
+
         Rullet rullet = bh.mainRullet;
         List<RulletPiece> skillPieces = rullet.GetPieces();
 
