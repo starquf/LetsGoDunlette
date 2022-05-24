@@ -48,9 +48,6 @@ public class SI_Skill : SkillPiece
                 onCastEnd?.Invoke();
             });
         });
-
-
-
     }
 
     private void SI_Sweet_Voice(LivingEntity target, Action onCastEnd = null) //플레이어에게 매혹의 표식이 있다면 룰렛에 있는 플레이어 스킬 중 하나를 세이렌이 사용한다.

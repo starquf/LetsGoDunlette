@@ -2171,6 +2171,7 @@ MonoBehaviour:
   particleSetterType: 1
   bType: 0
   cType: -1
+  otherName: 
   shieldAnimImage: {fileID: 0}
 --- !u!199 &102958509
 ParticleSystemRenderer:
@@ -67081,6 +67082,7 @@ MonoBehaviour:
   particleSetterType: 0
   bType: -1
   cType: -1
+  otherName: 
 --- !u!199 &847161578
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -80746,7 +80748,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageBGEffect: {fileID: 1034164014}
   buffParticleParentTrm: {fileID: 1425671888}
-  otherParticleSetterList: []
 --- !u!1 &1034164012
 GameObject:
   m_ObjectHideFlags: 0
@@ -88495,8 +88496,7 @@ MonoBehaviour:
   bossCloudTrm: {fileID: 782972434}
   bossEffectTrm: {fileID: 1222164549}
   playerTrm: {fileID: 2050705747}
-  playerUpTrm: {fileID: 316416555}
-  playerFollowCam: {fileID: 832258848}
+  mapCvsFollow: {fileID: 2097094997}
   bossCountTxt: {fileID: 1317380673}
   mapIconSpriteList:
   - {fileID: -6505274561722439608, guid: 64f00cb2c06188548a96a12afd359cbc, type: 3}
@@ -118384,6 +118384,7 @@ MonoBehaviour:
   particleSetterType: 2
   bType: -1
   cType: 0
+  otherName: 
 --- !u!199 &1713214810
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -141738,6 +141739,7 @@ GameObject:
   - component: {fileID: 2097094995}
   - component: {fileID: 2097094994}
   - component: {fileID: 2097094993}
+  - component: {fileID: 2097094997}
   m_Layer: 5
   m_Name: MapCanvas
   m_TagString: Untagged
@@ -141824,6 +141826,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2097094991}
   m_CullTransparentMesh: 1
+--- !u!114 &2097094997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2097094991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d83c62a1a3ad1a4498814dcab181fa07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTrm: {fileID: 0}
+  followSpeed: 7
 --- !u!1 &2098182946
 GameObject:
   m_ObjectHideFlags: 0
