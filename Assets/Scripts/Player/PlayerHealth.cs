@@ -46,15 +46,11 @@ public class PlayerHealth : LivingEntity
                 .Play();
 
         }
-        healParticle.Play(0.55f);
-        damageBGEffect.color = healBGColor;
-        damageBGEffect.DOFade(0f, 0.55f);
-    }
-
-    public override void AddShield(int value)
-    {
-        base.AddShield(value);
-
-        shieldParticle.Play(0.5f);
+        BuffParticleSetter bPS = null;
+        bool hasEffect = GameManager.Instance.buffParticleHandler.otherParticleSetterDic.TryGetValue("Heal", out bPS);
+        if (hasEffect)
+        {
+            bPS.Play(0.55f);
+        }
     }
 }

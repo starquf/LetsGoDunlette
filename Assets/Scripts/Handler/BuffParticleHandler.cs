@@ -16,7 +16,7 @@ public class BuffParticleHandler : MonoBehaviour
     public Image damageBGEffect;
     public Transform buffParticleParentTrm;
 
-    [HideInInspector] public List<BuffParticleSetter> otherParticleSetterList;
+    [HideInInspector] public Dictionary<string, BuffParticleSetter> otherParticleSetterDic;
     [HideInInspector] public Dictionary<BuffType, BuffParticleSetter> buffParticleSetterDic;
     [HideInInspector] public Dictionary<CCType, BuffParticleSetter> ccParticleSetterDic;
 
@@ -24,26 +24,27 @@ public class BuffParticleHandler : MonoBehaviour
     {
         GameManager.Instance.buffParticleHandler = this;
 
+        List<BuffParticleSetter> buffParticleSetterList = new List<BuffParticleSetter>(buffParticleParentTrm.GetComponentsInChildren<BuffParticleSetter>());
+
         buffParticleSetterDic = new Dictionary<BuffType, BuffParticleSetter>();
         ccParticleSetterDic = new Dictionary<CCType, BuffParticleSetter>();
+        otherParticleSetterDic = new Dictionary<string, BuffParticleSetter>();
 
-        otherParticleSetterList = new List<BuffParticleSetter>(buffParticleParentTrm.GetComponentsInChildren<BuffParticleSetter>());
-
-        for (int i = otherParticleSetterList.Count - 1; i >= 0; i--)
+        for (int i = buffParticleSetterList.Count - 1; i >= 0; i--)
         {
-            BuffParticleSetter buffParticleSetter = otherParticleSetterList[i];
+            BuffParticleSetter buffParticleSetter = buffParticleSetterList[i];
             buffParticleSetter.damageBGEffect = damageBGEffect;
+            buffParticleSetterList.Remove(buffParticleSetter);
             switch (buffParticleSetter.particleSetterType)
             {
                 case ParticleSetterType.Other:
+                    otherParticleSetterDic.Add(buffParticleSetter.otherName, buffParticleSetter);
                     break;
                 case ParticleSetterType.Buff:
-                    otherParticleSetterList.Remove(buffParticleSetter);
                     buffParticleSetterDic.Add(buffParticleSetter.bType, buffParticleSetter);
                     print(buffParticleSetter.bType + "세팅");
                     break;
                 case ParticleSetterType.CC:
-                    otherParticleSetterList.Remove(buffParticleSetter);
                     ccParticleSetterDic.Add(buffParticleSetter.cType, buffParticleSetter);
                     print(buffParticleSetter.cType + "세팅");
                     break;
@@ -51,5 +52,6 @@ public class BuffParticleHandler : MonoBehaviour
                     break;
             }
         }
+        buffParticleSetterList.Clear();
     }
 }

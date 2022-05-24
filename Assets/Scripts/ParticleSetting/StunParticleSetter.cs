@@ -5,14 +5,14 @@ using DG.Tweening;
 
 public class StunParticleSetter : BuffParticleSetter
 {
-    public override void Play(float time)
+    public override void Play(float time, float waitTime = 0)
     {
-        StartCoroutine(PlayAnim(time));
+        StartCoroutine(PlayAnim(time, waitTime));
     }
 
-    public IEnumerator PlayAnim(float time)
+    protected override IEnumerator PlayAnim(float time, float waitTime)
     {
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSeconds(waitTime);
 
         damageBGEffect.color = buffColor;
         damageBGEffect.DOFade(0f, 0.55f);

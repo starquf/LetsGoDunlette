@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class HealParticleSetter : BuffParticleSetter
 {
-    public override void Play(float time)
+    public override void Play(float time, float waitTime = 0)
     {
 
         ParticleSystemRenderer healParticleSystemRenderer = GetComponent<ParticleSystemRenderer>();
@@ -18,6 +18,6 @@ public class HealParticleSetter : BuffParticleSetter
             healParticleSystemRenderer.sortingOrder = 11;
         }
 
-        base.Play(time);
+        base.Play(time, waitTime);
     }
 }

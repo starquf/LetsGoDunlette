@@ -16,15 +16,10 @@ public class ShieldParticleSetter : BuffParticleSetter
         startShieldColor = shieldAnimImage.color;
     }
 
-    public override void Play(float time)
+    protected override IEnumerator PlayAnim(float time, float waitTime)
     {
-        base.Play(time);
+        buffParticle.Play();
 
-        StartCoroutine(PlayAnim(time));
-    }
-
-    public IEnumerator PlayAnim(float time)
-    {
         yield return new WaitForSeconds(time * 0.9f);
 
         damageBGEffect.color = buffColor;
@@ -34,6 +29,6 @@ public class ShieldParticleSetter : BuffParticleSetter
         shieldAnimImage.color = startShieldColor;
 
         DOTween.Sequence().Append(DOTween.To(() => shieldAnimImage.fillAmount, (x) => shieldAnimImage.fillAmount = x, 1, 0.5f))
-            .Append(shieldAnimImage.DOColor(buffColor, 0.5f));
+            .Append(shieldAnimImage.DOColor(new Color(buffColor.r, buffColor.g, buffColor.b, 0f), 0.5f));
     }
 }
