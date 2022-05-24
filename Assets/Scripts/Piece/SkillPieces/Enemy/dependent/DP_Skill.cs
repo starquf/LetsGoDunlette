@@ -64,8 +64,8 @@ public class DP_Skill : SkillPiece
         SetIndicator(boss.gameObject, "È¸º¹").OnEndAction(() =>
         {
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-
             boss.Heal(pieceInfo[0].GetValue());
+            Owner.GetComponent<LivingEntity>().GetDamage(10);
 
             animHandler.GetAnim(AnimName.M_Recover).SetPosition(boss.transform.position)
         .SetScale(1)
