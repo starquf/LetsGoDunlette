@@ -94,7 +94,8 @@ public enum EnemyType
     TAROS,
     SARO,
     GAR,
-    DNAM
+    DNAM,
+    WOODENDOLL
 }
 
 public enum DesIconType
