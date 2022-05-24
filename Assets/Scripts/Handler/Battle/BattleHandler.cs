@@ -616,6 +616,8 @@ public class BattleHandler : MonoBehaviour
         player.RemoveShield();
 
         mainRullet.ResetRulletSpeed();
+        mainRullet.ResetTimerFill();
+
         battleEvent.ResetAllEvents();
         fieldHandler.SetFieldType(ElementalType.None);
 

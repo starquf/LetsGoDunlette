@@ -330,6 +330,12 @@ public abstract class Rullet : MonoBehaviour
         }
     }
 
+    public virtual void ResetTimerFill()
+    {
+        timerFillAmount.fillAmount = 0f;
+        timerFillAmount.color = timerGradient.Evaluate(0f);
+    }
+
     protected virtual void RulletResult(Action<RulletPiece, int> onResult)
     {
         // ÃÑ °¢µµÀÇ ÇÕ
