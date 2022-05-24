@@ -23,6 +23,8 @@ public abstract class BottomUIElement : MonoBehaviour
 
     public bool canControl = true;
 
+    private Tween canvasTween;
+
     protected virtual void Start()
     {
         cg = GetComponent<CanvasGroup>();
@@ -68,7 +70,6 @@ public abstract class BottomUIElement : MonoBehaviour
 
         upCvs.sortingLayerName = enable ? ignoreEft : upUI;
 
-        cg.alpha = 1f;
         cg.blocksRaycasts = enable;
         cg.interactable = enable;
 
@@ -81,7 +82,10 @@ public abstract class BottomUIElement : MonoBehaviour
         {
             bottomBG.ShowBottomPanel(false);
 
-            cg.transform.DOLocalMoveY(startPos, 0.35f)
+            cg.alpha = 1f;
+
+            canvasTween.Kill();
+            canvasTween = cg.transform.DOLocalMoveY(startPos, 0.35f)
                 .SetEase(Ease.OutBack, 0.7f)
                 .SetUpdate(true);
 
@@ -98,8 +102,13 @@ public abstract class BottomUIElement : MonoBehaviour
                 bottomBG.ShowBottomPanel(true);
             }
 
-            cg.transform.DOLocalMoveY(endPos, 0.22f)
+            canvasTween.Kill();
+            canvasTween = cg.transform.DOLocalMoveY(endPos, 0.22f)
                 .SetEase(Ease.OutCubic)
+                .OnComplete(() =>
+                {
+                    cg.alpha = 0f;
+                })
                 .SetUpdate(true);
 
             pauseCg.DOFade(0f, 0.2f)

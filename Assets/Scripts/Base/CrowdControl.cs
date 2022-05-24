@@ -14,6 +14,8 @@ public class CrowdControl : MonoBehaviour
     public Dictionary<CCType, CCIndicator> ccUIDic;
     public Dictionary<BuffType, CCIndicator> buffUIDic;
 
+    [HideInInspector] public bool isPlayer = false;
+
     private void Awake()
     {
         Init();
@@ -84,6 +86,8 @@ public class CrowdControl : MonoBehaviour
         ccUIDic[cc].gameObject.SetActive(true);
 
         string messege = "";
+        BuffParticleSetter bPS = null;
+        bool hasEffect = GameManager.Instance.buffParticleHandler.ccParticleSetterDic.TryGetValue(cc, out bPS);
 
         switch (cc)
         {
@@ -120,6 +124,10 @@ public class CrowdControl : MonoBehaviour
                 .SetType(TextUpAnimType.Fixed)
                 .SetPosition(ccUIDic[cc].transform.position)
                 .Play(messege);
+            if(isPlayer && hasEffect)
+            {
+                bPS.Play(0.55f, waitTime: 0.5f);
+            }
         }
     }
 
@@ -150,16 +158,19 @@ public class CrowdControl : MonoBehaviour
     {
         buffDic[buff] = value;
 
+        BuffParticleSetter bPS = null;
+        bool hasEffect = GameManager.Instance.buffParticleHandler.buffParticleSetterDic.TryGetValue(buff, out bPS);
+        if (isPlayer && hasEffect)
+        {
+            bPS.Play(0.55f);
+        }
         buffUIDic[buff].SetText(value);
         buffUIDic[buff].gameObject.SetActive(true);
     }
 
     public void IncreaseBuff(BuffType buff, int turn)
     {
-        buffDic[buff] += turn;
-        buffUIDic[buff].gameObject.SetActive(true);
-
-        buffUIDic[buff].SetText(buffDic[buff]);
+        SetBuff(buff, buffDic[buff] + turn);
     }
 
     public void DecreaseBuff(BuffType buff, int value)

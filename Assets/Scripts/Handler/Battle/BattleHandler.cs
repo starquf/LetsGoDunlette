@@ -95,6 +95,8 @@ public class BattleHandler : MonoBehaviour
 
     public BattleFadeUIHandler battleFade;
 
+    public List<CanvasGroup> battleCvsList = new List<CanvasGroup>();
+
     public CinemachineVirtualCamera cvCam;
 
     #region WaitSeconds
@@ -124,6 +126,8 @@ public class BattleHandler : MonoBehaviour
     {
         inventory = GameManager.Instance.inventoryHandler;
 
+        SetCanvas(false);
+
         // 플레이어가 가지고 있는 기본 스킬 생성 일단 테스트로 만들어놈
         player.GetComponent<Inventory>().CreateSkills();
 
@@ -145,6 +149,8 @@ public class BattleHandler : MonoBehaviour
     // 전투를 시작하는 함수
     public void StartBattle(bool isElite = false, bool isBoss = false, BattleInfo bInfo = null)
     {
+        SetCanvas(true);
+
         this.isElite = isElite;
         this.isBoss = isBoss;
 
@@ -215,6 +221,16 @@ public class BattleHandler : MonoBehaviour
         playerInfoHandler.OnBattleStart();
         battleRewardHandler.Init(GameManager.Instance.skillContainer.playerSkillPrefabs);
         battleUtil.Init(mainRullet);
+    }
+
+    public void SetCanvas(bool enable)
+    {
+        for (int i = 0; i < battleCvsList.Count; i++)
+        {
+            battleCvsList[i].alpha = enable ? 1 : 0;
+            battleCvsList[i].blocksRaycasts = enable;
+            battleCvsList[i].interactable = enable;
+        }
     }
 
     public void CreateEnemy(List<EnemyType> enemyInfos, Action onCreateEnd) //다중생성
@@ -600,6 +616,8 @@ public class BattleHandler : MonoBehaviour
         player.RemoveShield();
 
         mainRullet.ResetRulletSpeed();
+        mainRullet.ResetTimerFill();
+
         battleEvent.ResetAllEvents();
         fieldHandler.SetFieldType(ElementalType.None);
 

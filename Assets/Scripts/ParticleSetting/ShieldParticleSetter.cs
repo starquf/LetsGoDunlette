@@ -3,44 +3,32 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShieldParticleSetter : MonoBehaviour
+public class ShieldParticleSetter : BuffParticleSetter
 {
-    [HideInInspector] public ParticleSystem shieldParticle;
     [HideInInspector] public Image shieldAnimImage;
 
-    public Color shieldColor = new Color();
     private Color startShieldColor = new Color();
-
-    private void Awake()
+    
+    protected override void Awake()
     {
-        shieldParticle = GetComponent<ParticleSystem>();
+        base.Awake();
         shieldAnimImage = GetComponentInChildren<Image>();
         startShieldColor = shieldAnimImage.color;
     }
 
-    public void Play(float time)
+    protected override IEnumerator PlayAnim(float time, float waitTime)
     {
-        //var mainModule = healParticle.main;
-        //mainModule.startLifetime = time;
-        //healParticle.startLifetime = time;
-        ParticleSystemRenderer healParticleSystemRenderer = null;
-        healParticleSystemRenderer = GetComponent<ParticleSystemRenderer>();
+        buffParticle.Play();
 
-        ParticleSystem.MainModule m = shieldParticle.main;
-        m.startLifetime = time;
-        shieldParticle.Play();
-
-        StartCoroutine(PlayAnim(time));
-    }
-
-    public IEnumerator PlayAnim(float time)
-    {
         yield return new WaitForSeconds(time * 0.9f);
+
+        damageBGEffect.color = buffColor;
+        damageBGEffect.DOFade(0f, 0.55f);
 
         shieldAnimImage.fillAmount = 0;
         shieldAnimImage.color = startShieldColor;
 
         DOTween.Sequence().Append(DOTween.To(() => shieldAnimImage.fillAmount, (x) => shieldAnimImage.fillAmount = x, 1, 0.5f))
-            .Append(shieldAnimImage.DOColor(shieldColor, 0.5f));
+            .Append(shieldAnimImage.DOColor(new Color(buffColor.r, buffColor.g, buffColor.b, 0f), 0.5f));
     }
 }

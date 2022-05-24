@@ -88,6 +88,8 @@ public abstract class RulletPiece : MonoBehaviour
 
         bgImg = GetComponent<Image>();
         highlightImg = GetComponentsInChildren<Image>()[1];
+
+        highlightImg.fillAmount = Size / 36f;
         transform.GetComponent<Image>().fillAmount = Size / 36f;
 
         skillIconTrans = transform.Find("SkillIcons");
