@@ -41,8 +41,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private Transform bossCloudTrm;
     [SerializeField] private Transform bossEffectTrm;
     [SerializeField] private Transform playerTrm;
-    [SerializeField] private Transform playerUpTrm;
-    [SerializeField] private CinemachineVirtualCamera playerFollowCam;
+    [SerializeField] private MapCanvasFollow mapCvsFollow;
     [SerializeField] private Text bossCountTxt;
 
     [SerializeField] private List<Sprite> mapIconSpriteList = new List<Sprite>();
@@ -243,8 +242,8 @@ public class MapManager : MonoBehaviour
         if (enable)
         {
             SetAllInteracteble(false);
-            ZoomCamera(5, true);
-            playerFollowCam.gameObject.SetActive(true);
+            ZoomCamera(1, true);
+            //playerFollowCam.gameObject.SetActive(true);
             if (first)
             {
                 SetPlayerStartPos(tiles[new Vector2(-1, gridHeight - 1)]);
@@ -260,10 +259,10 @@ public class MapManager : MonoBehaviour
         else
         {
             SetAllInteracteble(false);
-            playerFollowCam.gameObject.SetActive(false);
+            //playerFollowCam.gameObject.SetActive(false);
             OpenMapPanel(false, time: time, OnComplete: () =>
             {
-                ZoomCamera(5, true);
+                ZoomCamera(1, true);
             });
         }
     }
@@ -330,8 +329,11 @@ public class MapManager : MonoBehaviour
         {
             BreakMap(curMap);
             curMap = map;
-            SetInteractebleCanSelectMap();
-            onComplete?.Invoke();
+            mapCvsFollow.Follow(onEndAnim: () =>
+            {
+                SetInteractebleCanSelectMap();
+                onComplete?.Invoke();
+            });
         });
     }
 
@@ -346,7 +348,7 @@ public class MapManager : MonoBehaviour
         {
             yield return new WaitForSeconds(0.7f);
 
-            ZoomCamera(3, time: 0.65f, ease: Ease.OutQuad, onComplete: () =>
+            ZoomCamera(2f, time: 0.65f, ease: Ease.OutQuad, onComplete: () =>
             {
                 MovePlayer(tiles[new Vector2(0, gridHeight - 1)], () =>
                 {
@@ -370,7 +372,7 @@ public class MapManager : MonoBehaviour
     // 이동할 맵이 없으면 떨어져 죽는 연출
     public void CanNotMoveGameOverDirection()
     {
-        ZoomCamera(3, time: 0.65f, ease: Ease.OutQuad);
+        ZoomCamera(2f, time: 0.65f, ease: Ease.OutQuad);
         BreakMap(curMap);
         DOTween.Sequence()
             .AppendInterval(0.3f)
@@ -395,7 +397,7 @@ public class MapManager : MonoBehaviour
     {
         if (bossCount > 0)
         {
-            ZoomCamera(3, time: 0.65f, ease: Ease.OutQuad, onComplete: () =>
+            ZoomCamera(2, time: 0.65f, ease: Ease.OutQuad, onComplete: () =>
             {
                 onEndDirection?.Invoke();
             });
@@ -404,7 +406,7 @@ public class MapManager : MonoBehaviour
         {
             CinemachineBrain cB = Camera.main.GetComponent<CinemachineBrain>();
             cB.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.EaseInOut;
-            playerFollowCam.gameObject.SetActive(false);
+            //playerFollowCam.gameObject.SetActive(false);
             Vector2 bossCloudPos = new Vector2(0, bossCloudTrm.position.y);
             Vector2 dir = bossCloudPos - (Vector2)playerTrm.position;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -640,6 +642,15 @@ public class MapManager : MonoBehaviour
         }
     }
 
+    public void SetDefaultMapPos()
+    {
+        List<Map> mapList = tiles.Values.ToList();
+        for (int i = 0; i < mapList.Count; i++)
+        {
+            mapList[i].SetDefaultPos();
+        }
+    }
+
     // 현재 맵에 연결된 맵들 선택한거 제외하고, 선택 해제
     public void UnSelectedLinkedMap(Map selectedMap)
     {
@@ -694,31 +705,34 @@ public class MapManager : MonoBehaviour
     }
 
     // 카메라 줌되는 연출
-    public void ZoomCamera(float orthographicSize, bool skip = false, float time = 0.5f, Ease ease = Ease.Unset, Action onComplete = null)
+    public void ZoomCamera(float zoomScale, bool skip = false, float time = 0.5f, Ease ease = Ease.Unset, Action onComplete = null)
     {
+        mapCvsFollow.targetTrm = zoomScale <= 1 ? null : playerTrm;
+        MoveBossCloud(zoomScale, time, ease, skip);
+        //if (!skip)
+        //{
+        //    zoomTween.Kill();
+        //    zoomTween = DOTween.To(() => playerFollowCam.m_Lens.OrthographicSize, x => playerFollowCam.m_Lens.OrthographicSize = x, orthographicSize, time).SetEase(ease)
+        //        .OnComplete(() =>
+        //        {
+        //            onComplete?.Invoke();
+        //        });
+        //}
+        //else
+        //{
+        //    playerFollowCam.m_Lens.OrthographicSize = orthographicSize;
+        //    onComplete?.Invoke();
+        //}
 
-        playerFollowCam.Follow = orthographicSize >= 5 ? playerUpTrm : playerTrm;
-        MoveBossCloud(orthographicSize, time, ease, skip);
-        if (!skip)
-        {
-            zoomTween.Kill();
-            zoomTween = DOTween.To(() => playerFollowCam.m_Lens.OrthographicSize, x => playerFollowCam.m_Lens.OrthographicSize = x, orthographicSize, time).SetEase(ease)
-                .OnComplete(() =>
-                {
-                    onComplete?.Invoke();
-                });
-        }
-        else
-        {
-            playerFollowCam.m_Lens.OrthographicSize = orthographicSize;
-            onComplete?.Invoke();
-        }
+        mapCvsFollow.Follow(1f, () => {
+            mapCvsFollow.Zoom(zoomScale, skip, time, ease, onComplete);
+        });
     }
 
     // 카메라 줌에 따라 움직이는 보스 구름
     public void MoveBossCloud(float zoomSize, float time, Ease ease, bool skip)
     {
-        float movePower = zoomSize >= 5 ? 0 : 5;
+        float movePower = zoomSize <= 1 ? 0 : 5;
         if (!skip)
         {
             DOTween.Sequence()

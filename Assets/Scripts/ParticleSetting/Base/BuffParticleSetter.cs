@@ -10,7 +10,6 @@ public abstract class BuffParticleSetter : MonoBehaviour
     [HideInInspector] public ParticleSystem buffParticle;
 
     public Color buffColor = new Color();
-    private Color startShieldColor = new Color();
     public ParticleSetterType particleSetterType = ParticleSetterType.Other;
     public BuffType bType = BuffType.Shield;
     public CCType cType = CCType.Exhausted;

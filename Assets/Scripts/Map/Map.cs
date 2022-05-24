@@ -80,6 +80,10 @@ public class Map : MonoBehaviour
         }
     }
 
+    public void SetDefaultPos()
+    {
+        defaltPosY = GetComponent<RectTransform>().position.y;
+    }
 
     private void OnClickButton()
     {
@@ -96,7 +100,7 @@ public class Map : MonoBehaviour
                 mapManager.MovePlayer(this,
                     () =>
                     {
-                        mapManager.ZoomCamera(0.1f, time: 0.87f, ease: Ease.InBack, onComplete: () =>
+                        mapManager.ZoomCamera(15f, time: 0.7f, ease: Ease.InBack, onComplete: () =>
                         {
                             SetIcon(null);
                         });
