@@ -236,8 +236,6 @@ public class MapManager : MonoBehaviour
     // 맵 열어주고 줌하는 연출
     public void OpenMap(bool enable, float time = 0.5f, bool first = false)
     {
-        CinemachineBrain cB = Camera.main.GetComponent<CinemachineBrain>();
-        cB.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
         blockPanel.raycastTarget = false;
         if (enable)
         {
@@ -270,6 +268,8 @@ public class MapManager : MonoBehaviour
     // 맵 열리는 연출
     public void OpenMapPanel(bool open, bool skip = false, float time = 0.5f, Action OnComplete = null)
     {
+        playerTrm.localScale = Vector3.one;
+        playerTrm.GetComponent<Image>().color = Color.white;
         List<CanvasGroup> cvsGroupList = new List<CanvasGroup>()
         {
             mapCvsGroup,
@@ -325,16 +325,20 @@ public class MapManager : MonoBehaviour
             bossCount--;
             bossCountTxt.DOText(bossCount.ToString(), 0.5f);
         }
-        playerTrm.DOJump(map.transform.position, 0.35f, 1, 0.35f).SetEase(Ease.OutQuad).SetDelay(counting ? 0.7f : 0.5f).OnComplete(() =>
-        {
-            BreakMap(curMap);
-            curMap = map;
-            mapCvsFollow.Follow(onEndAnim: () =>
+        DOTween.Sequence()
+            .Append(playerTrm.DOJump(map.transform.position, 0.35f, 1, 0.5f).SetEase(Ease.InQuad).SetDelay(counting ? 0.5f : 0.3f))
+            .Append(playerTrm.DOMoveY(map.transform.position.y + 0.4f, 0.08f))
+            .Append(playerTrm.DOMoveY(map.transform.position.y, 0.3f).SetEase(Ease.OutBounce))
+            .OnComplete(() =>
             {
-                SetInteractebleCanSelectMap();
-                onComplete?.Invoke();
+                BreakMap(curMap);
+                curMap = map;
+                mapCvsFollow.Follow(onEndAnim: () =>
+                {
+                    SetInteractebleCanSelectMap();
+                    onComplete?.Invoke();
+                });
             });
-        });
     }
 
     // 맵열리고 줌 되기 전에 해야될 연출
@@ -404,17 +408,18 @@ public class MapManager : MonoBehaviour
         }
         else
         {
-            CinemachineBrain cB = Camera.main.GetComponent<CinemachineBrain>();
-            cB.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.EaseInOut;
             //playerFollowCam.gameObject.SetActive(false);
-            Vector2 bossCloudPos = new Vector2(0, bossCloudTrm.position.y);
+            Vector2 bossCloudPos = new Vector2(0, bossEffectTrm.position.y);
             Vector2 dir = bossCloudPos - (Vector2)playerTrm.position;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             DOTween.Sequence()
                 .AppendInterval(0.5f)
                 .Append(playerTrm.DORotate(new Vector3(playerTrm.rotation.x, playerTrm.rotation.y - (360f * 10), playerTrm.rotation.z), 1.3f).SetEase(Ease.OutCubic))
-                .Join(playerTrm.DOMove(bossCloudPos, 1f).SetDelay(0.3f).SetEase(Ease.OutCubic))
-                .Join(playerTrm.DORotateQuaternion(Quaternion.AngleAxis(angle - 90, Vector3.forward), 1f).SetDelay(0.3f).SetEase(Ease.OutCubic))
+                //.Join(playerTrm.DOMove(bossCloudPos, 1f).SetDelay(0.3f).SetEase(Ease.OutCubic))
+                .Join(playerTrm.DOPath(new Vector3[] {playerTrm.position , new Vector3(Random.Range(0,2)<1? -1:1 * Random.Range(0.5f,1.5f), (bossCloudPos.y + playerTrm.position.y) /2, 0), bossCloudPos}, 1f).SetEase(Ease.InCubic))
+                //.Join(playerTrm.DORotateQuaternion(Quaternion.AngleAxis(angle - 90, Vector3.forward), 1f).SetDelay(0.3f).SetEase(Ease.OutCubic))
+                .Append(playerTrm.DOScale(0, 0.5f))
+                .Join(playerTrm.GetComponent<Image>().DOFade(0,0.5f))
                 .OnComplete(() =>
                 {
                     StartMap(mapNode.BOSS);

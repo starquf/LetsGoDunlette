@@ -1,18 +1,30 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WD_S_Water_Pressure : MonoBehaviour
+public class WD_S_Water_Pressure : SkillPiece
 {
-    // Start is called before the first frame update
-    void Start()
+    public override List<DesIconInfo> GetDesIconInfo()
     {
-        
+        base.GetDesIconInfo();
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(Value)}");
+        return desInfos;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        
+
+        SetIndicator(Owner.gameObject, "АјАн").OnEndAction(() =>
+        {
+            target.GetDamage(GetDamageCalc(Value), this, Owner);
+            GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
+            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            .SetScale(2)
+            .Play(() =>
+            {
+                onCastEnd?.Invoke();
+            });
+        });
     }
 }

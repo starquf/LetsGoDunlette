@@ -17,6 +17,7 @@ public class RF_Present : SkillPiece
     }
     public override List<DesIconInfo> GetDesIconInfo()
     {
+        base.GetDesIconInfo();
         desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(Value)}");
         return desInfos;
     }
