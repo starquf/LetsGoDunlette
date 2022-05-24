@@ -9,17 +9,15 @@ public class RF_Present : SkillPiece
     private Sprite originIcon;
     private Sprite originSkillTypeIcon;
 
-    private Image skillTypeIconImage;
     protected override void Awake()
     {
         base.Awake();
         isPlayerSkill = false;
-        skillTypeIconImage = skillIconImg.transform.GetChild(0).GetComponent<Image>();
         originIcon = skillIconImg.sprite;
-        originSkillTypeIcon = skillTypeIconImage.sprite;
     }
     public override List<DesIconInfo> GetDesIconInfo()
     {
+        base.GetDesIconInfo();
         desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(Value)}");
         return desInfos;
     }
@@ -48,14 +46,12 @@ public class RF_Present : SkillPiece
 
             bgImg.sprite = GameManager.Instance.inventoryHandler.pieceBGSprDic[target.currentType];
             skillIconImg.sprite = target.skillIconImg.sprite;
-            skillTypeIconImage.sprite = target.skillIconImg.transform.GetChild(0).GetComponent<Image>().sprite; //여기서 왜 에러남 ?
         }
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         skillIconImg.sprite = originIcon;
-        skillTypeIconImage.sprite = originSkillTypeIcon;
 
         SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
         {
