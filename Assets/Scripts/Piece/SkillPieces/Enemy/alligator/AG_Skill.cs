@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Random = UnityEngine.Random;
 
 public class AG_Skill : SkillPiece
@@ -15,37 +16,50 @@ public class AG_Skill : SkillPiece
         if (Random.Range(0, 100) <= value)
         {
             onCastSkill = AG_Diving;
+            desInfos[0].SetInfo(DesIconType.Shield, $"{pieceInfo[0].GetValue()}");
             return pieceInfo[0];
         }
         else
         {
             onCastSkill = AG_Crocodile_Bird;
+            desInfos[0].SetInfo(DesIconType.Heal, $"{pieceInfo[1].GetValue()}");
             return pieceInfo[1];
         }
     }
-
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        return desInfos;
+    }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         onCastSkill(target, onCastEnd);
     }
 
-    private void AG_Diving(LivingEntity target, Action onCastEnd = null) //2턴간 침묵을 받고 아무 데미지도 받지 않는다. 2턴이 지나면 플레이어에게 60만큼 피해를 입힌다.
+    private void AG_Diving(LivingEntity target, Action onCastEnd = null) //보호막이 2턴 안에 사라지지 않는다면 피해를 10 주고 보호막을 전부 파괴한다.
     {
         Action<Action> onStartBattle = action =>
         {
-            print("AG");
-            SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
+            LivingEntity livingEntity = Owner.GetComponent<LivingEntity>();
+            if (livingEntity.GetShieldHp() > 0)
             {
-                target.GetDamage(60);
+                SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
+                {
+                    target.GetDamage(10,this, Owner);
+                    livingEntity.RemoveShield();
 
-                animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
-                  .SetScale(2)
-                  .Play(() =>
-                  {
-                      action?.Invoke();
-                  });
-            });
+                    animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+                      .SetScale(2)
+                      .Play(() =>
+                      {
+                          action?.Invoke();
+                      });
+                });
+            }
+            else
+            {
+                action?.Invoke();
+            }
         };
 
         NormalEvent eventInfo = new NormalEvent(true, 3, onStartBattle, EventTime.EndOfTurn);
@@ -53,25 +67,9 @@ public class AG_Skill : SkillPiece
 
         SetIndicator(Owner.gameObject, "침묵").OnEndAction(() =>
         {
-            Owner.GetComponent<EnemyHealth>().cc.SetCC(CCType.Silence, 3);
-
-            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
-            .SetScale(2)
-            .Play(() =>
-           {
-               SetIndicator(Owner.gameObject, "무적").OnEndAction(() =>
-               {
-                   Owner.GetComponent<EnemyHealth>().cc.SetCC(CCType.Invincibility, 3);
-
-                   animHandler.GetAnim(AnimName.M_Butt)
-                           .SetPosition(GameManager.Instance.enemyEffectTrm.position)
-                           .SetScale(2f)
-                           .Play(() =>
-                           {
-                               onCastEnd?.Invoke();
-                           });
-               });
-           });
+            EnemyHealth enemyHealth = Owner.GetComponent<EnemyHealth>();
+            enemyHealth.cc.SetCC(CCType.Silence, 3);
+            enemyHealth.AddShield(pieceInfo[0].GetValue());
         });
     }
 
@@ -79,7 +77,7 @@ public class AG_Skill : SkillPiece
     {
         SetIndicator(Owner.gameObject, "회복").OnEndAction(() =>
         {
-            Owner.GetComponent<EnemyHealth>().Heal(30);
+            Owner.GetComponent<EnemyHealth>().Heal(pieceInfo[1].GetValue());
 
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
             animHandler.GetAnim(AnimName.M_Recover).SetPosition(Owner.transform.position)
