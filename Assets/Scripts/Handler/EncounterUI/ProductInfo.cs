@@ -8,6 +8,8 @@ public class ProductInfo : MonoBehaviour
     [HideInInspector] public Scroll scroll;
     [HideInInspector] public RulletPiece rulletPiece;
 
+    public Image scrollImg;
+    public Transform skillIconsTrm;
     public Image productImg;
     public Image productPriceImg;
     public Text productPriceTxt;
@@ -27,18 +29,22 @@ public class ProductInfo : MonoBehaviour
         switch (productType)
         {
             case ProductType.Scroll:
+                skillIconsTrm.gameObject.SetActive(false);
+                scrollImg.gameObject.SetActive(true);
                 this.scroll = scroll;
-                productImg.GetComponent<RectTransform>().sizeDelta = Vector2.one * 200;
-                productImg.sprite = scroll.GetComponent<Image>().sprite;
+                //scrollImg.GetComponent<RectTransform>().sizeDelta = Vector2.one * 200;
+                scrollImg.sprite = scroll.GetComponent<Image>().sprite;
                 productName = scroll.ScrollName;
                 productDes = scroll.ScrollDes;
                 price = 10;
                 productPriceTxt.text = price.ToString();
                 break;
             case ProductType.RulletPiece:
+                scrollImg.gameObject.SetActive(false);
+                skillIconsTrm.gameObject.SetActive(true);
                 this.rulletPiece = rulletPiece;
-                productImg.GetComponent<RectTransform>().sizeDelta = Vector2.one * 250;
-                productImg.sprite = rulletPiece.transform.Find("SkillIcons").Find("SkillBG").Find("Icon").GetComponent<Image>().sprite;
+                //skillIconsTrm.GetComponent<RectTransform>().sizeDelta = Vector2.one * 250;
+                productImg.sprite = rulletPiece.cardBG;
                 productName = rulletPiece.PieceName;
                 productDes = rulletPiece.PieceDes;
                 price = 10;

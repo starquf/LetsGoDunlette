@@ -126,7 +126,7 @@ public class CrowdControl : MonoBehaviour
                 .Play(messege);
             if(isPlayer && hasEffect)
             {
-                bPS.Play(0.5f);
+                bPS.Play(0.55f, waitTime: 0.5f);
             }
         }
     }
