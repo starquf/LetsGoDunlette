@@ -8,7 +8,7 @@ public class WD_S_Refraction : SkillPiece
     public override List<DesIconInfo> GetDesIconInfo()
     {
         base.GetDesIconInfo();
-        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(Value)}");
+        desInfos[0].SetInfo(DesIconType.Shield, $"{Value}");
         return desInfos;
     }
 

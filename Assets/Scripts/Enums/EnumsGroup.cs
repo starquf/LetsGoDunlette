@@ -96,7 +96,8 @@ public enum EnemyType
     SARO,
     GAR,
     DNAM,
-    WOODENDOLL
+    WOODENDOLL,
+    LIZARDMAN
 }
 
 public enum DesIconType
@@ -157,6 +158,7 @@ public enum AnimName
     SkillEffect01,
     PlayerHeal,
     PlayerStunned,
+
 }
 
 public enum PlayerSkillType

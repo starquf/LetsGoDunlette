@@ -6,7 +6,10 @@ using Random = UnityEngine.Random;
 
 public class WD_Skill : SkillPiece
 {
-    private GameObject presentgSkill; // ÇÒÄû±â
+    private GameObject skill_FallingRock;
+    private GameObject skill_Refraction;
+    private GameObject skill_Water_Pressure;
+    private GameObject skill_Error;
 
     private InventoryHandler ih;
 
@@ -21,7 +24,10 @@ public class WD_Skill : SkillPiece
     {
         base.Start();
 
-        presentgSkill = GameManager.Instance.skillContainer.GetSkillPrefab<RF_Present>();
+        skill_FallingRock = GameManager.Instance.skillContainer.GetSkillPrefab<WD_S_Falling_Rocks>();
+        skill_Refraction = GameManager.Instance.skillContainer.GetSkillPrefab<WD_S_Refraction>();
+        skill_Water_Pressure = GameManager.Instance.skillContainer.GetSkillPrefab<WD_S_Water_Pressure>();
+        skill_Error = GameManager.Instance.skillContainer.GetSkillPrefab<WD_S_Error>();
 
         bh = GameManager.Instance.battleHandler;
         ih = GameManager.Instance.inventoryHandler;
@@ -56,11 +62,35 @@ public class WD_Skill : SkillPiece
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    bh.battleUtil.SetTimer(0.25f * i, () => { ih.CreateSkill(presentgSkill, Owner, Owner.transform.position); });
+                    bh.battleUtil.SetTimer(0.25f * i, () => { ih.CreateSkill(GetRandomSpell(), Owner, Owner.transform.position); });
                 }
 
                 bh.battleUtil.SetTimer(0.5f + (0.25f * 1), onCastEnd);
             });
         });
+    }
+
+    private GameObject GetRandomSpell()
+    {
+        int rand = 0;
+
+        rand = Random.Range(0, 100);
+
+        if (rand < 35)      // ³«¼®
+        {
+            return skill_FallingRock;
+        }
+        else if (rand < 65) // ±¼Àý
+        {
+            return skill_Refraction;
+        }
+        else if (rand < 95) // ¼ö¾Ð
+        {
+            return skill_Water_Pressure;
+        }
+        else // ¿À·ù
+        {
+            return skill_Error;
+        }
     }
 }

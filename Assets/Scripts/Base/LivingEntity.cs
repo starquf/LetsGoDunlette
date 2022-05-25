@@ -16,7 +16,22 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     [SerializeField] protected int hp;
     [SerializeField] protected int shieldHp = 0;
     [SerializeField] protected int attackPower;
-    public int AttackPower => attackPower + addtionAttackPower;
+
+    public int AttackPower 
+    {
+        get 
+        {
+            int atkPower = attackPower + addtionAttackPower;
+
+            if (cc.IsCC(CCType.Exhausted))
+            {
+                atkPower = Mathf.RoundToInt(atkPower * 0.75f);
+            }
+
+            return atkPower;
+        }
+    }
+
     [SerializeField] protected int addtionAttackPower;
     public int AddtionAttackPower
     {
@@ -142,7 +157,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         Anim_TextUp text = GameManager.Instance.animHandler.GetTextAnim();
         text.SetType(TextUpAnimType.Volcano);
         text.SetPosition(transform.position);
-        text.SetScale(0.9f + (damage / 200f));
+        text.SetScale(0.9f + (damage / 10f));
 
         if (isCritical)
         {
