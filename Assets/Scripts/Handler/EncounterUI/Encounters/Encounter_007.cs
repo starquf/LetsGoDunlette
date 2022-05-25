@@ -63,6 +63,7 @@ public class Encounter_007 : RandomEncounter
                             SkillPiece rulletPieces = encounterInfoHandler.GetRandomSkillRewards(1)[0].GetComponent<SkillPiece>();
 
                             MakeSkill(rulletPieces, out skill);
+                            randomEncounterUIHandler.exitBtn.gameObject.SetActive(true);
 
 
                             ShowEndEncounter?.Invoke();
