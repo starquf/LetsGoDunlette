@@ -57,7 +57,7 @@ public class Encounter_018 : RandomEncounter
                     SkillPiece sp = inven.skills[Random.Range(0, inven.skills.Count)];
                     skills.Add(sp);
 
-                    invenHandler.GetSkillFromInventory(sp);
+                    invenHandler.GetSkillFromInventoryOrGraveyard(sp);
 
                     sp.transform.position = bh.player.GetComponent<Inventory>().indicator.transform.position;
                     sp.transform.SetParent(encounterInfoHandler.transform);
@@ -123,7 +123,7 @@ public class Encounter_018 : RandomEncounter
                         invenInfoHandler.onCloseBtn = null;
                         invenInfoHandler.CloseInventoryInfo();
 
-                        invenHandler.GetSkillFromInventory(sp);
+                        invenHandler.GetSkillFromInventoryOrGraveyard(sp);
 
                         GameManager.Instance.bottomUIHandler.ShowBottomPanel(false);
 

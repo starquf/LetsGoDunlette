@@ -4,6 +4,8 @@ using Random = UnityEngine.Random;
 
 public class FA_Skill : SkillPiece
 {
+    private readonly string msg = "장난꾸러기 발동!";
+
     protected override void Awake()
     {
         base.Awake();
@@ -50,7 +52,7 @@ public class FA_Skill : SkillPiece
                 FA_Attack skill = Owner.skills[i].GetComponent<FA_Attack>();
                 if (skill != null)
                 {
-                    AddAttackPower(GetDamageCalc(pieceInfo[0].GetValue()));
+                    AddAttackPower(pieceInfo[0].GetValue());
                 }
             }
 
@@ -75,7 +77,7 @@ public class FA_Skill : SkillPiece
             .SetScale(2)
             .Play(() =>
            {
-               SetIndicator(Owner.gameObject, "장난꾸러기").OnEndAction(() =>
+               SetIndicator(Owner.gameObject, "조각 변경").OnEndAction(() =>
                {
                    KiddingSkill(); //KIding 은 스킵
                    onCastEnd?.Invoke();
@@ -91,6 +93,8 @@ public class FA_Skill : SkillPiece
 
         // 3. 서로 바꿔야됩니다. <-
 
+        InventoryHandler ih = GameManager.Instance.inventoryHandler;
+
         if (!TryFindAttackFromAndCall(Owner.skills, FindRandomPlayerSkillAndChangePiece))
         {
             List<SkillPiece> usedinven = GameManager.Instance.inventoryHandler.graveyard;
@@ -102,15 +106,15 @@ public class FA_Skill : SkillPiece
     {
         for (int i = 0; i < list.Count; i++)
         {
-            FA_Attack attack = list[i].GetComponent<FA_Attack>();
+            if (list[i].Owner != Owner)
+                continue;
+
+            FA_Skill attack = list[i].GetComponent<FA_Skill>();
 
             if (attack != null)
             {
-                if (attack.Owner == Owner)
-                {
-                    action?.Invoke(attack);
-                    return true;
-                }
+                action?.Invoke(attack);
+                return true;
             }
         }
 
@@ -133,7 +137,16 @@ public class FA_Skill : SkillPiece
 
             if (skill.isPlayerSkill)
             {
-                GameManager.Instance.inventoryHandler.GetSkillFromInventory(rulletPiece);
+                animHandler.GetAnim(AnimName.BlueExplosion01)
+                    .SetPosition(skill.skillIconImg.transform.position)
+                    .Play();
+
+                animHandler.GetTextAnim()
+                    .SetType(TextUpAnimType.Up)
+                    .SetPosition(skill.skillIconImg.transform.position)
+                    .Play(msg);
+
+                GameManager.Instance.inventoryHandler.GetSkillFromInventoryOrGraveyard(rulletPiece);
                 mainRullet.ChangePiece(j, rulletPiece);
 
                 return;

@@ -79,6 +79,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
         maxHp = Random.Range((int)hpRange.x, (int)hpRange.y);
         attackPower = Random.Range((int)atkRange.x, (int)atkRange.y);
+
         hp = maxHp;
         shieldHp = 0;
 
@@ -89,8 +90,12 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     {
         isDie = false;
 
+        maxHp = Random.Range((int)hpRange.x, (int)hpRange.y);
+        attackPower = Random.Range((int)atkRange.x, (int)atkRange.y);
 
         hp = maxHp;
+        addtionAttackPower = 0;
+
         cc.ResetAllCC();
         RemoveShield();
 
@@ -252,7 +257,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     public virtual void AddAttackPower(int value)
     {
-        attackPower += value;
+        addtionAttackPower += value;
     }
 
     public virtual void Heal(int value) //value 만큼 회복합니다.

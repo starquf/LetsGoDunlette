@@ -76,7 +76,7 @@ public class Encounter_015 : RandomEncounter
                 showImg = en_End_Image[1];
                 en_End_Result = "·£´ý ·ê·¿ Á¶°¢ ÇÑ°³¸¦ ÀÒ°í, ÇöÀç µ·À» 2¹è·Î ºÒ¸°´Ù.";
                 SkillPiece sp = GetRamdomSkill();
-                inventoryHandler.GetSkillFromInventory(sp);
+                inventoryHandler.GetSkillFromInventoryOrGraveyard(sp);
                 sp.transform.rotation = Quaternion.Euler(0, 0, 30);
                 DOTween.Sequence()
                 .Append(sp.transform.DOMove(Vector2.zero, 0.5f))

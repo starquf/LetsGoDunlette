@@ -51,7 +51,7 @@ public class Encounter_017 : RandomEncounter
                             invenInfoHandler.onCloseBtn = null;
                             invenInfoHandler.CloseInventoryInfo();
 
-                            invenHandler.GetSkillFromInventory(sp);
+                            invenHandler.GetSkillFromInventoryOrGraveyard(sp);
 
                             GameManager.Instance.bottomUIHandler.ShowBottomPanel(false);
 
