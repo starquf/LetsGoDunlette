@@ -118,7 +118,7 @@ public class Anim_TextUp : AnimObj
             case TextUpAnimType.Volcano:
                 {
                     Vector3 startPos = transform.position;
-                    Vector3 endPos = transform.position + Vector3.down + (Vector3.right * Random.Range(-1f, 1f));
+                    Vector3 endPos = transform.position + Vector3.down + (Vector3.right * Random.Range(-1.1f, 1.1f));
                     float height = Random.Range(1.1f, 1.3f);
 
                     while (timer < time)

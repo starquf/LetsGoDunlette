@@ -103,7 +103,7 @@ public class BattleHandler : MonoBehaviour
     private readonly WaitForSeconds oneSecWait = new WaitForSeconds(1f);
     private readonly WaitForSeconds pFiveSecWait = new WaitForSeconds(0.5f);
     private readonly WaitForSeconds pOneSecWait = new WaitForSeconds(0.1f);
-    private List<bool> boolList = new List<bool>() { true, false };
+    private List<bool> boolList = new List<bool>() { true };
     #endregion
 
     private void Awake()
@@ -564,38 +564,45 @@ public class BattleHandler : MonoBehaviour
 
     public IEnumerator CheckPanelty(Action onEndCheckPanelty = null)
     {
+        /*
         for (int i = 0; i < boolList.Count; i++)
         {
-            while (battleUtil.CheckRulletPenalty(boolList[i]))
+            
+        }
+        */
+
+        while (battleUtil.CheckRulletPenalty(false))
+        {
+            yield return pOneSecWait;
+            yield return pOneSecWait;
+            yield return pOneSecWait;
+
+            GivePenalty(false);
+
+            if (CheckBattleEnd())
             {
-                yield return pOneSecWait;
-                yield return pOneSecWait;
-
-                GivePenalty(boolList[i]);
-
-                if (CheckBattleEnd())
-                {
-                    yield break;
-                }
-
-                battleUtil.SetSkillsToGraveyard();
-
-                yield return null;
-
-                yield return StartCoroutine(battleUtil.ResetRulletPiecesWithCondition(pos =>
-                {
-                    GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.15f, 0.1f);
-
-                    GameManager.Instance.animHandler.GetAnim(AnimName.M_Butt)
-                            .SetPosition(pos)
-                            .SetScale(0.8f)
-                            .Play();
-                }));
-
-                yield return null;
-
-                yield return StartCoroutine(battleUtil.DrawRulletPieces());
+                yield break;
             }
+
+            battleUtil.SetSkillsToGraveyard();
+
+            yield return null;
+
+            yield return StartCoroutine(battleUtil.ResetRulletPiecesWithCondition(pos =>
+            {
+                GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.15f, 0.1f);
+
+                GameManager.Instance.animHandler.GetAnim(AnimName.M_Butt)
+                        .SetPosition(pos)
+                        .SetScale(0.8f)
+                        .Play();
+            }));
+
+            yield return null;
+
+            yield return StartCoroutine(battleUtil.DrawRulletPieces());
+
+            yield return null;
         }
 
         onEndCheckPanelty?.Invoke();
