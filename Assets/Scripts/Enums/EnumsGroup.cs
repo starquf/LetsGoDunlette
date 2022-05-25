@@ -30,7 +30,7 @@ public enum CCType
     Invincibility = 4, // 무적
     Fascinate, //매혹 (세이렌 전용)
     Heating, //신체 가열 (타로스 전용)
-    signOfGoblinGunman //표식 (고블린거너 전용)
+    SignOfGoblinGunman //표식 (고블린거너 전용)
 }
 
 public enum BuffType
@@ -97,7 +97,12 @@ public enum EnemyType
     GAR,
     DNAM,
     WOODENDOLL,
-    LIZARDMAN
+    LIZARDMAN,
+    GOBLINGUNMAN,
+    FISHMAN,
+    HYDRA,
+    SKELETON_WARRIOR,
+    SKELETON_COMMANDER,
 }
 
 public enum DesIconType
@@ -114,6 +119,7 @@ public enum DesIconType
     Heal,               // 힐
     Upgrade,            //강화
     Shield, //보호막
+    SignOfGoblinGunman, //표식 (고블린거너 전용)
 }
 
 public enum AnimName

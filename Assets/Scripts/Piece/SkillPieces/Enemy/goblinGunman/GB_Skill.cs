@@ -22,9 +22,9 @@ public class GB_Skill : SkillPiece
         }
         else
         {
-            onCastSkill = GB_Shooting;
-
             desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[1].GetValue())}");
+
+            onCastSkill = GB_Shooting;
             return pieceInfo[1];
         }
     }
@@ -44,7 +44,7 @@ public class GB_Skill : SkillPiece
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
-            target.cc.SetCC(CCType.signOfGoblinGunman, pieceInfo[0].GetValue() + 1, true);
+            target.cc.SetCC(CCType.SignOfGoblinGunman, 4, true);
             
             target.cc.SetCC(CCType.Stun, 1, true);
 
@@ -64,7 +64,7 @@ public class GB_Skill : SkillPiece
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
             int damage = GetDamageCalc(pieceInfo[1].GetValue());
-            if (target.cc.IsCC(CCType.signOfGoblinGunman))
+            if (target.cc.IsCC(CCType.SignOfGoblinGunman))
             {
                 damage += 3;
             }
