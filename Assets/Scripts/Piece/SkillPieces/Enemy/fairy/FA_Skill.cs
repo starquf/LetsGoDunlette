@@ -46,15 +46,7 @@ public class FA_Skill : SkillPiece
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.2f);
 
-            //전투가 끝날 때 까지 기본 공격의 피해가 pieceInfo[0].GetValue() 상승한다.
-            for (int i = 0; i < Owner.skills.Count; i++)
-            {
-                FA_Attack skill = Owner.skills[i].GetComponent<FA_Attack>();
-                if (skill != null)
-                {
-                    AddAttackPower(pieceInfo[0].GetValue());
-                }
-            }
+            Owner.GetComponent<LivingEntity>().cc.IncreaseBuff(BuffType.Upgrade, pieceInfo[0].GetValue());
 
             animHandler.GetAnim(AnimName.M_Shield).SetPosition(Owner.transform.position)
             .SetScale(1)

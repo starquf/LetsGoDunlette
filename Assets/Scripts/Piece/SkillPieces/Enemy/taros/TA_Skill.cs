@@ -1,12 +1,12 @@
 using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class TA_Skill : SkillPiece
 {
     public Sprite heatingSprite;
     public Sprite normalSprite;
 
-    public int skillCount = 0;
     protected override void Awake()
     {
         base.Awake();
@@ -16,36 +16,20 @@ public class TA_Skill : SkillPiece
     public override PieceInfo ChoiceSkill()
     {
         base.ChoiceSkill();
-        if (!Owner.GetComponent<EnemyHealth>().cc.IsCC(CCType.Heating))
+        if (Random.Range(0, 100) < 70)  // 접근금지
         {
-            if (skillCount < 2)
-            {
-                onCastSkill = TA_Off_Limits;
+            onCastSkill = TA_Off_Limits;
 
-                Owner.GetComponent<SpriteRenderer>().sprite = normalSprite;
+            desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(Value)}");
 
-                for (int i = 0; i < Owner.skills.Count; i++)
-                {
-                    TA_Skill skill = Owner.skills[i].GetComponent<TA_Skill>();
-                    if (skill != null)
-                    {
-                        skill.pieceInfo[0].PieceDes = "플레이어에게 40의 피해를 입힌다.";
-                    }
-                }
+            Owner.GetComponent<SpriteRenderer>().sprite = normalSprite;
 
-                return pieceInfo[0];
-            }
-            else
-            {
-                onCastSkill = TA_Body_Heating;
-                return pieceInfo[1];
-            }
-
+            return pieceInfo[0];
         }
         else
         {
-            onCastSkill = TA_Off_Limits;
-            return pieceInfo[0];
+            onCastSkill = TA_Body_Heating;
+            return pieceInfo[1];
         }
     }
 
@@ -59,30 +43,15 @@ public class TA_Skill : SkillPiece
     {
         SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
         {
-            if (Owner.GetComponent<EnemyHealth>().cc.IsCC(CCType.Heating))
-            {
-                target.GetDamage(50, this, Owner);
-            }
-            else
-            {
-                target.GetDamage(40, this, Owner);
-            }
+            target.GetDamage(GetDamageCalc(), this, Owner);
 
-            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            animHandler.GetAnim(AnimName.M_Sword)
+            .SetPosition(GameManager.Instance.enemyEffectTrm.position)
             .SetScale(2)
             .Play(() =>
             {
                 onCastEnd?.Invoke();
             });
-
-            for (int i = 0; i < Owner.skills.Count; i++)
-            {
-                TA_Skill skill = Owner.skills[i].GetComponent<TA_Skill>();
-                if (skill != null)
-                {
-                    skill.skillCount++;
-                }
-            }
         });
     }
 
@@ -91,27 +60,22 @@ public class TA_Skill : SkillPiece
         SetIndicator(Owner.gameObject, "강화").OnEndAction(() =>
         {
             Owner.GetComponent<SpriteRenderer>().sprite = heatingSprite;
-            Owner.GetComponent<EnemyHealth>().cc.SetCC(CCType.Heating, 4);
+            Owner.GetComponent<EnemyHealth>().cc.SetBuff(BuffType.Upgrade, 3);
 
-            for (int i = 0; i < Owner.skills.Count; i++)
+            bh.battleEvent.BookEvent(new NormalEvent(true, 3, action => 
             {
-                TA_Skill skill = Owner.skills[i].GetComponent<TA_Skill>();
-                if (skill != null)
-                {
-                    skill.pieceInfo[0].PieceDes = "플레이어에게 50의 피해를 입힌다.";
-                    skill.skillCount = 0;
-                }
-            }
+                Owner.GetComponent<EnemyHealth>().cc.DecreaseBuff(BuffType.Upgrade, 3);
+                action?.Invoke();
+            }, EventTime.EndOfTurn));
 
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
+
             animHandler.GetAnim(AnimName.M_Recover).SetPosition(Owner.transform.position)
             .SetScale(1)
             .Play(() =>
-           {
-               onCastEnd?.Invoke();
-           });
+            {
+                onCastEnd?.Invoke();
+            });
         });
     }
-
-
 }

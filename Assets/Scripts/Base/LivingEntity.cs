@@ -21,7 +21,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     {
         get 
         {
-            int atkPower = attackPower + addtionAttackPower;
+            int atkPower = attackPower + addtionAttackPower + cc.buffDic[BuffType.Upgrade];
 
             if (cc.IsCC(CCType.Exhausted))
             {
@@ -97,6 +97,8 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         addtionAttackPower = 0;
 
         cc.ResetAllCC();
+        cc.ResetAllBuff();
+
         RemoveShield();
 
         SetHPBar();

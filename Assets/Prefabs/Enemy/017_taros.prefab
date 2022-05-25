@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 9128753765892485134}
   - component: {fileID: 9128753765892485135}
   - component: {fileID: 9128753765892485133}
+  - component: {fileID: 1032818566989571622}
   m_Layer: 6
   m_Name: 017_taros
   m_TagString: Untagged
@@ -30,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 9128753765892485122}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.03, y: 2.395, z: 0}
-  m_LocalScale: {x: 2.7, y: 2.7, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 1383189464595781892}
   - {fileID: 5671151442917758938}
@@ -136,7 +137,19 @@ MonoBehaviour:
   isBoss: 0
   onInit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1032818566989571622}
+        m_TargetAssemblyTypeName: Taros, Assembly-CSharp
+        m_MethodName: Patrol
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &9128753765892485135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,6 +178,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   indicatorTrans: {fileID: 454735359513323869}
+--- !u!114 &1032818566989571622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9128753765892485122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c3ce97b9280eb2468e04d6aeb8676fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tarosSkill: {fileID: 1008289956194210453, guid: 78979d830f8260b4184c5684a27c14f5, type: 3}
+  pieceInfo:
+  - PieceName: "\uC21C\uCC30"
+    PieceDes: "3\uBC88 \uBC1C\uB3D9 \uB418\uBA74 \uC778\uBCA4\uD1A0\uB9AC\uC5D0 '\uD0C0\uB85C\uC2A4'
+      \uC870\uAC01\uC744 2\uC7A5 \uCD94\uAC00\uD558\uACE0 \uB8F0\uB81B\uC744 \uCD08\uAE30\uD654
+      \uC2DC\uD0A8\uB2E4."
+    cardBG: {fileID: -1825825118978254636, guid: 54948557d6cd63a40b8bc9de43d4002e, type: 3}
+    value: 
 --- !u!1001 &4021729826578029853
 PrefabInstance:
   m_ObjectHideFlags: 0

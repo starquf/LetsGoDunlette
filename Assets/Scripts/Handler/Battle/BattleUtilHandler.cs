@@ -300,6 +300,7 @@ public class BattleUtilHandler : MonoBehaviour
             DesIconType.Heating => GameManager.Instance.ccIcons[6],
             DesIconType.Shield => GameManager.Instance.buffIcons[0],
             DesIconType.Heal => GameManager.Instance.buffIcons[1],
+            DesIconType.Upgrade => GameManager.Instance.buffIcons[2],
             _ => null,
         };
         return icon;

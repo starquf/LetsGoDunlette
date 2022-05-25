@@ -158,19 +158,28 @@ public class CrowdControl : MonoBehaviour
     {
         buffDic[buff] = value;
 
-        BuffParticleSetter bPS = null;
-        bool hasEffect = GameManager.Instance.buffParticleHandler.buffParticleSetterDic.TryGetValue(buff, out bPS);
-        if (isPlayer && hasEffect)
+        if (buffDic[buff] <= 0)
         {
-            bPS.Play(0.55f);
+            buffDic[buff] = 0;
+            buffUIDic[buff].gameObject.SetActive(false);
         }
-        buffUIDic[buff].SetText(value);
-        buffUIDic[buff].gameObject.SetActive(true);
+        else
+        {
+            BuffParticleSetter bPS = null;
+            bool hasEffect = GameManager.Instance.buffParticleHandler.buffParticleSetterDic.TryGetValue(buff, out bPS);
+            if (isPlayer && hasEffect)
+            {
+                bPS.Play(0.55f);
+            }
+
+            buffUIDic[buff].SetText(value);
+            buffUIDic[buff].gameObject.SetActive(true);
+        }
     }
 
-    public void IncreaseBuff(BuffType buff, int turn)
+    public void IncreaseBuff(BuffType buff, int value)
     {
-        SetBuff(buff, buffDic[buff] + turn);
+        SetBuff(buff, buffDic[buff] + value);
     }
 
     public void DecreaseBuff(BuffType buff, int value)
@@ -208,6 +217,14 @@ public class CrowdControl : MonoBehaviour
         foreach (CCType cc in Enum.GetValues(typeof(CCType)))
         {
             SetCC(cc, 0);
+        }
+    }
+
+    public void ResetAllBuff()
+    {
+        foreach (BuffType buff in Enum.GetValues(typeof(BuffType)))
+        {
+            SetBuff(buff, 0);
         }
     }
 

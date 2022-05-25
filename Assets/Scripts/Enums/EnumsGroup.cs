@@ -37,7 +37,8 @@ public enum BuffType
 {
     None = -1,
     Shield = 0,
-    Heal = 1
+    Heal = 1,
+    Upgrade = 2
 }
 
 public enum TextUpAnimType
