@@ -213,16 +213,12 @@ public class InventoryHandler : MonoBehaviour
     }
 
     // 직접 unusedSkill나 usedSkill를 순회해서 찾은 조각을 꺼내려면 이 함수를 사용해야됨
-    public void GetSkillFromInventory(SkillPiece piece)
+    public void GetSkillFromInventoryOrGraveyard(SkillPiece piece)
     {
         piece.gameObject.SetActive(true);
         piece.ResetPiece();
 
-        for (int i = 0; i < inventorys.Count; i++)
-        {
-            inventorys[i].skills.Remove(piece);
-        }
-
+        piece.Owner.skills.Remove(piece);
         graveyard.Remove(piece);
 
         Inventory Owner = piece.Owner;

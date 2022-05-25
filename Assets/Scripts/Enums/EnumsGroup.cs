@@ -164,7 +164,9 @@ public enum AnimName
     SkillEffect01,
     PlayerHeal,
     PlayerStunned,
-
+    BlueExplosion01,
+    EarthEffect02,
+    EarthEffect03
 }
 
 public enum PlayerSkillType

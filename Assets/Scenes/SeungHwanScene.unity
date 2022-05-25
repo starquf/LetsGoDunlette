@@ -1999,26 +1999,13 @@ GameObject:
   - component: {fileID: 68450461}
   - component: {fileID: 68450460}
   - component: {fileID: 68450459}
-  - component: {fileID: 68450458}
   m_Layer: 0
   m_Name: AnimObj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &68450458
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 68450457}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66d4ca9093c744d44ae1079e6a407e59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_IsActive: 0
 --- !u!95 &68450459
 Animator:
   serializedVersion: 3
@@ -2029,7 +2016,7 @@ Animator:
   m_GameObject: {fileID: 68450457}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 1425e58f1d7bded45b7fbfcdc4773453, type: 2}
+  m_Controller: {fileID: 9100000, guid: 5c5881bfb4fef4d2caf35c7c8f350335, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2083,7 +2070,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.12, y: 0.48}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -2098,7 +2085,7 @@ Transform:
   m_GameObject: {fileID: 68450457}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 12
@@ -40448,6 +40435,15 @@ MonoBehaviour:
   - name: 28
     clip: {fileID: 7400000, guid: cc04176dd8038481a99e47945b1b0b51, type: 2}
     defaultSize: {x: 3, y: 3, z: 1}
+  - name: 40
+    clip: {fileID: 7400000, guid: edb6c22ac57654a828ced9dc386d1e90, type: 2}
+    defaultSize: {x: 2, y: 2, z: 1}
+  - name: 41
+    clip: {fileID: 7400000, guid: db227128825614c5cb6052474396fcda, type: 2}
+    defaultSize: {x: 2, y: 2, z: 1}
+  - name: 42
+    clip: {fileID: 7400000, guid: ee22302a46476457f85240589d52602e, type: 2}
+    defaultSize: {x: 2, y: 2, z: 1}
 --- !u!1 &502434203
 GameObject:
   m_ObjectHideFlags: 0
@@ -110035,7 +110031,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1556888307}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0

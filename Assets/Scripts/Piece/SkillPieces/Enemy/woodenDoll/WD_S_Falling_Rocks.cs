@@ -8,6 +8,8 @@ public class WD_S_Falling_Rocks : SkillPiece
 {
     private int percent = 30;
 
+    private readonly Vector3 reverseSize = new Vector3(-2f, 2f, 2f);
+
     protected override void Awake()
     {
         base.Awake();
@@ -40,8 +42,16 @@ public class WD_S_Falling_Rocks : SkillPiece
                 target.cc.SetCC(CCType.Stun, 1);
             }
 
-            animHandler.GetAnim(AnimName.M_Butt).SetPosition(GameManager.Instance.enemyEffectTrm.position)
-            .SetScale(2)
+            AnimName animName = Random.Range(0, 100) < 50 ? AnimName.EarthEffect02 : AnimName.EarthEffect03;
+
+            animHandler.GetAnim(animName).SetPosition(Owner.transform.position + Vector3.left)
+            .SetScale(reverseSize * 2f)
+            .Play();
+
+            animName = Random.Range(0, 100) < 50 ? AnimName.EarthEffect02 : AnimName.EarthEffect03;
+
+            animHandler.GetAnim(animName).SetPosition(Owner.transform.position + Vector3.right)
+            .SetScale(2f)
             .Play(() =>
             {
                 onCastEnd?.Invoke();

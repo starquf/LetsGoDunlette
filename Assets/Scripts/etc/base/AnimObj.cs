@@ -48,6 +48,13 @@ public class AnimObj : MonoBehaviour
         return this;
     }
 
+    public virtual AnimObj SetScale(Vector3 scale)
+    {
+        transform.localScale = scale;
+
+        return this;
+    }
+
     public virtual AnimObj SetRotation(Vector3 rot)
     {
         transform.eulerAngles = rot;

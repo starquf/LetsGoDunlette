@@ -40,7 +40,7 @@ public class Scroll_Memorie : Scroll
                 invenInfoHandler.onCloseBtn = null;
                 invenInfoHandler.CloseInventoryInfo();
 
-                invenHandler.GetSkillFromInventory(sp);
+                invenHandler.GetSkillFromInventoryOrGraveyard(sp);
 
                 bh.battleUtil.ChangeRulletPiece(UnityEngine.Random.Range(0, 6), sp);
                 bh.battleUtil.SetTimer(0.5f, () =>

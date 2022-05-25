@@ -48,7 +48,7 @@ public class Encounter_007 : RandomEncounter
 
                         GameManager.Instance.bottomUIHandler.ShowBottomPanel(false);
 
-                        invenHandler.GetSkillFromInventory(sp);
+                        invenHandler.GetSkillFromInventoryOrGraveyard(sp);
 
                         sp.transform.SetParent(encounterInfoHandler.transform);
 
