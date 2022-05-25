@@ -29,7 +29,8 @@ public enum CCType
     Wound = 3,          // 상처
     Invincibility = 4, // 무적
     Fascinate, //매혹 (세이렌 전용)
-    Heating //신체 가열 (타로스 전용)
+    Heating, //신체 가열 (타로스 전용)
+    signOfGoblinGunman //표식 (고블린거너 전용)
 }
 
 public enum BuffType
