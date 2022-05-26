@@ -15,7 +15,7 @@ public class FM_Skill : SkillPiece
         base.ChoiceSkill();
         if (Random.Range(0, 100) <= value)
         {
-            desInfos[0].SetInfo(DesIconType.Stun, $"{GetDamageCalc(pieceInfo[0].GetValue())}");
+            desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[0].GetValue())}");
 
             onCastSkill = FM_Harpoon;
             return pieceInfo[0];
@@ -40,7 +40,7 @@ public class FM_Skill : SkillPiece
 
     private void FM_Harpoon(LivingEntity target, Action onCastEnd = null) //calcDamage	0 플레이어에게 보호막이 없다면 상처를 3턴 부여한다.
     {
-        SetIndicator(Owner.gameObject, "작살").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 

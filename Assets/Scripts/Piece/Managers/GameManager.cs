@@ -44,6 +44,8 @@ public class GameManager : MonoBehaviour
         Screen.SetResolution(1080, 1920, true);
 
         SetResolution();
+
+        print(StageIdx);
     }
 
     public void SetResolution()
@@ -122,7 +124,7 @@ public class GameManager : MonoBehaviour
 
     public mapNode curEncounter = mapNode.NONE;
 
-    public int StageIdx { get; set; } = 0;
+    public int StageIdx { get; set; } = 1;
 
     [Header("진행가능한 스테이지")]
     public int progressiveStageIdx = 1;
