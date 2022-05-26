@@ -15,8 +15,8 @@ public class HP_Gliding : SkillPiece
         SetIndicator(Owner.gameObject, "ÇÒÄû±â Ãß°¡").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
-            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
-            .SetScale(2)
+            animHandler.GetAnim(AnimName.M_Scratch).SetPosition(Owner.transform.position)
+            .SetScale(0.5f)
             .Play(() =>
             {
                 onCastEnd?.Invoke();
@@ -35,7 +35,7 @@ public class HP_Gliding : SkillPiece
 
         for (int i = 0; i < value; i++)
         {
-            GameManager.Instance.inventoryHandler.CreateSkill(scratchingSkill, Owner1);
+            bh.battleUtil.SetTimer(0.25f * i, () => { GameManager.Instance.inventoryHandler.CreateSkill(scratchingSkill, Owner1, Owner1.transform.position); });
         }
     }
 }
