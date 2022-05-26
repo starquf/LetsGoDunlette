@@ -40,7 +40,7 @@ public class FM_Skill : SkillPiece
 
     private void FM_Harpoon(LivingEntity target, Action onCastEnd = null) //calcDamage	0 플레이어에게 보호막이 없다면 상처를 3턴 부여한다.
     {
-        SetIndicator(Owner.gameObject, "섬광탄").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "작살").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
