@@ -167,7 +167,9 @@ public enum AnimName
     PlayerStunned,
     BlueExplosion01,
     EarthEffect02,
-    EarthEffect03
+    EarthEffect03,
+    ElecEffect05,
+    T_WaterSplash06,
 }
 
 public enum PlayerSkillType

@@ -15,11 +15,11 @@ public class WD_S_Refraction : SkillPiece
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
 
-        SetIndicator(Owner.gameObject, "°ø°Ý").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "½¯µå").OnEndAction(() =>
         {
             Owner.GetComponent<LivingEntity>().AddShield(value);
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
-            animHandler.GetAnim(AnimName.M_Sword).SetPosition(Owner.transform.position)
+            animHandler.GetAnim(AnimName.M_Shield).SetPosition(Owner.transform.position)
             .SetScale(1)
             .Play(() =>
             {

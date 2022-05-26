@@ -7,11 +7,7 @@ using UnityEngine.UI;
 public class PlayerHealth : LivingEntity
 {
     public Color damageBGColor;
-    public Color healBGColor;
-    public Color ShieldBGColor;
     public Image damageBGEffect;
-    public HealParticleSetter healParticle;
-    public ShieldParticleSetter shieldParticle;
 
     public TextMeshProUGUI topPanelHPText;
 

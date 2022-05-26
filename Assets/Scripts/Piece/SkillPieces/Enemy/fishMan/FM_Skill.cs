@@ -46,7 +46,7 @@ public class FM_Skill : SkillPiece
 
            if(target.GetShieldHp() <= 0)
             {
-                target.cc.SetCC(CCType.Wound, 3);
+                target.cc.IncreaseCCTurn(CCType.Wound, 3);
             }
 
             target.GetDamage(GetDamageCalc(pieceInfo[0].GetValue()), this, Owner);
@@ -68,7 +68,7 @@ public class FM_Skill : SkillPiece
 
             target.cc.SetCC(CCType.Exhausted, pieceInfo[1].GetValue() + 1);
 
-            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            animHandler.GetAnim(AnimName.T_WaterSplash06).SetPosition(Owner.transform.position)
             .SetScale(2)
             .Play(() =>
             {
