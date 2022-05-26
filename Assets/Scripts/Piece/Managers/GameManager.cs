@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
 
     public mapNode curEncounter = mapNode.NONE;
 
-    public int StageIdx { get; set; } = 1;
+    public int StageIdx { get; set; } = 0;
 
     [Header("진행가능한 스테이지")]
     public int progressiveStageIdx = 1;

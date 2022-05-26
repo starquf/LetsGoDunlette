@@ -118,7 +118,7 @@ public class Skill_W_Tsunami : SkillPiece
 
                 animHandler.GetAnim(AnimName.W_Splash01)
                         .SetPosition(targets[i].transform.position)
-                        .SetScale(0.5f)
+                        .SetScale(0.9f)
                         .Play();
             }
 

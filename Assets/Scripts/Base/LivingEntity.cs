@@ -164,7 +164,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         Anim_TextUp text = GameManager.Instance.animHandler.GetTextAnim();
         text.SetType(TextUpAnimType.Volcano);
         text.SetPosition(transform.position);
-        text.SetScale(0.9f + (damage / 10f));
+        text.SetScale(0.9f + (damage / 20f));
 
         if (isCritical)
         {

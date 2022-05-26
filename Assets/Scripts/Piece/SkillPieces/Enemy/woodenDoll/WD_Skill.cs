@@ -61,12 +61,9 @@ public class WD_Skill : SkillPiece
             .SetRotation(Vector3.forward * -90f)
             .Play(() =>
             {
-                for (int i = 0; i < 2; i++)
-                {
-                    bh.battleUtil.SetTimer(0.25f * i, () => { ih.CreateSkill(GetRandomSpell(), Owner, Owner.transform.position); });
-                }
+                ih.CreateSkill(GetRandomSpell(), Owner, Owner.transform.position);
 
-                bh.battleUtil.SetTimer(0.5f + (0.25f * 1), onCastEnd);
+                bh.battleUtil.SetTimer(0.5f, onCastEnd);
             });
         });
     }
