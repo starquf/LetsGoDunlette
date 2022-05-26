@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -16,23 +17,27 @@ public class TA_Skill : SkillPiece
     public override PieceInfo ChoiceSkill()
     {
         base.ChoiceSkill();
+
         if (Random.Range(0, 100) < 70)  // 접근금지
         {
             onCastSkill = TA_Off_Limits;
 
-            desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(Value)}");
-
-            Owner.GetComponent<SpriteRenderer>().sprite = normalSprite;
+            desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[0].GetValue())}");
 
             return pieceInfo[0];
         }
         else
         {
             onCastSkill = TA_Body_Heating;
+
             return pieceInfo[1];
         }
     }
 
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        return desInfos;
+    }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
@@ -43,7 +48,7 @@ public class TA_Skill : SkillPiece
     {
         SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
         {
-            target.GetDamage(GetDamageCalc(), this, Owner);
+            target.GetDamage(GetDamageCalc(pieceInfo[0].GetValue()), this, Owner);
 
             animHandler.GetAnim(AnimName.M_Sword)
             .SetPosition(GameManager.Instance.enemyEffectTrm.position)
@@ -60,7 +65,7 @@ public class TA_Skill : SkillPiece
         SetIndicator(Owner.gameObject, "강화").OnEndAction(() =>
         {
             Owner.GetComponent<SpriteRenderer>().sprite = heatingSprite;
-            Owner.GetComponent<EnemyHealth>().cc.SetBuff(BuffType.Upgrade, 3);
+            Owner.GetComponent<EnemyHealth>().cc.IncreaseBuff(BuffType.Upgrade, 3);
 
             bh.battleEvent.BookEvent(new NormalEvent(true, 3, action => 
             {

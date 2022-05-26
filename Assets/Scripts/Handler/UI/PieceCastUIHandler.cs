@@ -165,6 +165,20 @@ public class PieceCastUIHandler : MonoBehaviour
         cardNameText.text = info.PieceName;
         cardDesText.text = info.PieceDes;
 
+        for (int i = 0; i < 3; i++)
+        {
+            desIcons[i].gameObject.SetActive(false);
+        }
+
+        if (cardDesText.text.Equals(""))
+        {
+            cardDesText.gameObject.SetActive(false);
+        }
+        else
+        {
+            cardDesText.gameObject.SetActive(true);
+        }
+
         pieceMoveSequence.Kill();
 
         timeCor = StartCoroutine(CastWait(onEndEffect));

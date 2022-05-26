@@ -41,13 +41,15 @@ public class Taros : MonoBehaviour
 
             if (skillCount >= 3) // 3번이상 발동하였다면
             {
-                if (GetComponent<EnemyHealth>().IsDie)
+                if (GetComponent<EnemyHealth>().IsDie || bh.player.IsDie)
                 {
                     action?.Invoke();
                     return;
                 }
 
                 EnemyIndicator indi = GetComponent<EnemyIndicator>();
+
+                indi.HideText();
 
                 indi.ShowText("조각 추가", () =>
                 bh.castUIHandler.ShowCasting(pieceInfo[0], () =>
@@ -68,6 +70,8 @@ public class Taros : MonoBehaviour
                             Rullet rullet = bh.mainRullet;
                             List<RulletPiece> pieces = rullet.GetPieces();
 
+                            GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
+
                             for (int i = 0; i < 6; i++)
                             {
                                 bh.battleUtil.SetPieceToGraveyard(i);
@@ -78,13 +82,13 @@ public class Taros : MonoBehaviour
                         });
                     });
                 }));
+
+                skillCount = 0;
             }
             else
             {
                 action?.Invoke();
             }
-
-            skillCount = 0;
         };
 
         skillEventInfo = new SkillEvent(EventTimeSkill.AfterSkill, skillEvent);

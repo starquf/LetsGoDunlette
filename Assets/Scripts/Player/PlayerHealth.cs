@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +13,7 @@ public class PlayerHealth : LivingEntity
     public HealParticleSetter healParticle;
     public ShieldParticleSetter shieldParticle;
 
-    public Text TopPanelHPText;
+    public TextMeshProUGUI topPanelHPText;
 
     protected override void Awake()
     {
@@ -23,7 +24,7 @@ public class PlayerHealth : LivingEntity
 
     public override void SetHPBar()
     {
-        TopPanelHPText.text = IsDie ? $"»ç¸Á" : $"{hp}/{maxHp}";
+        topPanelHPText.text = IsDie ? $"»ç¸Á" : $"{hp}/{maxHp}";
         base.SetHPBar();
     }
 

@@ -1,11 +1,12 @@
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GoldUIHandler : MonoBehaviour
 {
     private RectTransform thisRectTrm;
-    private Text goldText = null;
+    private TextMeshProUGUI goldText = null;
     private int prevGold = 0;
 
     private Sequence goldUISequence;
@@ -17,8 +18,7 @@ public class GoldUIHandler : MonoBehaviour
         GameManager.Instance.goldUIHandler = this;
 
         thisRectTrm = GetComponent<RectTransform>();
-        goldText = GetComponentInChildren<Text>();
-
+        goldText = GetComponentInChildren<TextMeshProUGUI>();
     }
 
     private void Start()
