@@ -620,6 +620,7 @@ public class BattleHandler : MonoBehaviour
         turnCnt = 0;
 
         player.cc.ResetAllCC();
+        player.cc.ResetAllBuff();
         player.RemoveShield();
 
         mainRullet.ResetRulletSpeed();

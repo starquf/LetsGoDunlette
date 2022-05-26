@@ -28,9 +28,6 @@ public class WD_S_Falling_Rocks : SkillPiece
     {
         SetIndicator(Owner.gameObject, "АјАн").OnEndAction(() =>
         {
-            target.GetDamage(GetDamageCalc(Value), this, Owner);
-            GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
-
             if (Random.Range(0, 100) < percent)
             {
                 animHandler.GetTextAnim()
@@ -42,18 +39,19 @@ public class WD_S_Falling_Rocks : SkillPiece
                 target.cc.SetCC(CCType.Stun, 1);
             }
 
-            AnimName animName = Random.Range(0, 100) < 50 ? AnimName.EarthEffect02 : AnimName.EarthEffect03;
+            AnimName animName = AnimName.EarthEffect03;
 
-            animHandler.GetAnim(animName).SetPosition(Owner.transform.position + Vector3.left)
+            animHandler.GetAnim(animName).SetPosition(Owner.transform.position + Vector3.left * 1.5f)
             .SetScale(reverseSize * 2f)
             .Play();
 
-            animName = Random.Range(0, 100) < 50 ? AnimName.EarthEffect02 : AnimName.EarthEffect03;
-
-            animHandler.GetAnim(animName).SetPosition(Owner.transform.position + Vector3.right)
+            animHandler.GetAnim(animName).SetPosition(Owner.transform.position + Vector3.right * 1.5f)
             .SetScale(2f)
             .Play(() =>
             {
+                target.GetDamage(GetDamageCalc(Value), this, Owner);
+                GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
+
                 onCastEnd?.Invoke();
             });
         });
