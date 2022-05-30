@@ -16,6 +16,7 @@ public class PS_Test : PlayerSkill
 
     public override void Cast(Action onEndSkill)
     {
+        base.Cast(onEndSkill);
         bh.mainRullet.PauseRullet();
 
         StartCoroutine(bh.battleUtil.ResetRullet(() =>
@@ -32,7 +33,7 @@ public class PS_Test : PlayerSkill
     {
         skillBtn.SetCoolDown(cooldown / (float)maxCooldown);
 
-        if (cooldown == 0)
+        if (canUse)
         {
             skillBtn.SetMessege("사용 가능");
         }
@@ -61,6 +62,7 @@ public class PS_Test : PlayerSkill
             {
                 cooldown--;
             }
+            canUse = cooldown == 0;
 
             ui.UpdateUI();
 

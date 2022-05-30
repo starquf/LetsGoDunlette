@@ -7,6 +7,7 @@ public abstract class PlayerSkill : MonoBehaviour
 
     public PlayerSkillType skillType;
     public Sprite icon;
+    public bool canUse;
 
     protected PlayerSkillButton ui;
 
@@ -17,7 +18,11 @@ public abstract class PlayerSkill : MonoBehaviour
 
     public abstract bool CanUseSkill();
 
-    public abstract void Cast(Action onEndSkill);
+    public virtual void Cast(Action onEndSkill)
+    {
+        canUse = false;
+        GameManager.Instance.battleHandler.playerInfoHandler.UpdateCanPlayerSkillUse();
+    }
 
     public abstract void UpdateUI(PlayerSkillButton skillBtn);
 
