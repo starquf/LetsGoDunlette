@@ -36,7 +36,7 @@ public class Skill_N_Drain : SkillPiece
 
     private IEnumerator Drain(LivingEntity target, Action onCastEnd = null)
     {
-        target.GetDamage(value, currentType);
+        target.GetDamage(GetDamageCalc(), currentType);
 
         animHandler.GetTextAnim()
         .SetType(TextUpAnimType.Up)
@@ -68,22 +68,11 @@ public class Skill_N_Drain : SkillPiece
 
             effect.Play(healTarget.transform.position, () =>
             {
-                animHandler.GetAnim(AnimName.M_Recover).SetPosition(effect.transform.position)
-            .SetScale(0.4f)
-            .Play();
-
                 if (a == rand - 1)
                 {
-                    healTarget.Heal(healValue - healAmount);
+                    healTarget.Heal(healValue);
                     onCastEnd?.Invoke();
                 }
-                else
-                {
-                    int heal = (healValue - healAmount) / rand;
-                    healAmount += heal;
-                    healTarget.Heal(heal);
-                }
-
                 effect.EndEffect();
             }, BezierType.Quadratic, isRotate: true, playSpeed: 1.5f);
             yield return new WaitForSeconds(time / rand);
