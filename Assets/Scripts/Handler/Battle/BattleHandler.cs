@@ -453,17 +453,20 @@ public class BattleHandler : MonoBehaviour
         // 현재 턴에 걸려있는 적의 cc기와 플레이어의 cc기를 하나 줄여준다.
         //battleEvent.InitNextSkill();
 
-        StartCoroutine(battleEvent.ActionEvent(EventTime.StartTurn));
-
-        if (turnCnt > 1)
+        StartCoroutine(battleEvent.ActionEvent(EventTime.StartTurn, ()=>
         {
-            ccHandler.DecreaseCC();
-            fieldHandler.DecreaseTurn();
-        }
+            playerInfoHandler.UpdateCanPlayerSkillUse();
 
-        canPause = true;
+            if (turnCnt > 1)
+            {
+                ccHandler.DecreaseCC();
+                fieldHandler.DecreaseTurn();
+            }
 
-        StartTurn();
+            canPause = true;
+
+            StartTurn();
+        }));
     }
 
     public void StartTurn()

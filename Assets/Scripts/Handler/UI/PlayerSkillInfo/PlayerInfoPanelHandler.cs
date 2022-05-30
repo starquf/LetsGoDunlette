@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerInfoPanelHandler : BottomSwapUI
 {
@@ -9,7 +10,9 @@ public class PlayerInfoPanelHandler : BottomSwapUI
 
     private List<PlayerSkillButton> skillButtons = new List<PlayerSkillButton>();
     public Transform skillBtnTrans;
+    public Image skillAbleIcon;
 
+    public bool hasCanUseSkill = false;
     public bool isCasting = false;
     private bool canCast = true;
 
@@ -25,6 +28,12 @@ public class PlayerInfoPanelHandler : BottomSwapUI
         base.Start();
 
         bh = GameManager.Instance.battleHandler;
+    }
+
+    protected override void SetCGEnable(bool enable)
+    {
+        skillAbleIcon.gameObject.SetActive(!enable && hasCanUseSkill);
+        base.SetCGEnable(enable);
     }
 
     public void Init(PlayerInfo playerInfo)
@@ -72,6 +81,24 @@ public class PlayerInfoPanelHandler : BottomSwapUI
                 skillButtons[i].currentSkill.OnBattleStart();
             }
         }
+    }
+
+    public void UpdateCanPlayerSkillUse()
+    {
+        hasCanUseSkill = false;
+        for (int i = 0; i < skillButtons.Count; i++)
+        {
+            if (skillButtons[i].currentSkill != null)
+            {
+                PlayerSkill ps = skillButtons[i].currentSkill;
+                if ((ps.skillType.Equals(PlayerSkillType.Active_Cooldown) || ps.skillType.Equals(PlayerSkillType.Active_Count)) && ps.canUse)
+                {
+                    hasCanUseSkill = true;
+                    break;
+                }
+            }
+        }
+        skillAbleIcon.gameObject.SetActive(hasCanUseSkill && !isShow);
     }
 
     private void UseSkill(PlayerSkill skill)
