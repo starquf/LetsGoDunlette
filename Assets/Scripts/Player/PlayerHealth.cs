@@ -6,6 +6,12 @@ using UnityEngine.UI;
 
 public class PlayerHealth : LivingEntity
 {
+    public int playerLevel;
+
+    public int maxExp;
+
+    private int currentExp;
+
     public Color damageBGColor;
     public Image damageBGEffect;
 
