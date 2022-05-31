@@ -67,6 +67,8 @@ public class PlayerHealth : LivingEntity
 
     public void AddExp(int value)
     {
+        //경험치 증가 팝업
+
         for (int i = 0; i < value; i++)
         {
             currentExp++;

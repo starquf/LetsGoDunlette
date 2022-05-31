@@ -122,6 +122,16 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         }
     }
 
+    public virtual void UpgradeHP(int value)
+    {
+        maxHp += value;
+    }
+
+    public virtual void UpgradeAttackPower(int value)
+    {
+        attackPower += value;
+    }
+
     public virtual void GetDamage(int damage, bool isCritical = false)
     {
         if (cc.ccDic[CCType.Invincibility] > 0 || isDie) //이미 죽었거나 무적 상태라면
