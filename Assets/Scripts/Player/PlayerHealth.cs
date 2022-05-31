@@ -24,6 +24,14 @@ public class PlayerHealth : LivingEntity
         cc.isPlayer = true;
     }
 
+    public override void Init()
+    {
+        base.Init();
+        playerLevel = 1;
+        maxExp = 100;
+        currentExp = 0;
+    }
+
     public override void SetHPBar()
     {
         topPanelHPText.text = IsDie ? $"»ç¸Á" : $"{hp}/{maxHp}";
@@ -83,5 +91,7 @@ public class PlayerHealth : LivingEntity
     {
         playerLevel++;
         currentExp = 0;
+
+        //º¸»ó ÆË¾÷ ¶ç¿ö¾ßÇÔ
     }
 }
