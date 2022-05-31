@@ -36,44 +36,14 @@ public class QN_Skill : SkillPiece
         }
 
         //없을때
-        if (UnityEngine.Random.Range(0, 100) <= 55)
-        {
-            onCastSkill = QN_Night_Trip;
-            return pieceInfo[0];
-        }
-        else
-        {
-            desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[1].GetValue())}");
-            onCastSkill = QN_Authority;
-            return pieceInfo[1];
-        }
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[1].GetValue())}");
+        onCastSkill = QN_Authority;
+        return pieceInfo[1];
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         onCastSkill(target, onCastEnd);
-    }
-
-    private void QN_Night_Trip(LivingEntity target, Action onCastEnd = null) //"종속자를 2명 소환한다 <sprite=11>를 5턴 동안 2 얻는다."
-    {
-        GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
-
-        List<EnemyType> dependents = new List<EnemyType>();
-
-        Owner.GetComponent<LivingEntity>().cc.SetCC(CCType.Exhausted, 3);
-
-        // 적 생성
-        for (int i = 0; i < 2; i++)
-        {
-            dependents.Add(EnemyType.DEPENDENT);
-        }
-
-        bh.CreateEnemy(dependents, () =>
-        {
-            onCastEnd?.Invoke();
-        });
-
-        Owner.GetComponent<EnemyIndicator>().ShowText("소환");
     }
 
     private void QN_Authority(LivingEntity target, Action onCastEnd = null) //종속자가 있다면 추가 피해를 (<sprite=4>4) 준다.

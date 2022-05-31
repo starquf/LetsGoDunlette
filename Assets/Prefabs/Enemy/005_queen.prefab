@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3033789505218224059}
   - component: {fileID: 5548211623759185861}
   - component: {fileID: 5970332592160645636}
+  - component: {fileID: 7908881376788978437}
   m_Layer: 6
   m_Name: 005_queen
   m_TagString: Untagged
@@ -110,7 +111,7 @@ MonoBehaviour:
   - {fileID: 3502345260131914911, guid: 15856e079783f564394920615bbde7fa, type: 3}
   - {fileID: 3502345260131914911, guid: 15856e079783f564394920615bbde7fa, type: 3}
   skills: []
-  indicator: {fileID: 0}
+  indicator: {fileID: 743392868921906707}
   isPlayerInven: 0
 --- !u!114 &3033789505218224059
 MonoBehaviour:
@@ -141,7 +142,19 @@ MonoBehaviour:
   isBoss: 1
   onInit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7908881376788978437}
+        m_TargetAssemblyTypeName: Queen, Assembly-CSharp
+        m_MethodName: NightTrip
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5548211623759185861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,6 +183,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   indicatorTrans: {fileID: 3377890065282521421}
+--- !u!114 &7908881376788978437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5548211623759185867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ae76fcd81e3f4249ba02e71be4b42ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6197233838065786893
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -312,6 +337,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &743392868921906707 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6652362794636621342, guid: 6f7d579030297a24b86f71b29f71499e, type: 3}
+  m_PrefabInstance: {fileID: 6197233838065786893}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d3a53c43e1855d40aeded2660ce4d6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &6818734868412582484
