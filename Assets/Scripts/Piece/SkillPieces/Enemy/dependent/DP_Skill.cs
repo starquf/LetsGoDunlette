@@ -16,7 +16,7 @@ public class DP_Skill : SkillPiece
         if (Random.Range(0, 100) <= value)
         {
             onCastSkill = DP_Duty;
-            pieceInfo[0].PieceDes = string.Format(pieceInfo[0].PieceDes, pieceInfo[0].GetValue());
+            pieceInfo[0].PieceDes = string.Format(pieceInfo[0].PieceDes, pieceInfo[0].GetValue(), pieceInfo[0].GetValue(1));
             return pieceInfo[0];
         }
         else
@@ -64,8 +64,8 @@ public class DP_Skill : SkillPiece
         SetIndicator(boss.gameObject, "È¸º¹").OnEndAction(() =>
         {
             GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-            boss.Heal(pieceInfo[0].GetValue());
-            Owner.GetComponent<LivingEntity>().GetDamage(10);
+            boss.Heal(pieceInfo[0].GetValue(1));
+            Owner.GetComponent<LivingEntity>().GetDamageIgnoreShild(pieceInfo[0].GetValue());
 
             animHandler.GetAnim(AnimName.M_Recover).SetPosition(boss.transform.position)
         .SetScale(1)

@@ -1,15 +1,25 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class FA_Skill : SkillPiece
 {
+    private GameObject addSkill; // 할퀴기
+    private InventoryHandler ih;
     private readonly string msg = "장난꾸러기 발동!";
 
     protected override void Awake()
     {
         base.Awake();
         isPlayerSkill = false;
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        addSkill = GameManager.Instance.skillContainer.GetSkillPrefab<FA_Skill>();
+        ih = GameManager.Instance.inventoryHandler;
     }
 
     public override PieceInfo ChoiceSkill()
@@ -42,17 +52,19 @@ public class FA_Skill : SkillPiece
 
     private void FA_Fairy_Ligtht(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(Owner.gameObject, "스킬 강화").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "조각 추가").OnEndAction(() =>
         {
-            GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.2f);
-
-            Owner.GetComponent<LivingEntity>().cc.IncreaseBuff(BuffType.Upgrade, pieceInfo[0].GetValue());
-
-            animHandler.GetAnim(AnimName.M_Shield).SetPosition(Owner.transform.position)
-            .SetScale(1)
+            animHandler.GetAnim(AnimName.SkillEffect01)
+            .SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            .SetScale(2f)
             .Play(() =>
             {
-                onCastEnd?.Invoke();
+                for (int i = 0; i < 2; i++)
+                {
+                    bh.battleUtil.SetTimer(0.25f * i, () => { ih.CreateSkill(addSkill, Owner, Owner.transform.position); });
+                }
+
+                bh.battleUtil.SetTimer(0.5f + (0.25f * 1), onCastEnd);
             });
         });
     }
@@ -69,15 +81,17 @@ public class FA_Skill : SkillPiece
             .SetScale(2)
             .Play(() =>
            {
+               /*
                SetIndicator(Owner.gameObject, "조각 변경").OnEndAction(() =>
                {
-                   KiddingSkill(); //KIding 은 스킵
+                   //KiddingSkill(); //KIding 은 스킵
                    onCastEnd?.Invoke();
-               });
+               });*/
+               onCastEnd?.Invoke();
            });
         });
     }
-
+    /*
     private void KiddingSkill() //현재 룰렛에 존재하는 플레이어의 룰렛 조각 중 하나를 적의 기본 공격으로 변경한다. 현재 : 인벤토리에 페어리 스킬 조각을 1개 추가한다.
     {
         // 1. 안쓴 조각에서 attack이 있는가?
@@ -144,7 +158,7 @@ public class FA_Skill : SkillPiece
                 return;
             }
         }
-    }
+    }*/
 
 
 }
