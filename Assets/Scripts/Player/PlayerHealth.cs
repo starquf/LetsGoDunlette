@@ -56,4 +56,32 @@ public class PlayerHealth : LivingEntity
             bPS.Play(0.55f);
         }
     }
+
+    public void AddExp(int value)
+    {
+        for (int i = 0; i < value; i++)
+        {
+            currentExp++;
+            if(CheckLevelUP())
+            {
+                LevelUP();
+            }
+        }
+    }
+
+    private bool CheckLevelUP()
+    {
+        if(currentExp == maxExp)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public void LevelUP() 
+    {
+        playerLevel++;
+        currentExp = 0;
+    }
 }
