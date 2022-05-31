@@ -23,22 +23,22 @@ public class QN_Skill : SkillPiece
                 //아니라면
                 if (UnityEngine.Random.Range(0, 100) <= 45)
                 {
-                    desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[1].GetValue())}");
+                    desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[0].GetValue())}");
                     onCastSkill = QN_Authority;
-                    return pieceInfo[1];
+                    return pieceInfo[0];
                 }
                 else
                 {
                     onCastSkill = QN_Protection;
-                    return pieceInfo[2];
+                    return pieceInfo[1];
                 }
             }
         }
 
         //없을때
-        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[1].GetValue())}");
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[0].GetValue())}");
         onCastSkill = QN_Authority;
-        return pieceInfo[1];
+        return pieceInfo[0];
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
@@ -51,7 +51,7 @@ public class QN_Skill : SkillPiece
         SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.2f);
-            int damage = GetDamageCalc(pieceInfo[1].GetValue());
+            int damage = GetDamageCalc(pieceInfo[0].GetValue());
 
             List<EnemyHealth> enemys = bh.enemys;
 
@@ -93,7 +93,7 @@ public class QN_Skill : SkillPiece
             }
         }
 
-        Owner.GetComponent<LivingEntity>().AddShield(10);
+        Owner.GetComponent<LivingEntity>().AddShield(pieceInfo[1].GetValue());
 
         animHandler.GetAnim(AnimName.M_Shield).SetPosition(Owner.transform.position)
             .SetScale(1)
