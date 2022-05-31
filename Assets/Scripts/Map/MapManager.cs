@@ -1,4 +1,3 @@
-using Cinemachine;
 using CustomDic;
 using DG.Tweening;
 using System;
@@ -416,10 +415,10 @@ public class MapManager : MonoBehaviour
                 .AppendInterval(0.5f)
                 .Append(playerTrm.DORotate(new Vector3(playerTrm.rotation.x, playerTrm.rotation.y - (360f * 10), playerTrm.rotation.z), 1.3f).SetEase(Ease.OutCubic))
                 //.Join(playerTrm.DOMove(bossCloudPos, 1f).SetDelay(0.3f).SetEase(Ease.OutCubic))
-                .Join(playerTrm.DOPath(new Vector3[] {playerTrm.position , new Vector3(Random.Range(0,2)<1? -1:1 * Random.Range(0.5f,1.5f), (bossCloudPos.y + playerTrm.position.y) /2, 0), bossCloudPos}, 1f).SetEase(Ease.InCubic))
+                .Join(playerTrm.DOPath(new Vector3[] { playerTrm.position, new Vector3(Random.Range(0, 2) < 1 ? -1 : 1 * Random.Range(0.5f, 1.5f), (bossCloudPos.y + playerTrm.position.y) / 2, 0), bossCloudPos }, 1f).SetEase(Ease.InCubic))
                 //.Join(playerTrm.DORotateQuaternion(Quaternion.AngleAxis(angle - 90, Vector3.forward), 1f).SetDelay(0.3f).SetEase(Ease.OutCubic))
                 .Append(playerTrm.DOScale(0, 0.5f))
-                .Join(playerTrm.GetComponent<Image>().DOFade(0,0.5f))
+                .Join(playerTrm.GetComponent<Image>().DOFade(0, 0.5f))
                 .OnComplete(() =>
                 {
                     StartMap(mapNode.BOSS);
@@ -729,7 +728,8 @@ public class MapManager : MonoBehaviour
         //    onComplete?.Invoke();
         //}
 
-        mapCvsFollow.Follow(1f, () => {
+        mapCvsFollow.Follow(1f, () =>
+        {
             mapCvsFollow.Zoom(zoomScale, skip, time, ease, onComplete);
         });
     }

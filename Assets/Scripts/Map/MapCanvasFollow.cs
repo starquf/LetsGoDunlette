@@ -1,7 +1,6 @@
 using DG.Tweening;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MapCanvasFollow : MonoBehaviour
@@ -37,10 +36,13 @@ public class MapCanvasFollow : MonoBehaviour
         transform.position = position;
     }
 
-    public void Follow(float speedScale = 1, Action onEndAnim= null)
+    public void Follow(float speedScale = 1, Action onEndAnim = null)
     {
-        if(followCoroutine != null)
+        if (followCoroutine != null)
+        {
             StopCoroutine(followCoroutine);
+        }
+
         followCoroutine = StartCoroutine(FollowAnim(speedScale, onEndAnim));
     }
 
@@ -65,7 +67,7 @@ public class MapCanvasFollow : MonoBehaviour
         //MoveBossCloud(orthographicSize, time, ease, skip);
 
         Vector3 targetScale = new Vector3(defaultZoomScale * zoomScale, defaultZoomScale * zoomScale, 1);
-        Vector2 targetAmchorPos = new Vector2(rectTrm.anchoredPosition.x * (zoomScale==1?0:zoomScale) / 2 , rectTrm.anchoredPosition.y * (zoomScale == 1 ? 0 : zoomScale) / 2);
+        Vector2 targetAmchorPos = new Vector2(rectTrm.anchoredPosition.x * (zoomScale == 1 ? 0 : zoomScale) / 2, rectTrm.anchoredPosition.y * (zoomScale == 1 ? 0 : zoomScale) / 2);
 
         if (!skip)
         {
@@ -73,7 +75,8 @@ public class MapCanvasFollow : MonoBehaviour
             zoomTween = DOTween.Sequence()
                 .Append(rectTrm.DOScale(targetScale, time).SetEase(ease))
                 .Join(rectTrm.DOAnchorPos(targetAmchorPos, time).SetEase(ease))
-                .OnComplete(()=> {
+                .OnComplete(() =>
+                {
                     mapManager.SetDefaultMapPos();
                     onComplete?.Invoke();
                 });

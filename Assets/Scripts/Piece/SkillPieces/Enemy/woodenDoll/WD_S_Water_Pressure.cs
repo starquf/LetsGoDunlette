@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -34,7 +33,7 @@ public class WD_S_Water_Pressure : SkillPiece
                 int cnt = effectSprList.Count;
 
                 EffectObj skillEffect = PoolManager.GetItem<EffectObj>();
-                skillEffect.transform.position = Owner.transform.position + Vector3.one * 0.4f;
+                skillEffect.transform.position = Owner.transform.position + (Vector3.one * 0.4f);
                 skillEffect.SetSprite(effectSprList[i]);
                 skillEffect.SetColorGradient(effectGradient);
                 skillEffect.SetScale(Vector3.one);

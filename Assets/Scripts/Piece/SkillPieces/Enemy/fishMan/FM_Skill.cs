@@ -44,7 +44,7 @@ public class FM_Skill : SkillPiece
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
-           if(target.GetShieldHp() <= 0)
+            if (target.GetShieldHp() <= 0)
             {
                 target.cc.IncreaseCCTurn(CCType.Wound, 3);
             }

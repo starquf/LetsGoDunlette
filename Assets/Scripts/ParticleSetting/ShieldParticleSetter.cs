@@ -8,7 +8,7 @@ public class ShieldParticleSetter : BuffParticleSetter
     [HideInInspector] public Image shieldAnimImage;
 
     private Color startShieldColor = new Color();
-    
+
     protected override void Awake()
     {
         base.Awake();

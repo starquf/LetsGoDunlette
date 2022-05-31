@@ -17,9 +17,9 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     [SerializeField] protected int shieldHp = 0;
     [SerializeField] protected int attackPower;
 
-    public int AttackPower 
+    public int AttackPower
     {
-        get 
+        get
         {
             int atkPower = attackPower + addtionAttackPower + cc.buffDic[BuffType.Upgrade];
 

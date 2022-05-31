@@ -45,7 +45,7 @@ public class AG_Skill : SkillPiece
             {
                 SetIndicator(Owner.gameObject, "АјАн").OnEndAction(() =>
                 {
-                    target.GetDamage(10,this, Owner);
+                    target.GetDamage(10, this, Owner);
                     livingEntity.RemoveShield();
 
                     animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)

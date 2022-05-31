@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -57,8 +56,7 @@ public class PlayerHealth : LivingEntity
                 .Play();
 
         }
-        BuffParticleSetter bPS = null;
-        bool hasEffect = GameManager.Instance.buffParticleHandler.otherParticleSetterDic.TryGetValue("Heal", out bPS);
+        bool hasEffect = GameManager.Instance.buffParticleHandler.otherParticleSetterDic.TryGetValue("Heal", out BuffParticleSetter bPS);
         if (hasEffect)
         {
             bPS.Play(0.55f);
@@ -72,7 +70,7 @@ public class PlayerHealth : LivingEntity
         for (int i = 0; i < value; i++)
         {
             currentExp++;
-            if(CheckLevelUP())
+            if (CheckLevelUP())
             {
                 LevelUP();
             }
@@ -81,15 +79,10 @@ public class PlayerHealth : LivingEntity
 
     private bool CheckLevelUP()
     {
-        if(currentExp == maxExp)
-        {
-            return true;
-        }
-
-        return false;
+        return currentExp == maxExp;
     }
 
-    public void LevelUP() 
+    public void LevelUP()
     {
         playerLevel++;
         currentExp = 0;

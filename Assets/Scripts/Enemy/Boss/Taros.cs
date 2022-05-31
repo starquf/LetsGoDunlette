@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -61,7 +60,7 @@ public class Taros : MonoBehaviour
                         bh.battleUtil.SetTimer(0.25f * i, () => { GameManager.Instance.inventoryHandler.CreateSkill(tarosSkill, owner, transform.position); });
                     }
 
-                    bh.battleUtil.SetTimer(0.5f + (0.25f), () =>
+                    bh.battleUtil.SetTimer(0.5f + 0.25f, () =>
                     {
                         bh.castUIHandler.ShowPanel(false, false);
 
