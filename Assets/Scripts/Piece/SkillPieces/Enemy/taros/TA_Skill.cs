@@ -67,7 +67,7 @@ public class TA_Skill : SkillPiece
             Owner.GetComponent<SpriteRenderer>().sprite = heatingSprite;
             Owner.GetComponent<EnemyHealth>().cc.IncreaseBuff(BuffType.Upgrade, 3);
 
-            bh.battleEvent.BookEvent(new NormalEvent(true, 3, action => 
+            bh.battleEvent.BookEvent(new NormalEvent(true, 3, action =>
             {
                 Owner.GetComponent<EnemyHealth>().cc.DecreaseBuff(BuffType.Upgrade, 3);
                 action?.Invoke();

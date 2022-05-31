@@ -453,7 +453,7 @@ public class BattleHandler : MonoBehaviour
         // 현재 턴에 걸려있는 적의 cc기와 플레이어의 cc기를 하나 줄여준다.
         //battleEvent.InitNextSkill();
 
-        StartCoroutine(battleEvent.ActionEvent(EventTime.StartTurn, ()=>
+        StartCoroutine(battleEvent.ActionEvent(EventTime.StartTurn, () =>
         {
             playerInfoHandler.UpdateCanPlayerSkillUse();
 
@@ -679,7 +679,9 @@ public class BattleHandler : MonoBehaviour
         for (int i = enemys.Count - 1; i >= 0; i--)
         {
             if (enemys.Count <= 0)
+            {
                 return;
+            }
 
             enemys[i].Kill();
         }

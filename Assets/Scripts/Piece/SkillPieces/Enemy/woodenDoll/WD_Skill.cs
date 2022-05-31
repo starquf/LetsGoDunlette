@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -74,19 +73,19 @@ public class WD_Skill : SkillPiece
 
         rand = Random.Range(0, 100);
 
-        if (rand < 35)      // ³«¼®
+        if (rand < 35)    
         {
             return skill_FallingRock;
         }
-        else if (rand < 65) // ±¼Àý
+        else if (rand < 65) 
         {
             return skill_Refraction;
         }
-        else if (rand < 95) // ¼ö¾Ð
+        else if (rand < 95) 
         {
             return skill_Water_Pressure;
         }
-        else // ¿À·ù
+        else 
         {
             return skill_Error;
         }

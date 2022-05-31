@@ -113,7 +113,9 @@ public class FA_Skill : SkillPiece
         for (int i = 0; i < list.Count; i++)
         {
             if (list[i].Owner != Owner)
+            {
                 continue;
+            }
 
             FA_Skill attack = list[i].GetComponent<FA_Skill>();
 

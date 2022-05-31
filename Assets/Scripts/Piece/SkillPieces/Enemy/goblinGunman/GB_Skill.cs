@@ -45,7 +45,7 @@ public class GB_Skill : SkillPiece
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
             target.cc.SetCC(CCType.SignOfGoblinGunman, 4, true);
-            
+
             target.cc.SetCC(CCType.Stun, 1, true);
 
             animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)

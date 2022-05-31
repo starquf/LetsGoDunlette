@@ -56,7 +56,6 @@ public class Skill_N_Drain : SkillPiece
 
         const float time = 0.8f;
         int rand = Random.Range(7, 13);
-        int healAmount = 0;
         for (int i = 0; i < rand; i++)
         {
             int a = i;

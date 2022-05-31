@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -41,11 +40,11 @@ public class WD_S_Falling_Rocks : SkillPiece
 
             AnimName animName = AnimName.EarthEffect03;
 
-            animHandler.GetAnim(animName).SetPosition(Owner.transform.position + Vector3.left * 1.5f)
+            animHandler.GetAnim(animName).SetPosition(Owner.transform.position + (Vector3.left * 1.5f))
             .SetScale(reverseSize * 2f)
             .Play();
 
-            animHandler.GetAnim(animName).SetPosition(Owner.transform.position + Vector3.right * 1.5f)
+            animHandler.GetAnim(animName).SetPosition(Owner.transform.position + (Vector3.right * 1.5f))
             .SetScale(2f)
             .Play(() =>
             {

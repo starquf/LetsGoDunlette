@@ -86,8 +86,7 @@ public class CrowdControl : MonoBehaviour
         ccUIDic[cc].gameObject.SetActive(true);
 
         string messege = "";
-        BuffParticleSetter bPS = null;
-        bool hasEffect = GameManager.Instance.buffParticleHandler.ccParticleSetterDic.TryGetValue(cc, out bPS);
+        bool hasEffect = GameManager.Instance.buffParticleHandler.ccParticleSetterDic.TryGetValue(cc, out BuffParticleSetter bPS);
 
         switch (cc)
         {
@@ -124,7 +123,7 @@ public class CrowdControl : MonoBehaviour
                 .SetType(TextUpAnimType.Fixed)
                 .SetPosition(ccUIDic[cc].transform.position)
                 .Play(messege);
-            if(isPlayer && hasEffect)
+            if (isPlayer && hasEffect)
             {
                 bPS.Play(0.55f, waitTime: 0.5f);
             }
@@ -165,8 +164,7 @@ public class CrowdControl : MonoBehaviour
         }
         else
         {
-            BuffParticleSetter bPS = null;
-            bool hasEffect = GameManager.Instance.buffParticleHandler.buffParticleSetterDic.TryGetValue(buff, out bPS);
+            bool hasEffect = GameManager.Instance.buffParticleHandler.buffParticleSetterDic.TryGetValue(buff, out BuffParticleSetter bPS);
             if (isPlayer && hasEffect)
             {
                 bPS.Play(0.55f);
