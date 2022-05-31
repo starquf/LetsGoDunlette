@@ -30,11 +30,21 @@ public class BattleTargetSelectHandler : MonoBehaviour
     public SkipUIPanelHandler skipUI;
     private Sequence dragSeq;
 
+    private BattleHandler bh;
+
     private void Start()
     {
         lr = detectTrans.GetComponent<LineRenderer>();
+        bh = GameManager.Instance.battleHandler;
 
-        invenInfoHandler.invenBtn.onClick.AddListener(() => canControl = false);
+        invenInfoHandler.invenBtn.onClick.AddListener(() =>
+        {
+            if (bh.isBattle)
+            {
+                canControl = false;
+            }
+        });
+
         invenInfoHandler.closeBtn.onClick.AddListener(() => canControl = true);
         invenInfoHandler.closeImgBtn.onClick.AddListener(() => canControl = true);
 
