@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Queen : MonoBehaviour
 {
+    public PieceInfo[] pieceInfo;
     private EnemyHealth queenHealth;
     private BattleHandler bh;
     private SkillEvent skillEventInfo = null;
@@ -24,29 +25,41 @@ public class Queen : MonoBehaviour
 
         skillEvent = (sp, action) =>
         {
-            print((float)queenHealth.maxHp / (float)queenHealth.curHp);
             if ((float)queenHealth.maxHp / (float)queenHealth.curHp >= 2.0f)
             {
                 bh.battleEvent.RemoveEventInfo(skillEventInfo);
 
-                GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
+                EnemyIndicator indi = GetComponent<EnemyIndicator>();
 
-                List<EnemyType> dependents = new List<EnemyType>();
+                indi.HideText();
 
-                //Owner.GetComponent<LivingEntity>().cc.SetCC(CCType.Exhausted, 3);
-
-                // 旋 持失
-                for (int i = 0; i < 2; i++)
+                bh.castUIHandler.ShowCasting(pieceInfo[0], () =>
                 {
-                    dependents.Add(EnemyType.DEPENDENT);
-                }
+                    bh.battleUtil.SetTimer(0.5f, () =>
+                    {
+                        bh.castUIHandler.ShowPanel(false, false);
+                        indi.ShowText("社発", () =>
+                        {
+                            GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
 
-                bh.CreateEnemy(dependents, () =>
-                {
-                    action?.Invoke();
+                            List<EnemyType> dependents = new List<EnemyType>();
+
+                            //Owner.GetComponent<LivingEntity>().cc.SetCC(CCType.Exhausted, 3);
+
+                            // 旋 持失
+                            for (int i = 0; i < 2; i++)
+                            {
+                                dependents.Add(EnemyType.DEPENDENT);
+                            }
+
+                            bh.CreateEnemy(dependents, () =>
+                            {
+                                indi.HideText();
+                                action?.Invoke();
+                            });
+                        });
+                    });
                 });
-
-                GetComponent<EnemyIndicator>().ShowText("社発");
             }
             else
             {
