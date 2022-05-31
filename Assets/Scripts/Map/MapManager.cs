@@ -20,6 +20,14 @@ public enum mapNode
     RandomEncounter = 7,
 }
 
+[Serializable]
+public class FixedMapRangeRandom
+{
+    public Vector2 minPos;
+    public Vector2 maxPos;
+    public mapNode mapType;
+}
+
 public class MapManager : MonoBehaviour
 {
     private Sequence mapOpenSequence;
@@ -55,6 +63,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private List<mapNode> canNotLinkMapType = new List<mapNode>();
     //[SerializeField] SerializableDictionary<mapNode, int> fixedMapTypeCount = new SerializableDictionary<mapNode, int>();
     [SerializeField] private SerializableDictionary<Vector2, mapNode> fixedPosMapType = new SerializableDictionary<Vector2, mapNode>();
+    [SerializeField] private List<FixedMapRangeRandom> fixedRangeMapType = new List<FixedMapRangeRandom>();
     [SerializeField] private SerializableDictionary<mapNode, float> mapTypeProportionDic = new SerializableDictionary<mapNode, float>();
 
     [SerializeField] private int gridWidth = 5;
@@ -140,9 +149,27 @@ public class MapManager : MonoBehaviour
         bossEffectAnimator.SetInteger("Stage", GameManager.Instance.StageIdx);
     }
 
+    public void RandomRangeMapSet()
+    {
+        for (int i = 0; i < fixedRangeMapType.Count; i++)
+        {
+            FixedMapRangeRandom fm = fixedRangeMapType[i];
+            Vector2 targetPos;
+            do
+            {
+                int targetX = Random.Range((int)fm.minPos.x, (int)fm.maxPos.x+1);
+                int targetY = Random.Range((int)fm.minPos.y, (int)fm.maxPos.y+1);
+                targetPos = new Vector2(targetX, targetY);
+            } while (fixedPosMapType.Keys.Contains(targetPos));
+
+            fixedPosMapType.Add(targetPos, fm.mapType);
+        }
+    }
+
     // ¸Ê ±¸Á¶ º¯°æ
     public void RandomDestroyMap()
     {
+        RandomRangeMapSet();
         int count = maxDestroyCount;
         List<Map> mapList = tiles.Values.ToList();
 
