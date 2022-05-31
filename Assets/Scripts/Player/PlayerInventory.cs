@@ -10,6 +10,9 @@ public class Deck
 
 public class PlayerInventory : Inventory
 {
+    [Header("파라매터")]
+    public int capacity = 13;
+
     [Header("시작시 사용할 덱들")]
     public List<Deck> decks = new List<Deck>();
 
@@ -21,5 +24,10 @@ public class PlayerInventory : Inventory
         {
             skillPrefabs = decks[GameManager.Instance.deckIdx].skills;
         }
+    }
+
+    public bool IsInventoryFull()
+    {
+        return capacity <= skills.Count;
     }
 }
