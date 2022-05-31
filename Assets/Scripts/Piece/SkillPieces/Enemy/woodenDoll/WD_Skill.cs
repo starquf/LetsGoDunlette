@@ -73,6 +73,21 @@ public class WD_Skill : SkillPiece
 
         rand = Random.Range(0, 100);
 
-        return rand < 35 ? skill_FallingRock : rand < 65 ? skill_Refraction : rand < 95 ? skill_Water_Pressure : skill_Error;
+        if (rand < 35)    
+        {
+            return skill_FallingRock;
+        }
+        else if (rand < 65) 
+        {
+            return skill_Refraction;
+        }
+        else if (rand < 95) 
+        {
+            return skill_Water_Pressure;
+        }
+        else 
+        {
+            return skill_Error;
+        }
     }
 }
