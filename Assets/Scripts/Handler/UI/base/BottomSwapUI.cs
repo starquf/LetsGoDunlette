@@ -26,7 +26,7 @@ public abstract class BottomSwapUI : MonoBehaviour
 
     protected virtual void Start()
     {
-        ShowPanel(true);
+        //ShowPanel(false);
     }
 
     public virtual void ClosePanel()

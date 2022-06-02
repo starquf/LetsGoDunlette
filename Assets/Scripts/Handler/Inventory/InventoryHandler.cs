@@ -131,6 +131,8 @@ public class InventoryHandler : MonoBehaviour
             return;
         }
 
+        skill.ResetPiece();
+
         if (skill.isDisposable)
         {
             RemovePiece(skill);
@@ -140,8 +142,6 @@ public class InventoryHandler : MonoBehaviour
 
         skill.IsInRullet = false;
         graveyard.Add(skill);
-
-        skill.ResetPiece();
 
         for (int i = 0; i < 2; i++)
         {

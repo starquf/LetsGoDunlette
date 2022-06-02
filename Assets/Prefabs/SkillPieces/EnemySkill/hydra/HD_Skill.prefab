@@ -85,11 +85,11 @@ GameObject:
   m_Component:
   - component: {fileID: 8934882644507587755}
   - component: {fileID: 8934882644507587754}
+  - component: {fileID: -5507216887210036837}
   - component: {fileID: 8934882644507587757}
   - component: {fileID: 8934882644507587759}
-  - component: {fileID: 9028910262104367141}
   m_Layer: 5
-  m_Name: WD_S_Water_Pressure
+  m_Name: HD_Skill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -124,6 +124,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8934882644507587758}
   m_CullTransparentMesh: 1
+--- !u!114 &-5507216887210036837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8934882644507587758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 012655131774529429fc99d57d071c02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patternType: 5
+  currentType: 0
+  pieceName: "\uD788\uB4DC\uB77C"
+  pieceDes: "\uD788\uB4DC\uB77C\uC758 \uC2A4\uD0AC\uC785\uB2C8\uB2E4."
+  value: 0
+  skillIconImg: {fileID: 0}
+  pieceIdx: 0
+  cardBG: {fileID: 5972089861100590421, guid: e120ad344ccd84f7f8f051df2087e87f, type: 3}
+  skillStroke: {fileID: 0}
+  isPlayerSkill: 0
+  isTargeting: 1
+  isRandomSkill: 1
+  isDisposable: 0
+  skillRange: 0
+  skillGrade: 1
+  pieceInfo:
+  - PieceName: "\uAF2C\uB9AC \uD718\uB450\uB974\uAE30"
+    PieceDes: 
+    cardBG: {fileID: 5972089861100590421, guid: e120ad344ccd84f7f8f051df2087e87f, type: 3}
+    value: 00000000
+  - PieceName: "\uB3C5\uBD84\uC0AC"
+    PieceDes: "\uC778\uBCA4\uD1A0\uB9AC\uC5D0 '\uB9F9\uB3C5\uC744' 3\uAC1C \uCD94\uAC00\uD55C\uB2E4."
+    cardBG: {fileID: 5972089861100590421, guid: e120ad344ccd84f7f8f051df2087e87f, type: 3}
+    value: 03000000
 --- !u!114 &8934882644507587757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,50 +205,6 @@ MonoBehaviour:
   m_EffectColor: {r: 0.10412938, g: 0, b: 0.16037738, a: 1}
   m_EffectDistance: {x: 8, y: 8}
   m_UseGraphicAlpha: 1
---- !u!114 &9028910262104367141
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8934882644507587758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91b3a5682053b8e46a06fc088b89c8fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  patternType: 5
-  currentType: 0
-  pieceName: "\uC2A4\uD3A0: \uC218\uC555"
-  pieceDes: "\uC0AC\uC6A9 \uD6C4 \uC0AD\uC81C\uB41C\uB2E4."
-  value: 2
-  skillIconImg: {fileID: 0}
-  pieceIdx: 0
-  cardBG: {fileID: 2937258848304959839, guid: fa4819aa15a069e4aa498ac4610916d5, type: 3}
-  skillStroke: {fileID: 0}
-  isPlayerSkill: 0
-  isTargeting: 1
-  isRandomSkill: 0
-  isDisposable: 1
-  skillRange: 0
-  skillGrade: 1
-  pieceInfo: []
-  effectSprList:
-  - {fileID: 2592098366825010136, guid: f3ed920d09496434491ef7308d8785e0, type: 3}
-  - {fileID: -3238005131864204459, guid: f3ed920d09496434491ef7308d8785e0, type: 3}
-  - {fileID: -89248839152200006, guid: f3ed920d09496434491ef7308d8785e0, type: 3}
-  - {fileID: 8938267792505216644, guid: f3ed920d09496434491ef7308d8785e0, type: 3}
-  - {fileID: -89248839152200006, guid: f3ed920d09496434491ef7308d8785e0, type: 3}
-  - {fileID: 8938267792505216644, guid: f3ed920d09496434491ef7308d8785e0, type: 3}
-  - {fileID: -89248839152200006, guid: f3ed920d09496434491ef7308d8785e0, type: 3}
-  - {fileID: 8938267792505216644, guid: f3ed920d09496434491ef7308d8785e0, type: 3}
-  - {fileID: -89248839152200006, guid: f3ed920d09496434491ef7308d8785e0, type: 3}
-  - {fileID: 8938267792505216644, guid: f3ed920d09496434491ef7308d8785e0, type: 3}
-  - {fileID: -89248839152200006, guid: f3ed920d09496434491ef7308d8785e0, type: 3}
-  - {fileID: 8938267792505216644, guid: f3ed920d09496434491ef7308d8785e0, type: 3}
-  - {fileID: -89248839152200006, guid: f3ed920d09496434491ef7308d8785e0, type: 3}
-  - {fileID: 520585819314282727, guid: f3ed920d09496434491ef7308d8785e0, type: 3}
-  - {fileID: -6952768344424165191, guid: f3ed920d09496434491ef7308d8785e0, type: 3}
 --- !u!1001 &4188059185722535161
 PrefabInstance:
   m_ObjectHideFlags: 0
