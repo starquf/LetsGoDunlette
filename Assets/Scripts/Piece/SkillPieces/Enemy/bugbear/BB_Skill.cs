@@ -45,7 +45,7 @@ public class BB_Skill : SkillPiece
             {
                 target.RemoveShield();
 
-                animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+                animHandler.GetAnim(AnimName.M_Scratch).SetPosition(GameManager.Instance.enemyEffectTrm.position)
                 .SetScale(2)
                 .Play(() =>
                 {

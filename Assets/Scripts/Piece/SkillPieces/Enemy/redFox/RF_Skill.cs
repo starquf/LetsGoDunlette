@@ -59,7 +59,7 @@ public class RF_Skill : SkillPiece
         {
             target.GetDamage(GetDamageCalc(pieceInfo[0].GetValue()), this, Owner);
 
-            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            animHandler.GetAnim(AnimName.M_Scratch).SetPosition(GameManager.Instance.enemyEffectTrm.position)
             .SetScale(2)
             .Play(() =>
             {

@@ -59,7 +59,7 @@ public class FA_Skill : SkillPiece
         {
             animHandler.GetAnim(AnimName.SkillEffect01)
             .SetPosition(Owner.transform.position)
-            .SetScale(2f)
+            .SetScale(1.8f)
             .SetRotation(Vector3.forward * -90f)
             .Play(() =>
             {
@@ -81,7 +81,7 @@ public class FA_Skill : SkillPiece
 
             target.GetDamage(GetDamageCalc(pieceInfo[1].GetValue()), this, Owner);
 
-            animHandler.GetAnim(AnimName.M_Scratch).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
             .SetScale(2)
             .Play(() =>
            {
