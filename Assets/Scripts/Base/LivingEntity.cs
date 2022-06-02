@@ -21,7 +21,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     {
         get
         {
-            int atkPower = attackPower + addtionAttackPower + cc.buffDic[BuffType.Upgrade];
+            int atkPower = attackPower + addtionAttackPower;// + cc.buffDic[BuffType.Upgrade];
 
             if (cc.IsCC(CCType.Exhausted))
             {

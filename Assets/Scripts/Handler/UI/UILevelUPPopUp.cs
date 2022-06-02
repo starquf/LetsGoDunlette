@@ -6,6 +6,18 @@ using UnityEngine.UI;
 
 public class UILevelUPPopUp : MonoBehaviour
 {
+    // 문제점
+    // 2번 이상 레벨업 할때 리워드 창이 겹치게됨.
+    // MaxHP 가 고정일때만 사용가능함
+    // 리워드 보상이 고정임. 리워드 보상을 엑셀로 가져와서 저장해둘예정임
+
+    public struct RewardInfo
+    {
+        public int atkPower;
+        public int hp;
+        public int maxPiece;
+    }
+
     [Header("LevelUP")]
     public GameObject levelUPPanel;
     public Image expFillImage;
@@ -16,9 +28,9 @@ public class UILevelUPPopUp : MonoBehaviour
     [Header("Reward")]
     public GameObject rewardPanel;
     public List<Button> rewardBtns;
+    public List<RewardInfo> rewardInfos;
 
     private CanvasGroup canvasGroup;
-
     private PlayerHealth player;
 
     private void Awake()
@@ -42,8 +54,8 @@ public class UILevelUPPopUp : MonoBehaviour
         canvasGroup.alpha = 0;
         canvasGroup.blocksRaycasts = false;
         closeBtn.gameObject.SetActive(false);
-        levelUPPanel.gameObject.SetActive(false);
         rewardPanel.gameObject.SetActive(false);
+        levelUPPanel.gameObject.SetActive(false);
     }
 
     public void OpenReward()
@@ -57,8 +69,8 @@ public class UILevelUPPopUp : MonoBehaviour
         }
 
         for (int i = 0; i < rewardBtns.Count; i++)
-        {
-            rewardBtns[i].onClick.AddListener(() => Close());
+        { 
+            rewardBtns[i].onClick.AddListener(Close);
         }
 
         rewardBtns[0].onClick.AddListener(() => player.UpgradeAttackPower(5));
@@ -104,7 +116,7 @@ public class UILevelUPPopUp : MonoBehaviour
             expFillImage.DOColor(new Color(0, 0.6787322f, 1), time / 2);
             expText.DOColor(new Color(0, 0.6787322f, 1), time / 2);
             yield return new WaitForSeconds(time);
-            OpenReward();
+            OpenReward(); 
             PopUp(originLevel + 1, 0, nowLevel, nowExp, maxExp, false);
         }
         else
