@@ -31,7 +31,7 @@ public class HD_Skill : SkillPiece
     {
         base.ChoiceSkill();
 
-        if (Random.Range(0, 100) < 50)
+        if (Random.Range(0, 100) < 55)
         {
             onCastSkill = HD_Tail_Swing;
             desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[0].GetValue())}");

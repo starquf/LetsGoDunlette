@@ -454,6 +454,8 @@ public class InventoryHandler : MonoBehaviour
 
         piece.KillTween();
 
+        CreateSkillEffect(piece, piece.skillIconImg.transform.position);
+
         graveyard.Remove(piece);
         piece.Owner.skills.Remove(piece);
         skills.Remove(piece);
