@@ -28,22 +28,23 @@ public class BattleRewardHandler : MonoBehaviour
 
         battleRewardUI.getBtn.onClick.AddListener(() =>
         {
-        battleRewardUI.selectCG.interactable = false;
-        battleRewardUI.buttonCG.interactable = false;
+            battleRewardUI.selectCG.interactable = false;
+            battleRewardUI.buttonCG.interactable = false;
 
-        GameManager.Instance.getPieceHandler.GetPiecePlayer(battleRewardUI.selectedSkillObj,
+
+            GameManager.Instance.getPieceHandler.GetPiecePlayer(battleRewardUI.selectedSkillObj,
                 () =>
                 {
                     RemovePiece(null);
 
-                        // 전투 끝 알림
-                        battleRewardUI.SkipRewardEffect(() =>
-                    {
-                        battleRewardUI.ResetRewardUI();
-                        GameManager.Instance.EndEncounter();
-                    });
-                }, 
-                ()=>
+                    // 전투 끝 알림
+                    battleRewardUI.SkipRewardEffect(() =>
+                {
+                    battleRewardUI.ResetRewardUI();
+                    GameManager.Instance.EndEncounter();
+                });
+                },
+                () =>
                 {
                     RemovePiece(battleRewardUI.selectedSkillObj);
 
@@ -53,6 +54,21 @@ public class BattleRewardHandler : MonoBehaviour
                         GameManager.Instance.EndEncounter();
                     });
                 });
+
+            int expValue = 0;
+            switch (GameManager.Instance.curEncounter)
+            {
+                case mapNode.BOSS:
+                    expValue = 65;
+                    break;
+                case mapNode.EMONSTER:
+                    expValue = 60;
+                    break;
+                case mapNode.MONSTER:
+                    expValue = 40;
+                    break;
+            }
+            GameManager.Instance.GetPlayer().AddExp(expValue);
         });
 
         battleRewardUI.skipBtn.onClick.AddListener(() =>
@@ -61,13 +77,27 @@ public class BattleRewardHandler : MonoBehaviour
             battleRewardUI.buttonCG.interactable = false;
 
             RemovePiece(null);
-
             // 전투 끝 알림
             battleRewardUI.SkipRewardEffect(() =>
             {
                 battleRewardUI.ResetRewardUI();
                 GameManager.Instance.EndEncounter();
             });
+
+            int expValue = 0;
+            switch (GameManager.Instance.curEncounter)
+            {
+                case mapNode.BOSS:
+                    expValue = 75;
+                    break;
+                case mapNode.EMONSTER:
+                    expValue = 70;
+                    break;
+                case mapNode.MONSTER:
+                    expValue = 50;
+                    break;
+            }
+            GameManager.Instance.GetPlayer().AddExp(expValue);
         });
     }
 

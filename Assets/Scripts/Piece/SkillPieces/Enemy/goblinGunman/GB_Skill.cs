@@ -70,12 +70,12 @@ public class GB_Skill : SkillPiece
                 damage += 3;
             }
 
-            target.GetDamage(damage, this, Owner);
 
             animHandler.GetAnim(AnimName.M_Butt).SetPosition(GameManager.Instance.enemyEffectTrm.position + new Vector3(Random.Range(-1, 1), Random.Range(-1, 0.5f), 0))
             .SetScale(0.8f)
             .Play(() =>
             {
+                target.GetDamage(damage, this, Owner);
                 animHandler.GetAnim(AnimName.M_Butt).SetPosition(GameManager.Instance.enemyEffectTrm.position + new Vector3(Random.Range(-1, 1), Random.Range(-1, 0.5f), 0))
                 .SetScale(0.8f)
                 .Play(()=>
