@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +15,7 @@ public class UILevelUPPopUp : MonoBehaviour
     public Button closeBtn;
     [Header("Reward")]
     public GameObject rewardPanel;
-    public Button[] rewardBtns;
+    public List<Button> rewardBtns;
 
     private CanvasGroup canvasGroup;
 
@@ -50,12 +51,12 @@ public class UILevelUPPopUp : MonoBehaviour
         canvasGroup.blocksRaycasts = true;
         rewardPanel.gameObject.SetActive(true);
 
-        for (int i = 0; i < rewardBtns.Length; i++)
+        for (int i = 0; i < rewardBtns.Count; i++)
         {
             rewardBtns[i].onClick.RemoveAllListeners();
         }
 
-        for (int i = 0; i < rewardBtns.Length; i++)
+        for (int i = 0; i < rewardBtns.Count; i++)
         {
             rewardBtns[i].onClick.AddListener(() => Close());
         }
@@ -100,7 +101,7 @@ public class UILevelUPPopUp : MonoBehaviour
             DOTween.To(() => expFillImage.fillAmount, x => expFillImage.fillAmount = x, 1, time);
             expText.DOText($"{maxExp}/{maxExp}", time);
             yield return new WaitForSeconds(time);
-            expFillImage.DOColor(new Color(0, 0.6787322f, 1), time/2);
+            expFillImage.DOColor(new Color(0, 0.6787322f, 1), time / 2);
             expText.DOColor(new Color(0, 0.6787322f, 1), time / 2);
             yield return new WaitForSeconds(time);
             OpenReward();
