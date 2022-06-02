@@ -122,12 +122,13 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         }
     }
 
-    public virtual void UpgradeHP(int value)
+    public virtual void UpgradeHP(int value) //레벨업 보상에 쓸예정
     {
         maxHp += value;
+        SetHPBar();
     }
 
-    public virtual void UpgradeAttackPower(int value)
+    public virtual void UpgradeAttackPower(int value) //레벨업 보상에 쓸예정
     {
         attackPower += value;
     }
@@ -158,12 +159,12 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
             hp -= damage;
         }
 
-        SetHPBar();
-
         if (hp <= 0)
         {
             Die();
         }
+
+        SetHPBar();
 
         ShowDamageText(damage, isCritical);
         SetDamageEffect();
@@ -318,10 +319,12 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         if (IsDie)
         {
             hpText.text = $"사망";
-            return;
+        }
+        else
+        {
+            hpText.text = $"{hp}/{maxHp}";
         }
 
-        hpText.text = $"{hp}/{maxHp}";
         if (shieldHp > 0)
         {
             hpText.text = $"{hp}+<color=aqua>{shieldHp}</color>/{maxHp}";

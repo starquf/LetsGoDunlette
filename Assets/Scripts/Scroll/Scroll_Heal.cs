@@ -10,7 +10,7 @@ public class Scroll_Heal : Scroll
 
     public override void Use(Action onEndUse, Action onCancelUse)
     {
-        bh.player.Heal(50);
+        bh.player.Heal(15);
 
         GameManager.Instance.animHandler.GetAnim(AnimName.M_Recover).SetPosition(bh.playerImgTrans.position)
             .SetScale(1)

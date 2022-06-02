@@ -52,11 +52,15 @@ public class FA_Skill : SkillPiece
 
     private void FA_Fairy_Ligtht(LivingEntity target, Action onCastEnd = null)
     {
+        SetIndicator(Owner.gameObject, "강화");
+        Owner.GetComponent<CrowdControl>().IncreaseBuff(BuffType.Upgrade, 1);
+
         SetIndicator(Owner.gameObject, "조각 추가").OnEndAction(() =>
         {
             animHandler.GetAnim(AnimName.SkillEffect01)
-            .SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            .SetPosition(Owner.transform.position)
             .SetScale(2f)
+            .SetRotation(Vector3.forward * -90f)
             .Play(() =>
             {
                 for (int i = 0; i < 2; i++)

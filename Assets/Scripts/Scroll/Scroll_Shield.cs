@@ -10,7 +10,7 @@ public class Scroll_Shield : Scroll
 
     public override void Use(Action onEndUse, Action onCancelUse)
     {
-        bh.player.AddShield(50);
+        bh.player.AddShield(20);
 
         GameManager.Instance.animHandler.GetAnim(AnimName.M_Shield).SetPosition(bh.playerImgTrans.position)
             .SetScale(1)

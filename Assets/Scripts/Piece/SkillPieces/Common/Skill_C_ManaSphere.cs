@@ -23,7 +23,7 @@ public class Skill_C_ManaSphere : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        Vector3 startPos = transform.position;
+        Vector3 startPos = skillIconImg.transform.position;
         Vector3 targetPos = target.transform.position;
 
         animHandler.GetAnim(AnimName.C_SphereCast)
