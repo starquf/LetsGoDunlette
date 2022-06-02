@@ -272,7 +272,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
 
     public void SetSelectPanel(ProductInfo product)
     {
-        selectProductImg.sprite = product.productImg.sprite;
+        selectProductImg.sprite = product.productType.Equals(ProductType.RulletPiece) ? product.productImg.sprite : product.scrollImg.sprite;
         selectProductNameTxt.text = product.productName;
         selectProductDesTxt.text = product.productDes;
     }
