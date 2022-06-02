@@ -123,9 +123,42 @@ public class CrowdControl : MonoBehaviour
                 .SetType(TextUpAnimType.Fixed)
                 .SetPosition(ccUIDic[cc].transform.position)
                 .Play(messege);
+
             if (isPlayer && hasEffect)
             {
                 bPS.Play(0.55f, waitTime: 0.5f);
+            }
+            else
+            {
+                AnimObj anim = null;
+
+                switch (cc)
+                {
+                    case CCType.Stun:
+                        messege = "±âÀýµÊ!";
+                        anim = GameManager.Instance.animHandler.GetAnim(AnimName.StunEffect);
+                        break;
+
+                    case CCType.Silence:
+                        messege = "Ä§¹¬µÊ!";
+                        anim = GameManager.Instance.animHandler.GetAnim(AnimName.SlientEffect);
+                        break;
+
+                    case CCType.Wound:
+                        messege = "»óÃ³ÀÔÀ½!";
+                        break;
+
+                    case CCType.Invincibility:
+                        messege = "¹«Àû»óÅÂ!";
+                        break;
+
+                    case CCType.Fascinate:
+                        messege = "¸ÅÈ¤µÊ!";
+                        break;
+                }
+
+                anim?.SetPosition(transform.position)
+                    .Play();
             }
         }
     }
