@@ -74,7 +74,8 @@ public class RF_Skill : SkillPiece
         SetIndicator(Owner.gameObject, "조각 추가").OnEndAction(() =>
         {
             animHandler.GetAnim(AnimName.SkillEffect01)
-            .SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            .SetPosition(Owner.transform.position)
+            .SetRotation(Vector3.forward * -90f)
             .SetScale(2f)
             .Play(() =>
             {

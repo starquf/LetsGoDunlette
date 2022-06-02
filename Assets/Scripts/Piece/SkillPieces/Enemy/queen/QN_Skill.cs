@@ -12,33 +12,24 @@ public class QN_Skill : SkillPiece
     public override PieceInfo ChoiceSkill() //알고리즘 정리. 종속자가 없을때는 55,45 확률로 백귀야행과 여왕의권위를 고름 아니라면 45,55의 확률로 여왕의권위와 보호를 고름
     {
         base.ChoiceSkill();
-        List<EnemyHealth> enemys = bh.enemys;
 
-        for (int i = 0; i < enemys.Count; i++)
+        if (UnityEngine.Random.Range(0, 100) <= 60)
         {
-            EnemyHealth health = enemys[i];
-
-            if (health.gameObject != Owner.gameObject) //이거에 걸리면 종속자가 1명이상 있는것.
-            {
-                //아니라면
-                if (UnityEngine.Random.Range(0, 100) <= 45)
-                {
-                    desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[0].GetValue())}");
-                    onCastSkill = QN_Authority;
-                    return pieceInfo[0];
-                }
-                else
-                {
-                    onCastSkill = QN_Protection;
-                    return pieceInfo[1];
-                }
-            }
+            desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[0].GetValue())}");
+            onCastSkill = QN_Authority;
+            return pieceInfo[0];
         }
+        else
+        {
+            desInfos[0].SetInfo(DesIconType.Shield, $"{pieceInfo[1].GetValue()}");
+            onCastSkill = QN_Protection;
+            return pieceInfo[1];
+        }
+    }
 
-        //없을때
-        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[0].GetValue())}");
-        onCastSkill = QN_Authority;
-        return pieceInfo[0];
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        return desInfos;
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
@@ -89,7 +80,7 @@ public class QN_Skill : SkillPiece
 
             if (health.gameObject != Owner.gameObject)
             {
-                health.AddShield(10);
+                health.AddShield(pieceInfo[1].GetValue());
             }
         }
 
@@ -102,6 +93,4 @@ public class QN_Skill : SkillPiece
                 onCastEnd?.Invoke();
             });
     }
-
-
 }

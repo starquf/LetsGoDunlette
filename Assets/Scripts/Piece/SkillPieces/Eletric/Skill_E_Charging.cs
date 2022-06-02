@@ -28,7 +28,7 @@ public class Skill_E_Charging : SkillPiece
     {
         base.GetDesIconInfo();
 
-        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc()}x{attackCount}");
+        desInfos[0].SetInfo(DesIconType.Attack, $"{Value}x{attackCount}");
 
         return desInfos;
     }
@@ -107,17 +107,17 @@ public class Skill_E_Charging : SkillPiece
 
         int atkCnt = attackCount;
 
-        int damage = GetDamageCalc();
+        int damage = Value;
 
         for (int i = 0; i < atkCnt; i++)
         {
             LivingEntity enemy = targets[Random.Range(0, targets.Count)];
 
-            enemy.GetDamage(GetDamageCalc(), currentType);
+            enemy.GetDamage(damage, currentType);
 
             LogCon log = new LogCon
             {
-                text = $"{GetDamageCalc()} 데미지 부여",
+                text = $"{damage} 데미지 부여",
                 selfSpr = skillIconImg.sprite,
                 targetSpr = enemy.GetComponent<SpriteRenderer>().sprite
             };

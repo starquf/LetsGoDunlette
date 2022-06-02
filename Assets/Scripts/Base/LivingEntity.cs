@@ -159,12 +159,12 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
             hp -= damage;
         }
 
-        SetHPBar();
-
         if (hp <= 0)
         {
             Die();
         }
+
+        SetHPBar();
 
         ShowDamageText(damage, isCritical);
         SetDamageEffect();
@@ -319,10 +319,12 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         if (IsDie)
         {
             hpText.text = $"»ç¸Á";
-            return;
+        }
+        else
+        {
+            hpText.text = $"{hp}/{maxHp}";
         }
 
-        hpText.text = $"{hp}/{maxHp}";
         if (shieldHp > 0)
         {
             hpText.text = $"{hp}+<color=aqua>{shieldHp}</color>/{maxHp}";
