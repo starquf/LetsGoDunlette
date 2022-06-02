@@ -70,7 +70,9 @@ public class AG_Skill : SkillPiece
             EnemyHealth enemyHealth = Owner.GetComponent<EnemyHealth>();
             enemyHealth.cc.SetCC(CCType.Silence, 3);
             enemyHealth.AddShield(pieceInfo[0].GetValue());
+            onCastEnd?.Invoke();
         });
+
     }
 
     private void AG_Crocodile_Bird(LivingEntity target, Action onCastEnd = null) //자신의 체력을 40만큼 회복한다.

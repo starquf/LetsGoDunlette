@@ -201,7 +201,6 @@ public class BattleRewardUIHandler : MonoBehaviour
             pieceInfoUI.button.onClick.AddListener(() =>
             {
                 selectedSkillObj = reward;
-
                 selectedImg.gameObject.SetActive(true);
                 selectedImg.transform.position = pieceInfoUI.transform.position;
 

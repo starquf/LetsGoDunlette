@@ -65,7 +65,7 @@ public class MI_Skill : SkillPiece
 
             target.GetDamage(GetDamageCalc(pieceInfo[1].GetValue()), this, Owner);
 
-            animHandler.GetAnim(AnimName.M_Bite).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            animHandler.GetAnim(AnimName.M_Butt).SetPosition(GameManager.Instance.enemyEffectTrm.position)
             .SetScale(2)
             .Play(() =>
             {

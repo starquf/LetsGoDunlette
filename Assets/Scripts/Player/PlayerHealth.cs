@@ -89,6 +89,7 @@ public class PlayerHealth : LivingEntity
         }
 
         GameManager.Instance.uILevelUPPopUp.PopUp(prevLevel, prevExp, PlayerLevel, CurrentExp, MaxExp);
+        GameManager.Instance.battleHandler.playerInfoHandler.Synchronization();
     }
 
     private bool CheckLevelUP()

@@ -40,8 +40,11 @@ public class PlayerInfoPanelHandler : BottomSwapUI
     {
         skillAbleIcon.gameObject.SetActive(!enable && hasCanUseSkill);
         base.SetCGEnable(enable);
+        Synchronization();
+    }
 
-        player = GameManager.Instance.battleHandler.player;
+    public void Synchronization()
+    {
         atkTxt.text = $"{player.AttackPower}";
         hpTxt.text = $"{player.maxHp}";
         maxPieceCountTxt.text = $"{player.MaxPieceCount}";

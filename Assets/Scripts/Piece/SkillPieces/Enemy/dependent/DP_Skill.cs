@@ -60,19 +60,26 @@ public class DP_Skill : SkillPiece
             Debug.LogError("보스가 없음");
             return;
         }
-
-        SetIndicator(boss.gameObject, "회복").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
         {
-            GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-            boss.Heal(pieceInfo[0].GetValue(1));
             Owner.GetComponent<LivingEntity>().GetDamageIgnoreShild(pieceInfo[0].GetValue());
 
-            animHandler.GetAnim(AnimName.M_Recover).SetPosition(boss.transform.position)
-        .SetScale(1)
-        .Play(() =>
+            animHandler.GetAnim(AnimName.M_Wisp)
+            .SetPosition(Owner.transform.position)
+            .SetScale(1);
+
+            SetIndicator(boss.gameObject, "회복").OnEndAction(() =>
             {
-                onCastEnd?.Invoke();
-            });
+                GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
+                boss.Heal(pieceInfo[0].GetValue(1));
+
+                animHandler.GetAnim(AnimName.M_Recover).SetPosition(boss.transform.position)
+                .SetScale(1)
+                .Play(() =>
+                    {
+                        onCastEnd?.Invoke();
+                    });
+                });
         });
     }
 
