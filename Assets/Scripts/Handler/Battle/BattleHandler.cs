@@ -645,6 +645,8 @@ public class BattleHandler : MonoBehaviour
 
         DebugLogHandler.AddLog(LogType.OnlyText, log);
 
+        GameManager.Instance.GetPlayer().AddExp(50);
+
         if (isWin)
         {
             enemys.Clear();

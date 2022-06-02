@@ -5,11 +5,10 @@ using UnityEngine.UI;
 
 public class PlayerHealth : LivingEntity
 {
-    public int playerLevel;
-
-    public int maxExp;
-
-    private int currentExp;
+    [SerializeField] private int maxPieceCount;
+    [SerializeField] private int playerLevel;
+    [SerializeField] private int maxExp;
+    [SerializeField] private int currentExp;
 
     public Color damageBGColor;
     public Image damageBGEffect;
@@ -19,7 +18,6 @@ public class PlayerHealth : LivingEntity
     protected override void Awake()
     {
         base.Awake();
-
         cc.isPlayer = true;
     }
 
@@ -66,6 +64,8 @@ public class PlayerHealth : LivingEntity
     public void AddExp(int value)
     {
         //°æÇèÄ¡ Áõ°¡ ÆË¾÷
+        int prevLevel = playerLevel;
+        int prevExp = currentExp;
 
         for (int i = 0; i < value; i++)
         {
@@ -75,6 +75,8 @@ public class PlayerHealth : LivingEntity
                 LevelUP();
             }
         }
+
+        GameManager.Instance.uILevelUPPopUp.PopUp(prevLevel, prevExp, playerLevel, currentExp, maxExp);
     }
 
     private bool CheckLevelUP()
@@ -86,7 +88,11 @@ public class PlayerHealth : LivingEntity
     {
         playerLevel++;
         currentExp = 0;
-
         //º¸»ó ÆË¾÷ ¶ç¿ö¾ßÇÔ
+    }
+
+    public void UpgradeMaxPieceCount(int value)
+    {
+        maxPieceCount += value;
     }
 }

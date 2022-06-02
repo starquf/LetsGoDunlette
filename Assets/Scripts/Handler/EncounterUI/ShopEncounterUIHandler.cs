@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -20,7 +21,12 @@ public class ShopEncounterUIHandler : MonoBehaviour
     public Button exitBtn, purchaseBtn;
 
     public Image selectProductImg;
-    public Text selectProductNameTxt, selectProductDesTxt;
+    public TextMeshProUGUI selectProductNameTxt, selectProductDesTxt;
+    public Image strokeImg;
+    public Image targetBGImg;
+    public Image targetImg;
+    public Transform skillIconTrans;
+    public List<SkillDesIcon> desIcons = new List<SkillDesIcon>();
 
     private bool isSelectPanelEnable;
     private int selectIdx;
@@ -39,6 +45,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
     private BattleScrollHandler battleScrollHandler;
 
     private BattleHandler bh;
+    private InventoryHandler invenHandler;
 
     private void Awake()
     {
@@ -47,6 +54,10 @@ public class ShopEncounterUIHandler : MonoBehaviour
 
     public void Start()
     {
+        skillIconTrans.GetComponentsInChildren(desIcons);
+        mainPanel.alpha = 0;
+        selectPanel.alpha = 0;
+
         bh = GameManager.Instance.battleHandler;
         goldUIHandler = GameManager.Instance.goldUIHandler;
         battleScrollHandler = bh.battleScroll;
@@ -98,7 +109,6 @@ public class ShopEncounterUIHandler : MonoBehaviour
             int idx = i;
             if (idx < 3)
             {
-
                 SkillPiece rulletPiece = randomRulletPiece[Random.Range(0, randomRulletPiece.Count)];
                 randomRulletPiece.Remove(rulletPiece);
                 products[idx].SetProduct(ProductType.RulletPiece, null, rulletPiece);
@@ -167,32 +177,34 @@ public class ShopEncounterUIHandler : MonoBehaviour
                          }, true);
                     break;
                 case ProductType.RulletPiece:
-                    SkillPiece skillPiece = Instantiate(selectProduct.rulletPiece, Vector3.zero, Quaternion.identity).GetComponent<SkillPiece>();
-                    Image skillImg = skillPiece.GetComponent<Image>();
-                    skillImg.color = new Color(1, 1, 1, 0);
-                    skillPiece.transform.SetParent(transform);
-                    skillPiece.transform.localScale = Vector3.one;
-                    skillPiece.transform.position = Vector3.zero;
-                    skillPiece.transform.rotation = Quaternion.Euler(0, 0, 30f);
-                    Transform unusedInventoryTrm = GameManager.Instance.inventoryHandler.transform;
-                    DOTween.Sequence()
-                     .Append(skillImg.DOFade(1, 0.5f))
-                    .Append(skillPiece.transform.DOMove(unusedInventoryTrm.position, 0.3f).SetDelay(0.3f))
-                    .Join(skillPiece.transform.DOScale(Vector2.one * 0.1f, 0.3f))
-                    .Join(skillPiece.GetComponent<Image>().DOFade(0f, 0.3f))
-                    .OnComplete(() =>
-                    {
-                        Inventory owner = bh.player.GetComponent<Inventory>();
 
-                        GameManager.Instance.inventoryHandler.AddSkill(skillPiece, owner);
-                        skillImg.color = Color.white;
-
-                        selectPanel.DOFade(0, 0.5f).OnComplete(() =>
+                    SkillPiece skillPiece = selectProduct.rulletPiece;//Instantiate(selectProduct.rulletPiece, Vector3.zero, Quaternion.identity).GetComponent<SkillPiece>();
+                    GameManager.Instance.getPieceHandler.GetPiecePlayer(skillPiece, 
+                        () => SetAllButtonInterval(true, true), 
+                        () =>
                         {
-                            SetProductSold(selectIdx);
-                            SetAllButtonInterval(true, true);
+                            Image skillImg = skillPiece.GetComponent<Image>();
+                            skillImg.color = new Color(1, 1, 1, 0);
+                            skillPiece.transform.SetParent(transform);
+                            skillPiece.transform.localScale = Vector3.one;
+                            skillPiece.transform.position = Vector3.zero;
+                            skillPiece.transform.rotation = Quaternion.Euler(0, 0, 30f);
+                            skillPiece.gameObject.SetActive(true);
+                            Transform unusedInventoryTrm = bh.player.GetComponent<Inventory>().indicator.transform;
+                            DOTween.Sequence()
+                            .Append(skillImg.DOFade(1, 0.5f))
+                            .Append(skillPiece.transform.DOMove(unusedInventoryTrm.position, 0.3f).SetDelay(0.3f))
+                            .Join(skillPiece.transform.DOScale(Vector2.one * 0.1f, 0.3f))
+                            .Join(skillPiece.GetComponent<Image>().DOFade(0f, 0.3f))
+                            .OnComplete(() =>
+                            {
+                                selectPanel.DOFade(0, 0.5f).OnComplete(() =>
+                                {
+                                    SetProductSold(selectIdx);
+                                    SetAllButtonInterval(true, true);
+                                });
+                            });
                         });
-                    });
                     break;
                 default:
                     Debug.LogError("선택된 상품의 타입이 스크롤이나, 룰렛조각이 아닙니다.");
@@ -272,9 +284,65 @@ public class ShopEncounterUIHandler : MonoBehaviour
 
     public void SetSelectPanel(ProductInfo product)
     {
-        selectProductImg.sprite = product.productType.Equals(ProductType.RulletPiece) ? product.productImg.sprite : product.scrollImg.sprite;
+        Sprite productSpr = null;
+
+        if(invenHandler == null)
+            invenHandler = GameManager.Instance.inventoryHandler;
+
+        if (product.productType.Equals(ProductType.RulletPiece))
+        {
+            productSpr = product.productImg.sprite;
+            Sprite stroke = invenHandler.pieceBGStrokeSprDic[product.rulletPiece.currentType];
+            Sprite targetBG = invenHandler.targetBGSprDic[product.rulletPiece.currentType];
+            Sprite targetIcon = invenHandler.targetIconSprDic[product.rulletPiece.skillRange];
+
+
+            skillIconTrans.gameObject.SetActive(true);
+            strokeImg.gameObject.SetActive(true);
+            targetBGImg.gameObject.SetActive(true);
+            targetImg.gameObject.SetActive(true);
+
+            strokeImg.sprite = stroke;
+            targetBGImg.sprite = targetBG;
+            targetImg.sprite = targetIcon;
+
+            List<DesIconInfo> desInfos = product.rulletPiece.GetDesIconInfo();
+            ShowDesIcon(desInfos, product.rulletPiece);
+        }
+        else
+        {
+            productSpr = product.scrollImg.sprite;
+
+
+            skillIconTrans.gameObject.SetActive(false);
+            strokeImg.gameObject.SetActive(false);
+            targetBGImg.gameObject.SetActive(false);
+            targetImg.gameObject.SetActive(false);
+        }
+        selectProductImg.sprite = productSpr;
         selectProductNameTxt.text = product.productName;
         selectProductDesTxt.text = product.productDes;
+    }
+    private void ShowDesIcon(List<DesIconInfo> desInfos, SkillPiece skillPiece)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            DesIconType type = desInfos[i].iconType;
+
+            if (type.Equals(DesIconType.None))
+            {
+                desIcons[i].gameObject.SetActive(false);
+                continue;
+            }
+            else
+            {
+                desIcons[i].gameObject.SetActive(true);
+            }
+
+            Sprite icon = bh.battleUtil.GetDesIcon(skillPiece, type);
+
+            desIcons[i].SetIcon(icon, desInfos[i].value);
+        }
     }
 
     private void EndEvent()
@@ -287,6 +355,21 @@ public class ShopEncounterUIHandler : MonoBehaviour
 
         //goldUIHandler.ShowGoldUI(false);
         //battleScrollHandler.ShowScrollUI(open: false);
+
+        for (int i = 0; i < products.Count; i++)
+        {
+            int idx = i;
+            if (idx < 3)
+            {
+                SkillPiece sp = products[idx].rulletPiece;
+                if (sp != null)
+                    Destroy(products[idx].rulletPiece.gameObject);
+            }
+            else
+            {
+                break;
+            }
+        }
         GameManager.Instance.EndEncounter();
     }
 

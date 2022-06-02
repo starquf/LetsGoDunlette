@@ -122,12 +122,13 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         }
     }
 
-    public virtual void UpgradeHP(int value)
+    public virtual void UpgradeHP(int value) //레벨업 보상에 쓸예정
     {
         maxHp += value;
+        SetHPBar();
     }
 
-    public virtual void UpgradeAttackPower(int value)
+    public virtual void UpgradeAttackPower(int value) //레벨업 보상에 쓸예정
     {
         attackPower += value;
     }

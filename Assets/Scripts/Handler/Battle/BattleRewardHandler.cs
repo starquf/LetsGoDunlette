@@ -28,44 +28,31 @@ public class BattleRewardHandler : MonoBehaviour
 
         battleRewardUI.getBtn.onClick.AddListener(() =>
         {
-            battleRewardUI.selectCG.interactable = false;
-            battleRewardUI.buttonCG.interactable = false;
+        battleRewardUI.selectCG.interactable = false;
+        battleRewardUI.buttonCG.interactable = false;
 
-            if (CheckCapacity())
-            {
-                invenInfo.ShowInventoryInfo("교체할 조각을 선택하세요", ShowInfoRange.Inventory,
-                    selected =>
-                    {
-                        invenInfo.desPanel.ShowDescription(selected);
-
-                        invenInfo.desPanel.ShowConfirmBtn(() =>
-                        {
-                            invenInfo.desPanel.ShowPanel(false);
-
-                            invenInfo.onCloseBtn = null;
-                            invenInfo.CloseInventoryInfo();
-
-                            invenHandler.RemovePiece(selected);
-
-                            GetReward(battleRewardUI.selectedSkillObj);
-                        });
-                    },
-                    () =>
-                    {
-                        RemovePiece(null);
+        GameManager.Instance.getPieceHandler.GetPiecePlayer(battleRewardUI.selectedSkillObj,
+                () =>
+                {
+                    RemovePiece(null);
 
                         // 전투 끝 알림
                         battleRewardUI.SkipRewardEffect(() =>
-                        {
-                            battleRewardUI.ResetRewardUI();
-                            GameManager.Instance.EndEncounter();
-                        });
+                    {
+                        battleRewardUI.ResetRewardUI();
+                        GameManager.Instance.EndEncounter();
                     });
-            }
-            else
-            {
-                GetReward(battleRewardUI.selectedSkillObj);
-            }
+                }, 
+                ()=>
+                {
+                    RemovePiece(battleRewardUI.selectedSkillObj);
+
+                    battleRewardUI.GetRewardEffect(() =>
+                    {
+                        battleRewardUI.ResetRewardUI();
+                        GameManager.Instance.EndEncounter();
+                    });
+                });
         });
 
         battleRewardUI.skipBtn.onClick.AddListener(() =>
@@ -82,25 +69,6 @@ public class BattleRewardHandler : MonoBehaviour
                 GameManager.Instance.EndEncounter();
             });
         });
-    }
-
-    private void GetReward(SkillPiece selected)
-    {
-        GetPiece(selected);
-        RemovePiece(selected);
-
-        battleRewardUI.GetRewardEffect(() =>
-        {
-            battleRewardUI.ResetRewardUI();
-            GameManager.Instance.EndEncounter();
-        });
-    }
-
-    private bool CheckCapacity()
-    {
-        PlayerInventory inven = battleHandler.player.GetComponent<PlayerInventory>();
-
-        return inven.IsInventoryFull();
     }
 
     public void Init(List<GameObject> rewardObjs)
@@ -145,13 +113,6 @@ public class BattleRewardHandler : MonoBehaviour
         {
             battleRewardUI.ShowReward(rewards);
         });
-    }
-
-    private void GetPiece(SkillPiece skill, Action onEndCreate = null)
-    {
-        invenHandler.AddSkill(
-            skill,
-            battleHandler.player.GetComponent<Inventory>());
     }
 
     private void RemovePiece(SkillPiece selected)

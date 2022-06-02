@@ -105,6 +105,9 @@ public class GameManager : MonoBehaviour
     public AnimHandler animHandler;
     [HideInInspector]
     public BuffParticleHandler buffParticleHandler;
+    [HideInInspector]
+    public GetPieceHandler getPieceHandler;
+    public UILevelUPPopUp uILevelUPPopUp;
 
     [HideInInspector]
     public event Action OnUpdateUI;
