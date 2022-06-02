@@ -5,23 +5,71 @@ using UnityEngine.UI;
 
 public class UILevelUPPopUp : MonoBehaviour
 {
+    [Header("LevelUP")]
+    public GameObject levelUPPanel;
     public Image expFillImage;
     public Image AdditiveExpFillImage;
-
     public Text levelText;
     public Text expText;
+    public Button closeBtn;
+    [Header("Reward")]
+    public GameObject rewardPanel;
+    public Button[] rewardBtns;
 
     private CanvasGroup canvasGroup;
+
+    private PlayerHealth player;
+
+    private void Awake()
+    {
+        GameManager.Instance.uILevelUPPopUp = this;
+    }
 
     private void Start()
     {
         canvasGroup = GetComponent<CanvasGroup>();
+        canvasGroup.blocksRaycasts = false;
+        closeBtn.onClick.AddListener(Close);
 
-        PopUp(1, 90, 10, 50, 100);
+        player = GameManager.Instance.GetPlayer();
+
+
+    }
+
+    public void Close()
+    {
+        canvasGroup.alpha = 0;
+        canvasGroup.blocksRaycasts = false;
+        closeBtn.gameObject.SetActive(false);
+        levelUPPanel.gameObject.SetActive(false);
+        rewardPanel.gameObject.SetActive(false);
+    }
+
+    public void OpenReward()
+    {
+        canvasGroup.blocksRaycasts = true;
+        rewardPanel.gameObject.SetActive(true);
+
+        for (int i = 0; i < rewardBtns.Length; i++)
+        {
+            rewardBtns[i].onClick.RemoveAllListeners();
+        }
+
+        for (int i = 0; i < rewardBtns.Length; i++)
+        {
+            rewardBtns[i].onClick.AddListener(() => Close());
+        }
+
+        rewardBtns[0].onClick.AddListener(() => player.UpgradeAttackPower(5));
+        rewardBtns[1].onClick.AddListener(() => player.UpgradeHP(10));
+        rewardBtns[2].onClick.AddListener(() => player.UpgradeMaxPieceCount(1));
     }
 
     public void PopUp(int originLevel, int originExp, int nowLevel, int nowExp, int maxExp, bool isFirst = true)
     {
+        canvasGroup.blocksRaycasts = true;
+        closeBtn.gameObject.SetActive(false);
+        levelUPPanel.gameObject.SetActive(true);
         StartCoroutine(StartPopUp(originLevel, originExp, nowLevel, nowExp, maxExp, isFirst));
     }
 
@@ -55,6 +103,7 @@ public class UILevelUPPopUp : MonoBehaviour
             expFillImage.DOColor(new Color(0, 0.6787322f, 1), time/2);
             expText.DOColor(new Color(0, 0.6787322f, 1), time / 2);
             yield return new WaitForSeconds(time);
+            OpenReward();
             PopUp(originLevel + 1, 0, nowLevel, nowExp, maxExp, false);
         }
         else
@@ -65,6 +114,7 @@ public class UILevelUPPopUp : MonoBehaviour
             yield return new WaitForSeconds(time);
             DOTween.To(() => expFillImage.fillAmount, x => expFillImage.fillAmount = x, tempRatio, time);
             expText.DOText($"{nowExp}/{maxExp}", time);
+            closeBtn.gameObject.SetActive(true);
         }
 
         yield return null;
