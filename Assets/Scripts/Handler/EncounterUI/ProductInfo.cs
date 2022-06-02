@@ -6,11 +6,13 @@ public class ProductInfo : MonoBehaviour
     public ProductType productType = ProductType.None;
 
     [HideInInspector] public Scroll scroll;
-    [HideInInspector] public RulletPiece rulletPiece;
+    [HideInInspector] public SkillPiece rulletPiece;
 
     public Image scrollImg;
+
     public Transform skillIconsTrm;
     public Image productImg;
+
     public Image productPriceImg;
     public Text productPriceTxt;
     [HideInInspector] public string productName, productDes;
@@ -40,9 +42,12 @@ public class ProductInfo : MonoBehaviour
                 productPriceTxt.text = price.ToString();
                 break;
             case ProductType.RulletPiece:
+                SkillPiece skillPiece = Instantiate(rulletPiece, Vector3.zero, Quaternion.identity).GetComponent<SkillPiece>();
+                skillPiece.Owner = GameManager.Instance.GetPlayer().GetComponent<Inventory>();
+                skillPiece.gameObject.SetActive(false);
                 scrollImg.gameObject.SetActive(false);
                 skillIconsTrm.gameObject.SetActive(true);
-                this.rulletPiece = rulletPiece;
+                this.rulletPiece = skillPiece;
                 //skillIconsTrm.GetComponent<RectTransform>().sizeDelta = Vector2.one * 250;
                 productImg.sprite = rulletPiece.cardBG;
                 productName = rulletPiece.PieceName;

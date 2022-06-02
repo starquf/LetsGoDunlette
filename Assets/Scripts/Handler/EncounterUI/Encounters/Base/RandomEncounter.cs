@@ -55,43 +55,43 @@ public abstract class RandomEncounter : MonoBehaviour
 
     public void GetSkillInRandomEncounterAnim(SkillPiece skill, Action OnComplete = null, bool fadeInSkip = false)
     {
-        Inventory owner = bh.player.GetComponent<Inventory>();
-        Transform unusedInventoryTrm = owner.indicator.transform;
-        Image skillImg = skill.GetComponent<Image>();
-        if (fadeInSkip)
+        GameManager.Instance.getPieceHandler.GetPiecePlayer(skill, OnComplete, () =>
         {
-            DOTween.Sequence()
-            .Append(skill.transform.DOMove(unusedInventoryTrm.position, 0.5f))
-            .Join(skill.transform.DOScale(Vector2.one * 0.1f, 0.5f))
-            .Join(skillImg.DOFade(0f, 0.5f))
-            .OnComplete(() =>
+            Inventory owner = bh.player.GetComponent<Inventory>();
+            Transform unusedInventoryTrm = owner.indicator.transform;
+            Image skillImg = skill.GetComponent<Image>();
+            if (fadeInSkip)
             {
-                GameManager.Instance.inventoryHandler.AddSkill(skill, owner);
-                skill.GetComponent<Image>().color = Color.white;
+                DOTween.Sequence()
+                .Append(skill.transform.DOMove(unusedInventoryTrm.position, 0.5f))
+                .Join(skill.transform.DOScale(Vector2.one * 0.1f, 0.5f))
+                .Join(skillImg.DOFade(0f, 0.5f))
+                .OnComplete(() =>
+                {
+                    skill.GetComponent<Image>().color = Color.white;
+                    skill.gameObject.SetActive(false);
+
+                    OnComplete?.Invoke();
+                });
+            }
+            else
+            {
+                DOTween.Sequence()
+                .Append(skillImg.DOFade(1, 0.5f))
+                .AppendInterval(0.1f)
+                .Append(skill.transform.DOMove(unusedInventoryTrm.position, 0.5f))
+                .Join(skill.transform.DOScale(Vector2.one * 0.1f, 0.5f))
+                .Join(skillImg.DOFade(0f, 0.5f))
+                .OnComplete(() =>
+                {
+                    skill.GetComponent<Image>().color = Color.white;
                 //skill.transform.SetParent
                 skill.gameObject.SetActive(false);
 
-                OnComplete?.Invoke();
-            });
-        }
-        else
-        {
-            DOTween.Sequence()
-            .Append(skillImg.DOFade(1, 0.5f))
-            .AppendInterval(0.1f)
-            .Append(skill.transform.DOMove(unusedInventoryTrm.position, 0.5f))
-            .Join(skill.transform.DOScale(Vector2.one * 0.1f, 0.5f))
-            .Join(skillImg.DOFade(0f, 0.5f))
-            .OnComplete(() =>
-            {
-                GameManager.Instance.inventoryHandler.AddSkill(skill, owner);
-                skill.GetComponent<Image>().color = Color.white;
-                //skill.transform.SetParent
-                skill.gameObject.SetActive(false);
-
-                OnComplete?.Invoke();
-            });
-        }
+                    OnComplete?.Invoke();
+                });
+            }
+        });
     }
 
     public abstract void ResultSet(int resultIdx);
