@@ -1,13 +1,20 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerInfoPanelHandler : BottomSwapUI
 {
+    public TextMeshProUGUI atkTxt;
+    public TextMeshProUGUI hpTxt;
+    public TextMeshProUGUI maxPieceCountTxt;
+
+    public TextMeshProUGUI expTxt;
+    public Image expFillImage;
+
     private BattleHandler bh;
-
     private PlayerInfo playerInfo;
-
+    private PlayerHealth player;
     private List<PlayerSkillButton> skillButtons = new List<PlayerSkillButton>();
     public Transform skillBtnTrans;
     public Image skillAbleIcon;
@@ -19,21 +26,28 @@ public class PlayerInfoPanelHandler : BottomSwapUI
     protected override void Awake()
     {
         base.Awake();
-
         skillBtnTrans.GetComponentsInChildren(skillButtons);
     }
 
     protected override void Start()
     {
         base.Start();
-
         bh = GameManager.Instance.battleHandler;
+        player = GameManager.Instance.battleHandler.player;
     }
 
     protected override void SetCGEnable(bool enable)
     {
         skillAbleIcon.gameObject.SetActive(!enable && hasCanUseSkill);
         base.SetCGEnable(enable);
+
+        player = GameManager.Instance.battleHandler.player;
+        atkTxt.text = $"{player.AttackPower}";
+        hpTxt.text = $"{player.maxHp}";
+        maxPieceCountTxt.text = $"{player.MaxPieceCount}";
+
+        expTxt.text = $"{player.CurrentExp}/{player.MaxExp}";
+        expFillImage.fillAmount = player.CurrentExp / (float)player.MaxExp;
     }
 
     public void Init(PlayerInfo playerInfo)

@@ -10,8 +10,7 @@ public class Deck
 
 public class PlayerInventory : Inventory
 {
-    [Header("파라매터")]
-    public int capacity = 13;
+    private int capacity;
 
     [Header("시작시 사용할 덱들")]
     public List<Deck> decks = new List<Deck>();
@@ -28,6 +27,7 @@ public class PlayerInventory : Inventory
 
     public bool IsInventoryFull()
     {
+        capacity = GameManager.Instance.GetPlayer().MaxPieceCount;
         return capacity <= skills.Count;
     }
 }

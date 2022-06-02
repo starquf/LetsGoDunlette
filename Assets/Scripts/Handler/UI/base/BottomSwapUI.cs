@@ -21,14 +21,12 @@ public abstract class BottomSwapUI : MonoBehaviour
         startPos = cg.transform.localPosition.y;
         endPos = cg.transform.localPosition.y - rect.rect.height - 30f;
 
-        ShowPanel(false);
-
         cg.alpha = 0f;
     }
 
     protected virtual void Start()
     {
-
+        ShowPanel(true);
     }
 
     public virtual void ClosePanel()
