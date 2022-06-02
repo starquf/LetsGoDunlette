@@ -45,6 +45,11 @@ public class PlayerInfoPanelHandler : BottomSwapUI
 
     public void Synchronization()
     {
+        if (player == null)
+        {
+            player = GameManager.Instance.battleHandler.player;
+        }
+
         atkTxt.text = $"{player.AttackPower}";
         hpTxt.text = $"{player.maxHp}";
         maxPieceCountTxt.text = $"{player.MaxPieceCount}";
