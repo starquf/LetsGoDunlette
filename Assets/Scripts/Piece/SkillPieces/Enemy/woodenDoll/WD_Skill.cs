@@ -40,6 +40,7 @@ public class WD_Skill : SkillPiece
 
         return pieceInfo[0];
     }
+
     public override List<DesIconInfo> GetDesIconInfo()
     {
         return desInfos;
