@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class GB_Skill : SkillPiece
@@ -48,8 +49,8 @@ public class GB_Skill : SkillPiece
 
             target.cc.SetCC(CCType.Stun, 1, true);
 
-            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
-            .SetScale(2)
+            animHandler.GetAnim(AnimName.PlayerStunned).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            .SetScale(3)
             .Play(() =>
             {
                 onCastEnd?.Invoke();
@@ -71,11 +72,16 @@ public class GB_Skill : SkillPiece
 
             target.GetDamage(damage, this, Owner);
 
-            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
-            .SetScale(2)
+            animHandler.GetAnim(AnimName.M_Butt).SetPosition(GameManager.Instance.enemyEffectTrm.position + new Vector3(Random.Range(-1, 1), Random.Range(-1, 0.5f), 0))
+            .SetScale(0.8f)
             .Play(() =>
             {
-                onCastEnd?.Invoke();
+                animHandler.GetAnim(AnimName.M_Butt).SetPosition(GameManager.Instance.enemyEffectTrm.position + new Vector3(Random.Range(-1, 1), Random.Range(-1, 0.5f), 0))
+                .SetScale(0.8f)
+                .Play(()=>
+                {
+                    onCastEnd?.Invoke();
+                });
             });
         });
     }

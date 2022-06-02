@@ -56,7 +56,7 @@ public class RF_Present : SkillPiece
         {
             target.GetDamage(GetDamageCalc(Value), this, Owner);
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
-            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            animHandler.GetAnim(AnimName.M_Butt).SetPosition(GameManager.Instance.enemyEffectTrm.position)
             .SetScale(2)
             .Play(() =>
             {

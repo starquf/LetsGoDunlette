@@ -69,7 +69,7 @@ public class NL_Skill : SkillPiece
                 target.cc.IncreaseCCTurn(CCType.Wound, ccValue);
             }
 
-            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            animHandler.GetAnim(AnimName.M_Wisp).SetPosition(GameManager.Instance.enemyEffectTrm.position)
             .SetScale(2)
             .Play(() =>
             {

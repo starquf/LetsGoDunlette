@@ -59,7 +59,7 @@ public class QN_Skill : SkillPiece
 
             target.GetDamage(damage, this, Owner);
 
-            animHandler.GetAnim(AnimName.M_Sword).SetPosition(Owner.transform.position)
+            animHandler.GetAnim(AnimName.M_Butt).SetPosition(Owner.transform.position)
             .SetScale(1)
             .Play(() =>
             {
@@ -81,6 +81,8 @@ public class QN_Skill : SkillPiece
             if (health.gameObject != Owner.gameObject)
             {
                 health.AddShield(pieceInfo[1].GetValue());
+                animHandler.GetAnim(AnimName.M_Shield).SetPosition(health.transform.position)
+                .SetScale(1);
             }
         }
 
