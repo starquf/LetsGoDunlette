@@ -20,7 +20,7 @@ public class TA_Skill : SkillPiece
 
         if (Random.Range(0, 100) < 70)  // 접근금지
         {
-            onCastSkill = TA_Off_Limits;
+            onCastSkill = TA_Body_Heating;
 
             desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[0].GetValue())}");
 
@@ -28,7 +28,7 @@ public class TA_Skill : SkillPiece
         }
         else
         {
-            onCastSkill = TA_Body_Heating;
+            onCastSkill = TA_Patrol;
 
             return pieceInfo[1];
         }
@@ -43,8 +43,7 @@ public class TA_Skill : SkillPiece
     {
         onCastSkill(target, onCastEnd);
     }
-
-    private void TA_Off_Limits(LivingEntity target, Action onCastEnd = null) //플레이어에게 40의 피해를 입힌다.
+    private void TA_Off_Limits(LivingEntity target, Action onCastEnd = null) //접근금지
     {
         SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
         {
@@ -60,7 +59,23 @@ public class TA_Skill : SkillPiece
         });
     }
 
-    private void TA_Body_Heating(LivingEntity target, Action onCastEnd = null) //타로스의 모든 공격의 피해를 10만큼 증가시킨다. //스프라이트 변경
+    private void TA_Body_Heating(LivingEntity target, Action onCastEnd = null) //신체가열
+    {
+        SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
+        {
+            target.GetDamage(GetDamageCalc(pieceInfo[0].GetValue()), this, Owner);
+
+            animHandler.GetAnim(AnimName.M_Sword)
+            .SetPosition(GameManager.Instance.enemyEffectTrm.position)
+            .SetScale(2)
+            .Play(() =>
+            {
+                onCastEnd?.Invoke();
+            });
+        });
+    }
+
+    private void TA_Patrol(LivingEntity target, Action onCastEnd = null) //순찰
     {
         SetIndicator(Owner.gameObject, "강화").OnEndAction(() =>
         {
