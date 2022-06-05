@@ -48,8 +48,7 @@ public class SkillPiece : RulletPiece
     public override void OnRullet()
     {
         base.OnRullet();
-        bh = GameManager.Instance.battleHandler;
-        animHandler = GameManager.Instance.animHandler;
+
     }
     public virtual int GetDamageCalc() //Player Àü¿ëÀÓ
     {
