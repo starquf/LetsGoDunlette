@@ -45,9 +45,10 @@ public class TA_Skill : SkillPiece
     }
     private void TA_Off_Limits(LivingEntity target, Action onCastEnd = null) //접근금지
     {
-        SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "접근금지").OnEndAction(() =>
         {
             target.GetDamage(GetDamageCalc(pieceInfo[0].GetValue()), this, Owner);
+            target.AddShield(pieceInfo[0].GetValue(1));
 
             animHandler.GetAnim(AnimName.M_Sword)
             .SetPosition(GameManager.Instance.enemyEffectTrm.position)
