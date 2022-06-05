@@ -8,6 +8,11 @@ public class TA_Skill : SkillPiece
     public Sprite heatingSprite;
     public Sprite normalSprite;
 
+    private Action<SkillPiece, Action> skillEvent;
+    private SkillEvent skillEventInfo = null;
+
+    private int patrolCount = 0;
+
     protected override void Awake()
     {
         base.Awake();
@@ -17,26 +22,68 @@ public class TA_Skill : SkillPiece
     public override PieceInfo ChoiceSkill()
     {
         base.ChoiceSkill();
-
-        if (Random.Range(0, 100) < 70)  // 접근금지
+        if (Random.Range(0, 100) < 70)  // 신체가열
         {
             onCastSkill = TA_Body_Heating;
-
-            desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[0].GetValue())}");
-
-            return pieceInfo[0];
+            desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[1].GetValue())}");
+            return pieceInfo[1];
         }
         else
         {
             onCastSkill = TA_Patrol;
-
-            return pieceInfo[1];
+            return pieceInfo[2];
         }
     }
 
     public override List<DesIconInfo> GetDesIconInfo()
     {
         return desInfos;
+    }
+
+    public override void OnRullet()
+    {
+        base.OnRullet();
+        bh.battleEvent.RemoveEventInfo(skillEventInfo);
+
+        skillEvent = (sp, action) =>
+        {
+            if (sp.Owner == Owner) // 발동된 스킬이 타로스의 스킬이라면
+            {
+                action?.Invoke();
+                return;
+            }
+
+            if (Owner.GetComponent<EnemyHealth>().IsDie || bh.player.IsDie)
+            {
+                action?.Invoke();
+                return;
+            }
+
+            EnemyIndicator indi = Owner.GetComponent<EnemyIndicator>();
+            indi.HideText();
+            indi.ShowText("접근 금지", () =>
+            bh.castUIHandler.ShowCasting(pieceInfo[0], () =>
+            {
+                GameManager.Instance.GetPlayer().GetDamage(GetDamageCalc(pieceInfo[0].GetValue()), this, Owner);
+                Owner.GetComponent<EnemyHealth>().AddShield(pieceInfo[0].GetValue(1));
+
+                animHandler.GetAnim(AnimName.M_Sword)
+                .SetPosition(GameManager.Instance.enemyEffectTrm.position)
+                .SetScale(2)
+                .Play(() =>
+                {
+                    bh.battleUtil.SetTimer(0.5f + 0.25f, () =>
+                    {
+                        bh.castUIHandler.ShowPanel(false, false);
+                        action?.Invoke();
+                    });
+                });
+            }));
+
+        };
+
+        skillEventInfo = new SkillEvent(EventTimeSkill.AfterSkill, skillEvent);
+        bh.battleEvent.BookEvent(skillEventInfo);
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
@@ -47,16 +94,7 @@ public class TA_Skill : SkillPiece
     {
         SetIndicator(Owner.gameObject, "접근금지").OnEndAction(() =>
         {
-            target.GetDamage(GetDamageCalc(pieceInfo[0].GetValue()), this, Owner);
-            target.AddShield(pieceInfo[0].GetValue(1));
 
-            animHandler.GetAnim(AnimName.M_Sword)
-            .SetPosition(GameManager.Instance.enemyEffectTrm.position)
-            .SetScale(2)
-            .Play(() =>
-            {
-                onCastEnd?.Invoke();
-            });
         });
     }
 
@@ -78,16 +116,9 @@ public class TA_Skill : SkillPiece
 
     private void TA_Patrol(LivingEntity target, Action onCastEnd = null) //순찰
     {
-        SetIndicator(Owner.gameObject, "강화").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "순찰").OnEndAction(() =>
         {
-            Owner.GetComponent<SpriteRenderer>().sprite = heatingSprite;
-            Owner.GetComponent<EnemyHealth>().cc.IncreaseBuff(BuffType.Upgrade, 3);
-
-            bh.battleEvent.BookEvent(new NormalEvent(true, 3, action =>
-            {
-                Owner.GetComponent<EnemyHealth>().cc.DecreaseBuff(BuffType.Upgrade, 3);
-                action?.Invoke();
-            }, EventTime.EndOfTurn));
+            patrolCount += 3;
 
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
@@ -99,4 +130,13 @@ public class TA_Skill : SkillPiece
             });
         });
     }
+
+    /*            Owner.GetComponent<SpriteRenderer>().sprite = heatingSprite;
+            Owner.GetComponent<EnemyHealth>().cc.IncreaseBuff(BuffType.Upgrade, 3);
+
+            bh.battleEvent.BookEvent(new NormalEvent(true, 3, action =>
+            {
+                Owner.GetComponent<EnemyHealth>().cc.DecreaseBuff(BuffType.Upgrade, 3);
+                action?.Invoke();
+            }, EventTime.EndOfTurn));*/
 }
