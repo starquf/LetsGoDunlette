@@ -62,9 +62,9 @@ public class TA_Skill : SkillPiece
 
     private void TA_Body_Heating(LivingEntity target, Action onCastEnd = null) //신체가열
     {
-        SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "신체 가열").OnEndAction(() =>
         {
-            target.GetDamage(GetDamageCalc(pieceInfo[0].GetValue()), this, Owner);
+            target.GetDamage(GetDamageCalc(pieceInfo[1].GetValue()), this, Owner);
 
             animHandler.GetAnim(AnimName.M_Sword)
             .SetPosition(GameManager.Instance.enemyEffectTrm.position)
