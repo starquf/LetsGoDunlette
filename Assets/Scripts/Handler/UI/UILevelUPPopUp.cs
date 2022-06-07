@@ -86,26 +86,38 @@ public class UILevelUPPopUp : MonoBehaviour
             rewardBtns[i].onClick.RemoveAllListeners();
         }
 
-        rewardBtns[0].onClick.AddListener(() => player.UpgradeAttackPower(rewardInfos[player.PlayerLevel - 2].atkPower));
-        rewardBtns[1].onClick.AddListener(() => player.UpgradeHP(rewardInfos[player.PlayerLevel - 2].hp));
-        rewardBtns[2].onClick.AddListener(() => player.UpgradeMaxPieceCount(rewardInfos[player.PlayerLevel - 2].maxPiece));
+        rewardBtns[0].onClick.AddListener(() =>
+        {
+            player.UpgradeAttackPower(rewardInfos[player.atkLevel].atkPower);
+            player.atkLevel++;
+        });
+        rewardBtns[1].onClick.AddListener(() =>
+        {
+            player.UpgradeHP(rewardInfos[player.hpLevel].hp);
+            player.hpLevel++;
+        });
+        rewardBtns[2].onClick.AddListener(() =>
+        {
+            player.UpgradeMaxPieceCount(rewardInfos[player.maxPieceLevel].maxPiece);
+            player.maxPieceLevel++;
+        });
 
         for (int i = 0; i < rewardBtns.Count; i++)
         {
             rewardBtns[i].onClick.AddListener(Close);
         }
 
-        if (rewardInfos[player.PlayerLevel - 2].atkPower == 0)
+        if (rewardInfos[player.atkLevel].atkPower == 0)
         {
             rewardBtns[0].interactable = false;
         }
 
-        if (rewardInfos[player.PlayerLevel - 2].hp == 0)
+        if (rewardInfos[player.hpLevel].hp == 0)
         {
             rewardBtns[1].interactable = false;
         }
 
-        if (rewardInfos[player.PlayerLevel - 2].maxPiece == 0)
+        if (rewardInfos[player.maxPieceLevel].maxPiece == 0)
         {
             rewardBtns[2].interactable = false;
         }
@@ -178,7 +190,7 @@ public class UILevelUPPopUp : MonoBehaviour
         {
             string logText = $"{expLogs[i].content} +{expLogs[i].expValue}";
 
-            if(expTxts.Count <= i)
+            if (expTxts.Count <= i)
             {
                 TextMeshProUGUI textLog = Instantiate(expLogText, levelUPPanel.transform).GetComponent<TextMeshProUGUI>();
                 expTxts.Add(textLog);

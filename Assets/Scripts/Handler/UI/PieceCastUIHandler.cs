@@ -202,6 +202,49 @@ public class PieceCastUIHandler : MonoBehaviour
         ShowPanel(true);
     }
 
+    public void ShowCasting(PieceInfo info, List<DesIconInfo> desInfos, SkillPiece skillPiece, Action onEndEffect)
+    {
+        cardBG.sprite = info.cardBG;
+        cardNameText.text = info.PieceName;
+        cardDesText.text = info.PieceDes;
+
+        if (cardDesText.text.Equals(""))
+        {
+            cardDesText.gameObject.SetActive(false);
+        }
+        else
+        {
+            cardDesText.gameObject.SetActive(true);
+        }
+
+        ShowDesIcon(desInfos, skillPiece);
+
+        InventoryHandler inven = GameManager.Instance.inventoryHandler;
+        strokeImg.sprite = inven.pieceBGStrokeSprDic[skillPiece.currentType];
+        targetBGImg.sprite = inven.targetBGSprDic[skillPiece.currentType];
+        targetIcon.sprite = inven.targetIconSprDic[skillPiece.skillRange];
+        gradeHandler.SetGrade(skillPiece.skillGrade);
+
+        pieceMoveSequence.Kill();
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)cardDesText.transform.parent);
+
+        timeCor = StartCoroutine(CastWait(onEndEffect));
+
+        ShowSkipText();
+
+        SetCloseBtn(() =>
+        {
+            if (timeCor != null)
+            {
+                StopCoroutine(timeCor);
+            }
+
+            onEndEffect();
+        });
+
+        ShowPanel(true);
+    }
+
     private void ShowSkipText()
     {
         skipSeq = DOTween.Sequence()

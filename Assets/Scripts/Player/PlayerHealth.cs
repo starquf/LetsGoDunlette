@@ -6,20 +6,19 @@ using UnityEngine.UI;
 
 public class PlayerHealth : LivingEntity
 {
-    private int maxPieceCount;
-    private int playerLevel;
-    private int maxExp;
-    private int currentExp;
+    public int atkLevel;
+    public int hpLevel;
+    public int maxPieceLevel;
 
     public Color damageBGColor;
     public Image damageBGEffect;
 
     public TextMeshProUGUI topPanelHPText;
 
-    public int MaxPieceCount { get => maxPieceCount; set => maxPieceCount = value; }
-    public int PlayerLevel { get => playerLevel; set => playerLevel = value; }
-    public int MaxExp { get => maxExp; set => maxExp = value; }
-    public int CurrentExp { get => currentExp; set => currentExp = value; }
+    public int MaxPieceCount { get; set; }
+    public int PlayerLevel { get; set; }
+    public int MaxExp { get; set; }
+    public int CurrentExp { get; set; }
 
     protected override void Awake()
     {
@@ -31,15 +30,22 @@ public class PlayerHealth : LivingEntity
         CurrentExp = 0;
         MaxExp = 100;
         MaxPieceCount = 13;
+        atkLevel = 0;
+        hpLevel = 0;
+        maxPieceLevel = 0;
     }
 
     public override void Init()
     {
         base.Init();
+
         PlayerLevel = 1;
         CurrentExp = 0;
         MaxExp = 100;
-        MaxPieceCount = 13; 
+        MaxPieceCount = 13;
+        atkLevel = 0;
+        hpLevel = 0;
+        maxPieceLevel = 0;
     }
 
     public override void SetHPBar()
@@ -74,7 +80,7 @@ public class PlayerHealth : LivingEntity
         }
     }
 
-    public void AddExp(int value,List<ExpLog> expLogs)
+    public void AddExp(int value, List<ExpLog> expLogs)
     {
         //경험치 증가 팝업
         int prevLevel = PlayerLevel;

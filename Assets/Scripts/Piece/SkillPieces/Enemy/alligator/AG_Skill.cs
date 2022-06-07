@@ -1,7 +1,7 @@
+using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 using Random = UnityEngine.Random;
 
 public class AG_Skill : SkillPiece
@@ -24,7 +24,7 @@ public class AG_Skill : SkillPiece
         else
         {
             onCastSkill = AG_Crocodile_Bird;
-            desInfos[0].SetInfo(DesIconType.Attack, $"{pieceInfo[1].GetValue()}");
+            desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[1].GetValue())}");
             return pieceInfo[1];
         }
     }
@@ -47,7 +47,7 @@ public class AG_Skill : SkillPiece
             {
                 animHandler.GetAnim(AnimName.T_WaterSplash05).SetPosition(Owner.transform.position)
                 .SetScale(2f)
-                .Play(()=>
+                .Play(() =>
                 {
                     SetIndicator(Owner.gameObject, "АјАн").OnEndAction(() =>
                     {
