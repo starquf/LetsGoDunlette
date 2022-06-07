@@ -7,6 +7,7 @@ public class IconInfoHandler : MonoBehaviour
 {
     private CanvasGroup infoPanel;
 
+    public CanvasGroup fadeBG;
     public Button infoBtn;
     public Transform infoBGTrans;
 
@@ -17,12 +18,15 @@ public class IconInfoHandler : MonoBehaviour
     private void Start()
     {
         infoPanel = GetComponentInChildren<CanvasGroup>();
+
         ShowPanel(infoPanel, isOpened);
+        ShowPanel(fadeBG, isOpened);
 
         infoBtn.onClick.AddListener(() =>
         {
             isOpened = !isOpened;
             ShowPanel(infoPanel, isOpened);
+            ShowPanel(fadeBG, isOpened);
         });
 
         bh = GameManager.Instance.battleHandler;
@@ -33,6 +37,7 @@ public class IconInfoHandler : MonoBehaviour
         for (int i = 0; i < infoBGTrans.childCount; i++)
         {
             infoBGTrans.GetChild(i).gameObject.SetActive(false);
+            infoBGTrans.GetChild(i).GetComponent<IconInfo>().ShowPanel(false);
         }
 
         for (int i = 0; i < icons.Count; i++)
@@ -93,6 +98,17 @@ public class IconInfoHandler : MonoBehaviour
             iconInfo.Init(icon, name, des);
 
             iconInfo.transform.SetParent(infoBGTrans);
+
+            if (isOpened)
+            {
+                iconInfo.ShowPanel(true);
+            }
+            else 
+            {
+                iconInfo.ShowPanel(false);
+            }
+
+
             iconInfo.transform.localScale = Vector3.one;
         }
     }
@@ -103,11 +119,28 @@ public class IconInfoHandler : MonoBehaviour
         cvsGroup.alpha = enable ? 1 : 0;
         cvsGroup.interactable = enable;
         cvsGroup.blocksRaycasts = enable;
+
+        if (enable)
+        {
+            for (int i = 0; i < infoBGTrans.childCount; i++)
+            {
+                infoBGTrans.GetChild(i).GetComponent<IconInfo>().ShowHighlight(i * 0.035f);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < infoBGTrans.childCount; i++)
+            {
+                infoBGTrans.GetChild(i).GetComponent<IconInfo>().ShowPanel(false);
+            }
+        }
     }
 
     public void ClosePanel()
     {
+        ShowPanel(fadeBG, false);
         ShowPanel(infoPanel, false);
+
         isOpened = false;
     }
 }
