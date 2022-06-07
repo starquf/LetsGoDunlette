@@ -107,17 +107,17 @@ public class UILevelUPPopUp : MonoBehaviour
             rewardBtns[i].onClick.AddListener(Close);
         }
 
-        if (rewardInfos[player.PlayerLevel - 2].atkPower == 0)
+        if (rewardInfos[player.atkLevel].atkPower == 0)
         {
             rewardBtns[0].interactable = false;
         }
 
-        if (rewardInfos[player.PlayerLevel - 2].hp == 0)
+        if (rewardInfos[player.hpLevel].hp == 0)
         {
             rewardBtns[1].interactable = false;
         }
 
-        if (rewardInfos[player.PlayerLevel - 2].maxPiece == 0)
+        if (rewardInfos[player.maxPieceLevel].maxPiece == 0)
         {
             rewardBtns[2].interactable = false;
         }
