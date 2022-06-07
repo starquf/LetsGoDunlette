@@ -672,7 +672,7 @@ public class MapManager : MonoBehaviour
         {
             Color c = mapList[i].mapIcon.color;
             mapList[i].SetInteracteble(curMap.linkedMoveAbleMap.Contains(mapList[i]));
-            mapList[i].mapIcon.color = c;
+            mapList[i].mapIcon.color = c.a==0 ? c : mapList[i].mapIcon.color;
         }
     }
 
