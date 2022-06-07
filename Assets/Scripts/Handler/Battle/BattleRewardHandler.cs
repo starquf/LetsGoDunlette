@@ -52,19 +52,23 @@ public class BattleRewardHandler : MonoBehaviour
                     {
                         battleRewardUI.ResetRewardUI();
                         int expValue = 0;
+                        List<ExpLog> expLogs = new List<ExpLog>();
                         switch (GameManager.Instance.curEncounter)
                         {
                             case mapNode.BOSS:
                                 expValue = 65;
+                                expLogs.Add(new ExpLog("보스 전투 경험치", expValue));
                                 break;
                             case mapNode.EMONSTER:
                                 expValue = 60;
+                                expLogs.Add(new ExpLog("엘리트 전투 경험치", expValue));
                                 break;
                             case mapNode.MONSTER:
                                 expValue = 40;
+                                expLogs.Add(new ExpLog("일반 전투 경험치", expValue));
                                 break;
                         }
-                        GameManager.Instance.GetPlayer().AddExp(expValue);
+                        GameManager.Instance.GetPlayer().AddExp(expValue, expLogs);
                     });
                 });
         });
@@ -80,19 +84,25 @@ public class BattleRewardHandler : MonoBehaviour
             {
                 battleRewardUI.ResetRewardUI();
                 int expValue = 0;
+                List<ExpLog> expLogs = new List<ExpLog>();
                 switch (GameManager.Instance.curEncounter)
                 {
                     case mapNode.BOSS:
-                        expValue = 75;
+                        expValue = 65;
+                        expLogs.Add(new ExpLog("보스 전투 경험치", expValue));
                         break;
                     case mapNode.EMONSTER:
-                        expValue = 70;
+                        expValue = 60;
+                        expLogs.Add(new ExpLog("엘리트 전투 경험치", expValue));
                         break;
                     case mapNode.MONSTER:
-                        expValue = 50;
+                        expValue = 40;
+                        expLogs.Add(new ExpLog("일반 전투 경험치", expValue));
                         break;
                 }
-                GameManager.Instance.GetPlayer().AddExp(expValue);
+                expValue += 10;
+                expLogs.Add(new ExpLog("카드 넘기기 경험치", 10));
+                GameManager.Instance.GetPlayer().AddExp(expValue, expLogs);
             });
         });
     }

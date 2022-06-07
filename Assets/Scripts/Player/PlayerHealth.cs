@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -73,7 +74,7 @@ public class PlayerHealth : LivingEntity
         }
     }
 
-    public void AddExp(int value)
+    public void AddExp(int value,List<ExpLog> expLogs)
     {
         //경험치 증가 팝업
         int prevLevel = PlayerLevel;
@@ -88,7 +89,7 @@ public class PlayerHealth : LivingEntity
             }
         }
 
-        GameManager.Instance.uILevelUPPopUp.PopUp(prevLevel, prevExp, PlayerLevel, CurrentExp, MaxExp);
+        GameManager.Instance.uILevelUPPopUp.PopUp(prevLevel, prevExp, PlayerLevel, CurrentExp, MaxExp, expLogs);
         GameManager.Instance.battleHandler.playerInfoHandler.Synchronization();
     }
 
