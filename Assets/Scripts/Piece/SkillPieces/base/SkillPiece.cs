@@ -10,7 +10,8 @@ public class SkillPiece : RulletPiece
     public bool isRandomSkill = false;                // 랜덤 스킬인가??
     public bool isDisposable = false;                 // 1회용인가
     public SkillRange skillRange = SkillRange.Single; // 스킬의 공격 범위
-    public GradeMinsuSibalNum skillGrade = GradeMinsuSibalNum.Normal;
+    public GradeInfo skillGrade = GradeInfo.Normal;
+    public List<DesIconType> usedIcons = new List<DesIconType>();
 
     public List<PieceInfo> pieceInfo;
     protected Action<LivingEntity, Action> onCastSkill;

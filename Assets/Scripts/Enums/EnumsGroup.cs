@@ -187,7 +187,7 @@ public enum SkillRange
     Random = 2
 }
 
-public enum GradeMinsuSibalNum
+public enum GradeInfo
 {
     Normal = 1,
     Epic = 2,

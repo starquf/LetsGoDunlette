@@ -305,4 +305,38 @@ public class BattleUtilHandler : MonoBehaviour
         };
         return icon;
     }
+
+    public string GetElementalName(ElementalType elemental)
+    {
+        string name = "";
+
+        switch (elemental)
+        {
+            case ElementalType.None:
+                name = "무속성";
+                break;
+
+            case ElementalType.Nature:
+                name = "자연";
+                break;
+
+            case ElementalType.Electric:
+                name = "전기";
+                break;
+
+            case ElementalType.Fire:
+                name = "불";
+                break;
+
+            case ElementalType.Water:
+                name = "물";
+                break;
+
+            case ElementalType.Monster:
+                name = "적";
+                break;
+        }
+
+        return name;
+    }
 }

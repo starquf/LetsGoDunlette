@@ -40,6 +40,8 @@ public class PieceCastUIHandler : MonoBehaviour
 
     private BattleHandler battleHandler;
 
+    public IconInfoHandler iconInfoHandler;
+
     private void Awake()
     {
         cvsGroup = GetComponent<CanvasGroup>();
@@ -105,6 +107,8 @@ public class PieceCastUIHandler : MonoBehaviour
 
         skillPiece.gameObject.SetActive(true);
         skillPiece.transform.SetParent(parent);
+
+        iconInfoHandler.InitInfo(skillPiece, skillPiece.usedIcons);
 
         pieceMoveSequence = DOTween.Sequence()
             .Append(skillPiece.transform.DOMove(parent.position, 0.5f))
