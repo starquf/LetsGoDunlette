@@ -1,7 +1,7 @@
+using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 using Random = UnityEngine.Random;
 
 public class AG_Skill : SkillPiece
@@ -47,7 +47,7 @@ public class AG_Skill : SkillPiece
             {
                 animHandler.GetAnim(AnimName.T_WaterSplash05).SetPosition(Owner.transform.position)
                 .SetScale(2f)
-                .Play(()=>
+                .Play(() =>
                 {
                     SetIndicator(Owner.gameObject, "АјАн").OnEndAction(() =>
                     {

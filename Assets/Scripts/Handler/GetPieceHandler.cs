@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GetPieceHandler : MonoBehaviour
@@ -14,14 +12,14 @@ public class GetPieceHandler : MonoBehaviour
         GameManager.Instance.getPieceHandler = this;
     }
 
-    void Start()
+    private void Start()
     {
         invenHandler = GameManager.Instance.inventoryHandler;
         battleHandler = GameManager.Instance.battleHandler;
         invenInfo = GameManager.Instance.invenInfoHandler;
     }
 
-    public void GetPiecePlayer(SkillPiece skillPiece,Action onCanceled , Action onEnd = null)
+    public void GetPiecePlayer(SkillPiece skillPiece, Action onCanceled, Action onEnd = null)
     {
         if (CheckCapacity())
         {
@@ -32,17 +30,23 @@ public class GetPieceHandler : MonoBehaviour
 
                     invenInfo.desPanel.ShowConfirmBtn(() =>
                     {
-                        invenInfo.desPanel.ShowPanel(false);
-
-                        invenInfo.onCloseBtn = null;
                         invenInfo.CloseInventoryInfo();
 
                         invenHandler.RemovePiece(selected);
 
                         GetReward(skillPiece, onEnd);
                     });
-                }, 
-                onCanceled);
+                },
+                () =>
+                {
+                    // 취소 될시 확인 패널
+                    GameManager.Instance.YONHandler.ShowPanel("받은 스킬 조각을 넘기기겠습니까?", "넘기기", "취소", onConfirmBtn: () =>
+                    {
+                        onCanceled?.Invoke();
+                        invenInfo.CloseInventoryInfo();
+                    });
+
+                }, closePanel: false);
         }
         else
         {

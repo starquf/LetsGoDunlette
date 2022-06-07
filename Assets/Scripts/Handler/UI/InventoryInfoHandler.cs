@@ -37,6 +37,7 @@ public class InventoryInfoHandler : BottomUIElement
     private ShowInfoRange currentRange = ShowInfoRange.Inventory;
 
     public Action onCloseBtn = null;
+    private bool closePanel = true;
 
     private void Awake()
     {
@@ -81,24 +82,18 @@ public class InventoryInfoHandler : BottomUIElement
 
         closeBtn.onClick.AddListener(() =>
         {
-            if (GameManager.Instance.curEncounter != mapNode.RandomEncounter)
-            {
-                CloseInventoryInfo();
-            }
+            CloseInventoryInfoHasAction();
         });
 
         closeImgBtn.onClick.AddListener(() =>
         {
-            if (GameManager.Instance.curEncounter != mapNode.RandomEncounter)
-            {
-                CloseInventoryInfo();
-            }
+            CloseInventoryInfoHasAction();
         });
 
         invenHandler.onUpdateInfo += ResetInventoryInfo;
     }
 
-    public void ShowInventoryInfo(string msg, ShowInfoRange showRange, Action<SkillPiece> onClickPiece = null, Action onCloseBtn = null, bool stopTime = true)
+    public void ShowInventoryInfo(string msg, ShowInfoRange showRange, Action<SkillPiece> onClickPiece = null, Action onCloseBtn = null, bool stopTime = true, bool closePanel = true)
     {
         this.stopTime = stopTime;
 
@@ -106,6 +101,7 @@ public class InventoryInfoHandler : BottomUIElement
 
         this.onClickPiece = onClickPiece;
         this.onCloseBtn = onCloseBtn;
+        this.closePanel = closePanel;
 
         currentRange = showRange;
 
@@ -113,10 +109,25 @@ public class InventoryInfoHandler : BottomUIElement
         ResetInventoryInfo();
     }
 
-    public void CloseInventoryInfo()
+    private void CloseInventoryInfoHasAction()
     {
         onCloseBtn?.Invoke();
 
+        if (closePanel)
+        {
+            desPanel.ShowPanel(false);
+            ShowPanel(false);
+
+            if (highlight.alpha > 0)
+            {
+                highlightTween.Kill();
+                highlightTween = highlight.DOFade(0f, 0.33f);
+            }
+        }
+    }
+
+    public void CloseInventoryInfo()
+    {
         desPanel.ShowPanel(false);
         ShowPanel(false);
 

@@ -8,11 +8,6 @@ public class TA_Skill : SkillPiece
     public Sprite heatingSprite;
     public Sprite normalSprite;
 
-    private Action<SkillPiece, Action> skillEvent;
-    private SkillEvent skillEventInfo = null;
-
-    private int patrolCount = 0;
-
     protected override void Awake()
     {
         base.Awake();
@@ -25,13 +20,13 @@ public class TA_Skill : SkillPiece
         if (Random.Range(0, 100) < 70)  // 신체가열
         {
             onCastSkill = TA_Body_Heating;
-            desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[1].GetValue())}");
-            return pieceInfo[1];
+            desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[0].GetValue())}");
+            return pieceInfo[0];
         }
         else
         {
             onCastSkill = TA_Patrol;
-            return pieceInfo[2];
+            return pieceInfo[1];
         }
     }
 
@@ -43,66 +38,18 @@ public class TA_Skill : SkillPiece
     public override void OnRullet()
     {
         base.OnRullet();
-        bh.battleEvent.RemoveEventInfo(skillEventInfo);
-
-        skillEvent = (sp, action) =>
-        {
-            if (sp.Owner == Owner) // 발동된 스킬이 타로스의 스킬이라면
-            {
-                action?.Invoke();
-                return;
-            }
-
-            if (Owner.GetComponent<EnemyHealth>().IsDie || bh.player.IsDie)
-            {
-                action?.Invoke();
-                return;
-            }
-
-            EnemyIndicator indi = Owner.GetComponent<EnemyIndicator>();
-            indi.HideText();
-            indi.ShowText("접근 금지", () =>
-            bh.castUIHandler.ShowCasting(pieceInfo[0], () =>
-            {
-                GameManager.Instance.GetPlayer().GetDamage(GetDamageCalc(pieceInfo[0].GetValue()), this, Owner);
-                Owner.GetComponent<EnemyHealth>().AddShield(pieceInfo[0].GetValue(1));
-
-                animHandler.GetAnim(AnimName.M_Sword)
-                .SetPosition(GameManager.Instance.enemyEffectTrm.position)
-                .SetScale(2)
-                .Play(() =>
-                {
-                    bh.battleUtil.SetTimer(0.5f + 0.25f, () =>
-                    {
-                        bh.castUIHandler.ShowPanel(false, false);
-                        action?.Invoke();
-                    });
-                });
-            }));
-
-        };
-
-        skillEventInfo = new SkillEvent(EventTimeSkill.AfterSkill, skillEvent);
-        bh.battleEvent.BookEvent(skillEventInfo);
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         onCastSkill(target, onCastEnd);
     }
-    private void TA_Off_Limits(LivingEntity target, Action onCastEnd = null) //접근금지
-    {
-        SetIndicator(Owner.gameObject, "접근금지").OnEndAction(() =>
-        {
-
-        });
-    }
 
     private void TA_Body_Heating(LivingEntity target, Action onCastEnd = null) //신체가열
     {
         SetIndicator(Owner.gameObject, "신체 가열").OnEndAction(() =>
         {
-            target.GetDamage(GetDamageCalc(pieceInfo[1].GetValue()), this, Owner);
+            target.GetDamage(GetDamageCalc(pieceInfo[0].GetValue()), this, Owner);
 
             animHandler.GetAnim(AnimName.M_Sword)
             .SetPosition(GameManager.Instance.enemyEffectTrm.position)
@@ -118,7 +65,7 @@ public class TA_Skill : SkillPiece
     {
         SetIndicator(Owner.gameObject, "순찰").OnEndAction(() =>
         {
-            patrolCount += 3;
+            Owner.GetComponent<Taros>().patrolCount += 3;
 
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 

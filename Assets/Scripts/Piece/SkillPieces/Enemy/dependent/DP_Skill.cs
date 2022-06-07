@@ -79,7 +79,7 @@ public class DP_Skill : SkillPiece
                     {
                         onCastEnd?.Invoke();
                     });
-                });
+            });
         });
     }
 

@@ -41,7 +41,6 @@ public class DesIconInfo
 public abstract class RulletPiece : MonoBehaviour
 {
     public ElementalType patternType = ElementalType.None;
-    [HideInInspector]
     public ElementalType currentType = ElementalType.None;
 
     public PieceType PieceType { get; protected set; }

@@ -316,14 +316,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     public virtual void SetHPBar()
     {
-        if (IsDie)
-        {
-            hpText.text = $"»ç¸Á";
-        }
-        else
-        {
-            hpText.text = $"{hp}/{maxHp}";
-        }
+        hpText.text = IsDie ? $"»ç¸Á" : $"{hp}/{maxHp}";
 
         if (shieldHp > 0)
         {
