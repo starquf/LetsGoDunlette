@@ -526,11 +526,15 @@ public class BattleHandler : MonoBehaviour
             battleUtil.SetPieceToInventory(result);
         });
 
+        yield return null;
+
         // 상처 체크
         ccHandler.CheckPlayerOrEnemyCC(CCType.Wound, isPlayer: true);
 
-        // 상처 체크
-        ccHandler.CheckCC(CCType.Wound);
+        CheckBattleEnd(() =>
+        {
+            battleUtil.SetPieceToInventory(result);
+        });
 
         yield return null;
 
@@ -577,13 +581,6 @@ public class BattleHandler : MonoBehaviour
 
     public IEnumerator CheckPanelty(Action onEndCheckPanelty = null)
     {
-        /*
-        for (int i = 0; i < boolList.Count; i++)
-        {
-            
-        }
-        */
-
         while (battleUtil.CheckRulletPenalty(false))
         {
             yield return pOneSecWait;
