@@ -53,7 +53,7 @@ public class EnemyHealth : LivingEntity
         Color color = sr.color;
 
         sr.color = Color.red;
-        sr.DOColor(color, 0.35f);
+        sr.DOColor(color.Equals(Color.clear)? color: Color.white, 0.35f);
 
         if (IsDie)
         {

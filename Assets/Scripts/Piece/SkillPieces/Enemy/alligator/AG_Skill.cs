@@ -24,7 +24,7 @@ public class AG_Skill : SkillPiece
         else
         {
             onCastSkill = AG_Crocodile_Bird;
-            desInfos[0].SetInfo(DesIconType.Attack, $"{pieceInfo[1].GetValue()}");
+            desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[1].GetValue())}");
             return pieceInfo[1];
         }
     }

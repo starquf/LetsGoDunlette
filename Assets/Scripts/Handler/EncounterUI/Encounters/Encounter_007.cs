@@ -43,7 +43,6 @@ public class Encounter_007 : RandomEncounter
                     {
                         invenInfoHandler.desPanel.ShowPanel(false);
 
-                        invenInfoHandler.onCloseBtn = null;
                         invenInfoHandler.CloseInventoryInfo();
 
                         GameManager.Instance.bottomUIHandler.ShowBottomPanel(false);
@@ -69,7 +68,10 @@ public class Encounter_007 : RandomEncounter
                             ShowEndEncounter?.Invoke();
                         });
                     });
-                }/*, onCancelUse*/, stopTime: false);
+                },()=>
+                {
+
+                }, stopTime: false, closePanel: false);
 
                 break;
             case 1:
