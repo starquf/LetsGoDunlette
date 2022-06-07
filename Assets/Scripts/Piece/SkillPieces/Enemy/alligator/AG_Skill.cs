@@ -97,7 +97,7 @@ public class AG_Skill : SkillPiece
             target.GetDamage(GetDamageCalc(pieceInfo[1].GetValue()));
 
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
-            animHandler.GetAnim(AnimName.M_Scratch).SetPosition(target.transform.position)
+            animHandler.GetAnim(AnimName.M_Scratch).SetPosition(GameManager.Instance.enemyEffectTrm.position)
             .SetScale(1)
             .Play(() =>
             {
