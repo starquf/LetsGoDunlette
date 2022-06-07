@@ -55,17 +55,18 @@ public abstract class RandomEncounter : MonoBehaviour
 
     public void GetSkillInRandomEncounterAnim(SkillPiece skill, Action OnComplete = null, bool fadeInSkip = false)
     {
-        GameManager.Instance.getPieceHandler.GetPiecePlayer(skill, 
-            ()=> {
+        GameManager.Instance.getPieceHandler.GetPiecePlayer(skill,
+            () =>
+            {
                 Image skillImg = skill.GetComponent<Image>();
                 DOTween.Sequence()
                 .Append(skillImg.DOFade(0, 0.5f))
-                .OnComplete(()=>
+                .OnComplete(() =>
                 {
                     Destroy(skill.gameObject);
                     OnComplete?.Invoke();
                 });
-            }, 
+            },
             () =>
             {
                 Inventory owner = bh.player.GetComponent<Inventory>();
@@ -96,8 +97,8 @@ public abstract class RandomEncounter : MonoBehaviour
                     .OnComplete(() =>
                     {
                         skill.GetComponent<Image>().color = Color.white;
-                    //skill.transform.SetParent
-                    skill.gameObject.SetActive(false);
+                        //skill.transform.SetParent
+                        skill.gameObject.SetActive(false);
 
                         OnComplete?.Invoke();
                     });

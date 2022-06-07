@@ -113,7 +113,7 @@ public class InventoryInfoHandler : BottomUIElement
     {
         onCloseBtn?.Invoke();
 
-        if(closePanel)
+        if (closePanel)
         {
             desPanel.ShowPanel(false);
             ShowPanel(false);

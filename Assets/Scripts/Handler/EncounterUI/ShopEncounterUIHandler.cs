@@ -179,8 +179,8 @@ public class ShopEncounterUIHandler : MonoBehaviour
                 case ProductType.RulletPiece:
 
                     SkillPiece skillPiece = selectProduct.rulletPiece;//Instantiate(selectProduct.rulletPiece, Vector3.zero, Quaternion.identity).GetComponent<SkillPiece>();
-                    GameManager.Instance.getPieceHandler.GetPiecePlayer(skillPiece, 
-                        () => SetAllButtonInterval(true, true), 
+                    GameManager.Instance.getPieceHandler.GetPiecePlayer(skillPiece,
+                        () => SetAllButtonInterval(true, true),
                         () =>
                         {
                             Image skillImg = skillPiece.GetComponent<Image>();
@@ -286,8 +286,10 @@ public class ShopEncounterUIHandler : MonoBehaviour
     {
         Sprite productSpr = null;
 
-        if(invenHandler == null)
+        if (invenHandler == null)
+        {
             invenHandler = GameManager.Instance.inventoryHandler;
+        }
 
         if (product.productType.Equals(ProductType.RulletPiece))
         {
@@ -363,7 +365,9 @@ public class ShopEncounterUIHandler : MonoBehaviour
             {
                 SkillPiece sp = products[idx].rulletPiece;
                 if (sp != null)
+                {
                     Destroy(products[idx].rulletPiece.gameObject);
+                }
             }
             else
             {

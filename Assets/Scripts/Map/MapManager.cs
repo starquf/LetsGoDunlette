@@ -157,8 +157,8 @@ public class MapManager : MonoBehaviour
             Vector2 targetPos;
             do
             {
-                int targetX = Random.Range((int)fm.minPos.x, (int)fm.maxPos.x+1);
-                int targetY = Random.Range((int)fm.minPos.y, (int)fm.maxPos.y+1);
+                int targetX = Random.Range((int)fm.minPos.x, (int)fm.maxPos.x + 1);
+                int targetY = Random.Range((int)fm.minPos.y, (int)fm.maxPos.y + 1);
                 targetPos = new Vector2(targetX, targetY);
             } while (fixedPosMapType.Keys.Contains(targetPos));
 
@@ -672,7 +672,7 @@ public class MapManager : MonoBehaviour
         {
             Color c = mapList[i].mapIcon.color;
             mapList[i].SetInteracteble(curMap.linkedMoveAbleMap.Contains(mapList[i]));
-            mapList[i].mapIcon.color = c.a==0 ? c : mapList[i].mapIcon.color;
+            mapList[i].mapIcon.color = c.a == 0 ? c : mapList[i].mapIcon.color;
         }
     }
 

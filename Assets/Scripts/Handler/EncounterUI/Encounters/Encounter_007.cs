@@ -68,7 +68,7 @@ public class Encounter_007 : RandomEncounter
                             ShowEndEncounter?.Invoke();
                         });
                     });
-                },()=>
+                }, () =>
                 {
 
                 }, stopTime: false, closePanel: false);

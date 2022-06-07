@@ -12,7 +12,7 @@ public class Queen : MonoBehaviour
 
     public void NightTrip() //"종속자를 2명 소환한다 <sprite=11>를 5턴 동안 2 얻는다."
     {
-        if(queenHealth == null)
+        if (queenHealth == null)
         {
             queenHealth = GetComponent<EnemyHealth>();
         }
@@ -25,7 +25,7 @@ public class Queen : MonoBehaviour
 
         skillEvent = (sp, action) =>
         {
-            if ((float)queenHealth.maxHp / (float)queenHealth.curHp >= 2.0f)
+            if (queenHealth.maxHp / (float)queenHealth.curHp >= 2.0f)
             {
                 bh.battleEvent.RemoveEventInfo(skillEventInfo);
 

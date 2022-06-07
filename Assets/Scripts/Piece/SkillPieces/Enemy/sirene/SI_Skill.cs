@@ -1,7 +1,7 @@
+using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 using Random = UnityEngine.Random;
 
 public class SI_Skill : SkillPiece
@@ -51,7 +51,7 @@ public class SI_Skill : SkillPiece
             effect.transform.position = Owner.transform.position;
             effect.SetSprite(FascinateSpr);
             effect.SetColorGradient(effectGradient);
-            effect.SetScale(Vector3.one*2);
+            effect.SetScale(Vector3.one * 2);
 
             effect.Play(GameManager.Instance.enemyEffectTrm.position, () =>
             {
@@ -70,7 +70,7 @@ public class SI_Skill : SkillPiece
                     effect.EndEffect();
                 });
             }, BezierType.Quadratic, isRotate: true, playSpeed: 2.3f);
-            
+
         });
     }
 

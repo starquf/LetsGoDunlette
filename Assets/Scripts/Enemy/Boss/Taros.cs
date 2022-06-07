@@ -39,7 +39,7 @@ public class Taros : MonoBehaviour
                 return;
             }
 
-            if(sp.isTargeting == false)
+            if (sp.isTargeting == false)
             {
                 action?.Invoke();
                 return;
