@@ -11,6 +11,10 @@ public class PlayerHealth : LivingEntity
     private int maxExp;
     private int currentExp;
 
+    public int atkLevel;
+    public int hpLevel;
+    public int maxPieceLevel;
+
     public Color damageBGColor;
     public Image damageBGEffect;
 
@@ -31,15 +35,22 @@ public class PlayerHealth : LivingEntity
         CurrentExp = 0;
         MaxExp = 100;
         MaxPieceCount = 13;
+        atkLevel = 0;
+        hpLevel = 0;
+        maxPieceLevel = 0;
     }
 
     public override void Init()
     {
         base.Init();
+
         PlayerLevel = 1;
         CurrentExp = 0;
         MaxExp = 100;
-        MaxPieceCount = 13; 
+        MaxPieceCount = 13;
+        atkLevel = 0;
+        hpLevel = 0;
+        maxPieceLevel = 0;
     }
 
     public override void SetHPBar()

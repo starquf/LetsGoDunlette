@@ -86,9 +86,21 @@ public class UILevelUPPopUp : MonoBehaviour
             rewardBtns[i].onClick.RemoveAllListeners();
         }
 
-        rewardBtns[0].onClick.AddListener(() => player.UpgradeAttackPower(rewardInfos[player.PlayerLevel - 2].atkPower));
-        rewardBtns[1].onClick.AddListener(() => player.UpgradeHP(rewardInfos[player.PlayerLevel - 2].hp));
-        rewardBtns[2].onClick.AddListener(() => player.UpgradeMaxPieceCount(rewardInfos[player.PlayerLevel - 2].maxPiece));
+        rewardBtns[0].onClick.AddListener(() =>
+        {
+            player.UpgradeAttackPower(rewardInfos[player.atkLevel].atkPower);
+            player.atkLevel++;
+        });
+        rewardBtns[1].onClick.AddListener(() =>
+        {
+            player.UpgradeHP(rewardInfos[player.hpLevel].hp);
+            player.hpLevel++;
+        });
+        rewardBtns[2].onClick.AddListener(() =>
+        {
+            player.UpgradeMaxPieceCount(rewardInfos[player.maxPieceLevel].maxPiece);
+            player.maxPieceLevel++;
+        });
 
         for (int i = 0; i < rewardBtns.Count; i++)
         {
@@ -178,7 +190,7 @@ public class UILevelUPPopUp : MonoBehaviour
         {
             string logText = $"{expLogs[i].content} +{expLogs[i].expValue}";
 
-            if(expTxts.Count <= i)
+            if (expTxts.Count <= i)
             {
                 TextMeshProUGUI textLog = Instantiate(expLogText, levelUPPanel.transform).GetComponent<TextMeshProUGUI>();
                 expTxts.Add(textLog);
