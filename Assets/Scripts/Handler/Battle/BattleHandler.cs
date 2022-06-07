@@ -722,7 +722,7 @@ public class BattleHandler : MonoBehaviour
             if (piece.isPlayerSkill)
             {
                 // 적이 한명 이하라면           조각이 대상 지정이 아니라면
-                if (enemys.Count <= 1 || !piece.isTargeting)
+                if (!piece.isTargeting)// enemys.Count <= 1
                 {
                     onShowCast = () =>
                     {
