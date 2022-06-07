@@ -5,6 +5,8 @@ public class Encounter_014 : RandomEncounter
 {
     public int queenGetDamage = 50;
     public RF_Skill redfoxSkill = null;
+    public Sprite redFoxBackgroundSpr = null;
+    public Sprite queenBackgroundSpr = null;
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;
@@ -35,6 +37,7 @@ public class Encounter_014 : RandomEncounter
 
                 bh._bossInfo.enemyInfos.Clear();
                 bh._bossInfo.enemyInfos.Add(EnemyType.QUEEN);
+                bh._bossInfo.bg = queenBackgroundSpr;
                 //GameManager.Instance.mapHandler.SetBossIcon(0);
                 Debug.LogError("∫∏Ω∫ ∏  æ∆¿Ãƒ‹ ∫Ø∞Ê«ÿ¡‡æﬂµ ");
 
@@ -61,6 +64,7 @@ public class Encounter_014 : RandomEncounter
 
                 bh._bossInfo.enemyInfos.Clear();
                 bh._bossInfo.enemyInfos.Add(EnemyType.REDFOX);
+                bh._bossInfo.bg = redFoxBackgroundSpr;
                 //GameManager.Instance.mapHandler.SetBossIcon(0);
                 Debug.LogError("∫∏Ω∫ ∏  æ∆¿Ãƒ‹ ∫Ø∞Ê«ÿ¡‡æﬂµ ");
                 NormalEvent eventInfo1 = null;
