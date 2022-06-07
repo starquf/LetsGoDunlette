@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9128753765892485134}
   - component: {fileID: 9128753765892485135}
   - component: {fileID: 9128753765892485133}
-  - component: {fileID: 1032818566989571622}
+  - component: {fileID: 4014274815593134296}
   m_Layer: 6
   m_Name: 017_taros
   m_TagString: Untagged
@@ -140,9 +140,9 @@ MonoBehaviour:
   onInit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1032818566989571622}
+      - m_Target: {fileID: 4014274815593134296}
         m_TargetAssemblyTypeName: Taros, Assembly-CSharp
-        m_MethodName: Patrol
+        m_MethodName: TarosSkill
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   indicatorTrans: {fileID: 454735359513323869}
---- !u!114 &1032818566989571622
+--- !u!114 &4014274815593134296
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -189,17 +189,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 9128753765892485122}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c3ce97b9280eb2468e04d6aeb8676fd, type: 3}
+  m_Script: {fileID: 11500000, guid: 991de19fb3ce62d409aa71c1357299c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tarosSkill: {fileID: 1008289956194210453, guid: 78979d830f8260b4184c5684a27c14f5, type: 3}
-  pieceInfo:
-  - PieceName: "\uC21C\uCC30"
-    PieceDes: "\uC774 \uC870\uAC01\uC774 3\uBC88 \uC0AC\uC6A9 \uB418\uBA74 \uB8F0\uB81B\uC744
-      \uCD08\uAE30\uD654 \uC2DC\uD0A4\uACE0 \uC778\uBCA4\uD1A0\uB9AC\uC5D0 '\uD0C0\uB85C\uC2A4'
-      \uC870\uAC01\uC744 2\uC7A5 \uCD94\uAC00\uD55C\uB2E4."
-    cardBG: {fileID: -1825825118978254636, guid: 54948557d6cd63a40b8bc9de43d4002e, type: 3}
+  patrolCount: 0
+  desInfos:
+  - iconType: 0
     value: 
+  - iconType: 0
+    value: 
+  - iconType: 0
+    value: 
+  pieceInfo:
+    PieceName: "\uC811\uADFC \uAE08\uC9C0"
+    PieceDes: "\uC624\uC9C0\uB9C8 \uC624\uC9C0\uB9C8 \uC624\uC9C0\uB9C8 \uC624\uC9C0\uB9C8
+      \uC624\uC9C0\uB9C8 \uC624\uC9C0\uB9C8 "
+    cardBG: {fileID: -1825825118978254636, guid: 54948557d6cd63a40b8bc9de43d4002e, type: 3}
+    value: 0000000005000000
+  ta_Skill: {fileID: 1008289956194210459, guid: 78979d830f8260b4184c5684a27c14f5, type: 3}
 --- !u!1001 &4021729826578029853
 PrefabInstance:
   m_ObjectHideFlags: 0
