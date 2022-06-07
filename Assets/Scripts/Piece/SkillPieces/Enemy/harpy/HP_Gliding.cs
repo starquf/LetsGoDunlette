@@ -15,8 +15,10 @@ public class HP_Gliding : SkillPiece
         SetIndicator(Owner.gameObject, "ÇÒÄû±â Ãß°¡").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
-            animHandler.GetAnim(AnimName.M_Scratch).SetPosition(Owner.transform.position)
-            .SetScale(0.5f)
+            animHandler.GetAnim(AnimName.SkillEffect01)
+            .SetPosition(Owner.transform.position)
+            .SetRotation(Vector3.forward * -90f)
+            .SetScale(2f)
             .Play(() =>
             {
                 onCastEnd?.Invoke();
