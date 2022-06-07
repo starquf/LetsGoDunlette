@@ -1,9 +1,14 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
+using DG.Tweening;
 using Random = UnityEngine.Random;
 
 public class SI_Skill : SkillPiece
 {
+    public Sprite FascinateSpr = null;
+    public Gradient effectGradient = null;
+
     protected override void Awake()
     {
         base.Awake();
@@ -42,16 +47,30 @@ public class SI_Skill : SkillPiece
     {
         SetIndicator(Owner.gameObject, "매혹").OnEndAction(() =>
         {
-            target.cc.SetCC(CCType.Fascinate, 6);
+            EffectObj effect = PoolManager.GetItem<EffectObj>();
+            effect.transform.position = Owner.transform.position;
+            effect.SetSprite(FascinateSpr);
+            effect.SetColorGradient(effectGradient);
+            effect.SetScale(Vector3.one*2);
 
-            GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
-
-            animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
-            .SetScale(2)
-            .Play(() =>
+            effect.Play(GameManager.Instance.enemyEffectTrm.position, () =>
             {
-                onCastEnd?.Invoke();
-            });
+                target.cc.SetCC(CCType.Fascinate, 6);
+
+                GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
+
+                effect.transform.rotation = Quaternion.Euler(0, 0, 0);
+
+                DOTween.Sequence()
+                .Append(effect.transform.DOScale(15, 0.5f))
+                .Join(effect.GetComponent<SpriteRenderer>().DOFade(0, 0.5f).SetEase(Ease.InCubic))
+                .OnComplete(() =>
+                {
+                    onCastEnd?.Invoke();
+                    effect.EndEffect();
+                });
+            }, BezierType.Quadratic, isRotate: true, playSpeed: 2.3f);
+            
         });
     }
 
@@ -94,13 +113,13 @@ public class SI_Skill : SkillPiece
             .Play($"{result.PieceName} 매혹!");
         }
 
-
-        animHandler.GetAnim(AnimName.M_Wisp).SetPosition(result.skillIconImg.transform.position)
+        if (result != null)
+        {
+            animHandler.GetAnim(AnimName.M_Wisp).SetPosition(result.skillIconImg.transform.position)
             .SetScale(1.5f)
             .Play(() =>
-        {
-            if (result != null)
             {
+
                 bh.battleEvent.StartActionEvent(EventTimeSkill.WithSkill, result);
 
                 Inventory temp = result.Owner;
@@ -113,12 +132,13 @@ public class SI_Skill : SkillPiece
                 });
 
                 bh.battleUtil.SetPieceToGraveyard(skillPieceIdxDic[result]);
-            }
-            else
-            {
-                onCastEnd?.Invoke();
-            }
-        });
+            });
+
+        }
+        else
+        {
+            onCastEnd?.Invoke();
+        }
     }
 }
 
