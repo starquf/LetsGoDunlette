@@ -8,6 +8,7 @@ public class PlayerInfoPanelHandler : BottomSwapUI
     public TextMeshProUGUI atkTxt;
     public TextMeshProUGUI hpTxt;
     public TextMeshProUGUI maxPieceCountTxt;
+    public TextMeshProUGUI playerLevelTxt;
 
     public TextMeshProUGUI expTxt;
     public Image expFillImage;
@@ -50,6 +51,7 @@ public class PlayerInfoPanelHandler : BottomSwapUI
             player = GameManager.Instance.battleHandler.player;
         }
 
+        playerLevelTxt.text = $"{player.PlayerLevel}";
         atkTxt.text = $"{player.AttackPower}";
         hpTxt.text = $"{player.maxHp}";
         maxPieceCountTxt.text = $"{player.MaxPieceCount}";

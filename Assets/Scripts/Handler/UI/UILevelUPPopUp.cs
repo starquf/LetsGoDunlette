@@ -57,6 +57,7 @@ public class UILevelUPPopUp : MonoBehaviour
         rewardPanel.gameObject.SetActive(false);
         levelUPPanel.gameObject.SetActive(false);
         GameManager.Instance.EndEncounter();
+        GameManager.Instance.battleHandler.playerInfoHandler.Synchronization();
     }
 
     public void OpenReward()
@@ -69,14 +70,14 @@ public class UILevelUPPopUp : MonoBehaviour
             rewardBtns[i].onClick.RemoveAllListeners();
         }
 
+        rewardBtns[0].onClick.AddListener(() => player.UpgradeAttackPower(rewardInfos[player.PlayerLevel - 2].atkPower));
+        rewardBtns[1].onClick.AddListener(() => player.UpgradeHP(rewardInfos[player.PlayerLevel - 2].hp));
+        rewardBtns[2].onClick.AddListener(() => player.UpgradeMaxPieceCount(rewardInfos[player.PlayerLevel - 2].maxPiece));
+
         for (int i = 0; i < rewardBtns.Count; i++)
         { 
             rewardBtns[i].onClick.AddListener(Close);
         }
-
-        rewardBtns[0].onClick.AddListener(() => player.UpgradeAttackPower(rewardInfos[player.PlayerLevel - 2].atkPower));
-        rewardBtns[1].onClick.AddListener(() => player.UpgradeHP(rewardInfos[player.PlayerLevel - 2].hp));
-        rewardBtns[2].onClick.AddListener(() => player.UpgradeMaxPieceCount(rewardInfos[player.PlayerLevel - 2].maxPiece));
 
         if(rewardInfos[player.PlayerLevel - 2].atkPower == 0)
         {
