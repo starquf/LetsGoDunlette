@@ -51,24 +51,22 @@ public class BattleRewardHandler : MonoBehaviour
                     battleRewardUI.GetRewardEffect(() =>
                     {
                         battleRewardUI.ResetRewardUI();
-                        GameManager.Instance.EndEncounter();
+                        int expValue = 0;
+                        switch (GameManager.Instance.curEncounter)
+                        {
+                            case mapNode.BOSS:
+                                expValue = 65;
+                                break;
+                            case mapNode.EMONSTER:
+                                expValue = 60;
+                                break;
+                            case mapNode.MONSTER:
+                                expValue = 40;
+                                break;
+                        }
+                        GameManager.Instance.GetPlayer().AddExp(expValue);
                     });
                 });
-
-            int expValue = 0;
-            switch (GameManager.Instance.curEncounter)
-            {
-                case mapNode.BOSS:
-                    expValue = 65;
-                    break;
-                case mapNode.EMONSTER:
-                    expValue = 60;
-                    break;
-                case mapNode.MONSTER:
-                    expValue = 40;
-                    break;
-            }
-            GameManager.Instance.GetPlayer().AddExp(expValue);
         });
 
         battleRewardUI.skipBtn.onClick.AddListener(() =>
@@ -81,23 +79,21 @@ public class BattleRewardHandler : MonoBehaviour
             battleRewardUI.SkipRewardEffect(() =>
             {
                 battleRewardUI.ResetRewardUI();
-                GameManager.Instance.EndEncounter();
+                int expValue = 0;
+                switch (GameManager.Instance.curEncounter)
+                {
+                    case mapNode.BOSS:
+                        expValue = 75;
+                        break;
+                    case mapNode.EMONSTER:
+                        expValue = 70;
+                        break;
+                    case mapNode.MONSTER:
+                        expValue = 50;
+                        break;
+                }
+                GameManager.Instance.GetPlayer().AddExp(expValue);
             });
-
-            int expValue = 0;
-            switch (GameManager.Instance.curEncounter)
-            {
-                case mapNode.BOSS:
-                    expValue = 75;
-                    break;
-                case mapNode.EMONSTER:
-                    expValue = 70;
-                    break;
-                case mapNode.MONSTER:
-                    expValue = 50;
-                    break;
-            }
-            GameManager.Instance.GetPlayer().AddExp(expValue);
         });
     }
 

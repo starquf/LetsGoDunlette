@@ -56,6 +56,7 @@ public class UILevelUPPopUp : MonoBehaviour
         closeBtn.gameObject.SetActive(false);
         rewardPanel.gameObject.SetActive(false);
         levelUPPanel.gameObject.SetActive(false);
+        GameManager.Instance.EndEncounter();
     }
 
     public void OpenReward()
