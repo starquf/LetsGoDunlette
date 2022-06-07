@@ -54,6 +54,35 @@ public class CCHandler : MonoBehaviour
         }
     }
 
+    public void CheckPlayerOrEnemyCC(CCType ccType, bool isPlayer = false)
+    {
+        List<CrowdControl> ccList = new List<CrowdControl>();
+
+        if (isPlayer)
+        {
+            ccList.Add(battleHandler.player.cc);
+        }
+        else
+        {
+            for (int i = 0; i < battleHandler.enemys.Count; i++)
+            {
+                ccList.Add(battleHandler.enemys[i].cc);
+            }
+        }
+
+        crowdControls = ccList;
+
+        switch (ccType)
+        {
+            case CCType.Stun:
+                CheckType(ccType, Stun);
+                break;
+            case CCType.Wound:
+                CheckType(ccType, Wound);
+                break;
+        }
+    }
+
     private void CheckType(CCType ccType, Action<CrowdControl> action)
     {
         for (int i = 0; i < crowdControls.Count; i++)

@@ -517,8 +517,19 @@ public class BattleHandler : MonoBehaviour
 
         // 기절 체크
         ccHandler.CheckCC(CCType.Stun);
+
         // 상처 체크
-        ccHandler.CheckCC(CCType.Wound);
+        ccHandler.CheckPlayerOrEnemyCC(CCType.Wound, isPlayer: false);
+
+        CheckBattleEnd(() =>
+        {
+            battleUtil.SetPieceToInventory(result);
+        });
+
+        yield return null;
+
+        // 상처 체크
+        ccHandler.CheckPlayerOrEnemyCC(CCType.Wound, isPlayer: true);
 
         CheckBattleEnd(() =>
         {
@@ -570,13 +581,6 @@ public class BattleHandler : MonoBehaviour
 
     public IEnumerator CheckPanelty(Action onEndCheckPanelty = null)
     {
-        /*
-        for (int i = 0; i < boolList.Count; i++)
-        {
-            
-        }
-        */
-
         while (battleUtil.CheckRulletPenalty(false))
         {
             yield return pOneSecWait;
@@ -722,7 +726,7 @@ public class BattleHandler : MonoBehaviour
             if (piece.isPlayerSkill)
             {
                 // 적이 한명 이하라면           조각이 대상 지정이 아니라면
-                if (enemys.Count <= 1 || !piece.isTargeting)
+                if (!piece.isTargeting)// enemys.Count <= 1
                 {
                     onShowCast = () =>
                     {

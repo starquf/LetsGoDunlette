@@ -95,7 +95,7 @@ public class HD_Poison : SkillPiece
 
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 
-            animHandler.GetAnim(AnimName.M_Bite)
+            animHandler.GetAnim(AnimName.N_PoisionCloud)
             .SetPosition(GameManager.Instance.enemyEffectTrm.position)
             .SetScale(2)
             .Play(() =>

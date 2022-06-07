@@ -452,7 +452,7 @@ public class InventoryHandler : MonoBehaviour
             return;
         }
 
-        piece.KillTween();
+        piece.ResetPiece();
 
         CreateSkillEffect(piece, piece.skillIconImg.transform.position);
 
