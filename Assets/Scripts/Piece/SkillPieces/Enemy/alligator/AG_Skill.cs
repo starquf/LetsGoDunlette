@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
+using DG.Tweening;
 using Random = UnityEngine.Random;
 
 public class AG_Skill : SkillPiece
@@ -22,7 +24,7 @@ public class AG_Skill : SkillPiece
         else
         {
             onCastSkill = AG_Crocodile_Bird;
-            desInfos[0].SetInfo(DesIconType.Heal, $"{pieceInfo[1].GetValue()}");
+            desInfos[0].SetInfo(DesIconType.Attack, $"{pieceInfo[1].GetValue()}");
             return pieceInfo[1];
         }
     }
@@ -43,28 +45,41 @@ public class AG_Skill : SkillPiece
             LivingEntity livingEntity = Owner.GetComponent<LivingEntity>();
             if (livingEntity.GetShieldHp() > 0)
             {
-                SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
+                animHandler.GetAnim(AnimName.T_WaterSplash05).SetPosition(Owner.transform.position)
+                .SetScale(2f)
+                .Play(()=>
                 {
-                    target.GetDamage(10, this, Owner);
-                    livingEntity.RemoveShield();
+                    SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
+                    {
+                        target.GetDamage(pieceInfo[0].GetValue(1), this, Owner);
+                        livingEntity.RemoveShield();
 
-                    animHandler.GetAnim(AnimName.M_Sword).SetPosition(GameManager.Instance.enemyEffectTrm.position)
-                      .SetScale(2)
-                      .Play(() =>
-                      {
-                          action?.Invoke();
-                      });
+                        animHandler.GetAnim(AnimName.M_Bite).SetPosition(GameManager.Instance.enemyEffectTrm.position)
+                          .SetScale(2)
+                          .Play(() =>
+                          {
+                              action?.Invoke();
+                          });
+                    });
                 });
+                Owner.GetComponent<SpriteRenderer>().DOColor(Color.white, 0.4f);
             }
             else
             {
+                animHandler.GetAnim(AnimName.T_WaterSplash05).SetPosition(Owner.transform.position)
+                .SetScale(2f)
+                .Play();
+                Owner.GetComponent<SpriteRenderer>().DOColor(Color.white, 0.4f);
                 action?.Invoke();
             }
         };
 
         NormalEvent eventInfo = new NormalEvent(true, 3, onStartBattle, EventTime.EndOfTurn);
         bh.battleEvent.BookEvent(eventInfo);
-
+        animHandler.GetAnim(AnimName.T_WaterSplash05).SetPosition(Owner.transform.position)
+        .SetScale(2f)
+        .Play();
+        Owner.GetComponent<SpriteRenderer>().DOColor(Color.clear, 0.3f);
         SetIndicator(Owner.gameObject, "침묵").OnEndAction(() =>
         {
             EnemyHealth enemyHealth = Owner.GetComponent<EnemyHealth>();
@@ -77,12 +92,12 @@ public class AG_Skill : SkillPiece
 
     private void AG_Crocodile_Bird(LivingEntity target, Action onCastEnd = null) //자신의 체력을 40만큼 회복한다.
     {
-        SetIndicator(Owner.gameObject, "회복").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "공격").OnEndAction(() =>
         {
-            Owner.GetComponent<EnemyHealth>().Heal(pieceInfo[1].GetValue());
+            target.GetDamage(GetDamageCalc(pieceInfo[1].GetValue()));
 
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
-            animHandler.GetAnim(AnimName.M_Recover).SetPosition(Owner.transform.position)
+            animHandler.GetAnim(AnimName.M_Scratch).SetPosition(target.transform.position)
             .SetScale(1)
             .Play(() =>
             {

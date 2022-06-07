@@ -50,17 +50,18 @@ public class EnemyHealth : LivingEntity
     public override void GetDamage(int damage, bool isCritical = false)
     {
         base.GetDamage(damage, isCritical);
+        Color color = sr.color;
 
         sr.color = Color.red;
-        sr.DOColor(Color.white, 0.35f);
+        sr.DOColor(color, 0.35f);
 
-        if (!IsDie)
+        if (IsDie)
         {
-            StartCoroutine(UnBeatTime());
+            StartCoroutine(UnBeatTime(color));
         }
     }
 
-    private IEnumerator UnBeatTime()
+    private IEnumerator UnBeatTime(Color defaultColor)
     {
         int countTime = 0;
         while (countTime < 10)
