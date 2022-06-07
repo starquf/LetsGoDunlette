@@ -514,13 +514,20 @@ public class BattleHandler : MonoBehaviour
 
         // 기절 체크
         ccHandler.CheckCC(CCType.Stun);
+
         // 상처 체크
-        ccHandler.CheckCC(CCType.Wound);
+        ccHandler.CheckPlayerOrEnemyCC(CCType.Wound, isPlayer: false);
 
         CheckBattleEnd(() =>
         {
             battleUtil.SetPieceToInventory(result);
         });
+
+        // 상처 체크
+        ccHandler.CheckPlayerOrEnemyCC(CCType.Wound, isPlayer: true);
+
+        // 상처 체크
+        ccHandler.CheckCC(CCType.Wound);
 
         yield return null;
 
