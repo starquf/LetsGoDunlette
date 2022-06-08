@@ -44,6 +44,7 @@ public class UILevelUPPopUp : MonoBehaviour
     [Header("Reward")]
     public GameObject rewardPanel;
     public List<Button> rewardBtns;
+    public List<TextMeshProUGUI> beforeAfterTxts;
     public List<RewardInfo> rewardInfos;
 
     private List<TextMeshProUGUI> expTxts = new List<TextMeshProUGUI>();
@@ -86,16 +87,20 @@ public class UILevelUPPopUp : MonoBehaviour
             rewardBtns[i].onClick.RemoveAllListeners();
         }
 
+
+        beforeAfterTxts[0].text = $"{player.AttackPower} <color=yellow>¢º {player.AttackPower + rewardInfos[player.atkLevel].atkPower}</color>";
         rewardBtns[0].onClick.AddListener(() =>
         {
             player.UpgradeAttackPower(rewardInfos[player.atkLevel].atkPower);
             player.atkLevel++;
         });
+        beforeAfterTxts[1].text = $"{player.maxHp} <color=yellow>¢º {player.maxHp + rewardInfos[player.hpLevel].hp}</color>";
         rewardBtns[1].onClick.AddListener(() =>
         {
             player.UpgradeHP(rewardInfos[player.hpLevel].hp);
             player.hpLevel++;
         });
+        beforeAfterTxts[2].text = $"{player.MaxPieceCount} <color=yellow>¢º {player.MaxPieceCount + rewardInfos[player.maxPieceLevel].maxPiece}</color>";
         rewardBtns[2].onClick.AddListener(() =>
         {
             player.UpgradeMaxPieceCount(rewardInfos[player.maxPieceLevel].maxPiece);
@@ -162,6 +167,7 @@ public class UILevelUPPopUp : MonoBehaviour
             yield return new WaitForSeconds(time);
             expFillImage.DOColor(new Color(0, 0.6787322f, 1), time / 2);
             expText.DOColor(new Color(0, 0.6787322f, 1), time / 2);
+            levelText.text = $"{originLevel+1}";
             yield return new WaitForSeconds(time * 2);
             OpenReward();
             PopUp(originLevel + 1, 0, nowLevel, nowExp, maxExp, expLogs, false);
