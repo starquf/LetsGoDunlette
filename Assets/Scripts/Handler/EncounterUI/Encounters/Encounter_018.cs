@@ -81,23 +81,24 @@ public class Encounter_018 : RandomEncounter
                         {
                             if (idx == 1)
                             {
-                                for (int i = 0; i < skills.Count; i++)
-                                {
-                                    int idx = i;
-                                    DOTween.Sequence().SetDelay(idx * 0.1f)
-                                        .OnComplete(() =>
-                                        {
-                                            GetSkillInRandomEncounterAnim(skills[idx],
-                                                () =>
-                                                {
-                                                    if (idx == skills.Count - 1)
+                                GetSkillInRandomEncounterAnim(skills[0],
+                                    () =>
+                                    {
+                                        GetSkillInRandomEncounterAnim(skills[1],
+                                            () =>
+                                            {
+                                                GetSkillInRandomEncounterAnim(skills[2],
+                                                    () =>
                                                     {
-                                                        OnExitEncounter?.Invoke(true);
-                                                        invenInfoHandler.closeBtn.interactable = true;
-                                                    }
-                                                }, true);
-                                        });
-                                }
+                                                        GetSkillInRandomEncounterAnim(skills[3],
+                                                            () =>
+                                                            {
+                                                                OnExitEncounter?.Invoke(true);
+                                                                invenInfoHandler.closeBtn.interactable = true;
+                                                            }, true);
+                                                    }, true);
+                                            }, true);
+                                    }, true);
                             }
                         });
                     });
