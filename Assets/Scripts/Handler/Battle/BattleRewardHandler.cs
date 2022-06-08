@@ -56,15 +56,15 @@ public class BattleRewardHandler : MonoBehaviour
                         switch (GameManager.Instance.curEncounter)
                         {
                             case mapNode.BOSS:
-                                expValue = 65;
+                                expValue = 55;
                                 expLogs.Add(new ExpLog("보스 전투 경험치", expValue));
                                 break;
                             case mapNode.EMONSTER:
-                                expValue = 60;
+                                expValue = 50;
                                 expLogs.Add(new ExpLog("엘리트 전투 경험치", expValue));
                                 break;
                             case mapNode.MONSTER:
-                                expValue = 40;
+                                expValue = 30;
                                 expLogs.Add(new ExpLog("일반 전투 경험치", expValue));
                                 break;
                         }
@@ -88,15 +88,15 @@ public class BattleRewardHandler : MonoBehaviour
                 switch (GameManager.Instance.curEncounter)
                 {
                     case mapNode.BOSS:
-                        expValue = 65;
+                        expValue = 55;
                         expLogs.Add(new ExpLog("보스 전투 경험치", expValue));
                         break;
                     case mapNode.EMONSTER:
-                        expValue = 60;
+                        expValue = 50;
                         expLogs.Add(new ExpLog("엘리트 전투 경험치", expValue));
                         break;
                     case mapNode.MONSTER:
-                        expValue = 40;
+                        expValue = 30;
                         expLogs.Add(new ExpLog("일반 전투 경험치", expValue));
                         break;
                 }
