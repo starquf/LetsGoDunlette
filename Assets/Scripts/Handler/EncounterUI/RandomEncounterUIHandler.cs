@@ -42,6 +42,9 @@ public class RandomEncounterUIHandler : MonoBehaviour
         encounterInfoHandler = GetComponent<EncounterInfoHandler>();
         mainPanel = GetComponent<CanvasGroup>();
         cantEncounterIdxList = new List<int>();
+        mainPanel.alpha = 0;
+        mainPanel.blocksRaycasts = false;
+        mainPanel.interactable = false;
     }
 
     private void Start()

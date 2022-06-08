@@ -16,9 +16,9 @@ public enum ProductType
 public class ShopEncounterUIHandler : MonoBehaviour
 {
     private CanvasGroup mainPanel;
-    public CanvasGroup selectPanel;
+    public CanvasGroup buyPanel;
 
-    public Button exitBtn, purchaseBtn;
+    public Button exitBtn, purchaseBtn, unselectBtn;
 
     public Image selectProductImg;
     public TextMeshProUGUI selectProductNameTxt, selectProductDesTxt;
@@ -26,7 +26,8 @@ public class ShopEncounterUIHandler : MonoBehaviour
     public Image targetBGImg;
     public Image targetImg;
     public Transform skillIconTrans;
-    public List<SkillDesIcon> desIcons = new List<SkillDesIcon>();
+    [HideInInspector]public List<SkillDesIcon> desIcons = new List<SkillDesIcon>();
+    public GradeInfoHandler gradeHandler;
 
     private bool isSelectPanelEnable;
     private int selectIdx;
@@ -50,13 +51,16 @@ public class ShopEncounterUIHandler : MonoBehaviour
     private void Awake()
     {
         mainPanel = GetComponent<CanvasGroup>();
+        mainPanel.alpha = 0;
+        mainPanel.blocksRaycasts = false;
+        mainPanel.interactable = false;
     }
 
     public void Start()
     {
         skillIconTrans.GetComponentsInChildren(desIcons);
         mainPanel.alpha = 0;
-        selectPanel.alpha = 0;
+        buyPanel.alpha = 0;
 
         bh = GameManager.Instance.battleHandler;
         goldUIHandler = GameManager.Instance.goldUIHandler;
@@ -64,6 +68,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
 
         exitBtn.onClick.AddListener(OnExitBtnClick);
         purchaseBtn.onClick.AddListener(OnPurchaseBtnClick);
+        unselectBtn.onClick.AddListener(()=>SelectProduct(-1));
 
         InitBtn();
     }
@@ -169,8 +174,10 @@ public class ShopEncounterUIHandler : MonoBehaviour
                     bh.GetComponent<BattleScrollHandler>()
                          .GetScroll(scroll, () =>
                          {
-                             selectPanel.DOFade(0, 0.5f).OnComplete(() =>
+                             buyPanel.DOFade(0, 0.5f).OnComplete(() =>
                              {
+                                 buyPanel.blocksRaycasts = false;
+                                 buyPanel.interactable = false;
                                  SetProductSold(selectIdx);
                                  SetAllButtonInterval(true, true);
                              });
@@ -198,8 +205,10 @@ public class ShopEncounterUIHandler : MonoBehaviour
                             .Join(skillPiece.GetComponent<Image>().DOFade(0f, 0.3f))
                             .OnComplete(() =>
                             {
-                                selectPanel.DOFade(0, 0.5f).OnComplete(() =>
+                                buyPanel.DOFade(0, 0.5f).OnComplete(() =>
                                 {
+                                    buyPanel.blocksRaycasts = false;
+                                    buyPanel.interactable = false;
                                     SetProductSold(selectIdx);
                                     SetAllButtonInterval(true, true);
                                 });
@@ -251,7 +260,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
     // 품목 선택시 애니메이션, 보여주기
     private void SelectProduct(int selectIdx)
     {
-        if (isSelectPanelEnable)
+        if (selectIdx < 0)
         {
             if (this.selectIdx == selectIdx)
             {
@@ -259,20 +268,19 @@ public class ShopEncounterUIHandler : MonoBehaviour
             }
 
             DOTween.Sequence()
-                   .Append(selectPanel.DOFade(0, 0.3f).OnComplete(() =>
+                   .Append(buyPanel.DOFade(0, 0.3f).OnComplete(() =>
                    {
-                       SetSelectPanel(products[selectIdx]);
-                   }))
-                   .Append(selectPanel.DOFade(1, 0.3f))
-                   .OnComplete(() =>
-                   {
-                       SetButtonInterval(purchaseBtn, true);
-                   });
+                       buyPanel.blocksRaycasts = false;
+                       buyPanel.interactable = false;
+                       isSelectPanelEnable = false;
+                   }));
         }
         else
         {
             SetSelectPanel(products[selectIdx]);
-            selectPanel.DOFade(1, 0.3f)
+            buyPanel.blocksRaycasts = true;
+            buyPanel.interactable = true;
+            buyPanel.DOFade(1, 0.3f)
             .OnComplete(() =>
             {
                 isSelectPanelEnable = true;
@@ -293,7 +301,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
 
         if (product.productType.Equals(ProductType.RulletPiece))
         {
-            productSpr = product.productImg.sprite;
+            productSpr = product.skillImg.sprite;
             Sprite stroke = invenHandler.pieceBGStrokeSprDic[product.rulletPiece.currentType];
             Sprite targetBG = invenHandler.targetBGSprDic[product.rulletPiece.currentType];
             Sprite targetIcon = invenHandler.targetIconSprDic[product.rulletPiece.skillRange];
@@ -310,6 +318,8 @@ public class ShopEncounterUIHandler : MonoBehaviour
 
             List<DesIconInfo> desInfos = product.rulletPiece.GetDesIconInfo();
             ShowDesIcon(desInfos, product.rulletPiece);
+
+            gradeHandler.SetGrade(product.rulletPiece.skillGrade);
         }
         else
         {
@@ -352,7 +362,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
         isSelectPanelEnable = false;
         ShowPanel(false, () =>
         {
-            selectPanel.alpha = 0;
+            buyPanel.alpha = 0;
         });
 
         //goldUIHandler.ShowGoldUI(false);
