@@ -14,6 +14,9 @@ public class RestEncounterUIHandler : MonoBehaviour
     private void Awake()
     {
         mainPanel = GetComponent<CanvasGroup>();
+        mainPanel.alpha = 0;
+        mainPanel.blocksRaycasts = false;
+        mainPanel.interactable = false;
     }
 
     private void Start()

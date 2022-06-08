@@ -34,6 +34,8 @@ public class IconInfoHandler : MonoBehaviour
 
     public void InitInfo(SkillPiece sp, List<DesIconType> icons)
     {
+        ClosePanel();
+
         for (int i = 0; i < infoBGTrans.childCount; i++)
         {
             infoBGTrans.GetChild(i).gameObject.SetActive(false);
@@ -98,16 +100,7 @@ public class IconInfoHandler : MonoBehaviour
             iconInfo.Init(icon, name, des);
 
             iconInfo.transform.SetParent(infoBGTrans);
-
-            if (isOpened)
-            {
-                iconInfo.ShowPanel(true);
-            }
-            else 
-            {
-                iconInfo.ShowPanel(false);
-            }
-
+            iconInfo.transform.SetAsLastSibling();
 
             iconInfo.transform.localScale = Vector3.one;
         }

@@ -17,12 +17,16 @@ public class NL_Skill : SkillPiece
         {
             desInfos[0].SetInfo(DesIconType.Wound, $"{pieceInfo[0].GetValue()}");
 
+            usedIcons.Add(DesIconType.Wound);
+
             onCastSkill = NL_Poison_Dagger;
             return pieceInfo[0];
         }
         else
         {
             onCastSkill = NL_Mark;
+
+            usedIcons.Add(DesIconType.Wound);
 
             desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[1].GetValue())}");
             return pieceInfo[1];

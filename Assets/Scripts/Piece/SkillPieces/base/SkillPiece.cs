@@ -67,9 +67,15 @@ public class SkillPiece : RulletPiece
     public virtual PieceInfo ChoiceSkill()
     {
         ResetDesInfo();
+        ResetIconInfo();
+
         return new PieceInfo("None", "None");
     }
 
+    private void ResetIconInfo()
+    {
+        usedIcons.Clear();
+    }
 
     public override void Cast(LivingEntity targetTrm, Action onCastEnd = null) { }
 
