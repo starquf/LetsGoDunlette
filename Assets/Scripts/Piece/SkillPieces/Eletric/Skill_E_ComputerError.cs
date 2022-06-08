@@ -89,6 +89,7 @@ public class Skill_E_ComputerError : SkillPiece
 
             if (stop)
             {
+                onCastEnd?.Invoke();
                 break;
             }
 

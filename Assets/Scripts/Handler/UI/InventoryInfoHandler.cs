@@ -175,7 +175,6 @@ public class InventoryInfoHandler : BottomUIElement
             PieceInfoUI pieceInfoUI = PoolManager.GetItem<PieceInfoUI>();
             pieceInfoUI.SetSkillIcon(sp.skillIconImg.sprite, sp.skillStroke);
             pieceInfoUI.transform.SetParent(pieceHolderTrm);
-            pieceInfoUI.GetComponent<Image>().color = Color.white;
 
             pieceInfoUI.button.onClick.RemoveAllListeners();
             pieceInfoUI.button.onClick.AddListener(() =>

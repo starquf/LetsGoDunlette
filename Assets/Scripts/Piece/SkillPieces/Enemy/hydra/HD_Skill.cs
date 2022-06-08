@@ -30,7 +30,7 @@ public class HD_Skill : SkillPiece
     {
         base.ChoiceSkill();
 
-        if (Random.Range(0, 100) < 55)
+        if (Random.Range(0, 100) < 50)
         {
             onCastSkill = HD_Tail_Swing;
 
@@ -72,22 +72,76 @@ public class HD_Skill : SkillPiece
         });
     }
 
-    private void HD_Poison_Spray(LivingEntity target, Action onCastEnd = null) // 조각을 3개 추가한다.
+    private void HD_Poison_Spray(LivingEntity target, Action onCastEnd = null) // 조각을 2개 추가한다.
     {
-        SetIndicator(Owner.gameObject, "조각 추가").OnEndAction(() =>
+        SetIndicator(Owner.gameObject, "조각 강제이동").OnEndAction(() =>
         {
-            animHandler.GetAnim(AnimName.SkillEffect01)
-            .SetPosition(Owner.transform.position)
-            .SetScale(2f)
-            .SetRotation(Vector3.forward * -90f)
-            .Play(() =>
+            Rullet rullet = bh.mainRullet;
+            List<RulletPiece> pieces = rullet.GetPieces();
+
+            List<int> pieceIdxs = new List<int>() { 0, 1, 2, 3, 4, 5 };
+
+            for (int i = 0; i < 2; i++)
             {
-                for (int i = 0; i < 3; i++)
+                int a = i;
+
+                int randIdx = 0;
+                int pieceIdx = 0;
+                bool stop = false;
+
+                do
                 {
-                    bh.battleUtil.SetTimer(0.25f * i, () => { ih.CreateSkill(skill_poison, Owner, Owner.transform.position); });
+                    if (pieceIdxs.Count <= 0)
+                    {
+                        stop = true;
+                        break;
+                    }
+
+                    randIdx = Random.Range(0, pieceIdxs.Count);
+                    pieceIdx = pieceIdxs[randIdx];
+
+                    pieceIdxs.RemoveAt(randIdx);
+                }
+                while (pieces[pieceIdx] == null || pieces[pieceIdx] == this);
+
+                if (stop)
+                {
+                    break;
                 }
 
-                bh.battleUtil.SetTimer(0.5f + (0.25f * 2), onCastEnd);
+                Vector3 effectPos = pieces[pieceIdx].skillIconImg.transform.position;
+
+                animHandler.GetTextAnim()
+                .SetType(TextUpAnimType.Up)
+                .SetPosition(effectPos)
+                .SetScale(0.8f)
+                .Play("독분사 효과발동!");
+
+                GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.25f);
+
+                animHandler.GetAnim(AnimName.N_PoisionCloud)
+                    .SetPosition(effectPos)
+                    .SetScale(0.7f)
+                    .Play();
+
+                bh.battleUtil.SetPieceToGraveyard(pieceIdx);
+            }
+
+            SetIndicator(Owner.gameObject, "조각 추가").OnEndAction(() =>
+            {
+                animHandler.GetAnim(AnimName.SkillEffect01)
+                .SetPosition(Owner.transform.position)
+                .SetScale(2f)
+                .SetRotation(Vector3.forward * -90f)
+                .Play(() =>
+                {
+                    for (int i = 0; i < 2; i++)
+                    {
+                        bh.battleUtil.SetTimer(0.25f * i, () => { ih.CreateSkill(skill_poison, Owner, Owner.transform.position); });
+                    }
+
+                    bh.battleUtil.SetTimer(0.5f + (0.25f * 1), onCastEnd);
+                });
             });
         });
     }
