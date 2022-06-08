@@ -17,12 +17,16 @@ public class LM_Skill : SkillPiece
         {
             desInfos[0].SetInfo(DesIconType.Attack, GetDamageCalc(pieceInfo[0].GetValue()).ToString());
 
+            usedIcons.Add(DesIconType.Attack);
+
             onCastSkill = LM_Spearmanship;
             return pieceInfo[0];
         }
         else
         {
             desInfos[0].SetInfo(DesIconType.Shield, $"{pieceInfo[1].GetValue()}");
+
+            usedIcons.Add(DesIconType.Shield);
 
             onCastSkill = LM_Harden;
             return pieceInfo[1];

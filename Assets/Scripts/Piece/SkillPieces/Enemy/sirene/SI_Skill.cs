@@ -21,6 +21,9 @@ public class SI_Skill : SkillPiece
         if (GameManager.Instance.GetPlayer().cc.IsCC(CCType.Fascinate))
         {
             desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[1].GetValue())}");
+
+            usedIcons.Add(DesIconType.Attack);
+
             onCastSkill = SI_Sweet_Voice;
             return pieceInfo[1];
         }

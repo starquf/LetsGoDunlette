@@ -16,12 +16,18 @@ public class BB_Skill : SkillPiece
         {
             desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[0].GetValue())}");
 
+            usedIcons.Add(DesIconType.Attack);
+            usedIcons.Add(DesIconType.Shield);
+
             onCastSkill = BB_Breaking_Armor;
             return pieceInfo[0];
         }
         else
         {
             desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[1].GetValue())}");
+
+            usedIcons.Add(DesIconType.Attack);
+            usedIcons.Add(DesIconType.Stun);
 
             onCastSkill = BB_Strong_Attack;
             return pieceInfo[1];

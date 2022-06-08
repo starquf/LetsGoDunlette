@@ -34,6 +34,9 @@ public class RF_Skill : SkillPiece
             desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[0].GetValue())}");
             desInfos[1].SetInfo(DesIconType.Wound, $"{pieceInfo[0].GetValue(1)}ео");
 
+            usedIcons.Add(DesIconType.Attack);
+            usedIcons.Add(DesIconType.Wound);
+
             onCastSkill = RF_Sharp_Claw;
             return pieceInfo[0];
         }

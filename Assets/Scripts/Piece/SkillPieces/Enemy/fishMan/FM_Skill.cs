@@ -17,6 +17,10 @@ public class FM_Skill : SkillPiece
         {
             desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[0].GetValue())}");
 
+            usedIcons.Add(DesIconType.Attack);
+            usedIcons.Add(DesIconType.Shield);
+            usedIcons.Add(DesIconType.Wound);
+
             onCastSkill = FM_Harpoon;
             return pieceInfo[0];
         }
@@ -25,6 +29,9 @@ public class FM_Skill : SkillPiece
             desInfos[0].SetInfo(DesIconType.Exhausted, $"{pieceInfo[1].GetValue()}ео");
 
             onCastSkill = FM_Splashing;
+
+            usedIcons.Add(DesIconType.Exhausted);
+
             return pieceInfo[1];
         }
     }

@@ -29,12 +29,16 @@ public class FA_Skill : SkillPiece
         {
             desInfos[0].SetInfo(DesIconType.Upgrade, $"{pieceInfo[0].GetValue()}");
 
+            usedIcons.Add(DesIconType.Upgrade);
+
             onCastSkill = FA_Fairy_Ligtht;
             return pieceInfo[0];
         }
         else
         {
             desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[1].GetValue())}");
+
+            usedIcons.Add(DesIconType.Attack);
 
             onCastSkill = FA_Kidding;
             return pieceInfo[1];

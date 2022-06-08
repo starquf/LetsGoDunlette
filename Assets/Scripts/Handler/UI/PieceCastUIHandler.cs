@@ -268,6 +268,8 @@ public class PieceCastUIHandler : MonoBehaviour
                 skillPiece.skillIconImg.color = Color.white;
             }
         });
+
+
     }
 
     private IEnumerator CastWait(Action onEndEffect)

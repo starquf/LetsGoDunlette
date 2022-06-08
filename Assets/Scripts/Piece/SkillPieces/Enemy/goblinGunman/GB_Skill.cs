@@ -18,12 +18,16 @@ public class GB_Skill : SkillPiece
         {
             desInfos[0].SetInfo(DesIconType.Stun, $"{pieceInfo[0].GetValue()}%");
 
+            usedIcons.Add(DesIconType.Stun);
+
             onCastSkill = GB_Flash;
             return pieceInfo[0];
         }
         else
         {
             desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[1].GetValue())}");
+
+            usedIcons.Add(DesIconType.Attack);
 
             onCastSkill = GB_Shooting;
             return pieceInfo[1];
