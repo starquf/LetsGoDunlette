@@ -518,25 +518,22 @@ public class BattleHandler : MonoBehaviour
         // 기절 체크
         ccHandler.CheckCC(CCType.Stun);
 
-        // 상처 체크
-        ccHandler.CheckPlayerOrEnemyCC(CCType.Wound, isPlayer: false);
+        bool isPlayer = false;
 
-        CheckBattleEnd(() =>
+        for (int i = 0; i < 2; i++)
         {
-            battleUtil.SetPieceToInventory(result);
-        });
+            // 상처 체크
+            ccHandler.CheckPlayerOrEnemyCC(CCType.Wound, isPlayer);
 
-        yield return null;
+            CheckBattleEnd(() =>
+            {
+                battleUtil.SetPieceToInventory(result);
+            });
 
-        // 상처 체크
-        ccHandler.CheckPlayerOrEnemyCC(CCType.Wound, isPlayer: true);
+            isPlayer = !isPlayer;
 
-        CheckBattleEnd(() =>
-        {
-            battleUtil.SetPieceToInventory(result);
-        });
-
-        yield return null;
+            yield return null;
+        }
 
         // 저장한 결과를 인벤토리에 넣는다
         battleUtil.SetPieceToGraveyard(result);

@@ -19,12 +19,19 @@ public class AG_Skill : SkillPiece
         {
             onCastSkill = AG_Diving;
             desInfos[0].SetInfo(DesIconType.Shield, $"{pieceInfo[0].GetValue()}");
+
+            usedIcons.Add(DesIconType.Attack);
+            usedIcons.Add(DesIconType.Shield);
+
             return pieceInfo[0];
         }
         else
         {
             onCastSkill = AG_Crocodile_Bird;
             desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[1].GetValue())}");
+
+            usedIcons.Add(DesIconType.Attack);
+
             return pieceInfo[1];
         }
     }

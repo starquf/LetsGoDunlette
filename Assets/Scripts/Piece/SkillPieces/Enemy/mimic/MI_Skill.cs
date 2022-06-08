@@ -17,12 +17,16 @@ public class MI_Skill : SkillPiece
         {
             desInfos[0].SetInfo(DesIconType.Wound, $"{pieceInfo[0].GetValue()}ео");
 
+            usedIcons.Add(DesIconType.Wound);
+
             onCastSkill = MI_Biting;
             return pieceInfo[0];
         }
         else
         {
             desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[1].GetValue())}");
+
+            usedIcons.Add(DesIconType.Attack);
 
             onCastSkill = MI_Bump;
             return pieceInfo[1];

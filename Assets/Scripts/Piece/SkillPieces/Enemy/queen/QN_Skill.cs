@@ -16,12 +16,18 @@ public class QN_Skill : SkillPiece
         if (UnityEngine.Random.Range(0, 100) <= 60)
         {
             desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[0].GetValue())}");
+
+            usedIcons.Add(DesIconType.Attack);
+
             onCastSkill = QN_Authority;
             return pieceInfo[0];
         }
         else
         {
             desInfos[0].SetInfo(DesIconType.Shield, $"{pieceInfo[1].GetValue()}");
+
+            usedIcons.Add(DesIconType.Shield);
+
             onCastSkill = QN_Protection;
             return pieceInfo[1];
         }

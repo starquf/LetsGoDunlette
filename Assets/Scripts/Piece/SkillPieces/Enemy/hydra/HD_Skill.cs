@@ -33,12 +33,16 @@ public class HD_Skill : SkillPiece
         if (Random.Range(0, 100) < 55)
         {
             onCastSkill = HD_Tail_Swing;
+
+            usedIcons.Add(DesIconType.Attack);
+
             desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[0].GetValue())}");
             return pieceInfo[0];
         }
         else
         {
             onCastSkill = HD_Poison_Spray;
+
             return pieceInfo[1];
         }
     }

@@ -14,12 +14,12 @@ public class GradeInfoHandler : MonoBehaviour
         GetComponentsInChildren(starImgs);
     }
 
-    public void SetGrade(GradeMinsuSibalNum grade)
+    public void SetGrade(GradeInfo grade)
     {
         for (int i = 0; i < starImgs.Count; i++)
         {
             starImgs[i].gameObject.SetActive(false);
-            starImgs[i].sprite = grade == GradeMinsuSibalNum.True6StarMythAwakeningLegendTranscendentReincarnation ? starIcon[0] : starIcon[1];
+            starImgs[i].sprite = grade == GradeInfo.True6StarMythAwakeningLegendTranscendentReincarnation ? starIcon[0] : starIcon[1];
         }
 
         for (int i = 0; i < (int)grade; i++)

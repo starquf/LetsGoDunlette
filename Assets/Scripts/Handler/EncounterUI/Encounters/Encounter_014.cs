@@ -39,7 +39,7 @@ public class Encounter_014 : RandomEncounter
                 bh._bossInfo.enemyInfos.Add(EnemyType.QUEEN);
                 bh._bossInfo.bg = queenBackgroundSpr;
                 //GameManager.Instance.mapHandler.SetBossIcon(0);
-                Debug.LogError("º¸½º ¸Ê ¾ÆÀÌÄÜ º¯°æÇØÁà¾ßµÊ");
+                Debug.LogWarning("º¸½º ¸Ê ¾ÆÀÌÄÜ º¯°æÇØÁà¾ßµÊ");
 
                 NormalEvent eventInfo = null;
                 onBattleStart = action =>
@@ -66,7 +66,7 @@ public class Encounter_014 : RandomEncounter
                 bh._bossInfo.enemyInfos.Add(EnemyType.REDFOX);
                 bh._bossInfo.bg = redFoxBackgroundSpr;
                 //GameManager.Instance.mapHandler.SetBossIcon(0);
-                Debug.LogError("º¸½º ¸Ê ¾ÆÀÌÄÜ º¯°æÇØÁà¾ßµÊ");
+                Debug.LogWarning("º¸½º ¸Ê ¾ÆÀÌÄÜ º¯°æÇØÁà¾ßµÊ");
                 NormalEvent eventInfo1 = null;
                 bh.battleEvent.RemoveEventInfo(eventInfo1);
                 onBattleStart = action =>

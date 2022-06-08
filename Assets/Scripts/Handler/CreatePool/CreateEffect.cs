@@ -8,6 +8,7 @@ public class CreateEffect : MonoBehaviour
     [Header("UI ÇÁ¸®ÆÕ")]
     public GameObject enemyIndicator;
     public GameObject logLine;
+    public GameObject iconInfoPrefab;
 
     private void Awake()
     {
@@ -24,5 +25,7 @@ public class CreateEffect : MonoBehaviour
         }
 
         PoolManager.CreatePool<LogLine>(logLine, transform, 10);
+
+        PoolManager.CreatePool<IconInfo>(iconInfoPrefab, transform, 3);
     }
 }

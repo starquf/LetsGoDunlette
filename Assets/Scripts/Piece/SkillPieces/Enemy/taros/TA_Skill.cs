@@ -21,6 +21,9 @@ public class TA_Skill : SkillPiece
         {
             onCastSkill = TA_Body_Heating;
             desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[0].GetValue())}");
+
+            usedIcons.Add(DesIconType.Attack);
+
             return pieceInfo[0];
         }
         else

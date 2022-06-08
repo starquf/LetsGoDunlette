@@ -17,12 +17,16 @@ public class NSL_Skill : SkillPiece
         {
             desInfos[0].SetInfo(DesIconType.Heal, $"{pieceInfo[0].GetValue()}");
 
+            usedIcons.Add(DesIconType.Heal);
+
             onCastSkill = NSl_Recover;
             return pieceInfo[0];
         }
         else
         {
             desInfos[0].SetInfo(DesIconType.Attack, GetDamageCalc(pieceInfo[1].GetValue()).ToString());
+
+            usedIcons.Add(DesIconType.Attack);
 
             onCastSkill = NSL_Bounce;
             return pieceInfo[1];
