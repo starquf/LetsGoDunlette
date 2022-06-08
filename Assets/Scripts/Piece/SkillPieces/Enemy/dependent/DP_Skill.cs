@@ -17,11 +17,16 @@ public class DP_Skill : SkillPiece
         {
             onCastSkill = DP_Duty;
             pieceInfo[0].PieceDes = string.Format(pieceInfo[0].PieceDes, pieceInfo[0].GetValue(), pieceInfo[0].GetValue(1));
+
+            usedIcons.Add(DesIconType.Heal);
+
             return pieceInfo[0];
         }
         else
         {
             desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[1].GetValue())}"); //강화 아이콘으로 변경해야함
+
+            usedIcons.Add(DesIconType.Attack);
 
             onCastSkill = DP_Poke;
             return pieceInfo[1];

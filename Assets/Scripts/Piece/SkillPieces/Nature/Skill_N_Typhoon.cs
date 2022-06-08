@@ -38,11 +38,11 @@ public class Skill_N_Typhoon : SkillPiece
                 .SetScale(0.7f)
                 .Play();
 
-            targets[i].GetDamage(Value, currentType);
+            targets[i].GetDamage(GetDamageCalc(Value), currentType);
 
             if (targets.Count >= 2)
             {
-                targets[i].GetDamage(50, currentType);
+                targets[i].GetDamage(5, ElementalType.Nature);
             }
         }
 

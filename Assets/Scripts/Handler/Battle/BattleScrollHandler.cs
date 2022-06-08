@@ -29,9 +29,9 @@ public class BattleScrollHandler : MonoBehaviour
 
         InitSlot();
 
-        GetScroll(PoolManager.GetScroll(ScrollType.Heal));
-        GetScroll(PoolManager.GetScroll(ScrollType.Shield));
-        GetScroll(PoolManager.GetScroll(ScrollType.Chaos));
+        //GetScroll(PoolManager.GetScroll(ScrollType.Heal));
+        //GetScroll(PoolManager.GetScroll(ScrollType.Shield));
+        // GetScroll(PoolManager.GetScroll(ScrollType.Chaos));
     }
 
     private void InitSlot()
