@@ -61,7 +61,7 @@ public class EnemyHealth : LivingEntity
         }
     }
 
-    private IEnumerator UnBeatTime(Color defaultColor)
+    private IEnumerator UnBeatTime(Color defaultColor)                       
     {
         int countTime = 0;
         while (countTime < 10)
