@@ -101,7 +101,7 @@ public class BattleRewardHandler : MonoBehaviour
                         break;
                 }
                 expValue += 20;
-                expLogs.Add(new ExpLog("카드 넘기기 경험치", 10));
+                expLogs.Add(new ExpLog("카드 넘기기 경험치", 20));
                 GameManager.Instance.GetPlayer().AddExp(expValue, expLogs);
             });
         });
