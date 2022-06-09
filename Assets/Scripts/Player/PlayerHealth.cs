@@ -14,9 +14,10 @@ public class PlayerHealth : LivingEntity
     public Image damageBGEffect;
 
     public TextMeshProUGUI topPanelHPText;
+    public int maxPlayerLevel;
 
-    public int MaxPieceCount { get; set; }
     public int PlayerLevel { get; set; }
+    public int MaxPieceCount { get; set; }
     public int MaxExp { get; set; }
     public int CurrentExp { get; set; }
 
@@ -26,7 +27,7 @@ public class PlayerHealth : LivingEntity
         GameManager.Instance.battleHandler.player = this;
         cc.isPlayer = true;
 
-        PlayerLevel = 1;
+        PlayerLevel =9;
         CurrentExp = 0;
         MaxExp = 100;
         MaxPieceCount = 10;
@@ -39,7 +40,7 @@ public class PlayerHealth : LivingEntity
     {
         base.Init();
 
-        PlayerLevel = 1;
+        PlayerLevel = 9;
         CurrentExp = 0;
         MaxExp = 100;
         MaxPieceCount = 10;
@@ -80,6 +81,17 @@ public class PlayerHealth : LivingEntity
         }
     }
 
+    public bool IsMaxLevel()
+    {
+        if (PlayerLevel >= maxPlayerLevel)
+        {
+            PlayerLevel = maxPlayerLevel;
+            CurrentExp = 0;
+            return true;
+        }
+        return false;
+    }
+
     public void AddExp(int value, List<ExpLog> expLogs = null)
     {
         //경험치 증가 팝업
@@ -94,6 +106,9 @@ public class PlayerHealth : LivingEntity
                 LevelUP();
             }
         }
+
+        IsMaxLevel();
+
         GameManager.Instance.uILevelUPPopUp.PopUp(prevLevel, prevExp, PlayerLevel, CurrentExp, MaxExp, expLogs);
         GameManager.Instance.battleHandler.playerInfoHandler.Synchronization();
     }
