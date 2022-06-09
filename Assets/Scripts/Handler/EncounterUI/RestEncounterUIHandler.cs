@@ -35,6 +35,7 @@ public class RestEncounterUIHandler : MonoBehaviour
 
     private void OnRestBtnClick()
     {
+        RestBtn.interactable = false;
         ShowPanel(false, restSelectPanel, 0.3f, () =>
         {
             ShowPanel(true, restResultPanel, 0.5f, () =>
@@ -53,7 +54,7 @@ public class RestEncounterUIHandler : MonoBehaviour
 
     private void OnExitBtnClick()
     {
-
+        ExitBtn.interactable = false;
         EndEvent();
     }
 
@@ -65,6 +66,8 @@ public class RestEncounterUIHandler : MonoBehaviour
         {
             ShowPanelSkip(true, restSelectPanel);
             ShowPanelSkip(false, restResultPanel);
+            RestBtn.interactable = true;
+            ExitBtn.interactable = true;
         });
 
         GameManager.Instance.EndEncounter();
