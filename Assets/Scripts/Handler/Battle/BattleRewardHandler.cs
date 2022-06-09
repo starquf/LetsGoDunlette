@@ -64,7 +64,7 @@ public class BattleRewardHandler : MonoBehaviour
                                 expLogs.Add(new ExpLog("엘리트 전투 경험치", expValue));
                                 break;
                             case mapNode.MONSTER:
-                                expValue = 20;
+                                expValue = 25;
                                 expLogs.Add(new ExpLog("일반 전투 경험치", expValue));
                                 break;
                         }
@@ -96,7 +96,7 @@ public class BattleRewardHandler : MonoBehaviour
                         expLogs.Add(new ExpLog("엘리트 전투 경험치", expValue));
                         break;
                     case mapNode.MONSTER:
-                        expValue = 20;
+                        expValue = 25;
                         expLogs.Add(new ExpLog("일반 전투 경험치", expValue));
                         break;
                 }
