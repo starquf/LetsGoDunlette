@@ -245,6 +245,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
         }
         exitBtn.interactable = enable;
         purchaseBtn.interactable = enable;
+        unselectBtn.interactable = enable;
 
         if (soldIsFalse)
         {

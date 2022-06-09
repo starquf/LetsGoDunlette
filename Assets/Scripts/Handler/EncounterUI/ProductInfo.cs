@@ -107,6 +107,7 @@ public class ProductInfo : MonoBehaviour
         scroll = null;
         rulletPiece = null;
         skillCardCvsGroup.alpha = 0;
+        scrollImg.gameObject.SetActive(false);
         productPriceImg.gameObject.SetActive(false);
         productDes = "";
         productName = "";
