@@ -42,6 +42,7 @@ public class Map : MonoBehaviour
         this.mapManager = mapManager;
         defaltPosY = GetComponent<RectTransform>().position.y;
         isSelected = false;
+        mapIcon.color = Color.white;
         button.onClick.AddListener(OnClickButton);
     }
 
