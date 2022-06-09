@@ -29,7 +29,7 @@ public class PlayerHealth : LivingEntity
         PlayerLevel = 1;
         CurrentExp = 0;
         MaxExp = 100;
-        MaxPieceCount = 13;
+        MaxPieceCount = 10;
         atkLevel = 0;
         hpLevel = 0;
         maxPieceLevel = 0;
@@ -42,7 +42,7 @@ public class PlayerHealth : LivingEntity
         PlayerLevel = 1;
         CurrentExp = 0;
         MaxExp = 100;
-        MaxPieceCount = 13;
+        MaxPieceCount = 10;
         atkLevel = 0;
         hpLevel = 0;
         maxPieceLevel = 0;
