@@ -159,6 +159,7 @@ public class GameManager : MonoBehaviour
     public void NextStage()
     {
         StageIdx++;
+
         OnNextStage();
     }
 

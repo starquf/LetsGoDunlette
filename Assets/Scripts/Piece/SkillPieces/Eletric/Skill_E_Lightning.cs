@@ -41,22 +41,22 @@ public class Skill_E_Lightning : SkillPiece
         .SetPosition(target.transform.position)
         .Play(() =>
         {
-            PlayerHealth playerHealth = Owner.GetComponent<PlayerHealth>();
-            if (playerHealth.HasShield())
+            LivingEntity ownerHealth = Owner.GetComponent<LivingEntity>();
+            if (ownerHealth.HasShield())
             {
                 if (Random.Range(0, 100) < 60)
                 {
                     animHandler.GetAnim(AnimName.E_Static_Stun)
-                    .SetPosition(bh.playerImgTrans.position)
+                    .SetPosition(Owner.transform.position)
                     .Play();
 
-                    playerHealth.cc.SetCC(CCType.Stun, 1);
+                    ownerHealth.cc.SetCC(CCType.Stun, 1);
 
                     LogCon log = new LogCon
                     {
                         text = $"±âÀý½ÃÅ´",
                         selfSpr = skillIconImg.sprite,
-                        targetSpr = playerHealth.GetComponent<SpriteRenderer>().sprite
+                        targetSpr = ownerHealth.GetComponent<SpriteRenderer>().sprite
                     };
 
                     DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);

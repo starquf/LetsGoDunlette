@@ -30,7 +30,7 @@ public class InventoryInfoHandler : BottomUIElement
 
     [SerializeField]
     private Text messageText;
-    private string unusedMsg = "사용되지 않은 조각";
+    private string unusedMsg = "인벤토리";
     private string usedMsg = "무덤에 있는 조각";
 
     private Action<SkillPiece> onClickPiece = null;
@@ -63,7 +63,10 @@ public class InventoryInfoHandler : BottomUIElement
 
             if (!isShow)
             {
-                ShowInventoryInfo(unusedMsg, ShowInfoRange.Inventory, desPanel.ShowDescription);
+                int count = bh.player.GetComponent<Inventory>().skills.Count;
+                int maxCount = bh.player.MaxPieceCount;
+
+                ShowInventoryInfo($"{unusedMsg}({count}/{maxCount})", ShowInfoRange.Inventory, desPanel.ShowDescription);
             }
         });
 

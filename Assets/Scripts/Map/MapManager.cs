@@ -62,6 +62,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private int defaultBossCount;
     [SerializeField] private List<mapNode> canNotLinkMapType = new List<mapNode>();
     //[SerializeField] SerializableDictionary<mapNode, int> fixedMapTypeCount = new SerializableDictionary<mapNode, int>();
+    private Dictionary<Vector2, mapNode> useFixedPosMapType = new Dictionary<Vector2, mapNode>();
     [SerializeField] private SerializableDictionary<Vector2, mapNode> fixedPosMapType = new SerializableDictionary<Vector2, mapNode>();
     [SerializeField] private List<FixedMapRangeRandom> fixedRangeMapType = new List<FixedMapRangeRandom>();
     [SerializeField] private SerializableDictionary<mapNode, float> mapTypeProportionDic = new SerializableDictionary<mapNode, float>();
@@ -102,6 +103,7 @@ public class MapManager : MonoBehaviour
         }
         tiles.Clear();
 
+        useFixedPosMapType.Clear();
         /*
         List<Vector2> fixedPosMapList = fixedPosMapType.Keys.ToList();
         for (int i = 0; i < fixedPosMapList.Count; i++)
@@ -131,11 +133,17 @@ public class MapManager : MonoBehaviour
     // 맵 만들어지고 해야될거
     public void OnGenerateMap()
     {
+        CopyFixed();
         LinkMap();
         RandomDestroyMap();
         SetRandomTileSprite();
         SetMapType();
         InitMap();
+    }
+
+    private void CopyFixed()
+    {
+        useFixedPosMapType = new Dictionary<Vector2, mapNode>(fixedPosMapType);
     }
 
     // 맵 변수 초기화
@@ -160,9 +168,9 @@ public class MapManager : MonoBehaviour
                 int targetX = Random.Range((int)fm.minPos.x, (int)fm.maxPos.x + 1);
                 int targetY = Random.Range((int)fm.minPos.y, (int)fm.maxPos.y + 1);
                 targetPos = new Vector2(targetX, targetY);
-            } while (fixedPosMapType.Keys.Contains(targetPos));
+            } while (useFixedPosMapType.Keys.Contains(targetPos));
 
-            fixedPosMapType.Add(targetPos, fm.mapType);
+            useFixedPosMapType.Add(targetPos, fm.mapType);
         }
     }
 
@@ -173,7 +181,7 @@ public class MapManager : MonoBehaviour
         int count = maxDestroyCount;
         List<Map> mapList = tiles.Values.ToList();
 
-        List<Vector2> fixedPosMapList = fixedPosMapType.Keys.ToList();
+        List<Vector2> fixedPosMapList = useFixedPosMapType.Keys.ToList();
         for (int i = 0; i < fixedPosMapList.Count; i++)
         {
             mapList.Remove(tiles[fixedPosMapList[i]]);
@@ -523,7 +531,7 @@ public class MapManager : MonoBehaviour
         List<Map> maps = tiles.Values.ToList();
         for (int i = 0; i < maps.Count; i++)
         {
-            maps[i].SetTileSprite(tileSpriteList[Random.Range(0 + (GameManager.Instance.StageIdx * 7), 6 + (GameManager.Instance.StageIdx * 7))]);
+            maps[i].SetTileSprite(tileSpriteList[Random.Range(0, 6) + (GameManager.Instance.StageIdx * 7)]);
         }
     }
 
@@ -531,10 +539,10 @@ public class MapManager : MonoBehaviour
     public void SetMapType()
     {
         // 고정 좌표 맵 타일 설정
-        List<Vector2> fixedPosMapList = fixedPosMapType.Keys.ToList();
+        List<Vector2> fixedPosMapList = useFixedPosMapType.Keys.ToList();
         for (int i = 0; i < fixedPosMapList.Count; i++)
         {
-            mapNode mapType = fixedPosMapType[fixedPosMapList[i]];
+            mapNode mapType = useFixedPosMapType[fixedPosMapList[i]];
             /*
             if (fixedMapTypeCount.Keys.Contains(mapType))
             {
@@ -716,7 +724,7 @@ public class MapManager : MonoBehaviour
         }
         Vector2 mapKey = GetTilesKeyToValue(map);
         tiles.Remove(mapKey);
-        fixedPosMapType.Remove(mapKey);
+        useFixedPosMapType.Remove(mapKey);
     }
 
     // 맵 부셔지는 연출
