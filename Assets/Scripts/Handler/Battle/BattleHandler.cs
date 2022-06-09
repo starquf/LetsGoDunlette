@@ -120,6 +120,12 @@ public class BattleHandler : MonoBehaviour
         fieldHandler = GetComponent<BattleFieldHandler>();
 
         GameManager.Instance.SetResolution();
+
+        GameManager.Instance.OnNextStage += () => 
+        {
+            isElite = false;
+            isBoss = false; 
+        };
     }
 
     private void Start()
