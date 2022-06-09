@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,10 +12,9 @@ public class YesOrNoPanel : MonoBehaviour
     private Action onConfirmBtn = null;
     private Action onCancelBtn = null;
 
-
-    public Text panelDestTxt = null;
-    public Text cancelTxt = null;
-    public Text confirmTxt = null;
+    public TextMeshProUGUI panelDestTxt = null;
+    public TextMeshProUGUI cancelTxt = null;
+    public TextMeshProUGUI confirmTxt = null;
 
     private void Awake()
     {

@@ -27,7 +27,7 @@ public class PlayerHealth : LivingEntity
         GameManager.Instance.battleHandler.player = this;
         cc.isPlayer = true;
 
-        PlayerLevel =9;
+        PlayerLevel = 1;
         CurrentExp = 0;
         MaxExp = 100;
         MaxPieceCount = 10;
@@ -40,7 +40,7 @@ public class PlayerHealth : LivingEntity
     {
         base.Init();
 
-        PlayerLevel = 9;
+        PlayerLevel = 1;
         CurrentExp = 0;
         MaxExp = 100;
         MaxPieceCount = 10;

@@ -40,7 +40,7 @@ public class GetPieceHandler : MonoBehaviour
                 () =>
                 {
                     // 취소 될시 확인 패널
-                    GameManager.Instance.YONHandler.ShowPanel("받은 스킬 조각을 넘기기겠습니까?", "넘기기", "취소", onConfirmBtn: () =>
+                    GameManager.Instance.YONHandler.ShowPanel("받은 스킬 조각을 넘기겠습니까?", "넘기기", "취소", onConfirmBtn: () =>
                     {
                         onCanceled?.Invoke();
                         invenInfo.CloseInventoryInfo();
