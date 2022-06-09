@@ -199,6 +199,7 @@ public class GameManager : MonoBehaviour
         OnUpdateUI = null;
         OnEndEncounter = null;
         OnResetGame = null;
+        OnNextStage = null;
     }
 
     public bool IsEndStage()
