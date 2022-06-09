@@ -57,7 +57,7 @@ public class EnemyHealth : LivingEntity
 
         if (IsDie)
         {
-            StartCoroutine(UnBeatTime(color));
+            //StartCoroutine(UnBeatTime(color));
         }
     }
 
