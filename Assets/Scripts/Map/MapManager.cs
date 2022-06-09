@@ -395,7 +395,9 @@ public class MapManager : MonoBehaviour
             }
             else
             {
-                CanNotMoveGameOverDirection();
+                bossCount = 0;
+                BossCountDirection(onEndDirection);
+                //CanNotMoveGameOverDirection();
             }
         }
     }
