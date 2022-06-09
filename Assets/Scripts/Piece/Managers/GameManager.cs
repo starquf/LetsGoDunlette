@@ -159,6 +159,7 @@ public class GameManager : MonoBehaviour
     public void NextStage()
     {
         StageIdx++;
+
         OnNextStage();
     }
 
@@ -198,6 +199,7 @@ public class GameManager : MonoBehaviour
         OnUpdateUI = null;
         OnEndEncounter = null;
         OnResetGame = null;
+        OnNextStage = null;
     }
 
     public bool IsEndStage()
