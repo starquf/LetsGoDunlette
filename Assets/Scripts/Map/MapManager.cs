@@ -360,9 +360,9 @@ public class MapManager : MonoBehaviour
             bossCountTxt.DOText(bossCount.ToString(), 0.5f);
         }
         DOTween.Sequence()
-            .Append(playerTrm.DOJump(map.transform.position, 0.35f, 1, 0.5f).SetEase(Ease.InQuad).SetDelay(counting ? 0.5f : 0.3f))
-            .Append(playerTrm.DOMoveY(map.transform.position.y + 0.4f, 0.08f))
-            .Append(playerTrm.DOMoveY(map.transform.position.y, 0.3f).SetEase(Ease.OutBounce))
+            .Append(playerTrm.DOLocalJump(map.transform.localPosition, 35f, 1, 0.5f).SetEase(Ease.InQuad).SetDelay(counting ? 0.5f : 0.3f))
+            .Append(playerTrm.DOLocalMoveY(map.transform.localPosition.y + 40f, 0.08f))
+            .Append(playerTrm.DOLocalMoveY(map.transform.localPosition.y, 0.3f).SetEase(Ease.OutBounce))
             .OnComplete(() =>
             {
                 BreakMap(curMap);
