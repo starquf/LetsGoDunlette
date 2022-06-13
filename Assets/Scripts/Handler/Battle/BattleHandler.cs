@@ -666,6 +666,11 @@ public class BattleHandler : MonoBehaviour
             }
             else
             {
+                if (isBoss)
+                {
+                    player.Heal(player.maxHp);
+                }
+
                 battleRewardHandler.GiveReward();
             }
         }
@@ -729,7 +734,7 @@ public class BattleHandler : MonoBehaviour
             if (piece.isPlayerSkill)
             {
                 // 적이 한명 이하라면           조각이 대상 지정이 아니라면
-                if (!piece.isTargeting)// enemys.Count <= 1
+                if (!piece.isTargeting || enemys.Count <= 1)// 
                 {
                     onShowCast = () =>
                     {
@@ -743,15 +748,18 @@ public class BattleHandler : MonoBehaviour
                 }
                 else
                 {
-                    battleTargetSelector.SelectTarget(target =>
+                    onShowCast = () =>
                     {
-                        piece.Cast(target, () =>
+                        battleTargetSelector.SelectTarget(target =>
                         {
-                            StartCoroutine(EndTurn());
-                        });
+                            piece.Cast(target, () =>
+                            {
+                                StartCoroutine(EndTurn());
+                            });
 
-                        castUIHandler.EndCast(piece);
-                    });
+                            castUIHandler.EndCast(piece);
+                        });
+                    };
                 }
 
                 mainRullet.RulletSpeed += 100f;

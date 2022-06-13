@@ -5,10 +5,11 @@ using UnityEngine.UI;
 
 public class IconInfoHandler : MonoBehaviour
 {
-    private CanvasGroup infoPanel;
+    public CanvasGroup infoPanel;
 
     public CanvasGroup fadeBG;
     public Button infoBtn;
+    public Button closePanel;
     public Transform infoBGTrans;
 
     private bool isOpened = false;
@@ -17,8 +18,6 @@ public class IconInfoHandler : MonoBehaviour
 
     private void Start()
     {
-        infoPanel = GetComponentInChildren<CanvasGroup>();
-
         ShowPanel(infoPanel, isOpened);
         ShowPanel(fadeBG, isOpened);
 
@@ -27,6 +26,11 @@ public class IconInfoHandler : MonoBehaviour
             isOpened = !isOpened;
             ShowPanel(infoPanel, isOpened);
             ShowPanel(fadeBG, isOpened);
+        });
+
+        closePanel.onClick.AddListener(() =>
+        {
+            ClosePanel();
         });
 
         bh = GameManager.Instance.battleHandler;

@@ -23,7 +23,7 @@ public class EnemyHealth : LivingEntity
 
     private Vector3 originSize;
 
-
+    public Sprite iconSpr;
 
     protected override void Awake()
     {
@@ -35,6 +35,7 @@ public class EnemyHealth : LivingEntity
 
         originSize = transform.localScale;
 
+        iconSpr = hPCvs.transform.Find("head").GetComponent<Image>().sprite;
     }
 
     protected override void Start()

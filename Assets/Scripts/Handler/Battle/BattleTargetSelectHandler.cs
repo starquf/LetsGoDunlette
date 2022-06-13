@@ -7,218 +7,63 @@ using UnityEngine.UI;
 
 public class BattleTargetSelectHandler : MonoBehaviour
 {
-    public Transform detectTrans;
-    public InventoryInfoHandler invenInfoHandler;
-    public Image arrowImg;
+    public CanvasGroup selectCvs;
 
-    private LineRenderer lr;
+    public GameObject targetIconObj;
 
-    private bool canControl = true;
-
-    private bool isSelect = false;
-    private bool isDrag = false;
-
-    private Camera mainCam;
-
-    private Vector3 touchPos;
-    public float detectDistance = 5f;
-
-    private Action<EnemyHealth> onEndSelect;
-
-    private LayerMask isEnemy;
-
-    public SkipUIPanelHandler skipUI;
-    private Sequence dragSeq;
+    public Transform contextTrans;
 
     private BattleHandler bh;
 
     private void Start()
     {
-        lr = detectTrans.GetComponent<LineRenderer>();
         bh = GameManager.Instance.battleHandler;
 
-        invenInfoHandler.invenBtn.onClick.AddListener(() =>
-        {
-            if (bh.isBattle)
-            {
-                canControl = false;
-            }
-        });
+        PoolManager.CreatePool<TargetIcon>(targetIconObj, contextTrans, 3);
 
-        invenInfoHandler.closeBtn.onClick.AddListener(() => canControl = true);
-        invenInfoHandler.closeImgBtn.onClick.AddListener(() => canControl = true);
-
-        mainCam = Camera.main;
-        isEnemy = LayerMask.GetMask("Enemy");
-
-        arrowImg.enabled = false;
-    }
-
-    private void Update()
-    {
-        if (!canControl)
-        {
-            return;
-        }
-
-        CheckDrag();
-    }
-
-    private void CheckDrag()
-    {
-        if (!isSelect || isDrag)
-        {
-            return;
-        }
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            dragSeq.Kill();
-            skipUI.SetPanel(false);
-
-            touchPos = mainCam.ScreenToWorldPoint(Input.mousePosition);
-            touchPos.z = 0f;
-
-            Vector3 detectPos = detectTrans.position;
-            detectPos.z = 0f;
-
-            Vector3 dir = touchPos - detectPos;
-
-            // 스킬을 잡았다면
-            if (dir.sqrMagnitude < detectDistance * detectDistance)
-            {
-
-                lr.SetPosition(0, detectPos);
-                lr.SetPosition(1, detectPos);
-
-                arrowImg.enabled = true;
-                arrowImg.transform.position = detectPos;
-
-                StartCoroutine(OnDrag());
-            }
-        }
+        ShowPanel(false);
     }
 
     public void SelectTarget(Action<EnemyHealth> onEndSelect)
     {
-        isSelect = true;
+        ShowPanel(true);
 
-        ShowDrag();
-
-        this.onEndSelect = onEndSelect;
+        InitTarget(onEndSelect);
     }
 
-    private IEnumerator OnDrag()
+    private void InitTarget(Action<EnemyHealth> onEndSelect)
     {
-        isDrag = true;
-
-        Vector2 touchStartPos = mainCam.ScreenToWorldPoint(Input.mousePosition);
-
-        while (true)
+        for (int i = 0; i < contextTrans.childCount; i++)
         {
-            yield return null;
-            touchPos = mainCam.ScreenToWorldPoint(Input.mousePosition);
-            touchPos.z = 0f;
+            contextTrans.GetChild(i).gameObject.SetActive(false);
+        }
 
-            if (touchStartPos.y > touchPos.y && touchPos.y >= detectTrans.position.y)
+        List<EnemyHealth> enemys = bh.enemys;
+
+        for (int i = 0; i < enemys.Count; i++)
+        {
+            EnemyHealth enemy = enemys[i];
+            TargetIcon targetIcon = PoolManager.GetItem<TargetIcon>();
+
+            targetIcon.transform.SetAsLastSibling();
+
+            targetIcon.Init(enemy.iconSpr, () => 
             {
-                touchStartPos = touchPos;
-            }
-
-            // 적이 선택되었다면
-            if (GetPositionEnemy(touchStartPos, touchPos, out EnemyHealth enemy))
-            {
-                // 선 그려주는 작업
-                lr.SetPosition(1, enemy.transform.position);
-                lr.endColor = Color.red;
-                arrowImg.color = Color.red;
-            }
-            else
-            {
-                lr.endColor = Color.white;
-                arrowImg.color = Color.white;
-                // 선 그려주는 작업
-                lr.SetPosition(1, touchPos);
-            }
-
-            SetArrowPos();
-
-            // 손을 때면
-            if (Input.GetMouseButtonUp(0))
-            {
-                // 적이 선택되었다면
-                if (enemy != null)
-                {
-                    SetTarget(enemy);
-                }
-                else
-                {
-                    dragSeq.Kill();
-                    skipUI.SetPanel(false);
-
-                    ShowDrag();
-                }
-
-                lr.SetPosition(0, Vector3.zero);
-                lr.SetPosition(1, Vector3.zero);
-
-                isDrag = false;
-                arrowImg.enabled = false;
-
-                break;
-            }
+                EndSelect();
+                onEndSelect?.Invoke(enemy);
+            });
         }
     }
 
-    private void ShowDrag()
+    private void EndSelect()
     {
-        dragSeq = DOTween.Sequence()
-                        .AppendInterval(1.2f)
-                        .AppendCallback(() =>
-                        {
-                            skipUI.ShowDragUI();
-                        });
+        ShowPanel(false);
     }
 
-    private void SetArrowPos()
+    public void ShowPanel(bool enable)
     {
-        Vector2 dir = lr.GetPosition(1) - lr.GetPosition(0);
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-
-        arrowImg.transform.position = lr.GetPosition(1);
-        arrowImg.transform.rotation = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
-    }
-
-    private void SetTarget(EnemyHealth enemy)
-    {
-        onEndSelect(enemy);
-
-        isSelect = false;
-    }
-
-    private bool GetPositionEnemy(Vector2 dragStartPos, Vector2 pos, out EnemyHealth enemy)
-    {
-        enemy = null;
-
-        //Collider2D coll = Physics2D.OverlapPoint(pos, isEnemy);
-
-        //// 적이 있다면
-        //if (coll != null)
-        //{
-        //    enemy = coll.GetComponent<EnemyHealth>();
-        //    return true;
-        //}
-        if (Vector2.Distance(dragStartPos, pos) < 1 || dragStartPos.y > pos.y)
-        {
-            return false;
-        }
-        else
-        {
-            List<EnemyHealth> enemys = new List<EnemyHealth>(GameManager.Instance.battleHandler.enemys);
-            enemys.Sort((e1, e2) => Vector2.Distance(e1.transform.position, pos) < Vector2.Distance(e2.transform.position, pos) ? -1 : 1);
-            enemy = enemys[0];
-        }
-
-        return true;
+        selectCvs.DOFade(enable ? 1f : 0f, 0.33f);
+        selectCvs.blocksRaycasts = enable;
+        selectCvs.interactable = enable;
     }
 }
