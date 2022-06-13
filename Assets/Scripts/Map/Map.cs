@@ -26,6 +26,7 @@ public class Map : MonoBehaviour
 
     private Sequence selectSequence;
 
+    private float defaultLocalPosY;
     private Button button;
     private bool isSelected;
 
@@ -39,6 +40,7 @@ public class Map : MonoBehaviour
     {
         button.onClick.RemoveAllListeners();
         this.mapManager = mapManager;
+        defaultLocalPosY = GetComponent<RectTransform>().localPosition.y;
         isSelected = false;
         mapIcon.color = Color.white;
         button.onClick.AddListener(OnClickButton);
@@ -118,7 +120,7 @@ public class Map : MonoBehaviour
         RectTransform rect = GetComponent<RectTransform>();
 
         selectSequence = DOTween.Sequence()
-            .Append(rect.DOLocalMoveY(enable ? rect.localPosition.y + (rect.sizeDelta.x / 5f) : rect.localPosition.y - (rect.sizeDelta.x / 5f), time))
+            .Append(rect.DOLocalMoveY(enable ? rect.localPosition.y + (rect.sizeDelta.x / 5f) : defaultLocalPosY, time))
             .Join(mapOutLine.DOFade(enable ? 1 : 0, time))
             .OnComplete(() =>
             {
