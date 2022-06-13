@@ -57,7 +57,6 @@ public class MapCanvasFollow : MonoBehaviour
             transform.position = Vector2.Lerp(transform.position, position, Time.deltaTime * followSpeed * speedScale);
             yield return null;
         }
-        mapManager.SetDefaultMapPos();
         onEndAnim?.Invoke();
     }
 
@@ -77,7 +76,6 @@ public class MapCanvasFollow : MonoBehaviour
                 .Join(rectTrm.DOAnchorPos(targetAmchorPos, time).SetEase(ease))
                 .OnComplete(() =>
                 {
-                    mapManager.SetDefaultMapPos();
                     onComplete?.Invoke();
                 });
         }
@@ -85,7 +83,6 @@ public class MapCanvasFollow : MonoBehaviour
         {
             rectTrm.localScale = targetScale;
             rectTrm.anchoredPosition = targetAmchorPos;
-            mapManager.SetDefaultMapPos();
             onComplete?.Invoke();
         }
     }

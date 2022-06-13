@@ -26,7 +26,6 @@ public class Map : MonoBehaviour
 
     private Sequence selectSequence;
 
-    private float defaltPosY;
     private Button button;
     private bool isSelected;
 
@@ -40,7 +39,6 @@ public class Map : MonoBehaviour
     {
         button.onClick.RemoveAllListeners();
         this.mapManager = mapManager;
-        defaltPosY = GetComponent<RectTransform>().position.y;
         isSelected = false;
         mapIcon.color = Color.white;
         button.onClick.AddListener(OnClickButton);
@@ -81,11 +79,6 @@ public class Map : MonoBehaviour
         }
     }
 
-    public void SetDefaultPos()
-    {
-        defaltPosY = GetComponent<RectTransform>().position.y;
-    }
-
     private void OnClickButton()
     {
         if (!isSelected) // 처음에 버튼 선택했을 때
@@ -118,12 +111,14 @@ public class Map : MonoBehaviour
 
     public void OnSelected(bool enable, float time = 0.5f, Action onComplete = null)
     {
+        if (!isSelected && !enable)
+            return;
         isSelected = enable;
         selectSequence.Kill();
         RectTransform rect = GetComponent<RectTransform>();
 
         selectSequence = DOTween.Sequence()
-            .Append(rect.DOMoveY(enable ? defaltPosY + (rect.sizeDelta.x / 100f / 10f) : defaltPosY, time))
+            .Append(rect.DOLocalMoveY(enable ? rect.localPosition.y + (rect.sizeDelta.x / 5f) : rect.localPosition.y - (rect.sizeDelta.x / 5f), time))
             .Join(mapOutLine.DOFade(enable ? 1 : 0, time))
             .OnComplete(() =>
             {

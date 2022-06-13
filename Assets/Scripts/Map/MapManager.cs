@@ -686,15 +686,6 @@ public class MapManager : MonoBehaviour
         }
     }
 
-    public void SetDefaultMapPos()
-    {
-        List<Map> mapList = tiles.Values.ToList();
-        for (int i = 0; i < mapList.Count; i++)
-        {
-            mapList[i].SetDefaultPos();
-        }
-    }
-
     // 현재 맵에 연결된 맵들 선택한거 제외하고, 선택 해제
     public void UnSelectedLinkedMap(Map selectedMap)
     {
@@ -740,7 +731,7 @@ public class MapManager : MonoBehaviour
 
         DOTween.Sequence()
             .Append(map.GetComponent<CanvasGroup>().DOFade(0, 0.5f))
-            .Join(map.transform.DOMoveY(map.transform.position.y - 0.5f, 0.5f))
+            .Join(map.transform.DOLocalMoveY(map.transform.localPosition.y - 0.5f, 0.5f))
             .OnComplete(() =>
             {
                 map.gameObject.SetActive(false);
