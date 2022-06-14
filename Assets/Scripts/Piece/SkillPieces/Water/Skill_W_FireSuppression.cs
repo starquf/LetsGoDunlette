@@ -39,7 +39,7 @@ public class Skill_W_FireSuppression : SkillPiece
     {
         int waterCnt = 0;
 
-        Vector3 startPos = bh.bottomPos.position;
+        Vector3 startPos = Owner.transform.position;
 
         Rullet rullet = bh.mainRullet;
         List<RulletPiece> skillPieces = rullet.GetPieces();
