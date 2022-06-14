@@ -44,6 +44,7 @@ public class UILevelUPPopUp : MonoBehaviour
     [Header("Reward")]
     public GameObject rewardPanel;
     public List<Button> rewardBtns;
+    public List<GameObject> rewardGOs;
     public List<TextMeshProUGUI> beforeAfterTxts;
     public List<RewardInfo> rewardInfos;
 
@@ -110,21 +111,26 @@ public class UILevelUPPopUp : MonoBehaviour
         for (int i = 0; i < rewardBtns.Count; i++)
         {
             rewardBtns[i].onClick.AddListener(Close);
+            rewardBtns[i].interactable = true;
+            rewardGOs[i].SetActive(true);
         }
 
         if (rewardInfos[player.atkLevel].atkPower == 0)
         {
             rewardBtns[0].interactable = false;
+            rewardGOs[0].SetActive(false);
         }
 
         if (rewardInfos[player.hpLevel].hp == 0)
         {
             rewardBtns[1].interactable = false;
+            rewardGOs[1].SetActive(false);
         }
 
         if (rewardInfos[player.maxPieceLevel].maxPiece == 0)
         {
             rewardBtns[2].interactable = false;
+            rewardGOs[2].SetActive(false);
         }
     }
 
