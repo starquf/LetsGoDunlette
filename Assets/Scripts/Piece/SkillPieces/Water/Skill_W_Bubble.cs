@@ -32,7 +32,7 @@ public class Skill_W_Bubble : SkillPiece
 
             animHandler.GetAnim(AnimName.W_Bubble)
             .SetPosition(t.transform.position + (Vector3)((Vector2.up * Random.Range(-0.3f, 0.3f)) + (Vector2.right * Random.Range(-0.3f, 0.3f))))
-            .SetScale(0.5f)
+            .SetScale(1)
             .Play(() =>
             {
                 if (a == rand - 1)
