@@ -64,7 +64,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
 
         bh = GameManager.Instance.battleHandler;
         goldUIHandler = GameManager.Instance.goldUIHandler;
-        battleScrollHandler = bh.battleScroll;
+        //battleScrollHandler = bh.battleScroll;
 
         exitBtn.onClick.AddListener(OnExitBtnClick);
         purchaseBtn.onClick.AddListener(OnPurchaseBtnClick);

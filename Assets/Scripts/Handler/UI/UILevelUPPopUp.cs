@@ -74,7 +74,6 @@ public class UILevelUPPopUp : MonoBehaviour
         levelUPPanel.gameObject.SetActive(false);
         expTxts.ForEach((a) => a.gameObject.SetActive(false));
         GameManager.Instance.EndEncounter();
-        GameManager.Instance.battleHandler.playerInfoHandler.Synchronization();
     }
 
     public void OpenReward()
