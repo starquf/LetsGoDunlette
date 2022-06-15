@@ -69,6 +69,7 @@ public class TA_Skill : SkillPiece
         SetIndicator(Owner.gameObject, "¼øÂû").OnEndAction(() =>
         {
             Owner.GetComponent<Taros>().patrolCount += 3;
+            Owner.GetComponent<EnemyHealth>().cc.SetCC(CCType.Silence, 4);
 
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 

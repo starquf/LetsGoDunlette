@@ -55,12 +55,10 @@ public class Taros : MonoBehaviour
             EnemyIndicator indi = owner.GetComponent<EnemyIndicator>();
             indi.HideText();
             desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo.GetValue())}");
-            desInfos[1].SetInfo(DesIconType.Shield, $"{pieceInfo.GetValue(1)}");
             indi.ShowText("접근 금지", () =>
             GameManager.Instance.battleHandler.castUIHandler.ShowCasting(pieceInfo, desInfos, ta_Skill, () =>
             {
                 GameManager.Instance.GetPlayer().GetDamage(GetDamageCalc(pieceInfo.GetValue()), owner);
-                owner.GetComponent<EnemyHealth>().AddShield(pieceInfo.GetValue(1));
                 GameManager.Instance.animHandler.GetAnim(AnimName.M_Sword)
                 .SetPosition(GameManager.Instance.enemyEffectTrm.position)
                 .SetScale(2)
