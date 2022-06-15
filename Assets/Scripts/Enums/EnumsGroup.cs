@@ -104,6 +104,7 @@ public enum EnemyType
     HYDRA,
     SKELETON_WARRIOR,
     SKELETON_COMMANDER,
+    UNDINE,
 }
 
 public enum DesIconType
