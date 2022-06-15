@@ -28,7 +28,7 @@ public class Skill_N_Pigeon : SkillPiece
     public override void Cast(LivingEntity target, Action onCastEnd = null) //적에게 60피해를 입힌다.		침묵	-	적에게 2턴간 침묵을 부여한다.
     {
         Vector3 targetPos = target.transform.position;
-        Vector3 startPos = bh.bottomPos.position;
+        Vector3 startPos = Owner.transform.position;
 
         int damage = Mathf.Clamp(GetDamageCalc() / 5, 1, int.MaxValue);
 

@@ -85,6 +85,7 @@ public class DebugItemPanelHandler : MonoBehaviour, IDebugPanel
 
     private void GetScroll()
     {
+        /*
         BattleScrollHandler sh = bh.battleScroll;
 
         if (sh.IsFullScroll())
@@ -95,6 +96,7 @@ public class DebugItemPanelHandler : MonoBehaviour, IDebugPanel
 
         ScrollType scroll = (ScrollType)Enum.Parse(typeof(ScrollType), scrollDropdown.captionText.text);
         sh.GetScroll(PoolManager.GetScroll(scroll));
+        */
     }
 
     public void OnReset()

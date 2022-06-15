@@ -17,15 +17,15 @@ public class BattleHandler : MonoBehaviour
     public PieceCastUIHandler castUIHandler;
 
     [Header("플레이어 정보 핸들러")]
-    public PlayerInfoPanelHandler playerInfoHandler;
+    public PlayerSkillPanelHandler playerInfoHandler;
 
     private BattleInfoHandler battleInfoHandler;
     private CCHandler ccHandler;
     private BattleRewardHandler battleRewardHandler;
     private BattleTargetSelectHandler battleTargetSelector;
 
-    [HideInInspector]
-    public BattleScrollHandler battleScroll;
+    //[HideInInspector]
+    //public BattleScrollHandler battleScroll;
     [HideInInspector]
     public BattleUtilHandler battleUtil;
     [HideInInspector]
@@ -115,7 +115,7 @@ public class BattleHandler : MonoBehaviour
         battleRewardHandler = GetComponent<BattleRewardHandler>();
         battleTargetSelector = GetComponent<BattleTargetSelectHandler>();
         battleUtil = GetComponent<BattleUtilHandler>();
-        battleScroll = GetComponent<BattleScrollHandler>();
+        //battleScroll = GetComponent<BattleScrollHandler>();
         battleEvent = GetComponent<BattleEventHandler>();
         fieldHandler = GetComponent<BattleFieldHandler>();
 
@@ -141,12 +141,14 @@ public class BattleHandler : MonoBehaviour
 
         mainRullet.onTimerEnd += () =>
         {
+            /*
             if (battleScroll.scrollDesHandler.isShow)
             {
                 battleScroll.scrollDesHandler.ForceCancelDes();
 
                 Time.timeScale = 1f;
             }
+            */
         };
     }
 
@@ -373,10 +375,12 @@ public class BattleHandler : MonoBehaviour
         },
         () =>
         {
+            /*
             if (battleScroll.scrollDesHandler.isShow)
             {
                 battleScroll.scrollDesHandler.ForceCancelDes();
             }
+            */
 
             // 스크롤 버튼 비활성화
             SetInteract(false);
@@ -509,7 +513,7 @@ public class BattleHandler : MonoBehaviour
         stopHandler.SetInteract(enable);
 
         // 스크롤 버튼 활성화
-        battleScroll.SetInteract(enable);
+        //battleScroll.SetInteract(enable);
 
         playerInfoHandler.SetInteract(enable);
     }

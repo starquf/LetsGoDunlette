@@ -18,6 +18,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
     [Header("인카운터 데이터들")]
     public List<RandomEncounter> randomEncounterList;
     public List<StageRandomEncounter> stage;
+    public List<int> stagePublicEncounterIdxList;
 
     private CanvasGroup mainPanel;
     public CanvasGroup enStartPanel;
@@ -79,6 +80,10 @@ public class RandomEncounterUIHandler : MonoBehaviour
         {
             return false;
         }
+        if(!(stage[GameManager.Instance.StageIdx].RandomEncounterIdx.Contains(idx) || stagePublicEncounterIdxList.Contains(idx)))
+        {
+            return false;
+        }
         else if (idx == 8 || idx == 10) // 스크롤 없을시 발동 x
         {
             if (!battleScrollHandler.HasScroll())
@@ -127,7 +132,16 @@ public class RandomEncounterUIHandler : MonoBehaviour
             //randIdx = 4;
             while (!CanStartEncounter(randIdx))
             {
-                randIdx = stage[GameManager.Instance.StageIdx].RandomEncounterIdx[Random.Range(0, stage[GameManager.Instance.StageIdx].RandomEncounterIdx.Count)];
+                List<int> curStageEncounterIdxList = stage[GameManager.Instance.StageIdx].RandomEncounterIdx;
+                int rand = Random.Range(0, curStageEncounterIdxList.Count + stagePublicEncounterIdxList.Count);
+                if(rand < curStageEncounterIdxList.Count)
+                {
+                    randIdx = curStageEncounterIdxList[Random.Range(0, curStageEncounterIdxList.Count)];
+                }
+                else
+                {
+                    randIdx = stagePublicEncounterIdxList[Random.Range(0, stagePublicEncounterIdxList.Count)];
+                }
             }
             randomEncounter = randomEncounterList[randIdx];
         }

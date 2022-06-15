@@ -16,7 +16,16 @@ public class Encounter_016 : RandomEncounter
             int randIdx = -1;
             while ((!encounterUIHandler.CanStartEncounter(randIdx)) || encounterIdxList.Contains(randIdx) || randIdx == 15)// 15·Î ¹Ù²ã¾ßµÊ
             {
-                randIdx = Random.Range(0, encounterUIHandler.randomEncounterList.Count);
+                List<int> curStageEncounterIdxList = encounterUIHandler.stage[GameManager.Instance.StageIdx].RandomEncounterIdx;
+                int rand = Random.Range(0, curStageEncounterIdxList.Count + encounterUIHandler.stagePublicEncounterIdxList.Count);
+                if (rand < curStageEncounterIdxList.Count)
+                {
+                    randIdx = curStageEncounterIdxList[Random.Range(0, curStageEncounterIdxList.Count)];
+                }
+                else
+                {
+                    randIdx = encounterUIHandler.stagePublicEncounterIdxList[Random.Range(0, encounterUIHandler.stagePublicEncounterIdxList.Count)];
+                }
             }
 
             encounterIdxList.Add(randIdx);

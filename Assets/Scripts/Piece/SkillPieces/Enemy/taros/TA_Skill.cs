@@ -17,7 +17,7 @@ public class TA_Skill : SkillPiece
     public override PieceInfo ChoiceSkill()
     {
         base.ChoiceSkill();
-        if (Random.Range(0, 100) < 70)  // 신체가열
+        if (Random.Range(0, 100) < value)  // 신체가열
         {
             onCastSkill = TA_Body_Heating;
             desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[0].GetValue())}");
@@ -69,6 +69,7 @@ public class TA_Skill : SkillPiece
         SetIndicator(Owner.gameObject, "순찰").OnEndAction(() =>
         {
             Owner.GetComponent<Taros>().patrolCount += 3;
+            Owner.GetComponent<EnemyHealth>().cc.SetCC(CCType.Silence, 4);
 
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
 

@@ -1,63 +1,27 @@
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class PlayerInfoPanelHandler : BottomSwapUI
+public class PlayerSkillPanelHandler : MonoBehaviour
 {
-    public TextMeshProUGUI atkTxt;
-    public TextMeshProUGUI hpTxt;
-    public TextMeshProUGUI maxPieceCountTxt;
-    public TextMeshProUGUI playerLevelTxt;
-
-    public TextMeshProUGUI expTxt;
-    public Image expFillImage;
-
     private BattleHandler bh;
     private PlayerInfo playerInfo;
     private PlayerHealth player;
     private List<PlayerSkillButton> skillButtons = new List<PlayerSkillButton>();
     public Transform skillBtnTrans;
-    public Image skillAbleIcon;
 
     public bool hasCanUseSkill = false;
     public bool isCasting = false;
     private bool canCast = true;
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
         skillBtnTrans.GetComponentsInChildren(skillButtons);
     }
 
-    protected override void Start()
+    private void Start()
     {
-        base.Start();
         bh = GameManager.Instance.battleHandler;
         player = GameManager.Instance.battleHandler.player;
-    }
-
-    protected override void SetCGEnable(bool enable)
-    {
-        skillAbleIcon.gameObject.SetActive(!enable && hasCanUseSkill);
-        base.SetCGEnable(enable);
-        Synchronization();
-    }
-
-    public void Synchronization()
-    {
-        if (player == null)
-        {
-            player = GameManager.Instance.battleHandler.player;
-        }
-
-        playerLevelTxt.text = $"{player.PlayerLevel}";
-        atkTxt.text = $"{player.AttackPower}";
-        hpTxt.text = $"{player.maxHp}";
-        maxPieceCountTxt.text = $"{player.MaxPieceCount}";
-
-        expTxt.text = $"{player.CurrentExp}/{player.MaxExp}";
-        expFillImage.fillAmount = player.CurrentExp / (float)player.MaxExp;
     }
 
     public void Init(PlayerInfo playerInfo)
@@ -122,7 +86,6 @@ public class PlayerInfoPanelHandler : BottomSwapUI
                 }
             }
         }
-        skillAbleIcon.gameObject.SetActive(hasCanUseSkill && !isShow);
     }
 
     private void UseSkill(PlayerSkill skill)

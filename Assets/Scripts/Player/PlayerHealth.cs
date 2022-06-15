@@ -59,6 +59,15 @@ public class PlayerHealth : LivingEntity
     {
         base.GetDamage(damage);
 
+        if(isDie && GameManager.Instance.curEncounter.Equals(mapNode.RandomEncounter))
+        {
+            GameManager.Instance.ResetGame();
+            Init();
+            //GameManager.Instance.battleHandler.GetComponent<BattleRewardHandler>().ResetRullet(() =>
+            //{
+            //});
+        }
+
         damageBGEffect.color = damageBGColor;
         damageBGEffect.DOFade(0f, 0.55f);
     }
@@ -110,7 +119,6 @@ public class PlayerHealth : LivingEntity
         IsMaxLevel();
 
         GameManager.Instance.uILevelUPPopUp.PopUp(prevLevel, prevExp, PlayerLevel, CurrentExp, MaxExp, expLogs);
-        GameManager.Instance.battleHandler.playerInfoHandler.Synchronization();
     }
 
     private bool CheckLevelUP()
