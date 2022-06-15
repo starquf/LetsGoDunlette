@@ -17,7 +17,7 @@ public class TA_Skill : SkillPiece
     public override PieceInfo ChoiceSkill()
     {
         base.ChoiceSkill();
-        if (Random.Range(0, 100) < 70)  // 신체가열
+        if (Random.Range(0, 100) < value)  // 신체가열
         {
             onCastSkill = TA_Body_Heating;
             desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[0].GetValue())}");
