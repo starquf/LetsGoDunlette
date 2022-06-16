@@ -30,7 +30,7 @@ public class Taros : MonoBehaviour
             patrolCount--;
             if (patrolCount < 0)
             {
-                patrolCount = 3;
+                patrolCount = 0;
             }
 
             if (sp.Owner == owner) // 발동된 스킬이 타로스의 스킬이라면
