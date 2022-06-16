@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Skill_N_Plague : SkillPiece
 {
+    protected override void Awake()
+    {
+        base.Awake();
+    }
     public override List<DesIconInfo> GetDesIconInfo()
     {
         base.GetDesIconInfo();
@@ -14,8 +18,7 @@ public class Skill_N_Plague : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null) //대상을 제외한 모든 적에게 대상의 <sprite=12>와 같은 수치의 <sprite=12>를 부여한다.
     {
-        SetIndicator(Owner.gameObject, "역병").OnEndAction(() =>
-        {
+
             target.cc.SetCC(CCType.Wound, Value);
             List<EnemyHealth> enemys = bh.enemys;
             for (int i = 0; i < enemys.Count; i++)
@@ -34,6 +37,5 @@ public class Skill_N_Plague : SkillPiece
             {
                 onCastEnd?.Invoke();
             });
-        });
     }
 }

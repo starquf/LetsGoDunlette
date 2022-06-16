@@ -34,8 +34,6 @@ public class Skill_E_High_Voltage : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        SetIndicator(Owner.gameObject, "°íÀü¾Ð").OnEndAction(() =>
-        {
             Owner.GetComponent<LivingEntity>().AddShield(Value);
 
             bh.battleEvent.BookEvent(normalEvent);
@@ -48,6 +46,5 @@ public class Skill_E_High_Voltage : SkillPiece
             {
                 onCastEnd?.Invoke();
             });
-        });
     }
 }

@@ -20,8 +20,6 @@ public class Skill_N_Bamboo_Forest : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null) //자연 개수 + 개
     {
-        SetIndicator(Owner.gameObject, "조각 추가").OnEndAction(() =>
-        {
             animHandler.GetAnim(AnimName.SkillEffect01)
             .SetPosition(Owner.transform.position)
             .SetScale(2f)
@@ -42,6 +40,5 @@ public class Skill_N_Bamboo_Forest : SkillPiece
 
                 bh.battleUtil.SetTimer(0.5f, onCastEnd);
             });
-        });
     }
 }
