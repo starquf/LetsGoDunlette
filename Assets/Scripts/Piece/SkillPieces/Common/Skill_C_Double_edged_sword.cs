@@ -12,7 +12,7 @@ public class Skill_C_Double_edged_sword : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        PlayerHealth playerHealth = Owner.GetComponent<PlayerHealth>();
+        LivingEntity playerHealth = Owner.GetComponent<LivingEntity>();
         if (!playerHealth.HasShield())
         {
             playerHealth.GetDamage(2);
