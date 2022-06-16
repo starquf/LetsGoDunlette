@@ -59,7 +59,7 @@ public class PlayerHealth : LivingEntity
     {
         base.GetDamage(damage);
 
-        if(isDie && GameManager.Instance.curEncounter.Equals(mapNode.RandomEncounter))
+        if (isDie && GameManager.Instance.curEncounter.Equals(mapNode.RandomEncounter))
         {
             GameManager.Instance.ResetGame();
             Init();

@@ -54,7 +54,7 @@ public class Encounter_013 : RandomEncounter
                         }
                     }
 
-                    if(isClear)
+                    if (isClear)
                     {
                         playerHealth.Heal((int)(playerHealth.maxHp * 0.5f));
                         bh.battleEvent.RemoveEventInfo(eventInfo);
@@ -67,7 +67,7 @@ public class Encounter_013 : RandomEncounter
                         inventoryHandler.GetSkillFromInventoryOrGraveyard(sp);
                         DOTween.Sequence()
                         .Append(sp.transform.DOMove(Vector2.zero, 0.5f))
-                        .Join(sp.transform.DORotate(new Vector3(0,0,30), 0.5f))
+                        .Join(sp.transform.DORotate(new Vector3(0, 0, 30), 0.5f))
                         .Append(sp.GetComponent<Image>().DOFade(0, 0.5f))
                         .Join(sp.skillIconImg.DOFade(0, 0.5f))
                         .AppendInterval(0.01f)

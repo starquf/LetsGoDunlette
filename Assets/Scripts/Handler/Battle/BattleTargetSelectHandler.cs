@@ -1,9 +1,7 @@
 using DG.Tweening;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class BattleTargetSelectHandler : MonoBehaviour
 {
@@ -47,7 +45,7 @@ public class BattleTargetSelectHandler : MonoBehaviour
 
             targetIcon.transform.SetAsLastSibling();
 
-            targetIcon.Init(enemy.iconSpr, () => 
+            targetIcon.Init(enemy.iconSpr, () =>
             {
                 EndSelect();
                 onEndSelect?.Invoke(enemy);

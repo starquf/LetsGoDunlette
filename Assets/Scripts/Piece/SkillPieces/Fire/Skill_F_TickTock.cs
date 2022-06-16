@@ -20,7 +20,7 @@ public class Skill_F_TickTock : SkillPiece
     {
         base.GetDesIconInfo();
 
-        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc()*2}");
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc() * 2}");
 
         return desInfos;
     }

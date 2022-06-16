@@ -172,7 +172,7 @@ public class UILevelUPPopUp : MonoBehaviour
             yield return new WaitForSeconds(time);
             expFillImage.DOColor(new Color(0, 0.6787322f, 1), time / 2);
             expText.DOColor(new Color(0, 0.6787322f, 1), time / 2);
-            levelText.text = $"{originLevel+1}";
+            levelText.text = $"{originLevel + 1}";
             yield return new WaitForSeconds(time * 2);
             OpenReward();
             PopUp(originLevel + 1, 0, nowLevel, nowExp, maxExp, expLogs, false);

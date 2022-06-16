@@ -26,7 +26,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
     public Image targetBGImg;
     public Image targetImg;
     public Transform skillIconTrans;
-    [HideInInspector]public List<SkillDesIcon> desIcons = new List<SkillDesIcon>();
+    [HideInInspector] public List<SkillDesIcon> desIcons = new List<SkillDesIcon>();
     public GradeInfoHandler gradeHandler;
 
     private bool isSelectPanelEnable;
@@ -68,7 +68,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
 
         exitBtn.onClick.AddListener(OnExitBtnClick);
         purchaseBtn.onClick.AddListener(OnPurchaseBtnClick);
-        unselectBtn.onClick.AddListener(()=>SelectProduct(-1));
+        unselectBtn.onClick.AddListener(() => SelectProduct(-1));
 
         InitBtn();
     }

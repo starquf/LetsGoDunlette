@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UI;
-using Random = UnityEngine.Random;
 
 public class HD_Poison : SkillPiece
 {
@@ -30,7 +27,7 @@ public class HD_Poison : SkillPiece
     {
         if (bh == null)
         {
-            bh = GameManager.Instance.battleHandler;            
+            bh = GameManager.Instance.battleHandler;
         }
 
         bh.battleEvent.RemoveEventInfo(eventInfo);

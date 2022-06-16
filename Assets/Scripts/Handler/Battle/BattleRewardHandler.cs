@@ -51,7 +51,7 @@ public class BattleRewardHandler : MonoBehaviour
                     battleRewardUI.GetRewardEffect(() =>
                     {
                         battleRewardUI.ResetRewardUI();
-                        if(GameManager.Instance.GetPlayer().IsMaxLevel())
+                        if (GameManager.Instance.GetPlayer().IsMaxLevel())
                         {
                             GameManager.Instance.EndEncounter();
                         }

@@ -114,7 +114,10 @@ public class Map : MonoBehaviour
     public void OnSelected(bool enable, float time = 0.5f, Action onComplete = null)
     {
         if (!isSelected && !enable)
+        {
             return;
+        }
+
         isSelected = enable;
         selectSequence.Kill();
         RectTransform rect = GetComponent<RectTransform>();
