@@ -27,6 +27,7 @@ public class Taros : MonoBehaviour
 
         skillEvent = (sp, action) =>
         {
+            patrolCount--;
             if (sp.Owner == owner) // 발동된 스킬이 타로스의 스킬이라면
             {
                 action?.Invoke();
@@ -51,7 +52,6 @@ public class Taros : MonoBehaviour
                 return;
             }
 
-            patrolCount--;
             EnemyIndicator indi = owner.GetComponent<EnemyIndicator>();
             indi.HideText();
             desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo.GetValue())}");
