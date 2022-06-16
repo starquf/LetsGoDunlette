@@ -157,6 +157,7 @@ public class BattleHandler : MonoBehaviour
     // 전투를 시작하는 함수
     public void StartBattle(bool isElite = false, bool isBoss = false, BattleInfo bInfo = null)
     {
+        GameManager.Instance.curEncounter = isBoss ? mapNode.BOSS : isElite ? mapNode.EMONSTER : mapNode.MONSTER;
         SetCanvas(true);
 
         this.isElite = isElite;
