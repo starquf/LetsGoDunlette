@@ -20,7 +20,7 @@ public class Skill_F_TickTock : SkillPiece
     {
         base.GetDesIconInfo();
 
-        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc()}");
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc()*2}");
 
         return desInfos;
     }
@@ -85,7 +85,7 @@ public class Skill_F_TickTock : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null) //룰렛에 들어온 뒤 사용되지 않은채로 3턴이 지나면 자신에게 60의 데미지를 준 뒤 무덤으로 이동한다.
     {
-        target.GetDamage(GetDamageCalc(), currentType);
+        target.GetDamage(GetDamageCalc() * 2, currentType);
 
         GameManager.Instance.cameraHandler.ShakeCamera(3.5f, 0.2f);
 
