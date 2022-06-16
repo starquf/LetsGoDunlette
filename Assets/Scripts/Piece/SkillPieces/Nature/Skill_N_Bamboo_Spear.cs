@@ -7,6 +7,7 @@ public class Skill_N_Bamboo_Spear : SkillPiece
     public override List<DesIconInfo> GetDesIconInfo()
     {
         base.GetDesIconInfo();
+        desInfos[0].SetInfo(DesIconType.Attack, GetDamageCalc().ToString());
         return desInfos;
     }
 
