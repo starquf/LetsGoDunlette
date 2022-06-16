@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using Random = UnityEngine.Random;
 
 public class Skill_E_High_Voltage : SkillPiece
 {
@@ -12,12 +9,13 @@ public class Skill_E_High_Voltage : SkillPiece
 
     protected override void Start()
     {
-        highVolatge = (a) => {
-            if(Owner.GetComponent<LivingEntity>().GetShieldHp() <= 0)
+        highVolatge = (a) =>
+        {
+            if (Owner.GetComponent<LivingEntity>().GetShieldHp() <= 0)
             {
                 for (int i = 0; i < bh.enemys.Count; i++)
                 {
-                    bh.enemys[i].cc.SetCC(CCType.Stun,1);
+                    bh.enemys[i].cc.SetCC(CCType.Stun, 1);
                 }
             }
             a?.Invoke();
@@ -34,17 +32,17 @@ public class Skill_E_High_Voltage : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-            Owner.GetComponent<LivingEntity>().AddShield(Value);
+        Owner.GetComponent<LivingEntity>().AddShield(Value);
 
-            bh.battleEvent.BookEvent(normalEvent);
+        bh.battleEvent.BookEvent(normalEvent);
 
-            animHandler.GetAnim(AnimName.SkillEffect01)
-            .SetPosition(Owner.transform.position)
-            .SetScale(2f)
-            .SetRotation(Vector3.forward * -90f)
-            .Play(() =>
-            {
-                onCastEnd?.Invoke();
-            });
+        animHandler.GetAnim(AnimName.SkillEffect01)
+        .SetPosition(Owner.transform.position)
+        .SetScale(2f)
+        .SetRotation(Vector3.forward * -90f)
+        .Play(() =>
+        {
+            onCastEnd?.Invoke();
+        });
     }
 }

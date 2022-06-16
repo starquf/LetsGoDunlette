@@ -32,7 +32,7 @@ public class Skill_F_Burn : SkillPiece
                 .SetRotation(Vector3.forward * 90f)
                 .Play(() =>
                 {
-                    if(target.cc.IsCC(CCType.Wound))
+                    if (target.cc.IsCC(CCType.Wound))
                     {
                         target.GetDamage(5);
                     }
