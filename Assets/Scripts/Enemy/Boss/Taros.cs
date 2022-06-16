@@ -51,7 +51,7 @@ public class Taros : MonoBehaviour
                 return;
             }
 
-            if (patrolCount < 0)
+            if (patrolCount <= 0)
             {
                 action?.Invoke();
                 return;
