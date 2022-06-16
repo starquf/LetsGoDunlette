@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Taros : MonoBehaviour
 {
-    private Action<SkillPiece, Action> skillEvent;
+    private Action<SkillPiece, Action> skillEvent = null;
     private SkillEvent skillEventInfo = null;
 
     private Inventory owner;
