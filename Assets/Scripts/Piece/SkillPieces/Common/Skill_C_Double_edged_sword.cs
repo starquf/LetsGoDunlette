@@ -16,6 +16,7 @@ public class Skill_C_Double_edged_sword : SkillPiece
         if (!playerHealth.HasShield())
         {
             playerHealth.GetDamage(2);
+            target.GetDamage(GetDamageCalc(), currentType);
         }
         else
         {
