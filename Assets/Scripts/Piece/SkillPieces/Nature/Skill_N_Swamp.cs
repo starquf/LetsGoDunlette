@@ -37,5 +37,7 @@ public class Skill_N_Swamp : SkillPiece
         GameManager.Instance.cameraHandler.ShakeCamera(2f, 0.3f);
 
         target.cc.SetCC(CCType.Exhausted, 4);
+
+        onCastEnd?.Invoke();
     }
 }
