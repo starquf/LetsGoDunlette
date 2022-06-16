@@ -43,70 +43,49 @@ public class Encounter_013 : RandomEncounter
                 {
                     turnCnt++;
 
-                    if (turnCnt >= 5)
+
+                    bool isClear = true;
+                    for (int i = 0; i < bh.enemys.Count; i++)
                     {
-
-                        bool isClear = true;
-                        for (int i = 0; i < bh.enemys.Count; i++)
+                        if (!bh.enemys[i].IsDie)
                         {
-                            if(!bh.enemys[i].IsDie)
-                            {
-                                isClear = false;
-                                break;
-                            }
+                            isClear = false;
+                            break;
                         }
-                        if(isClear)
+                    }
+
+                    if(isClear)
+                    {
+                        playerHealth.Heal((int)(playerHealth.maxHp * 0.5f));
+                        bh.battleEvent.RemoveEventInfo(eventInfo);
+                    }
+                    else if (turnCnt >= 5)
+                    {
+                        InventoryHandler inventoryHandler = GameManager.Instance.inventoryHandler;
+
+                        SkillPiece sp = GetRamdomSkill();
+                        inventoryHandler.GetSkillFromInventoryOrGraveyard(sp);
+                        DOTween.Sequence()
+                        .Append(sp.transform.DOMove(Vector2.zero, 0.5f))
+                        .Join(sp.transform.DORotate(new Vector3(0,0,30), 0.5f))
+                        .Append(sp.GetComponent<Image>().DOFade(0, 0.5f))
+                        .Join(sp.skillIconImg.DOFade(0, 0.5f))
+                        .AppendInterval(0.01f)
+                        .OnComplete(() =>
                         {
-                            playerHealth.Heal((int)(playerHealth.maxHp * 0.5f));
-                            bh.battleEvent.RemoveEventInfo(eventInfo);
-                        }
-                        else
-                        {
-                            InventoryHandler inventoryHandler = GameManager.Instance.inventoryHandler;
-
-                            SkillPiece sp = GetRamdomSkill();
-                            inventoryHandler.GetSkillFromInventoryOrGraveyard(sp);
-                            DOTween.Sequence()
-                            .Append(sp.transform.DOMove(Vector2.zero, 0.5f))
-                            .Append(sp.GetComponent<Image>().DOFade(0, 0.5f))
-                            .Join(sp.skillIconImg.DOFade(0, 0.5f))
-                            .AppendInterval(0.01f)
-                            .OnComplete(() =>
-                            {
-                                Destroy(sp);
-                            });
+                            inventoryHandler.RemovePiece(sp);
+                        });
 
 
-                            GameManager.Instance.Gold -= lostGoldValue;
+                        GameManager.Instance.Gold -= lostGoldValue;
 
-                            bh.battleEvent.RemoveEventInfo(eventInfo);
-                        }
+                        bh.battleEvent.RemoveEventInfo(eventInfo);
                     }
 
                     action?.Invoke();
                 };
                 eventInfo = new NormalEvent(onEndTurn, EventTime.EndOfTurn);
                 bh.battleEvent.BookEvent(eventInfo);
-
-                //bool isNextBattle = true;
-                //Action<Action> onBattleStart = null;
-                //NormalEvent eventInfo1 = null;
-                //onBattleStart = action =>
-                //{
-                //    if (!isNextBattle)
-                //    {
-                //        playerHealth.Heal((int)(playerHealth.maxHp * 0.5f));
-
-                //        bh.battleEvent.RemoveEventInfo(eventInfo);
-                //        bh.battleEvent.RemoveEventInfo(eventInfo1);
-                //    }
-                //    isNextBattle = false;
-                //    action?.Invoke();
-                //};
-                //eventInfo1 = new NormalEvent(onBattleStart, EventTime.BeginBattle);
-                //bh.battleEvent.BookEvent(eventInfo1);
-
-
                 break;
             case 1:
                 showText = en_End_TextList[1];
