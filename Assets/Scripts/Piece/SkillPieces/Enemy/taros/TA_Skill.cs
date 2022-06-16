@@ -21,6 +21,7 @@ public class TA_Skill : SkillPiece
         {
             onCastSkill = TA_Body_Heating;
             desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[0].GetValue())}");
+            desInfos[1].SetInfo(DesIconType.Shield, $"{pieceInfo[0].GetValue(1)}");
 
             usedIcons.Add(DesIconType.Attack);
 
@@ -53,6 +54,7 @@ public class TA_Skill : SkillPiece
         SetIndicator(Owner.gameObject, "신체 가열").OnEndAction(() =>
         {
             target.GetDamage(GetDamageCalc(pieceInfo[0].GetValue()), this, Owner);
+            Owner.GetComponent<LivingEntity>().AddShield(pieceInfo[0].GetValue(1));
 
             animHandler.GetAnim(AnimName.M_Sword)
             .SetPosition(GameManager.Instance.enemyEffectTrm.position)
