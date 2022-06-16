@@ -27,7 +27,6 @@ public class Skill_W_Flood : SkillPiece
         List<RulletPiece> rulletPieces = bh.mainRullet.GetPieces();
         for (int i = 0; i < rulletPieces.Count; i++)
         {
-            print(i);
             if (rulletPieces[i] != null)
             {
                 if (rulletPieces[i].currentType != ElementalType.Water)
