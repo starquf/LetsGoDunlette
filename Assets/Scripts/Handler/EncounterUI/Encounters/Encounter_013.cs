@@ -42,25 +42,45 @@ public class Encounter_013 : RandomEncounter
                 onEndTurn = action =>
                 {
                     turnCnt++;
+
                     if (turnCnt >= 5)
                     {
-                        InventoryHandler inventoryHandler = GameManager.Instance.inventoryHandler;
 
-                        SkillPiece sp = GetRamdomSkill();
-                        inventoryHandler.GetSkillFromInventoryOrGraveyard(sp);
-                        DOTween.Sequence()
-                        .Append(sp.transform.DOMove(Vector2.zero, 0.5f))
-                        .Append(sp.GetComponent<Image>().DOFade(0, 0.5f))
-                        .Join(sp.skillIconImg.DOFade(0, 0.5f))
-                        .OnComplete(() =>
+                        bool isClear = true;
+                        for (int i = 0; i < bh.enemys.Count; i++)
                         {
-                            Destroy(sp);
-                        });
+                            if(!bh.enemys[i].IsDie)
+                            {
+                                isClear = false;
+                                break;
+                            }
+                        }
+                        if(isClear)
+                        {
+                            playerHealth.Heal((int)(playerHealth.maxHp * 0.5f));
+                            bh.battleEvent.RemoveEventInfo(eventInfo);
+                        }
+                        else
+                        {
+                            InventoryHandler inventoryHandler = GameManager.Instance.inventoryHandler;
+
+                            SkillPiece sp = GetRamdomSkill();
+                            inventoryHandler.GetSkillFromInventoryOrGraveyard(sp);
+                            DOTween.Sequence()
+                            .Append(sp.transform.DOMove(Vector2.zero, 0.5f))
+                            .Append(sp.GetComponent<Image>().DOFade(0, 0.5f))
+                            .Join(sp.skillIconImg.DOFade(0, 0.5f))
+                            .AppendInterval(0.01f)
+                            .OnComplete(() =>
+                            {
+                                Destroy(sp);
+                            });
 
 
-                        GameManager.Instance.Gold -= lostGoldValue;
+                            GameManager.Instance.Gold -= lostGoldValue;
 
-                        bh.battleEvent.RemoveEventInfo(eventInfo);
+                            bh.battleEvent.RemoveEventInfo(eventInfo);
+                        }
                     }
 
                     action?.Invoke();
@@ -68,23 +88,23 @@ public class Encounter_013 : RandomEncounter
                 eventInfo = new NormalEvent(onEndTurn, EventTime.EndOfTurn);
                 bh.battleEvent.BookEvent(eventInfo);
 
-                bool isNextBattle = true;
-                Action<Action> onBattleStart = null;
-                NormalEvent eventInfo1 = null;
-                onBattleStart = action =>
-                {
-                    if (!isNextBattle)
-                    {
-                        playerHealth.Heal((int)(playerHealth.maxHp * 0.5f));
+                //bool isNextBattle = true;
+                //Action<Action> onBattleStart = null;
+                //NormalEvent eventInfo1 = null;
+                //onBattleStart = action =>
+                //{
+                //    if (!isNextBattle)
+                //    {
+                //        playerHealth.Heal((int)(playerHealth.maxHp * 0.5f));
 
-                        bh.battleEvent.RemoveEventInfo(eventInfo);
-                        bh.battleEvent.RemoveEventInfo(eventInfo1);
-                    }
-                    isNextBattle = false;
-                    action?.Invoke();
-                };
-                eventInfo1 = new NormalEvent(onBattleStart, EventTime.BeginBattle);
-                bh.battleEvent.BookEvent(eventInfo1);
+                //        bh.battleEvent.RemoveEventInfo(eventInfo);
+                //        bh.battleEvent.RemoveEventInfo(eventInfo1);
+                //    }
+                //    isNextBattle = false;
+                //    action?.Invoke();
+                //};
+                //eventInfo1 = new NormalEvent(onBattleStart, EventTime.BeginBattle);
+                //bh.battleEvent.BookEvent(eventInfo1);
 
 
                 break;
