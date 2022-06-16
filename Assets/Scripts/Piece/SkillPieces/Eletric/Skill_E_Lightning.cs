@@ -44,7 +44,7 @@ public class Skill_E_Lightning : SkillPiece
             LivingEntity ownerHealth = Owner.GetComponent<LivingEntity>();
             if (ownerHealth.HasShield())
             {
-                if (Random.Range(0, 100) < 60)
+                if (Random.Range(0, 100) < 50)
                 {
                     animHandler.GetAnim(AnimName.E_Static_Stun)
                     .SetPosition(Owner.transform.position)
@@ -64,7 +64,7 @@ public class Skill_E_Lightning : SkillPiece
             }
             else
             {
-                if (Random.Range(0, 100) < 70)
+                if (Random.Range(0, 100) < 65)
                 {
                     animHandler.GetAnim(AnimName.E_Static_Stun)
                     .SetPosition(target.transform.position)
