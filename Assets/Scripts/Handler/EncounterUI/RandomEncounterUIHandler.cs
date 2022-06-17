@@ -80,7 +80,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
         {
             return false;
         }
-        if(!(stage[GameManager.Instance.StageIdx].RandomEncounterIdx.Contains(idx) || stagePublicEncounterIdxList.Contains(idx)))
+        if (!(stage[GameManager.Instance.StageIdx].RandomEncounterIdx.Contains(idx) || stagePublicEncounterIdxList.Contains(idx)))
         {
             return false;
         }
@@ -134,14 +134,9 @@ public class RandomEncounterUIHandler : MonoBehaviour
             {
                 List<int> curStageEncounterIdxList = stage[GameManager.Instance.StageIdx].RandomEncounterIdx;
                 int rand = Random.Range(0, curStageEncounterIdxList.Count + stagePublicEncounterIdxList.Count);
-                if(rand < curStageEncounterIdxList.Count)
-                {
-                    randIdx = curStageEncounterIdxList[Random.Range(0, curStageEncounterIdxList.Count)];
-                }
-                else
-                {
-                    randIdx = stagePublicEncounterIdxList[Random.Range(0, stagePublicEncounterIdxList.Count)];
-                }
+                randIdx = rand < curStageEncounterIdxList.Count
+                    ? curStageEncounterIdxList[Random.Range(0, curStageEncounterIdxList.Count)]
+                    : stagePublicEncounterIdxList[Random.Range(0, stagePublicEncounterIdxList.Count)];
             }
             randomEncounter = randomEncounterList[randIdx];
         }
