@@ -175,10 +175,13 @@ public class MapManager : MonoBehaviour
     }
 
     // ¸Ê ±¸Á¶ º¯°æ
-    public void RandomDestroyMap()
+    public void RandomDestroyMap(int count = -1, bool breakAnim = false)
     {
         RandomRangeMapSet();
-        int count = maxDestroyCount;
+
+        if (count < 0)
+            count = maxDestroyCount;
+
         List<Map> mapList = tiles.Values.ToList();
 
         List<Vector2> fixedPosMapList = useFixedPosMapType.Keys.ToList();
@@ -197,9 +200,16 @@ public class MapManager : MonoBehaviour
                 if (CheckCanDestroy(map))
                 {
                     count--;
-                    DestroyMap(map);
-                    map.gameObject.SetActive(false);
-                    //Destroy(map.gameObject);
+                    if(breakAnim)
+                    {
+                        BreakMap(map);
+                    }
+                    else
+                    {
+                        DestroyMap(map);
+                        map.gameObject.SetActive(false);
+                        //Destroy(map.gameObject);
+                    }
                 }
             }
         }
