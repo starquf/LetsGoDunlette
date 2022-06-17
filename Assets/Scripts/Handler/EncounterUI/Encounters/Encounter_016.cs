@@ -18,14 +18,9 @@ public class Encounter_016 : RandomEncounter
             {
                 List<int> curStageEncounterIdxList = encounterUIHandler.stage[GameManager.Instance.StageIdx].RandomEncounterIdx;
                 int rand = Random.Range(0, curStageEncounterIdxList.Count + encounterUIHandler.stagePublicEncounterIdxList.Count);
-                if (rand < curStageEncounterIdxList.Count)
-                {
-                    randIdx = curStageEncounterIdxList[Random.Range(0, curStageEncounterIdxList.Count)];
-                }
-                else
-                {
-                    randIdx = encounterUIHandler.stagePublicEncounterIdxList[Random.Range(0, encounterUIHandler.stagePublicEncounterIdxList.Count)];
-                }
+                randIdx = rand < curStageEncounterIdxList.Count
+                    ? curStageEncounterIdxList[Random.Range(0, curStageEncounterIdxList.Count)]
+                    : encounterUIHandler.stagePublicEncounterIdxList[Random.Range(0, encounterUIHandler.stagePublicEncounterIdxList.Count)];
             }
 
             encounterIdxList.Add(randIdx);
