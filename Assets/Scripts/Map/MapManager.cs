@@ -17,7 +17,10 @@ public enum mapNode
     MONSTER = 4,
     SHOP = 5,
     REST = 6,
-    RandomEncounter = 7,
+    RANDOMENCOUNTER = 7,
+
+    TELEPORT = 10,
+    SWITCH = 11,
 }
 
 [Serializable]
@@ -669,7 +672,7 @@ public class MapManager : MonoBehaviour
             case mapNode.REST:
                 spriteIdx = 2;
                 break;
-            case mapNode.RandomEncounter:
+            case mapNode.RANDOMENCOUNTER:
                 //spriteIdx = 2;
                 break;
             default:

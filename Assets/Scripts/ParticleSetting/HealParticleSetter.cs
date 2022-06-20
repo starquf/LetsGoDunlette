@@ -7,7 +7,7 @@ public class HealParticleSetter : BuffParticleSetter
 
         ParticleSystemRenderer healParticleSystemRenderer = GetComponent<ParticleSystemRenderer>();
 
-        if (GameManager.Instance.curEncounter.Equals(mapNode.RandomEncounter) || GameManager.Instance.curEncounter.Equals(mapNode.REST))
+        if (GameManager.Instance.curEncounter.Equals(mapNode.RANDOMENCOUNTER) || GameManager.Instance.curEncounter.Equals(mapNode.REST))
         {
             healParticleSystemRenderer.sortingLayerName = "Effect";
             healParticleSystemRenderer.sortingOrder = 0;

@@ -7,7 +7,6 @@ public class FA_Skill : SkillPiece
 {
     private GameObject addSkill; // 할퀴기
     private InventoryHandler ih;
-    private readonly string msg = "장난꾸러기 발동!";
 
     protected override void Awake()
     {
