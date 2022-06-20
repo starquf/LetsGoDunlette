@@ -26,19 +26,21 @@ public class Skill_N_Bamboo_Forest : SkillPiece
         .SetRotation(Vector3.forward * -90f)
         .Play(() =>
         {
-            List<RulletPiece> rulletPieces = bh.mainRullet.GetPieces();
+            List<SkillPiece> rulletPieces = GameManager.Instance.inventoryHandler.GetPlayerInventory().skills;
+            int count = 0;
             for (int i = 0; i < rulletPieces.Count; i++)
             {
                 if (rulletPieces[i] != null)
                 {
-                    if (rulletPieces[i].currentType == ElementalType.Nature)
+                    if (rulletPieces[i].patternType == ElementalType.Nature)
                     {
-                        bh.battleUtil.SetTimer(0.25f * i, () => { GameManager.Instance.inventoryHandler.CreateSkill(bambooSpear, Owner, Owner.transform.position); });
+                        count++;
+                        bh.battleUtil.SetTimer(0.10f * i, () => { GameManager.Instance.inventoryHandler.CreateSkill(bambooSpear, Owner, Owner.transform.position); });
                     }
                 }
             }
-
-            bh.battleUtil.SetTimer(0.5f, onCastEnd);
+            bh.battleUtil.SetTimer(0.10f, () => { GameManager.Instance.inventoryHandler.CreateSkill(bambooSpear, Owner, Owner.transform.position); });
+            bh.battleUtil.SetTimer(0.10f * count, onCastEnd);
         });
     }
 }
