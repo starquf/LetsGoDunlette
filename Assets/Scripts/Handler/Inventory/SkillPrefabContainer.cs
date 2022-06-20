@@ -105,6 +105,44 @@ public class SkillPrefabContainer : MonoBehaviour
         return skill;
     }
 
+    public List<SkillPiece> GetSkillsByChance(RewardChance chance, int count)
+    {
+        int gradeOne = chance.gradeOne;
+        int gradeTwo = chance.gradeTwo;
+        int gradeThree = chance.gradeThree;
+
+        List<SkillPiece> result = new List<SkillPiece>();
+        List<SkillPiece> skills = null;
+
+        for (int i = 0; i < count; i++)
+        {
+            int random = Random.Range(0, gradeOne + gradeTwo + gradeThree);
+
+            if (random <= gradeOne)
+            {
+                skills = GetSkillsByGrade(GradeInfo.Normal);
+            }
+            else if (random <= gradeOne + gradeTwo)
+            {
+                skills = GetSkillsByGrade(GradeInfo.Epic);
+            }
+            else if (random <= gradeOne + gradeTwo + gradeThree)
+            {
+                skills = GetSkillsByGrade(GradeInfo.True6StarMythAwakeningLegendTranscendentReincarnation);
+            }
+
+            int index = Random.Range(0, skills.Count - i);
+
+            result.Add(skills[index]);
+            var temp = skills[skills.Count - i - 1];
+            skills[skills.Count - i - 1] = skills[index];
+            skills[index] = temp;
+        }
+        
+
+        return result;
+    }
+
     public GameObject GetSkillPrefab<T>() where T : SkillPiece
     {
         Type type = typeof(T);

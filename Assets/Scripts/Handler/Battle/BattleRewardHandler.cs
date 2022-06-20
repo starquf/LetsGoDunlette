@@ -162,10 +162,7 @@ public class BattleRewardHandler : MonoBehaviour
     {
         List<SkillPiece> rewardObjs = new List<SkillPiece>();
         int playerLevel = (int)Mathf.Clamp(GameManager.Instance.GetPlayer().PlayerLevel - 1,0,Mathf.Infinity);
-        for (int i = 0; i < 3; i++)
-        {
-            rewardObjs.Add(GameManager.Instance.skillContainer.GetSkillByChance(rewardChances[playerLevel]));
-        }
+        rewardObjs = GameManager.Instance.skillContainer.GetSkillsByChance(rewardChances[playerLevel], 3);
 
         List<SkillPiece> rewards = SetReward(rewardObjs, 3);
 
