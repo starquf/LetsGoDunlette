@@ -31,7 +31,7 @@ public class Map : MonoBehaviour
     private Button button;
     private bool isSelected;
 
-    private bool isBlinked;
+    [HideInInspector] public bool isBlinked;
     [HideInInspector] public Map teleportMap;
 
     private void Awake()
@@ -147,7 +147,8 @@ public class Map : MonoBehaviour
         // 켜지는거
         if (!enable)
         {
-            button.interactable = true;
+            SetInteracteble(true);
+            //button.interactable = true;
             blinkMapOutLine.color = Color.clear;
             tileImage.color = Color.white;
             mapIcon.color = Color.white;
@@ -155,12 +156,13 @@ public class Map : MonoBehaviour
         // 꺼지는거
         else
         {
-            button.interactable = false;
+            SetInteracteble(false);
+            //button.interactable = false;
             blinkMapOutLine.color = Color.white;
             tileImage.color = Color.clear;
             mapIcon.color = Color.clear;
         }
-        isBlinked = !enable;
+        isBlinked = enable;
     }
 
     public void OnDisable()

@@ -23,12 +23,12 @@ public enum mapNode
     SWITCH = 11,
 }
 
-//public enum mapTileEvent
-//{
-//    NONE = 0,
-//    BLINK = 1,
-//    TIMELIMIT = 2,
-//}
+public enum mapTileEvent
+{
+    NONE = 0,
+    BLINK = 1,
+    TIMELIMIT = 2,
+}
 
 public enum moveType
 {
@@ -55,6 +55,14 @@ public class FixedMapRangeRandom
     public Vector2 minPos;
     public Vector2 maxPos;
     public FixedMap map;
+}
+
+[Serializable]
+public class FixedTileRangeRandom
+{
+    public Vector2 minPos;
+    public Vector2 maxPos;
+    public mapTileEvent tileType;
 }
 
 public class MapManager : MonoBehaviour
@@ -91,8 +99,10 @@ public class MapManager : MonoBehaviour
     [SerializeField] private List<mapNode> canNotLinkMapType = new List<mapNode>();
     //[SerializeField] SerializableDictionary<mapNode, int> fixedMapTypeCount = new SerializableDictionary<mapNode, int>();
     private Dictionary<Vector2, FixedMap> useFixedPosMapType = new Dictionary<Vector2, FixedMap>();
+    private Dictionary<Vector2, mapTileEvent> useFixedPosTileType = new Dictionary<Vector2, mapTileEvent>();
     [SerializeField] private SerializableDictionary<Vector2, FixedMap> fixedPosMapType = new SerializableDictionary<Vector2, FixedMap>();
     [SerializeField] private List<FixedMapRangeRandom> fixedRangeMapType = new List<FixedMapRangeRandom>();
+    [SerializeField] private List<FixedTileRangeRandom> fixedRangeTileType = new List<FixedTileRangeRandom>();
     [SerializeField] private SerializableDictionary<mapNode, float> mapTypeProportionDic = new SerializableDictionary<mapNode, float>();
     private List<Map> blinkMapList = new List<Map>();
     private List<Map> timeLimitMapList = new List<Map>();
@@ -146,9 +156,41 @@ public class MapManager : MonoBehaviour
         }*/
     }
 
+    // 변경되는 맵 타일 이벤트 순차 실행
+    public IEnumerator ChageMapDeration()
+    {
+        float time = 0.5f;
+
+        int count = 0;
+
+        for (int i = 0; i < timeLimitMapList.Count; i++)
+        {
+            mapCvsFollow.targetTrm = timeLimitMapList[i].transform;
+            float rtime = time * (float)Mathf.Clamp(10 - count, 1, 10) / 10f;
+
+
+            yield return new WaitForSeconds(rtime * 1.1f);
+            count++;
+        }
+        count = 0;
+        for (int i = 0; i < blinkMapList.Count; i++)
+        {
+            mapCvsFollow.targetTrm = blinkMapList[i].transform;
+            float rtime = time * (float)Mathf.Clamp(10 - count, 1, 10) / 10f;
+
+
+            yield return new WaitForSeconds(rtime * 1.1f);
+            count++;
+        }
+        yield return null;
+        mapCvsFollow.targetTrm = playerTrm;
+    }
+
     // 맵 시작
     public void StartMap(mapNode mapType)
     {
+        StartCoroutine(ChageMapDeration());
+
         switch (mapType)
         {
             case mapNode.TELEPORT:
@@ -178,6 +220,7 @@ public class MapManager : MonoBehaviour
         LinkMap();
         RandomRangeMapSet();
         RandomDestroyMap();
+        RandomRangeTileSet();
         SetRandomTileSprite();
         SetMapType();
         InitMap();
@@ -186,6 +229,9 @@ public class MapManager : MonoBehaviour
     private void CopyFixed()
     {
         useFixedPosMapType = new Dictionary<Vector2, FixedMap>(fixedPosMapType);
+        useFixedPosTileType = new Dictionary<Vector2, mapTileEvent>();
+        blinkMapList = new List<Map>();
+        timeLimitMapList = new List<Map>();
     }
 
     // 맵 변수 초기화
@@ -197,6 +243,43 @@ public class MapManager : MonoBehaviour
         Debug.Log("Stage :" + GameManager.Instance.StageIdx);
         bossCloudImage.sprite = bossCloudSpriteList[GameManager.Instance.StageIdx];
         bossEffectAnimator.SetInteger("Stage", GameManager.Instance.StageIdx);
+    }
+
+    public void RandomRangeTileSet()
+    {
+        for (int i = 0; i < fixedRangeTileType.Count; i++)
+        {
+            FixedTileRangeRandom fm = fixedRangeTileType[i];
+            Vector2 targetPos;
+            do
+            {
+                int targetX = Random.Range((int)fm.minPos.x, (int)fm.maxPos.x + 1);
+                int targetY = Random.Range((int)fm.minPos.y, (int)fm.maxPos.y + 1);
+                targetPos = new Vector2(targetX, targetY);
+            } while (targetPos == new Vector2(0, gridHeight - 1) || targetPos == new Vector2(-1, gridHeight - 1) || 
+            useFixedPosMapType.ContainsKey(targetPos) ? useFixedPosMapType[targetPos].mapType == mapNode.TELEPORT : false || 
+            useFixedPosTileType.Keys.Contains(targetPos) || !tiles.ContainsKey(targetPos));
+
+            useFixedPosTileType.Add(targetPos, fm.tileType);
+        }
+
+        List<Vector2> mapTileEventList = useFixedPosTileType.Keys.ToList();
+        for (int i = 0; i < mapTileEventList.Count; i++)
+        {
+            switch (useFixedPosTileType[mapTileEventList[i]])
+            {
+                case mapTileEvent.NONE:
+                    break;
+                case mapTileEvent.BLINK:
+                    blinkMapList.Add(tiles[mapTileEventList[i]]);
+                    break;
+                case mapTileEvent.TIMELIMIT:
+                    timeLimitMapList.Add(tiles[mapTileEventList[i]]);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     public void RandomRangeMapSet()
@@ -337,7 +420,7 @@ public class MapManager : MonoBehaviour
             if (!checkedMapList.Contains(linkedMap))
             {
                 checkedMapList.Add(linkedMap);
-                if (linkedMap == tiles[new Vector2(0, gridHeight - 1)])
+                if (linkedMap == (curMap == null ? tiles[new Vector2(0, gridHeight - 1)] : curMap))
                 {
                     //print("모든 노드와 연결되어있음");
                     return true;
@@ -369,6 +452,7 @@ public class MapManager : MonoBehaviour
             {
                 StartCoroutine(PlayDirection(() =>
                 {
+                    SetInteractebleCanSelectMap();
                     blockPanel.raycastTarget = false;
                 }, first));
             });
@@ -452,7 +536,6 @@ public class MapManager : MonoBehaviour
             curMap.mapIcon.DOFade(0, 0.3f);
             mapCvsFollow.Follow(onEndAnim: () =>
             {
-                SetInteractebleCanSelectMap();
                 onComplete?.Invoke();
             });
         };
@@ -482,6 +565,8 @@ public class MapManager : MonoBehaviour
                                 BreakMap(curMap);
                                 curMap = map;
                                 curMap.mapIcon.DOFade(0, 0.3f);
+
+                                SetAllInteracteble(true);
                                 SetInteractebleCanSelectMap();
                             });
                         });
@@ -547,7 +632,15 @@ public class MapManager : MonoBehaviour
     // 현제 맵에서 연결된 맵이 있는지 확인
     public bool CheckHasLinckedMap()
     {
-        return curMap.linkedMoveAbleMap.Count > 0;
+        for (int i = 0; i < curMap.linkedMoveAbleMap.Count; i++)
+        {
+            if(!curMap.linkedMoveAbleMap[i].isBlinked)
+            {
+                return true;
+            }
+        }
+        return false;
+        //return curMap.linkedMoveAbleMap.Count > 0;
     }
 
     // 보스 카운팅 연출 및 보스 올라가는 연출
