@@ -23,24 +23,49 @@ public enum mapNode
     SWITCH = 11,
 }
 
+//public enum mapTileEvent
+//{
+//    NONE = 0,
+//    BLINK = 1,
+//    TIMELIMIT = 2,
+//}
+
+public enum moveType
+{
+    JUMP = 0,
+    TELEPORT = 1,
+}
+
+public enum DicType
+{
+    FIXEDPOS = 0,
+    FIXEDRANDOMPOS = 1,
+}
+
+[Serializable]
+public class FixedMap
+{
+    public mapNode mapType;
+    public int teleportTargetIdx;
+}
+
 [Serializable]
 public class FixedMapRangeRandom
 {
     public Vector2 minPos;
     public Vector2 maxPos;
-    public mapNode mapType;
+    public FixedMap map;
 }
 
 public class MapManager : MonoBehaviour
 {
     private Sequence mapOpenSequence;
-    private Tween zoomTween;
 
     private Vector2 defaultBossCloudPos;
     private Vector2 defaultBossEffectPos;
 
     [HideInInspector] public Dictionary<Vector2, Map> tiles;
-    private Map curMap;
+    [HideInInspector] public Map curMap;
     private int bossCount;
 
     [Header("맵 생성 관현")]
@@ -65,10 +90,12 @@ public class MapManager : MonoBehaviour
     [SerializeField] private int defaultBossCount;
     [SerializeField] private List<mapNode> canNotLinkMapType = new List<mapNode>();
     //[SerializeField] SerializableDictionary<mapNode, int> fixedMapTypeCount = new SerializableDictionary<mapNode, int>();
-    private Dictionary<Vector2, mapNode> useFixedPosMapType = new Dictionary<Vector2, mapNode>();
-    [SerializeField] private SerializableDictionary<Vector2, mapNode> fixedPosMapType = new SerializableDictionary<Vector2, mapNode>();
+    private Dictionary<Vector2, FixedMap> useFixedPosMapType = new Dictionary<Vector2, FixedMap>();
+    [SerializeField] private SerializableDictionary<Vector2, FixedMap> fixedPosMapType = new SerializableDictionary<Vector2, FixedMap>();
     [SerializeField] private List<FixedMapRangeRandom> fixedRangeMapType = new List<FixedMapRangeRandom>();
     [SerializeField] private SerializableDictionary<mapNode, float> mapTypeProportionDic = new SerializableDictionary<mapNode, float>();
+    private List<Map> blinkMapList = new List<Map>();
+    private List<Map> timeLimitMapList = new List<Map>();
 
     [SerializeField] private int gridWidth = 5;
     [SerializeField] private int gridHeight = 5;
@@ -96,7 +123,7 @@ public class MapManager : MonoBehaviour
             mapGenerator.GenerateGrid(gridHeight, gridWidth, OnGenerateMap);
         };
     }
-
+    
     public void ResetMap()
     {
         List<Map> mapList = tiles.Values.ToList();
@@ -122,7 +149,18 @@ public class MapManager : MonoBehaviour
     // 맵 시작
     public void StartMap(mapNode mapType)
     {
-        encounterHandler.StartEncounter(mapType);
+        switch (mapType)
+        {
+            case mapNode.TELEPORT:
+                MovePlayer(curMap.teleportMap, null, false, moveType.TELEPORT);
+                break;
+            case mapNode.SWITCH:
+                break;
+            default:
+                ZoomCamera(15f, time: 0.7f, ease: Ease.InOutSine);
+                encounterHandler.StartEncounter(mapType);
+                break;
+        }
     }
 
     // 맵 만들어지고 맨처음에 이동
@@ -138,6 +176,7 @@ public class MapManager : MonoBehaviour
     {
         CopyFixed();
         LinkMap();
+        RandomRangeMapSet();
         RandomDestroyMap();
         SetRandomTileSprite();
         SetMapType();
@@ -146,7 +185,7 @@ public class MapManager : MonoBehaviour
 
     private void CopyFixed()
     {
-        useFixedPosMapType = new Dictionary<Vector2, mapNode>(fixedPosMapType);
+        useFixedPosMapType = new Dictionary<Vector2, FixedMap>(fixedPosMapType);
     }
 
     // 맵 변수 초기화
@@ -162,10 +201,12 @@ public class MapManager : MonoBehaviour
 
     public void RandomRangeMapSet()
     {
+        Dictionary<int, int> teleportDic = new Dictionary<int, int>();
         for (int i = 0; i < fixedRangeMapType.Count; i++)
         {
             FixedMapRangeRandom fm = fixedRangeMapType[i];
             Vector2 targetPos;
+            int idx;
             do
             {
                 int targetX = Random.Range((int)fm.minPos.x, (int)fm.maxPos.x + 1);
@@ -173,15 +214,46 @@ public class MapManager : MonoBehaviour
                 targetPos = new Vector2(targetX, targetY);
             } while (useFixedPosMapType.Keys.Contains(targetPos));
 
-            useFixedPosMapType.Add(targetPos, fm.mapType);
+            if(fm.map.mapType == mapNode.TELEPORT)
+            {
+                idx = useFixedPosMapType.Count;
+                int j = i;
+                if (fm.map.teleportTargetIdx > j)
+                {
+                    teleportDic.Add(j, idx);
+                }
+                else if(fm.map.teleportTargetIdx == idx)
+                {
+                    Debug.LogError("자신에게 텔포 위치 되어있음");
+                }
+                else
+                {
+                    if (teleportDic.ContainsKey(fm.map.teleportTargetIdx))
+                    {
+                        List<Vector2> fixedPosMapList = useFixedPosMapType.Keys.ToList();
+                        idx = teleportDic[fm.map.teleportTargetIdx];
+                        useFixedPosMapType[fixedPosMapList[idx]].teleportTargetIdx = useFixedPosMapType.Count;
+                        teleportDic.Remove(fm.map.teleportTargetIdx);
+                    }
+                    else
+                    {
+                        Debug.LogError("텔레포트 랜덤 좌표 설정 idx가 잘못되었습니다");
+                    }
+                }
+                FixedMap fixedMap = new FixedMap() { mapType = fm.map.mapType, teleportTargetIdx = idx };
+
+                useFixedPosMapType.Add(targetPos, fixedMap);
+            }
+            else
+            {
+                useFixedPosMapType.Add(targetPos, fm.map);
+            }
         }
     }
 
     // 맵 구조 변경
     public void RandomDestroyMap(int count = -1, bool breakAnim = false)
     {
-        RandomRangeMapSet();
-
         if (count < 0)
             count = maxDestroyCount;
 
@@ -365,28 +437,60 @@ public class MapManager : MonoBehaviour
     }
 
     // 플레이어 이동 연출
-    public void MovePlayer(Map map, Action onComplete = null, bool counting = false)
+    public void MovePlayer(Map map, Action onComplete = null, bool counting = false, moveType type = moveType.JUMP)
     {
         if (counting)
         {
             bossCount--;
             bossCountTxt.DOText(bossCount.ToString(), 0.5f);
         }
-        DOTween.Sequence()
-            .Append(playerTrm.DOLocalJump(map.transform.localPosition, 35f, 1, 0.5f).SetEase(Ease.InQuad).SetDelay(counting ? 0.5f : 0.3f))
-            .Append(playerTrm.DOLocalMoveY(map.transform.localPosition.y + 40f, 0.08f))
-            .Append(playerTrm.DOLocalMoveY(map.transform.localPosition.y, 0.3f).SetEase(Ease.OutBounce))
-            .OnComplete(() =>
+
+        Action onEnd = () =>
+        {
+            BreakMap(curMap);
+            curMap = map;
+            curMap.mapIcon.DOFade(0, 0.3f);
+            mapCvsFollow.Follow(onEndAnim: () =>
             {
-                BreakMap(curMap);
-                curMap = map;
-                curMap.mapIcon.DOFade(0, 0.3f);
-                mapCvsFollow.Follow(onEndAnim: () =>
-                {
-                    SetInteractebleCanSelectMap();
-                    onComplete?.Invoke();
-                });
+                SetInteractebleCanSelectMap();
+                onComplete?.Invoke();
             });
+        };
+
+        switch (type)
+        {
+            case moveType.JUMP:
+                DOTween.Sequence()
+                    .Append(playerTrm.DOLocalJump(map.transform.localPosition, 35f, 1, 0.5f).SetEase(Ease.InQuad).SetDelay(counting ? 0.5f : 0.3f))
+                    .Append(playerTrm.DOLocalMoveY(map.transform.localPosition.y + 40f, 0.08f))
+                    .Append(playerTrm.DOLocalMoveY(map.transform.localPosition.y, 0.3f).SetEase(Ease.OutBounce))
+                    .OnComplete(() =>
+                    {
+                        onEnd?.Invoke();
+                    });
+                break;
+            case moveType.TELEPORT:
+                playerTrm.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InQuad)
+                    .OnComplete(() =>
+                    {
+                        playerTrm.localPosition = map.transform.localPosition;
+                        mapCvsFollow.Follow(onEndAnim: () =>
+                        {
+                            playerTrm.DOScale(Vector3.one, 0.5f).SetEase(Ease.InQuad)
+                            .OnComplete(() =>
+                            {
+                                BreakMap(curMap);
+                                curMap = map;
+                                curMap.mapIcon.DOFade(0, 0.3f);
+                                SetInteractebleCanSelectMap();
+                            });
+                        });
+                    });
+                break;
+            default:
+                Debug.LogError("잘못된 이동 타입으로 이동");
+                break;
+        }
     }
 
     // 맵열리고 줌 되기 전에 해야될 연출
@@ -555,13 +659,17 @@ public class MapManager : MonoBehaviour
         List<Vector2> fixedPosMapList = useFixedPosMapType.Keys.ToList();
         for (int i = 0; i < fixedPosMapList.Count; i++)
         {
-            mapNode mapType = useFixedPosMapType[fixedPosMapList[i]];
+            mapNode mapType = useFixedPosMapType[fixedPosMapList[i]].mapType;
             /*
             if (fixedMapTypeCount.Keys.Contains(mapType))
             {
                 fixedMapTypeCount[mapType]--;
             }*/
             Debug.Log($"{tiles[fixedPosMapList[i]].name}에 {mapType} 좌표 고정됨");
+            if(mapType == mapNode.TELEPORT)
+            {
+                tiles[fixedPosMapList[i]].teleportMap = tiles[fixedPosMapList[useFixedPosMapType[fixedPosMapList[i]].teleportTargetIdx]];
+            }
             tiles[fixedPosMapList[i]].MapType = mapType;
         }
         /*
@@ -631,7 +739,7 @@ public class MapManager : MonoBehaviour
         for (int i = 0; i < mapList.Count; i++)
         {
             Map map = mapList[i];
-            if (!(map.MapType == mapNode.NONE || map.MapType == mapNode.START || map.MapType == mapNode.BOSS))
+            if (!(map.MapType == mapNode.NONE || map.MapType == mapNode.START || map.MapType == mapNode.BOSS || map.MapType == mapNode.TELEPORT|| map.MapType == mapNode.SWITCH))
             {
                 mapTypeCountDic[map.MapType]++;
                 count++;
@@ -674,6 +782,12 @@ public class MapManager : MonoBehaviour
                 break;
             case mapNode.RANDOMENCOUNTER:
                 //spriteIdx = 2;
+                break;
+            case mapNode.TELEPORT:
+                spriteIdx = 4;
+                break;
+            case mapNode.SWITCH:
+                spriteIdx = 5;
                 break;
             default:
                 break;

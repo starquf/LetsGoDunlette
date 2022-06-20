@@ -20,6 +20,7 @@ public class Map : MonoBehaviour
         }
     }
 
+    public Image blinkMapOutLine;
     public Image mapOutLine;
     public Image mapIcon;
     public List<Map> linkedMoveAbleMap;
@@ -29,6 +30,9 @@ public class Map : MonoBehaviour
     private float defaultLocalPosY;
     private Button button;
     private bool isSelected;
+
+    private bool isBlinked;
+    [HideInInspector] public Map teleportMap;
 
     private void Awake()
     {
@@ -43,6 +47,8 @@ public class Map : MonoBehaviour
         defaultLocalPosY = GetComponent<RectTransform>().localPosition.y;
         isSelected = false;
         mapIcon.color = Color.white;
+        teleportMap = null;
+        Blink(false);
         button.onClick.AddListener(OnClickButton);
     }
 
@@ -96,10 +102,6 @@ public class Map : MonoBehaviour
                 mapManager.MovePlayer(this,
                     () =>
                     {
-                        mapManager.ZoomCamera(15f, time: 0.7f, ease: Ease.InOutSine, onComplete: () =>
-                        {
-                            SetIcon(null);
-                        });
                         mapManager.StartMap(mapType);
                     }, true);
             });
@@ -129,6 +131,36 @@ public class Map : MonoBehaviour
             {
                 onComplete?.Invoke();
             });
+    }
+
+    public void BlinkMap()
+    {
+        Blink(!isBlinked);
+    }
+
+    private void Blink(bool enable = true)
+    {
+        if (mapManager.curMap == this)
+            return;
+
+        Image tileImage = GetComponent<Image>();
+        // 켜지는거
+        if (!enable)
+        {
+            button.interactable = true;
+            blinkMapOutLine.color = Color.clear;
+            tileImage.color = Color.white;
+            mapIcon.color = Color.white;
+        }
+        // 꺼지는거
+        else
+        {
+            button.interactable = false;
+            blinkMapOutLine.color = Color.white;
+            tileImage.color = Color.clear;
+            mapIcon.color = Color.clear;
+        }
+        isBlinked = !enable;
     }
 
     public void OnDisable()
