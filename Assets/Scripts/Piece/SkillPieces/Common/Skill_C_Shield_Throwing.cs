@@ -15,9 +15,6 @@ public class Skill_C_Shield_Throwing : SkillPiece
         if (health.HasShield())
         {
             target.GetDamage(health.GetShieldHp());
-        }
-        else
-        {
             target.RemoveShield();
         }
 
