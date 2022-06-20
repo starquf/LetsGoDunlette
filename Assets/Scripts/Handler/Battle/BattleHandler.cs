@@ -231,7 +231,6 @@ public class BattleHandler : MonoBehaviour
     private void InitHandler()
     {
         playerInfoHandler.OnBattleStart();
-        battleRewardHandler.Init(GameManager.Instance.skillContainer.playerSkillPrefabs);
         battleUtil.Init(mainRullet);
     }
 

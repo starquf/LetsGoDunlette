@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class SkillPrefabContainer : MonoBehaviour
 {
@@ -41,6 +42,67 @@ public class SkillPrefabContainer : MonoBehaviour
         }
 
         GameManager.Instance.skillContainer = this;
+    }
+
+    public List<SkillPiece> GetSkillsByGrade(GradeInfo gradeInfo)
+    {
+        List<SkillPiece> skills = new List<SkillPiece>();
+
+        for (int i = 0; i < playerSkillPrefabs.Count; i++)
+        {
+            SkillPiece piece = playerSkillPrefabs[i].GetComponent<SkillPiece>();
+            if(piece.skillGrade == gradeInfo)
+            {
+                skills.Add(piece);
+            }
+        }
+
+        return skills;
+    }
+
+    public List<SkillPiece> GetSkillsByElement(ElementalType elementalType)
+    {
+        List<SkillPiece> skills = new List<SkillPiece>();
+
+        for (int i = 0; i < playerSkillPrefabs.Count; i++)
+        {
+            SkillPiece piece = playerSkillPrefabs[i].GetComponent<SkillPiece>();
+            if (piece.patternType == elementalType)
+            {
+                skills.Add(piece);
+            }
+        }
+
+        return skills;
+    }
+
+    public SkillPiece GetSkillByChance(RewardChance chance)
+    {
+        int gradeOne = chance.gradeOne;
+        int gradeTwo = chance.gradeTwo;
+        int gradeThree = chance.gradeThree;
+
+        SkillPiece skill = null;
+        List<SkillPiece> skills = null;
+        int random = Random.Range(0, gradeOne + gradeTwo + gradeThree);
+
+        if (random <= gradeOne)
+        {
+            skills = GetSkillsByGrade(GradeInfo.Normal);
+            skill = skills[Random.Range(0, skills.Count)];
+        }
+        else if (random <= gradeOne + gradeTwo)
+        {
+            skills = GetSkillsByGrade(GradeInfo.Epic);
+            skill = skills[Random.Range(0, skills.Count)];
+        }
+        else if (random <= gradeOne + gradeTwo + gradeThree)
+        {
+            skills = GetSkillsByGrade(GradeInfo.True6StarMythAwakeningLegendTranscendentReincarnation);
+            skill = skills[Random.Range(0, skills.Count)];
+        }
+
+        return skill;
     }
 
     public GameObject GetSkillPrefab<T>() where T : SkillPiece

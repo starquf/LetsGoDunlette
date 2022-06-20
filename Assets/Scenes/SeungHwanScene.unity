@@ -24690,6 +24690,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battleRewardUI: {fileID: 210659273}
+  rewardChances:
+  - gradeOne: 90
+    gradeTwo: 10
+    gradeThree: 0
+  - gradeOne: 85
+    gradeTwo: 15
+    gradeThree: 0
+  - gradeOne: 80
+    gradeTwo: 20
+    gradeThree: 0
+  - gradeOne: 70
+    gradeTwo: 25
+    gradeThree: 5
+  - gradeOne: 60
+    gradeTwo: 30
+    gradeThree: 10
+  - gradeOne: 50
+    gradeTwo: 35
+    gradeThree: 15
+  - gradeOne: 35
+    gradeTwo: 45
+    gradeThree: 20
+  - gradeOne: 25
+    gradeTwo: 50
+    gradeThree: 25
+  - gradeOne: 15
+    gradeTwo: 55
+    gradeThree: 30
+  - gradeOne: 5
+    gradeTwo: 60
+    gradeThree: 35
 --- !u!114 &377361827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93513,6 +93544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49d14cdf96754364b8608be48a3b6e15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curMap: {fileID: 0}
   mapGenerator: {fileID: 1901460114}
   mapCvsGroup: {fileID: 1455713966}
   mapBGCvsGroup: {fileID: 1467344278}
@@ -93563,14 +93595,22 @@ MonoBehaviour:
     g_InspectorKeys:
     - {x: 0, y: 3}
     - {x: 1, y: 4}
-    g_InspectorValues: 0400000004000000
+    g_InspectorValues:
+    - mapType: 0
+      teleportTargetIdx: 0
+    - mapType: 0
+      teleportTargetIdx: 0
   fixedRangeMapType:
   - minPos: {x: 0, y: 0}
     maxPos: {x: 1, y: 1}
-    mapType: 3
+    map:
+      mapType: 0
+      teleportTargetIdx: 0
   - minPos: {x: 3, y: 3}
     maxPos: {x: 4, y: 4}
-    mapType: 3
+    map:
+      mapType: 0
+      teleportTargetIdx: 0
   mapTypeProportionDic:
     g_InspectorKeys: 0400000003000000070000000500000006000000
     g_InspectorValues:

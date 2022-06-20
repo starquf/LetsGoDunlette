@@ -4,15 +4,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+[Serializable]
+    public struct RewardChance
+    {
+        public int gradeOne;
+        public int gradeTwo;
+        public int gradeThree;
+    }
+
 public class BattleRewardHandler : MonoBehaviour
 {
-    private List<GameObject> rewardObjs = new List<GameObject>();
-
     private InventoryHandler invenHandler;
     private InventoryInfoHandler invenInfo;
     private BattleHandler battleHandler;
 
     public BattleRewardUIHandler battleRewardUI;
+
+    public List<RewardChance> rewardChances;
 
     #region WaitForSeconds
 
@@ -121,11 +129,6 @@ public class BattleRewardHandler : MonoBehaviour
         });
     }
 
-    public void Init(List<GameObject> rewardObjs)
-    {
-        this.rewardObjs = rewardObjs;
-    }
-
     public void GiveReward()
     {
         StartCoroutine(ResetInventory(() =>
@@ -157,6 +160,13 @@ public class BattleRewardHandler : MonoBehaviour
 
     private void RewardRoutine()
     {
+        List<SkillPiece> rewardObjs = new List<SkillPiece>();
+        int playerLevel = (int)Mathf.Clamp(GameManager.Instance.GetPlayer().PlayerLevel - 1,0,Mathf.Infinity);
+        for (int i = 0; i < 3; i++)
+        {
+            rewardObjs.Add(GameManager.Instance.skillContainer.GetSkillByChance(rewardChances[playerLevel]));
+        }
+
         List<SkillPiece> rewards = SetReward(rewardObjs, 3);
 
         battleRewardUI.ShowWinEffect(() =>
@@ -180,7 +190,7 @@ public class BattleRewardHandler : MonoBehaviour
         battleRewardUI.createdReward.Clear();
     }
 
-    private List<SkillPiece> SetReward(List<GameObject> rewardObjs, int rewardCnt = 8)
+    private List<SkillPiece> SetReward(List<SkillPiece> rewardObjs, int rewardCnt = 8)
     {
         if (rewardObjs.Count < rewardCnt)
         {
