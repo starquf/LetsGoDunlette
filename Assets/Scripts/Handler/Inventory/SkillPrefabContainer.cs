@@ -114,7 +114,7 @@ public class SkillPrefabContainer : MonoBehaviour
         List<SkillPiece> result = new List<SkillPiece>();
         List<SkillPiece> skills = null;
 
-        for (int i = 0; i < count; i++)
+        for (int i = 1; i <= count; i++)
         {
             int random = Random.Range(0, gradeOne + gradeTwo + gradeThree);
 
@@ -131,11 +131,11 @@ public class SkillPrefabContainer : MonoBehaviour
                 skills = GetSkillsByGrade(GradeInfo.True6StarMythAwakeningLegendTranscendentReincarnation);
             }
 
-            int index = Random.Range(0, skills.Count - i - 1);
+            int index = Random.Range(0, skills.Count - i);
 
             result.Add(skills[index]);
-            var temp = skills[skills.Count - i - 1];
-            skills[skills.Count - i - 1] = skills[index];
+            var temp = skills[skills.Count - i];
+            skills[skills.Count - i] = skills[index];
             skills[index] = temp;
         }
         
