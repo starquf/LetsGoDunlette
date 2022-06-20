@@ -160,11 +160,32 @@ public class BattleRewardHandler : MonoBehaviour
 
     private void RewardRoutine()
     {
-        List<SkillPiece> rewardObjs = new List<SkillPiece>();
-        int playerLevel = (int)Mathf.Clamp(GameManager.Instance.GetPlayer().PlayerLevel - 1,0,Mathf.Infinity);
-        rewardObjs = GameManager.Instance.skillContainer.GetSkillsByChance(rewardChances[playerLevel], 3);
+        List<SkillPiece> rewards = null;
+        int playerLevel = (int)Mathf.Clamp(GameManager.Instance.GetPlayer().PlayerLevel - 1, 0, Mathf.Infinity);
 
-        List<SkillPiece> rewards = SetReward(rewardObjs, 3);
+        List<SkillPiece> skills = null;
+
+        switch (GameManager.Instance.curEncounter)
+        {
+            case mapNode.BOSS: //보스 보상 선택은 3성 조각 3개 확정
+                skills = GameManager.Instance.skillContainer.GetSkillsByGrade(GradeInfo.True6StarMythAwakeningLegendTranscendentReincarnation);
+                rewards = SetReward(skills, 3);
+                break;
+            case mapNode.EMONSTER: //엘리트 보상 선택은 2성 조각 1개 확정
+                skills = GameManager.Instance.skillContainer.GetSkillsByGrade(GradeInfo.Epic);
+                rewards = SetReward(skills, 1);
+
+                foreach (var item in GameManager.Instance.skillContainer.GetSkillsByChance(rewardChances[playerLevel], 2))
+                {
+                    rewards.Add(item);
+                }
+
+                break;
+            case mapNode.MONSTER:
+                rewards = GameManager.Instance.skillContainer.GetSkillsByChance(rewardChances[playerLevel], 3);
+                //rewards = SetReward(rewardObjs, 3);
+                break;
+        }
 
         battleRewardUI.ShowWinEffect(() =>
         {

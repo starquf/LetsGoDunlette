@@ -131,7 +131,7 @@ public class SkillPrefabContainer : MonoBehaviour
                 skills = GetSkillsByGrade(GradeInfo.True6StarMythAwakeningLegendTranscendentReincarnation);
             }
 
-            int index = Random.Range(0, skills.Count - i);
+            int index = Random.Range(0, skills.Count - i - 1);
 
             result.Add(skills[index]);
             var temp = skills[skills.Count - i - 1];
