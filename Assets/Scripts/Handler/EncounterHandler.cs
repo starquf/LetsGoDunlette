@@ -121,7 +121,7 @@ public class EncounterHandler : MonoBehaviour
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
                 restEncounterUIHandler.StartEvent();
                 break;
-            case mapNode.RandomEncounter:
+            case mapNode.RANDOMENCOUNTER:
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
 
                 int randIdx = Random.Range(0, 100);

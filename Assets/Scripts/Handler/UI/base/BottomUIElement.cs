@@ -97,7 +97,7 @@ public abstract class BottomUIElement : MonoBehaviour
         }
         else
         {
-            if (!GameManager.Instance.curEncounter.Equals(mapNode.RandomEncounter))
+            if (!GameManager.Instance.curEncounter.Equals(mapNode.RANDOMENCOUNTER))
             {
                 bottomBG.ShowBottomPanel(true);
             }

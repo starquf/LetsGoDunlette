@@ -224,7 +224,7 @@ public class BattleScrollHandler : MonoBehaviour
         //    //SetInteract(true);
         //}
 
-        if (GameManager.Instance.curEncounter.Equals(mapNode.RandomEncounter))
+        if (GameManager.Instance.curEncounter.Equals(mapNode.RANDOMENCOUNTER))
         {
             GameManager.Instance.bottomUIHandler.ShowBottomPanel(true);
             InventoryInfoHandler inventoryInfoHandler = GameManager.Instance.invenInfoHandler;
@@ -254,7 +254,7 @@ public class BattleScrollHandler : MonoBehaviour
                         //    ShowScrollUI(true, open: false);
                         //}
 
-                        if (GameManager.Instance.curEncounter.Equals(mapNode.RandomEncounter))
+                        if (GameManager.Instance.curEncounter.Equals(mapNode.RANDOMENCOUNTER))
                         {
                             GameManager.Instance.bottomUIHandler.ShowBottomPanel(false);
                             InventoryInfoHandler inventoryInfoHandler = GameManager.Instance.invenInfoHandler;
