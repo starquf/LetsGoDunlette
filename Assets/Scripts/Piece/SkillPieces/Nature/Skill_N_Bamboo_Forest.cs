@@ -26,7 +26,7 @@ public class Skill_N_Bamboo_Forest : SkillPiece
         .SetRotation(Vector3.forward * -90f)
         .Play(() =>
         {
-            List<SkillPiece> rulletPieces = GameManager.Instance.inventoryHandler.GetPlayerInventory().skills;
+            List<RulletPiece> rulletPieces = bh.mainRullet.GetPieces();
             int count = 0;
             for (int i = 0; i < rulletPieces.Count; i++)
             {
