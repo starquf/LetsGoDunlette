@@ -21,7 +21,7 @@ public class Skill_C_Shield_Throwing : SkillPiece
             int shield = health.GetShieldHp();
 
             target.GetDamage(shield);
-            target.RemoveShield();
+            health.RemoveShield();
 
             shield = Mathf.Clamp(shield / 3, 1, 10);
 

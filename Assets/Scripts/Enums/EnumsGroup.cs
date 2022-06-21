@@ -105,6 +105,7 @@ public enum EnemyType
     SKELETON_WARRIOR,
     SKELETON_COMMANDER,
     UNDINE,
+    DUMMY
 }
 
 public enum DesIconType
