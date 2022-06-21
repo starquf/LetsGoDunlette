@@ -173,6 +173,7 @@ public enum AnimName
     ElecEffect05,
     T_WaterSplash06,
     T_WaterSplash05,
+    W_WaterIce04
 }
 
 public enum PlayerSkillType
