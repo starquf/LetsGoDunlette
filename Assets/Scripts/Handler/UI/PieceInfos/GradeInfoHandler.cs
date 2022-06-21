@@ -19,7 +19,7 @@ public class GradeInfoHandler : MonoBehaviour
         for (int i = 0; i < starImgs.Count; i++)
         {
             starImgs[i].gameObject.SetActive(false);
-            starImgs[i].sprite = grade == GradeInfo.True6StarMythAwakeningLegendTranscendentReincarnation ? starIcon[0] : starIcon[1];
+            starImgs[i].sprite = grade == GradeInfo.Legend ? starIcon[0] : starIcon[1];
         }
 
         for (int i = 0; i < (int)grade; i++)

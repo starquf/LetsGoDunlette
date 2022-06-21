@@ -192,5 +192,5 @@ public enum GradeInfo
 {
     Normal = 1,
     Epic = 2,
-    True6StarMythAwakeningLegendTranscendentReincarnation = 3
+    Legend = 3
 }

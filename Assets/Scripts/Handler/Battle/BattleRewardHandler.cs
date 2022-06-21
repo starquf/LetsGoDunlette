@@ -168,7 +168,7 @@ public class BattleRewardHandler : MonoBehaviour
         switch (GameManager.Instance.curEncounter)
         {
             case mapNode.BOSS: //보스 보상 선택은 3성 조각 3개 확정
-                skills = GameManager.Instance.skillContainer.GetSkillsByGrade(GradeInfo.True6StarMythAwakeningLegendTranscendentReincarnation);
+                skills = GameManager.Instance.skillContainer.GetSkillsByGrade(GradeInfo.Legend);
                 rewards = SetReward(skills, 3);
                 break;
             case mapNode.EMONSTER: //엘리트 보상 선택은 2성 조각 1개 확정
