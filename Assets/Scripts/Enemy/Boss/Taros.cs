@@ -29,7 +29,7 @@ public class Taros : MonoBehaviour
         {
             patrolCount--;
             print(patrolCount);
-            Mathf.Clamp(patrolCount, 0, Mathf.Infinity);
+            patrolCount = (int)Mathf.Clamp(patrolCount, 0, Mathf.Infinity);
 
             if (sp.Owner == owner) // 발동된 스킬이 타로스의 스킬이라면
             {
@@ -49,7 +49,7 @@ public class Taros : MonoBehaviour
                 return;
             }
 
-            if (patrolCount < 0)
+            if (patrolCount <= 0)
             {
                 action?.Invoke();
                 return;
