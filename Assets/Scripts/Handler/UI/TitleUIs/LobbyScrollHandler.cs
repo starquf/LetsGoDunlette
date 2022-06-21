@@ -22,6 +22,8 @@ public class LobbyScrollHandler : MonoBehaviour, IBeginDragHandler, IDragHandler
 
     private Tween moveTween;
 
+    public LobbyUIPanel lobbyPanel;
+
     private void Awake()
     {
         scroll = GetComponent<ScrollRect>().horizontalScrollbar;
@@ -37,11 +39,17 @@ public class LobbyScrollHandler : MonoBehaviour, IBeginDragHandler, IDragHandler
 
         for (int i = 0; i < panels.Count; i++)
         {
+            int a = i;
+
             pos[i] = pos[i] = distance * i; ;
 
             panelBtns[i].onClick.AddListener(() =>
             {
-                
+                targetIdx = a;
+
+                StopOnMove();
+
+                MoveToTarget();
             });
         }
 
@@ -54,7 +62,7 @@ public class LobbyScrollHandler : MonoBehaviour, IBeginDragHandler, IDragHandler
         moveTween.Kill();
         prevIdx = GetTargetPos();
 
-        SetPanels(false);
+        StopOnMove();
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -86,12 +94,19 @@ public class LobbyScrollHandler : MonoBehaviour, IBeginDragHandler, IDragHandler
         MoveToTarget();
     }
 
+    private void StopOnMove()
+    {
+        SetPanels(false);
+        lobbyPanel.ShowPlayerInfoCG(false, true);
+    }
+
     private void MoveToTarget()
     {
         moveTween.Kill();
         moveTween = DOTween.To(() => scroll.value, value => scroll.value = value, pos[targetIdx], 0.35f)
             .OnComplete(() => 
             {
+                lobbyPanel.ShowPlayerInfoCG(true, false);
                 SetPanels(true);
             });
     }

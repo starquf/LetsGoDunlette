@@ -105,6 +105,7 @@ public enum EnemyType
     SKELETON_WARRIOR,
     SKELETON_COMMANDER,
     UNDINE,
+    DUMMY
 }
 
 public enum DesIconType
@@ -192,5 +193,5 @@ public enum GradeInfo
 {
     Normal = 1,
     Epic = 2,
-    True6StarMythAwakeningLegendTranscendentReincarnation = 3
+    Legend = 3
 }

@@ -15,7 +15,7 @@ public class Skill_C_Shield_Throwing : SkillPiece
         if (health.HasShield())
         {
             target.GetDamage(health.GetShieldHp());
-            target.RemoveShield();
+            health.RemoveShield();
         }
 
         animHandler.GetAnim(AnimName.E_ManaSphereHit)
