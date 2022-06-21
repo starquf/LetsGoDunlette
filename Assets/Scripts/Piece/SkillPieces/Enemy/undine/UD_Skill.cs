@@ -23,6 +23,7 @@ public class UD_Skill : SkillPiece
         }
         else
         {
+            usedIcons.Add(DesIconType.Shield);
             onCastSkill = UD_Water_Drop;
             return pieceInfo[1];
         }
