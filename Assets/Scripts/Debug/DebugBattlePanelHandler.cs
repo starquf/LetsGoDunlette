@@ -162,7 +162,7 @@ public class DebugBattlePanelHandler : MonoBehaviour, IDebugPanel
         {
             int enemyIdx = int.Parse(enemySelectDrop2.captionText.text);
 
-            bh.enemys[enemyIdx].SetHp(int.Parse(enemyShieldField.text));
+            bh.enemys[enemyIdx].AddShield(int.Parse(enemyShieldField.text));
         }
     }
 
