@@ -1021,6 +1021,7 @@ public class MapManager : MonoBehaviour
     public void SetAllInteracteble(bool enable)
     {
         mapCvsGroup.interactable = enable;
+        mapCvsGroup.blocksRaycasts = enable;
     }
 
     public void SetInteractebleAllMap()
