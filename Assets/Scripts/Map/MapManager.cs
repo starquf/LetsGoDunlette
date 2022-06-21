@@ -111,8 +111,9 @@ public class MapManager : MonoBehaviour
     [SerializeField] private List<FixedMapRangeRandom> fixedRangeMapType = new List<FixedMapRangeRandom>();
     [SerializeField] private List<FixedTileRangeRandom> fixedRangeTileType = new List<FixedTileRangeRandom>();
     [SerializeField] private SerializableDictionary<mapNode, float> mapTypeProportionDic = new SerializableDictionary<mapNode, float>();
-    private List<Map> blinkMapList = new List<Map>();
-    private List<Map> timeLimitMapList = new List<Map>();
+    [HideInInspector] public List<Map> blinkMapList = new List<Map>();
+    [HideInInspector] public List<Map> timeLimitMapList = new List<Map>();
+    [HideInInspector] public List<Map> switchEnableMapList = new List<Map>();
 
     [SerializeField] private int gridWidth = 5;
     [SerializeField] private int gridHeight = 5;
@@ -178,11 +179,14 @@ public class MapManager : MonoBehaviour
 
         int count = 1;
 
-        for (int i = 0; i < timeLimitMapList.Count; i++)
+        for (int i = timeLimitMapList.Count-1; i >= 0; i--)
         {
             Map map = timeLimitMapList[i];
             if (curMap == map)
+            {
+                timeLimitMapList.Remove(map);
                 continue;
+            }
             mapCvsFollow.targetTrm = map.transform;
             float speed = 1f + Mathf.Clamp((float)count, 0f, 3f);
 
@@ -197,11 +201,14 @@ public class MapManager : MonoBehaviour
             count++;
         }
         count = 1;
-        for (int i = 0; i < blinkMapList.Count; i++)
+        for (int i = blinkMapList.Count-1; i >=0 ; i--)
         {
             Map map = blinkMapList[i];
             if (curMap == map)
+            {
+                blinkMapList.Remove(map);
                 continue;
+            }
             mapCvsFollow.targetTrm = map.transform;
             float speed = 1f + Mathf.Clamp((float)count, 0f, 3f);
 
@@ -223,6 +230,50 @@ public class MapManager : MonoBehaviour
         onEnd?.Invoke();
     }
 
+    // 변경되는 맵 타일 이벤트 순차 실행
+    public IEnumerator OnSwitchMap(Action onEnd = null)
+    {
+        bool isEnd = false;
+
+
+        StartCoroutine( RandomDestroyMap(3, true, ()=> isEnd = true));
+        yield return new WaitUntil(() => isEnd);
+
+        int count = 1;
+
+        for (int i = switchEnableMapList.Count - 1; i >= 0; i--)
+        {
+            Map map = switchEnableMapList[i];
+
+            mapCvsFollow.targetTrm = map.transform;
+            float speed = 1f + Mathf.Clamp((float)count, 0f, 3f);
+
+            isEnd = false;
+            mapCvsFollow.Follow(speed, onEndAnim: () => {
+                StartCoroutine(SetActiveMap(map, true, 0.5f / speed, () => isEnd = true));
+            });
+            yield return new WaitUntil(() => isEnd);
+            count++;
+        }
+
+        if (mapCvsFollow.targetTrm != playerTrm)
+        {
+            mapCvsFollow.targetTrm = playerTrm;
+            isEnd = false;
+            mapCvsFollow.Follow(onEndAnim: () => { isEnd = true; });
+            yield return new WaitUntil(() => isEnd);
+        }
+        onEnd?.Invoke();
+    }
+
+
+    public IEnumerator SetActiveMap(Map map, bool enable, float time, Action onEnd)
+    {
+        map.gameObject.SetActive(enable);
+        yield return new WaitForSeconds(time);
+        onEnd?.Invoke();
+    }
+
     // 맵 시작
     public void StartMap(mapNode mapType)
     {
@@ -234,6 +285,11 @@ public class MapManager : MonoBehaviour
                     MovePlayer(curMap.teleportMap, null, false, moveType.TELEPORT);
                     break;
                 case mapNode.SWITCH:
+                    StartCoroutine(OnSwitchMap(() =>
+                    {
+                        SetAllInteracteble(true);
+                        SetInteractebleCanSelectMap();
+                    }));
                     break;
                 default:
                     ZoomCamera(15f, time: 0.7f, ease: Ease.InOutSine);
@@ -258,7 +314,7 @@ public class MapManager : MonoBehaviour
         CopyFixed();
         LinkMap();
         RandomRangeMapSet();
-        RandomDestroyMap();
+        StartCoroutine(RandomDestroyMap());
         RandomRangeTileSet();
         SetRandomTileSprite();
         SetMapType();
@@ -271,6 +327,7 @@ public class MapManager : MonoBehaviour
         useFixedPosTileType = new Dictionary<Vector2, FixedTile>();
         blinkMapList = new List<Map>();
         timeLimitMapList = new List<Map>();
+        switchEnableMapList = new List<Map>();
     }
 
     // 맵 변수 초기화
@@ -301,7 +358,7 @@ public class MapManager : MonoBehaviour
                 if (useFixedPosMapType.ContainsKey(targetPos))
                     isFixedMapAndTeleport = true;
             } while (targetPos == new Vector2(0, gridHeight - 1) || targetPos == new Vector2(-1, gridHeight - 1) || isFixedMapAndTeleport || 
-            useFixedPosTileType.Keys.Contains(targetPos) || !tiles.ContainsKey(targetPos));
+            useFixedPosTileType.Keys.Contains(targetPos) || !tiles[targetPos].gameObject.activeSelf);
 
             useFixedPosTileType.Add(targetPos, new FixedTile() { mapType = fm.tile.mapType, limitTime= fm.tile.limitTime }) ;
         }
@@ -386,18 +443,26 @@ public class MapManager : MonoBehaviour
     }
 
     // 맵 구조 변경
-    public void RandomDestroyMap(int count = -1, bool breakAnim = false)
+    public IEnumerator RandomDestroyMap(int count = -1, bool breakAnim = false, Action onEnd = null)
     {
         if (count < 0)
             count = maxDestroyCount;
 
         List<Map> mapList = tiles.Values.ToList();
 
+
+        for (int i = 0; i < switchEnableMapList.Count; i++)
+        {
+            mapList.Remove(switchEnableMapList[i]);
+        }
+
         List<Vector2> fixedPosMapList = useFixedPosMapType.Keys.ToList();
         for (int i = 0; i < fixedPosMapList.Count; i++)
         {
             mapList.Remove(tiles[fixedPosMapList[i]]);
         }
+
+        int defaultCount = count+1;
 
         int mapCount = mapList.Count;
         for (int i = 0; i < mapCount && count > 0; i++)
@@ -411,17 +476,28 @@ public class MapManager : MonoBehaviour
                     count--;
                     if(breakAnim)
                     {
-                        BreakMap(map);
+                        bool isEnd = false;
+                        float speed = 1f + Mathf.Clamp((float)(defaultCount - count), 0f, 3f);
+
+                        mapCvsFollow.targetTrm = map.transform;
+                        mapCvsFollow.Follow(speed, onEndAnim: () => {
+                            BreakMap(map, 0.7f / speed, () => { isEnd = true; });
+                        });
+                        yield return new WaitUntil(() => isEnd);
+                        //BreakMap(map);
                     }
                     else
                     {
-                        DestroyMap(map);
+                        switchEnableMapList.Add(map);
+                        //DestroyMap(map);
                         map.gameObject.SetActive(false);
                         //Destroy(map.gameObject);
                     }
                 }
             }
         }
+        onEnd?.Invoke();
+        yield return null;
     }
     //  부술수 있는지 체크
     public bool CheckCanDestroy(Map map)
