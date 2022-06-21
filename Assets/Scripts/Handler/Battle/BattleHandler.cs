@@ -630,7 +630,7 @@ public class BattleHandler : MonoBehaviour
     // 전투가 끝날 때
     private void BattleEnd(bool isWin = true)
     {
-        GameManager.Instance.battleHandler.battleEvent.ActionEvent(EventTime.EndOfTurn);
+        StartCoroutine(GameManager.Instance.battleHandler.battleEvent.ActionEvent(EventTime.EndBattle));
 
         canPause = false;
         isBattle = false;
