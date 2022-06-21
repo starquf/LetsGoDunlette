@@ -17,11 +17,13 @@ public class Skill_N_Bamboo_Spear : SkillPiece
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         BattleHandler bh = GameManager.Instance.battleHandler;
+        InventoryHandler ih = GameManager.Instance.inventoryHandler;
 
         EffectObj effectObj = PoolManager.GetItem<EffectObj>();
         effectObj.SetSprite(bambooSpear);
         effectObj.SetScale(Vector3.one * 2f);
-        effectObj.transform.position = bh.bottomPos.position;
+        effectObj.SetColorGradient(ih.effectGradDic[currentType]);
+        effectObj.transform.position = Owner.transform.position;
 
         effectObj.Play(target.transform.position, type:BezierType.Linear, onEndEffect:() => 
         {
@@ -37,10 +39,10 @@ public class Skill_N_Bamboo_Spear : SkillPiece
             onCastEnd?.Invoke();
 
             effectObj.EndEffect();
-        });
+        }, playSpeed:2f);
 
         animHandler.GetAnim(AnimName.SkillEffect01)
-        .SetPosition(bh.bottomPos.position + Vector3.up * 1f)
+        .SetPosition(Owner.transform.position + Vector3.up * 1f)
         .SetScale(1.5f)
         .SetRotation(Vector3.forward * 90f)
         .Play(() =>
