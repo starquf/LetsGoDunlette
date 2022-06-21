@@ -1,18 +1,19 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class Skill_C_Boomerang : SkillPiece
 {
     private int originValue = 0;
     private EventInfo eventInfo;
+    public Text counterText;
 
     protected override void Start()
     {
         base.Start();
         originValue = value;
-
+        counterText.text = GetDamageCalc().ToString();
         GameManager.Instance.battleHandler.battleEvent.RemoveEventInfo(eventInfo);
-
 
         eventInfo = new NormalEvent(new Action<Action>(ResetValue), EventTime.EndBattle);
         GameManager.Instance.battleHandler.battleEvent.BookEvent(eventInfo);
@@ -28,7 +29,9 @@ public class Skill_C_Boomerang : SkillPiece
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         target.GetDamage(GetDamageCalc());
+
         value++;
+        counterText.text = GetDamageCalc().ToString();
 
         animHandler.GetTextAnim()
                .SetType(TextUpAnimType.Up)
@@ -48,6 +51,7 @@ public class Skill_C_Boomerang : SkillPiece
     private void ResetValue(Action action) //전투가 끝나면 피해가 초기화
     {
         value = originValue;
+        counterText.text = GetDamageCalc().ToString();
         action?.Invoke();
     }
 }
