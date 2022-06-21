@@ -870,7 +870,17 @@ public class MapManager : MonoBehaviour
         List<Map> maps = tiles.Values.ToList();
         for (int i = 0; i < maps.Count; i++)
         {
-            maps[i].SetTileSprite(tileSpriteList[Random.Range(0, 6) + (GameManager.Instance.StageIdx * 7)]);
+            Map map = maps[i];
+            int idx = 0;
+            if (blinkMapList.Contains(map))
+            {
+                idx = 5;
+            }
+            else
+            {
+                idx = Random.Range(0, 6);
+            }
+            maps[i].SetTileSprite(tileSpriteList[idx  + (GameManager.Instance.StageIdx * 7)]);
         }
     }
 
