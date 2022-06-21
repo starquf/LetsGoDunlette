@@ -14,44 +14,55 @@ public class Skill_C_Shield_Throwing : SkillPiece
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
         LivingEntity health = Owner.GetComponent<LivingEntity>();
+
         InventoryHandler ih = GameManager.Instance.inventoryHandler;
 
         if (health.HasShield())
         {
-            int shield = health.GetShieldHp();
+            int shieldDamage = health.GetShieldHp();
 
-            target.GetDamage(shield);
             health.RemoveShield();
 
-            shield = Mathf.Clamp(shield / 3, 1, 10);
+            int shield = Mathf.Clamp(shieldDamage / 3, 1, 10);
 
             for (int i = 0; i < shield; i++)
             {
+                int a = i;
+
                 EffectObj effect = PoolManager.GetItem<EffectObj>();
                 effect.SetSprite(GameManager.Instance.buffIcons[0]);
                 effect.SetColorGradient(ih.effectGradDic[currentType]);
+                effect.SetScale(Vector3.one * 4f);
 
-                effect.transform.position = skillIconImg.transform.position;
+                effect.transform.position = Owner.transform.position;
 
-                effect.transform.DOMove(UnityEngine.Random.insideUnitCircle * 1.5f, 0.4f)
-                    .SetRelative();
+                effect.transform.DOMove(UnityEngine.Random.insideUnitCircle * 1.4f, 0.25f)
+                .SetRelative();
 
                 effect.Play(target.transform.position, () =>
                 {
-                    GameManager.Instance.cameraHandler.ShakeCamera(0.5f + (i * 0.1f), 0.2f);
+                    GameManager.Instance.cameraHandler.ShakeCamera(2.5f + (a * 0.1f), 0.2f);
+
+                    animHandler.GetAnim(AnimName.M_Butt)
+                    .SetPosition(target.transform.position)
+                    .SetScale(1f)
+                    .Play();
+
+                    if (a == shield - 1)
+                    {
+                        target.GetDamage(shieldDamage);
+
+                        onCastEnd?.Invoke();
+                    }
 
                     effect.EndEffect();
                 }
-                , BezierType.Quadratic, 0.4f, isRotate:true);
+                , BezierType.Quadratic, isRotate:true, playSpeed:2.15f, delay:0.25f);
             }
         }
-
-        animHandler.GetAnim(AnimName.E_ManaSphereHit)
-            .SetScale(0.5f)
-            .SetPosition(skillIconImg.transform.position)
-            .Play(() =>
-            {
-                onCastEnd?.Invoke();
-            });
+        else
+        {
+            onCastEnd?.Invoke();
+        }
     }
 }
