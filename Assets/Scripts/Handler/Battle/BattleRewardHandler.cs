@@ -4,15 +4,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+[Serializable]
+    public struct RewardChance
+    {
+        public int gradeOne;
+        public int gradeTwo;
+        public int gradeThree;
+    }
+
 public class BattleRewardHandler : MonoBehaviour
 {
-    private List<GameObject> rewardObjs = new List<GameObject>();
-
     private InventoryHandler invenHandler;
     private InventoryInfoHandler invenInfo;
     private BattleHandler battleHandler;
 
     public BattleRewardUIHandler battleRewardUI;
+
+    public List<RewardChance> rewardChances;
 
     #region WaitForSeconds
 
@@ -121,11 +129,6 @@ public class BattleRewardHandler : MonoBehaviour
         });
     }
 
-    public void Init(List<GameObject> rewardObjs)
-    {
-        this.rewardObjs = rewardObjs;
-    }
-
     public void GiveReward()
     {
         StartCoroutine(ResetInventory(() =>
@@ -157,7 +160,32 @@ public class BattleRewardHandler : MonoBehaviour
 
     private void RewardRoutine()
     {
-        List<SkillPiece> rewards = SetReward(rewardObjs, 3);
+        List<SkillPiece> rewards = null;
+        int playerLevel = (int)Mathf.Clamp(GameManager.Instance.GetPlayer().PlayerLevel - 1, 0, Mathf.Infinity);
+
+        List<SkillPiece> skills = null;
+
+        switch (GameManager.Instance.curEncounter)
+        {
+            case mapNode.BOSS: //보스 보상 선택은 3성 조각 3개 확정
+                skills = GameManager.Instance.skillContainer.GetSkillsByGrade(GradeInfo.Legend);
+                rewards = SetReward(skills, 3);
+                break;
+            case mapNode.EMONSTER: //엘리트 보상 선택은 2성 조각 1개 확정
+                skills = GameManager.Instance.skillContainer.GetSkillsByGrade(GradeInfo.Epic);
+                rewards = SetReward(skills, 1);
+
+                foreach (var item in GameManager.Instance.skillContainer.GetSkillsByChance(rewardChances[playerLevel], 2))
+                {
+                    rewards.Add(item);
+                }
+
+                break;
+            case mapNode.MONSTER:
+                rewards = GameManager.Instance.skillContainer.GetSkillsByChance(rewardChances[playerLevel], 3);
+                //rewards = SetReward(rewardObjs, 3);
+                break;
+        }
 
         battleRewardUI.ShowWinEffect(() =>
         {
@@ -180,7 +208,7 @@ public class BattleRewardHandler : MonoBehaviour
         battleRewardUI.createdReward.Clear();
     }
 
-    private List<SkillPiece> SetReward(List<GameObject> rewardObjs, int rewardCnt = 8)
+    private List<SkillPiece> SetReward(List<SkillPiece> rewardObjs, int rewardCnt = 8)
     {
         if (rewardObjs.Count < rewardCnt)
         {

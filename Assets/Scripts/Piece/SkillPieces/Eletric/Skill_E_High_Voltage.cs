@@ -21,7 +21,7 @@ public class Skill_E_High_Voltage : SkillPiece
             a?.Invoke();
         };
 
-        normalEvent = new NormalEvent(true, 1, highVolatge, EventTime.EndOfTurn);
+        normalEvent = new NormalEvent(true, 2, highVolatge, EventTime.EndOfTurn);
     }
     public override List<DesIconInfo> GetDesIconInfo()
     {

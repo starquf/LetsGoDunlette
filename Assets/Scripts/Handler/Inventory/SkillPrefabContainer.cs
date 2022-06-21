@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class SkillPrefabContainer : MonoBehaviour
 {
@@ -41,6 +42,105 @@ public class SkillPrefabContainer : MonoBehaviour
         }
 
         GameManager.Instance.skillContainer = this;
+    }
+
+    public List<SkillPiece> GetSkillsByGrade(GradeInfo gradeInfo)
+    {
+        List<SkillPiece> skills = new List<SkillPiece>();
+
+        for (int i = 0; i < playerSkillPrefabs.Count; i++)
+        {
+            SkillPiece piece = playerSkillPrefabs[i].GetComponent<SkillPiece>();
+            if(piece.skillGrade == gradeInfo)
+            {
+                skills.Add(piece);
+            }
+        }
+
+        return skills;
+    }
+
+    public List<SkillPiece> GetSkillsByElement(ElementalType elementalType)
+    {
+        List<SkillPiece> skills = new List<SkillPiece>();
+
+        for (int i = 0; i < playerSkillPrefabs.Count; i++)
+        {
+            SkillPiece piece = playerSkillPrefabs[i].GetComponent<SkillPiece>();
+            if (piece.patternType == elementalType)
+            {
+                skills.Add(piece);
+            }
+        }
+
+        return skills;
+    }
+
+    public SkillPiece GetSkillByChance(RewardChance chance)
+    {
+        int gradeOne = chance.gradeOne;
+        int gradeTwo = chance.gradeTwo;
+        int gradeThree = chance.gradeThree;
+
+        SkillPiece skill = null;
+        List<SkillPiece> skills = null;
+        int random = Random.Range(0, gradeOne + gradeTwo + gradeThree);
+
+        if (random <= gradeOne)
+        {
+            skills = GetSkillsByGrade(GradeInfo.Normal);
+            skill = skills[Random.Range(0, skills.Count)];
+        }
+        else if (random <= gradeOne + gradeTwo)
+        {
+            skills = GetSkillsByGrade(GradeInfo.Epic);
+            skill = skills[Random.Range(0, skills.Count)];
+        }
+        else if (random <= gradeOne + gradeTwo + gradeThree)
+        {
+            skills = GetSkillsByGrade(GradeInfo.Legend);
+            skill = skills[Random.Range(0, skills.Count)];
+        }
+
+        return skill;
+    }
+
+    public List<SkillPiece> GetSkillsByChance(RewardChance chance, int count)
+    {
+        int gradeOne = chance.gradeOne;
+        int gradeTwo = chance.gradeTwo;
+        int gradeThree = chance.gradeThree;
+
+        List<SkillPiece> result = new List<SkillPiece>();
+        List<SkillPiece> skills = null;
+
+        for (int i = 1; i <= count; i++)
+        {
+            int random = Random.Range(0, gradeOne + gradeTwo + gradeThree);
+
+            if (random <= gradeOne)
+            {
+                skills = GetSkillsByGrade(GradeInfo.Normal);
+            }
+            else if (random <= gradeOne + gradeTwo)
+            {
+                skills = GetSkillsByGrade(GradeInfo.Epic);
+            }
+            else if (random <= gradeOne + gradeTwo + gradeThree)
+            {
+                skills = GetSkillsByGrade(GradeInfo.Legend);
+            }
+
+            int index = Random.Range(0, skills.Count - i);
+
+            result.Add(skills[index]);
+            var temp = skills[skills.Count - i];
+            skills[skills.Count - i] = skills[index];
+            skills[index] = temp;
+        }
+        
+
+        return result;
     }
 
     public GameObject GetSkillPrefab<T>() where T : SkillPiece
