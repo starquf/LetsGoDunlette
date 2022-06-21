@@ -8,6 +8,7 @@ public enum EventTime //노말 이벤트들
     StartTurn, //턴 시작 할때
     EndOfTurn, //턴 끝날때
     BeginBattle,//배틀 시작할때
+    EndBattle, //배틀 끝날때
 }
 
 public enum EventTimeSkill //스킬 이벤트들
