@@ -98,7 +98,7 @@ public class SkillPrefabContainer : MonoBehaviour
         }
         else if (random <= gradeOne + gradeTwo + gradeThree)
         {
-            skills = GetSkillsByGrade(GradeInfo.True6StarMythAwakeningLegendTranscendentReincarnation);
+            skills = GetSkillsByGrade(GradeInfo.Legend);
             skill = skills[Random.Range(0, skills.Count)];
         }
 
@@ -128,7 +128,7 @@ public class SkillPrefabContainer : MonoBehaviour
             }
             else if (random <= gradeOne + gradeTwo + gradeThree)
             {
-                skills = GetSkillsByGrade(GradeInfo.True6StarMythAwakeningLegendTranscendentReincarnation);
+                skills = GetSkillsByGrade(GradeInfo.Legend);
             }
 
             int index = Random.Range(0, skills.Count - i);
