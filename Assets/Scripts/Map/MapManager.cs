@@ -58,11 +58,18 @@ public class FixedMapRangeRandom
 }
 
 [Serializable]
+public class FixedTile
+{
+    public mapTileEvent mapType;
+    public int limitTime;
+}
+
+[Serializable]
 public class FixedTileRangeRandom
 {
     public Vector2 minPos;
     public Vector2 maxPos;
-    public mapTileEvent tileType;
+    public FixedTile tile;
 }
 
 public class MapManager : MonoBehaviour
@@ -99,7 +106,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private List<mapNode> canNotLinkMapType = new List<mapNode>();
     //[SerializeField] SerializableDictionary<mapNode, int> fixedMapTypeCount = new SerializableDictionary<mapNode, int>();
     private Dictionary<Vector2, FixedMap> useFixedPosMapType = new Dictionary<Vector2, FixedMap>();
-    private Dictionary<Vector2, mapTileEvent> useFixedPosTileType = new Dictionary<Vector2, mapTileEvent>();
+    private Dictionary<Vector2, FixedTile> useFixedPosTileType = new Dictionary<Vector2, FixedTile>();
     [SerializeField] private SerializableDictionary<Vector2, FixedMap> fixedPosMapType = new SerializableDictionary<Vector2, FixedMap>();
     [SerializeField] private List<FixedMapRangeRandom> fixedRangeMapType = new List<FixedMapRangeRandom>();
     [SerializeField] private List<FixedTileRangeRandom> fixedRangeTileType = new List<FixedTileRangeRandom>();
@@ -156,53 +163,85 @@ public class MapManager : MonoBehaviour
         }*/
     }
 
-    // 변경되는 맵 타일 이벤트 순차 실행
-    public IEnumerator ChageMapDeration()
+    public void SetAllBlink()
     {
-        float time = 0.5f;
+        for (int i = 0; i < blinkMapList.Count; i++)
+        {
+            blinkMapList[i].BlinkMap();
+        }
+    }
 
-        int count = 0;
+    // 변경되는 맵 타일 이벤트 순차 실행
+    public IEnumerator ChageMapDeration(Action onEnd = null)
+    {
+        bool isEnd = false;
+
+        int count = 1;
 
         for (int i = 0; i < timeLimitMapList.Count; i++)
         {
-            mapCvsFollow.targetTrm = timeLimitMapList[i].transform;
-            float rtime = time * (float)Mathf.Clamp(10 - count, 1, 10) / 10f;
+            Map map = timeLimitMapList[i];
+            if (curMap == map)
+                continue;
+            mapCvsFollow.targetTrm = map.transform;
+            float speed = 1f + Mathf.Clamp((float)count, 0f, 3f);
 
-
-            yield return new WaitForSeconds(rtime * 1.1f);
+            isEnd = false;
+            mapCvsFollow.Follow(speed, onEndAnim: () => {
+                map.UpdateLimitTime(time: 0.5f / speed, onEnd: () =>
+                {
+                    isEnd = true;
+                });
+            });
+            yield return new WaitUntil(()=>isEnd);
             count++;
         }
-        count = 0;
+        count = 1;
         for (int i = 0; i < blinkMapList.Count; i++)
         {
-            mapCvsFollow.targetTrm = blinkMapList[i].transform;
-            float rtime = time * (float)Mathf.Clamp(10 - count, 1, 10) / 10f;
+            Map map = blinkMapList[i];
+            if (curMap == map)
+                continue;
+            mapCvsFollow.targetTrm = map.transform;
+            float speed = 1f + Mathf.Clamp((float)count, 0f, 3f);
 
-
-            yield return new WaitForSeconds(rtime * 1.1f);
+            isEnd = false;
+            mapCvsFollow.Follow(speed, onEndAnim: () => {
+                map.BlinkMap(0.7f/speed,onEndEvent: () => { isEnd = true; });
+            });
+            yield return new WaitUntil(() => isEnd);
             count++;
         }
-        yield return null;
-        mapCvsFollow.targetTrm = playerTrm;
+
+        if (mapCvsFollow.targetTrm != playerTrm)
+        {
+            mapCvsFollow.targetTrm = playerTrm;
+            isEnd = false;
+            mapCvsFollow.Follow(onEndAnim:()=> { isEnd = true; });
+            yield return new WaitUntil(() => isEnd);
+        }
+        onEnd?.Invoke();
     }
 
     // 맵 시작
     public void StartMap(mapNode mapType)
     {
-        StartCoroutine(ChageMapDeration());
-
-        switch (mapType)
+        StartCoroutine(ChageMapDeration(()=>
         {
-            case mapNode.TELEPORT:
-                MovePlayer(curMap.teleportMap, null, false, moveType.TELEPORT);
-                break;
-            case mapNode.SWITCH:
-                break;
-            default:
-                ZoomCamera(15f, time: 0.7f, ease: Ease.InOutSine);
-                encounterHandler.StartEncounter(mapType);
-                break;
-        }
+            switch (mapType)
+            {
+                case mapNode.TELEPORT:
+                    MovePlayer(curMap.teleportMap, null, false, moveType.TELEPORT);
+                    break;
+                case mapNode.SWITCH:
+                    break;
+                default:
+                    ZoomCamera(15f, time: 0.7f, ease: Ease.InOutSine);
+                    encounterHandler.StartEncounter(mapType);
+                    break;
+            }
+        }));
+
     }
 
     // 맵 만들어지고 맨처음에 이동
@@ -229,7 +268,7 @@ public class MapManager : MonoBehaviour
     private void CopyFixed()
     {
         useFixedPosMapType = new Dictionary<Vector2, FixedMap>(fixedPosMapType);
-        useFixedPosTileType = new Dictionary<Vector2, mapTileEvent>();
+        useFixedPosTileType = new Dictionary<Vector2, FixedTile>();
         blinkMapList = new List<Map>();
         timeLimitMapList = new List<Map>();
     }
@@ -243,6 +282,7 @@ public class MapManager : MonoBehaviour
         Debug.Log("Stage :" + GameManager.Instance.StageIdx);
         bossCloudImage.sprite = bossCloudSpriteList[GameManager.Instance.StageIdx];
         bossEffectAnimator.SetInteger("Stage", GameManager.Instance.StageIdx);
+        SetAllBlink();
     }
 
     public void RandomRangeTileSet()
@@ -251,22 +291,25 @@ public class MapManager : MonoBehaviour
         {
             FixedTileRangeRandom fm = fixedRangeTileType[i];
             Vector2 targetPos;
+            bool isFixedMapAndTeleport = false;
             do
             {
+                isFixedMapAndTeleport = false;
                 int targetX = Random.Range((int)fm.minPos.x, (int)fm.maxPos.x + 1);
                 int targetY = Random.Range((int)fm.minPos.y, (int)fm.maxPos.y + 1);
                 targetPos = new Vector2(targetX, targetY);
-            } while (targetPos == new Vector2(0, gridHeight - 1) || targetPos == new Vector2(-1, gridHeight - 1) || 
-            useFixedPosMapType.ContainsKey(targetPos) ? useFixedPosMapType[targetPos].mapType == mapNode.TELEPORT : false || 
+                if (useFixedPosMapType.ContainsKey(targetPos))
+                    isFixedMapAndTeleport = true;
+            } while (targetPos == new Vector2(0, gridHeight - 1) || targetPos == new Vector2(-1, gridHeight - 1) || isFixedMapAndTeleport || 
             useFixedPosTileType.Keys.Contains(targetPos) || !tiles.ContainsKey(targetPos));
 
-            useFixedPosTileType.Add(targetPos, fm.tileType);
+            useFixedPosTileType.Add(targetPos, new FixedTile() { mapType = fm.tile.mapType, limitTime= fm.tile.limitTime }) ;
         }
 
         List<Vector2> mapTileEventList = useFixedPosTileType.Keys.ToList();
         for (int i = 0; i < mapTileEventList.Count; i++)
         {
-            switch (useFixedPosTileType[mapTileEventList[i]])
+            switch (useFixedPosTileType[mapTileEventList[i]].mapType)
             {
                 case mapTileEvent.NONE:
                     break;
@@ -274,7 +317,15 @@ public class MapManager : MonoBehaviour
                     blinkMapList.Add(tiles[mapTileEventList[i]]);
                     break;
                 case mapTileEvent.TIMELIMIT:
-                    timeLimitMapList.Add(tiles[mapTileEventList[i]]);
+                    int limitTime = useFixedPosTileType[mapTileEventList[i]].limitTime;
+                    if(limitTime<=0)
+                    {
+                        Debug.LogError("타임리미트 타일의 리미트타임 설정이 0 보다 작습니다.");
+                        continue;
+                    }
+                    Map map = tiles[mapTileEventList[i]];
+                    map.SetLimitTime(limitTime);
+                    timeLimitMapList.Add(map);
                     break;
                 default:
                     break;
@@ -446,6 +497,7 @@ public class MapManager : MonoBehaviour
             //playerFollowCam.gameObject.SetActive(true);
             if (first)
             {
+                SetInteractebleAllMap();
                 SetPlayerStartPos(tiles[new Vector2(-1, gridHeight - 1)]);
             }
             OpenMapPanel(true, first, time: time, OnComplete: () =>
@@ -523,6 +575,7 @@ public class MapManager : MonoBehaviour
     // 플레이어 이동 연출
     public void MovePlayer(Map map, Action onComplete = null, bool counting = false, moveType type = moveType.JUMP)
     {
+        SetInteractebleAllMap();
         if (counting)
         {
             bossCount--;
@@ -894,15 +947,26 @@ public class MapManager : MonoBehaviour
         mapCvsGroup.interactable = enable;
     }
 
-    // 연결된 맵만 활성화 해주는거
-    public void SetInteractebleCanSelectMap()
+    public void SetInteractebleAllMap()
     {
         List<Map> mapList = tiles.Values.ToList();
         for (int i = 0; i < mapList.Count; i++)
         {
             Color c = mapList[i].mapIcon.color;
-            mapList[i].SetInteracteble(curMap.linkedMoveAbleMap.Contains(mapList[i]));
+            mapList[i].SetInteracteble(false);
             mapList[i].mapIcon.color = c.a == 0 ? c : mapList[i].mapIcon.color;
+        }
+    }
+
+    // 연결된 맵만 활성화 해주는거
+    public void SetInteractebleCanSelectMap()
+    {
+        for (int i = 0; i < curMap.linkedMoveAbleMap.Count; i++)
+        {
+            Map map = curMap.linkedMoveAbleMap[i];
+            Color c = curMap.linkedMoveAbleMap[i].mapIcon.color;
+            map.SetInteracteble(true);
+            map.mapIcon.color = c.a == 0 ? c : map.mapIcon.color;
         }
     }
 
@@ -939,7 +1003,7 @@ public class MapManager : MonoBehaviour
     }
 
     // 맵 부셔지는 연출
-    public void BreakMap(Map map)
+    public void BreakMap(Map map, float time = 0.5f, Action onEnd = null)
     {
         if (map == null)
         {
@@ -950,12 +1014,13 @@ public class MapManager : MonoBehaviour
         Vector2 mapPosition = map.transform.position;
 
         DOTween.Sequence()
-            .Append(map.GetComponent<CanvasGroup>().DOFade(0, 0.5f))
-            .Join(map.transform.DOLocalMoveY(map.transform.localPosition.y - 0.5f, 0.5f))
+            .Append(map.GetComponent<CanvasGroup>().DOFade(0, time))
+            .Join(map.transform.DOLocalMoveY(map.transform.localPosition.y - 0.5f, time))
             .OnComplete(() =>
             {
                 map.gameObject.SetActive(false);
                 //Destroy(map.gameObject);
+                onEnd?.Invoke();
             });
     }
 
