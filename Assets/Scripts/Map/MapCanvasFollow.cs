@@ -7,6 +7,8 @@ public class MapCanvasFollow : MonoBehaviour
 {
     [HideInInspector] public Transform targetTrm;
 
+    [SerializeField] private Transform followTrm;
+
     public float followSpeed;
 
     private RectTransform rectTrm;
@@ -32,8 +34,8 @@ public class MapCanvasFollow : MonoBehaviour
 
     public void FollowSkip()
     {
-        Vector2 position = transform.position - (targetTrm == null ? Vector3.zero : targetTrm.position);
-        transform.position = position;
+        Vector2 position = followTrm.position - (targetTrm == null ? Vector3.zero : targetTrm.position);
+        followTrm.position = position;
     }
 
     public void Follow(float speedScale = 1, Action onEndAnim = null)
@@ -48,13 +50,13 @@ public class MapCanvasFollow : MonoBehaviour
 
     private IEnumerator FollowAnim(float speedScale, Action onEndAnim)
     {
-        Vector2 position = transform.position - (targetTrm == null ? Vector3.zero : targetTrm.position);
-        float dist = Vector2.Distance(position, transform.position);
+        Vector2 position = followTrm.position - (targetTrm == null ? Vector3.zero : targetTrm.position);
+        float dist = Vector2.Distance(position, followTrm.position);
         while (dist > 0.01)
         {
-            dist = Vector2.Distance(position, transform.position);
+            dist = Vector2.Distance(position, followTrm.position);
 
-            transform.position = Vector2.Lerp(transform.position, position, Time.deltaTime * followSpeed * speedScale);
+            followTrm.position = Vector2.Lerp(followTrm.position, position, Time.deltaTime * followSpeed * speedScale);
             yield return null;
         }
         onEndAnim?.Invoke();
