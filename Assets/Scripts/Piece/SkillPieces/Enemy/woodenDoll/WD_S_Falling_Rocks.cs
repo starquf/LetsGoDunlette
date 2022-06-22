@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 public class WD_S_Falling_Rocks : SkillPiece
 {
-    private int percent = 30;
+    public int percent = 30;
 
     private readonly Vector3 reverseSize = new Vector3(-2f, 2f, 2f);
 
