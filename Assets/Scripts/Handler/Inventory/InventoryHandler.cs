@@ -425,6 +425,27 @@ public class InventoryHandler : MonoBehaviour
         Owner.skills.Clear();
     }
 
+    public void RemoveAllDisposable(Inventory Owner)
+    {
+        for (int i = skills.Count - 1; i >= 0; i--)
+        {
+            SkillPiece piece = skills[i];
+
+            if (piece.Owner == Owner)
+            {
+                // ·ê·¿ ¾È¿¡ ÀÖ´Â °Å¸é
+                if (!piece.IsInRullet)
+                {
+                    if (piece.isDisposable)
+                    {
+                        RemovePiece(piece);
+                        SetCountUI();
+                    }
+                }
+            }
+        }
+    }
+
     public void CreateSkillEffect(SkillPiece piece, Vector3 pos)
     {
         //print("ÀÌÆåÆ® »ý¼ºÁß!!!");
