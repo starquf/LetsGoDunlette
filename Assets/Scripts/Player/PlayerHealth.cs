@@ -24,8 +24,11 @@ public class PlayerHealth : LivingEntity
     protected override void Awake()
     {
         base.Awake();
-        GameManager.Instance.battleHandler.player = this;
-        cc.isPlayer = true;
+
+        if (cc != null)
+        {
+            cc.isPlayer = true;
+        }
 
         PlayerLevel = 1;
         CurrentExp = 0;
@@ -34,6 +37,16 @@ public class PlayerHealth : LivingEntity
         atkLevel = 0;
         hpLevel = 0;
         maxPieceLevel = 0;
+    }
+
+    protected override void Start()
+    {
+        if (GameManager.Instance.battleHandler != null)
+        {
+            base.Start();
+
+            GameManager.Instance.battleHandler.player = this;
+        }
     }
 
     public override void Init()

@@ -69,19 +69,26 @@ public class PieceDesUIHandler : MonoBehaviour
             desText.gameObject.SetActive(true);
         }
 
-        confirmBtn.gameObject.SetActive(false);
+        if (confirmBtn != null)
+        {
+            confirmBtn.gameObject.SetActive(false);
+        }
 
         ShowPanel(true);
     }
 
     private void ShowDesIcon(List<DesIconInfo> desInfos, SkillPiece skillPiece)
     {
+        int count = 0;
+        skillIconTrans.gameObject.SetActive(true);
+
         for (int i = 0; i < 3; i++)
         {
             DesIconType type = desInfos[i].iconType;
 
             if (type.Equals(DesIconType.None))
             {
+                count++;
                 desIcons[i].gameObject.SetActive(false);
                 continue;
             }
@@ -90,9 +97,14 @@ public class PieceDesUIHandler : MonoBehaviour
                 desIcons[i].gameObject.SetActive(true);
             }
 
-            Sprite icon = GameManager.Instance.battleHandler.battleUtil.GetDesIcon(skillPiece, type);
+            Sprite icon = GetDesIcon(skillPiece, type);
 
             desIcons[i].SetIcon(icon, desInfos[i].value);
+        }
+
+        if (count >= 3)
+        {
+            skillIconTrans.gameObject.SetActive(false);
         }
     }
 
@@ -108,5 +120,27 @@ public class PieceDesUIHandler : MonoBehaviour
         cg.alpha = enable ? 1f : 0f;
         cg.blocksRaycasts = enable;
         cg.interactable = enable;
+    }
+
+    public Sprite GetDesIcon(SkillPiece skillPiece, DesIconType type)
+    {
+        Sprite icon = null;
+
+        icon = type switch
+        {
+            DesIconType.Attack => GameManager.Instance.inventoryHandler.effectSprDic[skillPiece.currentType],
+            DesIconType.Stun => GameManager.Instance.ccIcons[0],
+            DesIconType.Silence => GameManager.Instance.ccIcons[1],
+            DesIconType.Exhausted => GameManager.Instance.ccIcons[2],
+            DesIconType.Wound => GameManager.Instance.ccIcons[3],
+            DesIconType.Invincibility => GameManager.Instance.ccIcons[4],
+            DesIconType.Fascinate => GameManager.Instance.ccIcons[5],
+            DesIconType.Heating => GameManager.Instance.ccIcons[6],
+            DesIconType.Shield => GameManager.Instance.buffIcons[0],
+            DesIconType.Heal => GameManager.Instance.buffIcons[1],
+            DesIconType.Upgrade => GameManager.Instance.buffIcons[2],
+            _ => null,
+        };
+        return icon;
     }
 }

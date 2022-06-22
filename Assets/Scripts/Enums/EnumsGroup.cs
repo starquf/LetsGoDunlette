@@ -196,3 +196,13 @@ public enum GradeInfo
     Epic = 2,
     Legend = 3
 }
+
+[System.Flags]
+public enum GradeRange
+{
+    None = 0,
+    Normal = 1 << 0,
+    Epic = 1 << 1,
+    Legend = 1 << 2,
+    All = int.MaxValue
+}

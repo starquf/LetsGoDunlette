@@ -10,6 +10,7 @@ public class LobbyScrollHandler : MonoBehaviour, IBeginDragHandler, IDragHandler
     private Scrollbar scroll;
 
     public List<CanvasGroup> panels = new List<CanvasGroup>();
+
     public List<Button> panelBtns = new List<Button>();
 
     private float distance;
@@ -22,6 +23,7 @@ public class LobbyScrollHandler : MonoBehaviour, IBeginDragHandler, IDragHandler
 
     private Tween moveTween;
 
+    [SerializeField]
     public LobbyUIPanel lobbyPanel;
 
     private void Awake()
