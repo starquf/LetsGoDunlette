@@ -21,11 +21,20 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     {
         get
         {
-            int atkPower = attackPower + addtionAttackPower + cc.buffDic[BuffType.Upgrade];
+            int atkPower = 0;
 
-            if (cc.IsCC(CCType.Exhausted))
+            if (cc != null)
             {
-                atkPower = Mathf.RoundToInt(atkPower * 0.75f);
+                atkPower = attackPower + addtionAttackPower + cc.buffDic[BuffType.Upgrade];
+
+                if (cc.IsCC(CCType.Exhausted))
+                {
+                    atkPower = Mathf.RoundToInt(atkPower * 0.75f);
+                }
+            }
+            else 
+            {
+                atkPower = attackPower + addtionAttackPower;
             }
 
             return atkPower;
@@ -61,16 +70,19 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     {
         cc = GetComponent<CrowdControl>();
 
-        Transform bar = hPCvs.transform.Find("HPBar").transform;
-        hpBar = bar.Find("HPBar").GetComponent<Image>();
-        hpBarAfterImageBar = bar.Find("HPAfterImageBar").GetComponent<Image>();
-        hpShieldBar = bar.Find("HPShieldBar").GetComponent<Image>();
-        hpText = bar.Find("hpText").GetComponent<Text>();
-        damageTrans = hpBar.transform.Find("DamageEffect").transform;
+        if (hPCvs != null)
+        {
+            Transform bar = hPCvs.transform.Find("HPBar").transform;
+            hpBar = bar.Find("HPBar").GetComponent<Image>();
+            hpBarAfterImageBar = bar.Find("HPAfterImageBar").GetComponent<Image>();
+            hpShieldBar = bar.Find("HPShieldBar").GetComponent<Image>();
+            hpText = bar.Find("hpText").GetComponent<Text>();
+            damageTrans = hpBar.transform.Find("DamageEffect").transform;
 
-        damageImg = damageTrans.GetComponent<Image>();
-        damageColor = damageImg.color;
-        damageColor = new Color(damageColor.r, damageColor.g, damageColor.b, 1f);
+            damageImg = damageTrans.GetComponent<Image>();
+            damageColor = damageImg.color;
+            damageColor = new Color(damageColor.r, damageColor.g, damageColor.b, 1f);
+        }
     }
 
     protected virtual void Start()

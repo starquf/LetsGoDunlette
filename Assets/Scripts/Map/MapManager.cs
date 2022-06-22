@@ -97,6 +97,9 @@ public class MapManager : MonoBehaviour
     [SerializeField] private List<Sprite> mapIconSpriteList = new List<Sprite>();
     [SerializeField] private List<Sprite> tileSpriteList = new List<Sprite>();
 
+    [SerializeField] private Image mapBg;
+    [SerializeField] private List<Sprite> mapBgSpriteList = new List<Sprite>();
+
     private Image bossCloudImage;
     [SerializeField] private List<Sprite> bossCloudSpriteList = new List<Sprite>();
     [SerializeField] private Animator bossEffectAnimator;
@@ -121,6 +124,8 @@ public class MapManager : MonoBehaviour
     [SerializeField] private int maxDestroyCount = 5;
 
     private EncounterHandler encounterHandler;
+    private BattleHandler battleHandler;
+    private BattleInfoHandler battleInfoHandler;
 
     private void Awake()
     {
@@ -134,6 +139,8 @@ public class MapManager : MonoBehaviour
     private void Start()
     {
         encounterHandler = GameManager.Instance.encounterHandler;
+        battleHandler = GameManager.Instance.battleHandler;
+        battleInfoHandler = battleHandler.GetComponent<BattleInfoHandler>();
         mapGenerator.GenerateGrid(gridHeight, gridWidth, OnGenerateMap);
         GameManager.Instance.OnNextStage += () =>
         {
@@ -340,6 +347,44 @@ public class MapManager : MonoBehaviour
         bossCloudImage.sprite = bossCloudSpriteList[GameManager.Instance.StageIdx];
         bossEffectAnimator.SetInteger("Stage", GameManager.Instance.StageIdx);
         SetAllBlink();
+        SetBossAndMapBG();
+    }
+
+    private void SetBossAndMapBG()
+    {
+        BattleInfo bInfo = battleInfoHandler.GetRandomBossInfo();
+        battleHandler._bossInfo = bInfo;
+
+        int spriteIdx = -1;
+
+        switch (bInfo.enemyInfos[0])
+        {
+            case EnemyType.QUEEN:
+                spriteIdx = 0;
+                break;
+            case EnemyType.REDFOX:
+                spriteIdx = 1;
+                break;
+            case EnemyType.TAROS:
+                spriteIdx = 2;
+                break;
+            case EnemyType.WOODENDOLL:
+                spriteIdx = 3;
+                break;
+            case EnemyType.SARO:
+            case EnemyType.GAR:
+            case EnemyType.DNAM:
+                spriteIdx = 4;
+                break;
+            default:
+                break;
+        }
+        if(spriteIdx<0)
+        {
+            Debug.LogError("해당 보스의 스프라이트가 설정되지 않았습니다.");
+        }
+
+        mapBg.sprite = mapBgSpriteList[spriteIdx];
     }
 
     public void RandomRangeTileSet()
