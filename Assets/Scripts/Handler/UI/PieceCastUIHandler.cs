@@ -218,7 +218,7 @@ public class PieceCastUIHandler : MonoBehaviour
         }
 
         ShowDesIcon(desInfos, skillPiece);
-
+        iconInfoHandler.InitInfo(skillPiece, skillPiece.usedIcons);
         InventoryHandler inven = GameManager.Instance.inventoryHandler;
         strokeImg.sprite = inven.pieceBGStrokeSprDic[skillPiece.currentType];
         targetBGImg.sprite = inven.targetBGSprDic[skillPiece.currentType];
