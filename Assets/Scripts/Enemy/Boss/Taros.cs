@@ -27,9 +27,12 @@ public class Taros : MonoBehaviour
 
         skillEvent = (sp, action) =>
         {
-            patrolCount--;
-            print(patrolCount);
-            patrolCount = (int)Mathf.Clamp(patrolCount, 0, Mathf.Infinity);
+            action += () =>
+            {
+                patrolCount--;
+                patrolCount = (int)Mathf.Clamp(patrolCount, 0, Mathf.Infinity);
+                print(patrolCount);
+            };
 
             if (sp.Owner == owner) // 발동된 스킬이 타로스의 스킬이라면
             {
