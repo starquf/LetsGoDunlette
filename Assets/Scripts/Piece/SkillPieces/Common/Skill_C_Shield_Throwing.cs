@@ -57,7 +57,7 @@ public class Skill_C_Shield_Throwing : SkillPiece
 
                     effect.EndEffect();
                 }
-                , BezierType.Quadratic, isRotate:true, playSpeed:2.15f, delay:0.25f);
+                , BezierType.Quadratic, isRotate: true, playSpeed: 2.15f, delay: 0.25f);
             }
         }
         else

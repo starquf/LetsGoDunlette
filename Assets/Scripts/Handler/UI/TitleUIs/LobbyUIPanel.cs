@@ -1,10 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
-using DG.Tweening;
 
 public class LobbyUIPanel : MainUIPanel
 {
@@ -40,7 +37,8 @@ public class LobbyUIPanel : MainUIPanel
         DOTween.Sequence()
             .AppendInterval(0.5f)
             .Append(playerTrans.DORotate(new Vector3(playerTrans.rotation.x, playerTrans.rotation.y - (360f * 10), playerTrans.rotation.z), 1.3f).SetEase(Ease.OutCubic))
-            .Insert(0.85f, DOTween.To(() => t, value => {
+            .Insert(0.85f, DOTween.To(() => t, value =>
+            {
                 t = value;
                 playerTrans.position = QuadraticBezierPoint(t, startPos, randomPos, endPos.position);
             }
@@ -78,7 +76,7 @@ public class LobbyUIPanel : MainUIPanel
         {
             cg.alpha = enable ? 1f : 0f;
         }
-        else 
+        else
         {
             cg.DOFade(enable ? 1f : 0f, 0.35f);
         }

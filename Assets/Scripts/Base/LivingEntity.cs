@@ -32,7 +32,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
                     atkPower = Mathf.RoundToInt(atkPower * 0.75f);
                 }
             }
-            else 
+            else
             {
                 atkPower = attackPower + addtionAttackPower;
             }

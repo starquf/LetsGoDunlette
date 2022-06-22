@@ -2,9 +2,9 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class Map : MonoBehaviour
 {
@@ -87,7 +87,10 @@ public class Map : MonoBehaviour
     public void SetInteracteble(bool enable)
     {
         if (isBlinked && enable)
+        {
             return;
+        }
+
         button.interactable = enable;
 
         if (mapManager.GetMapIcon(mapType) != null)
@@ -151,7 +154,7 @@ public class Map : MonoBehaviour
 
     public void UpdateLimitTime(bool isSet = false, float time = 0.5f, Action onEnd = null)
     {
-        if(!isSet)
+        if (!isSet)
         {
             timeLimit--;
             StartCoroutine(UpdateLimitTimeAnim(time, onEnd));
@@ -168,7 +171,7 @@ public class Map : MonoBehaviour
 
         yield return new WaitForSeconds(time);
 
-        if(timeLimit <= 0)
+        if (timeLimit <= 0)
         {
             mapManager.BreakMap(this, time, onEnd);
         }

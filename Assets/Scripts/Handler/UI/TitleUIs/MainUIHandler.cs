@@ -2,7 +2,6 @@ using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MainUIHandler : MonoBehaviour
 {
@@ -20,7 +19,7 @@ public class MainUIHandler : MonoBehaviour
         startPanel.ShowPanel(true);
 
         SetFade(true, true);
-        SetFade(false, false, () => 
+        SetFade(false, false, () =>
         {
             startPanel.SetInteract(true);
         });
@@ -43,7 +42,7 @@ public class MainUIHandler : MonoBehaviour
             before.ShowPanel(false);
             after.ShowPanel(true);
 
-            SetFade(false, onFinishFade: () => 
+            SetFade(false, onFinishFade: () =>
             {
                 after.SetInteract(true);
             });
@@ -57,7 +56,7 @@ public class MainUIHandler : MonoBehaviour
             fadeBG.alpha = isFade ? 1f : 0f;
             onFinishFade?.Invoke();
         }
-        else 
+        else
         {
             fadeBG.DOFade(isFade ? 1f : 0f, 0.75f)
                 .SetEase(Ease.Linear)

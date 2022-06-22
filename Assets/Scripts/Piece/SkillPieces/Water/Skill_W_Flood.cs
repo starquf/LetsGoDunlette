@@ -25,7 +25,7 @@ public class Skill_W_Flood : SkillPiece
             {
                 animHandler.GetAnim(AnimName.W_WaterIce04)
                     .SetScale(UnityEngine.Random.Range(1.1f, 1.5f))
-                    .SetPosition(rulletPos + Vector3.up * 0.35f * (a - 5) + Vector3.right * ((a % 2 == 0) ? 2f : -2f) * UnityEngine.Random.Range(-0.5f, 0.5f))
+                    .SetPosition(rulletPos + (Vector3.up * 0.35f * (a - 5)) + (Vector3.right * ((a % 2 == 0) ? 2f : -2f) * UnityEngine.Random.Range(-0.5f, 0.5f)))
                     .Play(() =>
                     {
                         if (a == 10 - 1)

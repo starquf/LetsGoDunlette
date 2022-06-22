@@ -148,7 +148,7 @@ public class MapManager : MonoBehaviour
             mapGenerator.GenerateGrid(gridHeight, gridWidth, OnGenerateMap);
         };
     }
-    
+
     public void ResetMap()
     {
         List<Map> mapList = tiles.Values.ToList();
@@ -186,7 +186,7 @@ public class MapManager : MonoBehaviour
 
         int count = 1;
 
-        for (int i = timeLimitMapList.Count-1; i >= 0; i--)
+        for (int i = timeLimitMapList.Count - 1; i >= 0; i--)
         {
             Map map = timeLimitMapList[i];
             if (curMap == map)
@@ -195,20 +195,21 @@ public class MapManager : MonoBehaviour
                 continue;
             }
             mapCvsFollow.targetTrm = map.transform;
-            float speed = 1f + Mathf.Clamp((float)count, 0f, 3f);
+            float speed = 1f + Mathf.Clamp(count, 0f, 3f);
 
             isEnd = false;
-            mapCvsFollow.Follow(speed, onEndAnim: () => {
+            mapCvsFollow.Follow(speed, onEndAnim: () =>
+            {
                 map.UpdateLimitTime(time: 0.5f / speed, onEnd: () =>
                 {
                     isEnd = true;
                 });
             });
-            yield return new WaitUntil(()=>isEnd);
+            yield return new WaitUntil(() => isEnd);
             count++;
         }
         count = 1;
-        for (int i = blinkMapList.Count-1; i >=0 ; i--)
+        for (int i = blinkMapList.Count - 1; i >= 0; i--)
         {
             Map map = blinkMapList[i];
             if (curMap == map)
@@ -217,11 +218,12 @@ public class MapManager : MonoBehaviour
                 continue;
             }
             mapCvsFollow.targetTrm = map.transform;
-            float speed = 1f + Mathf.Clamp((float)count, 0f, 3f);
+            float speed = 1f + Mathf.Clamp(count, 0f, 3f);
 
             isEnd = false;
-            mapCvsFollow.Follow(speed, onEndAnim: () => {
-                map.BlinkMap(0.7f/speed,onEndEvent: () => { isEnd = true; });
+            mapCvsFollow.Follow(speed, onEndAnim: () =>
+            {
+                map.BlinkMap(0.7f / speed, onEndEvent: () => { isEnd = true; });
             });
             yield return new WaitUntil(() => isEnd);
             count++;
@@ -231,7 +233,7 @@ public class MapManager : MonoBehaviour
         {
             mapCvsFollow.targetTrm = playerTrm;
             isEnd = false;
-            mapCvsFollow.Follow(onEndAnim:()=> { isEnd = true; });
+            mapCvsFollow.Follow(onEndAnim: () => { isEnd = true; });
             yield return new WaitUntil(() => isEnd);
         }
         onEnd?.Invoke();
@@ -243,7 +245,7 @@ public class MapManager : MonoBehaviour
         bool isEnd = false;
 
 
-        StartCoroutine( RandomDestroyMap(3, true, ()=> isEnd = true));
+        StartCoroutine(RandomDestroyMap(3, true, () => isEnd = true));
         yield return new WaitUntil(() => isEnd);
 
         int count = 1;
@@ -253,10 +255,11 @@ public class MapManager : MonoBehaviour
             Map map = switchEnableMapList[i];
 
             mapCvsFollow.targetTrm = map.transform;
-            float speed = 1f + Mathf.Clamp((float)count, 0f, 3f);
+            float speed = 1f + Mathf.Clamp(count, 0f, 3f);
 
             isEnd = false;
-            mapCvsFollow.Follow(speed, onEndAnim: () => {
+            mapCvsFollow.Follow(speed, onEndAnim: () =>
+            {
                 StartCoroutine(SetActiveMap(map, true, 0.5f / speed, () => isEnd = true));
             });
             yield return new WaitUntil(() => isEnd);
@@ -284,7 +287,7 @@ public class MapManager : MonoBehaviour
     // 맵 시작
     public void StartMap(mapNode mapType)
     {
-        StartCoroutine(ChageMapDeration(()=>
+        StartCoroutine(ChageMapDeration(() =>
         {
             switch (mapType)
             {
@@ -379,7 +382,7 @@ public class MapManager : MonoBehaviour
             default:
                 break;
         }
-        if(spriteIdx<0)
+        if (spriteIdx < 0)
         {
             Debug.LogError("해당 보스의 스프라이트가 설정되지 않았습니다.");
         }
@@ -401,11 +404,13 @@ public class MapManager : MonoBehaviour
                 int targetY = Random.Range((int)fm.minPos.y, (int)fm.maxPos.y + 1);
                 targetPos = new Vector2(targetX, targetY);
                 if (useFixedPosMapType.ContainsKey(targetPos))
+                {
                     isFixedMapAndTeleport = true;
-            } while (targetPos == new Vector2(0, gridHeight - 1) || targetPos == new Vector2(-1, gridHeight - 1) || isFixedMapAndTeleport || 
+                }
+            } while (targetPos == new Vector2(0, gridHeight - 1) || targetPos == new Vector2(-1, gridHeight - 1) || isFixedMapAndTeleport ||
             useFixedPosTileType.Keys.Contains(targetPos) || !tiles[targetPos].gameObject.activeSelf);
 
-            useFixedPosTileType.Add(targetPos, new FixedTile() { mapType = fm.tile.mapType, limitTime= fm.tile.limitTime }) ;
+            useFixedPosTileType.Add(targetPos, new FixedTile() { mapType = fm.tile.mapType, limitTime = fm.tile.limitTime });
         }
 
         List<Vector2> mapTileEventList = useFixedPosTileType.Keys.ToList();
@@ -420,7 +425,7 @@ public class MapManager : MonoBehaviour
                     break;
                 case mapTileEvent.TIMELIMIT:
                     int limitTime = useFixedPosTileType[mapTileEventList[i]].limitTime;
-                    if(limitTime<=0)
+                    if (limitTime <= 0)
                     {
                         Debug.LogError("타임리미트 타일의 리미트타임 설정이 0 보다 작습니다.");
                         continue;
@@ -450,7 +455,7 @@ public class MapManager : MonoBehaviour
                 targetPos = new Vector2(targetX, targetY);
             } while (useFixedPosMapType.Keys.Contains(targetPos));
 
-            if(fm.map.mapType == mapNode.TELEPORT)
+            if (fm.map.mapType == mapNode.TELEPORT)
             {
                 idx = useFixedPosMapType.Count;
                 int j = i;
@@ -458,7 +463,7 @@ public class MapManager : MonoBehaviour
                 {
                     teleportDic.Add(j, idx);
                 }
-                else if(fm.map.teleportTargetIdx == idx)
+                else if (fm.map.teleportTargetIdx == idx)
                 {
                     Debug.LogError("자신에게 텔포 위치 되어있음");
                 }
@@ -491,7 +496,9 @@ public class MapManager : MonoBehaviour
     public IEnumerator RandomDestroyMap(int count = -1, bool breakAnim = false, Action onEnd = null)
     {
         if (count < 0)
+        {
             count = maxDestroyCount;
+        }
 
         List<Map> mapList = tiles.Values.ToList();
 
@@ -507,7 +514,7 @@ public class MapManager : MonoBehaviour
             mapList.Remove(tiles[fixedPosMapList[i]]);
         }
 
-        int defaultCount = count+1;
+        int defaultCount = count + 1;
 
         int mapCount = mapList.Count;
         for (int i = 0; i < mapCount && count > 0; i++)
@@ -519,13 +526,14 @@ public class MapManager : MonoBehaviour
                 if (CheckCanDestroy(map))
                 {
                     count--;
-                    if(breakAnim)
+                    if (breakAnim)
                     {
                         bool isEnd = false;
-                        float speed = 1f + Mathf.Clamp((float)(defaultCount - count), 0f, 3f);
+                        float speed = 1f + Mathf.Clamp(defaultCount - count, 0f, 3f);
 
                         mapCvsFollow.targetTrm = map.transform;
-                        mapCvsFollow.Follow(speed, onEndAnim: () => {
+                        mapCvsFollow.Follow(speed, onEndAnim: () =>
+                        {
                             BreakMap(map, 0.7f / speed, () => { isEnd = true; });
                         });
                         yield return new WaitUntil(() => isEnd);
@@ -592,7 +600,7 @@ public class MapManager : MonoBehaviour
             if (!checkedMapList.Contains(linkedMap))
             {
                 checkedMapList.Add(linkedMap);
-                if (linkedMap == (curMap == null ? tiles[new Vector2(0, gridHeight - 1)] : curMap))
+                if (linkedMap == (curMap ?? tiles[new Vector2(0, gridHeight - 1)]))
                 {
                     //print("모든 노드와 연결되어있음");
                     return true;
@@ -808,7 +816,7 @@ public class MapManager : MonoBehaviour
     {
         for (int i = 0; i < curMap.linkedMoveAbleMap.Count; i++)
         {
-            if(!curMap.linkedMoveAbleMap[i].isBlinked)
+            if (!curMap.linkedMoveAbleMap[i].isBlinked)
             {
                 return true;
             }
@@ -916,16 +924,8 @@ public class MapManager : MonoBehaviour
         for (int i = 0; i < maps.Count; i++)
         {
             Map map = maps[i];
-            int idx = 0;
-            if (blinkMapList.Contains(map))
-            {
-                idx = 5;
-            }
-            else
-            {
-                idx = Random.Range(0, 6);
-            }
-            maps[i].SetTileSprite(tileSpriteList[idx  + (GameManager.Instance.StageIdx * 7)]);
+            int idx = blinkMapList.Contains(map) ? 5 : Random.Range(0, 6);
+            maps[i].SetTileSprite(tileSpriteList[idx + (GameManager.Instance.StageIdx * 7)]);
         }
     }
 
@@ -943,7 +943,7 @@ public class MapManager : MonoBehaviour
                 fixedMapTypeCount[mapType]--;
             }*/
             Debug.Log($"{tiles[fixedPosMapList[i]].name}에 {mapType} 좌표 고정됨");
-            if(mapType == mapNode.TELEPORT)
+            if (mapType == mapNode.TELEPORT)
             {
                 tiles[fixedPosMapList[i]].teleportMap = tiles[fixedPosMapList[useFixedPosMapType[fixedPosMapList[i]].teleportTargetIdx]];
             }
@@ -1016,7 +1016,7 @@ public class MapManager : MonoBehaviour
         for (int i = 0; i < mapList.Count; i++)
         {
             Map map = mapList[i];
-            if (!(map.MapType == mapNode.NONE || map.MapType == mapNode.START || map.MapType == mapNode.BOSS || map.MapType == mapNode.TELEPORT|| map.MapType == mapNode.SWITCH))
+            if (!(map.MapType == mapNode.NONE || map.MapType == mapNode.START || map.MapType == mapNode.BOSS || map.MapType == mapNode.TELEPORT || map.MapType == mapNode.SWITCH))
             {
                 mapTypeCountDic[map.MapType]++;
                 count++;
