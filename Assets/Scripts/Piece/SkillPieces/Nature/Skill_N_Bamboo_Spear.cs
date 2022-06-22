@@ -25,7 +25,7 @@ public class Skill_N_Bamboo_Spear : SkillPiece
         effectObj.SetColorGradient(ih.effectGradDic[currentType]);
         effectObj.transform.position = Owner.transform.position;
 
-        effectObj.Play(target.transform.position, type:BezierType.Linear, onEndEffect:() => 
+        effectObj.Play(target.transform.position, type: BezierType.Linear, onEndEffect: () =>
         {
             GameManager.Instance.cameraHandler.ShakeCamera(1.5f, 0.2f);
 
@@ -39,10 +39,10 @@ public class Skill_N_Bamboo_Spear : SkillPiece
             onCastEnd?.Invoke();
 
             effectObj.EndEffect();
-        }, playSpeed:2f);
+        }, playSpeed: 2f);
 
         animHandler.GetAnim(AnimName.SkillEffect01)
-        .SetPosition(Owner.transform.position + Vector3.up * 1f)
+        .SetPosition(Owner.transform.position + (Vector3.up * 1f))
         .SetScale(1.5f)
         .SetRotation(Vector3.forward * 90f)
         .Play(() =>

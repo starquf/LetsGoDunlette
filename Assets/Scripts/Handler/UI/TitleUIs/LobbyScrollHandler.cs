@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -106,7 +105,7 @@ public class LobbyScrollHandler : MonoBehaviour, IBeginDragHandler, IDragHandler
     {
         moveTween.Kill();
         moveTween = DOTween.To(() => scroll.value, value => scroll.value = value, pos[targetIdx], 0.35f)
-            .OnComplete(() => 
+            .OnComplete(() =>
             {
                 lobbyPanel.ShowPlayerInfoCG(true, false);
                 SetPanels(true);
@@ -117,7 +116,7 @@ public class LobbyScrollHandler : MonoBehaviour, IBeginDragHandler, IDragHandler
     {
         for (int i = 0; i < panels.Count; i++)
         {
-            if (scroll.value < pos[i] + distance * 0.5f && scroll.value > pos[i] - distance * 0.5f)
+            if (scroll.value < pos[i] + (distance * 0.5f) && scroll.value > pos[i] - (distance * 0.5f))
             {
                 return i;
             }

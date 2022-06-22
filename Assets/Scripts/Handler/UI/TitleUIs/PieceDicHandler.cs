@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
 
 public class PieceDicHandler : MonoBehaviour
 {
@@ -83,7 +82,7 @@ public class PieceDicHandler : MonoBehaviour
                 {
                     gradeRange |= grade;
                 }
-                else 
+                else
                 {
                     gradeRange &= ~grade;
                 }

@@ -117,9 +117,9 @@ public class PieceCastUIHandler : MonoBehaviour
             .AppendInterval(0.3f)
             .Append(skillPiece.GetComponent<Image>().DOFade(0, 0.3f))
             .Join(skillPiece.skillIconImg.DOFade(0, 0.3f))
-            .OnComplete(() =>
+            .InsertCallback(0.1f, () =>
             { //print("ÀÌÆåÆ®³¡³²");
-                skillPiece.gameObject.SetActive(false);
+                onEndEffect += () => { skillPiece.gameObject.SetActive(false); };
 
                 timeCor = StartCoroutine(CastWait(onEndEffect));
 
@@ -218,7 +218,7 @@ public class PieceCastUIHandler : MonoBehaviour
         }
 
         ShowDesIcon(desInfos, skillPiece);
-
+        iconInfoHandler.InitInfo(skillPiece, skillPiece.usedIcons);
         InventoryHandler inven = GameManager.Instance.inventoryHandler;
         strokeImg.sprite = inven.pieceBGStrokeSprDic[skillPiece.currentType];
         targetBGImg.sprite = inven.targetBGSprDic[skillPiece.currentType];

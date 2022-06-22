@@ -648,6 +648,8 @@ public class BattleHandler : MonoBehaviour
         battleEvent.ResetAllEvents();
         fieldHandler.SetFieldType(ElementalType.None);
 
+        inventory.RemoveAllDisposable(player.GetComponent<Inventory>());
+
         SetInteract(false);
 
         //battleScroll.ShowScrollUI(open: false);

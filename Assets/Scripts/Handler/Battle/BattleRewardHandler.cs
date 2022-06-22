@@ -5,12 +5,12 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 [Serializable]
-    public struct RewardChance
-    {
-        public int gradeOne;
-        public int gradeTwo;
-        public int gradeThree;
-    }
+public struct RewardChance
+{
+    public int gradeOne;
+    public int gradeTwo;
+    public int gradeThree;
+}
 
 public class BattleRewardHandler : MonoBehaviour
 {

@@ -14,6 +14,7 @@ public class Taros : MonoBehaviour
     public List<DesIconInfo> desInfos = new List<DesIconInfo>();
     public PieceInfo pieceInfo;
     public SkillPiece ta_Skill;
+    public List<DesIconType> usedIcons = new List<DesIconType>();
 
     // Start is called before the first frame update
     private void Awake()
