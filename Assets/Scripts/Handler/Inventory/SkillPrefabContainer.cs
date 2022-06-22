@@ -51,7 +51,7 @@ public class SkillPrefabContainer : MonoBehaviour
         for (int i = 0; i < playerSkillPrefabs.Count; i++)
         {
             SkillPiece piece = playerSkillPrefabs[i].GetComponent<SkillPiece>();
-            if(piece.skillGrade == gradeInfo)
+            if(piece.skillGrade == gradeInfo && piece.isDisposable == false)
             {
                 skills.Add(piece);
             }
