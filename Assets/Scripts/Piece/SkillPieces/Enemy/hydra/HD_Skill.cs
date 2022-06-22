@@ -30,7 +30,7 @@ public class HD_Skill : SkillPiece
     {
         base.ChoiceSkill();
 
-        if (Random.Range(0, 100) < 50)
+        if (Random.Range(0, 100) < value)
         {
             onCastSkill = HD_Tail_Swing;
 
@@ -42,7 +42,6 @@ public class HD_Skill : SkillPiece
         else
         {
             onCastSkill = HD_Poison_Spray;
-
             return pieceInfo[1];
         }
     }
@@ -140,7 +139,7 @@ public class HD_Skill : SkillPiece
                         bh.battleUtil.SetTimer(0.25f * i, () => { ih.CreateSkill(skill_poison, Owner, Owner.transform.position); });
                     }
 
-                    bh.battleUtil.SetTimer(0.5f + (0.25f * 1), onCastEnd);
+                    bh.battleUtil.SetTimer(0.2f, onCastEnd);
                 });
             });
         });

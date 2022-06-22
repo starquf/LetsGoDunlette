@@ -22,8 +22,8 @@ public class TA_Skill : SkillPiece
             onCastSkill = TA_Body_Heating;
             desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(pieceInfo[0].GetValue())}");
             desInfos[1].SetInfo(DesIconType.Shield, $"{pieceInfo[0].GetValue(1)}");
-
             usedIcons.Add(DesIconType.Attack);
+            usedIcons.Add(DesIconType.Shield);
 
             return pieceInfo[0];
         }
@@ -70,7 +70,7 @@ public class TA_Skill : SkillPiece
     {
         SetIndicator(Owner.gameObject, "¼øÂû").OnEndAction(() =>
         {
-            Owner.GetComponent<Taros>().patrolCount += 4;
+            Owner.GetComponent<Taros>().patrolCount = 4;
             Owner.GetComponent<EnemyHealth>().cc.SetCC(CCType.Silence, 4);
 
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(2f, 0.2f);
