@@ -10,6 +10,7 @@ public class Map : MonoBehaviour
 {
     [HideInInspector] public MapManager mapManager;
 
+    [HideInInspector] public mapTileEvent tileType;
     private mapNode mapType;
 
     public mapNode MapType

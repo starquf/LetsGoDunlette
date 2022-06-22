@@ -125,22 +125,22 @@ public class EncounterHandler : MonoBehaviour
                 //GameManager.Instance.mapHandler.OpenMapPanel(false);
 
                 int randIdx = Random.Range(0, 100);
-                if (randIdx < 25)//¸÷
+                if (randIdx < 15)//¸÷
                 {
                     GameManager.Instance.curEncounter = mapNode.MONSTER;
                     bh.StartBattle();
                 }
-                else if (randIdx < 27)// ¿¤¸÷
+                else if (randIdx < 17)// ¿¤¸÷
                 {
                     GameManager.Instance.curEncounter = mapNode.EMONSTER;
                     bh.StartBattle(isElite: true);
                 }
-                else if (randIdx < 87) // ÀÎÄ«¿îÅÍ
+                else if (randIdx < 97) // ÀÎÄ«¿îÅÍ
                 {
                     randomEncounterUIHandler.StartEvent();
                     GameManager.Instance.bottomUIHandler.ShowBottomPanel(false);
                 }
-                else if (randIdx < 96) // »óÁ¡
+                else if (randIdx < 99) // »óÁ¡
                 {
                     GameManager.Instance.curEncounter = mapNode.SHOP;
                     shopEncounterUIHandler.StartEvent();

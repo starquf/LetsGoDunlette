@@ -58,6 +58,14 @@ public class FixedMapRangeRandom
 }
 
 [Serializable]
+public class FixedSpecialMapRangeRandom
+{
+    public List<FixedMapRangeRandom> teleportMapList;
+    public FixedMapRangeRandom switchMap;
+    public int randomVlaue;
+}
+
+[Serializable]
 public class FixedTile
 {
     public mapTileEvent mapType;
@@ -107,13 +115,14 @@ public class MapManager : MonoBehaviour
     [Header("맵 밸런스 관련")]
     [SerializeField] private int defaultBossCount;
     [SerializeField] private List<mapNode> canNotLinkMapType = new List<mapNode>();
+    [SerializeField] private List<mapTileEvent> canNotLinkTileType = new List<mapTileEvent>();
     //[SerializeField] SerializableDictionary<mapNode, int> fixedMapTypeCount = new SerializableDictionary<mapNode, int>();
     private Dictionary<Vector2, FixedMap> useFixedPosMapType = new Dictionary<Vector2, FixedMap>();
-    private Dictionary<Vector2, FixedTile> useFixedPosTileType = new Dictionary<Vector2, FixedTile>();
     [SerializeField] private SerializableDictionary<Vector2, FixedMap> fixedPosMapType = new SerializableDictionary<Vector2, FixedMap>();
     [SerializeField] private List<FixedMapRangeRandom> fixedRangeMapType = new List<FixedMapRangeRandom>();
-    [SerializeField] private List<FixedTileRangeRandom> fixedRangeTileType = new List<FixedTileRangeRandom>();
+    [SerializeField] private List<FixedSpecialMapRangeRandom> fixedRangeSpecialMapType = new List<FixedSpecialMapRangeRandom>();
     [SerializeField] private SerializableDictionary<mapNode, float> mapTypeProportionDic = new SerializableDictionary<mapNode, float>();
+    [SerializeField] private SerializableDictionary<mapTileEvent, float> tileTypeProportionDic = new SerializableDictionary<mapTileEvent, float>();
     [HideInInspector] public List<Map> blinkMapList = new List<Map>();
     [HideInInspector] public List<Map> timeLimitMapList = new List<Map>();
     [HideInInspector] public List<Map> switchEnableMapList = new List<Map>();
@@ -320,9 +329,10 @@ public class MapManager : MonoBehaviour
     {
         CopyFixed();
         LinkMap();
+        RandomRangeSpecialMapSet();
         RandomRangeMapSet();
         StartCoroutine(RandomDestroyMap());
-        RandomRangeTileSet();
+        SetTileType();
         SetRandomTileSprite();
         SetMapType();
         InitMap();
@@ -331,7 +341,6 @@ public class MapManager : MonoBehaviour
     private void CopyFixed()
     {
         useFixedPosMapType = new Dictionary<Vector2, FixedMap>(fixedPosMapType);
-        useFixedPosTileType = new Dictionary<Vector2, FixedTile>();
         blinkMapList = new List<Map>();
         timeLimitMapList = new List<Map>();
         switchEnableMapList = new List<Map>();
@@ -346,7 +355,7 @@ public class MapManager : MonoBehaviour
         Debug.Log("Stage :" + GameManager.Instance.StageIdx);
         bossCloudImage.sprite = bossCloudSpriteList[GameManager.Instance.StageIdx];
         bossEffectAnimator.SetInteger("Stage", GameManager.Instance.StageIdx);
-        SetAllBlink();
+        //SetAllBlink();
         SetBossAndMapBG();
     }
 
@@ -387,50 +396,144 @@ public class MapManager : MonoBehaviour
         mapBg.sprite = mapBgSpriteList[spriteIdx];
     }
 
-    public void RandomRangeTileSet()
+    public void SetTileType()
     {
-        for (int i = 0; i < fixedRangeTileType.Count; i++)
+        List<Map> mapList = tiles.Values.ToList();
+        for (int i = 0; i < mapList.Count; i++)
         {
-            FixedTileRangeRandom fm = fixedRangeTileType[i];
-            Vector2 targetPos;
-            bool isFixedMapAndTeleport = false;
-            do
+            if (mapList[i].MapType == mapNode.TELEPORT)
             {
-                isFixedMapAndTeleport = false;
-                int targetX = Random.Range((int)fm.minPos.x, (int)fm.maxPos.x + 1);
-                int targetY = Random.Range((int)fm.minPos.y, (int)fm.maxPos.y + 1);
-                targetPos = new Vector2(targetX, targetY);
-                if (useFixedPosMapType.ContainsKey(targetPos))
-                    isFixedMapAndTeleport = true;
-            } while (targetPos == new Vector2(0, gridHeight - 1) || targetPos == new Vector2(-1, gridHeight - 1) || isFixedMapAndTeleport || 
-            useFixedPosTileType.Keys.Contains(targetPos) || !tiles[targetPos].gameObject.activeSelf);
+                continue;
+            }
 
-            useFixedPosTileType.Add(targetPos, new FixedTile() { mapType = fm.tile.mapType, limitTime= fm.tile.limitTime }) ;
-        }
+            Vector2 mapPos = GetTilesKeyToValue(mapList[i]);
+            mapList[i].tileType = mapPos.Equals(new Vector2(-1f, gridHeight - 1)) || mapPos.Equals(new Vector2(0f, gridHeight - 1))
+                ? mapTileEvent.NONE
+                : GetCanSetTileType(mapList[i]);
 
-        List<Vector2> mapTileEventList = useFixedPosTileType.Keys.ToList();
-        for (int i = 0; i < mapTileEventList.Count; i++)
-        {
-            switch (useFixedPosTileType[mapTileEventList[i]].mapType)
+            switch (mapList[i].tileType)
             {
-                case mapTileEvent.NONE:
-                    break;
                 case mapTileEvent.BLINK:
-                    blinkMapList.Add(tiles[mapTileEventList[i]]);
+                    blinkMapList.Add(mapList[i]);
                     break;
                 case mapTileEvent.TIMELIMIT:
-                    int limitTime = useFixedPosTileType[mapTileEventList[i]].limitTime;
-                    if(limitTime<=0)
-                    {
-                        Debug.LogError("타임리미트 타일의 리미트타임 설정이 0 보다 작습니다.");
-                        continue;
-                    }
-                    Map map = tiles[mapTileEventList[i]];
-                    map.SetLimitTime(limitTime);
-                    timeLimitMapList.Add(map);
+                    timeLimitMapList.Add(mapList[i]);
                     break;
                 default:
                     break;
+            }
+        }
+        //for (int i = 0; i < fixedRangeTileType.Count; i++)
+        //{
+        //    FixedTileRangeRandom fm = fixedRangeTileType[i];
+        //    Vector2 targetPos;
+        //    bool isFixedMapAndTeleport = false;
+        //    do
+        //    {
+        //        isFixedMapAndTeleport = false;
+        //        int targetX = Random.Range((int)fm.minPos.x, (int)fm.maxPos.x + 1);
+        //        int targetY = Random.Range((int)fm.minPos.y, (int)fm.maxPos.y + 1);
+        //        targetPos = new Vector2(targetX, targetY);
+        //        if (useFixedPosMapType.ContainsKey(targetPos))
+        //            isFixedMapAndTeleport = true;
+        //    } while (targetPos == new Vector2(0, gridHeight - 1) || targetPos == new Vector2(-1, gridHeight - 1) || isFixedMapAndTeleport || 
+        //    useFixedPosTileType.Keys.Contains(targetPos) || !tiles[targetPos].gameObject.activeSelf);
+
+        //    useFixedPosTileType.Add(targetPos, new FixedTile() { mapType = fm.tile.mapType, limitTime= fm.tile.limitTime }) ;
+        //}
+
+        //List<Vector2> mapTileEventList = useFixedPosTileType.Keys.ToList();
+        //for (int i = 0; i < mapTileEventList.Count; i++)
+        //{
+        //    switch (useFixedPosTileType[mapTileEventList[i]].mapType)
+        //    {
+        //        case mapTileEvent.NONE:
+        //            break;
+        //        case mapTileEvent.BLINK:
+        //            blinkMapList.Add(tiles[mapTileEventList[i]]);
+        //            break;
+        //        case mapTileEvent.TIMELIMIT:
+        //            int limitTime = useFixedPosTileType[mapTileEventList[i]].limitTime;
+        //            if(limitTime<=0)
+        //            {
+        //                Debug.LogError("타임리미트 타일의 리미트타임 설정이 0 보다 작습니다.");
+        //                continue;
+        //            }
+        //            Map map = tiles[mapTileEventList[i]];
+        //            map.SetLimitTime(limitTime);
+        //            timeLimitMapList.Add(map);
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
+    }
+
+    public void RandomRangeSpecialMapSet()
+    {
+        Dictionary<int, int> teleportDic = new Dictionary<int, int>();
+        for (int i = 0; i < fixedRangeSpecialMapType.Count; i++)
+        {
+            FixedSpecialMapRangeRandom fsm = fixedRangeSpecialMapType[i];
+
+            int random = Random.Range(0, 100);
+            if(random < fsm.randomVlaue)
+            {
+                //teleport
+                for (int j = 0; j < fsm.teleportMapList.Count; j++)
+                {
+                    FixedMapRangeRandom fm = fsm.teleportMapList[j];
+                    Vector2 targetPos;
+                    int idx;
+                    do
+                    {
+                        int targetX = Random.Range((int)fm.minPos.x, (int)fm.maxPos.x + 1);
+                        int targetY = Random.Range((int)fm.minPos.y, (int)fm.maxPos.y + 1);
+                        targetPos = new Vector2(targetX, targetY);
+                    } while (useFixedPosMapType.Keys.Contains(targetPos));
+
+                    idx = useFixedPosMapType.Count;
+                    int k = j;
+                    if (fm.map.teleportTargetIdx > k)
+                    {
+                        teleportDic.Add(k, idx);
+                    }
+                    else if (fm.map.teleportTargetIdx == idx)
+                    {
+                        Debug.LogError("자신에게 텔포 위치 되어있음");
+                    }
+                    else
+                    {
+                        if (teleportDic.ContainsKey(fm.map.teleportTargetIdx))
+                        {
+                            List<Vector2> fixedPosMapList = useFixedPosMapType.Keys.ToList();
+                            idx = teleportDic[fm.map.teleportTargetIdx];
+                            useFixedPosMapType[fixedPosMapList[idx]].teleportTargetIdx = useFixedPosMapType.Count;
+                            teleportDic.Remove(fm.map.teleportTargetIdx);
+                        }
+                        else
+                        {
+                            Debug.LogError("텔레포트 랜덤 좌표 설정 idx가 잘못되었습니다");
+                        }
+                    }
+                    FixedMap fixedMap = new FixedMap() { mapType = fm.map.mapType, teleportTargetIdx = idx };
+
+                    useFixedPosMapType.Add(targetPos, fixedMap);
+                }
+            }
+            else
+            {
+                //switch
+                FixedMapRangeRandom fm = fsm.switchMap;
+                Vector2 targetPos;
+                do
+                {
+                    int targetX = Random.Range((int)fm.minPos.x, (int)fm.maxPos.x + 1);
+                    int targetY = Random.Range((int)fm.minPos.y, (int)fm.maxPos.y + 1);
+                    targetPos = new Vector2(targetX, targetY);
+                } while (useFixedPosMapType.Keys.Contains(targetPos));
+
+                useFixedPosMapType.Add(targetPos, fm.map);
             }
         }
     }
@@ -864,6 +967,36 @@ public class MapManager : MonoBehaviour
         }
     }
 
+    private mapTileEvent GetCanSetTileType(Map map)
+    {
+        Dictionary<mapTileEvent, float> curMapTypeProportionDic = GetTileTypeProportion();
+        List<mapTileEvent> sortedMapTypeList = tileTypeProportionDic.Keys.ToList();
+
+        sortedMapTypeList.Sort((x, y) => (tileTypeProportionDic[x] - curMapTypeProportionDic[x]) > (tileTypeProportionDic[y] - curMapTypeProportionDic[y]) ? -1 : 1);
+
+        mapTileEvent tileType;
+        int i = 0;
+        do
+        {
+            if (i >= sortedMapTypeList.Count)
+            {
+                //Debug.LogError("비율 세팅이 외 안되누");
+                return mapTileEvent.NONE;
+            }
+            tileType = sortedMapTypeList[i];
+            i++;
+        } while (!CanSetTileType(map, tileType));
+
+        for (int j = 0; j < sortedMapTypeList.Count; j++)
+        {
+            mapTileEvent mt = sortedMapTypeList[j];
+            //Debug.Log(mt + ":" + mapTypeProportionDic[mt].ToString() + ", " + curMapTypeProportionDic[mt].ToString());
+        }
+        //Debug.Log(mapType + "가 비율로 세팅됨");
+
+        return tileType;
+    }
+
     // 연결 불가능한 맵 처리해서 랜덤한 맵 타입 반환
     private mapNode GetCanSetType(Map map)
     {
@@ -893,6 +1026,20 @@ public class MapManager : MonoBehaviour
         //Debug.Log(mapType + "가 비율로 세팅됨");
 
         return mapType;
+    }
+    private bool CanSetTileType(Map map, mapTileEvent tileType)
+    {
+        if (canNotLinkTileType.Contains(tileType))
+        {
+            for (int i = 0; i < map.linkedMoveAbleMap.Count; i++)
+            {
+                if (map.linkedMoveAbleMap[i].tileType == tileType)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     private bool CanSetType(Map map, mapNode mapType)
@@ -996,6 +1143,38 @@ public class MapManager : MonoBehaviour
                 ? mapNode.NONE
                 : GetCanSetType(mapList[i]);
         }
+    }
+    public Dictionary<mapTileEvent, float> GetTileTypeProportion()
+    {
+        Dictionary<mapTileEvent, float> tileTypeProportion = new Dictionary<mapTileEvent, float>();
+
+        Dictionary<mapTileEvent, float> tileTypeCountDic = new Dictionary<mapTileEvent, float>();
+
+        List<mapTileEvent> tileTypes = tileTypeProportionDic.Keys.ToList();
+        for (int i = 0; i < tileTypes.Count; i++)
+        {
+            mapTileEvent tileType = tileTypes[i];
+            tileTypeCountDic.Add(tileType, 0);
+        }
+
+        int count = 0;
+        List<Map> mapList = tiles.Values.ToList();
+        for (int i = 0; i < mapList.Count; i++)
+        {
+            Map map = mapList[i];
+            if (map.tileType == mapTileEvent.NONE || map.tileType == mapTileEvent.BLINK)
+            {
+                tileTypeCountDic[map.tileType]++;
+                count++;
+            }
+        }
+
+        for (int i = 0; i < tileTypes.Count; i++)
+        {
+            mapTileEvent mapType = tileTypes[i];
+            tileTypeProportion.Add(mapType, tileTypeCountDic[mapType] / count * 100);
+        }
+        return tileTypeProportion;
     }
 
     public Dictionary<mapNode, float> GetMapTypeProportion()
