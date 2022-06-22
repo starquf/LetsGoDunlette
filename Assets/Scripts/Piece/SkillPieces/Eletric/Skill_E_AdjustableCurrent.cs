@@ -33,7 +33,7 @@ public class Skill_E_AdjustableCurrent : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        Vector3 startPos = skillIconImg.transform.position;
+        Vector3 startPos = Owner.transform.position;
         Vector3 targetPos = target.transform.position;
 
         for (int i = 0; i < effectSprList.Count; i++)
