@@ -30,7 +30,7 @@ public class HD_Skill : SkillPiece
     {
         base.ChoiceSkill();
 
-        if (Random.Range(0, 100) < 50)
+        if (Random.Range(0, 100) < value)
         {
             onCastSkill = HD_Tail_Swing;
 
@@ -42,7 +42,6 @@ public class HD_Skill : SkillPiece
         else
         {
             onCastSkill = HD_Poison_Spray;
-
             return pieceInfo[1];
         }
     }
