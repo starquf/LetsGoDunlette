@@ -139,7 +139,7 @@ public class HD_Skill : SkillPiece
                         bh.battleUtil.SetTimer(0.25f * i, () => { ih.CreateSkill(skill_poison, Owner, Owner.transform.position); });
                     }
 
-                    bh.battleUtil.SetTimer(0.5f + (0.25f * 1), onCastEnd);
+                    bh.battleUtil.SetTimer(0.2f, onCastEnd);
                 });
             });
         });
