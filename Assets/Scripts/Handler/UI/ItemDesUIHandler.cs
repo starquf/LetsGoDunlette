@@ -1,14 +1,15 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScrollDesUIHandler : MonoBehaviour
+public class ItemDesUIHandler : MonoBehaviour
 {
     private CanvasGroup cg;
 
     [Header("설명들")]
-    public Text nameText;
-    public Text desText;
+    public TextMeshProUGUI nameText;
+    public TextMeshProUGUI desText;
     public Image iconImg;
 
     [Header("버튼들")]

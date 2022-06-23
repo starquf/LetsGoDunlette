@@ -16,8 +16,8 @@ public class BattleHandler : MonoBehaviour
     [Header("캐스트 하는 스킬 띄워주는 핸들러")]
     public PieceCastUIHandler castUIHandler;
 
-    [Header("플레이어 정보 핸들러")]
-    public PlayerSkillPanelHandler playerInfoHandler;
+    [Header("플레이어 스킬 핸들러")]
+    public PlayerSkillPanelHandler playerSkillHandler;
 
     private BattleInfoHandler battleInfoHandler;
     private CCHandler ccHandler;
@@ -137,7 +137,7 @@ public class BattleHandler : MonoBehaviour
         // 플레이어가 가지고 있는 기본 스킬 생성 일단 테스트로 만들어놈
         player.GetComponent<Inventory>().CreateSkills();
 
-        playerInfoHandler.Init(player.GetComponent<PlayerInfo>());
+        playerSkillHandler.Init(player.GetComponent<PlayerInfo>());
 
         mainRullet.onTimerEnd += () =>
         {
@@ -149,6 +149,13 @@ public class BattleHandler : MonoBehaviour
                 Time.timeScale = 1f;
             }
             */
+
+            if (playerSkillHandler.itemDesHandler.isShow)
+            {
+                playerSkillHandler.itemDesHandler.ForceCancelDes();
+
+                Time.timeScale = 1f;
+            }
         };
     }
 
@@ -231,7 +238,7 @@ public class BattleHandler : MonoBehaviour
 
     private void InitHandler()
     {
-        playerInfoHandler.OnBattleStart();
+        playerSkillHandler.OnBattleStart();
         battleUtil.Init(mainRullet);
     }
 
@@ -469,7 +476,7 @@ public class BattleHandler : MonoBehaviour
 
         StartCoroutine(battleEvent.ActionEvent(EventTime.StartTurn, () =>
         {
-            playerInfoHandler.UpdateCanPlayerSkillUse();
+            playerSkillHandler.UpdateCanPlayerSkillUse();
 
             if (turnCnt > 1)
             {
@@ -516,7 +523,7 @@ public class BattleHandler : MonoBehaviour
         // 스크롤 버튼 활성화
         //battleScroll.SetInteract(enable);
 
-        playerInfoHandler.SetInteract(enable);
+        playerSkillHandler.SetInteract(enable);
     }
 
     // 실행이 전부 끝나면 실행되는 코루틴
