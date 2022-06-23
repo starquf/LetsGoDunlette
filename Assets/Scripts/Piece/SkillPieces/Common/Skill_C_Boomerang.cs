@@ -4,17 +4,22 @@ using UnityEngine.UI;
 
 public class Skill_C_Boomerang : SkillPiece
 {
-    private int originValue = 0;
+    public int originValue = -2;
     private EventInfo eventInfo;
     public Text counterText;
+    public bool isFisrt = true;
 
     protected override void Start()
     {
         base.Start();
-        originValue = value;
+
+        if(isFisrt)
+        {
+            value = originValue;
+        }
+
         counterText.text = GetDamageCalc().ToString();
         GameManager.Instance.battleHandler.battleEvent.RemoveEventInfo(eventInfo);
-
         eventInfo = new NormalEvent(new Action<Action>(ResetValue), EventTime.EndBattle);
         GameManager.Instance.battleHandler.battleEvent.BookEvent(eventInfo);
     }
@@ -61,6 +66,7 @@ public class Skill_C_Boomerang : SkillPiece
     public void UpdateValue(int value)
     {
         this.value = value;
+        isFisrt = false;
         counterText.text = GetDamageCalc().ToString();
     }
 }
