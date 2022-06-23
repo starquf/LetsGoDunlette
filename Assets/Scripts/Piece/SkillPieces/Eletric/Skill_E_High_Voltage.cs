@@ -11,11 +11,14 @@ public class Skill_E_High_Voltage : SkillPiece
     {
         highVolatge = (a) =>
         {
-            if (Owner.GetComponent<LivingEntity>().GetShieldHp() <= 0)
+            if(UnityEngine.Random.Range(0,100) < 50)
             {
-                for (int i = 0; i < bh.enemys.Count; i++)
+                if (Owner.GetComponent<LivingEntity>().GetShieldHp() <= 0)
                 {
-                    bh.enemys[i].cc.SetCC(CCType.Stun, 1);
+                    for (int i = 0; i < bh.enemys.Count; i++)
+                    {
+                        bh.enemys[i].cc.SetCC(CCType.Stun, 1);
+                    }
                 }
             }
             a?.Invoke();
