@@ -646,7 +646,7 @@ public class MapManager : MonoBehaviour
     //  부술수 있는지 체크
     public bool CheckCanDestroy(Map map)
     {
-        if (map.tileType == mapTileEvent.BLINK || !CheckDestroyLinkMap(map)) 
+        if (map.tileType != mapTileEvent.NONE || !CheckDestroyLinkMap(map)) 
         {
             return false;
         }
