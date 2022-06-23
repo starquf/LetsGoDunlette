@@ -185,7 +185,8 @@ public class BattleHandler : MonoBehaviour
         }
         else if (isBoss)
         {
-            battleInfo = _bossInfo.enemyInfos.Count > 0 ? _bossInfo : battleInfoHandler.GetRandomBossInfo();
+            BattleInfo b_bInfo = new BattleInfo() {bg=_bossInfo.bg, enemyInfos= new List<EnemyType>(_bossInfo.enemyInfos), isWeakEnemy = false };
+            battleInfo = _bossInfo.enemyInfos.Count > 0 ? b_bInfo : battleInfoHandler.GetRandomBossInfo();
             _bossInfo.enemyInfos.Clear();
             _bossInfo.bg = null;
             _bossInfo.isWeakEnemy = false;

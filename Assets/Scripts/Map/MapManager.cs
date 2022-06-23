@@ -192,7 +192,10 @@ public class MapManager : MonoBehaviour
     public IEnumerator ChageMapDeration(bool skip = false ,Action onEnd = null)
     {
         if (skip)
+        {
+            onEnd?.Invoke();
             yield break;
+        }
         bool isEnd = false;
 
         int count = 1;
