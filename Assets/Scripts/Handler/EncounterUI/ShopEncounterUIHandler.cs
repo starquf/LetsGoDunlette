@@ -37,7 +37,8 @@ public class ShopEncounterUIHandler : MonoBehaviour
     [Header("랜덤 상점 리스트")]
     public List<Scroll> scrollShopList = new List<Scroll>();
 
-    private List<SkillPiece> randomRulletPiece = new List<SkillPiece>();
+    public List<RewardChance> showSetChances;
+
     private List<Scroll> randomScroll = new List<Scroll>();
 
     private List<int> soldIdxList = new List<int>();
@@ -47,6 +48,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
 
     private BattleHandler bh;
     private InventoryHandler invenHandler;
+    private SkillPrefabContainer skillContainer;
 
     private void Awake()
     {
@@ -64,6 +66,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
 
         bh = GameManager.Instance.battleHandler;
         goldUIHandler = GameManager.Instance.goldUIHandler;
+        skillContainer = GameManager.Instance.skillContainer;
         //battleScrollHandler = bh.battleScroll;
 
         exitBtn.onClick.AddListener(OnExitBtnClick);
@@ -101,12 +104,10 @@ public class ShopEncounterUIHandler : MonoBehaviour
     //상점 랜덤으로 만들어줌
     private void InitShop()
     {
+        int playerLevel = (int)Mathf.Clamp(GameManager.Instance.GetPlayer().PlayerLevel - 1, 0, showSetChances.Count);
         SetAllButtonInterval(true);
         soldIdxList.Clear();
-        for (int j = 0; j < GameManager.Instance.skillContainer.playerSkillPrefabs.Count; j++)
-        {
-            randomRulletPiece.Add(GameManager.Instance.skillContainer.playerSkillPrefabs[j].GetComponent<SkillPiece>());
-        }
+        List<SkillPiece> randomRulletPiece = skillContainer.GetSkillsByChance(showSetChances[playerLevel], 3);
         randomScroll = new List<Scroll>(scrollShopList);
 
         for (int i = 0; i < products.Count; i++)
@@ -114,8 +115,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
             int idx = i;
             if (idx < 3)
             {
-                SkillPiece rulletPiece = randomRulletPiece[Random.Range(0, randomRulletPiece.Count)];
-                randomRulletPiece.Remove(rulletPiece);
+                SkillPiece rulletPiece = randomRulletPiece[i];
                 products[idx].SetProduct(ProductType.RulletPiece, null, rulletPiece);
             }
             else

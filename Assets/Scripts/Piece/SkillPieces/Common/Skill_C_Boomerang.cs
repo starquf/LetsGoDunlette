@@ -4,17 +4,22 @@ using UnityEngine.UI;
 
 public class Skill_C_Boomerang : SkillPiece
 {
-    private int originValue = 0;
+    public int originValue = -2;
     private EventInfo eventInfo;
     public Text counterText;
+    public bool isFisrt = true;
 
     protected override void Start()
     {
         base.Start();
-        originValue = value;
+
+        if(isFisrt)
+        {
+            value = originValue;
+        }
+
         counterText.text = GetDamageCalc().ToString();
         GameManager.Instance.battleHandler.battleEvent.RemoveEventInfo(eventInfo);
-
         eventInfo = new NormalEvent(new Action<Action>(ResetValue), EventTime.EndBattle);
         GameManager.Instance.battleHandler.battleEvent.BookEvent(eventInfo);
     }
@@ -30,28 +35,38 @@ public class Skill_C_Boomerang : SkillPiece
     {
         target.GetDamage(GetDamageCalc());
 
-        value++;
-        counterText.text = GetDamageCalc().ToString();
-
-        animHandler.GetTextAnim()
-               .SetType(TextUpAnimType.Up)
-               .SetPosition(skillIconImg.transform.position)
-               .SetScale(0.8f)
-               .Play("강화!");
-
-        animHandler.GetAnim(AnimName.E_ManaSphereHit)
-            .SetScale(0.5f)
-            .SetPosition(skillIconImg.transform.position)
-            .Play(() =>
+        var skills = GameManager.Instance.inventoryHandler.skills;
+        int updateValue = Value + 1;
+        foreach (var item in skills)
+        {
+            Skill_C_Boomerang skill_C_Boomerang = item.GetComponent<Skill_C_Boomerang>();
+            if (skill_C_Boomerang != null)
             {
-                onCastEnd?.Invoke();
-            });
+                skill_C_Boomerang.UpdateValue(updateValue);
+                if (skill_C_Boomerang.IsInRullet)
+                {
+                    animHandler.GetTextAnim()
+                    .SetType(TextUpAnimType.Up)
+                    .SetPosition(skill_C_Boomerang.skillIconImg.transform.position)
+                    .SetScale(0.8f)
+                    .Play("강화!");
+                }
+            }
+        }
+
+        onCastEnd?.Invoke();
     }
 
     private void ResetValue(Action action) //전투가 끝나면 피해가 초기화
     {
-        value = originValue;
-        counterText.text = GetDamageCalc().ToString();
+        UpdateValue(originValue);
         action?.Invoke();
+    }
+
+    public void UpdateValue(int value)
+    {
+        this.value = value;
+        isFisrt = false;
+        counterText.text = GetDamageCalc().ToString();
     }
 }

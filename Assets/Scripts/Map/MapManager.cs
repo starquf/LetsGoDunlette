@@ -153,31 +153,24 @@ public class MapManager : MonoBehaviour
         mapGenerator.GenerateGrid(gridHeight, gridWidth, OnGenerateMap);
         GameManager.Instance.OnNextStage += () =>
         {
-            ResetMap();
-            mapGenerator.GenerateGrid(gridHeight, gridWidth, OnGenerateMap);
+            ResetMap(() => { mapGenerator.GenerateGrid(gridHeight, gridWidth, OnGenerateMap); });
         };
     }
     
-    public void ResetMap()
+    public void ResetMap(Action onEndReset = null)
     {
+        mapCvsFollow.ResetZoomAndFollow();
         List<Map> mapList = tiles.Values.ToList();
         for (int i = 0; i < mapList.Count; i++)
         {
             mapList[i].gameObject.SetActive(false);
         }
         tiles.Clear();
-
         useFixedPosMapType.Clear();
-        /*
-        List<Vector2> fixedPosMapList = fixedPosMapType.Keys.ToList();
-        for (int i = 0; i < fixedPosMapList.Count; i++)
-        {
-            mapNode mapType = fixedPosMapType[fixedPosMapList[i]];
-            if (fixedMapTypeCount.Keys.Contains(mapType))
-            {
-                fixedMapTypeCount[mapType]++;
-            }
-        }*/
+        blinkMapList.Clear();
+        timeLimitMapList.Clear();
+
+        onEndReset?.Invoke();
     }
 
     public void SetAllBlink()
@@ -308,8 +301,20 @@ public class MapManager : MonoBehaviour
                 case mapNode.SWITCH:
                     StartCoroutine(OnSwitchMap(() =>
                     {
-                        SetAllInteracteble(true);
-                        SetInteractebleCanSelectMap();
+                        LinkMap();
+                        if (!CheckHasLinckedMap())
+                        {
+                            ZoomCamera(1, onComplete:()=>
+                            {
+                                bossCount = 0;
+                                BossCountDirection(null);
+                            });
+                        }
+                        else
+                        {
+                            SetAllInteracteble(true);
+                            SetInteractebleCanSelectMap();
+                        }
                     }));
                     break;
                 default:
@@ -337,9 +342,9 @@ public class MapManager : MonoBehaviour
         RandomRangeSpecialMapSet();
         RandomRangeMapSet();
         StartCoroutine(RandomDestroyMap());
-        SetTileType();
         SetRandomTileSprite();
         SetMapType();
+        SetTileType();
         InitMap();
     }
 
@@ -653,7 +658,7 @@ public class MapManager : MonoBehaviour
     //  부술수 있는지 체크
     public bool CheckCanDestroy(Map map)
     {
-        if (!CheckDestroyLinkMap(map))
+        if (map.tileType != mapTileEvent.NONE || !CheckDestroyLinkMap(map)) 
         {
             return false;
         }
@@ -846,8 +851,20 @@ public class MapManager : MonoBehaviour
                                 curMap = map;
                                 curMap.mapIcon.DOFade(0, 0.3f);
 
-                                SetAllInteracteble(true);
-                                SetInteractebleCanSelectMap();
+
+                                if (!CheckHasLinckedMap())
+                                {
+                                    ZoomCamera(1, onComplete: () =>
+                                    {
+                                        bossCount = 0;
+                                        BossCountDirection(null);
+                                    });
+                                }
+                                else
+                                {
+                                    SetAllInteracteble(true);
+                                    SetInteractebleCanSelectMap();
+                                }
                             });
                         });
                     });
@@ -936,7 +953,6 @@ public class MapManager : MonoBehaviour
         else
         {
             //playerFollowCam.gameObject.SetActive(false);
-            mapCvsFollow.targetTrm = null;
             Vector2 bossCloudPos = new Vector2(0, bossEffectTrm.position.y);
             Vector2 dir = bossCloudPos - (Vector2)playerTrm.position;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;

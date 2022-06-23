@@ -54,6 +54,8 @@ public class SkillPiece : RulletPiece
     }
     public virtual int GetDamageCalc() //Player Àü¿ëÀÓ
     {
+        if (Owner == null) return 0;
+
         int attack = Owner.GetComponent<LivingEntity>().AttackPower + value;
         return attack;
     }

@@ -7,7 +7,7 @@ public class MapCanvasFollow : MonoBehaviour
 {
     [HideInInspector] public Transform targetTrm;
 
-    [SerializeField] private Transform followTrm;
+    public Transform followTrm;
 
     public float followSpeed;
 
@@ -87,5 +87,12 @@ public class MapCanvasFollow : MonoBehaviour
             rectTrm.anchoredPosition = targetAmchorPos;
             onComplete?.Invoke();
         }
+    }
+
+    public void ResetZoomAndFollow()
+    {
+        rectTrm.localScale = new Vector3(defaultZoomScale, defaultZoomScale, 1);
+        rectTrm.anchoredPosition = Vector2.zero;
+        followTrm.position = Vector3.zero;
     }
 }

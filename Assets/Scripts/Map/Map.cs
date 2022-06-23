@@ -42,13 +42,14 @@ public class Map : MonoBehaviour
     private void Awake()
     {
         button = GetComponent<Button>();
-        mapType = mapNode.NONE;
-        timeLimit = -1;
     }
 
     // Genragte 직후
-    public void InitMap(MapManager mapManager)
+    public void InitMap(MapManager mapManager, Action onEnd = null)
     {
+        mapType = mapNode.NONE;
+        tileType = mapTileEvent.NONE;
+        timeLimit = -1;
         button.onClick.RemoveAllListeners();
         this.mapManager = mapManager;
         defaultLocalPosY = GetComponent<RectTransform>().localPosition.y;
@@ -56,8 +57,8 @@ public class Map : MonoBehaviour
         mapIcon.color = Color.white;
         teleportMap = null;
         limitTimeTmp.gameObject.SetActive(false);
-        Blink(false, 0);
         button.onClick.AddListener(OnClickButton);
+        StartCoroutine(Blink(false, 0, true, onEnd));
     }
 
     public void SetTileSprite(Sprite tileSpr)
@@ -184,10 +185,10 @@ public class Map : MonoBehaviour
 
     public void BlinkMap(float time = 0.5f, Action onEndEvent = null)
     {
-        StartCoroutine(Blink(!isBlinked, time, onEndEvent));
+        StartCoroutine(Blink(!isBlinked, time, false, onEndEvent));
     }
 
-    private IEnumerator Blink(bool enable, float time = 0.5f, Action onEndEvent = null)
+    public IEnumerator Blink(bool enable, float time = 0.5f, bool skip = false, Action onEndEvent = null)
     {
         Image tileImage = GetComponent<Image>();
         // 켜지는거
@@ -212,7 +213,10 @@ public class Map : MonoBehaviour
         }
         isBlinked = enable;
 
-        yield return new WaitForSeconds(time);
+        if(skip)
+        {
+            yield return new WaitForSeconds(time);
+        }
 
         onEndEvent?.Invoke();
     }

@@ -307,6 +307,15 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         shieldHp = 0;
         SetHPBar();
     }
+
+    public virtual void RemoveShieldRatio(float ratio)
+    {
+       int removeRatio = (int)(shieldHp * (ratio / 100));
+        cc.DecreaseBuff(BuffType.Shield, removeRatio);
+
+        shieldHp -= removeRatio;
+        SetHPBar();
+    }
     public void ChangeShieldToHealth()
     {
         if (shieldHp > 0)

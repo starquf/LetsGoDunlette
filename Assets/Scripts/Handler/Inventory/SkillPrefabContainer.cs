@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+public enum SkillGetType
+{
+    NONE = -1,
+    BATTLE = 0,
+    SHOP = 1,
+}
+
 public class SkillPrefabContainer : MonoBehaviour
 {
     [Header("전체 스킬 프리팹")]
@@ -13,6 +20,8 @@ public class SkillPrefabContainer : MonoBehaviour
     public List<GameObject> enemySkillPrefabs;
     [HideInInspector]
     public List<GameObject> playerSkillPrefabs;
+
+    public List<RewardChance> shopRewardChances;
 
     private Dictionary<string, GameObject> skillPrefabDic;
 
@@ -116,27 +125,29 @@ public class SkillPrefabContainer : MonoBehaviour
 
         for (int i = 1; i <= count; i++)
         {
-            int random = Random.Range(0, gradeOne + gradeTwo + gradeThree);
-
-            if (random <= gradeOne)
+            SkillPiece skill = null;
+            do
             {
-                skills = GetSkillsByGrade(GradeInfo.Normal);
-            }
-            else if (random <= gradeOne + gradeTwo)
-            {
-                skills = GetSkillsByGrade(GradeInfo.Epic);
-            }
-            else if (random <= gradeOne + gradeTwo + gradeThree)
-            {
-                skills = GetSkillsByGrade(GradeInfo.Legend);
-            }
+                int random = Random.Range(0, gradeOne + gradeTwo + gradeThree);
 
-            int index = Random.Range(0, skills.Count - i);
+                if (random <= gradeOne)
+                {
+                    skills = GetSkillsByGrade(GradeInfo.Normal);
+                }
+                else if (random <= gradeOne + gradeTwo)
+                {
+                    skills = GetSkillsByGrade(GradeInfo.Epic);
+                }
+                else if (random <= gradeOne + gradeTwo + gradeThree)
+                {
+                    skills = GetSkillsByGrade(GradeInfo.Legend);
+                }
 
-            result.Add(skills[index]);
-            var temp = skills[skills.Count - i];
-            skills[skills.Count - i] = skills[index];
-            skills[index] = temp;
+                skill = skills[Random.Range(0, skills.Count)];
+
+            } while (result.Contains(skill));
+
+            result.Add(skill);
         }
         
 

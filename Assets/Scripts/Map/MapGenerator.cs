@@ -24,7 +24,7 @@ public class MapGenerator : MonoBehaviour
         posX -= (gridWidth * rt / 2f) - (rt / 2f);
 
         newTile.transform.position = new Vector2(posX, posY);
-        rectTransform.localPosition = new Vector3(rectTransform.localPosition.x, rectTransform.localPosition.y, 0f);
+        //rectTransform.localPosition = new Vector3(rectTransform.localPosition.x, rectTransform.localPosition.y, 0f);
 
         newTile.name = $"{x}, {y}";
 
