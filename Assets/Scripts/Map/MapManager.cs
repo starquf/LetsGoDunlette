@@ -189,8 +189,13 @@ public class MapManager : MonoBehaviour
     }
 
     // 변경되는 맵 타일 이벤트 순차 실행
-    public IEnumerator ChageMapDeration(Action onEnd = null)
+    public IEnumerator ChageMapDeration(bool skip = false ,Action onEnd = null)
     {
+        if (skip)
+        {
+            onEnd?.Invoke();
+            yield break;
+        }
         bool isEnd = false;
 
         int count = 1;
@@ -293,7 +298,7 @@ public class MapManager : MonoBehaviour
     // 맵 시작
     public void StartMap(mapNode mapType)
     {
-        StartCoroutine(ChageMapDeration(()=>
+        StartCoroutine(ChageMapDeration( mapType == mapNode.BOSS,()=>
         {
             switch (mapType)
             {
@@ -933,6 +938,7 @@ public class MapManager : MonoBehaviour
         else
         {
             //playerFollowCam.gameObject.SetActive(false);
+            mapCvsFollow.targetTrm = null;
             Vector2 bossCloudPos = new Vector2(0, bossEffectTrm.position.y);
             Vector2 dir = bossCloudPos - (Vector2)playerTrm.position;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
