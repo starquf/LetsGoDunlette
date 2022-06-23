@@ -136,6 +136,8 @@ public class MapManager : MonoBehaviour
     private BattleHandler battleHandler;
     private BattleInfoHandler battleInfoHandler;
 
+    public AnimationCurve switchPressAnimCurve;
+
     private void Awake()
     {
         GameManager.Instance.mapManager = this;
@@ -299,23 +301,28 @@ public class MapManager : MonoBehaviour
                     MovePlayer(curMap.teleportMap, null, false, moveType.TELEPORT);
                     break;
                 case mapNode.SWITCH:
-                    StartCoroutine(OnSwitchMap(() =>
+                    DOTween.Sequence()
+                    .Append(playerTrm.DOLocalJump(playerTrm.localPosition, 80, 1, 0.3f).SetEase(switchPressAnimCurve))
+                    .OnComplete(() =>
                     {
-                        LinkMap();
-                        if (!CheckHasLinckedMap())
+                        StartCoroutine(OnSwitchMap(() =>
                         {
-                            ZoomCamera(1, onComplete:()=>
+                            LinkMap();
+                            if (!CheckHasLinckedMap())
                             {
-                                bossCount = 0;
-                                BossCountDirection(null);
-                            });
-                        }
-                        else
-                        {
-                            SetAllInteracteble(true);
-                            SetInteractebleCanSelectMap();
-                        }
-                    }));
+                                ZoomCamera(1, onComplete: () =>
+                                {
+                                    bossCount = 0;
+                                    BossCountDirection(null);
+                                });
+                            }
+                            else
+                            {
+                                SetAllInteracteble(true);
+                                SetInteractebleCanSelectMap();
+                            }
+                        }));
+                    });
                     break;
                 default:
                     ZoomCamera(15f, time: 0.7f, ease: Ease.InOutSine);
@@ -498,7 +505,7 @@ public class MapManager : MonoBehaviour
                         int targetX = Random.Range((int)fm.minPos.x, (int)fm.maxPos.x + 1);
                         int targetY = Random.Range((int)fm.minPos.y, (int)fm.maxPos.y + 1);
                         targetPos = new Vector2(targetX, targetY);
-                    } while (useFixedPosMapType.Keys.Contains(targetPos));
+                    } while (useFixedPosMapType.Keys.Contains(targetPos) || targetPos.Equals(new Vector2(-1f, gridHeight - 1)) || targetPos.Equals(new Vector2(0f, gridHeight - 1)));
 
                     idx = useFixedPosMapType.Count;
                     int k = j;
@@ -559,9 +566,9 @@ public class MapManager : MonoBehaviour
                 int targetX = Random.Range((int)fm.minPos.x, (int)fm.maxPos.x + 1);
                 int targetY = Random.Range((int)fm.minPos.y, (int)fm.maxPos.y + 1);
                 targetPos = new Vector2(targetX, targetY);
-            } while (useFixedPosMapType.Keys.Contains(targetPos));
+            } while (useFixedPosMapType.Keys.Contains(targetPos) || targetPos.Equals(new Vector2(-1f, gridHeight - 1)) || targetPos.Equals(new Vector2(0f, gridHeight - 1)));
 
-            if(fm.map.mapType == mapNode.TELEPORT)
+            if (fm.map.mapType == mapNode.TELEPORT)
             {
                 idx = useFixedPosMapType.Count;
                 int j = i;
@@ -818,7 +825,8 @@ public class MapManager : MonoBehaviour
         {
             BreakMap(curMap);
             curMap = map;
-            curMap.mapIcon.DOFade(0, 0.3f);
+            if(map.MapType != mapNode.SWITCH)
+                curMap.mapIcon.DOFade(0, 0.3f);
             mapCvsFollow.Follow(onEndAnim: () =>
             {
                 onComplete?.Invoke();
