@@ -117,6 +117,10 @@ public class PieceCastUIHandler : MonoBehaviour
             .AppendInterval(0.3f)
             .Append(skillPiece.GetComponent<Image>().DOFade(0, 0.3f))
             .Join(skillPiece.skillIconImg.DOFade(0, 0.3f))
+            .AppendCallback(() => 
+            {
+                skillPiece.gameObject.SetActive(false);
+            })
             .InsertCallback(0.1f, () =>
             { //print("ÀÌÆåÆ®³¡³²");
                 onEndEffect += () => { skillPiece.gameObject.SetActive(false); };

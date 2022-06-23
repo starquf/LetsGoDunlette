@@ -182,6 +182,13 @@ public class InventoryHandler : MonoBehaviour
 
         skill.ResetPiece();
 
+        if (skill.isDisposable)
+        {
+            RemovePiece(skill);
+            SetCountUI();
+            return;
+        }
+
         Owner.indicator.SetText(Owner.skills.Count);
         Owner.indicator.ShowEffect();
 
@@ -475,7 +482,10 @@ public class InventoryHandler : MonoBehaviour
 
         piece.ResetPiece();
 
-        CreateSkillEffect(piece, piece.skillIconImg.transform.position);
+        if (piece.IsInRullet)
+        {
+            CreateSkillEffect(piece, piece.skillIconImg.transform.position);
+        }
 
         graveyard.Remove(piece);
         piece.Owner.skills.Remove(piece);
