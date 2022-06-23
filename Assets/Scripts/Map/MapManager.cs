@@ -301,8 +301,20 @@ public class MapManager : MonoBehaviour
                 case mapNode.SWITCH:
                     StartCoroutine(OnSwitchMap(() =>
                     {
-                        SetAllInteracteble(true);
-                        SetInteractebleCanSelectMap();
+                        LinkMap();
+                        if (!CheckHasLinckedMap())
+                        {
+                            ZoomCamera(1, onComplete:()=>
+                            {
+                                bossCount = 0;
+                                BossCountDirection(null);
+                            });
+                        }
+                        else
+                        {
+                            SetAllInteracteble(true);
+                            SetInteractebleCanSelectMap();
+                        }
                     }));
                     break;
                 default:
@@ -839,8 +851,20 @@ public class MapManager : MonoBehaviour
                                 curMap = map;
                                 curMap.mapIcon.DOFade(0, 0.3f);
 
-                                SetAllInteracteble(true);
-                                SetInteractebleCanSelectMap();
+
+                                if (!CheckHasLinckedMap())
+                                {
+                                    ZoomCamera(1, onComplete: () =>
+                                    {
+                                        bossCount = 0;
+                                        BossCountDirection(null);
+                                    });
+                                }
+                                else
+                                {
+                                    SetAllInteracteble(true);
+                                    SetInteractebleCanSelectMap();
+                                }
                             });
                         });
                     });
