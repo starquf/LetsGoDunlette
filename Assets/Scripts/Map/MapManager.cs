@@ -969,30 +969,35 @@ public class MapManager : MonoBehaviour
 
     private mapTileEvent GetCanSetTileType(Map map)
     {
+        if(!map.gameObject.activeSelf)
+        {
+            return mapTileEvent.NONE;
+        }
         Dictionary<mapTileEvent, float> curMapTypeProportionDic = GetTileTypeProportion();
-        List<mapTileEvent> sortedMapTypeList = tileTypeProportionDic.Keys.ToList();
+        List<mapTileEvent> sortedTileTypeList = tileTypeProportionDic.Keys.ToList();
 
-        sortedMapTypeList.Sort((x, y) => (tileTypeProportionDic[x] - curMapTypeProportionDic[x]) > (tileTypeProportionDic[y] - curMapTypeProportionDic[y]) ? -1 : 1);
+        sortedTileTypeList.Sort((x, y) => (tileTypeProportionDic[x] - curMapTypeProportionDic[x]) > (tileTypeProportionDic[y] - curMapTypeProportionDic[y]) ? -1 : 1);
 
         mapTileEvent tileType;
         int i = 0;
         do
         {
-            if (i >= sortedMapTypeList.Count)
+            if (i >= sortedTileTypeList.Count)
             {
                 //Debug.LogError("비율 세팅이 외 안되누");
                 return mapTileEvent.NONE;
             }
-            tileType = sortedMapTypeList[i];
+            tileType = sortedTileTypeList[i];
             i++;
         } while (!CanSetTileType(map, tileType));
 
-        for (int j = 0; j < sortedMapTypeList.Count; j++)
+        /*
+        for (int j = 0; j < sortedTileTypeList.Count; j++)
         {
-            mapTileEvent mt = sortedMapTypeList[j];
+            mapTileEvent mt = sortedTileTypeList[j];
             //Debug.Log(mt + ":" + mapTypeProportionDic[mt].ToString() + ", " + curMapTypeProportionDic[mt].ToString());
         }
-        //Debug.Log(mapType + "가 비율로 세팅됨");
+        //Debug.Log(mapType + "가 비율로 세팅됨");*/
 
         return tileType;
     }
