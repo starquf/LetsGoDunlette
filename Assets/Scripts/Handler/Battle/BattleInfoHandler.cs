@@ -9,6 +9,8 @@ public class BattleInfo
     public List<EnemyType> enemyInfos = new List<EnemyType>();
 
     public bool isWeakEnemy;
+    public float appearWeight;
+
     public Sprite bg;
     public BattleInfo() { }
     public BattleInfo(List<EnemyType> enemyInfos, bool isWeakEnemy, Sprite bg)
@@ -37,7 +39,9 @@ public class BattleInfoHandler : MonoBehaviour
     [Header("스테이지 정보들")]
     [SerializeField]
     private List<StageInfo> stages = new List<StageInfo>();
-    private int counter = 0;
+
+    private int weakCounter = 0;
+    private int maxWeakCounter = 2;
 
     private void Awake()
     {
@@ -130,19 +134,42 @@ public class BattleInfoHandler : MonoBehaviour
             stages.Add(stage);
             k++;
         }
-
-
     }
 
     public BattleInfo GetRandomBattleInfo()
     {
-        counter++;
+        weakCounter++;
 
-        if (counter > 2)
+        GetMaxWeakCounter();
+
+        if (weakCounter > maxWeakCounter)
         {
-            int randIdx = Random.Range(0, stages[GameManager.Instance.StageIdx].normalInfos.Count);
+            float total = 0;
 
-            return stages[GameManager.Instance.StageIdx].normalInfos[randIdx];
+            List<BattleInfo> battleInfos = stages[GameManager.Instance.StageIdx].normalInfos.OrderBy(x => x.appearWeight).ToList();
+            BattleInfo selectedInfo = battleInfos[battleInfos.Count - 1];
+
+            for (int i = 0; i < battleInfos.Count; i++)
+            {
+                total += battleInfos[i].appearWeight;
+            }
+
+            float randAppear = Random.Range(0f, total);
+
+            for (int i = 0; i < battleInfos.Count; i++)
+            {
+                if (randAppear < battleInfos[i].appearWeight)
+                {
+                    selectedInfo = battleInfos[i];
+                    break;
+                }
+                else 
+                {
+                    randAppear -= battleInfos[i].appearWeight;
+                }
+            }
+
+            return selectedInfo;
         }
         else
         {
@@ -153,6 +180,24 @@ public class BattleInfoHandler : MonoBehaviour
             //print("약한적");
 
             return weakInfos[randIdx];
+        }
+    }
+
+    private void GetMaxWeakCounter()
+    {
+        switch (GameManager.Instance.StageIdx)
+        {
+            case 0:
+                maxWeakCounter = 2;
+                break;
+
+            case 1:
+                maxWeakCounter = 1;
+                break;
+
+            default:
+                maxWeakCounter = 1;
+                break;
         }
     }
 
@@ -170,8 +215,9 @@ public class BattleInfoHandler : MonoBehaviour
         return stages[GameManager.Instance.StageIdx].eliteInfos[randIdx];
     }
 
-    public void SetStage(int stage)
+    public void SetStage(int stage, int maxWeakCounter)
     {
         GameManager.Instance.StageIdx = stage - 1;
+        this.maxWeakCounter = maxWeakCounter;
     }
 }

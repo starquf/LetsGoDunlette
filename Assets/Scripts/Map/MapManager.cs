@@ -404,25 +404,23 @@ public class MapManager : MonoBehaviour
     public void SetTileType()
     {
         List<Map> mapList = tiles.Values.ToList();
-        for (int i = 0; i < mapList.Count; i++)
+        for (int i = mapList.Count-1; i >= 0; i--)
         {
-            if (mapList[i].MapType == mapNode.TELEPORT)
-            {
-                continue;
-            }
+            Map map = mapList[Random.Range(0, mapList.Count)];
+            mapList.Remove(map);
 
-            Vector2 mapPos = GetTilesKeyToValue(mapList[i]);
-            mapList[i].tileType = mapPos.Equals(new Vector2(-1f, gridHeight - 1)) || mapPos.Equals(new Vector2(0f, gridHeight - 1))
+            Vector2 mapPos = GetTilesKeyToValue(map);
+            map.tileType = mapPos.Equals(new Vector2(-1f, gridHeight - 1)) || mapPos.Equals(new Vector2(0f, gridHeight - 1))
                 ? mapTileEvent.NONE
-                : GetCanSetTileType(mapList[i]);
+                : GetCanSetTileType(map);
 
-            switch (mapList[i].tileType)
+            switch (map.tileType)
             {
                 case mapTileEvent.BLINK:
-                    blinkMapList.Add(mapList[i]);
+                    blinkMapList.Add(map);
                     break;
                 case mapTileEvent.TIMELIMIT:
-                    timeLimitMapList.Add(mapList[i]);
+                    timeLimitMapList.Add(map);
                     break;
                 default:
                     break;
@@ -975,7 +973,7 @@ public class MapManager : MonoBehaviour
 
     private mapTileEvent GetCanSetTileType(Map map)
     {
-        if(!map.gameObject.activeSelf)
+        if (!map.gameObject.activeSelf || map.MapType == mapNode.TELEPORT || map.MapType == mapNode.SWITCH)
         {
             return mapTileEvent.NONE;
         }
@@ -1142,17 +1140,19 @@ public class MapManager : MonoBehaviour
 
         // 랜덤 맵 타일 설정 <- 비율로 변경
         List<Map> mapList = tiles.Values.ToList();
-        for (int i = 0; i < mapList.Count; i++)
+        for (int i = mapList.Count-1; i >= 0 ; i--)
         {
-            if (mapList[i].MapType != mapNode.NONE)
+            Map map = mapList[Random.Range(0, mapList.Count)];
+            mapList.Remove(map);
+            if (map.MapType != mapNode.NONE)
             {
                 continue;
             }
 
-            Vector2 mapPos = GetTilesKeyToValue(mapList[i]);
-            mapList[i].MapType = mapPos.Equals(new Vector2(-1f, gridHeight - 1)) || mapPos.Equals(new Vector2(0f, gridHeight - 1))
+            Vector2 mapPos = GetTilesKeyToValue(map);
+            map.MapType = mapPos.Equals(new Vector2(-1f, gridHeight - 1)) || mapPos.Equals(new Vector2(0f, gridHeight - 1))
                 ? mapNode.NONE
-                : GetCanSetType(mapList[i]);
+                : GetCanSetType(map);
         }
     }
     public Dictionary<mapTileEvent, float> GetTileTypeProportion()
