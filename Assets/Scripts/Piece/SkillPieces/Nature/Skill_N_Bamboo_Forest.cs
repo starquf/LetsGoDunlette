@@ -40,7 +40,7 @@ public class Skill_N_Bamboo_Forest : SkillPiece
 
                         int a = i;
 
-                        bh.battleUtil.SetTimer(0.10f * i, () => 
+                        bh.battleUtil.SetTimer(0.10f * a, () => 
                         {
                             animHandler.GetTextAnim()
                             .SetPosition(rulletPieces[a].skillIconImg.transform.position)
@@ -56,7 +56,7 @@ public class Skill_N_Bamboo_Forest : SkillPiece
             }
 
             bh.battleUtil.SetTimer(0.10f, () => { GameManager.Instance.inventoryHandler.CreateSkill(bambooSpear, Owner, Owner.transform.position); });
-            bh.battleUtil.SetTimer(0.10f * count, onCastEnd);
+            bh.battleUtil.SetTimer(0.10f * count + 0.2f, onCastEnd);
         });
     }
 

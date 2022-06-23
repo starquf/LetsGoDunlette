@@ -174,8 +174,6 @@ public class InventoryHandler : MonoBehaviour
 
     public void SetSkillToInventory(SkillPiece skill)
     {
-        skill.IsInRullet = false;
-
         Inventory Owner = skill.Owner;
 
         Owner.skills.Add(skill);
@@ -188,6 +186,8 @@ public class InventoryHandler : MonoBehaviour
             SetCountUI();
             return;
         }
+
+        skill.IsInRullet = false;
 
         Owner.indicator.SetText(Owner.skills.Count);
         Owner.indicator.ShowEffect();
