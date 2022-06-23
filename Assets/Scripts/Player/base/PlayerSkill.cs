@@ -1,19 +1,34 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class PlayerSkill : MonoBehaviour
 {
+    [Header("Á¤º¸µé")]
+    [SerializeField]
+    protected Image icon = null;
+
     public string skillName;
 
     public PlayerSkillType skillType;
-    public Sprite icon;
+    public Sprite iconSpr;
+
     public bool canUse;
+
+    public bool isUniqueSkill = false;
 
     protected PlayerSkillButton ui;
 
     public virtual void Init(PlayerSkillButton ui)
     {
         this.ui = ui;
+
+        UpdateUI(ui);
+    }
+
+    public void SetIcon(Sprite img)
+    {
+        icon.sprite = img;
     }
 
     public abstract bool CanUseSkill();
@@ -21,7 +36,6 @@ public abstract class PlayerSkill : MonoBehaviour
     public virtual void Cast(Action onEndSkill)
     {
         canUse = false;
-        GameManager.Instance.battleHandler.playerInfoHandler.UpdateCanPlayerSkillUse();
     }
 
     public abstract void UpdateUI(PlayerSkillButton skillBtn);

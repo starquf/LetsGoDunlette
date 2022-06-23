@@ -4,8 +4,6 @@ using UnityEngine;
 public class PlayerSkillPanelHandler : MonoBehaviour
 {
     private BattleHandler bh;
-    private PlayerInfo playerInfo;
-    private PlayerHealth player;
     private List<PlayerSkillButton> skillButtons = new List<PlayerSkillButton>();
     public Transform skillBtnTrans;
 
@@ -21,42 +19,23 @@ public class PlayerSkillPanelHandler : MonoBehaviour
     private void Start()
     {
         bh = GameManager.Instance.battleHandler;
-        player = GameManager.Instance.battleHandler.player;
     }
 
     public void Init(PlayerInfo playerInfo)
     {
-        this.playerInfo = playerInfo;
-
         for (int i = 0; i < skillButtons.Count; i++)
         {
-            skillButtons[i].gameObject.SetActive(false);
+            //skillButtons[i].gameObject.SetActive(false);
         }
 
-        for (int i = 0; i < playerInfo.playerSkills.Count; i++)
+        for (int i = 0; i < playerInfo.playerUniqueSkills.Count; i++)
         {
-            PlayerSkill skill = playerInfo.playerSkills[i];
+            PlayerSkill skill = Instantiate(playerInfo.playerUniqueSkills[i], skillButtons[i].btnPos);
 
             skillButtons[i].gameObject.SetActive(true);
-            skillButtons[i].Init(skill, ps =>
-            {
-                print($"눌린 스킬 : {ps.skillName}");
 
-                if (!canCast)
-                {
-                    return;
-                }
-
-                if (!bh.isBattle || bh.mainRullet.IsStop)
-                {
-                    return;
-                }
-
-                if (!isCasting)
-                {
-                    UseSkill(ps);
-                }
-            });
+            print("넣어짐");
+            SetSkill(skillButtons[i], skill);
         }
     }
 
@@ -74,6 +53,7 @@ public class PlayerSkillPanelHandler : MonoBehaviour
     public void UpdateCanPlayerSkillUse()
     {
         hasCanUseSkill = false;
+
         for (int i = 0; i < skillButtons.Count; i++)
         {
             if (skillButtons[i].currentSkill != null)
@@ -107,6 +87,34 @@ public class PlayerSkillPanelHandler : MonoBehaviour
 
             //ClosePanel();
         }
+    }
+
+    private void SetSkill(PlayerSkillButton btn, PlayerSkill skill)
+    {
+        if (btn.currentSkill != null)
+        {
+            // 스킬 풀링
+        }
+
+        btn.Init(skill, ps =>
+        {
+            print($"눌린 스킬 : {ps.skillName}");
+
+            if (!canCast)
+            {
+                return;
+            }
+
+            if (!bh.isBattle || bh.mainRullet.IsStop)
+            {
+                return;
+            }
+
+            if (!isCasting)
+            {
+                UseSkill(ps);
+            }
+        });
     }
 
     public void SetInteract(bool enable)
