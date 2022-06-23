@@ -409,11 +409,6 @@ public class MapManager : MonoBehaviour
             Map map = mapList[Random.Range(0, mapList.Count)];
             mapList.Remove(map);
 
-            if (map.MapType == mapNode.TELEPORT)
-            {
-                continue;
-            }
-
             Vector2 mapPos = GetTilesKeyToValue(map);
             map.tileType = mapPos.Equals(new Vector2(-1f, gridHeight - 1)) || mapPos.Equals(new Vector2(0f, gridHeight - 1))
                 ? mapTileEvent.NONE
@@ -978,7 +973,7 @@ public class MapManager : MonoBehaviour
 
     private mapTileEvent GetCanSetTileType(Map map)
     {
-        if(!map.gameObject.activeSelf)
+        if (!map.gameObject.activeSelf || map.MapType == mapNode.TELEPORT || map.MapType == mapNode.SWITCH)
         {
             return mapTileEvent.NONE;
         }
