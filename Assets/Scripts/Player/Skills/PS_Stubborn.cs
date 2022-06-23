@@ -33,7 +33,7 @@ public class PS_Stubborn : PlayerSkill
 
     public override void UpdateUI(PlayerSkillButton skillBtn)
     {
-        skillBtn.SetMessege(curStackCount.ToString());
+        //skillBtn.SetMessege(curStackCount.ToString());
     }
 
     public override bool CanUseSkill()
@@ -59,7 +59,7 @@ public class PS_Stubborn : PlayerSkill
                 SetPlayerOffensivePower(prevStackCount);
             }
 
-            ui.UpdateUI();
+            //ui.UpdateUI();
 
             action?.Invoke();
         }));
@@ -74,12 +74,12 @@ public class PS_Stubborn : PlayerSkill
                 SetPlayerOffensivePower(prevStackCount);
             }
 
-            ui.UpdateUI();
+            //ui.UpdateUI();
 
             action?.Invoke();
         }));
 
-        ui.UpdateUI();
+        //ui.UpdateUI();
     }
 
     private void SetPlayerOffensivePower(int prevStackCount)
