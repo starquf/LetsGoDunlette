@@ -13,7 +13,7 @@ public class Skill_C_Boomerang : SkillPiece
     {
         base.Start();
 
-        if(isFisrt)
+        if (isFisrt)
         {
             value = originValue;
         }
@@ -66,7 +66,10 @@ public class Skill_C_Boomerang : SkillPiece
     public void UpdateValue(int value)
     {
         this.value = value;
-        isFisrt = false;
+        if (IsInRullet == true)
+        {
+            isFisrt = false;
+        }
         counterText.text = GetDamageCalc().ToString();
     }
 }
