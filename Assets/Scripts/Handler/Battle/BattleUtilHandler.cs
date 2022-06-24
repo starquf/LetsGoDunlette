@@ -181,12 +181,17 @@ public class BattleUtilHandler : MonoBehaviour
         return skill;
     }
 
-    public IEnumerator ResetRullet(Action onEndReset = null)
+    public IEnumerator ResetRullet(Action onEndReset = null, Action<RulletPiece> onChangePiece = null)
     {
         List<RulletPiece> pieces = mainRullet.GetPieces();
 
         for (int i = 0; i < pieces.Count; i++)
         {
+            if (pieces[i] != null)
+            {
+                onChangePiece?.Invoke(pieces[i]);
+            }
+
             ChangeRulletPiece(i);
 
             if (i != 5)

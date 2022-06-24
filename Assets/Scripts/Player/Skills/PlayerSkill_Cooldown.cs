@@ -7,8 +7,6 @@ public class PlayerSkill_Cooldown : PlayerSkill
 {
     [SerializeField]
     protected Image coolDownImg = null;
-    [SerializeField]
-    private TextMeshProUGUI skillCooldownMsg = null;
 
     protected BattleHandler bh;
 
@@ -24,6 +22,7 @@ public class PlayerSkill_Cooldown : PlayerSkill
     protected virtual void Awake()
     {
         cooldown = maxCooldown;
+
         isFirstActivate = true;
     }
 
@@ -34,6 +33,8 @@ public class PlayerSkill_Cooldown : PlayerSkill
 
     public override void Init(PlayerSkillButton ui)
     {
+        cooldown = maxCooldown;
+
         base.Init(ui);
     }
 
@@ -43,8 +44,6 @@ public class PlayerSkill_Cooldown : PlayerSkill
 
         if (CanUseSkill())
         {
-            SetMessege("사용 가능");
-
             skillBtn.SetStrokeColor(enableColor);
 
             if (isFirstActivate)
@@ -56,8 +55,6 @@ public class PlayerSkill_Cooldown : PlayerSkill
         }
         else
         {
-            SetMessege($"{cooldown}턴 남음");
-
             skillBtn.SetStrokeColor(disableColor);
         }
     }
@@ -77,11 +74,6 @@ public class PlayerSkill_Cooldown : PlayerSkill
         coolDownImg.fillAmount = coolDownPercent;
     }
 
-    public virtual void SetMessege(string msg)
-    {
-        skillCooldownMsg.text = msg;
-    }
-
     public override bool CanUseSkill()
     {
         return cooldown <= 0;
@@ -89,8 +81,6 @@ public class PlayerSkill_Cooldown : PlayerSkill
 
     public override void OnBattleStart()
     {
-        cooldown = maxCooldown;
-
         bh.battleEvent.BookEvent(new NormalEvent(action =>
         {
             if (cooldown > 0)
@@ -104,6 +94,15 @@ public class PlayerSkill_Cooldown : PlayerSkill
 
             action?.Invoke();
         }, EventTime.StartTurn));
+
+        /*
+        bh.battleEvent.BookEvent(new NormalEvent(action =>
+        {
+            
+
+            action?.Invoke();
+        }, EventTime.EndBattle));
+        */
 
         UpdateUI(ui);
     }

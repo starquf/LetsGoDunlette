@@ -93,7 +93,7 @@ public class PlayerSkillPanelHandler : MonoBehaviour
                     bh.SetInteract(true);
                 });
 
-            Time.timeScale = 0.15f;
+            Time.timeScale = 0f;
 
             bh.SetInteract(false);
 

@@ -492,6 +492,9 @@ public class BattleHandler : MonoBehaviour
 
     public void StartTurn()
     {
+        if (!isBattle)
+            return;
+
         // 전부 돌려버리고
         mainRullet.RollRullet();
 
