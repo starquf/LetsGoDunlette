@@ -8,9 +8,9 @@ using Random = UnityEngine.Random;
 
 public enum ProductType
 {
-    None,
-    Scroll,
-    RulletPiece,
+    NONE,
+    SKILL,
+    RULLETPIECE,
 }
 
 public class ShopEncounterUIHandler : MonoBehaviour
@@ -35,16 +35,16 @@ public class ShopEncounterUIHandler : MonoBehaviour
     [SerializeField] private List<ProductInfo> products = new List<ProductInfo>();
 
     [Header("랜덤 상점 리스트")]
-    public List<Scroll> scrollShopList = new List<Scroll>();
+    public List<PlayerSkill> skillShopList = new List<PlayerSkill>();
 
     public List<RewardChance> showSetChances;
 
-    private List<Scroll> randomScroll = new List<Scroll>();
+    private List<PlayerSkill> randomSkill = new List<PlayerSkill>();
 
     private List<int> soldIdxList = new List<int>();
 
     private GoldUIHandler goldUIHandler;
-    private BattleScrollHandler battleScrollHandler;
+    //private BattleSkillHandler battleSkillHandler;
 
     private BattleHandler bh;
     private InventoryHandler invenHandler;
@@ -67,7 +67,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
         bh = GameManager.Instance.battleHandler;
         goldUIHandler = GameManager.Instance.goldUIHandler;
         skillContainer = GameManager.Instance.skillContainer;
-        //battleScrollHandler = bh.battleScroll;
+        //battleSkillHandler = bh.battleSkill;
 
         exitBtn.onClick.AddListener(OnExitBtnClick);
         purchaseBtn.onClick.AddListener(OnPurchaseBtnClick);
@@ -80,7 +80,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
     public void StartEvent()
     {
         //goldUIHandler.ShowGoldUI(true);
-        //battleScrollHandler.ShowScrollUI(open: true);
+        //battleSkillHandler.ShowSkillUI(open: true);
         isSelectPanelEnable = false;
         selectIdx = -1;
 
@@ -108,7 +108,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
         SetAllButtonInterval(true);
         soldIdxList.Clear();
         List<SkillPiece> randomRulletPiece = skillContainer.GetSkillsByChance(showSetChances[playerLevel], 3);
-        randomScroll = new List<Scroll>(scrollShopList);
+        randomSkill = new List<PlayerSkill>(skillShopList);
 
         for (int i = 0; i < products.Count; i++)
         {
@@ -116,17 +116,17 @@ public class ShopEncounterUIHandler : MonoBehaviour
             if (idx < 3)
             {
                 SkillPiece rulletPiece = randomRulletPiece[i];
-                products[idx].SetProduct(ProductType.RulletPiece, null, rulletPiece);
+                products[idx].SetProduct(ProductType.RULLETPIECE, null, rulletPiece);
             }
             else
             {
-                Scroll scroll = randomScroll[Random.Range(0, randomScroll.Count)];
-                randomScroll.Remove(scroll);
-                products[idx].SetProduct(ProductType.Scroll, scroll);
+                PlayerSkill skill = randomSkill[Random.Range(0, randomSkill.Count)];
+                randomSkill.Remove(skill);
+                products[idx].SetProduct(ProductType.SKILL, skill);
             }
         }
         randomRulletPiece.Clear();
-        randomScroll.Clear();
+        randomSkill.Clear();
         SetButtonInterval(purchaseBtn, false);
     }
 
@@ -162,17 +162,17 @@ public class ShopEncounterUIHandler : MonoBehaviour
 
             switch (selectProduct.productType)
             {
-                case ProductType.Scroll:
-                    Scroll scroll = PoolManager.GetScroll(selectProduct.scroll.scrollType);
-                    Image scrollImg = scroll.GetComponent<Image>();
-                    scrollImg.color = new Color(1, 1, 1, 0);
-                    scroll.transform.SetParent(transform);
-                    scroll.GetComponent<RectTransform>().sizeDelta = Vector2.one * 300f;
-                    scroll.transform.position = selectProductImg.transform.position + Vector3.down;
-                    scroll.transform.localScale = Vector3.one;
-
+                case ProductType.SKILL:
+                    PlayerSkill skill = null;//PoolManager.GetSkill(selectProduct.skill.skillType);
+                    Image skillImg = skill.GetComponent<Image>();
+                    skillImg.color = new Color(1, 1, 1, 0);
+                    skill.transform.SetParent(transform);
+                    skill.GetComponent<RectTransform>().sizeDelta = Vector2.one * 300f;
+                    skill.transform.position = selectProductImg.transform.position + Vector3.down;
+                    skill.transform.localScale = Vector3.one;
+                    /*
                     bh.GetComponent<BattleScrollHandler>()
-                         .GetScroll(scroll, () =>
+                         .GetScroll(skill, () =>
                          {
                              buyPanel.DOFade(0, 0.5f).OnComplete(() =>
                              {
@@ -181,9 +181,9 @@ public class ShopEncounterUIHandler : MonoBehaviour
                                  SetProductSold(selectIdx);
                                  SetAllButtonInterval(true, true);
                              });
-                         }, true);
+                         }, true);*/
                     break;
-                case ProductType.RulletPiece:
+                case ProductType.RULLETPIECE:
 
                     SkillPiece skillPiece = selectProduct.rulletPiece;//Instantiate(selectProduct.rulletPiece, Vector3.zero, Quaternion.identity).GetComponent<SkillPiece>();
                     GameManager.Instance.getPieceHandler.GetPiecePlayer(skillPiece,
@@ -300,7 +300,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
             invenHandler = GameManager.Instance.inventoryHandler;
         }
 
-        if (product.productType.Equals(ProductType.RulletPiece))
+        if (product.productType.Equals(ProductType.RULLETPIECE))
         {
             productSpr = product.skillImg.sprite;
             Sprite stroke = invenHandler.pieceBGStrokeSprDic[product.rulletPiece.currentType];
@@ -324,7 +324,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
         }
         else
         {
-            productSpr = product.scrollImg.sprite;
+            productSpr = product.skillImg.sprite;
 
 
             skillIconTrans.gameObject.SetActive(false);
@@ -367,7 +367,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
         });
 
         //goldUIHandler.ShowGoldUI(false);
-        //battleScrollHandler.ShowScrollUI(open: false);
+        //battleSkillHandler.ShowSkillUI(open: false);
 
         for (int i = 0; i < products.Count; i++)
         {

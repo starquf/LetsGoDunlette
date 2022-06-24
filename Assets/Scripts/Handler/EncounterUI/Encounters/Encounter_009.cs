@@ -6,7 +6,7 @@ public class Encounter_009 : RandomEncounter
     public override void Init()
     {
         base.Init();
-        BattleScrollHandler battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
+        /*BattleScrollHandler battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
 
         List<ScrollSlot> scrollList = new List<ScrollSlot>();
         for (int i = 0; i < battleScrollHandler.slots.Count; i++)
@@ -23,7 +23,7 @@ public class Encounter_009 : RandomEncounter
             {
                 battleScrollHandler.SortScroll();
             });
-        scrollList[randIdx].RemoveScroll();
+        scrollList[randIdx].RemoveScroll();*/
     }
 
     public override void ResultSet(int resultIdx)

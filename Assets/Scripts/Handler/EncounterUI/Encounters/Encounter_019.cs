@@ -6,7 +6,8 @@ public class Encounter_019 : RandomEncounter
 {
     public SkillPiece computerErrorPiece;
     private SkillPiece skill;
-    private Scroll scroll;
+    //private Scroll scroll;
+
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;
@@ -18,7 +19,7 @@ public class Encounter_019 : RandomEncounter
                 showText = en_End_TextList[0];
                 showImg = en_End_Image[0];
 
-                MakeScroll(encounterInfoHandler.GetRandomScrollRewards(1)[0].scrollType, out scroll);
+                //MakeScroll(encounterInfoHandler.GetRandomScrollRewards(1)[0].scrollType, out scroll);
 
                 break;
             case 1:
@@ -46,6 +47,7 @@ public class Encounter_019 : RandomEncounter
         switch (choiceIdx)
         {
             case 0:
+                /*
                 BattleScrollHandler battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
 
                 scroll.GetComponent<Image>().DOFade(1, 0.5f).SetDelay(1f);
@@ -54,7 +56,7 @@ public class Encounter_019 : RandomEncounter
                 {
                     OnExitEncounter?.Invoke(true);
                     randomEncounterUIHandler.exitBtn.gameObject.SetActive(true);
-                }, true);
+                }, true);*/
                 break;
             case 1:
                 GetSkillInRandomEncounterAnim(skill,

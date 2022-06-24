@@ -14,11 +14,11 @@ public class Encounter_014 : RandomEncounter
         switch (resultIdx)
         {
             case 0:
-                BattleScrollHandler battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
+                //BattleScrollHandler battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
                 showText = en_End_TextList[0];
                 showImg = en_End_Image[0];
                 en_End_Result = "보스가 여왕으로 고정됨, 여왕의 체력이 50 닳은 상태로 시작";
-
+                /*
                 int idx = -1;
                 for (int i = 0; i < battleScrollHandler.slots.Count; i++)
                 {
@@ -34,7 +34,7 @@ public class Encounter_014 : RandomEncounter
                 }
                 battleScrollHandler.slots[idx].RemoveScroll();
                 battleScrollHandler.SortScroll();
-
+                */
                 bh._bossInfo.enemyInfos.Clear();
                 bh._bossInfo.enemyInfos.Add(EnemyType.QUEEN);
                 bh._bossInfo.bg = queenBackgroundSpr;

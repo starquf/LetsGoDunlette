@@ -30,6 +30,7 @@ public abstract class RandomEncounter : MonoBehaviour
         bh = GameManager.Instance.battleHandler;
     }
 
+    /*
     public void MakeScroll(ScrollType scrollType, out Scroll scroll)
     {
         scroll = PoolManager.GetScroll(scrollType);
@@ -39,7 +40,7 @@ public abstract class RandomEncounter : MonoBehaviour
         scroll.transform.SetParent(encounterInfoHandler.transform);
         scroll.GetComponent<RectTransform>().sizeDelta = Vector2.one * 400f;
         scroll.transform.localScale = Vector3.one;
-    }
+    }*/
 
     public void MakeSkill(SkillPiece piece, out SkillPiece skill)
     {

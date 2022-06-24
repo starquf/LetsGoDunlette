@@ -14,14 +14,14 @@ public class Encounter_020 : RandomEncounter
         switch (resultIdx)
         {
             case 0:
-                BattleScrollHandler battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
+                //BattleScrollHandler battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
                 randomEncounterUIHandler.exitBtn.gameObject.SetActive(false);
 
                 showText = en_End_TextList[0];
                 showImg = en_End_Image[0];
                 en_End_Result = "È¸º¹ ½ºÅ©·Ñ 1°³ È¹µæ";
                 GameManager.Instance.Gold -= giveMoneyValue;
-
+                /*
                 Scroll scroll = PoolManager.GetScroll(ScrollType.Heal);
                 scroll.transform.position = Vector2.zero;
                 Image scrollImg = scroll.GetComponent<Image>();
@@ -34,7 +34,7 @@ public class Encounter_020 : RandomEncounter
                 battleScrollHandler.GetScroll(scroll, () =>
                 {
                     randomEncounterUIHandler.exitBtn.gameObject.SetActive(true);
-                }, true);
+                }, true);*/
                 break;
             case 1:
                 showText = en_End_TextList[1];

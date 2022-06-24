@@ -64,6 +64,7 @@ public class DebugItemPanelHandler : MonoBehaviour, IDebugPanel
     {
         scrollDropdown.options.Clear();
 
+        /*
         foreach (ScrollType scroll in Enum.GetValues(typeof(ScrollType)))
         {
             Scroll scrollObj = PoolManager.GetScroll(scroll);
@@ -77,7 +78,7 @@ public class DebugItemPanelHandler : MonoBehaviour, IDebugPanel
             scrollDropdown.options.Add(op);
 
             scrollObj.gameObject.SetActive(false);
-        }
+        }*/
 
         scrollDropdown.SetValueWithoutNotify(-1);
         scrollDropdown.SetValueWithoutNotify(0);

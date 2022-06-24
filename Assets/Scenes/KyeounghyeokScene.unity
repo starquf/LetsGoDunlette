@@ -25280,7 +25280,6 @@ GameObject:
   - component: {fileID: 377361826}
   - component: {fileID: 377361825}
   - component: {fileID: 377361824}
-  - component: {fileID: 377361823}
   - component: {fileID: 377361822}
   - component: {fileID: 377361821}
   m_Layer: 0
@@ -25329,25 +25328,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa453fb1636ab6442bde6cdd11fc576c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &377361823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 377361819}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab6f6b8074a2cc842a0a1dc5e4d6ccda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  blackPanel: {fileID: 1605855337}
-  chagneScrollPopUp: {fileID: 723531158}
-  scrollDesHandler: {fileID: 1886591310}
-  slots:
-  - {fileID: 933267217}
-  - {fileID: 158596784}
-  - {fileID: 2087926945}
 --- !u!114 &377361824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68719,7 +68699,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterName: 
-  playerSkills: []
+  playerUniqueSkills: []
 --- !u!114 &762510368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68732,10 +68712,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46c02b3f12ff9cd4e8fc8347adbdc877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  icon: {fileID: 0}
   skillName: TestSkill
   skillType: 0
-  icon: {fileID: -5467268180845575103, guid: df1174703edde184abd048fd6f610a23, type: 3}
+  iconSpr: {fileID: 0}
   canUse: 0
+  isUniqueSkill: 0
+  coolDownImg: {fileID: 0}
+  skillCooldownMsg: {fileID: 0}
   maxCooldown: 5
 --- !u!1 &777075774
 GameObject:
