@@ -18,49 +18,36 @@ public class Skill_W_Fishing : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null) //무작위 조각 하나를 즉시 사용한다.
     {
-        animHandler.GetAnim(AnimName.SkillEffect01)
-        .SetPosition(Owner.transform.position)
-        .SetScale(2f)
-        .SetRotation(Vector3.forward * -90f)
-        .Play(() =>
-        {
-            //onCastEnd?.Invoke();
-        });
-        List<RulletPiece> skillPieces = bh.mainRullet.GetPieces();
+        var skillPieces = GameManager.Instance.inventoryHandler.skills;
         SkillPiece result = null;
         int index = 0;
         if (skillPieces.Count > 0)
         {
             index = Random.Range(0, skillPieces.Count);
-            result = skillPieces[index] as SkillPiece;
+            result = skillPieces[index];
             if (result == null)
             {
                 onCastEnd?.Invoke();
             }
-            result.HighlightColor(0.4f);
-
-            animHandler.GetTextAnim()
-            .SetType(TextUpAnimType.Up)
-            .SetPosition(result.skillIconImg.transform.position)
-            .Play($"{result.PieceName} 월척!");
         }
         else
         {
             onCastEnd?.Invoke();
         }
 
-        if (result.currentType == ElementalType.Monster)
+        print(result.name);
+
+        if (!(result.currentType == ElementalType.Monster) && result.isTargeting == true)
         {
-            result.ChoiceSkill();
-            result.Cast(bh.player, onCastEnd);
-            bh.battleUtil.SetPieceToGraveyard(index);
+            if(result.IsInRullet)
+            {
+                result.Cast(target, onCastEnd);
+                bh.battleUtil.SetPieceToGraveyard(index);
+            }
         }
         else
         {
-            result.Cast(target, onCastEnd);
-            bh.battleUtil.SetPieceToGraveyard(index);
+            onCastEnd?.Invoke();
         }
-
-        print(8);
     }
 }

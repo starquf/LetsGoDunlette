@@ -66,10 +66,6 @@ public class Skill_C_Boomerang : SkillPiece
     public void UpdateValue(int value)
     {
         this.value = value;
-        if (IsInRullet == true)
-        {
-            isFisrt = false;
-        }
         counterText.text = GetDamageCalc().ToString();
     }
 }
