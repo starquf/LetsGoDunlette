@@ -7,16 +7,10 @@ public class Skill_C_Boomerang : SkillPiece
     public int originValue = -2;
     private EventInfo eventInfo;
     public Text counterText;
-    public bool isFisrt = true;
 
     protected override void Start()
     {
         base.Start();
-
-        if (isFisrt)
-        {
-            value = originValue;
-        }
 
         counterText.text = GetDamageCalc().ToString();
         GameManager.Instance.battleHandler.battleEvent.RemoveEventInfo(eventInfo);
@@ -59,7 +53,18 @@ public class Skill_C_Boomerang : SkillPiece
 
     private void ResetValue(Action action) //전투가 끝나면 피해가 초기화
     {
-        UpdateValue(originValue);
+        var skills = GameManager.Instance.inventoryHandler.skills;
+        foreach (var item in skills)
+        {
+            Skill_C_Boomerang skill_C_Boomerang = item.GetComponent<Skill_C_Boomerang>();
+            if (skill_C_Boomerang != null)
+            {
+                if (!skill_C_Boomerang.IsInRullet)
+                {
+                    skill_C_Boomerang.UpdateValue(originValue);
+                }
+            }
+        }
         action?.Invoke();
     }
 
