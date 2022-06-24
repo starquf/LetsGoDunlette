@@ -11,11 +11,6 @@ public class Skill_C_Boomerang : SkillPiece
     protected override void Start()
     {
         base.Start();
-
-        counterText.text = GetDamageCalc().ToString();
-        GameManager.Instance.battleHandler.battleEvent.RemoveEventInfo(eventInfo);
-        eventInfo = new NormalEvent(new Action<Action>(ResetValue), EventTime.EndBattle);
-        GameManager.Instance.battleHandler.battleEvent.BookEvent(eventInfo);
     }
 
     public override List<DesIconInfo> GetDesIconInfo()
@@ -23,6 +18,15 @@ public class Skill_C_Boomerang : SkillPiece
         base.GetDesIconInfo();
         desInfos[0].SetInfo(DesIconType.Attack, GetDamageCalc().ToString());
         return desInfos;
+    }
+
+    public override void OnRullet()
+    {
+        base.OnRullet();
+        counterText.text = GetDamageCalc().ToString();
+        GameManager.Instance.battleHandler.battleEvent.RemoveEventInfo(eventInfo);
+        eventInfo = new NormalEvent(new Action<Action>(ResetValue), EventTime.EndBattle);
+        GameManager.Instance.battleHandler.battleEvent.BookEvent(eventInfo);
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
