@@ -11,6 +11,8 @@ public class PlayerSkillPanelHandler : MonoBehaviour
     public bool isCasting = false;
     private bool canCast = true;
 
+    public ItemDesUIHandler itemDesHandler;
+
     private void Awake()
     {
         skillBtnTrans.GetComponentsInChildren(skillButtons);
@@ -23,11 +25,6 @@ public class PlayerSkillPanelHandler : MonoBehaviour
 
     public void Init(PlayerInfo playerInfo)
     {
-        for (int i = 0; i < skillButtons.Count; i++)
-        {
-            //skillButtons[i].gameObject.SetActive(false);
-        }
-
         for (int i = 0; i < playerInfo.playerUniqueSkills.Count; i++)
         {
             PlayerSkill skill = Instantiate(playerInfo.playerUniqueSkills[i], skillButtons[i].btnPos);
@@ -75,15 +72,30 @@ public class PlayerSkillPanelHandler : MonoBehaviour
         {
             print("»ç¿ëµÊ!!");
 
+            itemDesHandler.ShowDes(skill.skillName, skill.skillDes, skill.iconSpr, "»ç¿ë",
+                () =>
+                {
+                    Time.timeScale = 1f;
+
+                    isCasting = true;
+
+                    skill.Cast(() =>
+                    {
+                        bh.StartTurn();
+
+                        isCasting = false;
+                    });
+                },
+
+                () =>
+                {
+                    Time.timeScale = 1f;
+                    bh.SetInteract(true);
+                });
+
+            Time.timeScale = 0.15f;
+
             bh.SetInteract(false);
-            isCasting = true;
-
-            skill.Cast(() =>
-            {
-                bh.StartTurn();
-
-                isCasting = false;
-            });
 
             //ClosePanel();
         }

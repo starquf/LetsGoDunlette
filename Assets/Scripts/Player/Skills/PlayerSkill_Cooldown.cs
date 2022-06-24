@@ -15,24 +15,50 @@ public class PlayerSkill_Cooldown : PlayerSkill
     public int maxCooldown = 5;
     protected int cooldown = 0;
 
-    private void Start()
+    [Header("색")]
+    public Color enableColor;
+    public Color disableColor;
+
+    protected bool isFirstActivate = true;
+
+    protected virtual void Awake()
+    {
+        cooldown = maxCooldown;
+        isFirstActivate = true;
+    }
+
+    protected virtual void Start()
     {
         bh = GameManager.Instance.battleHandler;
+    }
 
-        cooldown = maxCooldown;
+    public override void Init(PlayerSkillButton ui)
+    {
+        base.Init(ui);
     }
 
     public override void UpdateUI(PlayerSkillButton skillBtn)
     {
         SetCoolDown(cooldown / (float)maxCooldown);
 
-        if (canUse)
+        if (CanUseSkill())
         {
             SetMessege("사용 가능");
+
+            skillBtn.SetStrokeColor(enableColor);
+
+            if (isFirstActivate)
+            {
+                skillBtn.ShowHighlight();
+
+                isFirstActivate = false;
+            }
         }
         else
         {
             SetMessege($"{cooldown}턴 남음");
+
+            skillBtn.SetStrokeColor(disableColor);
         }
     }
 
@@ -41,6 +67,7 @@ public class PlayerSkill_Cooldown : PlayerSkill
         base.Cast(onEndSkill);
 
         cooldown = maxCooldown;
+        isFirstActivate = true;
 
         UpdateUI(ui);
     }
@@ -62,7 +89,7 @@ public class PlayerSkill_Cooldown : PlayerSkill
 
     public override void OnBattleStart()
     {
-        cooldown = 0;
+        cooldown = maxCooldown;
 
         bh.battleEvent.BookEvent(new NormalEvent(action =>
         {
@@ -70,6 +97,7 @@ public class PlayerSkill_Cooldown : PlayerSkill
             {
                 cooldown--;
             }
+
             canUse = cooldown == 0;
 
             UpdateUI(ui);

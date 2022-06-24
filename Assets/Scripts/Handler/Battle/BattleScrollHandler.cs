@@ -10,7 +10,7 @@ public class BattleScrollHandler : MonoBehaviour
     //public RectTransform scrollUI;
     public CanvasGroup blackPanel;
     public CanvasGroup chagneScrollPopUp;
-    public ScrollDesUIHandler scrollDesHandler;
+    public ItemDesUIHandler scrollDesHandler;
 
     public List<ScrollSlot> slots = new List<ScrollSlot>();
 

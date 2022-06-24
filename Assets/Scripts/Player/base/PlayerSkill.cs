@@ -10,6 +10,9 @@ public abstract class PlayerSkill : MonoBehaviour
 
     public string skillName;
 
+    [TextArea]
+    public string skillDes;
+
     public PlayerSkillType skillType;
     public Sprite iconSpr;
 
