@@ -16,11 +16,12 @@ public class Encounter_011 : RandomEncounter
         switch (resultIdx)
         {
             case 0:
-                BattleScrollHandler battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
+                //BattleScrollHandler battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
                 showText = en_End_TextList[0];
                 showImg = en_End_Image[0];
                 en_End_Result = "물속성 룰렛 조각 1개 및 인어의 축복 조각 획득";
 
+                /*
                 List<ScrollSlot> scrollList = new List<ScrollSlot>();
                 for (int i = 0; i < battleScrollHandler.slots.Count; i++)
                 {
@@ -33,7 +34,7 @@ public class Encounter_011 : RandomEncounter
                 int randIdx = Random.Range(0, scrollList.Count);
                 scrollList[randIdx].RemoveScroll();
                 battleScrollHandler.SortScroll();
-
+                */
                 if (mermaidBlessingPiece == null)
                 {
                     Debug.LogError("인어의축복 조각이 안들어있음");

@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class ProductInfo : MonoBehaviour
 {
-    public ProductType productType = ProductType.None;
+    public ProductType productType = ProductType.NONE;
 
-    [HideInInspector] public Scroll scroll;
+    //[HideInInspector] public Scroll scroll;
     [HideInInspector] public SkillPiece rulletPiece;
 
     public Image scrollImg;
@@ -36,18 +36,18 @@ public class ProductInfo : MonoBehaviour
         skillIconsTrm.GetComponentsInChildren(desIcons);
     }
 
-    public void SetProduct(ProductType type, Scroll scroll = null, SkillPiece rulletPiece = null)
+    public void SetProduct(ProductType type, PlayerSkill skill = null, SkillPiece rulletPiece = null)
     {
         productPriceImg.gameObject.SetActive(true);
         productType = type;
-        if ((scroll == null) == (rulletPiece == null))
+        if (false == (rulletPiece == null))
         {
             Debug.LogError("스크롤 혹은 스킬로 상점 품목을 설정해주세요");
         }
         switch (productType)
         {
-            case ProductType.Scroll:
-
+            case ProductType.SKILL:
+                /*
                 skillCardCvsGroup.alpha = 0;
                 scrollImg.gameObject.SetActive(true);
 
@@ -58,9 +58,9 @@ public class ProductInfo : MonoBehaviour
                 price = 10;
 
                 scrollImg.sprite = scroll.GetComponent<Image>().sprite;
-                productPriceTxt.text = price.ToString();
+                productPriceTxt.text = price.ToString();*/
                 break;
-            case ProductType.RulletPiece:
+            case ProductType.RULLETPIECE:
                 SkillPiece skillPiece = Instantiate(rulletPiece, Vector3.zero, Quaternion.identity).GetComponent<SkillPiece>();
                 skillPiece.Owner = GameManager.Instance.GetPlayer().GetComponent<Inventory>();
                 skillPiece.gameObject.SetActive(false);
@@ -98,13 +98,13 @@ public class ProductInfo : MonoBehaviour
 
     public void SetProductSold()
     {
-        if ((scroll == null) == (rulletPiece == null))
+        if ((false) == (rulletPiece == null))
         {
             Debug.LogError("��ǰ�� �� ������ �Ǿ�ߵ˴ϴ�.");
             return;
         }
 
-        scroll = null;
+        //scroll = null;
         rulletPiece = null;
         skillCardCvsGroup.alpha = 0;
         scrollImg.gameObject.SetActive(false);
@@ -113,7 +113,7 @@ public class ProductInfo : MonoBehaviour
         productName = "";
         productPriceTxt.text = "SOLD";
         productPriceTxt.GetComponent<RectTransform>().sizeDelta = new Vector2(240f, productPriceTxt.GetComponent<RectTransform>().sizeDelta.y);
-        productType = ProductType.None;
+        productType = ProductType.NONE;
     }
 
     private void ShowDesIcon(List<DesIconInfo> desInfos, SkillPiece skillPiece)

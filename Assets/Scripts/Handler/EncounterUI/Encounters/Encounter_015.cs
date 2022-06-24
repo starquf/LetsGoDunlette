@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 public class Encounter_015 : RandomEncounter
 {
-    private Scroll scroll = null;
-    private BattleScrollHandler battleScrollHandler = null;
+    //private Scroll scroll = null;
+    //private BattleScrollHandler battleScrollHandler = null;
     public override void Init()
     {
         base.Init();
-        battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
+        /*battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
         int scrollCount = 0;
         for (int i = 0; i < battleScrollHandler.slots.Count; i++)
         {
@@ -28,7 +28,7 @@ public class Encounter_015 : RandomEncounter
             {
                 randomEncounterUIHandler.encounterChoiceTxtList[0].transform.parent.GetComponent<Button>().interactable = false;
             });
-        }
+        }*/
     }
 
     public SkillPiece GetRamdomSkill()
@@ -52,6 +52,7 @@ public class Encounter_015 : RandomEncounter
                 showImg = en_End_Image[0];
                 en_End_Result = "°¡Áö°í ÀÖ´Â ·£´ý ½ºÅ©·Ñ 2°³¸¦ ÀÒ°í, ·£´ý À¯¹° ÇÏ³ª È¹µæ";
 
+                /*
                 List<ScrollSlot> scrollList = new List<ScrollSlot>();
                 for (int i = 0; i < battleScrollHandler.slots.Count; i++)
                 {
@@ -68,7 +69,7 @@ public class Encounter_015 : RandomEncounter
                     scrollList.Remove(scrollList[randIdx]);
                 }
                 battleScrollHandler.SortScroll();
-
+                */
                 Debug.LogWarning("À¯¹° ¹Ì±¸Çö");
                 break;
             case 1:
@@ -94,7 +95,7 @@ public class Encounter_015 : RandomEncounter
                 en_End_Result = "°ñµå¸¦ ÀÒ°í ·£´ý ½ºÅ©·Ñ 1°³¸¦ È¹µæ";
                 GameManager.Instance.Gold -= 10;
 
-                MakeScroll(encounterInfoHandler.GetRandomScrollRewards(1)[0].scrollType, out scroll);
+                //MakeScroll(encounterInfoHandler.GetRandomScrollRewards(1)[0].scrollType, out scroll);
                 break;
             default:
                 break;
@@ -114,6 +115,7 @@ public class Encounter_015 : RandomEncounter
                 OnExitEncounter?.Invoke(true);
                 break;
             case 2:
+                /*
                 BattleScrollHandler battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
                 RandomEncounterUIHandler randomEncounterUIHandler = encounterInfoHandler.GetComponent<RandomEncounterUIHandler>();
                 scroll.GetComponent<Image>().DOFade(1, 0.5f).SetDelay(1f);
@@ -122,7 +124,7 @@ public class Encounter_015 : RandomEncounter
                 {
                     OnExitEncounter?.Invoke(true);
                     randomEncounterUIHandler.exitBtn.gameObject.SetActive(true);
-                }, true);
+                }, true);*/
                 break;
             default:
                 break;

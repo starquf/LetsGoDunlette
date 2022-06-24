@@ -31,7 +31,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
     public Button exitBtn;
 
     private RandomEncounter randomEncounter;
-    private BattleScrollHandler battleScrollHandler;
+    //private BattleScrollHandler battleScrollHandler;
 
     private int encounterIdx;
     private List<int> cantEncounterIdxList;
@@ -51,7 +51,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
     private void Start()
     {
         bh = GameManager.Instance.battleHandler;
-        battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
+        //battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
         for (int i = 0; i < randomEncounterList.Count; i++)
         {
             randomEncounterList[i].encounterInfoHandler = encounterInfoHandler;
@@ -86,13 +86,16 @@ public class RandomEncounterUIHandler : MonoBehaviour
         }
         else if (idx == 8 || idx == 10) // 스크롤 없을시 발동 x
         {
+            return false;
+            /*
             if (!battleScrollHandler.HasScroll())
             {
                 return false;
-            }
+            }*/
         }
         else if (idx == 13) //힐 스크롤 없을 시 발동x
         {
+            /*
             for (int i = 0; i < battleScrollHandler.slots.Count; i++)
             {
                 ScrollSlot scrollSlot = battleScrollHandler.slots[i];
@@ -104,7 +107,7 @@ public class RandomEncounterUIHandler : MonoBehaviour
                         return true;
                     }
                 }
-            }
+            }*/
             return false;
         }
         else if (idx == 16)//전기 스킬 없을시 발동 x

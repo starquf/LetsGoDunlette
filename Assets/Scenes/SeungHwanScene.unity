@@ -8795,7 +8795,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92772274aea3d74489fd175b784eef19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scroll: {fileID: 0}
 --- !u!114 &158596785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24059,7 +24058,6 @@ GameObject:
   m_Component:
   - component: {fileID: 361184783}
   - component: {fileID: 361184788}
-  - component: {fileID: 361184786}
   - component: {fileID: 361184785}
   - component: {fileID: 361184784}
   - component: {fileID: 361184787}
@@ -24212,25 +24210,6 @@ MonoBehaviour:
   - {fileID: 3478037225019446062, guid: 44e3c2aa56a6a514682c0284bf9ca4f3, type: 3}
   - {fileID: 5375933241795326024, guid: 93412e5d11de36043aec77a5ec52678f, type: 3}
   - {fileID: 2194092688508076325, guid: d54d430a1058d5d4abebb2412218350f, type: 3}
---- !u!114 &361184786
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 361184782}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13201559ed0ee07448ec14f49a755689, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scrollList:
-  - {fileID: 3003908029313418626, guid: 3e088bdf2ab564340b4d2c8cf7a4dce9, type: 3}
-  - {fileID: 8830034998390578442, guid: 3388fef6fba53f74a8ad77dccfb5b92d, type: 3}
-  - {fileID: 3661266119644852242, guid: 7086a8a2801924a409d61ea472152154, type: 3}
-  - {fileID: 4765114278324139323, guid: 62d8c874927dd2143b1a9ffe318c0274, type: 3}
-  - {fileID: 8193138239439456890, guid: a0db90b214ec2bc498872f1f3c64eea1, type: 3}
-  - {fileID: -6097857022160893423, guid: 21ad8c161ccaa944fa4d826632cc09b2, type: 3}
 --- !u!114 &361184787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24882,7 +24861,6 @@ GameObject:
   - component: {fileID: 377361826}
   - component: {fileID: 377361825}
   - component: {fileID: 377361824}
-  - component: {fileID: 377361823}
   - component: {fileID: 377361822}
   - component: {fileID: 377361821}
   m_Layer: 0
@@ -24931,25 +24909,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa453fb1636ab6442bde6cdd11fc576c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &377361823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 377361819}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab6f6b8074a2cc842a0a1dc5e4d6ccda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  blackPanel: {fileID: 1605855337}
-  chagneScrollPopUp: {fileID: 723531158}
-  scrollDesHandler: {fileID: 1886591310}
-  slots:
-  - {fileID: 933267217}
-  - {fileID: 158596784}
-  - {fileID: 2087926945}
 --- !u!114 &377361824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78500,7 +78459,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92772274aea3d74489fd175b784eef19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scroll: {fileID: 0}
 --- !u!114 &933267218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94985,12 +94943,7 @@ MonoBehaviour:
   - {fileID: 2107561074}
   - {fileID: 1064754952}
   - {fileID: 924751200}
-  scrollShopList:
-  - {fileID: 3003908029313418626, guid: 3e088bdf2ab564340b4d2c8cf7a4dce9, type: 3}
-  - {fileID: 8830034998390578442, guid: 3388fef6fba53f74a8ad77dccfb5b92d, type: 3}
-  - {fileID: 3661266119644852242, guid: 7086a8a2801924a409d61ea472152154, type: 3}
-  - {fileID: 4765114278324139323, guid: 62d8c874927dd2143b1a9ffe318c0274, type: 3}
-  - {fileID: 8193138239439456890, guid: a0db90b214ec2bc498872f1f3c64eea1, type: 3}
+  skillShopList: []
   showSetChances:
   - gradeOne: 50
     gradeTwo: 40
@@ -123004,6 +122957,12 @@ MonoBehaviour:
   gridHeight: 5
   minLinkedMap: 2
   maxDestroyCount: 5
+  switchPressAnimCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!4 &1621563699
 Transform:
   m_ObjectHideFlags: 0
@@ -137820,13 +137779,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59493e336c031fe4b853ec3bbe20c5a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  encounterInfo:
-    scrollRewards:
-    - {fileID: 3003908029313418626, guid: 3e088bdf2ab564340b4d2c8cf7a4dce9, type: 3}
-    - {fileID: 8830034998390578442, guid: 3388fef6fba53f74a8ad77dccfb5b92d, type: 3}
-    - {fileID: 3661266119644852242, guid: 7086a8a2801924a409d61ea472152154, type: 3}
-    - {fileID: 4765114278324139323, guid: 62d8c874927dd2143b1a9ffe318c0274, type: 3}
-    - {fileID: 8193138239439456890, guid: a0db90b214ec2bc498872f1f3c64eea1, type: 3}
 --- !u!114 &1821939904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154735,7 +154687,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92772274aea3d74489fd175b784eef19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scroll: {fileID: 0}
 --- !u!114 &2087926946
 MonoBehaviour:
   m_ObjectHideFlags: 0

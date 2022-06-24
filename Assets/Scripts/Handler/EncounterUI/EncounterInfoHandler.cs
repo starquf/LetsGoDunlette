@@ -6,7 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class EncounterInfo
 {
-    public List<Scroll> scrollRewards = new List<Scroll>();
+    //public List<Scroll> scrollRewards = new List<Scroll>();
 }
 
 public class EncounterInfoHandler : MonoBehaviour
@@ -33,6 +33,7 @@ public class EncounterInfoHandler : MonoBehaviour
         return result;
     }
 
+    /*
     public List<Scroll> GetRandomScrollRewards(int count)
     {
         List<Scroll> result = new List<Scroll>();
@@ -44,5 +45,5 @@ public class EncounterInfoHandler : MonoBehaviour
             rewardScrolls.Remove(randomScroll);
         }
         return result;
-    }
+    }*/
 }

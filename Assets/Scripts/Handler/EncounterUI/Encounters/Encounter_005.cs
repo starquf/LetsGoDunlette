@@ -19,6 +19,7 @@ public class Encounter_005 : RandomEncounter
             showImg = en_End_Image[0];
             en_End_Result = "승리\n3개중 하나 선택해 주세요";
 
+            /*
             RandomEncounterUIHandler randomEncounterUIHandler = encounterInfoHandler.GetComponent<RandomEncounterUIHandler>();
             Transform parent = randomEncounterUIHandler.imgButtonRowsCvs.transform;
 
@@ -47,7 +48,7 @@ public class Encounter_005 : RandomEncounter
                     // 설명창 띄워 주고 아래있는 함수 실행
                     GetScroll(scrolls[idx]);
                 });
-            }
+            }*/
         }
         else
         {
@@ -59,6 +60,7 @@ public class Encounter_005 : RandomEncounter
         ShowEndEncounter?.Invoke();
     }
 
+    /*
     private void GetScroll(Scroll _scroll)
     {
         BattleScrollHandler battleScrollHandler = bh.GetComponent<BattleScrollHandler>();
@@ -70,7 +72,7 @@ public class Encounter_005 : RandomEncounter
         {
             OnExitEncounter?.Invoke(true);
         }, true);
-    }
+    }*/
 
     public override void Result()
     {
