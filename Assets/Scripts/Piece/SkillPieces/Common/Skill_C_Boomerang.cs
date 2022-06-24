@@ -59,10 +59,7 @@ public class Skill_C_Boomerang : SkillPiece
             Skill_C_Boomerang skill_C_Boomerang = item.GetComponent<Skill_C_Boomerang>();
             if (skill_C_Boomerang != null)
             {
-                if (!skill_C_Boomerang.IsInRullet)
-                {
-                    skill_C_Boomerang.UpdateValue(originValue);
-                }
+                skill_C_Boomerang.UpdateValue(originValue);
             }
         }
         action?.Invoke();
