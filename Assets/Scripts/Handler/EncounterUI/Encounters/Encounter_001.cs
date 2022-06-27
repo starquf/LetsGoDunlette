@@ -1,6 +1,6 @@
 public class Encounter_001 : RandomEncounter
 {
-    public int getGoldValue = 10;
+    public int getGoldValue = 90;
     private SkillPiece skill;
     public override void ResultSet(int resultIdx)
     {
@@ -10,7 +10,7 @@ public class Encounter_001 : RandomEncounter
             case 0:
                 showText = en_End_TextList[0];
                 showImg = en_End_Image[0];
-                en_End_Result = "°ñµå È¹µæ";
+                en_End_Result = $"{getGoldValue} °ñµå ¾ò´Â´Ù.";
                 GameManager.Instance.Gold += getGoldValue;
                 break;
             case 1:

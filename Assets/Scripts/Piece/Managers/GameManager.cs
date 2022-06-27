@@ -141,7 +141,7 @@ public class GameManager : MonoBehaviour
         get => gold;
         set
         {
-            gold = value;
+            gold = Mathf.Clamp(value, 0, 999999);
             OnUpdateUI?.Invoke();
         }
     }
@@ -205,5 +205,10 @@ public class GameManager : MonoBehaviour
     public bool IsEndStage()
     {
         return StageIdx == progressiveStageIdx;
+    }
+
+    public void AddGold(int gold)
+    {
+        Gold += gold;
     }
 }

@@ -1,6 +1,7 @@
 public class Encounter_006 : RandomEncounter
 {
-    public int getGoldValue = 10;
+    public int gethealMaxHPPercent = 20;
+    public int getGoldValue = 80;
     public override void ResultSet(int resultIdx)
     {
         choiceIdx = resultIdx;
@@ -8,16 +9,16 @@ public class Encounter_006 : RandomEncounter
         {
             case 0:
                 PlayerHealth playerHealth = GameManager.Instance.GetPlayer();
-                playerHealth.Heal((int)(playerHealth.maxHp * 0.3f));
+                playerHealth.Heal((int)(playerHealth.maxHp * (float)gethealMaxHPPercent / 100f));
                 showText = en_End_TextList[0];
                 showImg = en_End_Image[0];
-                en_End_Result = "최대 체력의 30% 만큼 회복";
+                en_End_Result = $"최대 체력의 {gethealMaxHPPercent}% 만큼 회복";
                 break;
             case 1:
                 GameManager.Instance.Gold += getGoldValue;
                 showText = en_End_TextList[1];
                 showImg = en_End_Image[1];
-                en_End_Result = "골드 획득";
+                en_End_Result = $"{getGoldValue} 골드를 얻는다.";
                 break;
             default:
                 break;
