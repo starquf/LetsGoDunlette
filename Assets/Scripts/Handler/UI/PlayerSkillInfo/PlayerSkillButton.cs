@@ -72,10 +72,25 @@ public class PlayerSkillButton : MonoBehaviour
                 transform.position = origin;
             });
 
+        if (currentSkill == null)
+            return;
+
         animHandler.GetTextAnim()
             .SetPosition(highlightCG.transform.position)
             .SetScale(0.7f)
             .SetType(TextUpAnimType.Up)
             .Play($"{currentSkill.skillName} ÁØºñµÊ!");
+    }
+
+    public void SkillUseEffect()
+    {
+        if (currentSkill == null)
+            return;
+
+        animHandler.GetTextAnim()
+            .SetPosition(highlightCG.transform.position)
+            .SetScale(0.7f)
+            .SetType(TextUpAnimType.Up)
+            .Play($"{currentSkill.skillName} »ç¿ë!");
     }
 }

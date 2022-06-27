@@ -10,7 +10,7 @@ public class PS_Illusion : PlayerSkill_Cooldown
     private Gradient attackGrad;
     private AnimHandler animHandler;
 
-    private WaitForSeconds pTwoSecWait = new WaitForSeconds(0.2f);
+    private WaitForSeconds atkWait = new WaitForSeconds(0.22f);
     private WaitForSeconds pFiveSecWait = new WaitForSeconds(0.5f);
 
     protected override void Start()
@@ -66,7 +66,7 @@ public class PS_Illusion : PlayerSkill_Cooldown
                 GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.15f, 0.1f);
                 bh.mainRullet.PutRulletPieceToGraveYard(a);
 
-                yield return pTwoSecWait;
+                yield return atkWait;
             }
         }
 
@@ -89,7 +89,7 @@ public class PS_Illusion : PlayerSkill_Cooldown
     {
         animHandler.GetAnim(AnimName.GothicEffect08)
             .SetPosition(startPos)
-            .SetScale(1.3f)
+            .SetScale(1.4f)
             .Play();
 
         EffectObj effect = PoolManager.GetItem<EffectObj>();
@@ -102,14 +102,14 @@ public class PS_Illusion : PlayerSkill_Cooldown
         {
             target.GetDamage(damage, ElementalType.None);
 
-            animHandler.GetAnim(AnimName.C_ManaSphereHit)
+            animHandler.GetAnim(AnimName.GothicEffect08)
             .SetPosition(target.transform.position)
-            .SetScale(1f)
+            .SetScale(1.2f)
             .Play();
 
             GameManager.Instance.cameraHandler.ShakeCamera(1.5f, 0.1f);
 
             effect.EndEffect();
-        }, BezierType.Quadratic, playSpeed:1.9f, isRotate:true);
+        }, BezierType.Quadratic, playSpeed:1.85f, isRotate:true);
     }
 }

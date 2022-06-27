@@ -51,6 +51,8 @@ public abstract class PlayerSkill : MonoBehaviour
     public virtual void Cast(Action onEndSkill)
     {
         canUse = false;
+
+        ui.SkillUseEffect();
     }
 
     public abstract void UpdateUI(PlayerSkillButton skillBtn);

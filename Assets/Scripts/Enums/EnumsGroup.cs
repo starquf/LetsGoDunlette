@@ -60,6 +60,10 @@ public enum PlayerSkillName
 {
     Illusion,
     FirstAid,
+    Reconstruction,
+    Bookmark,
+    Doping,
+    Rewind
 }
 
 public enum ShowInfoRange
