@@ -8,6 +8,7 @@ public class PlayerSkillPanelHandler : MonoBehaviour
     private BattleHandler bh;
     private List<PlayerSkillButton> skillButtons = new List<PlayerSkillButton>();
     public Transform skillBtnTrans;
+    public CanvasGroup skillChangePopupCvsGroup;
 
     public bool hasCanUseSkill = false;
     public bool isCasting = false;
@@ -139,6 +140,7 @@ public class PlayerSkillPanelHandler : MonoBehaviour
                 // º¯°æ
                 if(btnIdx == -1)
                 {
+                    DOTween.To(() => skillChangePopupCvsGroup.alpha, x => skillChangePopupCvsGroup.alpha = x, 1, 0.5f);
                     for (int i = 1; i < skillButtons.Count; i++)
                     {
                         int iIdx = i;
@@ -176,6 +178,7 @@ public class PlayerSkillPanelHandler : MonoBehaviour
                                             break;
                                     }
                                 }
+                                DOTween.To(() => skillChangePopupCvsGroup.alpha, x => skillChangePopupCvsGroup.alpha = x, 0, 0.5f);
                                 onCompleteAnim?.Invoke();
                             });
                         });
