@@ -21,6 +21,9 @@ public class PlayerSkillPanelHandler : MonoBehaviour
     private void Start()
     {
         bh = GameManager.Instance.battleHandler;
+
+        SetSkill(skillButtons[1], PoolManager.GetPlayerSkill(PlayerSkillName.FirstAid));
+        SetSkill(skillButtons[2], PoolManager.GetPlayerSkill(PlayerSkillName.FirstAid));
     }
 
     public void Init(PlayerInfo playerInfo)
@@ -103,11 +106,6 @@ public class PlayerSkillPanelHandler : MonoBehaviour
 
     private void SetSkill(PlayerSkillButton btn, PlayerSkill skill)
     {
-        if (btn.currentSkill != null)
-        {
-            // 스킬 풀링
-        }
-
         btn.Init(skill, ps =>
         {
             print($"눌린 스킬 : {ps.skillName}");

@@ -56,17 +56,10 @@ public enum EncounterType
     BossBattle
 }
 
-public enum ScrollType
+public enum PlayerSkillName
 {
-    Heal,
-    Use,
-    Shield,
-    Hiding,
-    //Power,
-    Chaos,
-    Memorie,
-    //Flame,
-    //Twice
+    Illusion,
+    FirstAid,
 }
 
 public enum ShowInfoRange
@@ -173,7 +166,8 @@ public enum AnimName
     ElecEffect05,
     T_WaterSplash06,
     T_WaterSplash05,
-    W_WaterIce04
+    W_WaterIce04,
+    GothicEffect08
 }
 
 public enum PlayerSkillType

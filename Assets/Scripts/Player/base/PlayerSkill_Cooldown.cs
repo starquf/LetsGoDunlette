@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using TMPro;
 using UnityEngine;
@@ -5,8 +6,8 @@ using UnityEngine.UI;
 
 public class PlayerSkill_Cooldown : PlayerSkill
 {
-    [SerializeField]
     protected Image coolDownImg = null;
+    protected TextMeshProUGUI coolDownText = null;
 
     protected BattleHandler bh;
 
@@ -19,21 +20,28 @@ public class PlayerSkill_Cooldown : PlayerSkill
 
     protected bool isFirstActivate = true;
 
-    protected virtual void Awake()
+    protected override void Awake()
     {
-        cooldown = maxCooldown;
+        base.Awake();
+
+        coolDownImg = transform.Find("CooldownImg").GetComponent<Image>();
+        coolDownText = transform.Find("CooldownText").GetComponent<TextMeshProUGUI>();
+
+        cooldown = 0;
 
         isFirstActivate = true;
     }
 
-    protected virtual void Start()
+    protected override void Start()
     {
+        base.Start();
+
         bh = GameManager.Instance.battleHandler;
     }
 
     public override void Init(PlayerSkillButton ui)
     {
-        cooldown = maxCooldown;
+        cooldown = 0;
 
         base.Init(ui);
     }
@@ -45,6 +53,7 @@ public class PlayerSkill_Cooldown : PlayerSkill
         if (CanUseSkill())
         {
             skillBtn.SetStrokeColor(enableColor);
+            coolDownText.gameObject.SetActive(false);
 
             if (isFirstActivate)
             {
@@ -55,6 +64,15 @@ public class PlayerSkill_Cooldown : PlayerSkill
         }
         else
         {
+            coolDownText.gameObject.SetActive(true);
+
+            coolDownText.text = cooldown.ToString();
+
+            DOTween.Sequence()
+                .Append(coolDownText.transform.DOScale(Vector3.one * 1.45f, 0.15f))
+                .Append(coolDownText.transform.DOScale(Vector3.one, 0.15f));
+
+
             skillBtn.SetStrokeColor(disableColor);
         }
     }

@@ -2113,7 +2113,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.568, y: 1.906}
+  m_Size: {x: 0.48, y: 0.48}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -22667,7 +22667,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -2413806693520163455, guid: 2ce7365235d8d41459213ae51ac16e33, type: 3}
+  m_Sprite: {fileID: -2413806693520163455, guid: d82429cae9eab42498f6217e22d3ba1d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -24061,6 +24061,7 @@ GameObject:
   - component: {fileID: 361184785}
   - component: {fileID: 361184784}
   - component: {fileID: 361184787}
+  - component: {fileID: 361184786}
   m_Layer: 0
   m_Name: PoolHandler
   m_TagString: Untagged
@@ -24209,6 +24210,21 @@ MonoBehaviour:
   - {fileID: 3478037225019446062, guid: 44e3c2aa56a6a514682c0284bf9ca4f3, type: 3}
   - {fileID: 5375933241795326024, guid: 93412e5d11de36043aec77a5ec52678f, type: 3}
   - {fileID: 2194092688508076325, guid: d54d430a1058d5d4abebb2412218350f, type: 3}
+--- !u!114 &361184786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361184782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b29b64aa2e19dbd48b2acd734e904b4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillList:
+  - {fileID: 7583745194487198616, guid: 0580ccd08a4a2ed42876bd21b7348903, type: 3}
+  - {fileID: -7458472957388291326, guid: 98b2790a0de4e3742bf6a4bf95f6bf34, type: 3}
 --- !u!114 &361184787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25049,7 +25065,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stages:
   - normalInfos:
-    - enemyInfos: 1c000000
+    - enemyInfos: 18000000
       isWeakEnemy: 1
       appearWeight: 10
       bg: {fileID: 21300000, guid: dbb099b674ccb47429d63cde2cfd2605, type: 3}
@@ -43252,6 +43268,9 @@ MonoBehaviour:
     defaultSize: {x: 3, y: 3, z: 1}
   - name: 46
     clip: {fileID: 7400000, guid: 14cdd130361ec49dab9b2afcdc41b0f0, type: 2}
+    defaultSize: {x: 3, y: 3, z: 1}
+  - name: 47
+    clip: {fileID: 7400000, guid: 2f92c656a5f144e5b866e6c9a69516b8, type: 2}
     defaultSize: {x: 3, y: 3, z: 1}
 --- !u!1 &502434203
 GameObject:
@@ -66429,6 +66448,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491081385}
     m_Modifications:
+    - target: {fileID: 46918663816794387, guid: c47c9d467ae128944a168bbee9f5afdb, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.00002670288
+      objectReference: {fileID: 0}
     - target: {fileID: 6285017990318888753, guid: c47c9d467ae128944a168bbee9f5afdb, type: 3}
       propertyPath: m_Color.b
       value: 0.3490566
@@ -68097,7 +68120,7 @@ MonoBehaviour:
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
   m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
+  m_spriteAsset: {fileID: 11400000, guid: beba88d2b74515a488b54d47d5580ada, type: 2}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
   m_TextStyleHashCode: -1183493901
@@ -68219,18 +68242,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillPrefabs:
-  - {fileID: 2288853367069960182, guid: 68e004d193820634f84206c96f6708f0, type: 3}
-  - {fileID: 2288853367069960182, guid: 68e004d193820634f84206c96f6708f0, type: 3}
   - {fileID: 2288853367069960182, guid: bc455bf041e534c4d8c4faf21c600fb5, type: 3}
   - {fileID: 2288853367069960182, guid: bc455bf041e534c4d8c4faf21c600fb5, type: 3}
   - {fileID: 2288853367069960182, guid: bc455bf041e534c4d8c4faf21c600fb5, type: 3}
   - {fileID: 2288853367069960182, guid: bc455bf041e534c4d8c4faf21c600fb5, type: 3}
-  - {fileID: 2288853367069960182, guid: 68e004d193820634f84206c96f6708f0, type: 3}
-  - {fileID: 2288853367069960182, guid: 68e004d193820634f84206c96f6708f0, type: 3}
-  - {fileID: 2288853367069960182, guid: 68e004d193820634f84206c96f6708f0, type: 3}
-  - {fileID: 2288853367069960182, guid: e1290c56d8450db42b8ddd753f4e43d9, type: 3}
-  - {fileID: 2288853367069960182, guid: e1290c56d8450db42b8ddd753f4e43d9, type: 3}
-  - {fileID: 371756096964453561, guid: 2bdc577ff7931c947bc9ad162f4e7bdf, type: 3}
+  - {fileID: 2288853367069960182, guid: bc455bf041e534c4d8c4faf21c600fb5, type: 3}
+  - {fileID: 2288853367069960182, guid: bc455bf041e534c4d8c4faf21c600fb5, type: 3}
+  - {fileID: 2288853367069960182, guid: bc455bf041e534c4d8c4faf21c600fb5, type: 3}
+  - {fileID: 2288853367069960182, guid: bc455bf041e534c4d8c4faf21c600fb5, type: 3}
   skills: []
   indicator: {fileID: 1111626983}
   isPlayerInven: 0
@@ -69873,6 +69892,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491081385}
     m_Modifications:
+    - target: {fileID: 46918663816794387, guid: c47c9d467ae128944a168bbee9f5afdb, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.00002670288
+      objectReference: {fileID: 0}
     - target: {fileID: 6285017991242292617, guid: c47c9d467ae128944a168bbee9f5afdb, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -106291,6 +106314,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1491081385}
     m_Modifications:
+    - target: {fileID: 46918663816794387, guid: c47c9d467ae128944a168bbee9f5afdb, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.00002670288
+      objectReference: {fileID: 0}
     - target: {fileID: 6285017990318888753, guid: c47c9d467ae128944a168bbee9f5afdb, type: 3}
       propertyPath: m_Color.b
       value: 0.3490566
@@ -116510,7 +116537,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a9c3986fcf0568e41b16d047ce245680, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
