@@ -141,7 +141,7 @@ public class GameManager : MonoBehaviour
         get => gold;
         set
         {
-            gold = value;
+            gold = Mathf.Clamp(value, 0, 999999);
             OnUpdateUI?.Invoke();
         }
     }

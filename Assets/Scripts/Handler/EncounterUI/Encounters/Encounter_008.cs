@@ -28,7 +28,7 @@ public class Encounter_008 : RandomEncounter
                 GameManager.Instance.Gold += getGoldValue;
                 showText = en_End_TextList[1];
                 showImg = en_End_Image[1];
-                en_End_Result = "°ñµå È¹µæ";
+                en_End_Result = $"{getGoldValue} °ñµå¸¦ ¾ò´Â´Ù.";
                 break;
             default:
                 break;

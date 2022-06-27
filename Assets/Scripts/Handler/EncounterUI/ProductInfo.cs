@@ -72,7 +72,21 @@ public class ProductInfo : MonoBehaviour
 
                 productName = skillPiece.PieceName;
                 productDes = skillPiece.PieceDes;
-                price = 10;
+                switch (skillPiece.skillGrade)
+                {
+                    case GradeInfo.Normal:
+                        price = Random.Range(10, 21);
+                        break;
+                    case GradeInfo.Epic:
+                        price = Random.Range(26, 36);
+                        break;
+                    case GradeInfo.Legend:
+                        price = Random.Range(72, 80);
+                        break;
+                    default:
+                        price = 10;
+                        break;
+                }
 
                 skillImg.sprite = skillPiece.cardBG;
                 cardNameText.text = productName;
