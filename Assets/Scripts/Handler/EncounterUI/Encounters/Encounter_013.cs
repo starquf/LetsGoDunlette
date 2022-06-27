@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 public class Encounter_013 : RandomEncounter
 {
-    public int lostGoldValue = 10;
+    public int gethealMaxHPPercent = 50;
     public SkillPiece GetRamdomSkill()
     {
         InventoryHandler inventoryHandler = GameManager.Instance.inventoryHandler;
@@ -34,7 +34,7 @@ public class Encounter_013 : RandomEncounter
             case 0:
                 showText = en_End_TextList[0];
                 showImg = en_End_Image[0];
-                en_End_Result = "조건 달성 시 최대 체력의 50 % 만큼 회복 실패시 랜덤 룰렛 조각 삭제와 골드 감소";
+                en_End_Result = $"조건 달성 시 최대 체력의 {gethealMaxHPPercent}%만큼 회복\n실패시 랜덤 룰렛 조각 삭제와 골드 감소";
 
                 int turnCnt = 0;
                 Action<Action> onEndTurn = null;
@@ -56,7 +56,7 @@ public class Encounter_013 : RandomEncounter
 
                     if (isClear)
                     {
-                        playerHealth.Heal((int)(playerHealth.maxHp * 0.5f));
+                        playerHealth.Heal((int)(playerHealth.maxHp * (float)gethealMaxHPPercent/100f));
                         bh.battleEvent.RemoveEventInfo(eventInfo);
                     }
                     else if (turnCnt >= 5)
@@ -75,9 +75,6 @@ public class Encounter_013 : RandomEncounter
                         {
                             inventoryHandler.RemovePiece(sp);
                         });
-
-
-                        GameManager.Instance.Gold -= lostGoldValue;
 
                         bh.battleEvent.RemoveEventInfo(eventInfo);
                     }
