@@ -38,6 +38,21 @@ public class PoolManager
         poolDic.Add(t.ToString(), pool);
     }
 
+    public static void CreatePlayerSkillPool(PlayerSkillName t, GameObject prefab, Transform parent, int count = 5)
+    {
+        foreach (string key in poolDic.Keys)
+        {
+            if (key.Equals(t.ToString()))
+            {
+                return;
+            }
+        }
+
+        SkillPooling pool = new SkillPooling(prefab, parent, count);
+
+        poolDic.Add(t.ToString(), pool);
+    }
+
     public static T GetItem<T>() where T : MonoBehaviour
     {
         Type t = typeof(T);
@@ -48,6 +63,12 @@ public class PoolManager
     public static EnemyHealth GetEnemy(EnemyType t)
     {
         EnemyPooling pool = (EnemyPooling)poolDic[t.ToString()];
+        return pool.GetOrCreate();
+    }
+
+    public static PlayerSkill GetPlayerSkill(PlayerSkillName t)
+    {
+        SkillPooling pool = (SkillPooling)poolDic[t.ToString()];
         return pool.GetOrCreate();
     }
 

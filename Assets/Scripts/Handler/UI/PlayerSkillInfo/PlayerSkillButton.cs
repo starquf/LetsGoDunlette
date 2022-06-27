@@ -35,7 +35,18 @@ public class PlayerSkillButton : MonoBehaviour
 
     public void Init(PlayerSkill skill, Action<PlayerSkill> onClickBtn)
     {
+        if (currentSkill != null)
+        {
+            // 스킬 풀링
+            currentSkill.gameObject.SetActive(false);
+        }
+
         currentSkill = skill;
+
+        skill.gameObject.SetActive(true);
+        skill.transform.SetParent(btnPos);
+        skill.transform.localScale = Vector3.one;
+        skill.transform.localPosition = Vector3.zero;
 
         skill.Init(this);
 

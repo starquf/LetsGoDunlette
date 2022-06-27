@@ -4,23 +4,35 @@ using UnityEngine.UI;
 
 public abstract class PlayerSkill : MonoBehaviour
 {
-    [Header("정보들")]
-    [SerializeField]
     protected Image icon = null;
 
+    [Header("정보들")]
     public string skillName;
 
     [TextArea]
     public string skillDes;
 
     public PlayerSkillType skillType;
+    public PlayerSkillName skillNameType;
     public Sprite iconSpr;
 
+    [HideInInspector]
     public bool canUse;
-
     public bool isUniqueSkill = false;
 
     protected PlayerSkillButton ui;
+
+    protected virtual void Awake()
+    {
+        icon = transform.Find("Icon").GetComponent<Image>();
+
+        SetIcon(iconSpr);
+    }
+
+    protected virtual void Start()
+    {
+
+    }
 
     public virtual void Init(PlayerSkillButton ui)
     {
