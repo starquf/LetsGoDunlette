@@ -59,31 +59,8 @@ public class BattleRewardHandler : MonoBehaviour
                     battleRewardUI.GetRewardEffect(() =>
                     {
                         battleRewardUI.ResetRewardUI();
-                        if (GameManager.Instance.GetPlayer().IsMaxLevel())
-                        {
-                            GameManager.Instance.EndEncounter();
-                        }
-                        else
-                        {
-                            int expValue = 0;
-                            List<ExpLog> expLogs = new List<ExpLog>();
-                            switch (GameManager.Instance.curEncounter)
-                            {
-                                case mapNode.BOSS:
-                                    expValue = 45;
-                                    expLogs.Add(new ExpLog("보스 전투 경험치", expValue));
-                                    break;
-                                case mapNode.EMONSTER:
-                                    expValue = 40;
-                                    expLogs.Add(new ExpLog("엘리트 전투 경험치", expValue));
-                                    break;
-                                case mapNode.MONSTER:
-                                    expValue = 25;
-                                    expLogs.Add(new ExpLog("일반 전투 경험치", expValue));
-                                    break;
-                            }
-                            GameManager.Instance.GetPlayer().AddExp(expValue, expLogs);
-                        }
+                        GiveExp(false);
+                        GoldReward();
                     });
                 });
         });
@@ -98,35 +75,62 @@ public class BattleRewardHandler : MonoBehaviour
             battleRewardUI.SkipRewardEffect(() =>
             {
                 battleRewardUI.ResetRewardUI();
-                if (GameManager.Instance.GetPlayer().IsMaxLevel())
-                {
-                    GameManager.Instance.EndEncounter();
-                }
-                else
-                {
-                    int expValue = 0;
-                    List<ExpLog> expLogs = new List<ExpLog>();
-                    switch (GameManager.Instance.curEncounter)
-                    {
-                        case mapNode.BOSS:
-                            expValue = 45;
-                            expLogs.Add(new ExpLog("보스 전투 경험치", expValue));
-                            break;
-                        case mapNode.EMONSTER:
-                            expValue = 40;
-                            expLogs.Add(new ExpLog("엘리트 전투 경험치", expValue));
-                            break;
-                        case mapNode.MONSTER:
-                            expValue = 25;
-                            expLogs.Add(new ExpLog("일반 전투 경험치", expValue));
-                            break;
-                    }
-                    expValue += 20;
-                    expLogs.Add(new ExpLog("카드 넘기기 경험치", 20));
-                    GameManager.Instance.GetPlayer().AddExp(expValue, expLogs);
-                }
+                GiveExp(true);
+                GoldReward();
             });
         });
+    }
+
+    private void GoldReward()
+    {
+        int goldValue = 0;
+        switch (GameManager.Instance.curEncounter)
+        {
+            case mapNode.BOSS:
+                goldValue = Random.Range(72, 80);
+                break;
+            case mapNode.EMONSTER:
+                goldValue = Random.Range(26, 36);
+                break;
+            case mapNode.MONSTER:
+                goldValue = Random.Range(10, 21);
+                break;
+        }
+        GameManager.Instance.AddGold(goldValue);
+    }
+
+    private void GiveExp(bool isSkip)
+    {
+        if (GameManager.Instance.GetPlayer().IsMaxLevel())
+        {
+            GameManager.Instance.EndEncounter();
+        }
+        else
+        {
+            int expValue = 0;
+            List<ExpLog> expLogs = new List<ExpLog>();
+            switch (GameManager.Instance.curEncounter)
+            {
+                case mapNode.BOSS:
+                    expValue = 45;
+                    expLogs.Add(new ExpLog("보스 전투 경험치", expValue));
+                    break;
+                case mapNode.EMONSTER:
+                    expValue = 40;
+                    expLogs.Add(new ExpLog("엘리트 전투 경험치", expValue));
+                    break;
+                case mapNode.MONSTER:
+                    expValue = 25;
+                    expLogs.Add(new ExpLog("일반 전투 경험치", expValue));
+                    break;
+            }
+            if (isSkip)
+            {
+                expValue += 20;
+                expLogs.Add(new ExpLog("카드 넘기기 경험치", 20));
+            }
+            GameManager.Instance.GetPlayer().AddExp(expValue, expLogs);
+        }
     }
 
     public void GiveReward()

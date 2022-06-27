@@ -206,4 +206,9 @@ public class GameManager : MonoBehaviour
     {
         return StageIdx == progressiveStageIdx;
     }
+
+    public void AddGold(int gold)
+    {
+        Gold += gold;
+    }
 }
