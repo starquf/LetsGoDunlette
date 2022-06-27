@@ -44,7 +44,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
     private List<int> soldIdxList = new List<int>();
 
     private GoldUIHandler goldUIHandler;
-    //private BattleSkillHandler battleSkillHandler;
+    private PlayerSkillPanelHandler playerSkillPanelHandler;
 
     private BattleHandler bh;
     private InventoryHandler invenHandler;
@@ -67,7 +67,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
         bh = GameManager.Instance.battleHandler;
         goldUIHandler = GameManager.Instance.goldUIHandler;
         skillContainer = GameManager.Instance.skillContainer;
-        //battleSkillHandler = bh.battleSkill;
+        playerSkillPanelHandler = bh.playerSkillHandler;
 
         exitBtn.onClick.AddListener(OnExitBtnClick);
         purchaseBtn.onClick.AddListener(OnPurchaseBtnClick);
@@ -163,13 +163,23 @@ public class ShopEncounterUIHandler : MonoBehaviour
             switch (selectProduct.productType)
             {
                 case ProductType.SKILL:
-                    PlayerSkill skill = null;//PoolManager.GetSkill(selectProduct.skill.skillType);
-                    Image skillImg = skill.GetComponent<Image>();
-                    skillImg.color = new Color(1, 1, 1, 0);
+                    PlayerSkill skill = PoolManager.GetPlayerSkill(selectProduct.skill.skillNameType);
+                    //Image skillImg = skill.GetComponent<Image>();
+                    //skillImg.color = new Color(1, 1, 1, 0);
                     skill.transform.SetParent(transform);
-                    skill.GetComponent<RectTransform>().sizeDelta = Vector2.one * 300f;
+                    skill.GetComponent<RectTransform>().sizeDelta = Vector2.one * 100f;
                     skill.transform.position = selectProductImg.transform.position + Vector3.down;
                     skill.transform.localScale = Vector3.one;
+                    playerSkillPanelHandler.GetSkill(skill, () =>
+                    {
+                        buyPanel.DOFade(0, 0.5f).OnComplete(() =>
+                        {
+                            buyPanel.blocksRaycasts = false;
+                            buyPanel.interactable = false;
+                            SetProductSold(selectIdx);
+                            SetAllButtonInterval(true, true);
+                        });
+                    });
                     /*
                     bh.GetComponent<BattleScrollHandler>()
                          .GetScroll(skill, () =>
@@ -324,7 +334,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
         }
         else
         {
-            productSpr = product.skillImg.sprite;
+            productSpr = product.scrollImg.sprite;
 
 
             skillIconTrans.gameObject.SetActive(false);

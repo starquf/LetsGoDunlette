@@ -1,3 +1,5 @@
+using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -125,6 +127,106 @@ public class PlayerSkillPanelHandler : MonoBehaviour
                 UseSkill(ps);
             }
         });
+    }
+
+    public void GetSkill(PlayerSkill skill, Action onCompleteAnim = null, Action onCancleChange = null)
+    {
+        int btnIdx = GetCanSetButtonIdx(skill.isUniqueSkill);
+        if (btnIdx == -1 || btnIdx == 0)
+        {
+            GameManager.Instance.YONHandler.ShowPanel("얻은 스킬과 가지고 있는 스킬을 변경 하기겠습니까?", "변경", "취소", () =>
+            {
+                // 변경
+                if(btnIdx == -1)
+                {
+                    for (int i = 1; i < skillButtons.Count; i++)
+                    {
+                        int iIdx = i;
+                        PlayerSkillButton playerSkillButton = skillButtons[iIdx];
+
+                        playerSkillButton.SetStrokeColor(Color.white);
+                        // 모든 공용 스킬에 변경할 스크롤 선택으로 버튼 변경
+                        playerSkillButton.SetAddListener(() =>
+                        {
+                            SetSkillAnim(skill, playerSkillButton, ()=>
+                            {
+                                // 선택시 다른 버튼들 원래 스킬로 다시 변경
+                                for (int j = 0; j < skillButtons.Count; j++)
+                                {
+                                    int jIdx = j;
+                                    PlayerSkillButton psb = skillButtons[jIdx];
+                                    if (iIdx != jIdx)
+                                    {
+                                        SetSkill(psb, psb.currentSkill);
+                                    }
+
+                                    switch (psb.currentSkill.skillType)
+                                    {
+                                        case PlayerSkillType.Active_Cooldown:
+                                            ((PlayerSkill_Cooldown)psb.currentSkill).UpdateUI(psb);
+                                            break;
+                                        case PlayerSkillType.Active_Count:
+                                            Debug.LogError("이거 버그 눌러서 확인");
+                                            break;
+                                        case PlayerSkillType.Passive:
+                                            Debug.LogError("이거 버그 눌러서 확인");
+                                            break;
+                                        default:
+                                            Debug.LogError("이거 버그 눌러서 확인");
+                                            break;
+                                    }
+                                }
+                                onCompleteAnim?.Invoke();
+                            });
+                        });
+                    }
+                }
+                else
+                {
+                    SetSkillAnim(skill, skillButtons[btnIdx], onCompleteAnim);
+                }
+            }, () =>
+            {
+                // 취소
+                onCancleChange?.Invoke();
+                onCompleteAnim?.Invoke();
+            });
+        }
+        else 
+        {
+            SetSkillAnim(skill, skillButtons[btnIdx], onCompleteAnim);
+        }
+        //skill.transform.DOMove()
+    }
+
+    private void SetSkillAnim(PlayerSkill skill, PlayerSkillButton playerSkillButton, Action onEnd = null)
+    {
+        DOTween.Sequence().Append(skill.transform.DOMove(playerSkillButton.transform.position, 0.5f))
+            .OnComplete(() =>
+            {
+                SetSkill(playerSkillButton, skill);
+                onEnd?.Invoke();
+            });
+    }
+
+    private int GetCanSetButtonIdx(bool isUniqueSkill)
+    {
+        if(isUniqueSkill)
+        {
+            return 0;
+        }
+        else
+        {
+            for (int i = 1; i < skillButtons.Count; i++)
+            {
+                PlayerSkillButton playerSkillButton = skillButtons[i];
+                if(!playerSkillButton.HasSkill())
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
     }
 
     public void SetInteract(bool enable)

@@ -33,6 +33,11 @@ public class PlayerSkillButton : MonoBehaviour
         animHandler = GameManager.Instance.animHandler;
     }
 
+    public bool HasSkill()
+    {
+        return currentSkill != null;
+    }
+
     public void Init(PlayerSkill skill, Action<PlayerSkill> onClickBtn)
     {
         if (currentSkill != null)
@@ -50,9 +55,19 @@ public class PlayerSkillButton : MonoBehaviour
 
         skill.Init(this);
 
-        skillBtn.onClick.AddListener(() =>
+        SetAddListener(() =>
         {
             onClickBtn?.Invoke(currentSkill);
+        });
+    }
+
+    public void SetAddListener(Action onClickBtn)
+    {
+        skillBtn.onClick.RemoveAllListeners();
+
+        skillBtn.onClick.AddListener(() =>
+        {
+            onClickBtn?.Invoke();
         });
     }
 

@@ -7,7 +7,7 @@ public class ProductInfo : MonoBehaviour
 {
     public ProductType productType = ProductType.NONE;
 
-    //[HideInInspector] public Scroll scroll;
+    [HideInInspector] public PlayerSkill skill;
     [HideInInspector] public SkillPiece rulletPiece;
 
     public Image scrollImg;
@@ -40,25 +40,24 @@ public class ProductInfo : MonoBehaviour
     {
         productPriceImg.gameObject.SetActive(true);
         productType = type;
-        if (false == (rulletPiece == null))
+        if ((skill == null) == (rulletPiece == null))
         {
             Debug.LogError("스크롤 혹은 스킬로 상점 품목을 설정해주세요");
         }
         switch (productType)
         {
             case ProductType.SKILL:
-                /*
                 skillCardCvsGroup.alpha = 0;
                 scrollImg.gameObject.SetActive(true);
 
-                this.scroll = scroll;
+                this.skill = skill;
 
-                productName = scroll.ScrollName;
-                productDes = scroll.ScrollDes;
+                productName = skill.skillName;
+                productDes = skill.skillDes;
                 price = 10;
 
-                scrollImg.sprite = scroll.GetComponent<Image>().sprite;
-                productPriceTxt.text = price.ToString();*/
+                scrollImg.sprite = skill.iconSpr;
+                productPriceTxt.text = price.ToString();
                 break;
             case ProductType.RULLETPIECE:
                 SkillPiece skillPiece = Instantiate(rulletPiece, Vector3.zero, Quaternion.identity).GetComponent<SkillPiece>();
@@ -112,7 +111,7 @@ public class ProductInfo : MonoBehaviour
 
     public void SetProductSold()
     {
-        if ((false) == (rulletPiece == null))
+        if ((skill == null) == (rulletPiece == null))
         {
             Debug.LogError("��ǰ�� �� ������ �Ǿ�ߵ˴ϴ�.");
             return;
