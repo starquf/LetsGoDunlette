@@ -1,11 +1,16 @@
+using UnityEngine;
+
 public class Encounter_004 : RandomEncounter
 {
 
-    public int lostGoldValue = 10;
+    public int getGoldValue = 75;
+    public int lostDamage = 20;
+    public int lostMinGold = 20;
+    public int lostMaxGold = 50;
+    private int lostGold = 0;
     public override void Init()
     {
         base.Init();
-        GameManager.Instance.Gold -= lostGoldValue;
     }
 
     public override void ResultSet(int resultIdx)
@@ -14,15 +19,15 @@ public class Encounter_004 : RandomEncounter
         switch (resultIdx)
         {
             case 0:
-                GameManager.Instance.Gold += lostGoldValue;
                 showText = en_End_TextList[0];
                 showImg = en_End_Image[0];
-                en_End_Result = "Ã¼·Â 20°¨¼Ò";
+                en_End_Result = $"{getGoldValue} °ñµå¸¦ ¾ò´Â´Ù.\nÃ¼·ÂÀ» {lostDamage} ÀÒ´Â´Ù.";
                 break;
             case 1:
                 showText = en_End_TextList[1];
                 showImg = en_End_Image[1];
-                en_End_Result = "°ñµå ÀÒÀ½";
+                lostGold = Random.Range(lostMinGold, lostMaxGold + 1);
+                en_End_Result = $"{lostGold} °ñµå¸¦ ÀÒ´Â´Ù.";
                 break;
             default:
                 break;
@@ -35,11 +40,13 @@ public class Encounter_004 : RandomEncounter
         switch (choiceIdx)
         {
             case 0:
+                GameManager.Instance.Gold += getGoldValue;
                 PlayerHealth playerHealth = GameManager.Instance.GetPlayer();
-                playerHealth.GetDamage(20);
+                playerHealth.GetDamage(lostDamage);
                 OnExitEncounter?.Invoke(true);
                 break;
             case 1:
+                GameManager.Instance.Gold -= lostGold;
                 OnExitEncounter?.Invoke(true);
                 break;
             default:
