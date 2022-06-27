@@ -57,6 +57,7 @@ public class Encounter_007 : RandomEncounter
                         .Join(sp.GetComponent<Image>().DOFade(0f, 0.5f))
                         .OnComplete(() =>
                         {
+                            invenHandler.RemovePiece(sp);
                             Destroy(sp);
 
                             SkillPiece rulletPieces = encounterInfoHandler.GetRandomSkillRewards(1)[0].GetComponent<SkillPiece>();
