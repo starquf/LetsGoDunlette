@@ -50,8 +50,9 @@ public class PlayerSkill_Cooldown : PlayerSkill
     {
         SetCoolDown(cooldown / (float)maxCooldown);
 
-        if (CanUseSkill())
+        if (cooldown <= 0)
         {
+            icon.color = enableColor;
             skillBtn.SetStrokeColor(enableColor);
             coolDownText.gameObject.SetActive(false);
 
@@ -72,19 +73,14 @@ public class PlayerSkill_Cooldown : PlayerSkill
                 .Append(coolDownText.transform.DOScale(Vector3.one * 1.45f, 0.15f))
                 .Append(coolDownText.transform.DOScale(Vector3.one, 0.15f));
 
-
+            icon.color = disableColor;
             skillBtn.SetStrokeColor(disableColor);
         }
     }
 
-    public override void Cast(Action onEndSkill)
+    public override void Cast(Action onEndSkill, Action onCancelSkill)
     {
-        base.Cast(onEndSkill);
-
-        cooldown = maxCooldown;
-        isFirstActivate = true;
-
-        UpdateUI(ui);
+        base.Cast(onEndSkill, onCancelSkill);
     }
 
     protected virtual void SetCoolDown(float coolDownPercent)
@@ -106,8 +102,6 @@ public class PlayerSkill_Cooldown : PlayerSkill
                 cooldown--;
             }
 
-            canUse = cooldown == 0;
-
             UpdateUI(ui);
 
             action?.Invoke();
@@ -121,6 +115,14 @@ public class PlayerSkill_Cooldown : PlayerSkill
             action?.Invoke();
         }, EventTime.EndBattle));
         */
+
+        UpdateUI(ui);
+    }
+
+    public virtual void ResetCooldown()
+    {
+        cooldown = maxCooldown;
+        isFirstActivate = true;
 
         UpdateUI(ui);
     }

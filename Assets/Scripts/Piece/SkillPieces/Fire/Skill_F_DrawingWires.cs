@@ -26,6 +26,22 @@ public class Skill_F_DrawingWires : SkillPiece
 
         List<SkillPiece> nearSkillPieces = new List<SkillPiece>();
 
+        // 스킬로 불러온 조각이라면
+        if (!this.IsInRullet)
+        {
+            animHandler.GetAnim(AnimName.F_ManaSphereHit)
+                .SetPosition(target.transform.position)
+                .SetScale(0.5f)
+                .Play();
+
+            target.GetDamage(GetDamageCalc(), currentType);
+            GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
+
+            onCastEnd?.Invoke();
+
+            return;
+        }
+
         int nextIdx = GetNearbyIdx(pieces.Count);
         RulletPiece nextPiece = pieces[nextIdx];
 

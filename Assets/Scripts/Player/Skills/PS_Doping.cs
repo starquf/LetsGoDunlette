@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PS_Reconstruction : PlayerSkill_Cooldown
+public class PS_Doping : PlayerSkill_Cooldown
 {
+    public int increaseValue = 2;
+
     public override void Cast(Action onEndSkill, Action onCancelSkill)
     {
         base.Cast(onEndSkill, onCancelSkill);
@@ -14,11 +16,8 @@ public class PS_Reconstruction : PlayerSkill_Cooldown
             ResetCooldown();
         };
 
-        bh.mainRullet.PauseRullet();
+        bh.player.cc.IncreaseBuff(BuffType.Upgrade, increaseValue);
 
-        StartCoroutine(bh.battleUtil.ResetRullet(() =>
-        {
-            StartCoroutine(bh.CheckPanelty(onEndSkill));
-        }));
+        onEndSkill?.Invoke();
     }
 }

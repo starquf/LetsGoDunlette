@@ -16,8 +16,6 @@ public abstract class PlayerSkill : MonoBehaviour
     public PlayerSkillName skillNameType;
     public Sprite iconSpr;
 
-    [HideInInspector]
-    public bool canUse;
     public bool isUniqueSkill = false;
 
     protected PlayerSkillButton ui;
@@ -48,10 +46,8 @@ public abstract class PlayerSkill : MonoBehaviour
 
     public abstract bool CanUseSkill();
 
-    public virtual void Cast(Action onEndSkill)
+    public virtual void Cast(Action onEndSkill, Action onCancelSkill)
     {
-        canUse = false;
-
         ui.SkillUseEffect();
     }
 

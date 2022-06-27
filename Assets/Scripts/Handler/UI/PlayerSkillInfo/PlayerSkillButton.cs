@@ -23,7 +23,7 @@ public class PlayerSkillButton : MonoBehaviour
     private void Awake()
     {
         skillBtn = GetComponent<Button>();
-        origin = transform.position;
+        origin = transform.localPosition;
 
         highlightCG.alpha = 0f;
     }
@@ -84,17 +84,22 @@ public class PlayerSkillButton : MonoBehaviour
             .Join(transform.DOShakePosition(0.25f, 40f, 50))
             .AppendCallback(() => 
             {
-                transform.position = origin;
+                transform.localPosition = origin;
             });
 
         if (currentSkill == null)
             return;
 
+        ShowMessege($"{currentSkill.skillName} ÁØºñµÊ!");
+    }
+
+    public void ShowMessege(string msg)
+    {
         animHandler.GetTextAnim()
             .SetPosition(highlightCG.transform.position)
             .SetScale(0.7f)
             .SetType(TextUpAnimType.Up)
-            .Play($"{currentSkill.skillName} ÁØºñµÊ!");
+            .Play(msg);
     }
 
     public void SkillUseEffect()
@@ -102,10 +107,6 @@ public class PlayerSkillButton : MonoBehaviour
         if (currentSkill == null)
             return;
 
-        animHandler.GetTextAnim()
-            .SetPosition(highlightCG.transform.position)
-            .SetScale(0.7f)
-            .SetType(TextUpAnimType.Up)
-            .Play($"{currentSkill.skillName} »ç¿ë!");
+        ShowMessege($"{currentSkill.skillName} »ç¿ë!");
     }
 }

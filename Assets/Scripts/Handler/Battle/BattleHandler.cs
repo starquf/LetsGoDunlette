@@ -476,8 +476,6 @@ public class BattleHandler : MonoBehaviour
 
         StartCoroutine(battleEvent.ActionEvent(EventTime.StartTurn, () =>
         {
-            playerSkillHandler.UpdateCanPlayerSkillUse();
-
             if (turnCnt > 1)
             {
                 ccHandler.DecreaseCC();

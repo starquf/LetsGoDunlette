@@ -21,9 +21,15 @@ public class PS_Illusion : PlayerSkill_Cooldown
         animHandler = GameManager.Instance.animHandler;
     }
 
-    public override void Cast(Action onEndSkill)
+    public override void Cast(Action onEndSkill, Action onCancelSkill)
     {
-        base.Cast(onEndSkill);
+        base.Cast(onEndSkill, onCancelSkill);
+
+        onEndSkill += () =>
+        {
+            ResetCooldown();
+        };
+
         bh.mainRullet.PauseRullet();
 
         StartCoroutine(SkillActivate(onEndSkill));

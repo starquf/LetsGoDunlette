@@ -25,8 +25,8 @@ public class PlayerSkillPanelHandler : MonoBehaviour
     {
         bh = GameManager.Instance.battleHandler;
 
-        SetSkill(skillButtons[1], PoolManager.GetPlayerSkill(PlayerSkillName.FirstAid));
-        SetSkill(skillButtons[2], PoolManager.GetPlayerSkill(PlayerSkillName.FirstAid));
+        SetSkill(skillButtons[1], PoolManager.GetPlayerSkill(PlayerSkillName.Doping));
+        SetSkill(skillButtons[2], PoolManager.GetPlayerSkill(PlayerSkillName.Bookmark));
     }
 
     public void Init(PlayerInfo playerInfo)
@@ -53,24 +53,6 @@ public class PlayerSkillPanelHandler : MonoBehaviour
         }
     }
 
-    public void UpdateCanPlayerSkillUse()
-    {
-        hasCanUseSkill = false;
-
-        for (int i = 0; i < skillButtons.Count; i++)
-        {
-            if (skillButtons[i].currentSkill != null)
-            {
-                PlayerSkill ps = skillButtons[i].currentSkill;
-                if ((ps.skillType.Equals(PlayerSkillType.Active_Cooldown) || ps.skillType.Equals(PlayerSkillType.Active_Count)) && ps.canUse)
-                {
-                    hasCanUseSkill = true;
-                    break;
-                }
-            }
-        }
-    }
-
     private void UseSkill(PlayerSkill skill)
     {
         // 스킬이 사용 가능한지 체크
@@ -87,6 +69,13 @@ public class PlayerSkillPanelHandler : MonoBehaviour
 
                     skill.Cast(() =>
                     {
+                        bh.StartTurn();
+
+                        isCasting = false;
+                    },
+                    () => 
+                    {
+                        Time.timeScale = 1f;
                         bh.StartTurn();
 
                         isCasting = false;
