@@ -58,7 +58,8 @@ public enum EncounterType
 
 public enum PlayerSkillName
 {
-    Heal,
+    Illusion,
+    FirstAid,
 }
 
 public enum ShowInfoRange

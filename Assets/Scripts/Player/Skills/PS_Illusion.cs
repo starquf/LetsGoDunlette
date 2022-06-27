@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PS_Test : PlayerSkill_Cooldown
+public class PS_Illusion : PlayerSkill_Cooldown
 {
     public Sprite attackSpr;
 
@@ -96,7 +96,7 @@ public class PS_Test : PlayerSkill_Cooldown
         effect.transform.position = startPos;
         effect.SetSprite(attackSpr);
         effect.SetColorGradient(attackGrad);
-        effect.SetScale(Vector3.one * 0.7f);
+        effect.SetScale(Vector3.one * 1.4f);
 
         effect.Play(target.transform.position, () =>
         {

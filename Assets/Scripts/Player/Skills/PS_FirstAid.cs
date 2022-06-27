@@ -1,6 +1,6 @@
 using System;
 
-public class PS_BasicMedicine : PlayerSkill_Cooldown
+public class PS_FirstAid : PlayerSkill_Cooldown
 {
     public int healValue = 10;
 

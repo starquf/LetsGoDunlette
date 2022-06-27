@@ -22,8 +22,8 @@ public class PlayerSkillPanelHandler : MonoBehaviour
     {
         bh = GameManager.Instance.battleHandler;
 
-        SetSkill(skillButtons[1], PoolManager.GetPlayerSkill(PlayerSkillName.Heal));
-        SetSkill(skillButtons[2], PoolManager.GetPlayerSkill(PlayerSkillName.Heal));
+        SetSkill(skillButtons[1], PoolManager.GetPlayerSkill(PlayerSkillName.FirstAid));
+        SetSkill(skillButtons[2], PoolManager.GetPlayerSkill(PlayerSkillName.FirstAid));
     }
 
     public void Init(PlayerInfo playerInfo)
