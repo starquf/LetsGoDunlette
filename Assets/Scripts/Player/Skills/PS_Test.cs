@@ -53,11 +53,10 @@ public class PS_Test : PlayerSkill_Cooldown
             if (sp.isPlayerSkill)
             {
                 Vector3 skillPos = sp.skillIconImg.transform.position;
-
                 animHandler.GetTextAnim()
-                    .SetType(TextUpAnimType.Up)
-                    .SetPosition(sp.skillIconImg.transform.position)
-                    .Play($"{skillName} 발동!");
+                        .SetType(TextUpAnimType.Up)
+                        .SetPosition(sp.skillIconImg.transform.position)
+                        .Play($"{skillName} 발동!");
 
                 LivingEntity enemy = targets[UnityEngine.Random.Range(0, targets.Count)];
 
@@ -88,24 +87,29 @@ public class PS_Test : PlayerSkill_Cooldown
 
     private void AttackEnemy(Vector3 startPos, LivingEntity target, int damage)
     {
-        animHandler.GetAnim(AnimName.C_ManaSphereHit)
+        animHandler.GetAnim(AnimName.GothicEffect08)
             .SetPosition(startPos)
-            .SetScale(1f)
+            .SetScale(1.3f)
             .Play();
 
         EffectObj effect = PoolManager.GetItem<EffectObj>();
         effect.transform.position = startPos;
         effect.SetSprite(attackSpr);
         effect.SetColorGradient(attackGrad);
-        effect.SetScale(Vector3.one * 1f);
+        effect.SetScale(Vector3.one * 0.7f);
 
         effect.Play(target.transform.position, () =>
         {
             target.GetDamage(damage, ElementalType.None);
 
+            animHandler.GetAnim(AnimName.C_ManaSphereHit)
+            .SetPosition(target.transform.position)
+            .SetScale(1f)
+            .Play();
+
             GameManager.Instance.cameraHandler.ShakeCamera(1.5f, 0.1f);
 
             effect.EndEffect();
-        }, BezierType.Quadratic, playSpeed:2.0f, isRotate:true);
+        }, BezierType.Quadratic, playSpeed:1.9f, isRotate:true);
     }
 }

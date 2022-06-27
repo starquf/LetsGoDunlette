@@ -145,7 +145,7 @@ public class PieceDicHandler : MonoBehaviour
 
             PieceInfoUI pieceInfoUI = PoolManager.GetItem<PieceInfoUI>();
 
-            print(sp.cardBG + " " + sp.PieceName);
+            //print(sp.cardBG + " " + sp.PieceName);
 
             pieceInfoUI.SetSkillIcon(sp.cardBG, sp.skillStroke);
             pieceInfoUI.transform.SetParent(pieceHolder);
