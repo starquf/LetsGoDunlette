@@ -24003,6 +24003,7 @@ GameObject:
   - component: {fileID: 361184785}
   - component: {fileID: 361184784}
   - component: {fileID: 361184787}
+  - component: {fileID: 361184786}
   m_Layer: 0
   m_Name: PoolHandler
   m_TagString: Untagged
@@ -24151,6 +24152,21 @@ MonoBehaviour:
   - {fileID: 3478037225019446062, guid: 44e3c2aa56a6a514682c0284bf9ca4f3, type: 3}
   - {fileID: 5375933241795326024, guid: 93412e5d11de36043aec77a5ec52678f, type: 3}
   - {fileID: 2194092688508076325, guid: d54d430a1058d5d4abebb2412218350f, type: 3}
+--- !u!114 &361184786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361184782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b29b64aa2e19dbd48b2acd734e904b4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillList:
+  - {fileID: -7458472957388291326, guid: 98b2790a0de4e3742bf6a4bf95f6bf34, type: 3}
+  - {fileID: 3445512579369980407, guid: 095c8cda2dc6d77459edee44a10e6b8b, type: 3}
 --- !u!114 &361184787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43194,6 +43210,9 @@ MonoBehaviour:
     defaultSize: {x: 3, y: 3, z: 1}
   - name: 46
     clip: {fileID: 7400000, guid: 14cdd130361ec49dab9b2afcdc41b0f0, type: 2}
+    defaultSize: {x: 3, y: 3, z: 1}
+  - name: 47
+    clip: {fileID: 7400000, guid: 2f92c656a5f144e5b866e6c9a69516b8, type: 2}
     defaultSize: {x: 3, y: 3, z: 1}
 --- !u!1 &502434203
 GameObject:
@@ -67092,9 +67111,9 @@ RectTransform:
   m_Father: {fileID: 1544976154}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 30, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 30, y: -187.48001}
   m_SizeDelta: {x: 997.37, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &696530379
