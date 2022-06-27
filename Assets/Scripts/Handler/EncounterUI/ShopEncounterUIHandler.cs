@@ -20,7 +20,8 @@ public class ShopEncounterUIHandler : MonoBehaviour
 
     public Button exitBtn, purchaseBtn, unselectBtn;
 
-    public Image selectProductImg;
+    public Image selecSkillPieceImg;
+    public Image selectPlayerSkillImg;
     public TextMeshProUGUI selectProductNameTxt, selectProductDesTxt;
     public Image strokeImg;
     public Image targetBGImg;
@@ -120,7 +121,20 @@ public class ShopEncounterUIHandler : MonoBehaviour
             }
             else
             {
-                PlayerSkill skill = randomSkill[Random.Range(0, randomSkill.Count)];
+                PlayerSkill skill = null;
+                bool isLoop = false;
+                do
+                {
+                    skill = randomSkill[Random.Range(0, randomSkill.Count)];
+                    if (idx - 3 == 0)
+                    {
+                        isLoop = !skill.isUniqueSkill;
+                    }
+                    else
+                    {
+                        isLoop = skill.isUniqueSkill;
+                    }
+                } while (isLoop);
                 randomSkill.Remove(skill);
                 products[idx].SetProduct(ProductType.SKILL, skill);
             }
@@ -168,7 +182,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
                     //skillImg.color = new Color(1, 1, 1, 0);
                     skill.transform.SetParent(transform);
                     skill.GetComponent<RectTransform>().sizeDelta = Vector2.one * 100f;
-                    skill.transform.position = selectProductImg.transform.position + Vector3.down;
+                    skill.transform.position = selectPlayerSkillImg.transform.position;
                     skill.transform.localScale = Vector3.one;
                     playerSkillPanelHandler.GetSkill(skill, () =>
                     {
@@ -318,6 +332,8 @@ public class ShopEncounterUIHandler : MonoBehaviour
             Sprite targetIcon = invenHandler.targetIconSprDic[product.rulletPiece.skillRange];
 
 
+            selecSkillPieceImg.gameObject.SetActive(true);
+            selectPlayerSkillImg.gameObject.SetActive(false);
             skillIconTrans.gameObject.SetActive(true);
             strokeImg.gameObject.SetActive(true);
             targetBGImg.gameObject.SetActive(true);
@@ -331,18 +347,22 @@ public class ShopEncounterUIHandler : MonoBehaviour
             ShowDesIcon(desInfos, product.rulletPiece);
 
             gradeHandler.SetGrade(product.rulletPiece.skillGrade);
+
+            selecSkillPieceImg.sprite = productSpr;
         }
         else
         {
             productSpr = product.scrollImg.sprite;
 
-
+            selectPlayerSkillImg.gameObject.SetActive(true);
+            selecSkillPieceImg.gameObject.SetActive(false);
             skillIconTrans.gameObject.SetActive(false);
             strokeImg.gameObject.SetActive(false);
             targetBGImg.gameObject.SetActive(false);
             targetImg.gameObject.SetActive(false);
+
+            selectPlayerSkillImg.sprite = productSpr;
         }
-        selectProductImg.sprite = productSpr;
         selectProductNameTxt.text = product.productName;
         selectProductDesTxt.text = product.productDes;
     }

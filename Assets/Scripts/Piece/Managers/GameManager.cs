@@ -135,7 +135,7 @@ public class GameManager : MonoBehaviour
     [Header("진행가능한 스테이지")]
     public int progressiveStageIdx = 1;
 
-    private int gold = 100;
+    private int gold = 99;
     public int Gold
     {
         get => gold;
