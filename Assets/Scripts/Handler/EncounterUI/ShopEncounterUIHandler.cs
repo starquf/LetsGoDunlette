@@ -120,7 +120,20 @@ public class ShopEncounterUIHandler : MonoBehaviour
             }
             else
             {
-                PlayerSkill skill = randomSkill[Random.Range(0, randomSkill.Count)];
+                PlayerSkill skill = null;
+                bool isLoop = false;
+                do
+                {
+                    skill = randomSkill[Random.Range(0, randomSkill.Count)];
+                    if (idx - 3 == 0)
+                    {
+                        isLoop = !skill.isUniqueSkill;
+                    }
+                    else
+                    {
+                        isLoop = skill.isUniqueSkill;
+                    }
+                } while (isLoop);
                 randomSkill.Remove(skill);
                 products[idx].SetProduct(ProductType.SKILL, skill);
             }
