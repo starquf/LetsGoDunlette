@@ -54,8 +54,13 @@ public class LobbyScrollHandler : MonoBehaviour, IBeginDragHandler, IDragHandler
             });
         }
 
-        targetIdx = 1;
+        targetIdx = 0;
         scroll.value = pos[targetIdx];
+
+        for (int i = 0; i < panelBtns.Count; i++)
+        {
+            panelBtns[i].GetComponent<LobbyPanelBtn>().SetHighlight(i == targetIdx);
+        }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -110,6 +115,12 @@ public class LobbyScrollHandler : MonoBehaviour, IBeginDragHandler, IDragHandler
                 lobbyPanel.ShowPlayerInfoCG(true, false);
                 SetPanels(true);
             });
+
+        for (int i = 0; i < panelBtns.Count; i++)
+        {
+            panelBtns[i].GetComponent<LobbyPanelBtn>().SetHighlight(i == targetIdx);
+        }
+
     }
 
     private int GetTargetPos()
