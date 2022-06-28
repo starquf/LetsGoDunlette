@@ -16,18 +16,25 @@ public class SkillPrefabContainer : MonoBehaviour
     [SerializeField]
     private List<GameObject> skillPrefabs = new List<GameObject>();
 
+    [Header("보상 스킬 프리팹")]
+    [SerializeField]
+    private List<GameObject> rewardSkillPrefabs = new List<GameObject>();
+
     [HideInInspector]
     public List<GameObject> enemySkillPrefabs;
     [HideInInspector]
     public List<GameObject> playerSkillPrefabs;
 
+    [Header("상점 확률 보상")]
     public List<RewardChance> shopRewardChances;
 
     private Dictionary<string, GameObject> skillPrefabDic;
+    private Dictionary<string, GameObject> rewardSkillPrefabDic;
 
     private void Awake()
     {
         skillPrefabDic = new Dictionary<string, GameObject>();
+        rewardSkillPrefabDic = new Dictionary<string, GameObject>();
         enemySkillPrefabs = new List<GameObject>();
         playerSkillPrefabs = new List<GameObject>();
 
@@ -50,6 +57,13 @@ public class SkillPrefabContainer : MonoBehaviour
             skillPrefabDic.Add(name, skillPrefabs[i]);
         }
 
+        for (int i = 0; i < rewardSkillPrefabs.Count; i++)
+        {
+            SkillPiece piece = rewardSkillPrefabs[i].GetComponent<SkillPiece>();
+            string name = piece.GetType().Name;
+            rewardSkillPrefabDic.Add(name, skillPrefabs[i]);
+        }
+
         GameManager.Instance.skillContainer = this;
     }
 
@@ -57,10 +71,10 @@ public class SkillPrefabContainer : MonoBehaviour
     {
         List<SkillPiece> skills = new List<SkillPiece>();
 
-        for (int i = 0; i < playerSkillPrefabs.Count; i++)
+        for (int i = 0; i < rewardSkillPrefabs.Count; i++)
         {
-            SkillPiece piece = playerSkillPrefabs[i].GetComponent<SkillPiece>();
-            if(piece.skillGrade == gradeInfo && piece.isDisposable == false)
+            SkillPiece piece = rewardSkillPrefabs[i].GetComponent<SkillPiece>();
+            if (piece.skillGrade == gradeInfo && piece.isDisposable == false)
             {
                 skills.Add(piece);
             }
@@ -73,9 +87,9 @@ public class SkillPrefabContainer : MonoBehaviour
     {
         List<SkillPiece> skills = new List<SkillPiece>();
 
-        for (int i = 0; i < playerSkillPrefabs.Count; i++)
+        for (int i = 0; i < rewardSkillPrefabs.Count; i++)
         {
-            SkillPiece piece = playerSkillPrefabs[i].GetComponent<SkillPiece>();
+            SkillPiece piece = rewardSkillPrefabs[i].GetComponent<SkillPiece>();
             if (piece.patternType == elementalType)
             {
                 skills.Add(piece);
@@ -157,7 +171,6 @@ public class SkillPrefabContainer : MonoBehaviour
     public GameObject GetSkillPrefab<T>() where T : SkillPiece
     {
         Type type = typeof(T);
-
         return skillPrefabDic[type.Name];
     }
 }
