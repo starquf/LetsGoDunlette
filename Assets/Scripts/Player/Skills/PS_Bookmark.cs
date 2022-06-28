@@ -69,7 +69,7 @@ public class PS_Bookmark : PlayerSkill_Cooldown
 
                 print(sp.IsInRullet);
 
-                ResetCooldown();
+                OnEndSkill();
 
                 bh.CastPiece(sp);
             });

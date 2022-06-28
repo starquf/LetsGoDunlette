@@ -27,7 +27,7 @@ public class PS_Illusion : PlayerSkill_Cooldown
 
         onEndSkill += () =>
         {
-            ResetCooldown();
+            OnEndSkill();
         };
 
         bh.mainRullet.PauseRullet();

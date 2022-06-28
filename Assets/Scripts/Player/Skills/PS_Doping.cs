@@ -13,7 +13,7 @@ public class PS_Doping : PlayerSkill_Cooldown
 
         onEndSkill += () =>
         {
-            ResetCooldown();
+            OnEndSkill();
         };
 
         bh.player.cc.IncreaseBuff(BuffType.Upgrade, increaseValue);

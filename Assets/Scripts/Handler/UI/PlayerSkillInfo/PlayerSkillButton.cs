@@ -20,6 +20,8 @@ public class PlayerSkillButton : MonoBehaviour
 
     private AnimHandler animHandler;
 
+    public UseCountUI useCountUI;
+
     private void Awake()
     {
         skillBtn = GetComponent<Button>();
@@ -40,6 +42,8 @@ public class PlayerSkillButton : MonoBehaviour
 
     public void Init(PlayerSkill skill, Action<PlayerSkill> onClickBtn)
     {
+        useCountUI.gameObject.SetActive(false);
+
         if (currentSkill != null)
         {
             // 스킬 풀링
