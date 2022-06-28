@@ -546,7 +546,7 @@ public class MapManager : MonoBehaviour
                     int targetX = Random.Range((int)fm.minPos.x, (int)fm.maxPos.x + 1);
                     int targetY = Random.Range((int)fm.minPos.y, (int)fm.maxPos.y + 1);
                     targetPos = new Vector2(targetX, targetY);
-                } while (useFixedPosMapType.Keys.Contains(targetPos) || targetPos.Equals(new Vector2(-1f, gridHeight - 1)) || targetPos.Equals(new Vector2(0f, gridHeight - 1));
+                } while (useFixedPosMapType.Keys.Contains(targetPos) || targetPos.Equals(new Vector2(-1f, gridHeight - 1)) || targetPos.Equals(new Vector2(0f, gridHeight - 1)));
 
                 useFixedPosMapType.Add(targetPos, fm.map);
             }
