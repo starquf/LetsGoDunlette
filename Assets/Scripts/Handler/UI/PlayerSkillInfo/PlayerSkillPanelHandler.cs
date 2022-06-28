@@ -181,7 +181,7 @@ public class PlayerSkillPanelHandler : MonoBehaviour
             {
                 // √Îº“
                 onCancleChange?.Invoke();
-                onCompleteAnim?.Invoke();
+                //onCompleteAnim?.Invoke();
             });
         }
         else 

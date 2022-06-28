@@ -184,6 +184,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
                     skill.GetComponent<RectTransform>().sizeDelta = Vector2.one * 100f;
                     skill.transform.position = selectPlayerSkillImg.transform.position;
                     skill.transform.localScale = Vector3.one;
+                    skill.gameObject.SetActive(false);
                     playerSkillPanelHandler.GetSkill(skill, () =>
                     {
                         buyPanel.DOFade(0, 0.5f).OnComplete(() =>
@@ -191,6 +192,14 @@ public class ShopEncounterUIHandler : MonoBehaviour
                             buyPanel.blocksRaycasts = false;
                             buyPanel.interactable = false;
                             SetProductSold(selectIdx);
+                            SetAllButtonInterval(true, true);
+                        });
+                    }, ()=>
+                    {
+                        buyPanel.DOFade(0, 0.5f).OnComplete(() =>
+                        {
+                            buyPanel.blocksRaycasts = false;
+                            buyPanel.interactable = false;
                             SetAllButtonInterval(true, true);
                         });
                     });
@@ -250,7 +259,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
     private void SetProductSold(int selectProductIdx)
     {
         soldIdxList.Add(selectIdx);
-        products[selectIdx].SetProductSold();
+        products[selectProductIdx].SetProductSold();
         selectIdx = -1;
         products[selectProductIdx].GetComponent<Button>().interactable = false;
     }
@@ -292,11 +301,11 @@ public class ShopEncounterUIHandler : MonoBehaviour
                 return;
             }
 
+            buyPanel.blocksRaycasts = false;
+            buyPanel.interactable = false;
             DOTween.Sequence()
                    .Append(buyPanel.DOFade(0, 0.3f).OnComplete(() =>
                    {
-                       buyPanel.blocksRaycasts = false;
-                       buyPanel.interactable = false;
                        isSelectPanelEnable = false;
                    }));
         }
