@@ -187,6 +187,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
                     skill.gameObject.SetActive(false);
                     playerSkillPanelHandler.GetSkill(skill, () =>
                     {
+                        GameManager.Instance.Gold -= selectProduct.price;
                         buyPanel.DOFade(0, 0.5f).OnComplete(() =>
                         {
                             buyPanel.blocksRaycasts = false;
@@ -220,7 +221,15 @@ public class ShopEncounterUIHandler : MonoBehaviour
 
                     SkillPiece skillPiece = selectProduct.rulletPiece;//Instantiate(selectProduct.rulletPiece, Vector3.zero, Quaternion.identity).GetComponent<SkillPiece>();
                     GameManager.Instance.getPieceHandler.GetPiecePlayer(skillPiece,
-                        () => SetAllButtonInterval(true, true),
+                        () =>
+                        {
+                            buyPanel.DOFade(0, 0.5f).OnComplete(() =>
+                            {
+                                buyPanel.blocksRaycasts = false;
+                                buyPanel.interactable = false;
+                                SetAllButtonInterval(true, true);
+                            });
+                        },
                         () =>
                         {
                             Image skillImg = skillPiece.GetComponent<Image>();
@@ -238,6 +247,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
                             .Join(skillPiece.GetComponent<Image>().DOFade(0f, 0.3f))
                             .OnComplete(() =>
                             {
+                                GameManager.Instance.Gold -= selectProduct.price;
                                 buyPanel.DOFade(0, 0.5f).OnComplete(() =>
                                 {
                                     buyPanel.blocksRaycasts = false;
