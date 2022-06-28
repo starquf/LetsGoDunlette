@@ -27,7 +27,7 @@ public class Skill_C_ManaSphere : SkillPiece
         Vector3 targetPos = target.transform.position;
 
         animHandler.GetAnim(AnimName.C_SphereCast)
-            .SetPosition(targetPos)
+            .SetPosition(skillIconImg.transform.position)
             .Play(() =>
             {
                 EffectObj effect = PoolManager.GetItem<EffectObj>();
