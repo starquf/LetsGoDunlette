@@ -135,33 +135,34 @@ public class SkillPrefabContainer : MonoBehaviour
         int gradeThree = chance.gradeThree;
 
         List<SkillPiece> result = new List<SkillPiece>();
-        List<SkillPiece> skills = null;
+        List<SkillPiece> nomalSkills = GetSkillsByGrade(GradeInfo.Normal);
+        List<SkillPiece> epicSkills = GetSkillsByGrade(GradeInfo.Epic);
+        List<SkillPiece> legendSkills = GetSkillsByGrade(GradeInfo.Legend);
 
         for (int i = 1; i <= count; i++)
         {
             SkillPiece skill = null;
-            do
+
+            int random = Random.Range(0, gradeOne + gradeTwo + gradeThree);
+
+            if (random <= gradeOne)
             {
-                int random = Random.Range(0, gradeOne + gradeTwo + gradeThree);
-
-                if (random <= gradeOne)
-                {
-                    skills = GetSkillsByGrade(GradeInfo.Normal);
-                }
-                else if (random <= gradeOne + gradeTwo)
-                {
-                    skills = GetSkillsByGrade(GradeInfo.Epic);
-                }
-                else if (random <= gradeOne + gradeTwo + gradeThree)
-                {
-                    skills = GetSkillsByGrade(GradeInfo.Legend);
-                }
-
-                skill = skills[Random.Range(0, skills.Count)];
-
-            } while (result.Contains(skill));
-
-            result.Add(skill);
+                skill = nomalSkills[Random.Range(0, nomalSkills.Count)];
+                result.Add(skill);
+                nomalSkills.Remove(skill);
+            }
+            else if (random <= gradeOne + gradeTwo)
+            {
+                skill = epicSkills[Random.Range(0, epicSkills.Count)];
+                result.Add(skill);
+                epicSkills.Remove(skill);
+            }
+            else if (random <= gradeOne + gradeTwo + gradeThree)
+            {
+                skill = legendSkills[Random.Range(0, legendSkills.Count)];
+                result.Add(skill);
+                legendSkills.Remove(skill);
+            }
         }
         
 
