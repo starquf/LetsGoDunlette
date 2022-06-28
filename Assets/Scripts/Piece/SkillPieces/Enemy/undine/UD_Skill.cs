@@ -23,6 +23,7 @@ public class UD_Skill : SkillPiece
         }
         else
         {
+            pieceInfo[1].PieceDes = $"'아군'에게 (<sprite=6>{pieceInfo[1].GetValue()})을 준다.";
             usedIcons.Add(DesIconType.Shield);
             onCastSkill = UD_Water_Drop;
             return pieceInfo[1];
@@ -44,8 +45,8 @@ public class UD_Skill : SkillPiece
         SetIndicator(Owner.gameObject, "운디네의 저주").OnEndAction(() =>
         {
             GameManager.Instance.shakeHandler.ShakeBackCvsUI(0.5f, 0.15f);
-            animHandler.GetAnim(AnimName.M_Recover).SetPosition(Owner.transform.position)
-            .SetScale(1)
+            animHandler.GetAnim(AnimName.BuffEffect02).SetPosition(target.transform.position)
+            .SetScale(2.5f)
             .Play(() =>
             {
                 onCastEnd?.Invoke();
@@ -65,20 +66,19 @@ public class UD_Skill : SkillPiece
 
             for (int i = 0; i < enemys.Count; i++)
             {
-                EnemyHealth health = enemys[i];
-                health.AddShield(10);
+                int idx = i;
+                EnemyHealth health = enemys[idx];
+                health.AddShield(pieceInfo[1].GetValue());
                 animHandler.GetAnim(AnimName.M_Shield).SetPosition(health.transform.position)
                 .SetScale(1)
-                .Play();
+                .Play(()=>
+                {
+                    if(idx == enemys.Count-1)
+                    {
+                        onCastEnd?.Invoke();
+                    }
+                });
             }
-
-            animHandler.GetAnim(AnimName.M_Butt)
-            .SetPosition(GameManager.Instance.enemyEffectTrm.position)
-            .SetScale(2f)
-            .Play(() =>
-            {
-                onCastEnd?.Invoke();
-            });
         });
     }
 
