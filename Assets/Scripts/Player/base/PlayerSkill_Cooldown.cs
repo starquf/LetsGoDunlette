@@ -20,6 +20,11 @@ public class PlayerSkill_Cooldown : PlayerSkill
 
     protected bool isFirstActivate = true;
 
+    [Header("리미트 설정")]
+    public bool hasLimit = false;
+    public int maxLimit = 4;
+    protected int limit = 0;
+
     protected override void Awake()
     {
         base.Awake();
@@ -41,6 +46,16 @@ public class PlayerSkill_Cooldown : PlayerSkill
 
     public override void Init(PlayerSkillButton ui)
     {
+        if (hasLimit)
+        {
+            ui.useCountUI.gameObject.SetActive(true);
+
+            limit = maxLimit;
+            ui.useCountUI.Init(maxLimit);
+
+            ui.useCountUI.SetUseCount(limit);
+        }
+
         cooldown = 0;
 
         base.Init(ui);
@@ -119,8 +134,20 @@ public class PlayerSkill_Cooldown : PlayerSkill
         UpdateUI(ui);
     }
 
-    public virtual void ResetCooldown()
+    public virtual void OnEndSkill()
     {
+        if (hasLimit)
+        {
+            limit -= 1;
+
+            if (limit >= 0)
+            {
+                // 스킬 없엠
+            }
+
+            ui.useCountUI.SetUseCount(limit);
+        }
+
         cooldown = maxCooldown;
         isFirstActivate = true;
 

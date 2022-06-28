@@ -11,7 +11,7 @@ public class PS_Reconstruction : PlayerSkill_Cooldown
 
         onEndSkill += () =>
         {
-            ResetCooldown();
+            OnEndSkill();
         };
 
         bh.mainRullet.PauseRullet();

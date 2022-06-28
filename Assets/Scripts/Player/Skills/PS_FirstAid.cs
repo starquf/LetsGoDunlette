@@ -10,7 +10,7 @@ public class PS_FirstAid : PlayerSkill_Cooldown
 
         onEndSkill += () =>
         {
-            ResetCooldown();
+            OnEndSkill();
         };
 
         bh.player.Heal(healValue);
