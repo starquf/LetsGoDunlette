@@ -28,7 +28,10 @@ public class LobbyScrollHandler : MonoBehaviour, IBeginDragHandler, IDragHandler
     private void Awake()
     {
         scroll = GetComponent<ScrollRect>().horizontalScrollbar;
+    }
 
+    private void Start()
+    {
         Init();
     }
 
