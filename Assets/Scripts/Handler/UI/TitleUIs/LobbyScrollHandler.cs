@@ -28,11 +28,15 @@ public class LobbyScrollHandler : MonoBehaviour, IBeginDragHandler, IDragHandler
     private void Awake()
     {
         scroll = GetComponent<ScrollRect>().horizontalScrollbar;
+        Init();
     }
 
     private void Start()
     {
-        Init();
+        for (int i = 0; i < panelBtns.Count; i++)
+        {
+            panelBtns[i].GetComponent<LobbyPanelBtn>().SetHighlight(i == targetIdx);
+        }
     }
 
     private void Init()
@@ -59,11 +63,6 @@ public class LobbyScrollHandler : MonoBehaviour, IBeginDragHandler, IDragHandler
 
         targetIdx = 0;
         scroll.value = pos[targetIdx];
-
-        for (int i = 0; i < panelBtns.Count; i++)
-        {
-            panelBtns[i].GetComponent<LobbyPanelBtn>().SetHighlight(i == targetIdx);
-        }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
