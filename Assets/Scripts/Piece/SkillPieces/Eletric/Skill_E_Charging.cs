@@ -28,7 +28,7 @@ public class Skill_E_Charging : SkillPiece
     {
         base.GetDesIconInfo();
 
-        desInfos[0].SetInfo(DesIconType.Attack, $"{Value}x{attackCount}");
+        desInfos[0].SetInfo(DesIconType.Attack, $"{Value}+{attackCount * Value}");
 
         return desInfos;
     }
@@ -62,7 +62,7 @@ public class Skill_E_Charging : SkillPiece
                 HighlightColor(0.2f);
 
                 attackCount++;
-                counterText.text = attackCount.ToString();
+                counterText.text = $"{attackCount * Value}";
             }
             action?.Invoke();
         };
@@ -78,7 +78,7 @@ public class Skill_E_Charging : SkillPiece
         GameManager.Instance.battleHandler.battleEvent.RemoveEventInfo(eventInfo);
 
         attackCount = 1;
-        counterText.text = attackCount.ToString();
+        counterText.text = $"{attackCount * Value}";
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
