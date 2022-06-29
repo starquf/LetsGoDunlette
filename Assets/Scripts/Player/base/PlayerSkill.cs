@@ -18,6 +18,9 @@ public abstract class PlayerSkill : MonoBehaviour
 
     public bool isUniqueSkill = false;
 
+    public int minPrice = 10;
+    public int maxPrice = 10;
+
     protected PlayerSkillButton ui;
 
     protected virtual void Awake()
