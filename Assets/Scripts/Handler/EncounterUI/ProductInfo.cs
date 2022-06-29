@@ -54,7 +54,7 @@ public class ProductInfo : MonoBehaviour
 
                 productName = skill.skillName;
                 productDes = skill.skillDes;
-                price = 10;
+                price = Random.Range(skill.minPrice, skill.maxPrice + 1);
 
                 scrollImg.sprite = skill.iconSpr;
                 productPriceTxt.text = price.ToString();

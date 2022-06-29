@@ -89,6 +89,9 @@ public class InventoryHandler : MonoBehaviour
 
     public void AddSkill(SkillPiece skill, Inventory owner)
     {
+        skill.transform.SetParent(transform);
+        skill.transform.localScale = Vector3.one;
+
         skill.Owner = owner;
         owner.skills.Add(skill);
         skills.Add(skill);

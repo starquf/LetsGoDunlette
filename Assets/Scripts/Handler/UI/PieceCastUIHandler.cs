@@ -111,17 +111,17 @@ public class PieceCastUIHandler : MonoBehaviour
         iconInfoHandler.InitInfo(skillPiece, skillPiece.usedIcons);
 
         pieceMoveSequence = DOTween.Sequence()
-            .Append(skillPiece.transform.DOMove(parent.position, 0.5f))
-            .Join(skillPiece.transform.DORotate(Quaternion.Euler(0, 0, 30).eulerAngles, 0.5f))
+            .Append(skillPiece.transform.DOMove(parent.position, 0.15f))
+            .Join(skillPiece.transform.DORotate(Quaternion.Euler(0, 0, 30).eulerAngles, 0.2f))
             //.Join(skillPiece.transform.DOScale(Vector3.one, 0.5f))
-            .AppendInterval(0.3f)
-            .Append(skillPiece.GetComponent<Image>().DOFade(0, 0.3f))
-            .Join(skillPiece.skillIconImg.DOFade(0, 0.3f))
+            //.AppendInterval(0.1f)
+            .Append(skillPiece.GetComponent<Image>().DOFade(0, 0.4f))
+            .Join(skillPiece.skillIconImg.DOFade(0, 0.4f))
             .AppendCallback(() => 
             {
                 skillPiece.gameObject.SetActive(false);
             })
-            .InsertCallback(0.1f, () =>
+            .InsertCallback(0.2f, () =>
             { //print("ÀÌÆåÆ®³¡³²");
                 onEndEffect += () => { skillPiece.gameObject.SetActive(false); };
 
