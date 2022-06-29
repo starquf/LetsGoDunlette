@@ -42,6 +42,11 @@ public class PlayerSkillPanelHandler : MonoBehaviour
         }
     }
 
+    public PlayerSkillName GetPlayerSkillNameInButton(int buttonIdx)
+    {
+        return skillButtons[buttonIdx].currentSkill.skillNameType;
+    }
+
     public void OnBattleStart()
     {
         for (int i = 0; i < skillButtons.Count; i++)
