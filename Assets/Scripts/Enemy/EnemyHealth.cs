@@ -91,8 +91,11 @@ public class EnemyHealth : LivingEntity
         Inventory inven = GetComponent<Inventory>();
         GameManager.Instance.inventoryHandler.RemoveAllOwnerPiece(inven);
         StartCoroutine(bh.battleEvent.ActionEvent(EventTimeEnemy.EnemyDie, this));
+
         bh.enemys.Remove(this);
         GameManager.Instance.inventoryHandler.RemoveInventory(inven);
+
+        inven.skills.Clear();
     }
 
     public virtual void SetScale(float percent)
@@ -116,5 +119,8 @@ public class EnemyHealth : LivingEntity
         sr.DOFade(1f, 1f)
             .From(0f)
             .SetEase(Ease.Linear);
+
+        Inventory inven = GetComponent<Inventory>();
+        inven.skills.Clear();
     }
 }
