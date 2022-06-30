@@ -128,8 +128,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
                     skill = randomSkill[Random.Range(0, randomSkill.Count)];
                     if (idx - 3 == 0)
                     {
-                        isLoop = !skill.isUniqueSkill;
-                        isLoop = skill.skillNameType.Equals(bh.playerSkillHandler.GetPlayerSkillNameInButton(0));
+                        isLoop = !skill.isUniqueSkill || skill.skillNameType.Equals(bh.playerSkillHandler.GetPlayerSkillNameInButton(0));
                     }
                     else
                     {

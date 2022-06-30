@@ -38,7 +38,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 120, y: 120}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &-6853653975606934833
 MonoBehaviour:
@@ -59,8 +59,8 @@ MonoBehaviour:
   skillNameType: 6
   iconSpr: {fileID: -498758064598370753, guid: 9103da9c03ff2fd4399449bab03a7bb2, type: 3}
   isUniqueSkill: 1
-  minPrice: 238
-  maxPrice: 264
+  minPrice: 100
+  maxPrice: 110
   strokeSpr: {fileID: 21300000, guid: ddb166f542a004fa5abfc93294ff4940, type: 3}
   maxCooldown: 10
   enableColor: {r: 1, g: 1, b: 1, a: 1}
@@ -72,6 +72,7 @@ MonoBehaviour:
   - {fileID: 371756096964453561, guid: f67a1039f5b94704ba2b494fc7415c7f, type: 3}
   - {fileID: 371756096964453561, guid: c25cb2a0f34247243bb05f2f35eea3c1, type: 3}
   - {fileID: 371756096964453561, guid: 5d2616d83658c984f9da140a18dfe64f, type: 3}
+  magicParticle: {fileID: 3624687815259484320}
 --- !u!1 &1624070201610347503
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,7 +100,7 @@ Transform:
   m_GameObject: {fileID: 1624070201610347503}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 8596812014297811251}
   m_RootOrder: 3
@@ -113,7 +114,7 @@ ParticleSystem:
   m_GameObject: {fileID: 1624070201610347503}
   serializedVersion: 7
   lengthInSec: 0.05
-  simulationSpeed: 1
+  simulationSpeed: 1.5
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0

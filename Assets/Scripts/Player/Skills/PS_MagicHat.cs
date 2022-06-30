@@ -6,6 +6,7 @@ using UnityEngine;
 public class PS_MagicHat : PlayerSkill_Cooldown
 {
     public List<GameObject> magicObjs = new List<GameObject>();
+    public ParticleSystem magicParticle;
 
     private Inventory playerInven;
 
@@ -51,6 +52,8 @@ public class PS_MagicHat : PlayerSkill_Cooldown
         GameManager.Instance.inventoryHandler.CreateSkill(createSkill, playerInven, playerInven.transform.position);
 
         GameManager.Instance.shakeHandler.ShakeBackCvsUI(1f, 0.2f);
+        magicParticle.Play();
+
         GameManager.Instance.animHandler.GetAnim(AnimName.SkillEffect01)
         .SetPosition(transform.position + Vector3.up)
         .SetRotation(Vector3.forward * -90f)
