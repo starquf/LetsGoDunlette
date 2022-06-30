@@ -180,17 +180,24 @@ public class BattleRewardHandler : MonoBehaviour
             case mapNode.EMONSTER: //엘리트 보상 선택은 2성 조각 1개 확정
                 {
                     skills = GameManager.Instance.skillContainer.GetSkillsByGrade(GradeInfo.Epic);
-                    rewards = SetReward(skills, 1);
-                    foreach (var item in GameManager.Instance.skillContainer.GetSkillsByChance(rewardChances[playerLevel], 2))
+                    SkillPiece skill = skills[Random.Range(0, skills.Count)];
+                    rewards.Add(skill);
+                    //rewards = SetReward(skills, 1);
+                    do
                     {
-                        rewards.Add(item);
+                        skills = GameManager.Instance.skillContainer.GetSkillsByChance(rewardChances[playerLevel], 2);
+                    } while (skills.Contains(skill));
+
+                    foreach (SkillPiece sp in skills)
+                    {
+                        rewards.Add(sp);
                     }
                 }
                 break;
             case mapNode.BOSS: //보스 보상 선택은 3성 조각 3개 확정
                 {
-                    skills = GameManager.Instance.skillContainer.GetSkillsByGrade(GradeInfo.Legend);
-                    rewards = SetReward(skills, 3);
+                    rewards = GameManager.Instance.skillContainer.GetSkillsByChance(new RewardChance { gradeOne = 0, gradeTwo = 0, gradeThree = 100 }, 3);
+                    //rewards = SetReward(skills, 3);
                 }
                 break;
         }
