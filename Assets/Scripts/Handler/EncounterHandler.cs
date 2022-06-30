@@ -182,6 +182,7 @@ public class EncounterHandler : MonoBehaviour
                 .Append(fadeBGCvs.DOFade(1f, 0.5f).SetEase(Ease.Linear))
                 .AppendCallback(() =>
                 {
+                    bh.battleInfoHandler.ResetWeakCounter();
                     gm.NextStage();
                 })
                 .AppendInterval(2f)

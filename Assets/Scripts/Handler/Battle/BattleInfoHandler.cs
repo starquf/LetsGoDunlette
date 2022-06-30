@@ -41,6 +41,7 @@ public class BattleInfoHandler : MonoBehaviour
     private List<StageInfo> stages = new List<StageInfo>();
 
     private int weakCounter = 0;
+
     private int maxWeakCounter = 2;
 
     private void Awake()
@@ -213,6 +214,11 @@ public class BattleInfoHandler : MonoBehaviour
         int randIdx = Random.Range(0, stages[GameManager.Instance.StageIdx].eliteInfos.Count);
 
         return stages[GameManager.Instance.StageIdx].eliteInfos[randIdx];
+    }
+
+    public void ResetWeakCounter()
+    {
+        weakCounter = 0;
     }
 
     public void SetStage(int stage, int maxWeakCounter)
