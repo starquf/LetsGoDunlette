@@ -111,8 +111,8 @@ public class PieceCastUIHandler : MonoBehaviour
         iconInfoHandler.InitInfo(skillPiece, skillPiece.usedIcons);
 
         pieceMoveSequence = DOTween.Sequence()
-            .Append(skillPiece.transform.DOMove(parent.position, 0.15f))
-            .Join(skillPiece.transform.DORotate(Quaternion.Euler(0, 0, 30).eulerAngles, 0.2f))
+            .Append(skillPiece.transform.DOMove(parent.position, 0.25f))
+            .Join(skillPiece.transform.DORotate(Quaternion.Euler(0, 0, 30).eulerAngles, 0.3f))
             //.Join(skillPiece.transform.DOScale(Vector3.one, 0.5f))
             //.AppendInterval(0.1f)
             .Append(skillPiece.GetComponent<Image>().DOFade(0, 0.4f))

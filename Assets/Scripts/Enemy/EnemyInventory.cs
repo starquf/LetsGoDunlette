@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyInventory : Inventory
 {
-    private float waitTime = 0.25f;
+    private float waitTime = 0.15f;
 
     protected virtual void Awake()
     {
