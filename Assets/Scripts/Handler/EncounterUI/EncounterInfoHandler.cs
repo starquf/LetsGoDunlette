@@ -26,7 +26,11 @@ public class EncounterInfoHandler : MonoBehaviour
         List<GameObject> rewardRulletPieces = sc.playerSkillPrefabs.ToList();
         for (int i = 0; i < count; i++)
         {
-            GameObject randomPiece = rewardRulletPieces[Random.Range(0, rewardRulletPieces.Count)];
+            GameObject randomPiece = null;
+            do
+            {
+                randomPiece = rewardRulletPieces[Random.Range(0, rewardRulletPieces.Count)];
+            } while (randomPiece.GetComponent<SkillPiece>().isDisposable);
             result.Add(randomPiece);
             rewardRulletPieces.Remove(randomPiece);
         }
