@@ -172,7 +172,9 @@ public enum AnimName
     T_WaterSplash06,
     T_WaterSplash05,
     W_WaterIce04,
-    GothicEffect08
+    GothicEffect08,
+    Anim_FireEffect01,
+    Anim_FireEffect02,
 }
 
 public enum PlayerSkillType

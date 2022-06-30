@@ -27,19 +27,22 @@ public class Skill_F_Burn : SkillPiece
     {
         Vector3 targetPos = target.transform.position;
 
-        animHandler.GetAnim(AnimName.F_Arson)
+        animHandler.GetAnim(AnimName.Anim_FireEffect01)
                 .SetPosition(targetPos)
-                .SetRotation(Vector3.forward * 90f)
                 .Play(() =>
                 {
                     if (target.cc.IsCC(CCType.Wound))
                     {
+                        animHandler.GetAnim(AnimName.Anim_FireEffect02)
+                        .SetPosition(targetPos)
+                        .Play(()=> {
+                            onCastEnd?.Invoke();
+                        });
                         target.GetDamage(5);
                     }
                     target.cc.SetCC(CCType.Wound, value);
                     GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
-                    onCastEnd?.Invoke();
                 });
     }
 }
