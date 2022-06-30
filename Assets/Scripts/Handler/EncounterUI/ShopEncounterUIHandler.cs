@@ -171,8 +171,6 @@ public class ShopEncounterUIHandler : MonoBehaviour
         else
         {
             SetAllButtonInterval(false);
-            GameManager.Instance.Gold -= selectProduct.price;
-
 
             switch (selectProduct.productType)
             {
