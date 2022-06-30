@@ -29,6 +29,8 @@ public class LobbyUIPanel : MainUIPanel
 
         playerTrans.SetParent(endPos);
 
+        GameManager.Instance.Gold = 99;
+
         float t = 0f;
 
         Vector2 bossCloudPos = endPos.position;

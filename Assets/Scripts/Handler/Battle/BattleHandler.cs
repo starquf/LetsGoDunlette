@@ -19,13 +19,14 @@ public class BattleHandler : MonoBehaviour
     [Header("플레이어 스킬 핸들러")]
     public PlayerSkillPanelHandler playerSkillHandler;
 
-    private BattleInfoHandler battleInfoHandler;
     private CCHandler ccHandler;
     private BattleRewardHandler battleRewardHandler;
     private BattleTargetSelectHandler battleTargetSelector;
 
     //[HideInInspector]
     //public BattleScrollHandler battleScroll;
+    [HideInInspector]
+    public BattleInfoHandler battleInfoHandler;
     [HideInInspector]
     public BattleUtilHandler battleUtil;
     [HideInInspector]
