@@ -13,6 +13,15 @@ public class Skill_N_Typhoon : SkillPiece
 
         isTargeting = false;
     }
+    public override List<DesIconInfo> GetDesIconInfo()
+    {
+        base.GetDesIconInfo();
+
+        desInfos[0].SetInfo(DesIconType.Attack, GetDamageCalc().ToString());
+
+        return desInfos;
+        
+    }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
