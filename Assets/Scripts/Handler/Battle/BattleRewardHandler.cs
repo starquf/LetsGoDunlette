@@ -164,7 +164,7 @@ public class BattleRewardHandler : MonoBehaviour
 
     private List<SkillPiece> GetRewardList()
     {
-        List<SkillPiece> rewards = null;
+        List<SkillPiece> rewards = new List<SkillPiece>();
         int playerLevel = (int)Mathf.Clamp(GameManager.Instance.GetPlayer().PlayerLevel - 1, 0, Mathf.Infinity);
 
         List<SkillPiece> skills;

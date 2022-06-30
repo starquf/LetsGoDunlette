@@ -31,18 +31,23 @@ public class Skill_F_Burn : SkillPiece
                 .SetPosition(targetPos)
                 .Play(() =>
                 {
+                    target.cc.SetCC(CCType.Wound, value);
+
                     if (target.cc.IsCC(CCType.Wound))
                     {
                         animHandler.GetAnim(AnimName.Anim_FireEffect02)
                         .SetPosition(targetPos)
-                        .Play(()=> {
+                        .Play(() =>
+                        {
                             onCastEnd?.Invoke();
                         });
                         target.GetDamage(5);
+                        GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
                     }
-                    target.cc.SetCC(CCType.Wound, value);
-                    GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-
+                    else 
+                    {
+                        onCastEnd?.Invoke();
+                    }
                 });
     }
 }
