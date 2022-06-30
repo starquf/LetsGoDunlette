@@ -13,6 +13,8 @@ public class PlayerSkillButton : MonoBehaviour
 
     [Header("UI")]
     public Image stroke;
+    public Sprite disableStroke;
+
     public CanvasGroup highlightCG;
 
     private Sequence highlightSeq;
@@ -28,6 +30,8 @@ public class PlayerSkillButton : MonoBehaviour
         origin = transform.localPosition;
 
         highlightCG.alpha = 0f;
+
+        SetStrokeSprite(disableStroke);
     }
 
     private void Start()
@@ -80,6 +84,11 @@ public class PlayerSkillButton : MonoBehaviour
         stroke.color = color;
     }
 
+    public void SetStrokeSprite(Sprite spr)
+    {
+        stroke.sprite = spr;
+    }
+
     public void ShowHighlight()
     {
         highlightSeq.Kill();
@@ -97,12 +106,12 @@ public class PlayerSkillButton : MonoBehaviour
         ShowMessege($"{currentSkill.skillName} ÁØºñµÊ!");
     }
 
-    public void ShowMessege(string msg)
+    public void ShowMessege(string msg, TextUpAnimType animType = TextUpAnimType.Up)
     {
         animHandler.GetTextAnim()
             .SetPosition(highlightCG.transform.position)
             .SetScale(0.7f)
-            .SetType(TextUpAnimType.Up)
+            .SetType(animType)
             .Play(msg);
     }
 
@@ -112,5 +121,18 @@ public class PlayerSkillButton : MonoBehaviour
             return;
 
         ShowMessege($"{currentSkill.skillName} »ç¿ë!");
+    }
+
+    public void RemoveSkill()
+    {
+        skillBtn.onClick.RemoveAllListeners();
+
+        useCountUI.Init(0);
+        currentSkill.gameObject.SetActive(false);
+
+        currentSkill = null;
+
+        ShowMessege("½ºÅ³ »èÁ¦µÊ!", TextUpAnimType.Fixed);
+        SetStrokeSprite(disableStroke);
     }
 }

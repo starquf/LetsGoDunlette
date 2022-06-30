@@ -25,8 +25,8 @@ public class PlayerSkillPanelHandler : MonoBehaviour
     {
         bh = GameManager.Instance.battleHandler;
 
-        SetSkill(skillButtons[1], PoolManager.GetPlayerSkill(PlayerSkillName.Doping));
-        SetSkill(skillButtons[2], PoolManager.GetPlayerSkill(PlayerSkillName.Bookmark));
+        SetSkill(skillButtons[1], PoolManager.GetPlayerSkill(PlayerSkillName.Reconstruction));
+        SetSkill(skillButtons[2], PoolManager.GetPlayerSkill(PlayerSkillName.FirstAid));
     }
 
     public void Init(PlayerInfo playerInfo)
@@ -63,8 +63,6 @@ public class PlayerSkillPanelHandler : MonoBehaviour
         // 스킬이 사용 가능한지 체크
         if (skill.CanUseSkill())
         {
-            print("사용됨!!");
-
             itemDesHandler.ShowDes(skill.skillName, skill.skillDes, skill.iconSpr, "사용",
                 () =>
                 {
