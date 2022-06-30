@@ -175,6 +175,8 @@ public enum AnimName
     GothicEffect08,
     Anim_FireEffect01,
     Anim_FireEffect02,
+    Anim_ElecEffect07,
+    Anim_ElecEffect02
 }
 
 public enum PlayerSkillType
