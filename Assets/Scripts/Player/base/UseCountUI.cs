@@ -22,9 +22,9 @@ public class UseCountUI : MonoBehaviour
         if (count > 5)
             return;
 
-        for (int i = useCountImg.Count - 1; i >= count; i--)
+        for (int i = 0; i < useCountImg.Count; i++)
         {
-            useCountImg[i].gameObject.SetActive(false);
+            useCountImg[i].gameObject.SetActive(i < count ? true : false);
         }
 
         SetUseCount(0);
