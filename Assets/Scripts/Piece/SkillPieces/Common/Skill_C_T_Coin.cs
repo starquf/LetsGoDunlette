@@ -37,7 +37,7 @@ public class Skill_C_T_Coin : SkillPiece
         {
             animHandler.GetAnim(AnimName.C_ManaSphereHit)
             .SetPosition(targetPos)
-            .SetScale(0.5f)
+            .SetScale(0.7f)
             .Play();
 
             target.GetDamage(1, currentType);
@@ -59,7 +59,7 @@ public class Skill_C_T_Coin : SkillPiece
                 skillEffect1.Play(startPos, () =>
                 {
                     animHandler.GetAnim(AnimName.C_ManaSphereHit)
-                    .SetPosition(targetPos)
+                    .SetPosition(startPos)
                     .SetScale(0.5f)
                     .Play();
 
