@@ -179,7 +179,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
                     //Image skillImg = skill.GetComponent<Image>();
                     //skillImg.color = new Color(1, 1, 1, 0);
                     skill.transform.SetParent(transform);
-                    skill.GetComponent<RectTransform>().sizeDelta = Vector2.one * 100f;
+                    skill.GetComponent<RectTransform>().sizeDelta = Vector2.one * 110f;
                     skill.transform.position = selectPlayerSkillImg.transform.position;
                     skill.transform.localScale = Vector3.one;
                     skill.gameObject.SetActive(false);
