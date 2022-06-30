@@ -104,20 +104,38 @@ public class Skill_E_Charging : SkillPiece
         {
             targets = bh.battleUtil.DeepCopyEnemyList(bh.enemys);
         }
-        
 
-        int damage = GetDamageCalc(Value)+(attackCount* Value);
-
+        int damage = GetDamageCalc(Value);
         LivingEntity enemy = targets[Random.Range(0, targets.Count)];
 
         enemy.GetDamage(damage, currentType);
 
         animHandler.GetAnim(AnimName.E_Static)
-        .SetScale(0.8f)
-        .SetPosition(enemy.transform.position)
-        .Play();
+            .SetScale(1.1f)
+            .SetPosition(enemy.transform.position)
+            .Play();
 
         GameManager.Instance.cameraHandler.ShakeCamera(1.5f, 0.15f);
+
+        yield return pOneSecWait;
+
+        damage = Value;
+
+        for (int i = 0; i < attackCount; i++)
+        {
+            enemy = targets[Random.Range(0, targets.Count)];
+
+            enemy.GetDamage(damage, currentType);
+
+            animHandler.GetAnim(AnimName.E_Static)
+            .SetScale(0.8f)
+            .SetPosition(enemy.transform.position)
+            .Play();
+
+            GameManager.Instance.cameraHandler.ShakeCamera(1.5f, 0.15f);
+
+            yield return pOneSecWait;
+        }
 
         attackCount = 0;
 

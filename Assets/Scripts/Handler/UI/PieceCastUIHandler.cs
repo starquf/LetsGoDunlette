@@ -147,12 +147,16 @@ public class PieceCastUIHandler : MonoBehaviour
 
     private void ShowDesIcon(List<DesIconInfo> desInfos, SkillPiece skillPiece)
     {
+        int count = 0;
+        skillIconTrans.gameObject.SetActive(true);
+
         for (int i = 0; i < 3; i++)
         {
             DesIconType type = desInfos[i].iconType;
 
             if (type.Equals(DesIconType.None))
             {
+                count++;
                 desIcons[i].gameObject.SetActive(false);
                 continue;
             }
@@ -164,6 +168,11 @@ public class PieceCastUIHandler : MonoBehaviour
             Sprite icon = battleHandler.battleUtil.GetDesIcon(skillPiece, type);
 
             desIcons[i].SetIcon(icon, desInfos[i].value);
+        }
+
+        if (count >= 3)
+        {
+            skillIconTrans.gameObject.SetActive(false);
         }
     }
 
