@@ -23,6 +23,8 @@ public abstract class PlayerSkill : MonoBehaviour
 
     protected PlayerSkillButton ui;
 
+    public Sprite strokeSpr;
+
     protected virtual void Awake()
     {
         icon = transform.Find("Icon").GetComponent<Image>();
@@ -38,6 +40,8 @@ public abstract class PlayerSkill : MonoBehaviour
     public virtual void Init(PlayerSkillButton ui)
     {
         this.ui = ui;
+
+        ui.SetStrokeSprite(strokeSpr);
 
         UpdateUI(ui);
     }

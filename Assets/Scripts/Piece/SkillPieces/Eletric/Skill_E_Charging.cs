@@ -10,7 +10,7 @@ public class Skill_E_Charging : SkillPiece
     private Action<SkillPiece, Action> onCharge = null;
 
     public Text counterText;
-    private int attackCount = 1;
+    private int attackCount = 0;
     private SkillEvent eventInfo = null;
 
     private readonly WaitForSeconds pOneSecWait = new WaitForSeconds(0.1f);
@@ -28,7 +28,7 @@ public class Skill_E_Charging : SkillPiece
     {
         base.GetDesIconInfo();
 
-        desInfos[0].SetInfo(DesIconType.Attack, $"{Value}+{attackCount * Value}");
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(Value) + attackCount * Value}");
 
         return desInfos;
     }
@@ -62,7 +62,7 @@ public class Skill_E_Charging : SkillPiece
                 HighlightColor(0.2f);
 
                 attackCount++;
-                counterText.text = $"{attackCount * Value}";
+                counterText.text = $"{GetDamageCalc(Value) + attackCount * Value}";
             }
             action?.Invoke();
         };
@@ -77,8 +77,8 @@ public class Skill_E_Charging : SkillPiece
 
         GameManager.Instance.battleHandler.battleEvent.RemoveEventInfo(eventInfo);
 
-        attackCount = 1;
-        counterText.text = $"{attackCount * Value}";
+        attackCount = 0;
+        counterText.text = $"{GetDamageCalc(Value) + attackCount * Value}";
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
@@ -104,37 +104,22 @@ public class Skill_E_Charging : SkillPiece
         {
             targets = bh.battleUtil.DeepCopyEnemyList(bh.enemys);
         }
+        
 
-        int atkCnt = attackCount;
+        int damage = GetDamageCalc(Value)+(attackCount* Value);
 
-        int damage = Value;
+        LivingEntity enemy = targets[Random.Range(0, targets.Count)];
 
-        for (int i = 0; i < atkCnt; i++)
-        {
-            LivingEntity enemy = targets[Random.Range(0, targets.Count)];
+        enemy.GetDamage(damage, currentType);
 
-            enemy.GetDamage(damage, currentType);
+        animHandler.GetAnim(AnimName.E_Static)
+        .SetScale(0.8f)
+        .SetPosition(enemy.transform.position)
+        .Play();
 
-            LogCon log = new LogCon
-            {
-                text = $"{damage} 데미지 부여",
-                selfSpr = skillIconImg.sprite,
-                targetSpr = enemy.GetComponent<SpriteRenderer>().sprite
-            };
+        GameManager.Instance.cameraHandler.ShakeCamera(1.5f, 0.15f);
 
-            DebugLogHandler.AddLog(LogType.ImgTextToTarget, log);
-
-            animHandler.GetAnim(AnimName.E_Static)
-            .SetScale(0.8f)
-            .SetPosition(enemy.transform.position)
-            .Play();
-
-            GameManager.Instance.cameraHandler.ShakeCamera(1.5f, 0.15f);
-
-            yield return pOneSecWait;
-        }
-
-        attackCount = 1;
+        attackCount = 0;
 
         onCastEnd?.Invoke();
     }

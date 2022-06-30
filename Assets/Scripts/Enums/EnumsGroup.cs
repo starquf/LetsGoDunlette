@@ -63,7 +63,8 @@ public enum PlayerSkillName
     Reconstruction,
     Bookmark,
     Doping,
-    Rewind
+    Rewind,
+    MagicHat
 }
 
 public enum ShowInfoRange

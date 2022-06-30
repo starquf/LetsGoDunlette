@@ -25,8 +25,8 @@ public class PlayerSkillPanelHandler : MonoBehaviour
     {
         bh = GameManager.Instance.battleHandler;
 
-        SetSkill(skillButtons[1], PoolManager.GetPlayerSkill(PlayerSkillName.Doping));
-        SetSkill(skillButtons[2], PoolManager.GetPlayerSkill(PlayerSkillName.Bookmark));
+        //SetSkill(skillButtons[1], PoolManager.GetPlayerSkill(PlayerSkillName.Reconstruction));
+        //SetSkill(skillButtons[2], PoolManager.GetPlayerSkill(PlayerSkillName.FirstAid));
     }
 
     public void Init(PlayerInfo playerInfo)
@@ -63,8 +63,6 @@ public class PlayerSkillPanelHandler : MonoBehaviour
         // 스킬이 사용 가능한지 체크
         if (skill.CanUseSkill())
         {
-            print("사용됨!!");
-
             itemDesHandler.ShowDes(skill.skillName, skill.skillDes, skill.iconSpr, "사용",
                 () =>
                 {
@@ -144,36 +142,39 @@ public class PlayerSkillPanelHandler : MonoBehaviour
                         // 모든 공용 스킬에 변경할 스크롤 선택으로 버튼 변경
                         playerSkillButton.SetAddListener(() =>
                         {
-                            SetSkillAnim(skill, playerSkillButton, ()=>
+                            DOTween.To(() => skillChangePopupCvsGroup.alpha, x => skillChangePopupCvsGroup.alpha = x, 0, 0.5f)
+                            .OnComplete(()=>
                             {
-                                // 선택시 다른 버튼들 원래 스킬로 다시 변경
-                                for (int j = 0; j < skillButtons.Count; j++)
+                                SetSkillAnim(skill, playerSkillButton, () =>
                                 {
-                                    int jIdx = j;
-                                    PlayerSkillButton psb = skillButtons[jIdx];
-                                    if (iIdx != jIdx)
+                                    // 선택시 다른 버튼들 원래 스킬로 다시 변경
+                                    for (int j = 0; j < skillButtons.Count; j++)
                                     {
-                                        SetSkill(psb, psb.currentSkill);
-                                    }
+                                        int jIdx = j;
+                                        PlayerSkillButton psb = skillButtons[jIdx];
+                                        if (iIdx != jIdx)
+                                        {
+                                            SetSkill(psb, psb.currentSkill);
+                                        }
 
-                                    switch (psb.currentSkill.skillType)
-                                    {
-                                        case PlayerSkillType.Active_Cooldown:
-                                            ((PlayerSkill_Cooldown)psb.currentSkill).UpdateUI(psb);
-                                            break;
-                                        case PlayerSkillType.Active_Count:
-                                            Debug.LogError("이거 버그 눌러서 확인");
-                                            break;
-                                        case PlayerSkillType.Passive:
-                                            Debug.LogError("이거 버그 눌러서 확인");
-                                            break;
-                                        default:
-                                            Debug.LogError("이거 버그 눌러서 확인");
-                                            break;
+                                        switch (psb.currentSkill.skillType)
+                                        {
+                                            case PlayerSkillType.Active_Cooldown:
+                                                ((PlayerSkill_Cooldown)psb.currentSkill).UpdateUI(psb);
+                                                break;
+                                            case PlayerSkillType.Active_Count:
+                                                Debug.LogError("이거 버그 눌러서 확인");
+                                                break;
+                                            case PlayerSkillType.Passive:
+                                                Debug.LogError("이거 버그 눌러서 확인");
+                                                break;
+                                            default:
+                                                Debug.LogError("이거 버그 눌러서 확인");
+                                                break;
+                                        }
                                     }
-                                }
-                                DOTween.To(() => skillChangePopupCvsGroup.alpha, x => skillChangePopupCvsGroup.alpha = x, 0, 0.5f);
-                                onCompleteAnim?.Invoke();
+                                    onCompleteAnim?.Invoke();
+                                });
                             });
                         });
                     }

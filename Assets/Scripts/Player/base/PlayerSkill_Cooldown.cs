@@ -10,6 +10,7 @@ public class PlayerSkill_Cooldown : PlayerSkill
     protected TextMeshProUGUI coolDownText = null;
 
     protected BattleHandler bh;
+    protected EventInfo currentEvent;
 
     public int maxCooldown = 5;
     protected int cooldown = 0;
@@ -18,7 +19,7 @@ public class PlayerSkill_Cooldown : PlayerSkill
     public Color enableColor;
     public Color disableColor;
 
-    protected bool isFirstActivate = true;
+    protected bool isFirstActivate = false;
 
     [Header("리미트 설정")]
     public bool hasLimit = false;
@@ -55,6 +56,8 @@ public class PlayerSkill_Cooldown : PlayerSkill
 
             ui.useCountUI.SetUseCount(limit);
         }
+
+        isFirstActivate = false;
 
         cooldown = 0;
 
@@ -110,7 +113,7 @@ public class PlayerSkill_Cooldown : PlayerSkill
 
     public override void OnBattleStart()
     {
-        bh.battleEvent.BookEvent(new NormalEvent(action =>
+        currentEvent = new NormalEvent(action =>
         {
             if (cooldown > 0)
             {
@@ -120,7 +123,9 @@ public class PlayerSkill_Cooldown : PlayerSkill
             UpdateUI(ui);
 
             action?.Invoke();
-        }, EventTime.StartTurn));
+        }, EventTime.StartTurn);
+
+        bh.battleEvent.BookEvent(currentEvent);
 
         /*
         bh.battleEvent.BookEvent(new NormalEvent(action =>
@@ -140,9 +145,18 @@ public class PlayerSkill_Cooldown : PlayerSkill
         {
             limit -= 1;
 
-            if (limit >= 0)
+            if (limit <= 0)
             {
                 // 스킬 없엠
+
+                bh.battleEvent.RemoveEventInfo(currentEvent);
+                currentEvent = null;
+
+                ui.RemoveSkill();
+
+                ui = null;
+
+                return;
             }
 
             ui.useCountUI.SetUseCount(limit);
