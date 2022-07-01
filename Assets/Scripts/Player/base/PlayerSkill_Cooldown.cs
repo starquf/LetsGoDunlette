@@ -160,6 +160,7 @@ public class PlayerSkill_Cooldown : PlayerSkill
             }
 
             ui.useCountUI.SetUseCount(limit);
+            ui.useCountUI.ShowHighlight();
         }
 
         cooldown = maxCooldown;

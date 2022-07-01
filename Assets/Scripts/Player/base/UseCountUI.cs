@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,6 +36,21 @@ public class UseCountUI : MonoBehaviour
         for (int i = 0; i < useCountImg.Count; i++)
         {
             useCountImg[i].sprite = i >= remainCount ? disableSpr : enableSpr;
+        }
+    }
+
+    public void ShowHighlight()
+    {
+        for (int i = 0; i < useCountImg.Count; i++)
+        {
+            if (useCountImg[i].sprite == disableSpr)
+            {
+                DOTween.Sequence()
+                    .Append(useCountImg[i].transform.DOScale(Vector3.one * 1.6f, 0.15f))
+                    .Append(useCountImg[i].transform.DOScale(Vector3.one, 0.15f));
+
+                return;
+            }
         }
     }
 }
