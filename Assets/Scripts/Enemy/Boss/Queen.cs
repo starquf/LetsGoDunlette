@@ -7,8 +7,8 @@ public class Queen : MonoBehaviour
     public PieceInfo[] pieceInfo;
     private EnemyHealth queenHealth;
     private BattleHandler bh;
-    private SkillEvent skillEventInfo = null;
-    private Action<SkillPiece, Action> skillEvent;
+    private NormalEvent skillEventInfo = null;
+    private Action<Action> skillEvent;
 
     public void NightTrip() //"종속자를 2명 소환한다 <sprite=11>를 5턴 동안 2 얻는다."
     {
@@ -23,7 +23,7 @@ public class Queen : MonoBehaviour
 
         bh.battleEvent.RemoveEventInfo(skillEventInfo);
 
-        skillEvent = (sp, action) =>
+        skillEvent = (action) =>
         {
             if (queenHealth.maxHp / (float)queenHealth.curHp >= 2.0f)
             {
@@ -67,7 +67,7 @@ public class Queen : MonoBehaviour
             }
         };
 
-        skillEventInfo = new SkillEvent(EventTimeSkill.AfterSkill, skillEvent);
+        skillEventInfo = new NormalEvent(skillEvent, EventTime.EndOfTurn);
         bh.battleEvent.BookEvent(skillEventInfo);
     }
 }

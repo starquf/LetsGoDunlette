@@ -27,8 +27,6 @@ public class Skill_N_Typhoon : SkillPiece
     {
         List<LivingEntity> targets = new List<LivingEntity>();
 
-        EnemyHitEffectUtil.Typhoon(target.gameObject);
-
         if (target == bh.player)
         {
             targets.Add(target);
@@ -48,6 +46,8 @@ public class Skill_N_Typhoon : SkillPiece
                 .Play();
 
             targets[i].GetDamage(GetDamageCalc(Value), currentType);
+
+            EnemyHitEffectUtil.Typhoon(targets[i].gameObject);
 
             if (targets.Count >= 2)
             {
