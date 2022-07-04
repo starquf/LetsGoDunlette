@@ -54,14 +54,13 @@ public class PlayerSkill_Cooldown : PlayerSkill
             if(NoReset)
             {
                 int curLimit = limit;
-                limit = maxLimit;
-                ui.useCountUI.Init(limit);
+                ui.useCountUI.Init(maxLimit);
                 ui.useCountUI.SetUseCount(curLimit);
             }
             else
             {
                 limit = maxLimit;
-                ui.useCountUI.Init(limit);
+                ui.useCountUI.Init(maxLimit);
                 ui.useCountUI.SetUseCount(limit);
             }
         }

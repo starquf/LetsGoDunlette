@@ -125,7 +125,7 @@ public class ProductInfo : MonoBehaviour
         productDes = "";
         productName = "";
         productPriceTxt.text = "SOLD";
-        productPriceTxt.GetComponent<RectTransform>().sizeDelta = new Vector2(240f, productPriceTxt.GetComponent<RectTransform>().sizeDelta.y);
+        productPriceTxt.GetComponent<RectTransform>().sizeDelta = new Vector2(200f, productPriceTxt.GetComponent<RectTransform>().sizeDelta.y);
         productType = ProductType.NONE;
     }
 
