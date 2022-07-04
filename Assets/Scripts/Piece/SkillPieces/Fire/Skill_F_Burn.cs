@@ -41,7 +41,7 @@ public class Skill_F_Burn : SkillPiece
                         {
                             onCastEnd?.Invoke();
                         });
-                        target.GetDamage(5);
+                        target.GetDamage(5, ElementalType.Fire);
                         GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
                     }
                     else 

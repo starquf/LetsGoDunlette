@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -35,6 +36,34 @@ public class PieceDicHandler : MonoBehaviour
     private void Start()
     {
         SelectElemental(ElementalType.None);
+
+        StartCoroutine(LateStart());
+    }
+
+    private IEnumerator LateStart()
+    {
+        yield return null;
+
+        for (int i = 0; i < toggles.Count; i++)
+        {
+            int a = i;
+
+            toggles[a].onValueChanged.AddListener(enable =>
+            {
+                GradeRange grade = (GradeRange)(1 << a);
+
+                if (enable)
+                {
+                    gradeRange |= grade;
+                }
+                else
+                {
+                    gradeRange &= ~grade;
+                }
+
+                SelectElemental(currentType);
+            });
+        }
     }
 
     private void InitDic()
@@ -68,27 +97,6 @@ public class PieceDicHandler : MonoBehaviour
             ElementalType type = (ElementalType)i;
 
             pieceListDic[type] = pieceListDic[type].OrderBy(sp => (int)sp.skillGrade).ThenBy(sp => sp.PieceName).ToList();
-        }
-
-        for (int i = 0; i < toggles.Count; i++)
-        {
-            int a = i;
-
-            toggles[a].onValueChanged.AddListener(enable =>
-            {
-                GradeRange grade = (GradeRange)(1 << a);
-
-                if (enable)
-                {
-                    gradeRange |= grade;
-                }
-                else
-                {
-                    gradeRange &= ~grade;
-                }
-
-                SelectElemental(currentType);
-            });
         }
     }
 

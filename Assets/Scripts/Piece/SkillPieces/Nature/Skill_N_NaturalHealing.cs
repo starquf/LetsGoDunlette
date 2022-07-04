@@ -13,10 +13,12 @@ public class Skill_N_NaturalHealing : SkillPiece
     public override void Cast(LivingEntity target, Action onCastEnd = null) //체력을 40 회복한다.
     {
         LivingEntity livingEntity = Owner.GetComponent<LivingEntity>();
+
         if (livingEntity.GetHpRatio() <= 0.5f)
         {
             livingEntity.Heal(5);
         }
+
         livingEntity.Heal(Value);
 
         animHandler.GetAnim(AnimName.M_Recover).SetPosition(Owner.transform.position)

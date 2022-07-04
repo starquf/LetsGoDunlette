@@ -1,8 +1,11 @@
 using UnityEngine.UI;
+using DG.Tweening;
+using UnityEngine;
 
 public class TitlePanel : MainUIPanel
 {
     public Button tapBtn;
+    public Text touchText;
 
     public MainUIPanel lobbyPanel;
 
@@ -12,5 +15,10 @@ public class TitlePanel : MainUIPanel
         {
             mainUIHandler.ChangePanel(this, lobbyPanel);
         });
+
+        DOTween.Sequence()
+            .Append(touchText.transform.DOScale(Vector3.one * 1.1f, 1f).SetEase(Ease.Linear))
+            .Append(touchText.transform.DOScale(Vector3.one, 1f).SetEase(Ease.Linear))
+            .SetLoops(-1, LoopType.Restart);
     }
 }

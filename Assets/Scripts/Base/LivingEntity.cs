@@ -385,7 +385,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     public float GetHpRatio()
     {
-        return (float)hp / maxHp * 100;
+        return hp / (float)maxHp;
     }
     protected virtual void Die()
     {
