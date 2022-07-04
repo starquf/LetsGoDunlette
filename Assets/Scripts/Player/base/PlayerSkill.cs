@@ -37,7 +37,7 @@ public abstract class PlayerSkill : MonoBehaviour
 
     }
 
-    public virtual void Init(PlayerSkillButton ui)
+    public virtual void Init(PlayerSkillButton ui, bool NoReset = false)
     {
         this.ui = ui;
 

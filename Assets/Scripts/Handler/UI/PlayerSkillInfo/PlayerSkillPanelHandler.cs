@@ -154,7 +154,25 @@ public class PlayerSkillPanelHandler : MonoBehaviour
                                         PlayerSkillButton psb = skillButtons[jIdx];
                                         if (iIdx != jIdx)
                                         {
-                                            SetSkill(psb, psb.currentSkill);
+                                            psb.SetCurSkillAgain(ps =>
+                                            {
+                                                print($"눌린 스킬 : {ps.skillName}");
+
+                                                if (!canCast)
+                                                {
+                                                    return;
+                                                }
+
+                                                if (!bh.isBattle || bh.mainRullet.IsStop)
+                                                {
+                                                    return;
+                                                }
+
+                                                if (!isCasting)
+                                                {
+                                                    UseSkill(ps);
+                                                }
+                                            });
                                         }
 
                                         switch (psb.currentSkill.skillType)
