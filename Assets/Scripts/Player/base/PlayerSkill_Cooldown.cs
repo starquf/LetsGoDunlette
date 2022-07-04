@@ -45,23 +45,32 @@ public class PlayerSkill_Cooldown : PlayerSkill
         bh = GameManager.Instance.battleHandler;
     }
 
-    public override void Init(PlayerSkillButton ui)
+    public override void Init(PlayerSkillButton ui, bool NoReset = false)
     {
         if (hasLimit)
         {
             ui.useCountUI.gameObject.SetActive(true);
 
-            limit = maxLimit;
-            ui.useCountUI.Init(maxLimit);
-
-            ui.useCountUI.SetUseCount(limit);
+            if(NoReset)
+            {
+                int curLimit = limit;
+                ui.useCountUI.Init(maxLimit);
+                ui.useCountUI.SetUseCount(curLimit);
+            }
+            else
+            {
+                limit = maxLimit;
+                ui.useCountUI.Init(maxLimit);
+                ui.useCountUI.SetUseCount(limit);
+            }
         }
 
         isFirstActivate = false;
 
-        cooldown = 0;
+        if(!NoReset)
+            cooldown = 0;
 
-        base.Init(ui);
+        base.Init(ui, NoReset);
     }
 
     public override void UpdateUI(PlayerSkillButton skillBtn)

@@ -74,13 +74,13 @@ public class ProductInfo : MonoBehaviour
                 switch (skillPiece.skillGrade)
                 {
                     case GradeInfo.Normal:
-                        price = Random.Range(10, 21);
+                        price = Random.Range(45, 55);
                         break;
                     case GradeInfo.Epic:
-                        price = Random.Range(26, 36);
+                        price = Random.Range(68, 82);
                         break;
                     case GradeInfo.Legend:
-                        price = Random.Range(72, 80);
+                        price = Random.Range(135, 165);
                         break;
                     default:
                         price = 10;
@@ -125,7 +125,7 @@ public class ProductInfo : MonoBehaviour
         productDes = "";
         productName = "";
         productPriceTxt.text = "SOLD";
-        productPriceTxt.GetComponent<RectTransform>().sizeDelta = new Vector2(240f, productPriceTxt.GetComponent<RectTransform>().sizeDelta.y);
+        productPriceTxt.GetComponent<RectTransform>().sizeDelta = new Vector2(200f, productPriceTxt.GetComponent<RectTransform>().sizeDelta.y);
         productType = ProductType.NONE;
     }
 

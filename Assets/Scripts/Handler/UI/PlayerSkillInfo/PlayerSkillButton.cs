@@ -69,6 +69,23 @@ public class PlayerSkillButton : MonoBehaviour
         });
     }
 
+    public void SetCurSkillAgain(Action<PlayerSkill> onClickBtn)
+    {
+        PlayerSkill skill = currentSkill;
+
+        skill.gameObject.SetActive(true);
+        skill.transform.SetParent(btnPos);
+        skill.transform.localScale = Vector3.one;
+        skill.transform.localPosition = Vector3.zero;
+
+        skill.Init(this, true);
+
+        SetAddListener(() =>
+        {
+            onClickBtn?.Invoke(currentSkill);
+        });
+    }
+
     public void SetAddListener(Action onClickBtn)
     {
         skillBtn.onClick.RemoveAllListeners();
