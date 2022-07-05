@@ -73,6 +73,8 @@ public class InventoryHandler : MonoBehaviour
         SkillPiece skill = Instantiate(skillPrefab, transform).GetComponent<SkillPiece>(); //여기 왜 에러남?
         skill.gameObject.SetActive(false);
 
+        skill.isPlayerSkill = owner.isPlayerInven;
+
         AddSkill(skill, owner);
 
         return skill;

@@ -81,22 +81,22 @@ public class EffectObj : MonoBehaviour
     }
 
     //                     끝점      끝났을 때 불리는 콜백 함수      배지어 타입 (기본 큐빅)        실행될 딜레이       실행될 스피드        선을 따라 회전할건지
-    public void Play(Vector3 target, Action onEndEffect, BezierType type = BezierType.Cubic, float delay = 0f, float playSpeed = 1.6f, bool isRotate = false)
+    public void Play(Vector3 target, Action onEndEffect, BezierType type = BezierType.Cubic, float delay = 0f, float playSpeed = 1.6f, bool isRotate = false, float rotateOffset = 0f)
     {
         transform.rotation = Quaternion.identity;
 
         if (isRotate)
         {
             Vector3 dir = target - transform.position;
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + rotateOffset;
 
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
 
-        StartCoroutine(PlayEffect(target, onEndEffect, type, delay, playSpeed, isRotate));
+        StartCoroutine(PlayEffect(target, onEndEffect, type, delay, playSpeed, isRotate, rotateOffset));
     }
 
-    private IEnumerator PlayEffect(Vector3 target, Action onEndEffect, BezierType type, float delay, float playSpeed, bool isRotate)
+    private IEnumerator PlayEffect(Vector3 target, Action onEndEffect, BezierType type, float delay, float playSpeed, bool isRotate, float rotateOffset)
     {
         if (delay > 0)
         {
@@ -141,7 +141,7 @@ public class EffectObj : MonoBehaviour
             if (isRotate && t > 0.01f)
             {
                 dir = transform.position - prevPoint;
-                angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+                angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + rotateOffset;
 
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 

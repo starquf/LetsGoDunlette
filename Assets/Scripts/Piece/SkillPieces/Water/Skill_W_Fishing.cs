@@ -9,41 +9,56 @@ public class Skill_W_Fishing : SkillPiece
     {
         base.Awake();
     }
+
     public override List<DesIconInfo> GetDesIconInfo()
     {
         base.GetDesIconInfo();
         return desInfos;
     }
 
-
     public override void Cast(LivingEntity target, Action onCastEnd = null) //무작위 조각 하나를 즉시 사용한다.
     {
-        var skillPieces = GameManager.Instance.inventoryHandler.skills;
+        Rullet rullet = bh.mainRullet;
+        List<RulletPiece> skillPieces = rullet.GetPieces();
+
+        List<SkillPiece> selecetedSkillPieces = new List<SkillPiece>();
+
+        for (int i = 0; i < skillPieces.Count; i++)
+        {
+            if (skillPieces[i] == null)
+            {
+                continue;
+            }
+
+            SkillPiece piece = skillPieces[i] as SkillPiece;
+
+            if (piece.isPlayerSkill && piece != this)
+            {
+                selecetedSkillPieces.Add(piece);
+            }
+        }
+
         SkillPiece result = null;
-        int index = 0;
-        if (skillPieces.Count > 0)
+
+        // 조각이 존재한다면
+        if (selecetedSkillPieces.Count > 0)
         {
-            index = Random.Range(0, skillPieces.Count);
-            result = skillPieces[index];
-            if (result == null)
-            {
-                onCastEnd?.Invoke();
-            }
-        }
-        else
-        {
-            onCastEnd?.Invoke();
+            result = selecetedSkillPieces[Random.Range(0, selecetedSkillPieces.Count)];
+            result.HighlightColor(0.4f);
+
+            animHandler.GetTextAnim()
+            .SetType(TextUpAnimType.Up)
+            .SetPosition(result.skillIconImg.transform.position)
+            .Play("낚시 효과발동!");
         }
 
-        print(result.name);
-
-        if (!(result.currentType == ElementalType.Monster) && result.isTargeting == true)
+        if (result != null)
         {
-            if(result.IsInRullet)
-            {
-                result.Cast(target, onCastEnd);
-                bh.battleUtil.SetPieceToGraveyard(index);
-            }
+            bh.battleEvent.StartActionEvent(EventTimeSkill.WithSkill, result);
+
+            bh.battleUtil.SetPieceToGraveyard(result.pieceIdx);
+
+            bh.battleUtil.SetTimer(0.5f, () => { result.Cast(target, onCastEnd); });
         }
         else
         {
