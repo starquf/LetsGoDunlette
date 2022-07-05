@@ -12,14 +12,16 @@ public class Skill_W_Change : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        Owner.GetComponent<LivingEntity>().ChangeShieldToHealth();
+        LivingEntity entity = Owner.GetComponent<LivingEntity>();
+
+        entity.ChangeShieldToHealth();
 
         animHandler.GetAnim(AnimName.M_Shield).SetPosition(Owner.transform.position)
              .SetScale(0.5f)
              .Play();
 
         animHandler.GetAnim(AnimName.W_Splash01)
-            .SetPosition(Owner.GetComponent<LivingEntity>().hpBar.transform.position)
+            .SetPosition(entity.hpBar.transform.position)
             .SetScale(0.5f)
             .Play(() => onCastEnd?.Invoke());
     }
