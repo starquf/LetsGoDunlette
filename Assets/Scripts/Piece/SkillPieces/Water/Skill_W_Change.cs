@@ -12,7 +12,7 @@ public class Skill_W_Change : SkillPiece
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        Owner.GetComponent<PlayerHealth>().ChangeShieldToHealth();
+        Owner.GetComponent<LivingEntity>().ChangeShieldToHealth();
 
         animHandler.GetAnim(AnimName.M_Shield).SetPosition(Owner.transform.position)
              .SetScale(0.5f)
