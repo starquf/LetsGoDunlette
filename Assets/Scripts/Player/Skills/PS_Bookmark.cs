@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class PS_Bookmark : PlayerSkill_Cooldown
 {
@@ -35,7 +32,7 @@ public class PS_Bookmark : PlayerSkill_Cooldown
             {
                 return true;
             }
-            else 
+            else
             {
                 ui.ShowMessege("인벤토리가 비어있습니다!");
             }

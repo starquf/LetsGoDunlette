@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,11 +20,13 @@ public class UseCountUI : MonoBehaviour
     public void Init(int count)
     {
         if (count > 5)
+        {
             return;
+        }
 
         for (int i = 0; i < useCountImg.Count; i++)
         {
-            useCountImg[i].gameObject.SetActive(i < count ? true : false);
+            useCountImg[i].gameObject.SetActive(i < count);
         }
 
         SetUseCount(0);

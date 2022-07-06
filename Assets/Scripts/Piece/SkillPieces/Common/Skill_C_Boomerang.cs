@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Skill_C_Boomerang : SkillPiece
 {
@@ -65,7 +65,7 @@ public class Skill_C_Boomerang : SkillPiece
             skillEffect1.transform.position = targetPos;
             skillEffect1.SetSprite(coinSpr);
             skillEffect1.SetColorGradient(effectGradient);
-            skillEffect1.SetScale(Vector3.one * 1.5f );
+            skillEffect1.SetScale(Vector3.one * 1.5f);
 
             skillEffect1.Play(startPos, () =>
             {

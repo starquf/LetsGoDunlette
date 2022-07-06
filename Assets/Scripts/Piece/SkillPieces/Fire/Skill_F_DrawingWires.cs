@@ -27,7 +27,7 @@ public class Skill_F_DrawingWires : SkillPiece
         List<SkillPiece> nearSkillPieces = new List<SkillPiece>();
 
         // 스킬로 불러온 조각이라면
-        if (!this.IsInRullet)
+        if (!IsInRullet)
         {
             animHandler.GetAnim(AnimName.F_ManaSphereHit)
                 .SetPosition(target.transform.position)

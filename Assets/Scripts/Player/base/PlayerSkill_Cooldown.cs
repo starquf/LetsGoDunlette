@@ -51,7 +51,7 @@ public class PlayerSkill_Cooldown : PlayerSkill
         {
             ui.useCountUI.gameObject.SetActive(true);
 
-            if(NoReset)
+            if (NoReset)
             {
                 int curLimit = limit;
                 ui.useCountUI.Init(maxLimit);
@@ -67,8 +67,10 @@ public class PlayerSkill_Cooldown : PlayerSkill
 
         isFirstActivate = false;
 
-        if(!NoReset)
+        if (!NoReset)
+        {
             cooldown = 0;
+        }
 
         base.Init(ui, NoReset);
     }

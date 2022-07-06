@@ -71,9 +71,9 @@ public class UD_Skill : SkillPiece
                 health.AddShield(pieceInfo[1].GetValue());
                 animHandler.GetAnim(AnimName.M_Shield).SetPosition(health.transform.position)
                 .SetScale(1)
-                .Play(()=>
+                .Play(() =>
                 {
-                    if(idx == enemys.Count-1)
+                    if (idx == enemys.Count - 1)
                     {
                         onCastEnd?.Invoke();
                     }

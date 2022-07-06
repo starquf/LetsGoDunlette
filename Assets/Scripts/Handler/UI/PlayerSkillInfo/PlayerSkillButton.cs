@@ -1,6 +1,5 @@
 using DG.Tweening;
 using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -112,13 +111,15 @@ public class PlayerSkillButton : MonoBehaviour
         highlightSeq = DOTween.Sequence()
             .Append(highlightCG.DOFade(0f, 0.4f).From(1f).SetEase(Ease.Linear))
             .Join(transform.DOShakePosition(0.25f, 40f, 50))
-            .AppendCallback(() => 
+            .AppendCallback(() =>
             {
                 transform.localPosition = origin;
             });
 
         if (currentSkill == null)
+        {
             return;
+        }
 
         ShowMessege($"{currentSkill.skillName} ÁØºñµÊ!");
     }
@@ -135,7 +136,9 @@ public class PlayerSkillButton : MonoBehaviour
     public void SkillUseEffect()
     {
         if (currentSkill == null)
+        {
             return;
+        }
 
         ShowMessege($"{currentSkill.skillName} »ç¿ë!");
     }

@@ -164,7 +164,7 @@ public class SkillPrefabContainer : MonoBehaviour
                 legendSkills.Remove(skill);
             }
         }
-        
+
 
         return result;
     }

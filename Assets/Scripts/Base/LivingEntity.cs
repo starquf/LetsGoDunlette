@@ -310,7 +310,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     public virtual void RemoveShieldRatio(float ratio)
     {
-       int removeRatio = (int)(shieldHp * (ratio / 100));
+        int removeRatio = (int)(shieldHp * (ratio / 100));
         cc.DecreaseBuff(BuffType.Shield, removeRatio);
 
         shieldHp -= removeRatio;

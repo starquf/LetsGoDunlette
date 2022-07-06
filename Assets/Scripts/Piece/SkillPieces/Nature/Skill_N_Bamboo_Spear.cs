@@ -39,7 +39,7 @@ public class Skill_N_Bamboo_Spear : SkillPiece
             onCastEnd?.Invoke();
 
             effectObj.EndEffect();
-        }, playSpeed: 2f, isRotate:true, rotateOffset:-90f);
+        }, playSpeed: 2f, isRotate: true, rotateOffset: -90f);
 
         animHandler.GetAnim(AnimName.SkillEffect01)
         .SetPosition(Owner.transform.position + (Vector3.up * 1f))

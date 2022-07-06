@@ -76,7 +76,7 @@ public class PlayerSkillPanelHandler : MonoBehaviour
 
                         isCasting = false;
                     },
-                    () => 
+                    () =>
                     {
                         Time.timeScale = 1f;
                         bh.StartTurn();
@@ -130,7 +130,7 @@ public class PlayerSkillPanelHandler : MonoBehaviour
             GameManager.Instance.YONHandler.ShowPanel("얻은 스킬과 가지고 있는 스킬을 변경 하기겠습니까?", "변경", "취소", () =>
             {
                 // 변경
-                if(btnIdx == -1)
+                if (btnIdx == -1)
                 {
                     DOTween.To(() => skillChangePopupCvsGroup.alpha, x => skillChangePopupCvsGroup.alpha = x, 1, 0.5f);
                     for (int i = 1; i < skillButtons.Count; i++)
@@ -143,7 +143,7 @@ public class PlayerSkillPanelHandler : MonoBehaviour
                         playerSkillButton.SetAddListener(() =>
                         {
                             DOTween.To(() => skillChangePopupCvsGroup.alpha, x => skillChangePopupCvsGroup.alpha = x, 0, 0.5f)
-                            .OnComplete(()=>
+                            .OnComplete(() =>
                             {
                                 SetSkillAnim(skill, playerSkillButton, () =>
                                 {
@@ -208,7 +208,7 @@ public class PlayerSkillPanelHandler : MonoBehaviour
                 //onCompleteAnim?.Invoke();
             });
         }
-        else 
+        else
         {
             SetSkillAnim(skill, skillButtons[btnIdx], onCompleteAnim);
         }
@@ -227,7 +227,7 @@ public class PlayerSkillPanelHandler : MonoBehaviour
 
     private int GetCanSetButtonIdx(bool isUniqueSkill)
     {
-        if(isUniqueSkill)
+        if (isUniqueSkill)
         {
             return 0;
         }
@@ -236,7 +236,7 @@ public class PlayerSkillPanelHandler : MonoBehaviour
             for (int i = 1; i < skillButtons.Count; i++)
             {
                 PlayerSkillButton playerSkillButton = skillButtons[i];
-                if(!playerSkillButton.HasSkill())
+                if (!playerSkillButton.HasSkill())
                 {
                     return i;
                 }

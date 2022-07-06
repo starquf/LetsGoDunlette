@@ -70,7 +70,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void OnPreCull() => GL.Clear(true, true, Color.black);
+    private void OnPreCull()
+    {
+        GL.Clear(true, true, Color.black);
+    }
 
     private void OnDestroy()
     {

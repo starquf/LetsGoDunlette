@@ -213,7 +213,7 @@ public class Map : MonoBehaviour
         }
         isBlinked = enable;
 
-        if(skip)
+        if (skip)
         {
             yield return new WaitForSeconds(time);
         }

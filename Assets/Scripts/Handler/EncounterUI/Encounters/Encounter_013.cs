@@ -56,7 +56,7 @@ public class Encounter_013 : RandomEncounter
 
                     if (isClear)
                     {
-                        playerHealth.Heal((int)(playerHealth.maxHp * (float)gethealMaxHPPercent/100f));
+                        playerHealth.Heal((int)(playerHealth.maxHp * (float)gethealMaxHPPercent / 100f));
                         bh.battleEvent.RemoveEventInfo(eventInfo);
                     }
                     else if (turnCnt >= 5)

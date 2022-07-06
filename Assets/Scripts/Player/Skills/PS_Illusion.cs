@@ -87,8 +87,8 @@ public class PS_Illusion : PlayerSkill_Cooldown
             StartCoroutine(bh.battleUtil.ResetRullet(() =>
             {
                 StartCoroutine(bh.CheckPanelty(onEndSkill));
-            }, 
-            sp => 
+            },
+            sp =>
             {
                 animHandler.GetAnim(AnimName.GothicEffect08)
                     .SetPosition(sp.skillIconImg.transform.position)
@@ -123,6 +123,6 @@ public class PS_Illusion : PlayerSkill_Cooldown
             GameManager.Instance.cameraHandler.ShakeCamera(1.5f, 0.1f);
 
             effect.EndEffect();
-        }, BezierType.Quadratic, playSpeed:1.85f, isRotate:true);
+        }, BezierType.Quadratic, playSpeed: 1.85f, isRotate: true);
     }
 }

@@ -1,7 +1,3 @@
-using DG.Tweening;
-using UnityEngine;
-using UnityEngine.UI;
-
 public class Encounter_020 : RandomEncounter
 {
     public int giveMoneyValue = 10;

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class Skill_N_Plague : SkillPiece
 {
@@ -24,7 +23,7 @@ public class Skill_N_Plague : SkillPiece
         .Play(() =>
         {
             List<EnemyHealth> enemys = bh.enemys;
-            if(enemys.Count !=1)
+            if (enemys.Count != 1)
             {
                 for (int i = 0; i < enemys.Count; i++)
                 {

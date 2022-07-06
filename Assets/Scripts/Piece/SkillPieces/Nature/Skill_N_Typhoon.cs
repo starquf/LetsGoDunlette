@@ -20,7 +20,7 @@ public class Skill_N_Typhoon : SkillPiece
         desInfos[0].SetInfo(DesIconType.Attack, GetDamageCalc().ToString());
 
         return desInfos;
-        
+
     }
 
     public override void Cast(LivingEntity target, Action onCastEnd = null)

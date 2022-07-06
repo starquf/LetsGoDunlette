@@ -105,7 +105,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
     //상점 랜덤으로 만들어줌
     private void InitShop()
     {
-        int playerLevel = (int)Mathf.Clamp(GameManager.Instance.GetPlayer().PlayerLevel - 1, 0, showSetChances.Count);
+        int playerLevel = Mathf.Clamp(GameManager.Instance.GetPlayer().PlayerLevel - 1, 0, showSetChances.Count);
         SetAllButtonInterval(true);
         soldIdxList.Clear();
         List<SkillPiece> randomRulletPiece = skillContainer.GetSkillsByChance(showSetChances[playerLevel], 3);
@@ -126,14 +126,9 @@ public class ShopEncounterUIHandler : MonoBehaviour
                 do
                 {
                     skill = randomSkill[Random.Range(0, randomSkill.Count)];
-                    if (idx - 3 == 0)
-                    {
-                        isLoop = !skill.isUniqueSkill || skill.skillNameType.Equals(bh.playerSkillHandler.GetPlayerSkillNameInButton(0));
-                    }
-                    else
-                    {
-                        isLoop = skill.isUniqueSkill;
-                    }
+                    isLoop = idx - 3 == 0
+                        ? !skill.isUniqueSkill || skill.skillNameType.Equals(bh.playerSkillHandler.GetPlayerSkillNameInButton(0))
+                        : skill.isUniqueSkill;
                 } while (isLoop);
                 randomSkill.Remove(skill);
                 products[idx].SetProduct(ProductType.SKILL, skill);
@@ -193,7 +188,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
                             SetProductSold(selectIdx);
                             SetAllButtonInterval(true, true);
                         });
-                    }, ()=>
+                    }, () =>
                     {
                         buyPanel.DOFade(0, 0.5f).OnComplete(() =>
                         {

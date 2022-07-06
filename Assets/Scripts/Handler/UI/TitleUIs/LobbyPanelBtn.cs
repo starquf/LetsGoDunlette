@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
 public class LobbyPanelBtn : MonoBehaviour
 {
@@ -24,7 +22,7 @@ public class LobbyPanelBtn : MonoBehaviour
 
         iconOrigin = iconImg.transform.localPosition;
 
-        ShowText(false, isSkip:true);
+        ShowText(false, isSkip: true);
     }
 
     public void SetHighlight(bool isHighlight)
@@ -34,7 +32,7 @@ public class LobbyPanelBtn : MonoBehaviour
             ShowText(true);
             MoveIcon(true);
         }
-        else 
+        else
         {
             ShowText(false);
             MoveIcon(false);

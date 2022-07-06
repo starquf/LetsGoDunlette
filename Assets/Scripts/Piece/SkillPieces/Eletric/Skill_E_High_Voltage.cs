@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class Skill_E_High_Voltage : SkillPiece
 {
@@ -57,7 +56,7 @@ public class Skill_E_High_Voltage : SkillPiece
                         a?.Invoke();
                     });
                 }
-                else 
+                else
                 {
                     a?.Invoke();
                 }

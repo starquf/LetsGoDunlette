@@ -164,7 +164,7 @@ public class BattleInfoHandler : MonoBehaviour
                     selectedInfo = battleInfos[i];
                     break;
                 }
-                else 
+                else
                 {
                     randAppear -= battleInfos[i].appearWeight;
                 }

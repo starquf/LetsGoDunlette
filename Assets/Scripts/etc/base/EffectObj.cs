@@ -88,7 +88,7 @@ public class EffectObj : MonoBehaviour
         if (isRotate)
         {
             Vector3 dir = target - transform.position;
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + rotateOffset;
+            float angle = (Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg) + rotateOffset;
 
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
@@ -141,7 +141,7 @@ public class EffectObj : MonoBehaviour
             if (isRotate && t > 0.01f)
             {
                 dir = transform.position - prevPoint;
-                angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + rotateOffset;
+                angle = (Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg) + rotateOffset;
 
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
