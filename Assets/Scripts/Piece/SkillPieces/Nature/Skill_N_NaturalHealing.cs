@@ -16,7 +16,7 @@ public class Skill_N_NaturalHealing : SkillPiece
 
         if (livingEntity.GetHpRatio() <= 0.5f)
         {
-            livingEntity.Heal(5);
+            livingEntity.Heal(3);
         }
 
         livingEntity.Heal(Value);
