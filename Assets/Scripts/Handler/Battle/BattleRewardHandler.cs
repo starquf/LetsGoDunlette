@@ -87,10 +87,10 @@ public class BattleRewardHandler : MonoBehaviour
         switch (GameManager.Instance.curEncounter)
         {
             case mapNode.BOSS:
-                goldValue = Random.Range(72, 80);
+                goldValue = Random.Range(65, 71);
                 break;
             case mapNode.EMONSTER:
-                goldValue = Random.Range(26, 36);
+                goldValue = Random.Range(26, 31);
                 break;
             case mapNode.MONSTER:
                 goldValue = Random.Range(10, 21);
