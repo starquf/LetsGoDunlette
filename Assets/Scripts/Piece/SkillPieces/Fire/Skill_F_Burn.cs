@@ -31,7 +31,7 @@ public class Skill_F_Burn : SkillPiece
                 .SetPosition(targetPos)
                 .Play(() =>
                 {
-                    target.cc.SetCC(CCType.Wound, value);
+                    target.cc.SetCC(CCType.Wound, value, true);
 
                     if (target.cc.IsCC(CCType.Wound))
                     {
