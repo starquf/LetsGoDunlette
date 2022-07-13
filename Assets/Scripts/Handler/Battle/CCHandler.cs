@@ -101,7 +101,7 @@ public class CCHandler : MonoBehaviour
 
     private void Wound(CrowdControl target)
     {
-        target.GetComponent<LivingEntity>().GetDamage(target.ccDic[CCType.Wound]);
+        target.GetComponent<LivingEntity>().GetDamageIgnoreShild(target.ccDic[CCType.Wound]);
     }
 
     #region Stun
