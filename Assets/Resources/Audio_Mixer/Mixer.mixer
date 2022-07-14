@@ -1,5 +1,25 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!244 &-8841743110682838337
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 4a46e648db9f7d84f97fcd0bbee75743
+  m_EffectName: Normalize
+  m_MixLevel: 19048a71c03f83443a28347ecece79f7
+  m_Parameters:
+  - m_ParameterName: Fade in time
+    m_GUID: de11ec00cd0db024ca4246070f56e2e7
+  - m_ParameterName: Lowest volume
+    m_GUID: 138f47c2c11fb2648aeb922a1804226c
+  - m_ParameterName: Maximum amp
+    m_GUID: d92bf1ef9820cc341b41054c10594afb
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!244 &-7772631953187617864
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
@@ -67,7 +87,13 @@ AudioMixerController:
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
   m_UpdateMode: 0
-  m_ExposedParameters: []
+  m_ExposedParameters:
+  - guid: 96c500e8991fb674fbae319d966e01d3
+    name: BGM
+  - guid: e31842b7039cdb1478f17c0234cf0ff0
+    name: Fx
+  - guid: 502b67be3ad74cd4c94af374b8ff6c42
+    name: Master
   m_AudioMixerGroupViews:
   - guids:
     - fbfa2e9f2d0201940aaf4f0c30238a22
@@ -93,6 +119,7 @@ AudioMixerGroupController:
   m_Send: 00000000000000000000000000000000
   m_Effects:
   - {fileID: 24400004}
+  - {fileID: -8841743110682838337}
   m_UserColorIndex: 0
   m_Mute: 0
   m_Solo: 0

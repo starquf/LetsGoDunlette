@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SoundHandler : MonoBehaviour
 {
@@ -10,6 +11,14 @@ public class SoundHandler : MonoBehaviour
 
     private float bgmVolume = 1f;
     private float fxVoulme = 1f;
+
+    private AudioMixer mixer;
+
+    private string masterVolumeParameter = "Master";
+    private string bgmVolumeParameter = "BGM";
+    private string fxVolumeParameter = "Fx";
+
+    private float multiplier = 30f;
 
     private AudioSource bgmAudioSourece;
     private List<AudioSource> fxAudioSourceList = new List<AudioSource>();
@@ -47,6 +56,7 @@ public class SoundHandler : MonoBehaviour
             return;
         }
         DontDestroyOnLoad(this);
+        mixer = Resources.Load<AudioMixer>("Audio_Mixer/Mixer");
 
         foreach (AudioClip audioClip in Resources.LoadAll<AudioClip>("Sound/BGM")) // Resource 폴더에있는 사운드들 담아두기
         {
@@ -94,44 +104,49 @@ public class SoundHandler : MonoBehaviour
             name = name
         };
         audioObject.transform.SetParent(gameObject.transform);
-
         return audioObject.AddComponent<AudioSource>();
     }
 
-    private void SetAudioSource(AudioSource audioSource, AudioClip audioClip, bool isLoop, float volume, bool isMute = false)
+    private AudioSource SetAudioSource(AudioSource audioSource, AudioClip audioClip, bool isLoop, float volume, bool isMute = false)
     {
         audioSource.clip = audioClip;
         audioSource.loop = isLoop;
         audioSource.volume = volume;
         audioSource.mute = isMute;
+
+        return audioSource;
     }
 
     public void AdjustMasterVolume(float newVolume)
     {
         MasterVoulme = newVolume;
-        AdjustBGMVolume(bgmVolume);
-        AdjustFxVoulme(fxVoulme);
+        mixer.SetFloat(masterVolumeParameter, Mathf.Log10(MasterVoulme) * multiplier);
+        //AdjustBGMVolume(bgmVolume);
+        //AdjustFxVoulme(fxVoulme);
     }
 
     public void AdjustBGMVolume(float newVolume)
     {
         bgmVolume = newVolume;
-        if (bgmAudioSourece != null)
-        {
-            bgmAudioSourece.volume = BGMVolume;
-        }
+        //if (bgmAudioSourece != null)
+        //{
+        //    bgmAudioSourece.volume = BGMVolume;
+        //}
+        mixer.SetFloat(bgmVolumeParameter, Mathf.Log10(bgmVolume) * multiplier);
     }
 
     public void AdjustFxVoulme(float newVolume)
     {
         fxVoulme = newVolume;
-        foreach (AudioSource fxAudioSource in fxAudioSourceList)
-        {
-            if (fxAudioSource != null)
-            {
-                fxAudioSource.volume = FxVoulme;
-            }
-        }
+        //foreach (AudioSource fxAudioSource in fxAudioSourceList)
+        //{
+        //    if (fxAudioSource != null)
+        //    {
+        //        fxAudioSource.volume = FxVoulme;
+        //    }
+        //}
+
+        mixer.SetFloat(fxVolumeParameter, Mathf.Log10(fxVoulme) * multiplier);
     }
 
     public void PlayBGMSound(string name)
