@@ -107,6 +107,7 @@ public class Map : MonoBehaviour
         {
             OnSelected(true);
             mapManager.UnSelectedLinkedMap(this);
+            mapManager.mapDesUIHandler.ShowDescription(mapType);
         }
         else // ∏  ¿‘¿Â º±≈√
         {
@@ -118,6 +119,7 @@ public class Map : MonoBehaviour
                     {
                         mapManager.StartMap(mapType);
                     }, true);
+                mapManager.mapDesUIHandler.ShowPanel(false);
             });
         }
     }
