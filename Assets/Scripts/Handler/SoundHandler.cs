@@ -58,6 +58,9 @@ public class SoundHandler : MonoBehaviour
         DontDestroyOnLoad(this);
         mixer = Resources.Load<AudioMixer>("Audio_Mixer/Mixer");
 
+        mixer.SetFloat(bgmVolumeParameter, 0);
+        mixer.SetFloat(fxVolumeParameter, 0);
+
         foreach (AudioClip audioClip in Resources.LoadAll<AudioClip>("Sound/BGM")) // Resource 폴더에있는 사운드들 담아두기
         {
             bgmSoundDic.Add(audioClip.name, audioClip);
@@ -111,7 +114,7 @@ public class SoundHandler : MonoBehaviour
     {
         audioSource.clip = audioClip;
         audioSource.loop = isLoop;
-        audioSource.volume = volume;
+        audioSource.volume = 1;
         audioSource.mute = isMute;
 
         return audioSource;
@@ -132,6 +135,7 @@ public class SoundHandler : MonoBehaviour
         //{
         //    bgmAudioSourece.volume = BGMVolume;
         //}
+       
         mixer.SetFloat(bgmVolumeParameter, Mathf.Log10(bgmVolume) * multiplier);
     }
 
@@ -145,7 +149,6 @@ public class SoundHandler : MonoBehaviour
         //        fxAudioSource.volume = FxVoulme;
         //    }
         //}
-
         mixer.SetFloat(fxVolumeParameter, Mathf.Log10(fxVoulme) * multiplier);
     }
 
@@ -156,7 +159,7 @@ public class SoundHandler : MonoBehaviour
             bgmAudioSourece = MakeAudioSourceObject("BGMObject");
         }
 
-        SetAudioSource(bgmAudioSourece, GetBGMSound(name), true, BGMVolume, false);
+        SetAudioSource(bgmAudioSourece, GetBGMSound(name), true, BGMVolume, false).outputAudioMixerGroup = mixer.FindMatchingGroups("BGM")[0];
         bgmAudioSourece.Play();
 
         StartCoroutine(crossBgm());
@@ -168,7 +171,7 @@ public class SoundHandler : MonoBehaviour
         {
             if (!fxAudioSource.isPlaying)
             {
-                SetAudioSource(fxAudioSource, GetFxSound(name), false, FxVoulme, false);
+                SetAudioSource(fxAudioSource, GetFxSound(name), false, FxVoulme, false).outputAudioMixerGroup = mixer.FindMatchingGroups("Fx")[0];
                 fxAudioSource.Play();
                 return;
             }
