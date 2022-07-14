@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PieceDicHandler : MonoBehaviour
 {
-    public GameObject pieceInfoObj;
+    public GameObject cardInfoObj;
     public Transform pieceHolder;
     public Transform pieceParent;
 
@@ -26,9 +26,18 @@ public class PieceDicHandler : MonoBehaviour
     private GradeRange gradeRange = GradeRange.All;
     private ElementalType currentType = ElementalType.None;
 
+
+    [SerializeField] private List<Sprite> pieceBGStrokeSprites = new List<Sprite>();
+    [SerializeField] private List<Sprite> targetBGSprites = new List<Sprite>();
+    [SerializeField] private List<Sprite> targetIconSprites = new List<Sprite>();
+
+    public Dictionary<ElementalType, Sprite> pieceBGStrokeSprDic;
+    public Dictionary<ElementalType, Sprite> targetBGSprDic;
+    public Dictionary<SkillRange, Sprite> targetIconSprDic;
+
     private void Awake()
     {
-        PoolManager.CreatePool<PieceInfoUI>(pieceInfoObj, pieceHolder, 10);
+        PoolManager.CreatePool<CardInfo_SC>(cardInfoObj, pieceHolder, 10);
 
         InitDic();
     }
@@ -70,9 +79,15 @@ public class PieceDicHandler : MonoBehaviour
     {
         pieceListDic = new Dictionary<ElementalType, List<SkillPiece>>();
 
+        pieceBGStrokeSprDic = new Dictionary<ElementalType, Sprite>();
+        targetBGSprDic = new Dictionary<ElementalType, Sprite>();
+        targetIconSprDic = new Dictionary<SkillRange, Sprite>();
+
         for (int i = 0; i < (int)ElementalType.Monster; i++)
         {
             pieceListDic.Add((ElementalType)i, new List<SkillPiece>());
+            pieceBGStrokeSprDic.Add((ElementalType)i, pieceBGStrokeSprites[i]);
+            targetBGSprDic.Add((ElementalType)i, targetBGSprites[i]);
 
             ElementalType type = (ElementalType)i;
 
@@ -80,6 +95,11 @@ public class PieceDicHandler : MonoBehaviour
             {
                 SelectElemental(type);
             });
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            targetIconSprDic.Add((SkillRange)i, targetIconSprites[i]);
         }
 
         for (int i = 0; i < skills.Count; i++)
@@ -151,15 +171,17 @@ public class PieceDicHandler : MonoBehaviour
                 continue;
             }
 
-            PieceInfoUI pieceInfoUI = PoolManager.GetItem<PieceInfoUI>();
+            CardInfo_SC cardInfoUI = PoolManager.GetItem<CardInfo_SC>();
 
             //print(sp.cardBG + " " + sp.PieceName);
 
-            pieceInfoUI.SetSkillIcon(sp.cardBG, sp.skillStroke);
-            pieceInfoUI.transform.SetParent(pieceHolder);
-            pieceInfoUI.transform.SetAsLastSibling();
+            cardInfoUI.SetInfo(sp.cardBG, pieceBGStrokeSprDic[sp.patternType], sp.skillGrade, targetIconSprDic[sp.skillRange], 
+                targetBGSprDic[sp.patternType], sp.PieceName);
 
-            pieceInfoUI.button.onClick.AddListener(() =>
+            cardInfoUI.transform.SetParent(pieceHolder);
+            cardInfoUI.transform.SetAsLastSibling();
+
+            cardInfoUI.btn.onClick.AddListener(() =>
             {
                 desUI.ShowDescription(sp);
             });
