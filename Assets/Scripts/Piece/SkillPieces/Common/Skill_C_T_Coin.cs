@@ -16,6 +16,7 @@ public class Skill_C_T_Coin : SkillPiece
     public override List<DesIconInfo> GetDesIconInfo()
     {
         base.GetDesIconInfo();
+        desInfos[0].SetInfo(DesIconType.Attack, value.ToString());
         return desInfos;
     }
 
@@ -24,13 +25,11 @@ public class Skill_C_T_Coin : SkillPiece
         Vector3 targetPos = target.transform.position;
         Vector3 startPos = Owner.transform.position;
 
-
         EffectObj skillEffect = PoolManager.GetItem<EffectObj>();
         skillEffect.transform.position = startPos;
         skillEffect.SetSprite(coinSpr);
         skillEffect.SetColorGradient(effectGradient);
         skillEffect.SetScale(Vector3.one * 0.3f);
-
 
         skillEffect.Play(targetPos, () =>
         {
@@ -66,7 +65,7 @@ public class Skill_C_T_Coin : SkillPiece
 
                     if (a >= 9)
                     {
-                        GameManager.Instance.AddGold(value);
+                        GameManager.Instance.AddGold(30);
                         onCastEnd?.Invoke();
                     }
 
