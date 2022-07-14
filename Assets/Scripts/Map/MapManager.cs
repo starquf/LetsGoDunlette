@@ -82,6 +82,7 @@ public class FixedTileRangeRandom
 
 public class MapManager : MonoBehaviour
 {
+    public MapDesUIHandler mapDesUIHandler;
     private Sequence mapOpenSequence;
 
     private Vector2 defaultBossCloudPos;
@@ -103,7 +104,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private Text bossCountTxt;
 
     [SerializeField] private List<Sprite> mapIconSpriteList = new List<Sprite>();
-    [SerializeField] private List<Sprite> tileSpriteList = new List<Sprite>();
+    [SerializeField] public List<Sprite> tileSpriteList = new List<Sprite>();
 
     [SerializeField] private Image mapBg;
     [SerializeField] private List<Sprite> mapBgSpriteList = new List<Sprite>();
