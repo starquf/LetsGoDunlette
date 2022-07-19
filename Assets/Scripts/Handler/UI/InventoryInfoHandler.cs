@@ -119,6 +119,7 @@ public class InventoryInfoHandler : BottomUIElement
         if (closePanel)
         {
             desPanel.ShowPanel(false);
+            desPanel.iconInfoHandler.ClosePanel();
             ShowPanel(false);
 
             if (highlight.alpha > 0)
@@ -132,6 +133,7 @@ public class InventoryInfoHandler : BottomUIElement
     public void CloseInventoryInfo()
     {
         desPanel.ShowPanel(false);
+        desPanel.iconInfoHandler.ClosePanel();
         ShowPanel(false);
 
         if (highlight.alpha > 0)

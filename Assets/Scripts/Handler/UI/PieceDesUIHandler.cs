@@ -26,6 +26,8 @@ public class PieceDesUIHandler : MonoBehaviour
     private CanvasGroup cg;
     private RectTransform rect;
 
+    public IconInfoHandler iconInfoHandler;
+
     private void Start()
     {
         cg = GetComponent<CanvasGroup>();
@@ -58,7 +60,9 @@ public class PieceDesUIHandler : MonoBehaviour
         gradeHandler.SetGrade(skillPiece.skillGrade);
 
         List<DesIconInfo> desInfos = skillPiece.GetDesIconInfo();
+
         ShowDesIcon(desInfos, skillPiece);
+        iconInfoHandler.InitInfo(skillPiece, skillPiece.usedIcons);
 
         if (skillPiece.PieceDes.Equals(""))
         {
