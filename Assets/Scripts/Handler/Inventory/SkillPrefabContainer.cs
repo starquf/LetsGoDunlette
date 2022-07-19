@@ -145,7 +145,7 @@ public class SkillPrefabContainer : MonoBehaviour
 
             int random = Random.Range(0, gradeOne + gradeTwo + gradeThree);
 
-            if (random <= gradeOne)
+            if (random < gradeOne)
             {
                 skill = nomalSkills[Random.Range(0, nomalSkills.Count)];
                 result.Add(skill);
