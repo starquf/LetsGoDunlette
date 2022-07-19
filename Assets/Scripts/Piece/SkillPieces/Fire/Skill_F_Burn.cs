@@ -33,7 +33,7 @@ public class Skill_F_Burn : SkillPiece
                 {
                     target.cc.SetCC(CCType.Wound, value, true);
 
-                    if (target.cc.IsCC(CCType.Wound))
+                    if (target.cc.GetCCValue(CCType.Wound) > 5)
                     {
                         animHandler.GetAnim(AnimName.Anim_FireEffect02)
                         .SetPosition(targetPos)
