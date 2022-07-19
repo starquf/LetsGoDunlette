@@ -22,15 +22,22 @@ public class MultiTouchScrollRect : ScrollRect
 
     public override void OnBeginDrag(PointerEventData eventData)
     {
+#if UNITY_EDITOR
+        base.OnBeginDrag(eventData);
+#else
         if (Input.touchCount >= minimumTouchCount)
         {
             pointerId = eventData.pointerId;
             eventData.position = MultiTouchPosition;
             base.OnBeginDrag(eventData);
         }
+#endif
     }
     public override void OnDrag(PointerEventData eventData)
     {
+#if UNITY_EDITOR
+        base.OnDrag(eventData);
+#else
         if (Input.touchCount >= minimumTouchCount)
         {
             eventData.position = MultiTouchPosition;
@@ -39,14 +46,19 @@ public class MultiTouchScrollRect : ScrollRect
                 base.OnDrag(eventData);
             }
         }
+#endif
     }
     public override void OnEndDrag(PointerEventData eventData)
     {
+#if UNITY_EDITOR
+        base.OnEndDrag(eventData);
+#else
         if (Input.touchCount >= minimumTouchCount)
         {
             pointerId = -100;
             eventData.position = MultiTouchPosition;
             base.OnEndDrag(eventData);
         }
+#endif
     }
 }
