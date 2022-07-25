@@ -18,6 +18,7 @@ public class MapCanvasFollow : MonoBehaviour
     private Coroutine followCoroutine = null;
 
     private MapManager mapManager = null;
+    private bool isMove = false;
 
 
     private void Awake()
@@ -36,6 +37,7 @@ public class MapCanvasFollow : MonoBehaviour
     {
         Vector2 position = followTrm.position - (targetTrm == null ? Vector3.zero : targetTrm.position);
         followTrm.position = position;
+        isMove = false;
     }
 
     public void Follow(float speedScale = 1, Action onEndAnim = null)
@@ -50,9 +52,10 @@ public class MapCanvasFollow : MonoBehaviour
 
     private IEnumerator FollowAnim(float speedScale, Action onEndAnim)
     {
+        isMove = true;
         Vector2 position = followTrm.position - (targetTrm == null ? Vector3.zero : targetTrm.position);
         float dist = Vector2.Distance(position, followTrm.position);
-        while (dist > 0.01)
+        while (dist > 0.01 && isMove)
         {
             dist = Vector2.Distance(position, followTrm.position);
 
@@ -60,6 +63,7 @@ public class MapCanvasFollow : MonoBehaviour
             yield return null;
         }
         onEndAnim?.Invoke();
+        isMove = false;
     }
 
     public void Zoom(float zoomScale, bool skip = false, float time = 0.5f, Ease ease = Ease.Unset, Action onComplete = null)
@@ -94,5 +98,10 @@ public class MapCanvasFollow : MonoBehaviour
         rectTrm.localScale = new Vector3(defaultZoomScale, defaultZoomScale, 1);
         rectTrm.anchoredPosition = Vector2.zero;
         followTrm.position = Vector3.zero;
+    }
+
+    public void StopFollow()
+    {
+        isMove = false;
     }
 }

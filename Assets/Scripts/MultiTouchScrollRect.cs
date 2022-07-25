@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class MultiTouchScrollRect : ScrollRect
 {
+    [HideInInspector] public MapCanvasFollow canvasFollow;
     private int minimumTouchCount = 1, maximumTouchCount = 2, pointerId = -100;
 
     public Vector2 MultiTouchPosition
@@ -35,6 +36,8 @@ public class MultiTouchScrollRect : ScrollRect
     }
     public override void OnDrag(PointerEventData eventData)
     {
+        print("tlqkf");
+        canvasFollow.StopFollow();
 #if UNITY_EDITOR
         base.OnDrag(eventData);
 #else
