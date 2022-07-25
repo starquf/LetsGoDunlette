@@ -38,7 +38,9 @@ public class BattleRewardHandler : MonoBehaviour
         {
             battleRewardUI.selectCG.interactable = false;
             battleRewardUI.buttonCG.interactable = false;
+            battleRewardUI.pieceDesCG.interactable = false;
 
+            battleRewardUI.iconInfoHandler.ClosePanel();
 
             GameManager.Instance.getPieceHandler.GetPiecePlayer(battleRewardUI.selectedSkillObj,
                 () =>
@@ -47,10 +49,10 @@ public class BattleRewardHandler : MonoBehaviour
 
                     // 전투 끝 알림
                     battleRewardUI.SkipRewardEffect(() =>
-                {
-                    battleRewardUI.ResetRewardUI();
-                    GameManager.Instance.EndEncounter();
-                });
+                    {
+                        battleRewardUI.ResetRewardUI();
+                        GameManager.Instance.EndEncounter();
+                    });
                 },
                 () =>
                 {
@@ -69,6 +71,9 @@ public class BattleRewardHandler : MonoBehaviour
         {
             battleRewardUI.selectCG.interactable = false;
             battleRewardUI.buttonCG.interactable = false;
+            battleRewardUI.pieceDesCG.interactable = false;
+
+            battleRewardUI.iconInfoHandler.ClosePanel();
 
             RemovePiece(null);
             // 전투 끝 알림
