@@ -75,7 +75,7 @@ public class Skill_C_Boomerang : SkillPiece
 
 
                 var skills = GameManager.Instance.inventoryHandler.skills;
-                int updateValue = Value + 1;
+                int updateValue = Value + 2;
                 foreach (var item in skills)
                 {
                     Skill_C_Boomerang skill_C_Boomerang = item.GetComponent<Skill_C_Boomerang>();
