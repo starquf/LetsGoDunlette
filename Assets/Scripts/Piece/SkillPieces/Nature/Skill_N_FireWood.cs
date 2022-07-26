@@ -23,11 +23,24 @@ public class Skill_N_FireWood : SkillPiece
         GameManager.Instance.battleHandler.battleEvent.BookEvent(new SkillEvent(true,1,EventTimeSkill.WithSkill,(skill,action) => {
             if(skill.currentType == ElementalType.Fire)
             {
-                print("¹ßµ¿");       
+                skill.AddValue(value);
+                GameManager.Instance.battleHandler.battleEvent.BookEvent(new NormalEvent(true, 0, (action) =>
+                {
+                    if (skill.currentType == ElementalType.Fire)
+                    {
+                        skill.MinusValue(value);
+                        print("2");
+                    }
+                    print("3");
+                    action?.Invoke();
+                }, EventTime.EndOfTurn
+));
             }
             action?.Invoke();
         }
         ));
+
+
 
         onCastEnd?.Invoke();
     }

@@ -208,6 +208,11 @@ public abstract class RulletPiece : MonoBehaviour
         this.value += value;
     }
 
+    public void MinusValue(int value)
+    {
+        this.value -= value;
+    }
+
     public void SetValue(int value)
     {
         this.value = value;
