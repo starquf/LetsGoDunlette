@@ -1,21 +1,18 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class IconInfoHandler : MonoBehaviour
+public class LobbyIconInfoHandler : IconInfoHandler
 {
-    public CanvasGroup infoPanel;
+    [Header("UI 프리팹")]
+    public GameObject iconInfoPrefab;
 
-    public CanvasGroup fadeBG;
-    public Button infoBtn;
-    public Button closePanel;
-    public Transform infoBGTrans;
+    private void Awake()
+    {
+        PoolManager.CreatePool<IconInfo>(iconInfoPrefab, transform, 3);
+    }
 
-    protected bool isOpened = false;
-
-    private BattleHandler bh;
-
-    protected virtual void Start()
+    protected override void Start()
     {
         ShowPanel(infoPanel, isOpened);
         ShowPanel(fadeBG, isOpened);
@@ -31,11 +28,9 @@ public class IconInfoHandler : MonoBehaviour
         {
             ClosePanel();
         });
-
-        bh = GameManager.Instance.battleHandler;
     }
 
-    public virtual void InitInfo(SkillPiece sp, List<DesIconType> icons)
+    public override void InitInfo(SkillPiece sp, List<DesIconType> icons)
     {
         ClosePanel();
 
@@ -49,7 +44,7 @@ public class IconInfoHandler : MonoBehaviour
         {
             IconInfo iconInfo = PoolManager.GetItem<IconInfo>();
 
-            Sprite icon = bh.battleUtil.GetDesIcon(sp, icons[i]);
+            Sprite icon = GetDesIcon(sp, icons[i]);
             string name = "";
             string des = "";
 
@@ -57,7 +52,7 @@ public class IconInfoHandler : MonoBehaviour
             {
                 case DesIconType.Attack:
 
-                    string elemental = bh.battleUtil.GetElementalName(sp.currentType);
+                    string elemental = GetElementalName(sp.currentType);
 
                     name = $"{elemental}";
                     des = $"{elemental} 대미지를 준다.";
@@ -109,34 +104,59 @@ public class IconInfoHandler : MonoBehaviour
         }
     }
 
-
-    protected void ShowPanel(CanvasGroup cvsGroup, bool enable)
+    private Sprite GetDesIcon(SkillPiece skillPiece, DesIconType type)
     {
-        cvsGroup.alpha = enable ? 1 : 0;
-        cvsGroup.interactable = enable;
-        cvsGroup.blocksRaycasts = enable;
+        Sprite icon = null;
 
-        if (enable)
+        icon = type switch
         {
-            for (int i = 0; i < infoBGTrans.childCount; i++)
-            {
-                infoBGTrans.GetChild(i).GetComponent<IconInfo>().ShowHighlight(i * 0.035f);
-            }
-        }
-        else
-        {
-            for (int i = 0; i < infoBGTrans.childCount; i++)
-            {
-                infoBGTrans.GetChild(i).GetComponent<IconInfo>().ShowPanel(false);
-            }
-        }
+            DesIconType.Attack => GameManager.Instance.inventoryHandler.effectSprDic[skillPiece.currentType],
+            DesIconType.Stun => GameManager.Instance.ccIcons[0],
+            DesIconType.Silence => GameManager.Instance.ccIcons[1],
+            DesIconType.Exhausted => GameManager.Instance.ccIcons[2],
+            DesIconType.Wound => GameManager.Instance.ccIcons[3],
+            DesIconType.Invincibility => GameManager.Instance.ccIcons[4],
+            DesIconType.Fascinate => GameManager.Instance.ccIcons[5],
+            DesIconType.Heating => GameManager.Instance.ccIcons[6],
+            DesIconType.Shield => GameManager.Instance.buffIcons[0],
+            DesIconType.Heal => GameManager.Instance.buffIcons[1],
+            DesIconType.Upgrade => GameManager.Instance.buffIcons[2],
+            _ => null,
+        };
+        return icon;
     }
 
-    public void ClosePanel()
+    private string GetElementalName(ElementalType elemental)
     {
-        ShowPanel(fadeBG, false);
-        ShowPanel(infoPanel, false);
+        string name = "";
 
-        isOpened = false;
+        switch (elemental)
+        {
+            case ElementalType.None:
+                name = "무속성";
+                break;
+
+            case ElementalType.Nature:
+                name = "자연";
+                break;
+
+            case ElementalType.Electric:
+                name = "전기";
+                break;
+
+            case ElementalType.Fire:
+                name = "불";
+                break;
+
+            case ElementalType.Water:
+                name = "물";
+                break;
+
+            case ElementalType.Monster:
+                name = "적";
+                break;
+        }
+
+        return name;
     }
 }

@@ -50,7 +50,7 @@ public class PieceDesUIHandler : MonoBehaviour
         Sprite targetIcon = invenHandler.targetIconSprDic[skillPiece.skillRange];
         string name = skillPiece.PieceName;
         string des = skillPiece.PieceDes;
-
+        
         nameText.text = name;
         bgImg.sprite = bg;
         desText.text = des;
