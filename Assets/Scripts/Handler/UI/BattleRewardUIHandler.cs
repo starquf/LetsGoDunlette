@@ -40,6 +40,7 @@ public class BattleRewardUIHandler : MonoBehaviour
     public Image targetBGImg;
     public Image targetImg;
     public GradeInfoHandler gradeHandler;
+    public IconInfoHandler iconInfoHandler;
 
     public CanvasGroup pieceDesCvs;
 
@@ -87,6 +88,8 @@ public class BattleRewardUIHandler : MonoBehaviour
         ShowPanel(selectCG, false, skip: true);
         ShowPanel(pieceDesCG, false, skip: true);
         ShowPanel(buttonCG, false, skip: true);
+
+        iconInfoHandler.ClosePanel();
 
         rewardTextTween.Kill();
         rewardText.color = new Color(1f, 1f, 1f, 0f);
@@ -222,6 +225,7 @@ public class BattleRewardUIHandler : MonoBehaviour
         targetBGImg.sprite = invenHandler.targetBGSprDic[info.currentType];
         targetImg.sprite = invenHandler.targetIconSprDic[info.skillRange];
         gradeHandler.SetGrade(info.skillGrade);
+        iconInfoHandler.InitInfo(info, info.usedIcons);
 
         if (info.PieceDes.Equals(""))
         {

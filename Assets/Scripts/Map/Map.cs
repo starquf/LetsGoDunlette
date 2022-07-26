@@ -103,6 +103,7 @@ public class Map : MonoBehaviour
 
     private void OnClickButton()
     {
+        mapManager.FollowZeroCam();
         if (!isSelected) // 처음에 버튼 선택했을 때
         {
             OnSelected(true);

@@ -101,6 +101,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private Transform bossEffectTrm;
     [SerializeField] private Transform playerTrm;
     [SerializeField] private MapCanvasFollow mapCvsFollow;
+    [SerializeField] private MultiTouchScrollRect scrollRect;
     [SerializeField] private Text bossCountTxt;
 
     [SerializeField] private List<Sprite> mapIconSpriteList = new List<Sprite>();
@@ -146,6 +147,7 @@ public class MapManager : MonoBehaviour
         bossCloudImage = bossCloudTrm.GetChild(0).GetComponent<Image>();
         defaultBossCloudPos = bossCloudTrm.position;
         defaultBossEffectPos = bossEffectTrm.position;
+        scrollRect.canvasFollow = mapCvsFollow;
     }
 
     private void Start()
@@ -1395,6 +1397,12 @@ public class MapManager : MonoBehaviour
         {
             mapCvsFollow.Zoom(zoomScale, skip, time, ease, onComplete);
         });
+    }
+
+    public void FollowZeroCam()
+    {
+        mapCvsFollow.targetTrm = playerTrm;
+        mapCvsFollow.Follow(1f);
     }
 
     // 카메라 줌에 따라 움직이는 보스 구름
