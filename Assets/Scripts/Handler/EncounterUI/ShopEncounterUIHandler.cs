@@ -123,6 +123,8 @@ public class ShopEncounterUIHandler : MonoBehaviour
             }
             else
             {
+                SetRandomPlayerSkill(idx);
+                /*
                 PlayerSkill skill = null;
                 bool isLoop = false;
                 do
@@ -133,13 +135,38 @@ public class ShopEncounterUIHandler : MonoBehaviour
                         ? !(skill.isUniqueSkill) || !skill.characterName.Equals(playerHealth.characterName) || skill.skillNameType.Equals(bh.playerSkillHandler.GetPlayerSkillNameInButton(0))
                         : skill.isUniqueSkill;
                 } while (isLoop);
+                SetRandomPlayerSkill(idx);
                 randomSkill.Remove(skill);
                 products[idx].SetProduct(ProductType.SKILL, skill);
+                */
             }
         }
         randomRulletPiece.Clear();
         randomSkill.Clear();
         SetButtonInterval(purchaseBtn, false);
+    }
+
+    private void SetRandomPlayerSkill(int idx)
+    {
+        PlayerSkill skill = null;
+        bool canSet = false;
+        List<PlayerSkill> randList = new List<PlayerSkill>();
+        for (int i = 0; i < randomSkill.Count; i++)
+        {
+            skill = randomSkill[i];
+            canSet = idx - 3 == 0 ? skill.isUniqueSkill && skill.characterName.Equals(playerHealth.characterName) 
+                && skill.skillNameType.Equals(bh.playerSkillHandler.GetPlayerSkillNameInButton(0)) 
+                : !skill.isUniqueSkill;
+            if (canSet)
+            {
+                randList.Add(skill);
+            }
+        }
+        skill = randList[Random.Range(0, randList.Count)];
+        randomSkill.Remove(skill);
+
+
+        products[idx].SetProduct(ProductType.SKILL, skill);
     }
 
     #region OnButtonClick
