@@ -46,6 +46,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
 
     private GoldUIHandler goldUIHandler;
     private PlayerSkillPanelHandler playerSkillPanelHandler;
+    private PlayerHealth playerHealth;
 
     private BattleHandler bh;
     private InventoryHandler invenHandler;
@@ -66,6 +67,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
         buyPanel.alpha = 0;
 
         bh = GameManager.Instance.battleHandler;
+        playerHealth = bh.player;
         goldUIHandler = GameManager.Instance.goldUIHandler;
         skillContainer = GameManager.Instance.skillContainer;
         playerSkillPanelHandler = bh.playerSkillHandler;
@@ -126,8 +128,9 @@ public class ShopEncounterUIHandler : MonoBehaviour
                 do
                 {
                     skill = randomSkill[Random.Range(0, randomSkill.Count)];
+                    print(skill.characterName.Equals(playerHealth.characterName));
                     isLoop = idx - 3 == 0
-                        ? !skill.isUniqueSkill || skill.skillNameType.Equals(bh.playerSkillHandler.GetPlayerSkillNameInButton(0))
+                        ? !(skill.isUniqueSkill) || !skill.characterName.Equals(playerHealth.characterName) || skill.skillNameType.Equals(bh.playerSkillHandler.GetPlayerSkillNameInButton(0))
                         : skill.isUniqueSkill;
                 } while (isLoop);
                 randomSkill.Remove(skill);

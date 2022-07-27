@@ -56,6 +56,13 @@ public enum EncounterType
     BossBattle
 }
 
+public enum PlayerCharacterName
+{
+    None,
+    ApprenticeshipWizard,
+    Librarian,
+}
+
 public enum PlayerSkillName
 {
     Illusion,

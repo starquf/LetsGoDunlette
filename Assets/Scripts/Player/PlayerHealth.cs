@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerHealth : LivingEntity
 {
+    [HideInInspector] public PlayerCharacterName characterName = PlayerCharacterName.ApprenticeshipWizard;
     public int atkLevel;
     public int hpLevel;
     public int maxPieceLevel;

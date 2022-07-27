@@ -12,11 +12,12 @@ public abstract class PlayerSkill : MonoBehaviour
     [TextArea]
     public string skillDes;
 
+    public bool isUniqueSkill = false;
+    [DrawIf("isUniqueSkill", true)] public PlayerCharacterName characterName = PlayerCharacterName.None;
     public PlayerSkillType skillType;
     public PlayerSkillName skillNameType;
     public Sprite iconSpr;
 
-    public bool isUniqueSkill = false;
 
     public int minPrice = 10;
     public int maxPrice = 10;
