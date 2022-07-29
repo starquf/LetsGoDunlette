@@ -35,9 +35,7 @@ public class Skill_N_Aggravation : SkillPiece
         for (int i = 0; i < 6; i++)
         {
             int idx = i;
-            print(1);
             yield return pSecWait;
-            print(3);
             animHandler.GetAnim(AnimName.M_Butt)
                     .SetPosition(target.transform.position + new Vector3(Random.Range(-0.8f, 0.8f), Random.Range(-0.8f, 0.8f), 0))
                     .SetScale(Random.Range(0.3f, 0.5f))

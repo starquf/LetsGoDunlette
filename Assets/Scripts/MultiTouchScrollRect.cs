@@ -36,7 +36,6 @@ public class MultiTouchScrollRect : ScrollRect
     }
     public override void OnDrag(PointerEventData eventData)
     {
-        print("tlqkf");
         canvasFollow.StopFollow();
 #if UNITY_EDITOR
         base.OnDrag(eventData);
