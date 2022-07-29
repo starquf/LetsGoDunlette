@@ -34,7 +34,7 @@ public class InventoryInfoHandler : BottomUIElement
     private string usedMsg = "무덤에 있는 조각";
 
     private Action<SkillPiece> onClickPiece = null;
-    private ShowInfoRange currentRange = ShowInfoRange.Inventory;
+    private List<SkillPiece> currentShowPieces = new List<SkillPiece>();
 
     public Action onCloseBtn = null;
     private bool closePanel = true;
@@ -106,7 +106,36 @@ public class InventoryInfoHandler : BottomUIElement
         this.onCloseBtn = onCloseBtn;
         this.closePanel = closePanel;
 
-        currentRange = showRange;
+        switch (showRange)
+        {
+            case ShowInfoRange.Inventory:
+                currentShowPieces = bh.player.GetComponent<Inventory>().skills;
+                break;
+
+            case ShowInfoRange.Graveyard:
+                currentShowPieces = invenHandler.graveyard;
+                break;
+
+            default:
+                currentShowPieces = new List<SkillPiece>();
+                break;
+        }
+
+        ShowPanel(true);
+        ResetInventoryInfo();
+    }
+
+    public void ShowInventoryInfo(string msg, List<SkillPiece> showPieces, Action<SkillPiece> onClickPiece = null, Action onCloseBtn = null, bool stopTime = true, bool closePanel = true)
+    {
+        this.stopTime = stopTime;
+
+        messageText.text = msg;
+
+        this.onClickPiece = onClickPiece;
+        this.onCloseBtn = onCloseBtn;
+        this.closePanel = closePanel;
+
+        currentShowPieces = showPieces;
 
         ShowPanel(true);
         ResetInventoryInfo();
@@ -160,22 +189,9 @@ public class InventoryInfoHandler : BottomUIElement
 
         ResetPieceInfo();
 
-        List<SkillPiece> skills = null;
-
-        switch (currentRange)
+        for (int i = 0; i < currentShowPieces.Count; i++)
         {
-            case ShowInfoRange.Inventory:
-                skills = bh.player.GetComponent<Inventory>().skills;
-                break;
-
-            case ShowInfoRange.Graveyard:
-                skills = invenHandler.graveyard;
-                break;
-        }
-
-        for (int i = 0; i < skills.Count; i++)
-        {
-            SkillPiece sp = skills[i];
+            SkillPiece sp = currentShowPieces[i];
 
             PieceInfoUI pieceInfoUI = PoolManager.GetItem<PieceInfoUI>();
             pieceInfoUI.SetSkillIcon(sp.skillIconImg.sprite, sp.skillStroke);

@@ -24,23 +24,22 @@ public class Skill_N_FireWood : SkillPiece
             if(skill.currentType == ElementalType.Fire)
             {
                 skill.AddValue(value);
+                animHandler.GetTextAnim()
+                    .SetType(TextUpAnimType.Fixed)
+                    .SetPosition(skill.transform.position)
+                    .Play("°­È­!");
+                animHandler.GetAnim(AnimName.Anim_FireEffect01)
+                    .SetPosition(skill.transform.position)
+                    .SetScale(2.5f)
+                    .Play();
                 GameManager.Instance.battleHandler.battleEvent.BookEvent(new NormalEvent(true, 0, (action) =>
                 {
-                    if (skill.currentType == ElementalType.Fire)
-                    {
-                        skill.MinusValue(value);
-                        print("2");
-                    }
-                    print("3");
+                    skill.MinusValue(value);
                     action?.Invoke();
-                }, EventTime.EndOfTurn
-));
+                }, EventTime.EndOfTurn));
             }
             action?.Invoke();
-        }
-        ));
-
-
+        }));
 
         onCastEnd?.Invoke();
     }

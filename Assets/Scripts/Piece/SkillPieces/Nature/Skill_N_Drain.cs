@@ -39,7 +39,7 @@ public class Skill_N_Drain : SkillPiece
         target.GetDamage(GetDamageCalc(), currentType);
 
         animHandler.GetTextAnim()
-        .SetType(TextUpAnimType.Up)
+        .SetType(TextUpAnimType.Fixed)
         .SetPosition(target.transform.position)
         .Play("Èí¼ö!");
 
