@@ -35,6 +35,7 @@ public class BattleHandler : MonoBehaviour
     public BattleFieldHandler fieldHandler;
 
     private InventoryHandler inventory;
+    private List<SkillPiece> battleEndDeleteList = new List<SkillPiece>();
 
     //==================================================
 
@@ -658,6 +659,7 @@ public class BattleHandler : MonoBehaviour
         fieldHandler.SetFieldType(ElementalType.None);
 
         inventory.RemoveAllDisposable(player.GetComponent<Inventory>());
+        RemoveSkillList(battleEndDeleteList);
 
         SetInteract(false);
 
@@ -818,6 +820,14 @@ public class BattleHandler : MonoBehaviour
         }
 
         GameManager.Instance.cameraHandler.ShakeCamera(1f, 0.2f);
+    }
+
+    private void RemoveSkillList(List<SkillPiece> sps)
+    {
+        for (int i = sps.Count - 1; i >= 0; i--)
+        {
+            inventory.RemovePiece(sps[i]);
+        }
     }
     #endregion
 }
