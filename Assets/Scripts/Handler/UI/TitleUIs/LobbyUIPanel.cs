@@ -1,16 +1,19 @@
 using DG.Tweening;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class LobbyUIPanel : MainUIPanel
 {
+    public LobbyScrollHandler lobbyScrollHandler;
+
     public Button startBtn;
 
     public Transform playerTrans;
     public Transform endPos;
 
-    public CanvasGroup playerInfoCG;
+    public List<Image> playerImgs = new List<Image>();
 
     protected void Start()
     {
@@ -20,6 +23,16 @@ public class LobbyUIPanel : MainUIPanel
 
             StartGame();
         });
+
+        lobbyScrollHandler.onScrollStart += () =>
+        {
+            ShowPlayerImgs(false, false);
+        };
+
+        lobbyScrollHandler.onScrollEnd += () =>
+        {
+            ShowPlayerImgs(true, false);
+        };
     }
 
     private void StartGame()
@@ -84,8 +97,25 @@ public class LobbyUIPanel : MainUIPanel
         }
     }
 
-    public void ShowPlayerInfoCG(bool enable, bool isSkip)
+    private void ShowImage(Image img, bool enable, bool isSkip)
     {
-        ShowPanel(playerInfoCG, enable, isSkip);
+        img.DOKill();
+
+        if (isSkip)
+        {
+            img.color = new Color(1f, 1f, enable ? 1f : 0f);
+        }
+        else
+        {
+            img.DOFade(enable ? 1f : 0f, 0.17f);
+        }
+    }
+
+    private void ShowPlayerImgs(bool enable, bool isSkip)
+    {
+        for (int i = 0; i < playerImgs.Count; i++)
+        {
+            ShowImage(playerImgs[i], enable, isSkip);
+        }
     }
 }
