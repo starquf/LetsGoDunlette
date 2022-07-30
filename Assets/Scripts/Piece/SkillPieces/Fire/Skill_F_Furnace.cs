@@ -6,15 +6,25 @@ using Random = UnityEngine.Random;
 
 public class Skill_F_Furnace : SkillPiece
 {
-    public override void Cast(LivingEntity target, Action onCastEnd = null) 
+    protected override void Start()
     {
-        target.GetDamage(GetDamageCalc(value));
+        base.Start();
+        bh = GameManager.Instance.battleHandler;
     }
-
     public override List<DesIconInfo> GetDesIconInfo()
     {
         base.GetDesIconInfo();
-        desInfos[0].SetInfo(DesIconType.Attack, $"{Value}");
         return desInfos;
     }
+    public override void Cast(LivingEntity target, Action onCastEnd = null)
+    {
+        Owner.GetComponent<CrowdControl>().SetBuff(BuffType.Upgrade, 1);
+        bh.battleEvent.BookEvent(new NormalEvent(true, 4, (action) =>
+        {
+            Owner.GetComponent<CrowdControl>().RemoveBuff(BuffType.Upgrade);
+            action?.Invoke();
+        }, EventTime.EndOfTurn));
+        onCastEnd?.Invoke();
+    }
 }
+
