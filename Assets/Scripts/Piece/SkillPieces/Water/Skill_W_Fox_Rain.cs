@@ -5,12 +5,20 @@ using UnityEngine;
 
 public class Skill_W_Fox_Rain : SkillPiece
 {
+    protected override void Start()
+    {
+        base.Start();
+        bh = GameManager.Instance.battleHandler;
+    }
+
     public override void Cast(LivingEntity target, Action onCastEnd = null) //룰렛에 적 조각이 4개 이상일 경우 룰렛 초기화
     {
         target.cc.SetCC(CCType.Exhausted, Value);
 
         //if(룰렛에 적 조각이 4개 이상)
         //룰렛 초기화
+
+        onCastEnd?.Invoke();    
     }
 
     public override List<DesIconInfo> GetDesIconInfo()

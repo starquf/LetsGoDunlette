@@ -6,9 +6,15 @@ using Random = UnityEngine.Random;
 
 public class Skill_F_Soot : SkillPiece
 {
-    public override void Cast(LivingEntity target, Action onCastEnd = null) 
+    protected override void Start()
+    {
+        base.Start();
+        bh = GameManager.Instance.battleHandler;
+    }
+    public override void Cast(LivingEntity target, Action onCastEnd = null) //인벤토리에 <sprite=3>속성 조각이 있을 경우 다음 조각을 <sprite=3>속성 조각으로 강제한다.
     {
         target.GetDamage(GetDamageCalc(value));
+        onCastEnd?.Invoke();
     }
 
     public override List<DesIconInfo> GetDesIconInfo()

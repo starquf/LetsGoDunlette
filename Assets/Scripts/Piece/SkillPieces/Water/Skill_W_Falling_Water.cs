@@ -6,9 +6,15 @@ using Random = UnityEngine.Random;
 
 public class Skill_W_Falling_Water : SkillPiece
 {
+    protected override void Start()
+    {
+        base.Start();
+        bh = GameManager.Instance.battleHandler;
+    }
     public override void Cast(LivingEntity target, Action onCastEnd = null) 
     {
         target.GetDamage(GetDamageCalc(value));
+        onCastEnd?.Invoke();
     }
 
     public override List<DesIconInfo> GetDesIconInfo()
