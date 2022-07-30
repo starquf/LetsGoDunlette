@@ -6,9 +6,24 @@ using Random = UnityEngine.Random;
 
 public class Skill_F_Last_Light : SkillPiece
 {
+    protected override void Start()
+    {
+        base.Start();
+        bh = GameManager.Instance.battleHandler;
+    }
     public override void Cast(LivingEntity target, Action onCastEnd = null) 
     {
-        target.GetDamage(GetDamageCalc(value));
+        int damage = GetDamageCalc(value);
+        if(Owner.GetComponent<LivingEntity>().curHp <= 20)
+        {
+            damage += 12;
+            animHandler.GetTextAnim()
+                    .SetType(TextUpAnimType.Fixed)
+                    .SetPosition(target.transform.position)
+                    .Play("추가 피해!");
+        }
+        target.GetDamage(damage);
+        onCastEnd?.Invoke();
     }
 
     public override List<DesIconInfo> GetDesIconInfo()
