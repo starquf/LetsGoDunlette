@@ -23,14 +23,15 @@ public class Skill_E_Magnetic : SkillPiece
             return;
         }
 
-        SkillPiece rulletPiece = GetNearPiece();
+        int index;
+        SkillPiece rulletPiece = GetNearPiece(out index);
 
         //존재한다면
         if (rulletPiece != null)
         {
             bh.battleEvent.StartActionEvent(EventTimeSkill.WithSkill, rulletPiece);
             rulletPiece.Cast(target, onCastEnd);
-            bh.battleUtil.SetPieceToGraveyard(rulletPiece);
+            bh.battleUtil.SetPieceToGraveyard(index);
         }
         else
         {
@@ -38,7 +39,7 @@ public class Skill_E_Magnetic : SkillPiece
         }
     }
 
-    private SkillPiece GetNearPiece()
+    private SkillPiece GetNearPiece(out int idx)
     {
         Rullet rullet = bh.mainRullet;
         List<RulletPiece> pieces = rullet.GetPieces();
@@ -47,50 +48,65 @@ public class Skill_E_Magnetic : SkillPiece
         SkillPiece piece = null;
         int index = pieceIdx;
 
-        for (int i = 0; i < 2; i++)
+        print(pieceIdx);
+
+        for (int i = 1; i <= 2; i++)
         {
             //오른쪽 체크
             index = (pieceIdx + i) % pieces.Count;
             nearPiece = pieces[index];
             
-            if(nearPiece != this)
+            if(nearPiece != this && nearPiece != null)
             {
                 piece = nearPiece as SkillPiece;
-                if(piece.isPlayerSkill)
+                if(piece != null)
                 {
-                    return piece;
+                    if(piece.isPlayerSkill)
+                    {
+                        idx = index;
+                        return piece;
+                    }
                 }
             }
             
             //왼쪽 체크
             index = (pieceIdx - i);
-            if(index <= -1 )
+            if(index <= -1)
             {
                 index = 6;
             }
             nearPiece = pieces[index];
 
-            if (nearPiece != this)
+            if (nearPiece != this && nearPiece != null)
             {
                 piece = nearPiece as SkillPiece;
-                if (piece.isPlayerSkill)
+                if (piece != null)
                 {
-                    return piece;
+                    if (piece.isPlayerSkill)
+                    {
+                        idx = index;
+                        return piece;
+                    }
                 }
             }
         }
 
-
-        nearPiece = pieces[(pieceIdx + 3) % pieces.Count];
+        index = (pieceIdx + 3) % pieces.Count;
+        nearPiece = pieces[index];
         if (nearPiece != this)
         {
             piece = nearPiece as SkillPiece;
-            if (piece.isPlayerSkill)
+            if (piece != null)
             {
-                return piece;
+                if (piece.isPlayerSkill)
+                {
+                    idx = index;
+                    return piece;
+                }
             }
         }
-
+        
+        idx = index;
         return piece;
     }
 
