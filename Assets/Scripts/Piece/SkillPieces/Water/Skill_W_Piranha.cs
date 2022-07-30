@@ -15,7 +15,7 @@ public class Skill_W_Piranha : SkillPiece
     public override List<DesIconInfo> GetDesIconInfo()
     {
         base.GetDesIconInfo();
-        desInfos[0].SetInfo(DesIconType.Attack, $"{Value}");
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(Value)}");
         return desInfos;
     }
     public override void Cast(LivingEntity target, Action onCastEnd = null) //대상에게 <sprite=12>가 있을 시 <sprite=12>5 부여
@@ -25,7 +25,7 @@ public class Skill_W_Piranha : SkillPiece
             target.cc.IncreaseCCTurn(CCType.Wound, 5);
         }
 
-        target.GetDamage(GetDamageCalc(value));
+        target.GetDamage(GetDamageCalc(Value));
         onCastEnd?.Invoke();
     }
 }

@@ -13,7 +13,7 @@ public class Skill_F_Last_Light : SkillPiece
     }
     public override void Cast(LivingEntity target, Action onCastEnd = null) 
     {
-        int damage = GetDamageCalc(value);
+        int damage = GetDamageCalc(Value);
         if(Owner.GetComponent<LivingEntity>().curHp <= 20)
         {
             damage += 12;
@@ -29,7 +29,7 @@ public class Skill_F_Last_Light : SkillPiece
     public override List<DesIconInfo> GetDesIconInfo()
     {
         base.GetDesIconInfo();
-        desInfos[0].SetInfo(DesIconType.Attack, $"{Value}");
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(Value)}");
         return desInfos;
     }
 }

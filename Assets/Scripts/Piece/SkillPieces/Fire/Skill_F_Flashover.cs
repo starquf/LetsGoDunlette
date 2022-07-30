@@ -6,15 +6,17 @@ using Random = UnityEngine.Random;
 
 public class Skill_F_Flashover : SkillPiece
 {
-    public override void Cast(LivingEntity target, Action onCastEnd = null) 
+    //사용 시 '가열' 조각으로 변경된다.
+    public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        target.GetDamage(GetDamageCalc(value));
+        target.GetDamage(GetDamageCalc(Value));
+        onCastEnd?.Invoke();
     }
 
     public override List<DesIconInfo> GetDesIconInfo()
     {
         base.GetDesIconInfo();
-        desInfos[0].SetInfo(DesIconType.Attack, $"{Value}");
+        desInfos[0].SetInfo(DesIconType.Attack, $"{GetDamageCalc(Value)}");
         return desInfos;
     }
 }
