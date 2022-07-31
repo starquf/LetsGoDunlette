@@ -15,6 +15,20 @@ public class Skill_W_Fox_Rain : SkillPiece
     {
         target.cc.SetCC(CCType.Exhausted, Value);
 
+        List<RulletPiece> pieces = bh.mainRullet.GetPieces();
+        int count = 0;
+        foreach (var item in pieces)
+        {
+            if(item.patternType == ElementalType.Monster)
+            {
+                count++;
+            }
+        }
+
+        if (count >= 4)
+        {
+            //bh.mainRullet.Reset();
+        }
         //if(∑Í∑øø° ¿˚ ¡∂∞¢¿Ã 4∞≥ ¿ÃªÛ)
         //∑Í∑ø √ ±‚»≠
 
