@@ -13,7 +13,7 @@ public class Skill_F_Backdraft : SkillPiece
     }
     public override void Cast(LivingEntity target, Action onCastEnd = null) 
     {
-        target.GetDamage(GetDamageCalc(Value));
+        target.GetDamage(GetDamageCalc(Value), currentType);
 
         int prevHp = Owner.GetComponent<LivingEntity>().curHp;
         GameManager.Instance.battleHandler.battleEvent.BookEvent(new NormalEvent(true, 1, (action) =>
@@ -21,6 +21,10 @@ public class Skill_F_Backdraft : SkillPiece
             if(Owner.GetComponent<LivingEntity>().curHp > prevHp)
             {
                 //적 전체에게 추가 피해를 (<sprite=3>20)준다.
+                foreach (var item in GameManager.Instance.battleHandler.enemys)
+                {
+                    item.GetDamage(20,currentType);
+                }
             }
             action?.Invoke();
         }, EventTime.EndOfTurn));
