@@ -9,7 +9,7 @@ public class Skill_F_Heating : SkillPiece
     //3번 사용 시 '플래시 오버' 조각으로 변경된다.
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        target.GetDamage(GetDamageCalc(Value));
+        target.GetDamage(GetDamageCalc(Value), currentType);
         onCastEnd?.Invoke();
     }
 

@@ -28,7 +28,7 @@ public class Skill_N_Leech : SkillPiece
     private IEnumerator Leech(LivingEntity target, Action onCastEnd = null)
     {
         GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
-        target.GetDamage(target.cc.GetCCValue(CCType.Wound), this, Owner);
+        target.GetDamage(target.cc.GetCCValue(CCType.Wound), currentType);
         animHandler.GetAnim(AnimName.M_Bite)
                 .SetPosition(target.transform.position)
                 .SetScale(0.85f)

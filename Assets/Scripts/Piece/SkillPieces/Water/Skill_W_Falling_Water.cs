@@ -13,7 +13,7 @@ public class Skill_W_Falling_Water : SkillPiece
     }
     public override void Cast(LivingEntity target, Action onCastEnd = null) 
     {
-        target.GetDamage(GetDamageCalc(Value));
+        target.GetDamage(GetDamageCalc(Value), currentType);
         onCastEnd?.Invoke();
     }
 

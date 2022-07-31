@@ -16,7 +16,7 @@ public class Skill_F_Berserker : SkillPiece
         if (addDamage > 0)
         {
             //타겟을 공격
-            target.GetDamage(addDamage);
+            target.GetDamage(addDamage,currentType);
         }
         onCastEnd?.Invoke();
     }

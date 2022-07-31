@@ -25,7 +25,7 @@ public class Skill_W_Piranha : SkillPiece
             target.cc.IncreaseCCTurn(CCType.Wound, 5);
         }
 
-        target.GetDamage(GetDamageCalc(Value));
+        target.GetDamage(GetDamageCalc(Value), currentType);
         onCastEnd?.Invoke();
     }
 }

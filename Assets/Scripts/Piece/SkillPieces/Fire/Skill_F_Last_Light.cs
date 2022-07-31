@@ -22,7 +22,7 @@ public class Skill_F_Last_Light : SkillPiece
                     .SetPosition(target.transform.position)
                     .Play("추가 피해!");
         }
-        target.GetDamage(damage);
+        target.GetDamage(damage, currentType);
         onCastEnd?.Invoke();
     }
 

@@ -9,7 +9,7 @@ public class Skill_F_Flashover : SkillPiece
     //사용 시 '가열' 조각으로 변경된다.
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        target.GetDamage(GetDamageCalc(Value));
+        target.GetDamage(GetDamageCalc(Value), currentType);
         onCastEnd?.Invoke();
     }
 

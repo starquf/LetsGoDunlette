@@ -9,7 +9,7 @@ public class Skill_E_Magnetic_Field : SkillPiece
     public int exhaustedTurn;
     public override void Cast(LivingEntity target, Action onCastEnd = null) 
     {
-        target.GetDamage(GetDamageCalc(Value));
+        target.GetDamage(GetDamageCalc(Value), currentType);
         target.cc.SetCC(CCType.Exhausted, exhaustedTurn + 1);
         onCastEnd?.Invoke();
     }
