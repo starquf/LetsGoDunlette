@@ -183,7 +183,8 @@ public enum AnimName
     Anim_FireEffect01,
     Anim_FireEffect02,
     Anim_ElecEffect07,
-    Anim_ElecEffect02
+    Anim_ElecEffect02,
+    Anim_ElecEffect04,
 }
 
 public enum PlayerSkillType
