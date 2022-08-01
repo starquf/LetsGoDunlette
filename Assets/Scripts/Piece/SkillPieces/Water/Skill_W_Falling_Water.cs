@@ -14,7 +14,13 @@ public class Skill_W_Falling_Water : SkillPiece
     public override void Cast(LivingEntity target, Action onCastEnd = null) 
     {
         target.GetDamage(GetDamageCalc(Value), currentType);
-        onCastEnd?.Invoke();
+        animHandler.GetAnim(AnimName.T_WaterSplash05)
+                .SetPosition(target.transform.position)
+                .SetScale(1.5f)
+                .Play(() =>
+                {
+                    onCastEnd?.Invoke();
+                });
     }
 
     public override List<DesIconInfo> GetDesIconInfo()

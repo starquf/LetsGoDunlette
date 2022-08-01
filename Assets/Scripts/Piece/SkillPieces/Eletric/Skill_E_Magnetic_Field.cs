@@ -11,7 +11,14 @@ public class Skill_E_Magnetic_Field : SkillPiece
     {
         target.GetDamage(GetDamageCalc(Value), currentType);
         target.cc.SetCC(CCType.Exhausted, exhaustedTurn + 1);
-        onCastEnd?.Invoke();
+
+        animHandler.GetAnim(AnimName.Anim_ElecEffect07)
+                .SetPosition(target.transform.position)
+                .SetScale(1f)
+                .Play(() =>
+                {
+                    onCastEnd?.Invoke();
+                });
     }
 
     public override List<DesIconInfo> GetDesIconInfo()
