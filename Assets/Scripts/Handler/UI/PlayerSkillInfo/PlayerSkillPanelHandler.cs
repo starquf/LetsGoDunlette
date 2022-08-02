@@ -24,16 +24,13 @@ public class PlayerSkillPanelHandler : MonoBehaviour
     private void Start()
     {
         bh = GameManager.Instance.battleHandler;
-
-        //SetSkill(skillButtons[1], PoolManager.GetPlayerSkill(PlayerSkillName.Reconstruction));
-        //SetSkill(skillButtons[2], PoolManager.GetPlayerSkill(PlayerSkillName.FirstAid));
     }
 
     public void Init(PlayerInfo playerInfo)
     {
         for (int i = 0; i < playerInfo.playerUniqueSkills.Count; i++)
         {
-            PlayerSkill skill = Instantiate(playerInfo.playerUniqueSkills[i], skillButtons[i].btnPos);
+            PlayerSkill skill = Instantiate(PoolManager.GetPlayerSkill(playerInfo.playerUniqueSkills[i]), skillButtons[i].btnPos);
 
             skillButtons[i].gameObject.SetActive(true);
 

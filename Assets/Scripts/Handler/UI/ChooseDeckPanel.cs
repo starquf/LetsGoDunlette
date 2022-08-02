@@ -77,7 +77,5 @@ public class ChooseDeckPanel : MonoBehaviour
                 break;
         }
         desText.DOText(des, 1f).OnComplete(() => canClick = true);
-
-        GameManager.Instance.deckIdx = num;
     }
 }

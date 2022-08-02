@@ -4,7 +4,9 @@ using UnityEngine;
 public class PlayerInfo : MonoBehaviour
 {
     [Header("캐릭터 정보")]
-    public string characterName;
+    public PlayerCharacterName characterName;
+    public Sprite playerImg;
+    public Sprite playerIllust;
 
-    public List<PlayerSkill> playerUniqueSkills = new List<PlayerSkill>();
+    public List<PlayerSkillName> playerUniqueSkills = new List<PlayerSkillName>();
 }

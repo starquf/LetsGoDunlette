@@ -21,7 +21,8 @@ public class PieceDicHandler : MonoBehaviour
     private Dictionary<ElementalType, List<SkillPiece>> pieceListDic;
 
     public PieceDesUIHandler desUI;
-    public PlayerInventory player;
+
+    private PlayerInventory player;
 
     private GradeRange gradeRange = GradeRange.All;
     private ElementalType currentType = ElementalType.None;
@@ -35,15 +36,17 @@ public class PieceDicHandler : MonoBehaviour
     public Dictionary<ElementalType, Sprite> targetBGSprDic;
     public Dictionary<SkillRange, Sprite> targetIconSprDic;
 
+    private bool isInit = false;
+
     private void Awake()
     {
         PoolManager.CreatePool<CardInfo_SC>(cardInfoObj, pieceHolder, 10);
-
-        InitDic();
     }
 
     private void Start()
     {
+        InitDic();
+
         SelectElemental(ElementalType.None);
 
         StartCoroutine(LateStart());
@@ -118,6 +121,8 @@ public class PieceDicHandler : MonoBehaviour
 
             pieceListDic[type] = pieceListDic[type].OrderBy(sp => (int)sp.skillGrade).ThenBy(sp => sp.PieceName).ToList();
         }
+
+        isInit = true;
     }
 
     public void SelectElemental(ElementalType elemental)
@@ -185,6 +190,22 @@ public class PieceDicHandler : MonoBehaviour
             {
                 desUI.ShowDescription(sp);
             });
+        }
+    }
+
+    public void ChangePlayer(PlayerInventory player)
+    {
+        this.player = player;
+
+        if (!isInit)
+            return;
+
+        foreach (var elemental in pieceListDic.Keys)
+        {
+            for (int i = 0; i < pieceListDic[elemental].Count; i++)
+            {
+                pieceListDic[elemental][i].Owner = player;
+            }
         }
     }
 }
