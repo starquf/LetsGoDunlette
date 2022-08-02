@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Skill_F_Berserker : SkillPiece
 {
@@ -17,8 +18,26 @@ public class Skill_F_Berserker : SkillPiece
         {
             //Å¸°ÙÀ» °ø°Ý
             target.GetDamage(addDamage,currentType);
+            animHandler.GetAnim(AnimName.M_Sword)
+                    .SetPosition(target.transform.position)
+                    .SetScale(0.8f)
+                    .SetColor(Color.red)
+                    .SetRotation(Quaternion.Euler(0f, 0f, 40f).eulerAngles)
+                    .Play(() =>
+                    {
+                        onCastEnd?.Invoke();
+                    });
+
+            animHandler.GetAnim(AnimName.Anim_FireEffect02)
+                    .SetPosition(target.transform.position - Vector3.up * 0.6f)
+                    .SetScale(0.8f)
+                    .SetColor(Color.red)
+                    .Play();
         }
-        onCastEnd?.Invoke();
+        else
+        {
+            onCastEnd?.Invoke();
+        }
     }
 
     public override List<DesIconInfo> GetDesIconInfo()

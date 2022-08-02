@@ -11,7 +11,8 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     public int maxHp;
     public int curMaxHp => maxHp + shieldHp; //MaxHp 에 ShieldHp 더한값
-    public int curHp => hp + shieldHp; // 현재 체력에 쉴드 더한값
+    public int curHp => hp; // 현재 체력에 쉴드 더한값
+    public int curShieldAndHP => hp + shieldHp;
 
     [SerializeField] protected int hp;
     [SerializeField] protected int shieldHp = 0;
@@ -353,9 +354,9 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
                 DOTween.To(() => hpBarAfterImageBar.fillAmount, x => hpBarAfterImageBar.fillAmount = x, (float)hp / curMaxHp, 0.33f);
             });
         }
-        else if (curHp >= maxHp)
+        else if (curShieldAndHP >= maxHp)
         {
-            float max = curHp;
+            float max = curShieldAndHP;
 
             DOTween.To(() => hpBar.fillAmount, x => hpBar.fillAmount = x, hp / max, 0.33f);
             DOTween.To(() => hpShieldBar.fillAmount, x => hpShieldBar.fillAmount = x, 1, 0.33f).OnComplete(() =>

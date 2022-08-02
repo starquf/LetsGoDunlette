@@ -29,13 +29,13 @@ public class Skill_F_ChainExplosion : SkillPiece
                 GameManager.Instance.cameraHandler.ShakeCamera(0.5f, 0.15f);
 
                 Action<SkillPiece, Action> onNextAttack = (result, action) => { };
-                int targetHp = target.curHp;
+                int targetHp = target.curShieldAndHP;
 
                 onNextAttack = (result, action) =>
                 {
                     //print($"현재체력 : {target.curHp}       예전 체력 : {targetHp}");
 
-                    if (result.isPlayerSkill && target.curHp < targetHp)
+                    if (result.isPlayerSkill && target.curShieldAndHP < targetHp)
                     {
                         target.GetDamage(5, patternType);
                         GameManager.Instance.cameraHandler.ShakeCamera(1.5f, 0.15f);
