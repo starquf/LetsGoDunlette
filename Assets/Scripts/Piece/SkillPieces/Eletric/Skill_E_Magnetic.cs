@@ -8,7 +8,7 @@ public class Skill_E_Magnetic : SkillPiece
 {
     public override void Cast(LivingEntity target, Action onCastEnd = null) //우측 부터 이 조각과 가장 가까운 자신의 조각을 사용한다.
     {
-        target.GetDamage(Value);
+        target.GetDamage(Value, currentType);
 
         Rullet rullet = bh.mainRullet;
         List<RulletPiece> pieces = rullet.GetPieces();
@@ -106,8 +106,8 @@ public class Skill_E_Magnetic : SkillPiece
             }
         }
         
-        idx = index;
-        return piece;
+        idx = 0;
+        return null;
     }
 
     public override List<DesIconInfo> GetDesIconInfo()
