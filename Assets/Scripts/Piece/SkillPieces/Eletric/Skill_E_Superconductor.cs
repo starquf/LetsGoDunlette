@@ -18,12 +18,12 @@ public class Skill_E_Superconductor : SkillPiece
     }
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        Owner.GetComponent<CrowdControl>().IncreaseBuff(BuffType.Upgrade, 4);
-        //bh.battleEvent.BookEvent(new NormalEvent(true, 4, (action) =>
-        //{
-        //    Owner.GetComponent<CrowdControl>().RemoveBuff(BuffType.Upgrade);
-        //    action?.Invoke();
-        //}, EventTime.EndOfTurn));
+        Owner.GetComponent<CrowdControl>().IncreaseBuff(BuffType.Upgrade, 1);
+        bh.battleEvent.BookEvent(new NormalEvent(true, 4, (action) =>
+        {
+            Owner.GetComponent<CrowdControl>().DecreaseBuff(BuffType.Upgrade, 1);
+            action?.Invoke();
+        }, EventTime.EndOfTurn));
 
         animHandler.GetAnim(AnimName.Anim_ElecEffect02)
                 .SetPosition(Owner.transform.position)

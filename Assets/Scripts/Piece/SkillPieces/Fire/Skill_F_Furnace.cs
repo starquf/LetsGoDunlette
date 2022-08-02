@@ -18,13 +18,20 @@ public class Skill_F_Furnace : SkillPiece
     }
     public override void Cast(LivingEntity target, Action onCastEnd = null)
     {
-        Owner.GetComponent<CrowdControl>().SetBuff(BuffType.Upgrade, 1);
+        Owner.GetComponent<CrowdControl>().IncreaseBuff(BuffType.Upgrade, 1);
         bh.battleEvent.BookEvent(new NormalEvent(true, 4, (action) =>
         {
-            Owner.GetComponent<CrowdControl>().RemoveBuff(BuffType.Upgrade);
+            print("Ω√¿€");
+            Owner.GetComponent<CrowdControl>().DecreaseBuff(BuffType.Upgrade, 1);
             action?.Invoke();
         }, EventTime.EndOfTurn));
-        onCastEnd?.Invoke();
+        animHandler.GetAnim(AnimName.BuffEffect04)
+                .SetPosition(Owner.transform.position)
+                .SetScale(1.5f)
+                .Play(() =>
+                {
+                    onCastEnd?.Invoke();
+                });
     }
 }
 
