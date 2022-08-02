@@ -151,10 +151,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    #region TEST
-    public int deckIdx = -1;
-
-    #endregion
+    public PlayerCharacterName currentPlayer;
 
     public PlayerHealth GetPlayer() //플레이어를 가져옵니다.
     {

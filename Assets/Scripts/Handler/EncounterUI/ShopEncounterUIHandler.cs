@@ -46,7 +46,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
 
     private GoldUIHandler goldUIHandler;
     private PlayerSkillPanelHandler playerSkillPanelHandler;
-    private PlayerHealth playerHealth;
+    private PlayerInfo playerInfo;
 
     private BattleHandler bh;
     private InventoryHandler invenHandler;
@@ -67,7 +67,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
         buyPanel.alpha = 0;
 
         bh = GameManager.Instance.battleHandler;
-        playerHealth = bh.player;
+        playerInfo = bh.player.GetComponent<PlayerInfo>();
         goldUIHandler = GameManager.Instance.goldUIHandler;
         skillContainer = GameManager.Instance.skillContainer;
         playerSkillPanelHandler = bh.playerSkillHandler;
@@ -154,7 +154,7 @@ public class ShopEncounterUIHandler : MonoBehaviour
         for (int i = 0; i < randomSkill.Count; i++)
         {
             skill = randomSkill[i];
-            canSet = idx - 3 == 0 ? skill.isUniqueSkill && skill.characterName.Equals(playerHealth.characterName) 
+            canSet = idx - 3 == 0 ? skill.isUniqueSkill && skill.characterName.Equals(playerInfo.characterName) 
                 && skill.skillNameType.Equals(bh.playerSkillHandler.GetPlayerSkillNameInButton(0)) 
                 : !skill.isUniqueSkill;
             if (canSet)
