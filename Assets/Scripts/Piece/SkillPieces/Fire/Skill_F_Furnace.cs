@@ -25,6 +25,11 @@ public class Skill_F_Furnace : SkillPiece
             Owner.GetComponent<CrowdControl>().DecreaseBuff(BuffType.Upgrade, 1);
             action?.Invoke();
         }, EventTime.EndOfTurn));
+        animHandler.GetAnim(AnimName.SmokeEffect06)
+                .SetPosition(Owner.transform.position)
+                .SetScale(2f)
+                .SetColor(new Color(0.5f, 0.3f, 0.3f))
+                .Play();
         animHandler.GetAnim(AnimName.BuffEffect04)
                 .SetPosition(Owner.transform.position)
                 .SetScale(1.5f)

@@ -187,6 +187,8 @@ public enum AnimName
     Anim_ElecEffect04,
     SkillEffect06,
     Anim_FireEffect04,
+    T_WaterSplash09,
+    SmokeEffect06,
 }
 
 public enum PlayerSkillType
