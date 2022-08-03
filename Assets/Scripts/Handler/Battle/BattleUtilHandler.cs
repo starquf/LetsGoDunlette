@@ -1,13 +1,25 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BattleUtilHandler : MonoBehaviour
 {
     private BattleHandler bh;
     private InventoryHandler inventory;
     private SkillRullet mainRullet;
+
+    [Header("캐릭터 리스트")]
+    [SerializeField] private List<PlayerInfo> playerPrefab = new List<PlayerInfo>();
+
+    [Header("캐릭터 초기화 관련")]
+    [SerializeField] private GameObject hpCvs;
+    [SerializeField] private Image damageBGEffect;
+    [SerializeField] private TextMeshProUGUI topPanelHpText;
+    [SerializeField] private Transform ccUITrm;
+    [SerializeField] private InventoryIndicator playerIndicator;
 
     private void Start()
     {
@@ -343,5 +355,38 @@ public class BattleUtilHandler : MonoBehaviour
         }
 
         return name;
+    }
+
+    public PlayerHealth CreatePlayer(PlayerCharacterName name)
+    {
+        for (int i = 0; i < playerPrefab.Count; i++)
+        {
+            if (playerPrefab[i].characterName.Equals(name))
+            {
+                print("캐릭터 선택");
+
+                PlayerHealth player = Instantiate(playerPrefab[i].gameObject).GetComponent<PlayerHealth>();
+
+                InitPlayer(player);
+
+                return player;
+            }
+        }
+
+        Debug.LogError("일치하는 플레이어 프리팹이 없습니다!!");
+
+        return null;
+    }
+
+    private void InitPlayer(PlayerHealth player)
+    {
+        player.hPCvs = hpCvs;
+        player.cc.ccUITrm = ccUITrm;
+        player.damageBGEffect = damageBGEffect;
+        player.topPanelHPText = topPanelHpText;
+        player.GetComponent<PlayerInventory>().indicator = playerIndicator;
+
+        player.InitHpCvs();
+        player.cc.Init();
     }
 }

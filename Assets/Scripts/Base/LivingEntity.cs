@@ -71,6 +71,11 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     {
         cc = GetComponent<CrowdControl>();
 
+        InitHpCvs();
+    }
+
+    public virtual void InitHpCvs()
+    {
         if (hPCvs != null)
         {
             Transform bar = hPCvs.transform.Find("HPBar").transform;

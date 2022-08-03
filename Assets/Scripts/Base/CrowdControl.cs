@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,30 +17,7 @@ public class CrowdControl : MonoBehaviour
 
     [HideInInspector] public bool isPlayer = false;
 
-    private void Awake()
-    {
-        Init();
-    }
-
-    private void Start()
-    {
-        List<Sprite> ccIcons = GameManager.Instance.ccIcons;
-        List<Sprite> buffIcons = GameManager.Instance.buffIcons;
-
-        for (int i = 0; i < ccIcons.Count; i++)
-        {
-            ccUIDic[(CCType)i].SetImg(ccIcons[i]);
-            ccUIDic[(CCType)i].SetText(0);
-        }
-
-        for (int i = 0; i < buffIcons.Count; i++)
-        {
-            buffUIDic[(BuffType)i].SetImg(buffIcons[i]);
-            buffUIDic[(BuffType)i].SetText(0);
-        }
-    }
-
-    private void Init()
+    public void Init()
     {
         ccDic = new Dictionary<CCType, int>();
         ccUIDic = new Dictionary<CCType, CCIndicator>();
@@ -67,6 +45,28 @@ public class CrowdControl : MonoBehaviour
             ccIndi.gameObject.SetActive(false);
 
             ccUIDic.Add(cc, ccIndi);
+        }
+
+        StartCoroutine(SetIcons());
+    }
+
+    private IEnumerator SetIcons()
+    {
+        yield return null;
+
+        List<Sprite> ccIcons = GameManager.Instance.ccIcons;
+        List<Sprite> buffIcons = GameManager.Instance.buffIcons;
+
+        for (int i = 0; i < ccIcons.Count; i++)
+        {
+            ccUIDic[(CCType)i].SetImg(ccIcons[i]);
+            ccUIDic[(CCType)i].SetText(0);
+        }
+
+        for (int i = 0; i < buffIcons.Count; i++)
+        {
+            buffUIDic[(BuffType)i].SetImg(buffIcons[i]);
+            buffUIDic[(BuffType)i].SetText(0);
         }
     }
 

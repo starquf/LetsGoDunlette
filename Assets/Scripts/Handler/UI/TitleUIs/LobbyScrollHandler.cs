@@ -37,6 +37,8 @@ public class LobbyScrollHandler : MonoBehaviour, IBeginDragHandler, IDragHandler
 
     private void Start()
     {
+        scroll.value = 0.5f;
+
         for (int i = 0; i < panelBtns.Count; i++)
         {
             panelBtns[i].GetComponent<LobbyPanelBtn>().SetHighlight(i == targetIdx);

@@ -121,6 +121,8 @@ public class BattleHandler : MonoBehaviour
         battleEvent = GetComponent<BattleEventHandler>();
         fieldHandler = GetComponent<BattleFieldHandler>();
 
+        player = battleUtil.CreatePlayer(GameManager.Instance.currentPlayer);
+
         GameManager.Instance.SetResolution();
 
         GameManager.Instance.OnNextStage += () => 
@@ -160,6 +162,8 @@ public class BattleHandler : MonoBehaviour
             }
         };
     }
+
+
 
     #region StartBattle
 

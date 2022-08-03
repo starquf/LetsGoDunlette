@@ -36,6 +36,8 @@ public class EnemyHealth : LivingEntity
         originSize = transform.localScale;
 
         iconSpr = hPCvs.transform.Find("head").GetComponent<Image>().sprite;
+
+        cc.Init();
     }
 
     protected override void Start()
