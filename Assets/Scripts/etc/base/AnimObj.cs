@@ -10,6 +10,8 @@ public class AnimObj : MonoBehaviour
     public Vector3 originScale;
     protected Quaternion originRot;
     protected Color originColor;
+    protected LayerMask originnSortingLayer;
+    protected int originnSortingOrder;
 
     protected SpriteRenderer sr;
 
@@ -21,6 +23,8 @@ public class AnimObj : MonoBehaviour
         originRot = Quaternion.identity;
         originScale = transform.localScale;
         originColor = Color.white;
+        originnSortingLayer = sr.sortingLayerID;
+        originnSortingOrder = sr.sortingOrder;
     }
 
     protected virtual void InitComponent()
@@ -76,6 +80,14 @@ public class AnimObj : MonoBehaviour
         return this;
     }
 
+    public virtual AnimObj SetSortLayer(LayerMask layerMask, int order = 0)
+    {
+        sr.sortingLayerID = layerMask;
+        sr.sortingOrder = order;
+
+        return this;
+    }
+
     public virtual void Play(Action onEndAnim = null)
     {
         StartCoroutine(PlayAnim(onEndAnim));
@@ -104,5 +116,7 @@ public class AnimObj : MonoBehaviour
         transform.localScale = originScale;
         transform.rotation = originRot;
         sr.color = originColor;
+        sr.sortingLayerID = originnSortingLayer;
+        sr.sortingOrder = originnSortingOrder;
     }
 }
