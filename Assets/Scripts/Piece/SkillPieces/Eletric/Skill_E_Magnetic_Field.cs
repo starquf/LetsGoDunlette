@@ -14,7 +14,7 @@ public class Skill_E_Magnetic_Field : SkillPiece
 
         animHandler.GetAnim(AnimName.Anim_ElecEffect07)
                 .SetPosition(target.transform.position)
-                .SetScale(1f)
+                .SetScale(1.3f)
                 .Play(() =>
                 {
                     onCastEnd?.Invoke();
