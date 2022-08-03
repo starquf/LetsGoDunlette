@@ -23,7 +23,14 @@ public class Skill_F_Last_Light : SkillPiece
                     .Play("추가 피해!");
         }
         target.GetDamage(damage, currentType);
-        onCastEnd?.Invoke();
+        animHandler.GetAnim(AnimName.LastLight)
+                .SetPosition(Vector3.up * 3.3f)
+                .SetScale(1f)
+                .SetSortLayer(LayerMask.NameToLayer("Default"), 2)
+                .Play(()=>
+                {
+                    onCastEnd?.Invoke();
+                });
     }
 
     public override List<DesIconInfo> GetDesIconInfo()
