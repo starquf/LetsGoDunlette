@@ -28,7 +28,7 @@ public class Skill_F_Furnace : SkillPiece
         animHandler.GetAnim(AnimName.SmokeEffect06)
                 .SetPosition(Owner.transform.position)
                 .SetScale(2f)
-                .SetColor(new Color(0.5f, 0.3f, 0.3f))
+                .SetColor(new Color(0.3f, 0.2f, 0.2f))
                 .Play();
         animHandler.GetAnim(AnimName.BuffEffect04)
                 .SetPosition(Owner.transform.position)
